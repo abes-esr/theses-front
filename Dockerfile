@@ -20,6 +20,7 @@ RUN npm install
 COPY ./docker/vuejs_env_placeholder /build/.env
 COPY ./*.js                         /build/
 COPY ./*.json                       /build/
+COPY ./*.html                       /build/
 COPY ./src/                         /build/src/
 COPY ./public/                      /build/public/
 RUN npm run build
