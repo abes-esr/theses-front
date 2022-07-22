@@ -1,5 +1,8 @@
 # theses-front
 
+[![build-test-pubtodockerhub](https://github.com/abes-esr/theses-front/actions/workflows/build-test-pubtodockerhub.yml/badge.svg)](https://github.com/abes-esr/theses-front/actions/workflows/build-test-pubtodockerhub.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/abesesr/theses.svg)](https://hub.docker.com/r/abesesr/theses/)
+
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
