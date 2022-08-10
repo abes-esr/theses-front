@@ -1,7 +1,7 @@
 <template>
   <v-container class="justify-center">
     <v-row class="justify-center">
-      <h1>Le moteur de recherche des thèses françaises</h1>
+      <h1>Le moteur de recherche des thèses françaises!</h1>
     </v-row>
     <v-row class="justify-center ma-0 pa-0">
       <v-col cols="12" xs="12" xl="6">
