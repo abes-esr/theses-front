@@ -10,27 +10,25 @@
     </v-col>
 </template>
 
-<script>
-export default {
-    name: 'searchBar',
-    props: {
-        loading: {
-            type: Boolean,
-            default: false
-        }
-    },
-    data() {
-        return {
-            request: ''
-        }
-    },
+<script setup>
+import { ref } from 'vue'
 
-    methods: {
-        search() {
-            this.$emit('search', this.request);
-        }
+const emit = defineEmits(['search'])
+
+defineProps({
+    loading: {
+        type: Boolean,
+        default: false
     }
+})
+
+const request = ref('');
+
+function search() {
+    emit('search', request.value);
 }
+
+
 </script>
 
 <style scoped>

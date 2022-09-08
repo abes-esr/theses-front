@@ -7,25 +7,23 @@
 </template>
 
 
-<script>
-export default {
-    props: {
-        titre: {
-            type: String,
-            default: ''
-        },
-        description: {
-            type: String,
-            default: ''
-        },
-        date: {
-            type: String,
-            default: ''
-        },
-    }
-}
-
+<script setup>
+defineProps({
+    titre: {
+        type: String,
+        default: ''
+    },
+    description: {
+        type: String,
+        default: ''
+    },
+    date: {
+        type: String,
+        default: ''
+    },
+})
 </script>
 
 <style scoped>
+
 </style>

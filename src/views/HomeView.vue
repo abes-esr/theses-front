@@ -22,49 +22,42 @@
   </v-container>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 import searchBar from '../components/SearchBar.vue'
 import axios from 'axios'
 import statsCard from '../components/StatsCard.vue'
 
-export default {
-  components: {
-    searchBar,
-    statsCard
-  },
-  data() {
-    return {
-      loading: false
-    }
-  },
-  methods: {
-    search(payload) {
-      this.loading = true;
-      axios.post(import.meta.env.VITE_APP_API, {
-        "query": {
-          "bool": {
-            "must": {
-              "query_string": {
-                "query": payload
-              }
-            }
+const router = useRouter()
+
+const loading = ref(false)
+
+function search(payload) {
+  loading.value = true;
+  axios.post(import.meta.env.VITE_APP_API, {
+    "query": {
+      "bool": {
+        "must": {
+          "query_string": {
+            "query": payload
           }
         }
-      }).then(response => {
-        this.$router.push({
-          name: 'resultats',
-          params: {
-            result: JSON.stringify(response.data.hits.hits),
-            request: payload
-          }
-        })
-      }).catch(error => {
-        console.log(error)
-      }).finally(() => {
-        this.loading = false;
-      })
+      }
     }
-  },
-
+  }).then(response => {
+    router.push({
+      name: 'resultats',
+      params: {
+        result: JSON.stringify(response.data.hits.hits),
+        request: payload
+      }
+    })
+  }).catch(error => {
+    console.log(error)
+  }).finally(() => {
+    loading.value = false;
+  })
 }
 </script>

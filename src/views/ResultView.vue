@@ -14,20 +14,15 @@
     </div>
 </template>
 
-<script>
-
+<script setup>
 import ResultCard from '../components/ResultCard.vue'
 
-export default {
-    components: {
-        ResultCard
-    },
-    props: {
-        result: String,
-        request: String
-    }
-}
+defineProps({
+    result: String,
+    request: String
+})
 </script>
 
 <style scoped>
+
 </style>
