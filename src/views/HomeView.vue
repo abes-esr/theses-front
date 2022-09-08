@@ -19,6 +19,9 @@
         <stats-card titre="805 000" description="personnes référencées" date="au 03/06/2022"></stats-card>
       </v-col>
     </v-row>
+    <v-row>
+      <p>Le PoC fédé est accessible ici : <a href="/poc-fede/">poc-fede</a></p>
+    </v-row>
   </v-container>
 </template>
 
