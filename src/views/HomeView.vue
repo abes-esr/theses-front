@@ -1,21 +1,44 @@
 <template>
   <v-container class="justify-center">
     <v-row class="justify-center">
-      <h1>Le moteur de recherche des thèses françaises</h1>
+      <h1 class="pb-16">Le moteur de recherche des thèses françaises</h1>
+    </v-row>
+    <v-row class="pb-4">
+      <v-col cols="0" md=""></v-col>
+      <v-col cols="11" md="3" class="clickable">
+        <v-row class="justify-center">
+          <v-icon size="50" color="secondary">mdi-school</v-icon>
+        </v-row>
+        <v-row class="justify-center pt-3">
+          <h2>Toutes les thèses</h2>
+        </v-row>
+      </v-col>
+      <v-divider vertical class="mt-2 mb-2"></v-divider>
+      <v-col cols="11" md="3" class="clickable">
+        <v-row class="justify-center pt-3">
+          <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
+        </v-row>
+        <v-row class="justify-center">
+          <h2>
+            Personnes
+          </h2>
+        </v-row>
+      </v-col>
+      <v-col cols="0" md="3"></v-col>
     </v-row>
     <v-row class="justify-center ma-0 pa-0">
       <v-col cols="12" xs="12" xl="6">
-        <search-bar @search="search" :loading="loading" />
+        <search-bar @search="search" @keydown.enter="search" :loading="loading" />
       </v-col>
     </v-row>
     <v-row class="justify-center ma-0 pa-0">
-      <v-col cols="12" md="3" xs="12">
+      <v-col cols="12" md="2" xs="12">
         <stats-card titre="546 000" description="thèses référencées" date="au 03/06/2022"></stats-card>
       </v-col>
-      <v-col cols="12" md="3" xs="12">
+      <v-col cols="12" md="2" xs="12">
         <stats-card titre="79 000" description="thèses en préparation" date="au 03/06/2022"></stats-card>
       </v-col>
-      <v-col cols="12" md="3" xs="12">
+      <v-col cols="12" md="2" xs="12">
         <stats-card titre="805 000" description="personnes référencées" date="au 03/06/2022"></stats-card>
       </v-col>
     </v-row>
@@ -64,3 +87,13 @@ function search(payload) {
   })
 }
 </script>
+
+<style scoped>
+button {
+  height: 150px !important;
+}
+
+.clickable {
+  cursor: pointer;
+}
+</style>

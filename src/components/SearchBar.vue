@@ -2,7 +2,9 @@
     <v-col>
         <v-text-field clearable label="Recherche" v-model="request" type="text" variant="outlined">
             <template v-slot:append>
-                <v-btn color="primary" text @click="search" :loading="loading" class="pa-0 ma-0">
+                <v-btn color="primary"
+                    style="height: 100%; border-bottom-left-radius: 0; border-top-left-radius: 0; margin-left: -10px !important;"
+                    text @click="search" :loading="loading" class="pa-0 ma-0">
                     <v-icon large>mdi-magnify</v-icon>
                 </v-btn>
             </template>
