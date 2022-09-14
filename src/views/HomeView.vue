@@ -3,32 +3,10 @@
     <v-row class="justify-center">
       <h1 class="pb-16">Le moteur de recherche des thèses françaises</h1>
     </v-row>
-    <v-row class="pb-4">
-      <v-col cols="0" md=""></v-col>
-      <v-col cols="11" md="3" class="clickable">
-        <v-row class="justify-center">
-          <v-icon size="50" color="secondary">mdi-school</v-icon>
-        </v-row>
-        <v-row class="justify-center pt-3">
-          <h2>Toutes les thèses</h2>
-        </v-row>
-      </v-col>
-      <v-divider vertical class="mt-2 mb-2"></v-divider>
-      <v-col cols="11" md="3" class="clickable">
-        <v-row class="justify-center pt-3">
-          <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
-        </v-row>
-        <v-row class="justify-center">
-          <h2>
-            Personnes
-          </h2>
-        </v-row>
-      </v-col>
-      <v-col cols="0" md="3"></v-col>
-    </v-row>
+    <domain-selector></domain-selector>
     <v-row class="justify-center ma-0 pa-0">
       <v-col cols="12" xs="12" xl="6">
-        <search-bar @search="search" @keydown.enter="search" :loading="loading" />
+        <search-bar @search="search" :loading="loading" />
       </v-col>
     </v-row>
     <v-row class="justify-center ma-0 pa-0">
@@ -53,8 +31,9 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import searchBar from '../components/SearchBar.vue'
-import axios from 'axios'
 import statsCard from '../components/StatsCard.vue'
+import DomainSelector from '../components/DomainSelector.vue'
+import thesesAPI from '../services/ThesesAPI'
 
 const router = useRouter()
 
@@ -62,17 +41,8 @@ const loading = ref(false)
 
 function search(payload) {
   loading.value = true;
-  axios.post(import.meta.env.VITE_APP_API, {
-    "query": {
-      "bool": {
-        "must": {
-          "query_string": {
-            "query": payload
-          }
-        }
-      }
-    }
-  }).then(response => {
+
+  thesesAPI.search(payload).then(response => {
     router.push({
       name: 'resultats',
       params: {
@@ -89,11 +59,5 @@ function search(payload) {
 </script>
 
 <style scoped>
-button {
-  height: 150px !important;
-}
 
-.clickable {
-  cursor: pointer;
-}
 </style>

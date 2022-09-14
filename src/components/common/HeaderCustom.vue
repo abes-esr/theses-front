@@ -27,7 +27,7 @@
 
 <style>
 .v-app-bar {
-    border-bottom: solid #b3b2b4 1px !important;
+    border-bottom: solid rgb(var(--v-theme-gris-clair)) 1px !important;
 }
 
 .v-toolbar {

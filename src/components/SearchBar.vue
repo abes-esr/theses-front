@@ -1,6 +1,7 @@
 <template>
     <v-col>
-        <v-text-field clearable label="Recherche" v-model="request" type="text" variant="outlined">
+        <v-text-field clearable label="Recherche" v-model="request" type="text" variant="outlined"
+            @keydown.enter="search">
             <template v-slot:append>
                 <v-btn color="primary"
                     style="height: 100%; border-bottom-left-radius: 0; border-top-left-radius: 0; margin-left: -10px !important;"

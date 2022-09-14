@@ -34,6 +34,6 @@ defineProps({
 
 <style scoped>
 .v-card {
-    border: solid 1px #b3b2b4;
+    border: solid 1px rgb(var(--v-theme-gris-clair));
 }
 </style>
