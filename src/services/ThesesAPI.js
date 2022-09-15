@@ -10,16 +10,6 @@ const apiTheses = axios.create({
 
 export default {
     search(query) {
-        return apiTheses.post("/", {
-            "query": {
-                "bool": {
-                    "must": {
-                        "query_string": {
-                            "query": query
-                        }
-                    }
-                }
-            }
-        });
+        return apiTheses.get("/recherche-java/?q=" + query);
     }
 }
