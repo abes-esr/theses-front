@@ -46,7 +46,6 @@
             </v-col>
             <v-col cols="12" md="10">
                 <h1> {{ JSON.parse(result).length }} résultats de thèses pour : {{ request }}</h1>
-
                 <v-row>
                     <v-col v-for="item in JSON.parse(result)" :key="item._source" cols="12" xs="12" md="4">
                         <result-card :titre="item._source.titre" :description="item._source.abstractFR"
@@ -56,9 +55,6 @@
                 </v-row>
             </v-col>
         </v-row>
-        <v-row>
-            <a @click="$router.push({ path: '/' })" href="#" class="pt-10">Retour à la page d'accueil</a>
-        </v-row>
     </div>
 </template>
 
@@ -66,7 +62,7 @@
 import ResultCard from '../components/ResultCard.vue'
 import FacetsDrawer from '../components/FacetsDrawer.vue';
 import SearchBar from '../components/SearchBar.vue';
-import DomainSelector from '../components/domainSelector.vue';
+import DomainSelector from '../components/DomainSelector.vue';
 
 defineProps({
     result: String,
