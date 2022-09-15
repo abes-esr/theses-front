@@ -16,10 +16,12 @@ const myCustomLightTheme = {
     'secondary-darken-1': '#018786',
     'orange-abes': '#CF491B',
     'gris-clair' : '#e6e6e6',
+    'gris-fonce': '#b3b2b4',
     error: '#B00020',
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FB8C00',
+    'fond-noir': "#000000"
   }
 }
 
