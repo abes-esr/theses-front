@@ -10,8 +10,6 @@
 <script>
 import HeaderCustom from "@/components/common/HeaderCustom.vue";
 
-
-
 export default {
   components: {
     HeaderCustom

@@ -16,19 +16,50 @@
 <script setup>
 import { ref } from 'vue'
 
-const emit = defineEmits(['search'])
+import router from '../router';
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 
-defineProps({
-    loading: {
-        type: Boolean,
-        default: false
-    }
-})
+import thesesAPI from '../services/ThesesAPI';
 
+const route = useRoute();
+const routeName = computed(() => route.name)
+
+const loading = ref(false);
 const request = ref('');
 
 function search() {
-    emit('search', request.value);
+    loading.value = true;
+
+    thesesAPI.search(request.value).then(response => {
+
+        // Si on est déjà sur /resultats
+        //On ne fait pas un push mais un replace
+        //Pour ne pas ajouter X fois "/resultats" à l'historique de navigation
+        if (routeName.value === "resultats") {
+            router.replace({
+                name: 'resultats',
+                params: {
+                    result: JSON.stringify(response.data.hits.hits),
+                    request: request.value
+                }
+            })
+        } else {
+            router.push({
+                name: 'resultats',
+                params: {
+                    result: JSON.stringify(response.data.hits.hits),
+                    request: request.value
+                }
+            })
+        }
+
+    }).catch(error => {
+        console.log(error)
+    }).finally(() => {
+        loading.value = false;
+    })
+
 }
 
 

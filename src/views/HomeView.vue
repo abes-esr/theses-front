@@ -6,7 +6,7 @@
     <domain-selector></domain-selector>
     <v-row class="justify-center ma-0 pa-0">
       <v-col cols="12" xs="12" xl="6">
-        <search-bar @search="search" :loading="loading" />
+        <search-bar />
       </v-col>
     </v-row>
     <v-row class="justify-center ma-0 pa-0">
@@ -27,35 +27,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-
 import searchBar from '../components/SearchBar.vue'
 import statsCard from '../components/StatsCard.vue'
 import DomainSelector from '../components/DomainSelector.vue'
-import thesesAPI from '../services/ThesesAPI'
 
-const router = useRouter()
-
-const loading = ref(false)
-
-function search(payload) {
-  loading.value = true;
-
-  thesesAPI.search(payload).then(response => {
-    router.push({
-      name: 'resultats',
-      params: {
-        result: JSON.stringify(response.data.hits.hits),
-        request: payload
-      }
-    })
-  }).catch(error => {
-    console.log(error)
-  }).finally(() => {
-    loading.value = false;
-  })
-}
 </script>
 
 <style scoped>
