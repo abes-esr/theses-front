@@ -27,9 +27,9 @@
 </template>
 
 <script setup>
-import searchBar from '../components/SearchBar.vue'
-import statsCard from '../components/StatsCard.vue'
-import DomainSelector from '../components/DomainSelector.vue'
+import searchBar from '../components/search/SearchBar.vue'
+import statsCard from '../components/home/StatsCard.vue'
+import DomainSelector from '../components/search/DomainSelector.vue'
 
 </script>
 

@@ -20,7 +20,7 @@ import router from '../router';
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 
-import thesesAPI from '../services/ThesesAPI';
+import thesesAPI from '../../services/ThesesAPI';
 
 const route = useRoute();
 const routeName = computed(() => route.name)
