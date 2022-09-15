@@ -39,17 +39,19 @@
                 <v-row class="px-4">
                     {{ new Date().getFullYear() }} — <strong>Theses.fr</strong>
                     <div class="flex-grow-1"></div>
-                    <v-btn plain color="transparent" size="small">A Propos</v-btn>
-                    <v-divider vertical class="my-1"></v-divider>
-                    <v-btn plain color="transparent" size="small">Donnees personnelles</v-btn>
-                    <v-divider vertical class="my-1"></v-divider>
-                    <v-btn color="transparent" size="small">CGU
+                    <v-btn plain color="transparent" size="small" @click="$router.push({ name: 'apropos' })">A Propos
                     </v-btn>
                     <v-divider vertical class="my-1"></v-divider>
-                    <v-btn color="transparent" size="small">Mentions
+                    <v-btn plain color="transparent" size="small" href="/donnees"
+                        @click="$router.push({ name: 'donnees' })">Donnees personnelles</v-btn>
+                    <v-divider vertical class="my-1"></v-divider>
+                    <v-btn color="transparent" size="small" @click="$router.push({ name: 'cgu' })">CGU
+                    </v-btn>
+                    <v-divider vertical class="my-1"></v-divider>
+                    <v-btn color="transparent" size="small" @click="$router.push({ name: 'mentions' })">Mentions
                         Légales</v-btn>
                     <v-divider vertical class="my-1"></v-divider>
-                    <v-btn color="transparent" size="small">
+                    <v-btn color="transparent" size="small" @click="$router.push({ name: 'accessibilite' })">
                         Accessibilité</v-btn>
                 </v-row>
 
