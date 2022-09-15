@@ -1,7 +1,7 @@
 <template>
   <v-container class="justify-center">
     <v-row class="justify-center">
-      <h1 class="pb-16">Le moteur de recherche des thèses françaises</h1>
+      <h1 class="pb-16 text-center">Le moteur de recherche des thèses françaises</h1>
     </v-row>
     <domain-selector></domain-selector>
     <v-row class="justify-center ma-0 pa-0">

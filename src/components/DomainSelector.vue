@@ -10,7 +10,7 @@
                     <h2 :class="selected === 'theses' ? 'selected' : ''">Toutes les thèses</h2>
                 </v-row>
             </v-col>
-            <v-divider vertical class="mt-2 mb-2"></v-divider>
+            <v-divider vertical class="mt-2 mb-2 d-none d-md-block"></v-divider>
             <v-col cols="11" md="3" class="clickable" @click="select('personnes')">
                 <v-row class="justify-center pt-3">
                     <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
@@ -40,10 +40,6 @@ function select(selection) {
 </script>
 
 <style scoped>
-.clickable {
-    cursor: pointer;
-}
-
 .selected {
     border-bottom: solid 5px rgb(var(--v-theme-orange-abes));
 }

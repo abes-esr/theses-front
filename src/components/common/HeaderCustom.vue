@@ -19,8 +19,9 @@
             </v-btn>
         </div>
     </v-app-bar>
-    <div id="logo" class="d-flex justify-center align-start" style="overflow: visible;"> <img alt="logo"
-            src="@/assets/logo.png" style="overflow: visible; max-height: 160px; margin-top: -50px; z-index:2000"
+    <div id="logo" class="d-flex justify-center align-start clickable" style="overflow: visible;"
+        @click="$router.push({ path: '/' })"> <img alt="logo" src="@/assets/logo.png"
+            style="overflow: visible; max-height: 160px; margin-top: -50px; z-index:2000"
             class="d-none d-md-block pt-16"></div>
 
 </template>
