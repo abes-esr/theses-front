@@ -1,4 +1,4 @@
-# Logs
+git# Logs
 logs
 *.log
 npm-debug.log*
@@ -26,3 +26,5 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+.env
+.gitignore
