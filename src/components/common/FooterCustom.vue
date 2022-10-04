@@ -37,23 +37,27 @@
 
             <v-card-text id="footerBottom">
                 <v-row class="px-4">
-                    {{ new Date().getFullYear() }} — <strong>Theses.fr</strong>
-                    <div class="flex-grow-1"></div>
-                    <v-btn plain color="transparent" size="small" @click="$router.push({ name: 'apropos' })">
-                        {{$t("apropos")}}
-                    </v-btn>
-                    <v-divider vertical class="my-1"></v-divider>
-                    <v-btn plain color="transparent" size="small" href="/donnees"
-                        @click="$router.push({ name: 'donnees' })">{{$t("donnees")}}</v-btn>
-                    <v-divider vertical class="my-1"></v-divider>
-                    <v-btn color="transparent" size="small" @click="$router.push({ name: 'cgu' })">{{$t("CGU")}}
-                    </v-btn>
-                    <v-divider vertical class="my-1"></v-divider>
-                    <v-btn color="transparent" size="small" @click="$router.push({ name: 'mentions' })">
-                        {{$t("mentions")}}</v-btn>
-                    <v-divider vertical class="my-1"></v-divider>
-                    <v-btn color="transparent" size="small" @click="$router.push({ name: 'accessibilite' })">
-                        {{$t("accessibilite")}}</v-btn>
+                    <v-col cols="12" md="6" class="text-center text-md-left pa-0">{{ new Date().getFullYear() }} —
+                        <strong>Theses.fr</strong>
+                    </v-col>
+                    <v-col cols="12" md="6" class="text-center text-md-right pa-0">
+                        <v-btn plain color="transparent" size="small" @click="$router.push({ name: 'apropos' })">
+                            {{$t("apropos")}}
+                        </v-btn>
+                        <v-divider vertical class="my-1"></v-divider>
+                        <v-btn plain color="transparent" size="small" href="/donnees"
+                            @click="$router.push({ name: 'donnees' })">
+                            {{$t("donnees")}}</v-btn>
+                        <v-divider vertical class="my-1"></v-divider>
+                        <v-btn color="transparent" size="small" @click="$router.push({ name: 'cgu' })">{{$t("CGU")}}
+                        </v-btn>
+                        <v-divider vertical class="my-1"></v-divider>
+                        <v-btn color="transparent" size="small" @click="$router.push({ name: 'mentions' })">
+                            {{$t("mentions")}}</v-btn>
+                        <v-divider vertical class="my-1"></v-divider>
+                        <v-btn color="transparent" size="small" @click="$router.push({ name: 'accessibilite' })">
+                            {{$t("accessibilite")}}</v-btn>
+                    </v-col>
                 </v-row>
 
             </v-card-text>
