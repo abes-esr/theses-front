@@ -7,11 +7,13 @@
     "dev": "vite --host"
   },
   "dependencies": {
+    "@intlify/unplugin-vue-i18n": "^0.7.0",
     "@mdi/font": "5.9.55",
     "axios": "^0.27.2",
     "pinia": "^2.0.14",
     "roboto-fontface": "*",
     "vue": "^3.2.37",
+    "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.16",
     "vuetify": "^3.0.0-beta.11",
     "webfontloader": "^1.0.0"

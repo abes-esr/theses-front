@@ -7,7 +7,7 @@
                     <v-icon size="50" color="secondary">mdi-school</v-icon>
                 </v-row>
                 <v-row class="justify-center pt-3">
-                    <h2 :class="selected === 'theses' ? 'selected' : ''">Toutes les thèses</h2>
+                    <h2 :class="selected === 'theses' ? 'selected' : ''">{{ $t("toutesTheses") }}</h2>
                 </v-row>
             </v-col>
             <v-divider vertical class="mt-2 mb-2 d-none d-md-block"></v-divider>
@@ -17,7 +17,7 @@
                 </v-row>
                 <v-row class="justify-center pt-3">
                     <h2 :class="selected === 'personnes' ? 'selected' : ''">
-                        Personnes
+                        {{ $t("personnes") }}
                     </h2>
                 </v-row>
             </v-col>

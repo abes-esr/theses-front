@@ -7,7 +7,7 @@
         <v-card-text class="d-flex justify-center pt-1 pb-4">{{ date }}</v-card-text>
         <a href="#" style="text-decoration: none;">
             <v-row class="pa-0 pb-5 ma-0 d-flex justify-center">
-                <h4>EXPLORER</h4>
+                <h4>{{ $t("explorer")}}</h4>
                 <v-icon color="orange-abes" class="pl-2">mdi-arrow-right-circle</v-icon>
             </v-row>
         </a>

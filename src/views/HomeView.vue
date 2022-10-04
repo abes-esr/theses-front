@@ -1,7 +1,7 @@
 <template>
   <v-container class="justify-center">
     <v-row class="justify-center">
-      <h1 class="pb-16 text-center">Le moteur de recherche des thèses françaises</h1>
+      <h1 class="pb-16 text-center">{{ $t("slogan") }}</h1>
     </v-row>
     <domain-selector></domain-selector>
     <v-row class="justify-center ma-0 pa-0">
@@ -11,13 +11,13 @@
     </v-row>
     <v-row class="justify-center ma-0 pa-0">
       <v-col cols="12" md="2" xs="12">
-        <stats-card titre="546 000" description="thèses référencées" date="au 03/06/2022"></stats-card>
+        <stats-card titre="546 000" :description="$t('referencés')" date="au 03/06/2022"></stats-card>
       </v-col>
       <v-col cols="12" md="2" xs="12">
-        <stats-card titre="79 000" description="thèses en préparation" date="au 03/06/2022"></stats-card>
+        <stats-card titre="79 000" :description="$t('preparation')" date="au 03/06/2022"></stats-card>
       </v-col>
       <v-col cols="12" md="2" xs="12">
-        <stats-card titre="805 000" description="personnes référencées" date="au 03/06/2022"></stats-card>
+        <stats-card titre="805 000" :description="$t('personnesRef')" date="au 03/06/2022"></stats-card>
       </v-col>
     </v-row>
     <v-row>

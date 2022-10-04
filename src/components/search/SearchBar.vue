@@ -1,6 +1,6 @@
 <template>
     <v-col>
-        <v-text-field clearable label="Recherche" v-model="request" type="text" variant="outlined"
+        <v-text-field clearable :label='$t("rechercher")' v-model="request" type="text" variant="outlined"
             @keydown.enter="search">
             <template v-slot:append>
                 <v-btn color="primary"

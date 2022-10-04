@@ -26,7 +26,7 @@
                 <facets-drawer></facets-drawer>
             </v-col>
             <v-col cols="12" md="10">
-                <h1> {{ JSON.parse(result).length }} résultats de thèses pour : {{ request }}</h1>
+                <h1> {{ JSON.parse(result).length }} {{$t('resultats')}}: {{ request }}</h1>
                 <v-row>
                     <v-col v-for="item in JSON.parse(result)" :key="item._source" cols="12" xs="12" md="4">
                         <result-card :titre="item._source.titre" :description="item._source.abstractFR"

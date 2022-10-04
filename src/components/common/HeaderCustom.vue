@@ -2,21 +2,22 @@
     <v-app-bar color="white" flat id="appBar">
         <v-row class="pt-4">
             <v-col cols="12" md="6" class="text-center text-md-left">
-                <v-btn flat depressed>FR</v-btn>|<v-btn flat depressed>EN</v-btn>
+                <v-btn flat depressed @click="$i18n.locale = 'fr'">FR</v-btn>|<v-btn flat depressed
+                    @click="$i18n.locale = 'en'">EN</v-btn>
             </v-col>
             <v-col cols="12" md="6" class="text-center text-md-right">
-                <v-btn><img style="max-height: 40px;" alt="icone partager" title="Partager"
+                <v-btn><img style="max-height: 40px;" alt="icone partager" :title="$t('partager')"
                         src="@/assets/icone-reseaux.svg">
                 </v-btn>
 
                 <v-btn><img style="max-height: 40px;" alt="icone rss" title="Flux RSS" src="@/assets/icone-rss.svg">
                 </v-btn>
 
-                <v-btn><img style="max-height: 40px;" alt="icone assistance" title="Assistance"
+                <v-btn><img style="max-height: 40px;" alt="icone assistance" :title="$t('assistance')"
                         src="@/assets/icone-assistance.svg">
                 </v-btn>
 
-                <v-btn><img style="max-height: 40px;" alt="icone documentation" title="Documentation"
+                <v-btn><img style="max-height: 40px;" alt="icone documentation" :title="$t('documentation')"
                         src="@/assets/icone-documentation.svg">
                 </v-btn>
             </v-col>
