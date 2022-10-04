@@ -26,9 +26,9 @@
                         <span class="orange-link"> > </span><a href="https://stp.abes.fr"
                             target="_blank">Assistance</a><br />
                     </v-col>
-                    <v-col cols="12" md="4" class="text-right align-center"><img src="../../assets/logo-mesri.svg"
-                            style="height: 60px;" class="pr-4 ">
-                        <img src="../../assets/logo-abes.jpg" style="height: 60px;">
+                    <v-col cols="12" md="4" class="text-right align-center"><img src="../../assets/logo-mesr.svg"
+                            style="height: 80px;" class="pr-4 ">
+                        <img src="../../assets/abes-logo-cercle.svg" style="height: 80px;">
                     </v-col>
                 </v-row>
             </v-card-text>
