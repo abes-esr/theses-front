@@ -66,6 +66,10 @@ function search() {
 </script>
 
 <style scoped>
+:deep(.v-field__field) {
+    background: rgb(var(--v-theme-surface));
+}
+
 :deep(.v-input--horizontal .v-input__append) {
     padding: 0 !important;
     margin: 0 !important;
