@@ -2,12 +2,18 @@ main {
     padding-bottom: 64px !important;
 }
 
+header {
+    height: auto !important;
+    left: 0 !important;
+    position: relative !important;
+}
+
 h3 {
-    color: #00A0DC;
+    color: rgb(var(--v-theme-secondary));
 }
 
 h4 {
-    color: #252C61;
+    color: rgb(var(--v-theme-primary));
 }
 
 .clickable {

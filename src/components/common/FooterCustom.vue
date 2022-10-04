@@ -3,7 +3,7 @@
         <v-card id="footerCard" elevation="0" rounded="0" width="100%" class="bg-grey text-center">
             <v-card-text id="footerTop">
                 <v-row class="px-8">
-                    <v-col cols="12" md="4" class="text-left">
+                    <v-col cols="12" md="4" class="text-md-left text-center">
                         <strong>Theses.fr</strong><br />
                         <span>Lorem ipsum dolor sit amet. Ut molestiae quae ex quae omnis id possimus
                             voluptas sit amet ipsam eos mollitia odit et
@@ -26,8 +26,8 @@
                         <span class="orange-link"> > </span><a href="https://stp.abes.fr"
                             target="_blank">Assistance</a><br />
                     </v-col>
-                    <v-col cols="12" md="4" class="text-right align-center"><img src="../../assets/logo-mesr.svg"
-                            style="height: 80px;" class="pr-4 ">
+                    <v-col cols="12" md="4" class="text-md-right text-center align-center"><img
+                            src="../../assets/logo-mesr.svg" style="height: 80px;" class="pr-4 ">
                         <img src="../../assets/abes-logo-cercle.svg" style="height: 80px;">
                     </v-col>
                 </v-row>
@@ -81,5 +81,9 @@
 
 #footerCard {
     margin-top: auto;
+}
+
+footer {
+    background: rgb(var(--v-theme-background));
 }
 </style>

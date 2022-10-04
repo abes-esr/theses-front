@@ -1,9 +1,11 @@
 <template>
   <v-app>
     <header-custom></header-custom>
-    <v-main>
-      <router-view />
-    </v-main>
+    <v-layout class="flex-shrink-0">
+      <v-main>
+        <router-view />
+      </v-main>
+    </v-layout>
     <footer-custom></footer-custom>
   </v-app>
 </template>

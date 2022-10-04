@@ -4,7 +4,7 @@
   "scripts": {
     "build": "vite build",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "dev": "vite"
+    "dev": "vite --host"
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
