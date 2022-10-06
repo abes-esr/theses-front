@@ -27,8 +27,9 @@
                             target="_blank">Assistance</a><br />
                     </v-col>
                     <v-col cols="12" md="4" class="text-md-right text-center align-center"><img
-                            src="../../assets/logo-mesr.svg" style="height: 80px;" class="pr-4 ">
-                        <img src="../../assets/abes-logo-cercle.svg" style="height: 80px;">
+                            src="../../assets/logo-mesr.svg" alt="logo ministère enseignement supérieur"
+                            style="height: 80px;" class="pr-4 ">
+                        <img src="../../assets/abes-logo-cercle.svg" alt="logo Abes" style="height: 80px;">
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -37,8 +38,12 @@
 
             <v-card-text id="footerBottom">
                 <v-row class="px-4">
-                    <v-col cols="12" md="3" class="text-center text-md-left pa-0">{{ new Date().getFullYear() }} —
+                    <v-col cols="12" md="3" class="text-center text-md-left pa-0">
+                        {{ new Date().getFullYear() }} —
                         <strong>Theses.fr</strong>
+                        <div id="accessconfig" data-accessconfig-buttonname="Paramètres d’accessibilité"
+                            data-accessconfig-params='{ "Prefix" : "a42-ac", "ContainerClass" : "","ModalCloseButton" : "","ModalTitle" : "","FormFieldset" : "","FormFieldsetLegend" : "","FormRadio" : "", "ImageReplacement" : false}'>
+                        </div>
                     </v-col>
                     <v-col cols="12" md="9" class="text-center text-md-right pa-0">
                         <v-btn plain color="transparent" size="small" @click="$router.push({ name: 'apropos' })">
