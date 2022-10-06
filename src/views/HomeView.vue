@@ -10,13 +10,13 @@
       </v-col>
     </v-row>
     <v-row class="justify-center ma-0 pa-0">
-      <v-col cols="12" md="2" xs="12">
+      <v-col cols="12" md="4" xl="2" xs="12">
         <stats-card titre="546 000" :description="$t('referencés')" date="au 03/06/2022"></stats-card>
       </v-col>
-      <v-col cols="12" md="2" xs="12">
+      <v-col cols="12" md="4" xl="2" xs="12">
         <stats-card titre="79 000" :description="$t('preparation')" date="au 03/06/2022"></stats-card>
       </v-col>
-      <v-col cols="12" md="2" xs="12">
+      <v-col cols="12" md="4" xl="2" xs="12">
         <stats-card titre="805 000" :description="$t('personnesRef')" date="au 03/06/2022"></stats-card>
       </v-col>
     </v-row>

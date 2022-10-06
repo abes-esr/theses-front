@@ -4,7 +4,7 @@
   "scripts": {
     "build": "vite build",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "dev": "vite --host"
+    "dev": "vite"
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.7.0",

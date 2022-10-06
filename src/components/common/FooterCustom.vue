@@ -37,10 +37,10 @@
 
             <v-card-text id="footerBottom">
                 <v-row class="px-4">
-                    <v-col cols="12" md="6" class="text-center text-md-left pa-0">{{ new Date().getFullYear() }} —
+                    <v-col cols="12" md="3" class="text-center text-md-left pa-0">{{ new Date().getFullYear() }} —
                         <strong>Theses.fr</strong>
                     </v-col>
-                    <v-col cols="12" md="6" class="text-center text-md-right pa-0">
+                    <v-col cols="12" md="9" class="text-center text-md-right pa-0">
                         <v-btn plain color="transparent" size="small" @click="$router.push({ name: 'apropos' })">
                             {{$t("apropos")}}
                         </v-btn>
