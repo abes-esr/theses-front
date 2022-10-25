@@ -16,5 +16,9 @@
     "assistance": "Assistance",
     "partager": "Partager",
     "documentation": "Documentation",
-    "resultats": " résultats de thèses pour "
+    "resultats": " résultats de thèses pour ",
+    "resultCard": {
+        "par": "Par",
+        "dir": "sous la direction de"
+    }
 }
