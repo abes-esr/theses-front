@@ -1,5 +1,10 @@
 main {
     padding-bottom: 64px !important;
+    color: rgb(var(--v-theme-text-dark-blue)) !important;
+}
+
+.v-card {
+    color: rgb(var(--v-theme-text-dark-blue)) !important;
 }
 
 header {

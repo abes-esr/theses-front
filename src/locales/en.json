@@ -16,5 +16,9 @@
     "assistance": "Help",
     "partager": "Share",
     "documentation": "Documentation",
-    "resultats": "thesis found for "
+    "resultats": "thesis found for ",
+    "resultCard": {
+        "par": "By",
+        "dir": "supervised by"
+    }
 }
