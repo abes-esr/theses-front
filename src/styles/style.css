@@ -13,12 +13,22 @@ header {
     position: relative !important;
 }
 
+
+h1 {
+    color: rgb(var(--v-theme-primary));
+}
+
+h2 {
+    color: rgb(var(--v-theme-primary));
+}
+
 h3 {
     color: rgb(var(--v-theme-secondary));
 }
 
 h4 {
     color: rgb(var(--v-theme-primary));
+    font-size: 1.2rem;
 }
 
 .clickable {

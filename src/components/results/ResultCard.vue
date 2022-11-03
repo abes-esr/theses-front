@@ -3,7 +3,16 @@
         <div class="firstHalf">
             <v-card-title>
                 <v-row>
-                    <v-col cols="9" md="10"><span class="line-clamp">{{ titre }}</span></v-col>
+                    <v-col cols="9" md="10">
+                        <v-row class="pa-0 ma-0">
+                            <span class="line-clamp">
+                                <v-chip color="orange-abes" label variant="elevated" class="mr-2">
+                                    <v-icon start icon="mdi-school-outline"></v-icon>
+                                    {{$t('theseView.soutenueChip')}}
+                                </v-chip>{{ titre }}
+                            </span>
+                        </v-row>
+                    </v-col>
                     <v-col cols="3" md="2">
                         <v-row class="pr-2 pt-2 justify-end">{{ date.slice(-4) }}</v-row>
                         <v-row class="pt-5 pr-1 justify-end">

@@ -48,14 +48,11 @@ import SearchBar from '../components/search/SearchBar.vue';
 import DomainSelector from '../components/search/DomainSelector.vue';
 import ResultPagination from '../components/results/ResultPagination.vue';
 
-import { ref } from 'vue'
-
 
 defineProps({
     result: String,
     request: String
 })
-let drawer = ref(false);
 </script>
 
 <style scoped>
