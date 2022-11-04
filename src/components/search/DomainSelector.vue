@@ -41,7 +41,7 @@ let selected = ref('theses');
 
 function select(selection) {
     selected.value = selection;
-  emit('select', selected.value);
+    emit('select', selected.value);
 }
 </script>
 
