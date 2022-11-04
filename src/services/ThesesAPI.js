@@ -11,6 +11,10 @@ const apiTheses = axios.create({
 
 // Domaine courant
 let selectedDomain = ref('theses');
+//Page courante
+let currentPage = ref(1);
+//Nomre courant
+let currentNombre = ref(10);
 // Listes des personnes courantes
 let listePersonnes = ref({});
 
@@ -19,12 +23,24 @@ let listePersonnes = ref({});
  * @param value Domaine courant
  */
 function modifierDomaine(value) {
-    selectedDomain = value;
+    selectedDomain.value = value;
+}
+
+function modifierPage(value) {
+    currentPage.value = value;
+}
+
+function modifierNombre(value) {
+    currentNombre.value = value;
 }
 
 export default {
     search(query) {
-        return apiTheses.get("/recherche-java/?q=" + query);
+        return apiTheses.get("/recherche-java/titre/?q=" + query + "&page=" + (currentPage.value - 1) + "&nombre=" + currentNombre.value);
+    },
+
+    getThese(nnt) {
+        return apiTheses.get("/recherche-java/these/" + nnt);
     }
 }
 
@@ -54,6 +70,8 @@ export function thesesAPIService() {
     return {
         selectedDomain,
         modifierDomaine,
+        modifierPage,
+        modifierNombre,
         listePersonnes,
         rechercherPersonne
     };

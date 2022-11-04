@@ -20,5 +20,22 @@
     "resultCard": {
         "par": "Par",
         "dir": "sous la direction de"
+    },
+    "theseView": {
+        "par": "par",
+        "theseDe": "Thèse de",
+        "descFR": "Description en français",
+        "descEN": "Description en anglais",
+        "resume": "Résumé",
+        "direction": "Sous la direction de ",
+        "et": " et de ",
+        "soutenueChip": "Soutenue",
+        "soutenue": "Soutenue le ",
+        "a": " à ",
+        "cotutelle": " en cotutelle avec ",
+        "cadre": " dans le cadre de ",
+        "president": "Le président du jury était ",
+        "jury": "Le jury était composé de ",
+        "rapporteur": "Les rapporteurs étaient "
     }
 }

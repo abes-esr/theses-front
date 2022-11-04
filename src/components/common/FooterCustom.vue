@@ -15,7 +15,7 @@
                     <v-col cols="12" md="4" class="text-center">
                         <v-icon>mdi-arrow-top-right</v-icon>
                         <strong>
-                            {{$t("accesDirect")}}
+                            {{ $t("accesDirect") }}
                         </strong><br />
                         <span class="orange-link"> > </span><a
                             href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
@@ -47,21 +47,21 @@
                     </v-col>
                     <v-col cols="12" md="9" class="text-center text-md-right pa-0">
                         <v-btn plain color="transparent" size="small" @click="$router.push({ name: 'apropos' })">
-                            {{$t("apropos")}}
+                            {{ $t("apropos") }}
                         </v-btn>
                         <v-divider vertical class="my-1"></v-divider>
                         <v-btn plain color="transparent" size="small" href="/donnees"
                             @click="$router.push({ name: 'donnees' })">
-                            {{$t("donnees")}}</v-btn>
+                            {{ $t("donnees") }}</v-btn>
                         <v-divider vertical class="my-1"></v-divider>
-                        <v-btn color="transparent" size="small" @click="$router.push({ name: 'cgu' })">{{$t("CGU")}}
+                        <v-btn color="transparent" size="small" @click="$router.push({ name: 'cgu' })">{{ $t("CGU") }}
                         </v-btn>
                         <v-divider vertical class="my-1"></v-divider>
                         <v-btn color="transparent" size="small" @click="$router.push({ name: 'mentions' })">
-                            {{$t("mentions")}}</v-btn>
+                            {{ $t("mentions") }}</v-btn>
                         <v-divider vertical class="my-1"></v-divider>
                         <v-btn color="transparent" size="small" @click="$router.push({ name: 'accessibilite' })">
-                            {{$t("accessibilite")}}</v-btn>
+                            {{ $t("accessibilite") }}</v-btn>
                     </v-col>
                 </v-row>
 
@@ -73,6 +73,8 @@
 <style scoped>
 #footerTop {
     background-color: rgb(var(--v-theme-gris-clair));
+    color: rgb(var(--v-theme-fond-noir));
+    ;
 }
 
 #footerBottom {

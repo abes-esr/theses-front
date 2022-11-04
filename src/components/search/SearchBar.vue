@@ -1,11 +1,11 @@
 <template>
   <v-col>
     <v-text-field clearable :label='$t("rechercher")' v-model="request" type="text" variant="outlined"
-                  @keydown.enter="search">
+      @keydown.enter="search">
       <template v-slot:append>
         <v-btn color="primary"
-               style="height: 100%; border-bottom-left-radius: 0; border-top-left-radius: 0; margin-left: -10px !important;"
-               text @click="search" :loading="loading" class="pa-0 ma-0">
+          style="height: 100%; border-bottom-left-radius: 0; border-top-left-radius: 0; margin-left: -10px !important;"
+          text @click="search" :loading="loading" class="pa-0 ma-0">
           <v-icon large>mdi-magnify</v-icon>
         </v-btn>
       </template>
@@ -14,13 +14,13 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import { ref } from 'vue'
 
 import router from '../../router';
-import {useRoute} from 'vue-router'
-import {computed} from 'vue'
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 
-import thesesAPI, {thesesAPIService} from '../../services/ThesesAPI';
+import thesesAPI, { thesesAPIService } from '../../services/ThesesAPI';
 
 const route = useRoute();
 const routeName = computed(() => route.name)
@@ -28,15 +28,14 @@ const routeName = computed(() => route.name)
 const loading = ref(false);
 const request = ref('');
 const emit = defineEmits(['onError'])
-const {rechercherPersonne} = thesesAPIService();
+const { rechercherPersonne } = thesesAPIService();
 
 
 async function search() {
   loading.value = true;
-  const {selectedDomain} = thesesAPIService();
+  const { selectedDomain } = thesesAPIService();
 
-  if (selectedDomain == "thèses") {
-
+  if (selectedDomain.value == "theses") {
     thesesAPI.search(request.value).then(response => {
 
       // Si on est déjà sur /resultats
@@ -65,11 +64,11 @@ async function search() {
     }).finally(() => {
       loading.value = false;
     })
-  } else if (selectedDomain == "personnes") {
+  } else if (selectedDomain.value == "personnes") {
 
     try {
       await rechercherPersonne(request.value);
-      const {listePersonnes} = thesesAPIService();
+      //const { listePersonnes } = thesesAPIService();
 
     } catch (error) {
       emit('onError', error.message);
@@ -80,6 +79,9 @@ async function search() {
   }
 }
 
+defineExpose({
+  search,
+});
 
 </script>
 

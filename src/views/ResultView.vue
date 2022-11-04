@@ -7,7 +7,7 @@
         </v-row>
         <v-row class="justify-center">
             <v-col cols="12" md="6" class="py-0">
-                <search-bar></search-bar>
+                <search-bar ref="search"></search-bar>
             </v-col>
         </v-row>
         <v-row>
@@ -19,7 +19,8 @@
 
             </v-col>
             <v-col cols="12" md="10" class="py-0 pt-3 pb-3 greyBar">
-                <result-pagination></result-pagination>
+                <result-pagination @changePage="updatePage" @changeNombre="updateNombre">
+                </result-pagination>
             </v-col>
         </v-row>
         <v-row>
@@ -29,10 +30,13 @@
                 </v-row>
             </v-col>
             <v-col cols="12" md="10">
-                <h1 class="pb-6"> {{ JSON.parse(result).length }} {{$t('resultats')}}: {{ request }}</h1>
+                <h1 class="pb-6"> {{ JSON.parse(result).length }} {{ $t('resultats') }}: {{ request }}</h1>
                 <v-row>
                     <v-col v-for="item in JSON.parse(result)" :key="item._source" cols="12" xs="12" md="6">
-                        <result-card :titre="item._source.titre" :date="item._source.dateSoutenance">
+                        <result-card :titre="item._source.titrePrincipal" :date="item._source.dateSoutenance"
+                            :auteur="item._source.auteurs[0].prenom + ' ' + item._source.auteurs[0].nom"
+                            :directeurs="item._source.directeurs" :discipline="item._source.discipline"
+                            :etab="item._source.etabSoutenance.nom" :nnt="item._source.nnt">
                         </result-card>
                     </v-col>
                 </v-row>
@@ -42,20 +46,35 @@
 </template>
 
 <script setup>
-import ResultCard from '../components/results/ResultCard.vue'
+import { ref } from 'vue';
+
+import ResultCard from '../components/results/ResultCard.vue';
 import FacetsDrawer from '../components/results/FacetsDrawer.vue';
 import SearchBar from '../components/search/SearchBar.vue';
 import DomainSelector from '../components/search/DomainSelector.vue';
 import ResultPagination from '../components/results/ResultPagination.vue';
-
-import { ref } from 'vue'
-
+import { thesesAPIService } from "@/services/ThesesAPI";
 
 defineProps({
     result: String,
     request: String
 })
-let drawer = ref(false);
+
+const { modifierPage } = thesesAPIService();
+const { modifierNombre } = thesesAPIService();
+
+const search = ref(null)
+
+
+function updatePage(payload) {
+    modifierPage(payload);
+    search.value.search();
+}
+
+function updateNombre(payload) {
+    modifierNombre(payload);
+    search.value.search();
+}
 </script>
 
 <style scoped>

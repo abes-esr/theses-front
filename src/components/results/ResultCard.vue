@@ -3,11 +3,21 @@
         <div class="firstHalf">
             <v-card-title>
                 <v-row>
-                    <v-col cols="9" md="10"><span class="line-clamp">{{ titre }}</span></v-col>
+                    <v-col cols="9" md="10">
+                        <v-row class="pa-0 ma-0">
+                            <span class="line-clamp">
+                                <v-chip color="orange-abes" label variant="elevated" class="mr-2">
+                                    <v-icon start icon="mdi-school-outline"></v-icon>
+                                    {{ $t('theseView.soutenueChip') }}
+                                </v-chip>{{ titre }}
+                            </span>
+                        </v-row>
+                    </v-col>
                     <v-col cols="3" md="2">
                         <v-row class="pr-2 pt-2 justify-end">{{ date.slice(-4) }}</v-row>
                         <v-row class="pt-5 pr-1 justify-end">
-                            <v-btn flat size="small" append-icon="mdi-arrow-right-bold-circle-outline" color="primary">
+                            <v-btn flat size="small" append-icon="mdi-arrow-right-bold-circle-outline" color="primary"
+                                @click="$router.push({ name: 'these', params: { nnt: nnt } })">
                                 Voir</v-btn>
                         </v-row>
                     </v-col>
@@ -20,9 +30,14 @@
             </v-card-title>
         </div>
         <div class="secondHalf">
-            <v-card-text class="py-2">{{ $t('resultCard.par') }} {{auteur}} {{$t('resultCard.dir')}} {{directeur}}
+            <v-card-text class="py-2">{{ $t('resultCard.par') }} {{ auteur }} {{ $t('resultCard.dir') }}
+                <span v-for="(item, index) in directeurs" :key="item.ppn"> {{ item.prenom }} {{ item.nom }}<span
+                        v-if="index < directeurs.length - 2">,
+                    </span>
+                    <span v-if="index == directeurs.length - 2"> {{ $t('theseView.et') }}
+                    </span></span>
             </v-card-text>
-            <v-card-text class="pt-0 pb-4">{{discipline}} - {{etab}}</v-card-text>
+            <v-card-text class="pt-0 pb-4">{{ discipline }} - {{ etab }}</v-card-text>
         </div>
     </v-card>
 </template>
@@ -42,12 +57,10 @@ defineProps({
         default: ''
     },
     auteur: {
-        type: String,
-        default: 'XXXXXXX'
+        type: String
     },
-    directeur: {
-        type: String,
-        default: 'XXXXXXX'
+    directeurs: {
+        type: Array
     },
     discipline: {
         type: String,
@@ -56,6 +69,9 @@ defineProps({
     etab: {
         type: String,
         default: 'Université'
+    },
+    nnt: {
+        type: String
     }
 
 })

@@ -1,6 +1,6 @@
 {
   "name": "theses-front",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "build": "vite build",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
@@ -12,10 +12,10 @@
     "axios": "^0.27.2",
     "pinia": "^2.0.14",
     "roboto-fontface": "*",
-    "vue": "^3.2.37",
+    "vue": "^3.2.41",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.16",
-    "vuetify": "^3.0.0-beta.11",
+    "vuetify": "^3.0.0",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
