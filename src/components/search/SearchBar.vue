@@ -14,69 +14,45 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
-import router from '../../router';
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 
-import thesesAPI, { thesesAPIService } from '../../services/ThesesAPI';
+import router from '../../router';
 
 const route = useRoute();
 const routeName = computed(() => route.name)
 
-const loading = ref(false);
+defineProps({
+  loading: {
+    type: Boolean,
+    default: false
+  },
+})
 const request = ref('');
-const emit = defineEmits(['onError'])
-const { rechercherPersonne } = thesesAPIService();
+const emit = defineEmits(['search'])
+
+onMounted(
+  () => {
+    request.value = useRoute().query.q;
+  }
+)
 
 
 async function search() {
-  loading.value = true;
-  const { selectedDomain } = thesesAPIService();
-
-  if (selectedDomain.value == "theses") {
-    thesesAPI.search(request.value).then(response => {
-
-      // Si on est déjà sur /resultats
-      //On ne fait pas un push mais un replace
-      //Pour ne pas ajouter X fois "/resultats" à l'historique de navigation
-      if (routeName.value === "resultats") {
-        router.replace({
-          name: 'resultats',
-          params: {
-            result: JSON.stringify(response.data.hits.hits),
-            request: request.value
-          }
-        })
-      } else {
-        router.push({
-          name: 'resultats',
-          params: {
-            result: JSON.stringify(response.data.hits.hits),
-            request: request.value
-          }
-        })
-      }
-
-    }).catch(error => {
-      console.log(error)
-    }).finally(() => {
-      loading.value = false;
+  if (routeName.value === "resultats") {
+    router.replace({
+      name: 'resultats',
+      query: { q: request.value }
     })
-  } else if (selectedDomain.value == "personnes") {
-
-    try {
-      await rechercherPersonne(request.value);
-      //const { listePersonnes } = thesesAPIService();
-
-    } catch (error) {
-      emit('onError', error.message);
-    } finally {
-      loading.value = false;
-    }
-
+  } else {
+    router.push({
+      name: 'resultats',
+      query: { q: request.value }
+    })
   }
+  emit('search', request.value);
 }
 
 defineExpose({

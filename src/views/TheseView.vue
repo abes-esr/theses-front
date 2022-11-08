@@ -1,5 +1,7 @@
 <template>
     <div class="pa-4">
+        <Message-box ref="messageBox"></Message-box>
+
         <v-row class="justify-center">
             <v-col cols="12" md="6" class="pt-0">
                 <domain-selector compact></domain-selector>
@@ -101,6 +103,8 @@ import { useRoute } from 'vue-router'
 
 import SearchBar from '../components/search/SearchBar.vue';
 import DomainSelector from '../components/search/DomainSelector.vue';
+import MessageBox from "@/components/common/MessageBox.vue";
+
 
 import thesesAPI from '../services/ThesesAPI';
 
@@ -109,7 +113,7 @@ const route = useRoute();
 
 let selected = ref('fr');
 
-let dataReady = ref(false)
+let dataReady = ref(false);
 
 let these = ref({});
 
@@ -123,6 +127,8 @@ onBeforeMount(() => {
         these.value = result.data;
         resume.value = these.value.resumes.fr
         dataReady.value = true;
+    }).catch(error => {
+        displayError(error.message);
     });
 })
 
@@ -136,6 +142,14 @@ watch(selected, async (newSelected) => {
             resume.value = value;
     }
 });
+
+const messageBox = ref(null);
+
+function displayError(message) {
+    messageBox.value?.open(message, {
+        type: "error"
+    })
+}
 
 </script>
 

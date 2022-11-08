@@ -1,13 +1,12 @@
 <template>
   <v-container class="justify-center">
-    <Message-box ref="messageBox"></Message-box>
     <v-row class="justify-center">
       <h1 class="pb-16 text-center">{{ $t("slogan") }}</h1>
     </v-row>
     <domain-selector @select="modifierDomaine"></domain-selector>
     <v-row class="justify-center ma-0 pa-0">
       <v-col cols="12" md="9" xl="6">
-        <Search-bar @onError="displayError"/>
+        <Search-bar @search="loading = true" :loading="loading" />
       </v-col>
     </v-row>
     <v-row class="justify-center ma-0 pa-0">
@@ -31,19 +30,12 @@
 import SearchBar from '../components/search/SearchBar.vue'
 import StatsCard from '../components/home/StatsCard.vue'
 import DomainSelector from '../components/search/DomainSelector.vue'
-import {thesesAPIService} from "@/services/ThesesAPI";
-import {ref} from "vue";
-import MessageBox from "@/components/common/MessageBox.vue";
+import { thesesAPIService } from "@/services/ThesesAPI";
+import { ref } from "vue";
 
-const {modifierDomaine} = thesesAPIService();
+const { modifierDomaine } = thesesAPIService();
 
-const messageBox = ref(null);
-
-function displayError(message) {
-  messageBox.value?.open(message, {
-    type: "error"
-  })
-}
+let loading = ref(false);
 
 </script>
 

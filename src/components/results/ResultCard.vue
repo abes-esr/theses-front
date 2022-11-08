@@ -15,18 +15,13 @@
                     </v-col>
                     <v-col cols="3" md="2">
                         <v-row class="pr-2 pt-2 justify-end">{{ date.slice(-4) }}</v-row>
-                        <v-row class="pt-5 pr-1 justify-end">
+                        <v-row class="pt-5 pr-1 mb-0 justify-end">
                             <v-btn flat size="small" append-icon="mdi-arrow-right-bold-circle-outline" color="primary"
                                 @click="$router.push({ name: 'these', params: { nnt: nnt } })">
                                 Voir</v-btn>
                         </v-row>
                     </v-col>
                 </v-row>
-                <v-row>
-                    <v-col cols="9" md="10" class="pt-1"><span class="line-clamp subtitle">{{ sousTitre }}</span>
-                    </v-col>
-                </v-row>
-
             </v-card-title>
         </div>
         <div class="secondHalf">
@@ -47,10 +42,6 @@ defineProps({
     titre: {
         type: String,
         default: ''
-    },
-    sousTitre: {
-        type: String,
-        default: 'Ceci est un sous titre'
     },
     date: {
         type: String,
@@ -87,7 +78,7 @@ defineProps({
 
 .v-card {
     border: solid 1px rgb(var(--v-theme-gris-fonce));
-    height: 200px;
+    height: 190px;
 }
 
 :deep(.v-card-title) {
@@ -96,7 +87,7 @@ defineProps({
 }
 
 .firstHalf {
-    height: 70%;
+    height: 60%;
     width: 100%;
 }
 
@@ -105,7 +96,7 @@ defineProps({
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 30%;
+    height: 40%;
 }
 
 .subtitle {
