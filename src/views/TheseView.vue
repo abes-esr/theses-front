@@ -98,16 +98,15 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount, watch } from 'vue'
+import { ref, onBeforeMount, watch, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 
 import SearchBar from '../components/search/SearchBar.vue';
 import DomainSelector from '../components/search/DomainSelector.vue';
-import MessageBox from "@/components/common/MessageBox.vue";
-
 
 import thesesAPI from '../services/ThesesAPI';
 
+const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const route = useRoute();
 

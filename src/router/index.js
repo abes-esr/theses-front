@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import ResultView from "../views/ResultView.vue";
-import TheseView from "../views/TheseView.vue";
+const HomeView = () => import("../views/HomeView.vue")
+const ResultView = () => import("../views/ResultView.vue")
+const TheseView = () => import("../views/TheseView.vue")
 const APropos = () => import("../components/footer-pages/APropos.vue")
 const AccessibilitePage = () => import("../components/footer-pages/AccessibilitePage.vue")
 const CGU = () => import("../components/footer-pages/CGU.vue")

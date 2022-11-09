@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineAsyncComponent } from 'vue';
 import { useRoute } from 'vue-router'
 
 import ResultCard from '../components/results/ResultCard.vue';
@@ -58,7 +58,8 @@ import SearchBar from '../components/search/SearchBar.vue';
 import DomainSelector from '../components/search/DomainSelector.vue';
 import ResultPagination from '../components/results/ResultPagination.vue';
 import thesesAPI, { thesesAPIService } from "@/services/ThesesAPI";
-import MessageBox from "@/components/common/MessageBox.vue";
+
+const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 let loading = ref(false);
 let result = ref('');
