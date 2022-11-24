@@ -44,7 +44,7 @@ export default {
     },
 
     complete(query) {
-        return apiTheses.get("/recherche-java/completions/?q=" + query);
+        return apiTheses.get("/recherche-java/completion/?q=" + query);
     }
 }
 
