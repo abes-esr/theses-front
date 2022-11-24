@@ -1,6 +1,8 @@
 <template>
+  <Message-box ref="messageBox"></Message-box>
   <v-col>
-    <v-text-field clearable :label='$t("rechercher")' v-model="request" type="text" variant="outlined"
+    <v-autocomplete clearable :label='$t("rechercher")' v-model="request" v-model:search="searchModel" type="text"
+      variant="outlined" :items="items" :loading="isLoading" hide-no-data hide-selected no-filter return-object
       @keydown.enter="search">
       <template v-slot:append>
         <v-btn color="primary"
@@ -9,17 +11,20 @@
           <v-icon large>mdi-magnify</v-icon>
         </v-btn>
       </template>
-    </v-text-field>
+    </v-autocomplete>
   </v-col>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted, defineAsyncComponent } from 'vue'
 
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 
 import router from '../../router';
+import thesesAPI from "@/services/ThesesAPI";
+const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
+
 
 const route = useRoute();
 const routeName = computed(() => route.name)
@@ -31,13 +36,33 @@ defineProps({
   },
 })
 const request = ref('');
-const emit = defineEmits(['search'])
+const emit = defineEmits(['search']);
 
 onMounted(
   () => {
     request.value = useRoute().query.q;
   }
 )
+
+const searchModel = ref(null);
+const items = ref([]);
+const isLoading = ref(false);
+
+watch(searchModel, (newSearchModel) => {
+
+  if (newSearchModel.length >= 3) {
+    isLoading.value = true;
+    thesesAPI.complete(newSearchModel)
+      .then((res) => {
+        items.value = res.data
+      })
+      .catch(error => { displayError("Autcomplétion : " + error.message); })
+      .finally(() => { isLoading.value = false; })
+  } else {
+    items.value = [];
+  }
+})
+
 
 
 async function search() {
@@ -58,6 +83,14 @@ async function search() {
 defineExpose({
   search,
 });
+
+const messageBox = ref(null);
+
+function displayError(message) {
+  messageBox.value?.open(message, {
+    type: "error"
+  })
+}
 
 </script>
 

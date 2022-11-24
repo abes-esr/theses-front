@@ -41,6 +41,10 @@ export default {
 
     getThese(nnt) {
         return apiTheses.get("/recherche-java/these/" + nnt);
+    },
+
+    complete(query) {
+        return apiTheses.get("/recherche-java/completions/?q=" + query);
     }
 }
 
