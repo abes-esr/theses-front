@@ -57,28 +57,33 @@ import FacetsDrawer from '../components/results/FacetsDrawer.vue';
 import SearchBar from '../components/search/SearchBar.vue';
 import DomainSelector from '../components/search/DomainSelector.vue';
 import ResultPagination from '../components/results/ResultPagination.vue';
-import thesesAPI, { thesesAPIService } from "@/services/ThesesAPI";
+import { thesesAPIService } from "@/services/ThesesAPI";
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
-let loading = ref(false);
-let result = ref('');
-const { rechercherPersonne } = thesesAPIService();
-let dataReady = ref(false);
 
+const { rechercherPersonne, rechercherThese } = thesesAPIService();
+
+
+const request = ref("");
 
 onMounted(() => {
     dataReady.value = false;
-    const request = useRoute().query.q;
-    search(request);
+    request.value = useRoute().query.q;
+    search(request.value);
 });
+
+
+let loading = ref(false);
+let result = ref('');
+let dataReady = ref(false);
 
 async function search(query) {
     loading.value = true;
     const { selectedDomain } = thesesAPIService();
 
     if (selectedDomain.value == "theses") {
-        thesesAPI.search(query).then(response => {
+        rechercherThese(query).then(response => {
             result.value = JSON.stringify(response.data.hits.hits);
         }).catch(error => {
             displayError(error.message);
@@ -102,9 +107,7 @@ async function search(query) {
     }
 }
 
-const { modifierPage } = thesesAPIService();
-const { modifierNombre } = thesesAPIService();
-
+const { modifierPage, modifierNombre } = thesesAPIService();
 
 function updatePage(payload) {
     modifierPage(payload);

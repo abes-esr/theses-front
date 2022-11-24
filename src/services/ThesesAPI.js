@@ -34,20 +34,21 @@ function modifierNombre(value) {
     currentNombre.value = value;
 }
 
-export default {
-    search(query) {
-        return apiTheses.get("/recherche-java/titre/?q=" + query + "&page=" + (currentPage.value - 1) + "&nombre=" + currentNombre.value);
-    },
 
-    getThese(nnt) {
-        return apiTheses.get("/recherche-java/these/" + nnt);
-    },
-
-    complete(query) {
-        return apiTheses.get("/recherche-java/completion/?q=" + query);
-    }
+// Recherche simple dans les theses
+function rechercherThese(query) {
+    return apiTheses.get("/recherche-java/titre/?q=" + query + "&page=" + (currentPage.value - 1) + "&nombre=" + currentNombre.value);
 }
 
+//Autcomplétion recherche simple
+function complete(query) {
+    return apiTheses.get("/recherche-java/completion/?q=" + query);
+}
+
+//Récupération des infos détaillées d'une theses
+function getThese(nnt) {
+    return apiTheses.get("/recherche-java/these/" + nnt);
+}
 
 /**
  * Fonction pour rechercher des personnes à partir d'un mot.
@@ -77,6 +78,9 @@ export function thesesAPIService() {
         modifierPage,
         modifierNombre,
         listePersonnes,
-        rechercherPersonne
+        rechercherPersonne,
+        rechercherThese,
+        complete,
+        getThese
     };
 }

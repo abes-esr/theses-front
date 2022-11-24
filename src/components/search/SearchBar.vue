@@ -22,12 +22,13 @@ import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 
 import router from '../../router';
-import thesesAPI from "@/services/ThesesAPI";
+import { thesesAPIService } from "@/services/ThesesAPI";
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 
 const route = useRoute();
-const routeName = computed(() => route.name)
+const routeName = computed(() => route.name);
+const { complete } = thesesAPIService();
 
 defineProps({
   loading: {
@@ -52,7 +53,7 @@ watch(searchModel, (newSearchModel) => {
 
   if (newSearchModel.length >= 3) {
     isLoading.value = true;
-    thesesAPI.complete(newSearchModel)
+    complete(newSearchModel)
       .then((res) => {
         items.value = res.data
       })

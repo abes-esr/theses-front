@@ -104,11 +104,13 @@ import { useRoute } from 'vue-router'
 import SearchBar from '../components/search/SearchBar.vue';
 import DomainSelector from '../components/search/DomainSelector.vue';
 
-import thesesAPI from '../services/ThesesAPI';
+import { thesesAPIService } from '../services/ThesesAPI';
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const route = useRoute();
+
+const { getThese } = thesesAPIService();
 
 let selected = ref('fr');
 
@@ -122,7 +124,7 @@ let resume = ref("");
 onBeforeMount(() => {
     console.log(route.params.nnt)
     dataReady.value = false;
-    thesesAPI.getThese(route.params.nnt).then(result => {
+    getThese(route.params.nnt).then(result => {
         these.value = result.data;
         resume.value = these.value.resumes.fr
         dataReady.value = true;
