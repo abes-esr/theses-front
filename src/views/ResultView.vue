@@ -80,6 +80,7 @@ let nbResult = ref(0);
 let dataReady = ref(false);
 
 async function search(query) {
+    request.value = query;
     loading.value = true;
     const { selectedDomain } = thesesAPIService();
 
