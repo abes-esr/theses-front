@@ -1,8 +1,8 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <v-col>
-    <v-autocomplete clearable :label='$t("rechercher")' v-model="request" v-model:search="searchModel" type="text"
-      variant="outlined" :items="items" :loading="isLoading" hide-no-data hide-selected no-filter
+    <v-combobox clearable :label='$t("rechercher")' v-model="request" v-model:search="requestSearch" type="text"
+      variant="outlined" :items="items" :loading="isLoading" hide-no-data hide-selected no-filter return-object
       @keydown.enter="search">
       <template v-slot:append>
         <v-btn color="primary"
@@ -11,7 +11,7 @@
           <v-icon large>mdi-magnify</v-icon>
         </v-btn>
       </template>
-    </v-autocomplete>
+    </v-combobox>
   </v-col>
 </template>
 
@@ -36,24 +36,27 @@ defineProps({
     default: false
   },
 })
-const request = ref('');
+
+const request = ref("");
+const requestSearch = ref("");
+
 const emit = defineEmits(['search']);
 
 onMounted(
   () => {
-    request.value = useRoute().query.q;
+    if (useRoute().query.q) {
+      request.value = useRoute().query.q;
+    }
   }
 )
 
-const searchModel = ref(null);
 const items = ref([]);
 const isLoading = ref(false);
 
-watch(searchModel, (newSearchModel) => {
-
-  if (newSearchModel.length >= 3) {
+watch(requestSearch, (newRequestSearch) => {
+  if (newRequestSearch.length >= 3) {
     isLoading.value = true;
-    complete(newSearchModel)
+    complete(newRequestSearch)
       .then((res) => {
         items.value = res.data
       })
