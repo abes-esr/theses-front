@@ -20,7 +20,7 @@
 
             </v-col>
             <v-col cols="12" md="10" class="py-0 pt-3 pb-3 greyBar">
-                <result-pagination @changePage="updatePage" @changeNombre="updateNombre">
+                <result-pagination :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre">
                 </result-pagination>
             </v-col>
         </v-row>
@@ -32,7 +32,7 @@
             </v-col>
             <v-col cols="12" md="10">
                 <div v-if="dataReady">
-                    <h1 class="pb-6"> {{ JSON.parse(result).length }} {{ $t('resultats') }}: {{ request }}</h1>
+                    <h1 class="pb-6"> {{ nbResult }} {{ $t('resultats') }}: {{ request }}</h1>
                     <v-row>
                         <v-col v-for="item in JSON.parse(result)" :key="item._source" cols="12" xs="12" md="6">
                             <result-card :titre="item._source.titrePrincipal" :date="item._source.dateSoutenance"
@@ -75,7 +75,8 @@ onMounted(() => {
 
 
 let loading = ref(false);
-let result = ref('');
+let result = ref('{}');
+let nbResult = ref(0);
 let dataReady = ref(false);
 
 async function search(query) {
@@ -85,6 +86,7 @@ async function search(query) {
     if (selectedDomain.value == "theses") {
         rechercherThese(query).then(response => {
             result.value = JSON.stringify(response.data.hits.hits);
+            nbResult.value = response.data.hits.total.value;
         }).catch(error => {
             displayError(error.message);
         }).finally(() => {
@@ -111,12 +113,12 @@ const { modifierPage, modifierNombre } = thesesAPIService();
 
 function updatePage(payload) {
     modifierPage(payload);
-    //search.value.search();
+    search(request.value);
 }
 
 function updateNombre(payload) {
     modifierNombre(payload);
-    //search.value.search();
+    search(request.value);
 }
 
 const messageBox = ref(null);

@@ -9,7 +9,7 @@
         </v-col>
         <v-col cols="12" md="4" class="py-0 pt-1">
             <div class="d-flex justify-center">
-                <v-pagination :length="6" v-model="currentPage"></v-pagination>
+                <v-pagination :length="nbPages" v-model="currentPage" total-visible="5"></v-pagination>
             </div>
         </v-col>
         <v-col cols="12" md="4" class="py-0">
@@ -23,12 +23,23 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 
 const emit = defineEmits(['changePage', 'changeNombre'])
 
+const props = defineProps({
+    nbResults: {
+        type: Number,
+        default: 1
+    }
+})
+
 let currentPage = ref(1);
 let currentNombre = ref(10);
+
+const nbPages = computed(() => {
+    return Math.ceil(props.nbResults / currentNombre.value);
+})
 
 watch(currentPage, async (newCurrentPage) => {
     emit('changePage', newCurrentPage);
