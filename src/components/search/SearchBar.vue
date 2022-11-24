@@ -2,7 +2,7 @@
   <Message-box ref="messageBox"></Message-box>
   <v-col>
     <v-autocomplete clearable :label='$t("rechercher")' v-model="request" v-model:search="searchModel" type="text"
-      variant="outlined" :items="items" :loading="isLoading" hide-no-data hide-selected no-filter return-object
+      variant="outlined" :items="items" :loading="isLoading" hide-no-data hide-selected no-filter
       @keydown.enter="search">
       <template v-slot:append>
         <v-btn color="primary"

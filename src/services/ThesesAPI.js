@@ -37,7 +37,7 @@ function modifierNombre(value) {
 
 // Recherche simple dans les theses
 function rechercherThese(query) {
-    return apiTheses.get("/recherche-java/titre/?q=" + query + "&page=" + (currentPage.value - 1) + "&nombre=" + currentNombre.value);
+    return apiTheses.get("/recherche-java/titre/?q=" + query + "&page=" + ((currentPage.value - 1)* currentNombre.value) + "&nombre=" + currentNombre.value);
 }
 
 //Autcomplétion recherche simple
