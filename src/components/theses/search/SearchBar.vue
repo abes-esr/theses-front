@@ -1,6 +1,6 @@
 <template>
   <v-col>
-    <v-autocomplete clearable :label='$t("rechercher")' v-model="request" v-model:search="searchModel" type="text"
+    <v-combobox clearable :label='$t("rechercher")' v-model="request" v-model:search="requestSearch" type="text"
       variant="outlined" :items="items" :loading="isLoading" hide-no-data hide-selected no-filter return-object
       @keydown.enter="search">
       <template v-slot:append>
@@ -10,7 +10,7 @@
           <v-icon large>mdi-magnify</v-icon>
         </v-btn>
       </template>
-    </v-autocomplete>
+    </v-combobox>
   </v-col>
 </template>
 <script>
@@ -19,15 +19,13 @@ export default {
 };
 </script>
 <script setup>
-import { ref, watch, onMounted, defineAsyncComponent } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 
 import router from '@/router';
 import { thesesAPIService } from "@/services/ThesesAPI";
-const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-
 
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
@@ -39,29 +37,30 @@ defineProps({
     default: false
   },
 })
-const request = ref('');
+const request = ref("");
+const requestSearch = ref("");
 const emit = defineEmits(['search','onError']);
 
 onMounted(
   () => {
-    request.value = useRoute().query.q;
+    if (useRoute().query.q) {
+      request.value = useRoute().query.q;
+    }
   }
 )
 
-const searchModel = ref(null);
 const items = ref([]);
 const isLoading = ref(false);
 
-watch(searchModel, (newSearchModel) => {
-
-  if (newSearchModel.length >= 3) {
+watch(requestSearch, (newRequestSearch) => {
+  if (newRequestSearch.length >= 3) {
     isLoading.value = true;
-    complete(newSearchModel)
+    complete(newRequestSearch)
       .then((res) => {
         items.value = res.data
       })
         .catch(error => {
-          request.value = newSearchModel;
+          request.value = newRequestSearch;
           emit('onError', "Autcomplétion : " + error.message);
         })
       .finally(() => { isLoading.value = false; })

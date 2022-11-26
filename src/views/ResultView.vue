@@ -20,7 +20,7 @@
 
             </v-col>
             <v-col cols="12" md="10" class="py-0 pt-3 pb-3 greyBar">
-                <result-pagination @changePage="updatePage" @changeNombre="updateNombre">
+                <result-pagination :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre">
                 </result-pagination>
             </v-col>
         </v-row>
@@ -32,7 +32,7 @@
             </v-col>
             <v-col cols="12" md="10">
               <div v-if="dataReady">
-                <h1 class="pb-6"> {{ result.length }} {{ $t('resultats') }}: {{ request }}</h1>
+                <h1 class="pb-6"> {{ nbResult }} {{ $t('resultats') }}: {{ request }}</h1>
                 <GenericResultList :result="result"></GenericResultList>
               </div>
             </v-col>
@@ -65,14 +65,17 @@ onMounted(() => {
 
 let loading = ref(false);
 let result = ref([]);
+let nbResult = ref(0);
 let dataReady = ref(false);
 
 async function search(query) {
+    request.value = query;
     loading.value = true;
 
     if (currentRoute.query.domaine == "theses") {
         rechercherThese(query).then(response => {
-            result.value = response;
+            result.value = response.hits.hits;
+            nbResult.value = response.hits.total.value;
         }).catch(error => {
             displayError(error.message);
         }).finally(() => {
@@ -95,12 +98,12 @@ const { modifierPage, modifierNombre } = thesesAPIService();
 
 function updatePage(payload) {
     modifierPage(payload);
-    //search.value.search();
+    search(request.value);
 }
 
 function updateNombre(payload) {
     modifierNombre(payload);
-    //search.value.search();
+    search(request.value);
 }
 
 const messageBox = ref(null);

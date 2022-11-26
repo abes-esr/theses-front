@@ -25,7 +25,7 @@ function modifierNombre(value) {
 // Recherche simple dans les theses
 function rechercherThese(query) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/recherche-java/titre/?q=" + query + "&page=" + (currentPage.value - 1) + "&nombre=" + currentNombre.value).then((response) => {
+        apiTheses.get("/recherche-java/simple/?q=" + query + "&debut=" + ((currentPage.value - 1)* currentNombre.value) + "&nombre=" + currentNombre.value).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);

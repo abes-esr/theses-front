@@ -63,8 +63,10 @@
 
                         </p>
                         <p>
-                            {{ $t('theseView.president') }} président. {{ $t('theseView.jury') }} <span
-                                v-for="(item, index) in these.membresJury" :key="item.ppn"><strong>{{
+                            {{ $t('theseView.president') }} <strong>{{ these.presidentJury.prenom }} {{
+                                    these.presidentJury.nom
+                            }}</strong>. {{ $t('theseView.jury') }} <span v-for="(item, index) in these.membresJury"
+                                :key="item.ppn"><strong>{{
                                         item.prenom
                                 }} {{ item.nom }} </strong><span v-if="index < these.membresJury.length - 1">,
                                 </span></span>.
