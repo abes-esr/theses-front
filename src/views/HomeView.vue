@@ -1,12 +1,13 @@
 <template>
   <v-container class="justify-center">
+    <Message-box ref="messageBox"></Message-box>
     <v-row class="justify-center">
       <h1 class="pb-16 text-center">{{ $t("slogan") }}</h1>
     </v-row>
-    <domain-selector @select="modifierDomaine"></domain-selector>
+    <domain-selector></domain-selector>
     <v-row class="justify-center ma-0 pa-0">
       <v-col cols="12" md="9" xl="6">
-        <Search-bar @search="loading = true" :loading="loading" />
+        <search-bar @search="loading = true" :loading="loading" @onError="displayError" />
       </v-col>
     </v-row>
     <v-row class="justify-center ma-0 pa-0">
@@ -27,15 +28,21 @@
 </template>
 
 <script setup>
-import SearchBar from '../components/search/SearchBar.vue'
+import SearchBar from '../components/generic/GenericSearchBar.vue'
 import StatsCard from '../components/home/StatsCard.vue'
-import DomainSelector from '../components/search/DomainSelector.vue'
-import { thesesAPIService } from "@/services/ThesesAPI";
-import { ref } from "vue";
-
-const { modifierDomaine } = thesesAPIService();
+import DomainSelector from '../components/common/DomainSelector.vue'
+import {defineAsyncComponent, ref} from "vue";
+const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 let loading = ref(false);
+
+const messageBox = ref(null);
+
+function displayError(message) {
+  messageBox.value?.open(message, {
+    type: "error"
+  })
+}
 
 </script>
 

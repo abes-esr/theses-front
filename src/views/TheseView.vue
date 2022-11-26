@@ -101,7 +101,7 @@
 import { ref, onBeforeMount, watch, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 
-import SearchBar from '../components/search/SearchBar.vue';
+import SearchBar from '../components/search/SearchBarP.vue';
 import DomainSelector from '../components/search/DomainSelector.vue';
 
 import { thesesAPIService } from '../services/ThesesAPI';

@@ -13,6 +13,8 @@ const apiTheses = axios.create({
 let currentPage = ref(1);
 //Nomre courant
 let currentNombre = ref(10);
+// Listes des personnes courantes
+let listePersonnes = ref({});
 
 function modifierPage(value) {
     currentPage.value = value;
@@ -22,10 +24,15 @@ function modifierNombre(value) {
     currentNombre.value = value;
 }
 
-// Recherche simple dans les theses
-function rechercherThese(query) {
+/**
+ * Fonction pour rechercher des personnes à partir d'un mot.
+ * La liste des personnes courantes est mises à jour.
+ * @param query
+ * @returns {Promise<unknown>}
+ */
+async function rechercherPersonne(query) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/recherche-java/titre/?q=" + query + "&page=" + (currentPage.value - 1) + "&nombre=" + currentNombre.value).then((response) => {
+        apiTheses.get("/personne/rechercher", {params: {"q": query}}).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
@@ -33,26 +40,15 @@ function rechercherThese(query) {
     });
 }
 
-//Autcomplétion recherche simple
-function complete(query) {
-    return apiTheses.get("/recherche-java/completion/?q=" + query);
-}
-
-//Récupération des infos détaillées d'une theses
-function getThese(nnt) {
-    return apiTheses.get("/recherche-java/these/" + nnt);
-}
-
 /**
  * Service lié aux thèses
  * @returns {{rechercherPersonne: ((function(*): Promise<AxiosResponse<*>>)|*), listePersonnes: Ref<UnwrapRef<{}>>, selectedDomain: Ref<UnwrapRef<string>>, modifierDomaine: modifierDomaine}}
  */
-export function thesesAPIService() {
+export function personnesAPIService() {
     return {
         modifierPage,
         modifierNombre,
-        rechercherThese,
-        complete,
-        getThese
+        listePersonnes,
+        rechercherPersonne
     };
 }
