@@ -1,5 +1,4 @@
 <template>
-  <Message-box ref="messageBox"></Message-box>
   <v-col>
     <v-combobox clearable :label='$t("rechercher")' v-model="request" v-model:search="requestSearch" type="text"
       variant="outlined" :items="items" :loading="isLoading" hide-no-data hide-selected no-filter return-object
@@ -14,20 +13,22 @@
     </v-combobox>
   </v-col>
 </template>
-
+<script>
+export default {
+  name: "search-bar-theses",
+};
+</script>
 <script setup>
-import { ref, watch, onMounted, defineAsyncComponent } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 
-import router from '../../router';
+import router from '@/router';
 import { thesesAPIService } from "@/services/ThesesAPI";
-const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
-
-const route = useRoute();
-const routeName = computed(() => route.name);
+const currentRoute = useRoute();
+const routeName = computed(() => currentRoute.name);
 const { complete } = thesesAPIService();
 
 defineProps({
@@ -36,11 +37,9 @@ defineProps({
     default: false
   },
 })
-
 const request = ref("");
 const requestSearch = ref("");
-
-const emit = defineEmits(['search']);
+const emit = defineEmits(['search','onError']);
 
 onMounted(
   () => {
@@ -60,25 +59,33 @@ watch(requestSearch, (newRequestSearch) => {
       .then((res) => {
         items.value = res.data
       })
-      .catch(error => { displayError("Autcomplétion : " + error.message); })
+        .catch(error => {
+          request.value = newRequestSearch;
+          emit('onError', "Autcomplétion : " + error.message);
+        })
       .finally(() => { isLoading.value = false; })
   } else {
     items.value = [];
   }
 })
 
-
-
 async function search() {
+  let currentURLParams = Object.assign({},currentRoute.query);
+
+  if (currentURLParams) {
+    currentURLParams.q = request.value
+  } else {
+    currentURLParams = {"q": request.value}
+  }
+
   if (routeName.value === "resultats") {
     router.replace({
-      name: 'resultats',
-      query: { q: request.value }
+      query: currentURLParams
     })
   } else {
     router.push({
       name: 'resultats',
-      query: { q: request.value }
+      query: currentURLParams
     })
   }
   emit('search', request.value);
@@ -87,15 +94,6 @@ async function search() {
 defineExpose({
   search,
 });
-
-const messageBox = ref(null);
-
-function displayError(message) {
-  messageBox.value?.open(message, {
-    type: "error"
-  })
-}
-
 </script>
 
 <style scoped>

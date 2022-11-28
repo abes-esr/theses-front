@@ -36,7 +36,11 @@
         </div>
     </v-card>
 </template>
-
+<script>
+export default {
+  name: "result-card",
+};
+</script>
 <script setup>
 defineProps({
     titre: {

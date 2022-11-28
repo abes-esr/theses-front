@@ -9,7 +9,7 @@
         </v-row>
         <v-row class="justify-center">
             <v-col cols="12" md="6" class="py-0">
-                <search-bar></search-bar>
+              <search-bar @search="search" :loading="loading" @onError="displayError" />
             </v-col>
         </v-row>
         <v-row v-if="dataReady">
@@ -103,8 +103,8 @@
 import { ref, onBeforeMount, watch, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 
-import SearchBar from '../components/search/SearchBar.vue';
-import DomainSelector from '../components/search/DomainSelector.vue';
+import SearchBar from '../components/generic/GenericSearchBar.vue'
+import DomainSelector from '@/components/common/DomainSelector.vue';
 
 import { thesesAPIService } from '../services/ThesesAPI';
 
