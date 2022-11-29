@@ -1,8 +1,8 @@
 <template>
   <v-col>
     <v-combobox clearable :label='$t("rechercher")' v-model="request" v-model:search="requestSearch" type="text"
-      variant="outlined" :items="items" :loading="isLoading" hide-no-data hide-selected no-filter return-object
-      @keydown.enter="search">
+      variant="outlined" :items="items" :loading="isLoading" :menu="suggestionActive" cache-items hide-no-data
+      hide-selected no-filter return-object @keydown.enter="search">
       <template v-slot:append>
         <v-btn color="primary"
           style="height: 100%; border-bottom-left-radius: 0; border-top-left-radius: 0; margin-left: -10px !important;"
@@ -39,7 +39,7 @@ defineProps({
 })
 const request = ref("");
 const requestSearch = ref("");
-const emit = defineEmits(['search','onError']);
+const emit = defineEmits(['search', 'onError']);
 
 onMounted(
   () => {
@@ -51,31 +51,33 @@ onMounted(
 
 const items = ref([]);
 const isLoading = ref(false);
+const suggestionActive = ref(false);
 
 watch(requestSearch, (newRequestSearch) => {
-  if (newRequestSearch.length >= 3) {
+  if (newRequestSearch.length > 2) {
     isLoading.value = true;
     complete(newRequestSearch)
       .then((res) => {
         items.value = res.data
       })
-        .catch(error => {
-          request.value = newRequestSearch;
-          emit('onError', "Autcomplétion : " + error.message);
-        })
-      .finally(() => { isLoading.value = false; })
+      .catch(error => {
+        request.value = newRequestSearch;
+        emit('onError', "Autcomplétion : " + error.message);
+      })
+      .finally(() => { isLoading.value = false; suggestionActive.value = true; })
   } else {
     items.value = [];
+    suggestionActive.value = false;
   }
 })
 
 async function search() {
-  let currentURLParams = Object.assign({},currentRoute.query);
+  let currentURLParams = Object.assign({}, currentRoute.query);
 
   if (currentURLParams) {
     currentURLParams.q = request.value
   } else {
-    currentURLParams = {"q": request.value}
+    currentURLParams = { "q": request.value }
   }
 
   if (routeName.value === "resultats") {
@@ -105,5 +107,12 @@ defineExpose({
   padding: 0 !important;
   margin: 0 !important;
   height: 100% !important;
+}
+</style>
+
+<style>
+/* Permet de rendre l'autocompletion + dense */
+.v-overlay-container .v-list-item--density-default.v-list-item--one-line {
+  min-height: 20px !important;
 }
 </style>
