@@ -13,8 +13,6 @@ const apiTheses = axios.create({
 let currentPage = ref(1);
 //Nomre courant
 let currentNombre = ref(10);
-// Listes des personnes courantes
-let listePersonnes = ref({});
 
 function modifierPage(value) {
     currentPage.value = value;
@@ -41,14 +39,29 @@ async function rechercherPersonne(query) {
 }
 
 /**
- * Service lié aux thèses
- * @returns {{rechercherPersonne: ((function(*): Promise<AxiosResponse<*>>)|*), listePersonnes: Ref<UnwrapRef<{}>>, selectedDomain: Ref<UnwrapRef<string>>, modifierDomaine: modifierDomaine}}
+ * Fonction pour rechercher des suggestions de personnes à partir d'un mot.
+ * La liste des suggestions de personnes.
+ * @param query
+ * @returns {Promise<unknown>}
+ */
+async function suggestionPersonne(query) {
+    return new Promise((resolve, reject) => {
+        apiTheses.get("/personne/completion", {params: {"q": query}}).then((response) => {
+            resolve(response.data);
+        }).catch((err) => {
+            reject(err);
+        });
+    });
+}
+
+/**
+ * Service lié aux personnes
  */
 export function personnesAPIService() {
     return {
         modifierPage,
         modifierNombre,
-        listePersonnes,
-        rechercherPersonne
+        rechercherPersonne,
+        suggestionPersonne
     };
 }
