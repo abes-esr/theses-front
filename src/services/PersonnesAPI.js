@@ -30,7 +30,7 @@ function modifierNombre(value) {
  */
 async function rechercherPersonne(query) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personne/rechercher", {params: {"q": query}}).then((response) => {
+        apiTheses.get("/personnes/recherche", {params: {"q": query}}).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
@@ -46,7 +46,7 @@ async function rechercherPersonne(query) {
  */
 async function suggestionPersonne(query) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personne/completion", {params: {"q": query}}).then((response) => {
+        apiTheses.get("/personnes/completion", {params: {"q": query}}).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
