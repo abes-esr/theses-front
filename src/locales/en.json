@@ -20,5 +20,15 @@
     "resultCard": {
         "par": "By",
         "dir": "supervised by"
+    },
+    "theses": {
+        "resultView": {
+            "resultats": " résultats de thèses pour "
+        }
+    },
+    "personnes": {
+        "resultView": {
+            "resultats": " résultats de personnes pour "
+        }
     }
 }

@@ -37,5 +37,15 @@
         "president": "Le président du jury était ",
         "jury": "Le jury était composé de ",
         "rapporteur": "Les rapporteurs étaient "
+    },
+    "theses": {
+        "resultView": {
+            "resultats": " résultats de thèses pour "
+        }
+    },
+    "personnes": {
+        "resultView": {
+            "resultats": " résultats de personnes pour "
+        }
     }
 }
