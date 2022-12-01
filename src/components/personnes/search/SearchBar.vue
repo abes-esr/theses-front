@@ -44,7 +44,7 @@ const emit = defineEmits(['search', 'onError']);
 onMounted(
     () => {
       if (currentRoute.query && currentRoute.query.q) {
-        request.value = currentRoute.query.q;
+        request.value = decodeURI(currentRoute.query.q);
       }
     }
 )
@@ -57,9 +57,9 @@ async function search() {
   let currentURLParams = Object.assign({}, currentRoute.query);
 
   if (currentURLParams) {
-    currentURLParams.q = request.value
+    currentURLParams.q = encodeURI(request.value)
   } else {
-    currentURLParams = {"q": request.value}
+    currentURLParams = { "q": encodeURI(request.value) }
   }
 
   if (routeName.value === "resultats") {

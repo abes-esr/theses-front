@@ -32,9 +32,7 @@
       </v-col>
       <v-col cols="12" md="10">
         <div v-if="dataReady">
-          <h1 class="pb-6"> {{ nbResult }} {{ $t(currentRoute.query.domaine + '.resultView.resultats') }}: {{
-              request
-            }}</h1>
+          <h1 class="pb-6" v-html="nbResult + ' '+$t(currentRoute.query.domaine + '.resultView.resultats')+ ': '+request"></h1>
           <GenericResultList :result="result"></GenericResultList>
         </div>
       </v-col>
@@ -61,7 +59,7 @@ const currentRoute = useRoute();
 
 onMounted(() => {
   dataReady.value = false;
-  request.value = currentRoute.query.q;
+  request.value = decodeURI(currentRoute.query.q);
   search(request.value);
 });
 
