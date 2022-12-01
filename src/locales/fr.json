@@ -36,7 +36,8 @@
         "cadre": " dans le cadre de ",
         "president": "Le président du jury était ",
         "jury": "Le jury était composé de ",
-        "rapporteur": "Les rapporteurs étaient "
+        "rapporteur": "Les rapporteurs étaient ",
+        "partenariat": " en partenariat avec "
     },
     "theses": {
         "resultView": {

@@ -9,7 +9,7 @@
         </v-row>
         <v-row class="justify-center">
             <v-col cols="12" md="6" class="py-0">
-              <search-bar @search="search" :loading="loading" @onError="displayError" />
+                <search-bar @search="search" :loading="loading" @onError="displayError" />
             </v-col>
         </v-row>
         <v-row v-if="dataReady">
@@ -57,9 +57,18 @@
                                     }} </strong><span v-if="index < these.etabCotutelle.length - 1">,
                                     </span></span> </span>
 
-                            {{
-                                    $t('theseView.cadre')
-                            }} <strong> ??????????</strong>.
+                            <span v-if="these.ecolesDoctorales.length > 0">{{ $t('theseView.cadre') }} <span
+                                    v-for="(item, index) in these.ecolesDoctorales" :key="item.ppn"><strong> {{
+                                            item.nom
+                                    }} </strong><span v-if="index < these.ecolesDoctorales.length - 1">,
+                                    </span></span></span>
+                            ,
+                            <span v-if="these.partenairesRecherche.length > 0">{{ $t('theseView.partenariat') }} <span
+                                    v-for="(item, index) in these.partenairesRecherche" :key="item.ppn"><strong> {{
+                                            item.nom
+                                    }} </strong><span v-if="index < these.partenairesRecherche.length - 1">,
+                                    </span></span> </span>
+                            .
 
                         </p>
                         <p>
