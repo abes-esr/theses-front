@@ -7,13 +7,11 @@
                     <v-col cols="3" md="2">
                         <v-row class="pr-2 pt-2 justify-end">{{ item.prenom }}</v-row>
                         <v-row class="pt-5 pr-1 justify-end">
-                            <v-btn flat size="small" append-icon="mdi-arrow-right-bold-circle-outline" color="primary">
-                                Voir</v-btn>
                         </v-row>
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols="9" md="10" class="pt-1"><span class="line-clamp subtitle"></span>
+                    <v-col cols="9" md="10" class="pt-1"><span class="line-clamp subtitle">{{ item.id }}</span>
                     </v-col>
                 </v-row>
 
