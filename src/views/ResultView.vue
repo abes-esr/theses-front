@@ -32,7 +32,9 @@
             </v-col>
             <v-col cols="12" md="10">
                 <div v-if="dataReady">
-                    <h1 class="pb-6">{{ nbResult }} {{ currentRoute.query.domaine }} {{ resultView.resultats }} :
+                    <h1 class="pb-6">{{ nbResult }} {{ currentRoute.query.domaine }} {{ $t(currentRoute.query.domaine +
+                            '.resultView.resultats')
+                    }} :
                         {{ request }}</h1>
                     <GenericResultList :result="result"></GenericResultList>
                 </div>
