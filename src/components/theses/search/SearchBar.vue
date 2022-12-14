@@ -2,7 +2,7 @@
   <v-col>
     <v-combobox clearable :label='$t("rechercher")' v-model="request" v-model:search="requestSearch" type="text"
       variant="outlined" :items="items" :loading="isLoading" :menu="suggestionActive" cache-items hide-no-data
-      hide-selected no-filter return-object @keydown.enter="search">
+      hide-selected no-filter return-object append-inner-icon @keydown.enter="search">
       <template v-slot:append>
         <v-btn color="primary"
           style="height: 100%; border-bottom-left-radius: 0; border-top-left-radius: 0; margin-left: -10px !important;"

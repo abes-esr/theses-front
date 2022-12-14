@@ -1,15 +1,13 @@
 <template>
   <v-col>
     <v-combobox clearable @click:clear="clearSearch" :label='$t("rechercher")' v-model="request"
-                v-model:search="requestSearch" @update:modelValue="selectSuggestion"
-                variant="outlined" :items="items" item-title="suggestion"
-                item-value="suggestion"
-                :loading="isLoading" :menu="suggestionActive" cache-items hide-no-data
-                hide-selected no-filter @keydown.enter="search">
+      v-model:search="requestSearch" @update:modelValue="selectSuggestion" variant="outlined" :items="items"
+      item-title="suggestion" item-value="suggestion" :loading="isLoading" :menu="suggestionActive" cache-items
+      hide-no-data hide-selected no-filter append-inner-icon @keydown.enter="search">
       <template v-slot:append>
         <v-btn color="primary"
-               style="height: 100%; border-bottom-left-radius: 0; border-top-left-radius: 0; margin-left: -10px !important;"
-               text @click="search" :loading="loading" class="pa-0 ma-0">
+          style="height: 100%; border-bottom-left-radius: 0; border-top-left-radius: 0; margin-left: -10px !important;"
+          text @click="search" :loading="loading" class="pa-0 ma-0">
           <v-icon large>mdi-magnify</v-icon>
         </v-btn>
       </template>
@@ -22,10 +20,10 @@ export default {
 };
 </script>
 <script setup>
-import {ref, onMounted, watch} from 'vue'
-import {useRoute, useRouter} from 'vue-router'
-import {computed} from 'vue'
-import {personnesAPIService} from "@/services/PersonnesAPI";
+import { ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { personnesAPIService } from "@/services/PersonnesAPI";
 
 const router = useRouter();
 const currentRoute = useRoute();
@@ -42,11 +40,11 @@ const requestSearch = ref("");
 const emit = defineEmits(['search', 'onError']);
 
 onMounted(
-    () => {
-      if (currentRoute.query && currentRoute.query.q) {
-        request.value = decodeURI(currentRoute.query.q);
-      }
+  () => {
+    if (currentRoute.query && currentRoute.query.q) {
+      request.value = decodeURI(currentRoute.query.q);
     }
+  }
 )
 
 /**
@@ -87,7 +85,7 @@ function clearSearch() {
 /* Auto-complétion  */
 /* ---------------- */
 
-const {suggestionPersonne} = personnesAPIService();
+const { suggestionPersonne } = personnesAPIService();
 const items = ref([]);
 const isLoading = ref(false);
 const suggestionActive = ref(false);
