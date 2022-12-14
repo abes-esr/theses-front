@@ -1,8 +1,8 @@
 <template>
   <v-col>
     <v-combobox clearable :label='$t("rechercher")' v-model="request" v-model:search="requestSearch" type="text"
-      variant="outlined" :items="items" :loading="isLoading" :menu="suggestionActive" cache-items hide-no-data
-      hide-selected no-filter return-object append-inner-icon @keydown.enter="search">
+      variant="outlined" :items="items" :menu="suggestionActive" cache-items hide-no-data hide-selected no-filter
+      return-object append-inner-icon @keydown.enter="search">
       <template v-slot:append>
         <v-btn color="primary"
           style="height: 100%; border-bottom-left-radius: 0; border-top-left-radius: 0; margin-left: -10px !important;"
@@ -40,35 +40,43 @@ defineProps({
 const request = ref("");
 const requestSearch = ref("");
 const emit = defineEmits(['search', 'onError']);
+let watcherActive = true;
+
 
 onMounted(
   () => {
     if (useRoute().query.q) {
       request.value = useRoute().query.q;
+      // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
+      // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
+      watcherActive = false;
     }
   }
 )
 
 const items = ref([]);
-const isLoading = ref(false);
 const suggestionActive = ref(false);
 
+
 watch(requestSearch, (newRequestSearch) => {
-  if (newRequestSearch.length > 2) {
-    isLoading.value = true;
+  if (newRequestSearch.length > 2 && watcherActive) {
     complete(newRequestSearch)
       .then((res) => {
         items.value = res.data
+        if (items.value.length > 0) {
+          suggestionActive.value = true;
+        }
       })
       .catch(error => {
         request.value = newRequestSearch;
+        suggestionActive.value = false;
         emit('onError', "Autcomplétion : " + error.message);
       })
-      .finally(() => { isLoading.value = false; suggestionActive.value = true; })
   } else {
     items.value = [];
     suggestionActive.value = false;
   }
+  watcherActive = true;
 })
 
 async function search() {

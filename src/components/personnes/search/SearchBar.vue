@@ -39,10 +39,16 @@ const request = ref('');
 const requestSearch = ref("");
 const emit = defineEmits(['search', 'onError']);
 
+let watcherActive = true;
+
+
 onMounted(
   () => {
     if (currentRoute.query && currentRoute.query.q) {
       request.value = decodeURI(currentRoute.query.q);
+      // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
+      // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
+      watcherActive = false;
     }
   }
 )
@@ -91,12 +97,13 @@ const isLoading = ref(false);
 const suggestionActive = ref(false);
 
 watch(requestSearch, (candidate) => {
-  if (candidate != null && candidate.length > 2) {
+  if (candidate != null && candidate.length > 2 && watcherActive) {
     getSuggestion(candidate);
   } else {
     items.value = [];
     suggestionActive.value = false;
   }
+  watcherActive = true;
 })
 
 /**
