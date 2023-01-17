@@ -20,7 +20,8 @@
 
             </v-col>
             <v-col cols="12" md="10" class="py-0 pt-3 pb-3 greyBar">
-                <result-pagination :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre">
+                <result-pagination :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre"
+                    @changeTri="updateTri">
                 </result-pagination>
             </v-col>
         </v-row>
@@ -97,7 +98,7 @@ async function search(query) {
     }
 }
 
-const { modifierPage, modifierNombre } = thesesAPIService();
+const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 
 function updatePage(payload) {
     modifierPage(payload);
@@ -106,6 +107,11 @@ function updatePage(payload) {
 
 function updateNombre(payload) {
     modifierNombre(payload);
+    search(request.value);
+}
+
+function updateTri(payload) {
+    modifierTri(payload);
     search(request.value);
 }
 

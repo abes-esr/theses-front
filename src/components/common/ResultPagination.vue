@@ -14,8 +14,8 @@
         </v-col>
         <v-col cols="12" md="4" class="py-0">
             <div class="d-flex justify-end"><span class="pt-5">Trier par</span>
-                <v-select :items="['Alphabétique', 'Inversé']" density="compact" variant="underlined"
-                    style="max-width: 140px;" class="ml-2 pt-2">
+                <v-select v-model="tri" return-object :items=items item-title="nom" item-value="cle" density="compact"
+                    variant="underlined" style="max-width: 200px;" class="ml-2 pt-2">
                 </v-select>
             </div>
         </v-col>
@@ -25,7 +25,7 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
 
-const emit = defineEmits(['changePage', 'changeNombre'])
+const emit = defineEmits(['changePage', 'changeNombre', 'changeTri'])
 
 const props = defineProps({
     nbResults: {
@@ -34,6 +34,17 @@ const props = defineProps({
     }
 })
 
+let items = [
+    { nom: 'Pertinence', cle: 'pertinence' },
+    { nom: 'Date croissante', cle: 'dateAsc' },
+    { nom: 'Date décroissante', cle: 'dateDesc' },
+    { nom: 'Auteurs A-Z', cle: 'auteursAsc' },
+    { nom: 'Auteurs Z-A', cle: 'auteursDesc' },
+    { nom: 'Discipline A-Z', cle: 'disciplineAsc' },
+    { nom: 'Discipline Z-A', cle: 'disciplineDesc' }
+]
+
+let tri = ref({ nom: 'Pertinence', cle: 'pertinence' })
 let currentPage = ref(1);
 let currentNombre = ref(10);
 
@@ -47,6 +58,10 @@ watch(currentPage, async (newCurrentPage) => {
 
 watch(currentNombre, async (newCurrentNombre) => {
     emit('changeNombre', newCurrentNombre);
+})
+
+watch(tri, async (newTri) => {
+    emit('changeTri', newTri.cle);
 })
 
 </script>

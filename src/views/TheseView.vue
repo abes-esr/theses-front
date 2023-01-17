@@ -62,15 +62,13 @@
                                             item.nom
                                     }} </strong><span v-if="index < these.ecolesDoctorales.length - 1">,
                                     </span></span></span>
-                            ,
-                            <span v-if="these.partenairesRecherche.length > 0">{{ $t('theseView.partenariat') }} <span
+
+                            <span v-if="these.partenairesRecherche.length > 0">{{ $t('theseView.partenariat') }}, <span
                                     v-for="(item, index) in these.partenairesRecherche" :key="item.ppn"><strong> {{
                                             item.nom
                                     }} ({{ item.type }})</strong><span
                                         v-if="index < these.partenairesRecherche.length - 1">,
-                                    </span></span> </span>
-                            .
-
+                                    </span></span></span>.
                         </p>
                         <p>
                             {{ $t('theseView.president') }} <strong>{{ these.presidentJury.prenom }} {{
