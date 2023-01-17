@@ -77,8 +77,8 @@ async function search(query) {
 
     if (currentRoute.query.domaine == "theses") {
         rechercherThese(query).then(response => {
-            result.value = response.hits.hits;
-            nbResult.value = response.hits.total.value;
+            result.value = response.theses;
+            nbResult.value = response.totalHits;
         }).catch(error => {
             displayError(error.message);
         }).finally(() => {

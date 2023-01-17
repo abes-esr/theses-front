@@ -66,7 +66,8 @@
                             <span v-if="these.partenairesRecherche.length > 0">{{ $t('theseView.partenariat') }} <span
                                     v-for="(item, index) in these.partenairesRecherche" :key="item.ppn"><strong> {{
                                             item.nom
-                                    }} </strong><span v-if="index < these.partenairesRecherche.length - 1">,
+                                    }} ({{ item.type }})</strong><span
+                                        v-if="index < these.partenairesRecherche.length - 1">,
                                     </span></span> </span>
                             .
 
