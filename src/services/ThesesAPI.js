@@ -13,6 +13,8 @@ const apiTheses = axios.create({
 let currentPage = ref(1);
 //Nomre courant
 let currentNombre = ref(10);
+//Tri
+let currentTri = ref("pertinence");
 
 function modifierPage(value) {
     currentPage.value = value;
@@ -22,10 +24,14 @@ function modifierNombre(value) {
     currentNombre.value = value;
 }
 
+function modifierTri(value) {
+    currentTri.value = value;
+}
+
 // Recherche simple dans les theses
 function rechercherThese(query) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/recherche-java/simple/?q=" + query + "&debut=" + ((currentPage.value - 1)* currentNombre.value) + "&nombre=" + currentNombre.value).then((response) => {
+        apiTheses.get("/recherche-java/simple/?q=" + query + "&debut=" + ((currentPage.value - 1)* currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
@@ -51,6 +57,7 @@ export function thesesAPIService() {
     return {
         modifierPage,
         modifierNombre,
+        modifierTri,
         rechercherThese,
         complete,
         getThese
