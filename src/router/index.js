@@ -24,7 +24,7 @@ const router = createRouter({
       props: true
     },
     {
-      path: "/these/:nnt",
+      path: "/these/:id",
       name: "these",
       component: TheseView,
       props: true

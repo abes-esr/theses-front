@@ -1,9 +1,9 @@
 <template>
   <v-row>
-    <v-col v-for="item in result" :key="item" cols="12" xs="12" md="6">
-      <result-card :titre="item.titrePrincipal" :date="item.dateSoutenance"
-        :auteur="item.auteurs[0].prenom + ' ' + item.auteurs[0].nom" :directeurs="item.directeurs"
-        :discipline="item.discipline" :etab="item.etabSoutenanceN" :nnt="item.nnt">
+    <v-col v-for="item in result" :key="item" cols="12">
+      <result-card :titre="item.titrePrincipal" :date="item.dateSoutenance" :auteur="item.auteurs"
+        :directeurs="item.directeurs" :discipline="item.discipline" :etab="item.etabSoutenanceN" :id="item.nnt"
+        :status="item.status">
       </result-card>
     </v-col>
   </v-row>
