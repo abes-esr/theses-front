@@ -31,13 +31,15 @@
         "et": " et de ",
         "soutenueChip": "Soutenue",
         "soutenue": "Soutenue le ",
+        "soutenueEn": "Soutenue en ",
         "a": " à ",
         "cotutelle": " en cotutelle avec ",
         "cadre": " dans le cadre de ",
         "president": "Le président du jury était ",
         "jury": "Le jury était composé de ",
         "rapporteur": "Les rapporteurs étaient ",
-        "partenariat": " en partenariat avec "
+        "partenariat": " en partenariat avec ",
+        "motcle": "Mot clés"
     },
     "theses": {
         "resultView": {

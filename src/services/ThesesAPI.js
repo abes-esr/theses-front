@@ -31,7 +31,7 @@ function modifierTri(value) {
 // Recherche simple dans les theses
 function rechercherThese(query) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/recherche-java/simple/?q=" + query + "&debut=" + ((currentPage.value - 1)* currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value).then((response) => {
+        apiTheses.get("/recherche-java/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage.value - 1)* currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
@@ -41,7 +41,7 @@ function rechercherThese(query) {
 
 //Autcomplétion recherche simple
 function complete(query) {
-    return apiTheses.get("/recherche-java/completion/?q=" + query);
+    return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(query));
 }
 
 //Récupération des infos détaillées d'une theses

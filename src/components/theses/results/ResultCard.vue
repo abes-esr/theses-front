@@ -6,18 +6,22 @@
                     <v-col cols="9" md="10">
                         <v-row class="pa-0 ma-0">
                             <span class="line-clamp">
-                                <v-chip color="orange-abes" label variant="elevated" class="mr-2">
-                                    <v-icon start icon="mdi-school-outline"></v-icon>
-                                    {{ $t('theseView.soutenueChip') }}
+                                <v-chip :class="status" label variant="elevated" class="mr-2">
+
+                                    <span v-if="status === 'enCours'"><v-icon start
+                                            icon="mdi-cogs"></v-icon>Préparation</span>
+                                    <span v-if="status === 'soutenue'"><v-icon start
+                                            icon="mdi-school-outline"></v-icon>Soutenue</span>
                                 </v-chip>{{ titre }}
                             </span>
                         </v-row>
                     </v-col>
                     <v-col cols="3" md="2">
-                        <v-row class="pr-2 pt-2 justify-end">{{ date.slice(-4) }}</v-row>
+                        <v-row class="pr-2 pt-2 justify-end"><span v-if="date">{{ date.slice(-4) }}</span><span v-else>
+                                &nbsp;</span></v-row>
                         <v-row class="pt-5 pr-1 mb-0 justify-end">
                             <v-btn flat size="small" append-icon="mdi-arrow-right-bold-circle-outline" color="primary"
-                                @click="$router.push({ name: 'these', params: { nnt: nnt } })">
+                                @click="$router.push({ name: 'these', params: { id: id } })">
                                 Voir</v-btn>
                         </v-row>
                     </v-col>
@@ -25,7 +29,11 @@
             </v-card-title>
         </div>
         <div class="secondHalf">
-            <v-card-text class="py-2">{{ $t('resultCard.par') }} {{ auteur }} {{ $t('resultCard.dir') }}
+            <v-card-text class="py-2">{{ $t('resultCard.par') }} <span v-for="(item, index) in directeurs"
+                    :key="item.ppn"> {{ item.prenom }} {{ item.nom }}<span v-if="index < directeurs.length - 2">,
+                    </span>
+                    <span v-if="index == directeurs.length - 2"> {{ $t('theseView.et') }}
+                    </span></span> {{ $t('resultCard.dir') }}
                 <span v-for="(item, index) in directeurs" :key="item.ppn"> {{ item.prenom }} {{ item.nom }}<span
                         v-if="index < directeurs.length - 2">,
                     </span>
@@ -38,7 +46,7 @@
 </template>
 <script>
 export default {
-  name: "result-card",
+    name: "result-card",
 };
 </script>
 <script setup>
@@ -49,10 +57,10 @@ defineProps({
     },
     date: {
         type: String,
-        default: ''
+        default: '01/01/2000'
     },
     auteur: {
-        type: String
+        type: Array
     },
     directeurs: {
         type: Array
@@ -65,8 +73,12 @@ defineProps({
         type: String,
         default: 'Université'
     },
-    nnt: {
+    id: {
         type: String
+    },
+    status: {
+        type: String,
+        default: 'soutenue'
     }
 
 })
@@ -106,5 +118,15 @@ defineProps({
 .subtitle {
     font-size: 0.9rem;
     font-weight: 400;
+}
+
+.soutenue {
+    background-color: rgb(var(--v-theme-orange-abes));
+
+}
+
+.enCours {
+    background-color: rgb(var(--v-theme-secondary));
+    ;
 }
 </style>
