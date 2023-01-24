@@ -28,12 +28,13 @@
         <v-row>
             <v-col cols="12" md="2" class="justify-center blueBorder">
                 <v-row class=" justify-center pt-5">
-                    <GenericFacetsDrawer></GenericFacetsDrawer>
+                    <GenericFacetsDrawer :facets="facets"></GenericFacetsDrawer>
                 </v-row>
             </v-col>
             <v-col cols="12" md="10">
                 <div v-if="dataReady">
-                    <h1 class="pb-6">{{ nbResult }} {{ currentRoute.query.domaine }} {{ $t(currentRoute.query.domaine +
+                    <h1 class="pb-6">{{ nbResult }} {{ currentRoute.query.domaine }} {{
+                        $t(currentRoute.query.domaine +
                             '.resultView.resultats')
                     }} :
                         {{ request }}</h1>
@@ -56,7 +57,7 @@ import { personnesAPIService } from "@/services/PersonnesAPI";
 import GenericResultList from "@/components/generic/GenericResultList.vue";
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const { rechercherThese } = thesesAPIService();
+const { rechercherThese, getFacets } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
 const request = ref("");
 const currentRoute = useRoute();
@@ -69,6 +70,7 @@ onMounted(() => {
 
 let loading = ref(false);
 let result = ref([]);
+let facets = ref({});
 let nbResult = ref(0);
 let dataReady = ref(false);
 
@@ -85,6 +87,12 @@ async function search(query) {
         }).finally(() => {
             loading.value = false;
             dataReady.value = true;
+        })
+
+        getFacets(query).then(response => {
+            facets.value = response.data;
+        }).catch(error => {
+            displayError(error.message);
         })
     } else if (currentRoute.query.domaine == "personnes") {
         try {

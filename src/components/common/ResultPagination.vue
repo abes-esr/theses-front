@@ -61,6 +61,7 @@ watch(currentNombre, async (newCurrentNombre) => {
 })
 
 watch(tri, async (newTri) => {
+    currentPage.value = 1;
     emit('changeTri', newTri.cle);
 })
 

@@ -44,6 +44,11 @@ function complete(query) {
     return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(query));
 }
 
+//Facets
+function getFacets(query) {
+    return apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(query));
+}
+
 //Récupération des infos détaillées d'une theses
 function getThese(nnt) {
     return apiTheses.get("/recherche-java/these/" + nnt);
@@ -60,6 +65,7 @@ export function thesesAPIService() {
         modifierTri,
         rechercherThese,
         complete,
+        getFacets,
         getThese
     };
 }
