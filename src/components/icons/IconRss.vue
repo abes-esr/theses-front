@@ -1,0 +1,74 @@
+<template>
+  <svg
+      width="74"
+      height="74"
+      viewBox="0 0 19.579165 19.579165"
+      version="1.1"
+      id="svg8181"
+      inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
+      sodipodi:docname="icone-rss.svg"
+      xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+      xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:svg="http://www.w3.org/2000/svg">
+    <sodipodi:namedview
+        id="namedview8183"
+        pagecolor="#ffffff"
+        bordercolor="#666666"
+        borderopacity="1.0"
+        inkscape:pageshadow="2"
+        inkscape:pageopacity="0.0"
+        inkscape:pagecheckerboard="0"
+        inkscape:document-units="mm"
+        showgrid="false"
+        inkscape:zoom="0.96151709"
+        inkscape:cx="25.480566"
+        inkscape:cy="106.08236"
+        inkscape:window-width="1920"
+        inkscape:window-height="1017"
+        inkscape:window-x="-1928"
+        inkscape:window-y="100"
+        inkscape:window-maximized="1"
+        inkscape:current-layer="layer1"
+        fit-margin-top="0"
+        fit-margin-left="0"
+        fit-margin-right="0"
+        fit-margin-bottom="0"
+        units="px"/>
+    <defs
+        id="defs8178"/>
+    <g
+        inkscape:label="Calque 1"
+        inkscape:groupmode="layer"
+        id="layer1"
+        transform="translate(-2.3359632,-2.1190252)">
+      <g
+          id="g46813-3-7"
+          transform="matrix(1.9810073,0,0,1.9810056,-958.11355,-4.6409955)"
+          style="fill:#252c61;fill-opacity:1"
+          inkscape:export-filename="C:\Users\arnaud\Desktop\image-v5-fram.png"
+          inkscape:export-xdpi="273.25293"
+          inkscape:export-ydpi="273.25293">
+        <ellipse
+            style="fill:#252c61;fill-opacity:1;stroke:none;stroke-width:0.103;stroke-opacity:1"
+            id="path46729-1-1"
+            cx="489.77408"
+            cy="8.4522572"
+            rx="3.4265907"
+            ry="3.9976892"/>
+        <path
+            d="m 489.77058,3.5459789 c -2.65547,2.4e-6 -4.80816,2.15269 -4.80816,4.808164 0,2.6554741 2.15269,4.8081621 4.80816,4.8081641 2.65547,-2e-6 4.80816,-2.15269 4.80816,-4.8081641 0,-2.658915 -2.16366,-4.808164 -4.80816,-4.808164 z"
+            id="path2-2-4-9"
+            style="fill:#252c61;fill-opacity:1;stroke-width:0.480816"
+            sodipodi:nodetypes="sssss"/>
+      </g>
+      <path
+          d="m 9.749902,12.997262 a 1.1426285,1.1426275 0 0 1 1.142646,1.142627 c 0,0.618491 -0.513676,1.142626 -1.142646,1.142626 -0.61847,0 -1.142625,-0.524135 -1.142625,-1.142626 A 1.1426285,1.1426275 0 0 1 9.749902,12.997262 M 8.607277,7.1268875 a 8.1556417,8.1556348 0 0 1 8.155649,8.1556275 H 15.279607 A 6.6723213,6.6723157 0 0 0 8.607277,8.6102025 v -1.483315 m 0,2.9666415 a 5.189001,5.1889966 0 0 1 5.189011,5.188986 H 12.312969 A 3.7056803,3.7056771 0 0 0 8.607277,11.576844 Z"
+          id="path2-4"
+          style="fill:#ffffff;fill-opacity:1;stroke-width:0.524141"
+          inkscape:export-filename="C:\Users\arnaud\Desktop\image-v5-fram.png"
+          inkscape:export-xdpi="273.25293"
+          inkscape:export-ydpi="273.25293"/>
+    </g>
+  </svg>
+</template>
