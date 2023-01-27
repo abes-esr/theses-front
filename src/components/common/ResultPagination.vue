@@ -1,5 +1,5 @@
 <template>
-    <v-row>
+    <v-row class="result-pagination">
         <v-col cols="12" md="4" class="py-0">
             <div class="d-flex justify-start"><span class="pt-5">Afficher</span>
                 <v-select :items="['10', '25', '50']" v-model="currentNombre" density="compact" variant="underlined"
@@ -65,3 +65,7 @@ watch(tri, async (newTri) => {
 })
 
 </script>
+<style scoped lang="scss">
+@use 'vuetify/settings';
+
+</style>

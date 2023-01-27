@@ -1,11 +1,10 @@
 import {h} from "vue";
-import type {IconAliases, IconSet} from "vuetify";
 import IconReseau from "@/components/icons/IconReseau.vue";
 import IconRss from "@/components/icons/IconRss.vue";
 import IconDocumentation from "@/components/icons/IconDocumentation.vue";
 import IconAssistance from "@/components/icons/IconAssistance.vue";
 
-const aliases: IconAliases = {
+const aliases = {
   collapse: "...",
   complete: "...",
   cancel: "...",
@@ -48,7 +47,7 @@ const aliases: IconAliases = {
   assistance:IconAssistance
 };
 
-const custom: IconSet = {
+const custom = {
   component: (props) => h(props.tag, { class: [props.icon] }),
 };
 

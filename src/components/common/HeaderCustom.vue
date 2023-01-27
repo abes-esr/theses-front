@@ -1,43 +1,59 @@
 <template>
-    <v-app-bar color="white" id="appBar">
-            <div class="text-center text-md-left">
-                <v-btn flat depressed @click="$i18n.locale = 'fr'">FR</v-btn>|<v-btn flat depressed
-                    @click="$i18n.locale = 'en'">EN</v-btn>
-            </div>
-            <div class="text-center text-md-right">
-                <v-btn icon="$reseau" size="x-large"></v-btn>
-              <v-btn icon="$rss" size="x-large"></v-btn>
-              <v-btn icon="$assistance" size="x-large"></v-btn>
-              <v-btn icon="$documentation" size="x-large"></v-btn>
-            </div>
-    </v-app-bar>
+  <v-app-bar flat color="white" id="appBar">
+    <div class="text-center text-md-left">
+      <v-btn flat depressed @click="$i18n.locale = 'fr'">FR</v-btn>
+      |
+      <v-btn flat depressed
+             @click="$i18n.locale = 'en'">EN
+      </v-btn>
+    </div>
+    <div class="text-center text-md-right">
+      <v-btn icon="$reseau" size="x-large"></v-btn>
+      <v-btn icon="$rss" size="x-large"></v-btn>
+      <v-btn icon="$assistance" size="x-large"></v-btn>
+      <v-btn icon="$documentation" size="x-large"></v-btn>
+    </div>
+  </v-app-bar>
 </template>
 
-<style  scoped lang="scss">
+<style scoped lang="scss">
 @use 'vuetify/settings';
 
 header {
   position: relative !important;
-  padding-bottom:50px;
-  border-bottom: solid rgb(var(--v-theme-gris-clair)) 1px !important;
+  height: 120px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-    height: 100px;
-    padding-bottom: 0;
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+    height: 80px;
   }
 
-    ::v-deep(.v-toolbar__content) {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      height: 100% !important;
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    border-bottom: 2px solid rgb(var(--v-theme-gris-fonce));
+  }
 
-     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+  ::v-deep(.v-toolbar__content) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 80px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
       justify-content: space-between;
-        flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin-top: 0;
+    }
+
+    .v-icon {
+      font-size: 25px;
+
+      @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+        font-size: 40px;
       }
     }
+  }
 }
 
 </style>
