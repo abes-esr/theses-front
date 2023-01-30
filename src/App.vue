@@ -78,6 +78,8 @@ main {
 
 .v-overlay__content {
   width: 100%;
+  height: 100%;
+  overflow: scroll;
   background-color: rgb(var(--v-theme-surface));
   padding: 1rem;
 

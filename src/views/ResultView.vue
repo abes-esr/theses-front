@@ -1,7 +1,7 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav>
-    <v-menu v-if="mobile" :close-on-content-click="false">
+    <v-menu v-if="mobile" :close-on-content-click="false" location-strategy="static">
       <template v-slot:activator="{ props }">
         <v-icon
             v-bind="props"
