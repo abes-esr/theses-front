@@ -29,8 +29,8 @@
             </v-card-title>
         </div>
         <div class="secondHalf">
-            <v-card-text class="py-2">{{ $t('resultCard.par') }} <span v-for="(item, index) in directeurs"
-                    :key="item.ppn"> {{ item.prenom }} {{ item.nom }}<span v-if="index < directeurs.length - 2">,
+            <v-card-text class="py-2">{{ $t('resultCard.par') }} <span v-for="(item, index) in auteur" :key="item.ppn">
+                    {{ item.prenom }} {{ item.nom }}<span v-if="index < auteur.length - 2">,
                     </span>
                     <span v-if="index == directeurs.length - 2"> {{ $t('theseView.et') }}
                     </span></span> {{ $t('resultCard.dir') }}

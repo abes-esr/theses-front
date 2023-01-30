@@ -121,8 +121,7 @@ defineExpose({
 @use 'vuetify/settings';
 
 .searchbar {
-
-  flex: 1 0 auto;
+  flex: 0 0 auto;
   margin-top: 1rem;
 
   :deep(.searchbar__input) {

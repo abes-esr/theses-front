@@ -12,7 +12,7 @@
       <domain-selector compact></domain-selector>
       <search-bar @search="search" :loading="loading" @onError="displayError"/>
       <h4>Affiner la recherche</h4>
-      <GenericFacetsDrawer></GenericFacetsDrawer>
+      <GenericFacetsDrawer :facets="facets"></GenericFacetsDrawer>
     </v-menu>
   </nav>
   <RouterLink class="logo" :to="{ name: 'home'}" v-if="mobile">
@@ -64,13 +64,12 @@ import {useDisplay} from 'vuetify'
 
 const {mobile} = useDisplay()
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const {rechercherThese} = thesesAPIService();
+const {rechercherThese, getFacets} = thesesAPIService();
 const {rechercherPersonne} = personnesAPIService();
 const request = ref("");
 const currentRoute = useRoute();
 
 const isBurgerMenuOpen = ref(false);
-
 
 onMounted(() => {
   dataReady.value = false;
@@ -80,6 +79,7 @@ onMounted(() => {
 
 let loading = ref(false);
 let result = ref([]);
+let facets = ref({});
 let nbResult = ref(0);
 let dataReady = ref(false);
 
@@ -96,6 +96,12 @@ async function search(query) {
     }).finally(() => {
       loading.value = false;
       dataReady.value = true;
+    })
+
+    getFacets(query).then(response => {
+      facets.value = response.data;
+    }).catch(error => {
+      displayError(error.message);
     })
   } else if (currentRoute.query.domaine == "personnes") {
     try {
