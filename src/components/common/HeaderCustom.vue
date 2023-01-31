@@ -1,65 +1,59 @@
 <template>
-    <v-app-bar color="white" flat id="appBar">
-        <v-row class="pt-4">
-            <v-col cols="12" md="6" class="text-center text-md-left">
-                <v-btn flat depressed @click="$i18n.locale = 'fr'">FR</v-btn>|<v-btn flat depressed
-                    @click="$i18n.locale = 'en'">EN</v-btn>
-            </v-col>
-            <v-col cols="12" md="6" class="text-center text-md-right">
-                <v-btn><img style="max-height: 40px;" alt="icone partager" :title="$t('partager')"
-                        src="@/assets/icone-reseaux.svg">
-                </v-btn>
-
-                <v-btn><img style="max-height: 40px;" alt="icone rss" title="Flux RSS" src="@/assets/icone-rss.svg">
-                </v-btn>
-
-                <v-btn><img style="max-height: 40px;" alt="icone assistance" :title="$t('assistance')"
-                        src="@/assets/icone-assistance.svg">
-                </v-btn>
-
-                <v-btn><img style="max-height: 40px;" alt="icone documentation" :title="$t('documentation')"
-                        src="@/assets/icone-documentation.svg">
-                </v-btn>
-            </v-col>
-            <v-col cols="12" class="pa-0">
-                <div id="logo" class="d-flex justify-center align-start clickable"
-                    style="overflow: visible; height: 60px;" @click="$router.push({ path: '/' })"> <img alt="logo"
-                        id="logoIMG" src="@/assets/icone-theses.svg"
-                        style="overflow: visible; max-height: 120px; z-index:2000">
-                </div>
-            </v-col>
-        </v-row>
-    </v-app-bar>
+  <v-app-bar flat color="white" id="appBar">
+    <div class="text-center text-md-left">
+      <v-btn flat depressed @click="$i18n.locale = 'fr'">FR</v-btn>
+      |
+      <v-btn flat depressed
+             @click="$i18n.locale = 'en'">EN
+      </v-btn>
+    </div>
+    <div class="text-center text-md-right">
+      <v-btn icon="$reseau" size="x-large"></v-btn>
+      <v-btn icon="$rss" size="x-large"></v-btn>
+      <v-btn icon="$assistance" size="x-large"></v-btn>
+      <v-btn icon="$documentation" size="x-large"></v-btn>
+    </div>
+  </v-app-bar>
 </template>
 
-<style>
-.v-app-bar {
-    border-bottom: solid rgb(var(--v-theme-gris-clair)) 1px !important;
-    margin-bottom: 80px;
-}
+<style scoped lang="scss">
+@use 'vuetify/settings';
 
-.v-toolbar__content {
-    min-height: 64px;
-    max-height: 200px;
-    height: 100% !important;
-}
+header {
+  position: relative !important;
+  height: 120px;
 
-.v-toolbar {
-    overflow: visible !important;
-}
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+    height: 80px;
+  }
 
-@media (min-width: 960px) {
-    #logoIMG {
-        margin-top: -50px;
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    border-bottom: 2px solid rgb(var(--v-theme-gris-fonce));
+  }
+
+  ::v-deep(.v-toolbar__content) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 80px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 0;
     }
 
-    #logo {
-        height: 20px !important;
+    .v-icon {
+      font-size: 25px;
+
+      @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+        font-size: 40px;
+      }
     }
+  }
 }
 
-#logo {
-    height: 0;
-    width: 100%;
-}
 </style>

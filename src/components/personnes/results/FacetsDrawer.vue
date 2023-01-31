@@ -1,5 +1,5 @@
 <template>
-    <v-card flat>
+  <div class="facets">
         <v-expansion-panels rounded class="pb-4">
             <v-expansion-panel>
                 <v-expansion-panel-title>
@@ -50,5 +50,22 @@
                 </v-expansion-panel-text>
             </v-expansion-panel>
         </v-expansion-panels>
-    </v-card>
+  </div>
 </template>
+<style scoped lang="scss">
+@use 'vuetify/settings';
+
+.facets {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 2rem;
+
+  .v-expansion-panels {
+    width: 80%;
+  }
+}
+
+
+</style>

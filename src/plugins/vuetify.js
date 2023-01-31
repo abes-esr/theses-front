@@ -4,6 +4,8 @@ import 'vuetify/styles'
 
 // Vuetify
 import { createVuetify } from 'vuetify'
+import {aliases, custom} from "../components/icons/custom-icon";
+import {mdi} from "vuetify/iconsets/mdi";
 
 const myCustomLightTheme = {
   dark: false,
@@ -32,5 +34,13 @@ export default createVuetify({
     themes: {
       myCustomLightTheme,
     }
+  },
+  icons: {
+    defaultSet: 'mdi',
+    aliases,
+    sets: {
+      mdi,
+      custom,
+    },
   }
 })
