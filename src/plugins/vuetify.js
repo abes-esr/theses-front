@@ -3,9 +3,8 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 
 // Vuetify
-import { createVuetify } from 'vuetify'
-import {aliases, custom} from "../components/icons/custom-icon";
-import {mdi} from "vuetify/iconsets/mdi";
+import {createVuetify} from 'vuetify'
+import {aliases} from "../components/icons/custom-icon";
 
 const myCustomLightTheme = {
   dark: false,
@@ -37,10 +36,6 @@ export default createVuetify({
   },
   icons: {
     defaultSet: 'mdi',
-    aliases,
-    sets: {
-      mdi,
-      custom,
-    },
+    aliases
   }
 })
