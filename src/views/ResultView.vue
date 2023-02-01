@@ -3,47 +3,43 @@
   <nav>
     <v-menu v-if="mobile" :close-on-content-click="false" location-strategy="static">
       <template v-slot:activator="{ props }">
-        <v-icon
-            v-bind="props"
-            size="40px"
-        >mdi-menu
+        <v-icon v-bind="props" size="40px">mdi-menu
         </v-icon>
       </template>
       <domain-selector compact></domain-selector>
-      <search-bar @search="search" :loading="loading" @onError="displayError"/>
+      <search-bar @search="search" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
-      <GenericFacetsDrawer :facets="facets"></GenericFacetsDrawer>
+      <GenericFacetsDrawer :facets="facets" @changeFiltres="chan"></GenericFacetsDrawer>
     </v-menu>
   </nav>
-  <RouterLink class="logo" :to="{ name: 'home'}" v-if="mobile">
-    <img alt="logo"
-         id="logoIMG" src="@/assets/icone-theses.svg"/>
+  <RouterLink class="logo" :to="{ name: 'home' }" v-if="mobile">
+    <img alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
   </RouterLink>
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
-      <RouterLink :to="{ name: 'home'}">
-        <img class="logo" alt="logo"
-             id="logoIMG" src="@/assets/icone-theses.svg"/>
+      <RouterLink :to="{ name: 'home' }">
+        <img class="logo" alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
       </RouterLink>
       <h1>{{ $t("slogan") }}</h1>
     </div>
     <div class="sub_header__action">
       <domain-selector compact></domain-selector>
-      <search-bar @search="search" :loading="loading" @onError="displayError"/>
+      <search-bar @search="search" :loading="loading" @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="search-filter">
     <h4 class="left-side">Affiner la recherche</h4>
     <result-pagination v-if="!mobile" :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre"
-                       @changeTri="updateTri"></result-pagination>
+      @changeTri="updateTri"></result-pagination>
   </div>
   <div class="main-wrapper">
-    <GenericFacetsDrawer v-if="!mobile" class="left-side"></GenericFacetsDrawer>
+    <GenericFacetsDrawer v-if="!mobile" class="left-side" :facets="facets" @changeFiltres="updateFiltres">
+    </GenericFacetsDrawer>
     <div class="result-list" v-if="dataReady">
       <h1 class="pb-6">{{ nbResult }} {{ currentRoute.query.domaine }} {{
-          $t(currentRoute.query.domaine +
-              '.resultView.resultats')
-        }} :
+        $t(currentRoute.query.domaine +
+          '.resultView.resultats')
+      }} :
         {{ request }}</h1>
       <GenericResultList :result="result"></GenericResultList>
     </div>
@@ -51,21 +47,21 @@
 </template>
 
 <script setup>
-import {defineAsyncComponent, onMounted, ref} from 'vue';
-import {useRoute} from 'vue-router'
+import { defineAsyncComponent, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router'
 import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
 import SearchBar from '../components/generic/GenericSearchBar.vue'
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultPagination from '@/components/common/ResultPagination.vue';
-import {thesesAPIService} from "@/services/ThesesAPI";
-import {personnesAPIService} from "@/services/PersonnesAPI";
+import { thesesAPIService } from "@/services/ThesesAPI";
+import { personnesAPIService } from "@/services/PersonnesAPI";
 import GenericResultList from "@/components/generic/GenericResultList.vue";
-import {useDisplay} from 'vuetify'
+import { useDisplay } from 'vuetify'
 
-const {mobile} = useDisplay()
+const { mobile } = useDisplay()
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const {rechercherThese, getFacets} = thesesAPIService();
-const {rechercherPersonne} = personnesAPIService();
+const { rechercherThese, getFacets } = thesesAPIService();
+const { rechercherPersonne } = personnesAPIService();
 const request = ref("");
 const currentRoute = useRoute();
 
@@ -115,7 +111,7 @@ async function search(query) {
   }
 }
 
-const {modifierPage, modifierNombre, modifierTri} = thesesAPIService();
+const { modifierPage, modifierNombre, modifierTri, modifierFiltres } = thesesAPIService();
 
 function updatePage(payload) {
   modifierPage(payload);
@@ -129,6 +125,11 @@ function updateNombre(payload) {
 
 function updateTri(payload) {
   modifierTri(payload);
+  search(request.value);
+}
+
+function updateFiltres(payload) {
+  modifierFiltres(payload);
   search(request.value);
 }
 
@@ -201,7 +202,8 @@ function displayError(message) {
     align-items: center;
     flex: 1 0 auto;
 
-    .domain-selector, .searchbar {
+    .domain-selector,
+    .searchbar {
       width: 70%;
     }
 
@@ -246,6 +248,14 @@ function displayError(message) {
 
   .result-list {
     width: 100%;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 2rem;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+      margin-right: 3rem;
+      margin-left: 3rem;
+    }
   }
 }
 </style>

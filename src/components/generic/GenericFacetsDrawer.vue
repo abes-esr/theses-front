@@ -1,9 +1,5 @@
 <template>
-  <component
-      v-if="activeComponent"
-      :is="activeComponent"
-      :key="activeComponent.__file"
-  ></component>
+  <component v-if="activeComponent" :is="activeComponent" :key="activeComponent.__file"></component>
 </template>
 <script>
 export default {
@@ -11,8 +7,8 @@ export default {
 };
 </script>
 <script setup>
-import {watch, shallowRef, onBeforeMount} from "vue";
-import {useRoute} from "vue-router";
+import { watch, shallowRef, onBeforeMount } from "vue";
+import { useRoute } from "vue-router";
 import FacetsDrawerTheses from "@/components/theses/results/FacetsDrawer.vue";
 import FacetsDrawerPersonnes from "@/components/personnes/results/FacetsDrawer.vue";
 
