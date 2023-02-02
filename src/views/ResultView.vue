@@ -10,6 +10,7 @@
       <search-bar @search="search" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
       <GenericFacetsDrawer :facets="facets" @changeFiltres="chan"></GenericFacetsDrawer>
+      <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
   </nav>
   <RouterLink class="logo" :to="{ name: 'home' }" v-if="mobile">
@@ -33,10 +34,14 @@
       @changeTri="updateTri"></result-pagination>
   </div>
   <div class="main-wrapper">
-    <GenericFacetsDrawer v-if="!mobile" class="left-side" :facets="facets" @changeFiltres="updateFiltres">
-    </GenericFacetsDrawer>
+    <span class="left-side" v-if="!mobile">
+      <GenericFacetsDrawer :facets="facets">
+      </GenericFacetsDrawer>
+      <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
+    </span>
+
     <div class="result-list" v-if="dataReady">
-      <h1 class="pb-6">{{ nbResult }} {{ currentRoute.query.domaine }} {{
+      <h1 class="pb-6">{{ nbResult }}{{
         $t(currentRoute.query.domaine +
           '.resultView.resultats')
       }} :
@@ -57,6 +62,7 @@ import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import GenericResultList from "@/components/generic/GenericResultList.vue";
 import { useDisplay } from 'vuetify'
+
 
 const { mobile } = useDisplay()
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
@@ -111,7 +117,7 @@ async function search(query) {
   }
 }
 
-const { modifierPage, modifierNombre, modifierTri, modifierFiltres } = thesesAPIService();
+const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 
 function updatePage(payload) {
   modifierPage(payload);
@@ -128,8 +134,7 @@ function updateTri(payload) {
   search(request.value);
 }
 
-function updateFiltres(payload) {
-  modifierFiltres(payload);
+function update() {
   search(request.value);
 }
 
@@ -230,7 +235,9 @@ function displayError(message) {
   }
 
   .result-pagination {
-    flex: 1 0 auto;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
   }
 }
 
@@ -244,6 +251,9 @@ function displayError(message) {
   .facets {
     border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
     height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
   }
 
   .result-list {

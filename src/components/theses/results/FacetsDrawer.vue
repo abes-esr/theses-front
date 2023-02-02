@@ -17,6 +17,7 @@
 </template>
 <script setup>
 import { ref, watch } from 'vue'
+import { thesesAPIService } from "@/services/ThesesAPI";
 
 defineProps({
   facets: {
@@ -24,13 +25,16 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['changeFiltres'])
+
+const { modifierFiltres } = thesesAPIService();
 
 let filtres = ref([]);
 
 watch(filtres, async (newFiltres) => {
-  if (newFiltres.length > 0)
-    emit('changeFiltres', newFiltres);
+  if (newFiltres.includes("accessible"))
+    filtres.value.push("soutenues")
+
+  modifierFiltres(newFiltres);
 })
 </script>
 <style scoped lang="scss">
@@ -38,8 +42,6 @@ watch(filtres, async (newFiltres) => {
 
 .facets {
   display: flex;
-  justify-content: flex-start !important;
-  align-self: center !important;
   flex-direction: column;
   padding-top: 2rem;
 
