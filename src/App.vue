@@ -2,7 +2,7 @@
   <v-app>
     <header-custom></header-custom>
     <v-main>
-      <router-view/>
+      <router-view />
     </v-main>
     <footer-custom></footer-custom>
   </v-app>
@@ -60,6 +60,7 @@ main {
 
     img {
       height: 70px;
+
       @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
         height: 150px;
       }
@@ -76,7 +77,7 @@ main {
   }
 }
 
-.v-overlay__content {
+.full-screen {
   width: 100%;
   height: 100%;
   overflow: scroll;
@@ -117,6 +118,4 @@ h4 {
 </style>
 <style scoped lang="scss">
 @use 'vuetify/settings';
-
-
 </style>

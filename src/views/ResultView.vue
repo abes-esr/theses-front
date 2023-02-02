@@ -1,7 +1,7 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav>
-    <v-menu v-if="mobile" :close-on-content-click="false" location-strategy="static">
+    <v-menu v-if="mobile" :close-on-content-click="false" content-class="full-screen" location-strategy="static">
       <template v-slot:activator="{ props }">
         <v-icon v-bind="props" size="40px">mdi-menu
         </v-icon>
