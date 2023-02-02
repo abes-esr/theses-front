@@ -34,10 +34,19 @@ function modifierFiltres(value) {
     currentFiltres.value = value;
 }
 
+// Les status soutenue et en cours s'annulent
+function disableOrFilters(filters) {
+    if(filters.includes("soutenues") && filters.includes("enCours")){
+        return filters.filter(e => e !== 'soutenues').filter(e => e !== 'enCours').filter(e => e !== 'accessible');
+    } else {
+        return filters;
+    }
+}
+
 // Recherche simple dans les theses
 function rechercherThese(query) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/recherche-java/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage.value - 1)* currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + "&filtres=" + currentFiltres.value.toString()).then((response) => {
+        apiTheses.get("/recherche-java/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + "&filtres=" + disableOrFilters(currentFiltres.value).toString()).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
