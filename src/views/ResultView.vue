@@ -46,7 +46,7 @@
           '.resultView.resultats')
       }} :
         {{ request }}</h1>
-      <GenericResultList :result="result"></GenericResultList>
+      <GenericResultList :result="result"  @changeNombre="updateNombre"></GenericResultList>
     </div>
   </div>
 </template>
