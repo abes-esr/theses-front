@@ -40,28 +40,42 @@
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </span>
 
+
     <div class="result-list" v-if="dataReady">
       <h1 class="pb-6">{{ nbResult }}{{
         $t(currentRoute.query.domaine +
           '.resultView.resultats')
       }} :
         {{ request }}</h1>
-      <GenericResultList :result="result"  @changeNombre="updateNombre"></GenericResultList>
+      <v-row>
+        <v-col cols="11" class="colonnesResultats">
+          <GenericResultList :result="result">
+          </GenericResultList>
+          <MoreResultsButton :nb-results=nbResult @changeNombre="updateNombre" />
+        </v-col>
+        <v-col cols="1" class="colonnesResultats">
+          <!-- Go back to top-->
+          <ScrollToTopButton />
+        </v-col>
+      </v-row>
+
     </div>
   </div>
 </template>
 
 <script setup>
 import { defineAsyncComponent, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router'
-import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
-import SearchBar from '../components/generic/GenericSearchBar.vue'
-import DomainSelector from '@/components/common/DomainSelector.vue';
-import ResultPagination from '@/components/common/ResultPagination.vue';
+import { useRoute } from 'vue-router';
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
+import { useDisplay } from 'vuetify';
+import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
+import SearchBar from '../components/generic/GenericSearchBar.vue';
+import DomainSelector from '@/components/common/DomainSelector.vue';
+import ResultPagination from '@/components/common/ResultPagination.vue';
 import GenericResultList from "@/components/generic/GenericResultList.vue";
-import { useDisplay } from 'vuetify'
+import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
+import MoreResultsButton from "@/components/common/MoreResultsButton.vue";
 
 
 const { mobile } = useDisplay()
@@ -267,5 +281,9 @@ function displayError(message) {
       margin-left: 3rem;
     }
   }
+}
+
+.colonnesResultats {
+  padding: 0;
 }
 </style>
