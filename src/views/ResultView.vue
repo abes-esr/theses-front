@@ -47,17 +47,22 @@
           '.resultView.resultats')
       }} :
         {{ request }}</h1>
-      <v-row>
+      <v-row v-if="!mobile">
         <v-col cols="11" class="colonnesResultats">
           <GenericResultList :result="result">
           </GenericResultList>
-          <MoreResultsButton :nb-results=nbResult @changeNombre="updateNombre" />
+          <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
         </v-col>
         <v-col cols="1" class="colonnesResultats">
-          <!-- Go back to top-->
-          <ScrollToTopButton />
+          <ScrollToTopButton :nb-result=nbResult />
         </v-col>
       </v-row>
+      <div v-else class="resultListWrapper">
+        <ScrollToTopButton class="scrollTopWrapper" :nb-result=nbResult />
+        <GenericResultList :result="result">
+        </GenericResultList>
+        <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
+      </div>
 
     </div>
   </div>
@@ -285,5 +290,13 @@ function displayError(message) {
 
 .colonnesResultats {
   padding: 0;
+}
+
+.resultListWrapper {
+  display: grid;
+}
+
+.scrollTopWrapper {
+  justify-content: right;
 }
 </style>

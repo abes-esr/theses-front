@@ -1,24 +1,30 @@
 <template>
-  <div class="scrollTopWrapper">
+  <div v-if="nbResult" class="scrollTopWrapper">
     <button class="scrollTopButton" @click="scrollToTop">
-      <v-icon class="scrollTopIcon" size="x-large">mdi-chevron-up-box
+      <div class="circle"></div>
+      <v-icon class="scrollTopIcon" size="35">mdi-chevron-up-box
       </v-icon>
     </button>
   </div>
 </template>
 
+<script setup>
+  const props = defineProps({
+    nbResult: {
+      type: Number,
+      default: 0
+    }
+  })
+
+  function scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+</script>
+
 <script>
 export default {
-  name: "ScrollToTopButton",
-  setup() {
-    const scrollToTop = () => {
-      window.scrollTo(0, 0);
-    }
-
-    return { scrollToTop }
-  }
+  name: "ScrollToTopButton"
 };
-
 </script>
 
 <style scoped lang="scss">
@@ -27,11 +33,24 @@ export default {
   color: rgb(var(--v-theme-orange-abes));
 }
 
+.scrollTopButton {
+}
+
 .scrollTopWrapper {
+  display:  flex;
+  justify-content: center;
+  z-index: 2;
   top: 90%;
   position: sticky;
-  display: flex;
-  justify-content: center;
-  width: 100%;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  position: relative;
+  top: 30px;
+  left: 5px;
+  background: rgb(var(--v-theme-gris-clair));
 }
 </style>
