@@ -5,7 +5,7 @@
             style="max-width: 50px;" class="mx-2 pt-2">
         </v-select> <span class="pt-5">résultats par page</span>
         <v-pagination :length="nbPages" v-model="currentPage" total-visible="5"></v-pagination>
-        <span class="pt-5">Trier par</span>
+        <span class="pt-5">Trier par {{ nbResults }}</span>
         <v-select v-model="tri" return-object :items=items item-title="nom" item-value="cle" density="compact"
             variant="underlined" style="max-width: 200px;" class="ml-2 pt-2">
         </v-select>

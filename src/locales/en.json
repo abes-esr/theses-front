@@ -17,6 +17,10 @@
     "partager": "Share",
     "documentation": "Documentation",
     "resultats": "thesis found for ",
+    "scroll": "scroll to top of the page",
+    "resultatsView": {
+        "plusDeResultats": "See more"
+    },
     "resultCard": {
         "par": "By",
         "dir": "supervised by"
