@@ -1,6 +1,6 @@
 <template>
   <div v-if="mobile && nbResult" class="text-center mt-5">
-    <v-btn :loading="loading" flat size="large" append-icon="mdi-arrow-right-bold-circle-outline" color="primary" class="moreResultsButton"
+    <v-btn :loading="loading" flat size="large" append-icon="mdi-arrow-right-bold-circle-outline" color="primary" class="more-results-button"
            @click="incrementAffichage">
       {{ $t("resultatsView.plusDeResultats") }}</v-btn>
   </div>
@@ -32,7 +32,7 @@ function incrementAffichage() {
 </script>
 
 <style scoped>
-.moreResultsButton {
+.more-results-button {
   z-index: 3;
 }
 </style>
