@@ -13,7 +13,7 @@
       </template>
     </v-combobox>
     <div class="searchbar__action">
-      <v-checkbox label="Désactiver l'autocomplétion"></v-checkbox>
+      <v-checkbox label="Désactiver l'autocomplétion" v-model="disableCompletion"></v-checkbox>
       <v-btn color="primary" prepend-icon="mdi-magnify" @click="search">RECHERCHE AVANCEE
       </v-btn>
     </div>
@@ -47,6 +47,7 @@ const request = ref("");
 const requestSearch = ref("");
 const emit = defineEmits(['search', 'onError']);
 let watcherActive = true;
+const disableCompletion = ref(false);
 
 
 onMounted(
@@ -65,7 +66,7 @@ const suggestionActive = ref(false);
 
 
 watch(requestSearch, (newRequestSearch) => {
-  if (newRequestSearch.length > 2 && watcherActive) {
+  if (newRequestSearch.length > 2 && watcherActive && !disableCompletion.value) {
     complete(newRequestSearch)
       .then((res) => {
         items.value = res.data
