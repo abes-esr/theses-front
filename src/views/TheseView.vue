@@ -55,7 +55,7 @@
 
                         </p>
                         <p> <strong>
-                                <span v-if="these.source = 'sudoc'">{{ $t('theseView.soutenueEn') }}{{
+                                <span v-if="these.source === 'sudoc'">{{ $t('theseView.soutenueEn') }}{{
                                     these.dateSoutenance.slice(-4)
                                 }}</span><span v-else>{{
     $t('theseView.soutenue')
