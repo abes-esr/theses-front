@@ -28,13 +28,14 @@
       <search-bar @search="search" :loading="loading" @onError="displayError" />
     </div>
   </div>
+  <div v-if="!mobile" class="vertical-thread"></div>
   <div v-if="!mobile" class="search-filter">
     <h4 class="left-side">Affiner la recherche</h4>
     <result-pagination v-if="!mobile" :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre"
       @changeTri="updateTri"></result-pagination>
   </div>
   <div class="main-wrapper">
-    <span class="left-side" v-if="!mobile">
+    <span class="left-side nav-bar" v-if="!mobile">
       <GenericFacetsDrawer :facets="facets">
       </GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
@@ -47,24 +48,29 @@
           '.resultView.resultats')
       }} :
         {{ request }}</h1>
-      <v-row v-if="!mobile">
-        <v-col cols="11" class="colonnesResultats">
-          <GenericResultList :result="result">
-          </GenericResultList>
-          <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
-        </v-col>
-        <v-col cols="1" class="colonnesResultats">
-          <ScrollToTopButton :nb-result=nbResult />
-        </v-col>
-      </v-row>
-      <div v-else class="resultListWrapper">
-        <ScrollToTopButton class="scrollTopWrapper" :nb-result=nbResult />
+      <div v-if="mobile" class="result-list-wrapper">
+        <ScrollToTopButton class="scroll-top-wrapper" :nb-result=nbResult />
         <GenericResultList :result="result">
         </GenericResultList>
         <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
       </div>
-
+      <v-row v-else>
+        <v-col cols="11" class="colonnes-resultats">
+          <GenericResultList :result="result">
+          </GenericResultList>
+          <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
+        </v-col>
+        <v-col cols="1" class="colonnes-resultats">
+          <ScrollToTopButton :nb-result=nbResult />
+        </v-col>
+      </v-row>
     </div>
+  </div>
+  <div class="search-filter" >
+    <div class="left-side"></div>
+    <v-pagination class="pt-1" :length="nbPages"
+        v-model="currentPage" total-visible="2">
+    </v-pagination>
   </div>
 </template>
 
@@ -206,6 +212,7 @@ function displayError(message) {
 
   .sub_header__logo {
     background-color: rgb(var(--v-theme-surface));
+    z-index: 2;
 
     h1 {
       text-align: center;
@@ -250,7 +257,6 @@ function displayError(message) {
 
   h4 {
     background-color: rgb(var(--v-theme-gris-clair));
-    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
   }
 
   .result-pagination {
@@ -268,7 +274,6 @@ function displayError(message) {
   width: 100%;
 
   .facets {
-    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
     height: 100%;
     width: 100%;
     justify-content: center;
@@ -288,15 +293,25 @@ function displayError(message) {
   }
 }
 
-.colonnesResultats {
+.colonnes-resultats {
   padding: 0;
 }
 
-.resultListWrapper {
+.result-list-wrapper {
   display: grid;
 }
 
-.scrollTopWrapper {
+.scroll-top-wrapper {
   justify-content: right;
+}
+
+.vertical-thread {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  max-width: 20vw;
+  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
 }
 </style>
