@@ -31,8 +31,8 @@
   <div v-if="!mobile" class="vertical-thread"></div>
   <div v-if="!mobile" class="search-filter">
     <h4 class="left-side">Affiner la recherche</h4>
-    <result-pagination v-if="!mobile" :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre"
-      @changeTri="updateTri"></result-pagination>
+    <result-pagination-top v-if="!mobile" v-model:current-page=currentPage :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre"
+      @changeTri="updateTri"></result-pagination-top>
   </div>
   <div class="main-wrapper">
     <span class="left-side nav-bar" v-if="!mobile">
@@ -68,9 +68,9 @@
   </div>
   <div class="search-filter" >
     <div class="left-side"></div>
-    <v-pagination class="pt-1" :length="nbPages"
-        v-model="currentPage" total-visible="2">
-    </v-pagination>
+    <result-pagination-bottom v-model:current-page=currentPage v-if="!mobile" :nb-results=nbResult :current-nombre=currentNombre
+      @changePage="updatePage">
+    </result-pagination-bottom>
   </div>
 </template>
 
@@ -83,7 +83,8 @@ import { useDisplay } from 'vuetify';
 import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
-import ResultPagination from '@/components/common/ResultPagination.vue';
+import ResultPaginationTop from '@/components/common/ResultPaginationTop.vue';
+import ResultPaginationBottom from '@/components/common/ResultPaginationBottom.vue';
 import GenericResultList from "@/components/generic/GenericResultList.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/MoreResultsButton.vue";
@@ -109,6 +110,8 @@ let result = ref([]);
 let facets = ref({});
 let nbResult = ref(0);
 let dataReady = ref(false);
+let currentPage = ref(1);
+let currentNombre = ref(10);
 
 async function search(query) {
   request.value = query;
@@ -147,11 +150,15 @@ const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 function updatePage(payload) {
   modifierPage(payload);
   search(request.value);
+  // Mise à jour des valeurs de pagination dans tous les composants
+  currentPage.value = payload;
 }
 
 function updateNombre(payload) {
   modifierNombre(payload);
   search(request.value);
+  // Mise à jour des valeurs de pagination dans tous les composants
+  currentNombre.value = payload;
 }
 
 function updateTri(payload) {

@@ -8,11 +8,9 @@
       <v-pagination
         class="pt-1"
         :length="nbPages"
-        v-model="currentPage"
         total-visible="2"
-      >
-      </v-pagination>
-      <span class="pt-5">Trier par</span>
+        v-model="parentCurrentPage">
+    </v-pagination>
       <v-select v-model="tri" return-object :items=items item-title="nom" item-value="cle" density="compact"
                 variant="underlined" style="max-width: 200px;" class="ml-2 pt-2 last-bar-element" color="orange-abes">
       </v-select>
@@ -28,6 +26,10 @@ const props = defineProps({
   nbResults: {
     type: Number,
     default: 1
+  },
+  currentPage: {
+    type: Number,
+    default: 1
   }
 });
 
@@ -41,16 +43,21 @@ let items = [
   { nom: "Discipline Z-A", cle: "disciplineDesc" }
 ];
 
+let parentCurrentPage = ref(props.currentPage);
 let tri = ref({ nom: "Pertinence", cle: "pertinence" });
-let currentPage = ref(1);
 let currentNombre = ref(10);
 
-const nbPages = computed(() => {
+let nbPages = computed(() => {
   return Math.ceil(props.nbResults / currentNombre.value);
 });
 
-watch(currentPage, async (newCurrentPage) => {
+watch(parentCurrentPage, async (newCurrentPage) => {
   emit("changePage", newCurrentPage);
+});
+
+watch(() => props.currentPage,
+  (newValue, oldValue) => {
+    parentCurrentPage.value = newValue;
 });
 
 watch(currentNombre, async (newCurrentNombre) => {
@@ -58,7 +65,7 @@ watch(currentNombre, async (newCurrentNombre) => {
 });
 
 watch(tri, async (newTri) => {
-  currentPage.value = 1;
+  parentCurrentPage.value = 1;
   emit("changeTri", newTri.cle);
 });
 

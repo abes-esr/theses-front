@@ -9,16 +9,14 @@
 </template>
 
 <script setup>
-  const props = defineProps({
+  import { scrollToTop } from "@/services/Common";
+
+  defineProps({
     nbResult: {
       type: Number,
       default: 0
     }
   })
-
-  function scrollToTop() {
-    window.scrollTo(0, 0);
-  }
 </script>
 
 <script>
