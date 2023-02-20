@@ -29,6 +29,8 @@ function modifierNombre(value) {
  * @returns {Promise<unknown>}
  */
 async function rechercherPersonne(query) {
+    if (query === "")
+        query = "*";
     return new Promise((resolve, reject) => {
         apiTheses.get("/personnes/recherche", {params: {"q": encodeURI(query.replace(" OU "," OR ").replace(" ET "," AND ").replace(" SAUF "," NOT "))}}).then((response) => {
             resolve(response.data);

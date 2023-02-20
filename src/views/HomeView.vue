@@ -49,6 +49,18 @@ function displayError(message) {
     width: 50vw;
   }
 
+  h1 {
+    color:rgb(var(--v-theme-text-dark-blue));
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 28px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      font-size: 43px;
+      line-height: 28px;
+    }
+  }
+
   .searchbar {
     width: 100%;
   }

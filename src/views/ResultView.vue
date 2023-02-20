@@ -28,17 +28,19 @@
       <search-bar @search="search" :loading="loading" @onError="displayError" />
     </div>
   </div>
+  <div v-if="!mobile" class="vertical-thread"></div>
   <div v-if="!mobile" class="search-filter">
     <h4 class="left-side">Affiner la recherche</h4>
-    <result-pagination v-if="!mobile" :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre"
-      @changeTri="updateTri"></result-pagination>
+    <result-pagination-top v-if="!mobile" v-model:current-page=currentPage :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre"
+      @changeTri="updateTri"></result-pagination-top>
   </div>
   <div class="main-wrapper">
-    <span class="left-side" v-if="!mobile">
+    <span class="left-side nav-bar" v-if="!mobile">
       <GenericFacetsDrawer :facets="facets">
       </GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </span>
+
 
     <div class="result-list" v-if="dataReady">
       <h1 class="pb-6">{{ nbResult }}{{
@@ -46,22 +48,46 @@
           '.resultView.resultats')
       }} :
         {{ request }}</h1>
-      <GenericResultList :result="result"></GenericResultList>
+      <div v-if="mobile" class="result-list-wrapper">
+        <ScrollToTopButton class="scroll-top-wrapper" :nb-result=nbResult />
+        <GenericResultList :result="result">
+        </GenericResultList>
+        <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
+      </div>
+      <v-row v-else>
+        <v-col cols="11" class="colonnes-resultats">
+          <GenericResultList :result="result">
+          </GenericResultList>
+          <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
+        </v-col>
+        <v-col cols="1" class="colonnes-resultats">
+          <ScrollToTopButton :nb-result=nbResult />
+        </v-col>
+      </v-row>
     </div>
+  </div>
+  <div class="search-filter" >
+    <div class="left-side"></div>
+    <result-pagination-bottom v-model:current-page=currentPage v-if="!mobile" :nb-results=nbResult :current-nombre=currentNombre
+      @changePage="updatePage">
+    </result-pagination-bottom>
   </div>
 </template>
 
 <script setup>
 import { defineAsyncComponent, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router'
-import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
-import SearchBar from '../components/generic/GenericSearchBar.vue'
-import DomainSelector from '@/components/common/DomainSelector.vue';
-import ResultPagination from '@/components/common/ResultPagination.vue';
+import { useRoute } from 'vue-router';
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
+import { useDisplay } from 'vuetify';
+import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
+import SearchBar from '../components/generic/GenericSearchBar.vue';
+import DomainSelector from '@/components/common/DomainSelector.vue';
+import ResultPaginationTop from '@/components/common/ResultPaginationTop.vue';
+import ResultPaginationBottom from '@/components/common/ResultPaginationBottom.vue';
 import GenericResultList from "@/components/generic/GenericResultList.vue";
-import { useDisplay } from 'vuetify'
+import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
+import MoreResultsButton from "@/components/common/MoreResultsButton.vue";
 
 
 const { mobile } = useDisplay()
@@ -84,6 +110,8 @@ let result = ref([]);
 let facets = ref({});
 let nbResult = ref(0);
 let dataReady = ref(false);
+let currentPage = ref(1);
+let currentNombre = ref(10);
 
 async function search(query) {
   request.value = query;
@@ -122,11 +150,15 @@ const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 function updatePage(payload) {
   modifierPage(payload);
   search(request.value);
+  // Mise à jour des valeurs de pagination dans tous les composants
+  currentPage.value = payload;
 }
 
 function updateNombre(payload) {
   modifierNombre(payload);
   search(request.value);
+  // Mise à jour des valeurs de pagination dans tous les composants
+  currentNombre.value = payload;
 }
 
 function updateTri(payload) {
@@ -187,6 +219,7 @@ function displayError(message) {
 
   .sub_header__logo {
     background-color: rgb(var(--v-theme-surface));
+    z-index: 2;
 
     h1 {
       text-align: center;
@@ -231,7 +264,6 @@ function displayError(message) {
 
   h4 {
     background-color: rgb(var(--v-theme-gris-clair));
-    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
   }
 
   .result-pagination {
@@ -249,7 +281,6 @@ function displayError(message) {
   width: 100%;
 
   .facets {
-    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
     height: 100%;
     width: 100%;
     justify-content: center;
@@ -267,5 +298,27 @@ function displayError(message) {
       margin-left: 3rem;
     }
   }
+}
+
+.colonnes-resultats {
+  padding: 0;
+}
+
+.result-list-wrapper {
+  display: grid;
+}
+
+.scroll-top-wrapper {
+  justify-content: right;
+}
+
+.vertical-thread {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  max-width: 20vw;
+  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
 }
 </style>
