@@ -42,12 +42,12 @@ watch(parentCurrentPage, async (newCurrentPage) => {
  * Synchronisation avec les composants paginations frères
  */
 watch(() => props.currentPage,
-  (newValue, oldValue) => {
+  (newValue) => {
     parentCurrentPage.value = newValue;
   });
 
 watch(() => props.currentNombre,
-  (newValue, oldValue) => {
+  (newValue) => {
     nbPages = computed(() => {
       return Math.ceil(props.nbResults / newValue);
     });

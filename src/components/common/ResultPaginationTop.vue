@@ -1,19 +1,29 @@
 <template>
   <div class="result-pagination">
-      <span class="pt-5 first-bar-element">Afficher</span>
-      <v-select :items="['10', '25', '50']" v-model="currentNombre" density="compact" variant="underlined"
-                style="max-width: 50px;" class="mx-2 pt-2" color="orange-abes">
-      </v-select>
-      <span class="pt-5">résultats par page</span>
-      <v-pagination
-        class="pt-1"
-        :length="nbPages"
-        total-visible="2"
-        v-model="parentCurrentPage">
-    </v-pagination>
-      <v-select v-model="tri" return-object :items=items item-title="nom" item-value="cle" density="compact"
-                variant="underlined" style="max-width: 200px;" class="ml-2 pt-2 last-bar-element" color="orange-abes">
-      </v-select>
+    <v-row>
+      <v-col cols="4">
+        <v-row class="left-row">
+          <span class="pt-5 first-bar-element">Afficher</span>
+          <v-select :items="['10', '25', '50']" v-model="currentNombre" density="compact" variant="underlined"
+                    style="max-width: 50px;" class="mx-2 pt-2" color="orange-abes">
+          </v-select>
+          <span class="pt-5">résultats par page</span>
+        </v-row>
+      </v-col>
+      <v-col cols="4">
+        <v-pagination
+            class="pt-1"
+            :length="nbPages"
+            total-visible="2"
+            v-model="parentCurrentPage">
+        </v-pagination>
+      </v-col>
+      <v-col cols="4" class="last-col">
+        <v-select v-model="tri" class="ml-2 pt-2 last-bar-element" return-object :items=items item-title="nom" item-value="cle" density="compact"
+                  variant="underlined" color="orange-abes">
+        </v-select>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -73,26 +83,36 @@ watch(tri, async (newTri) => {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
+.result-pagination {
+  background-color: rgb(var(--v-theme-gris-clair));
+  max-height: 4rem;
+  display: grid;
+}
+
 .v-pagination {
-  max-width: 40vw;
-  flex: 1 0 auto;
   background-color: transparent;
+  width: unset;
 }
 
 .v-select {
   flex: 1 0 auto;
 }
 
-.result-pagination {
-  background-color: rgb(var(--v-theme-gris-clair));
-  max-height: 4rem;
-}
-
 .first-bar-element {
   margin-left: 3rem;
 }
 
+.last-col {
+  display: flex;
+  justify-content: end;
+}
+
 .last-bar-element {
   margin-right: 3rem;
+  max-width: 200px;
+}
+
+.left-row {
+  margin: 0;
 }
 </style>
