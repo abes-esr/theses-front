@@ -45,6 +45,8 @@ function disableOrFilters(filters) {
 
 // Recherche simple dans les theses
 function rechercherThese(query) {
+    if(query === "")
+        query = "*";
     return new Promise((resolve, reject) => {
         apiTheses.get("/recherche-java/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + "&filtres=" + disableOrFilters(currentFiltres.value).toString()).then((response) => {
             resolve(response.data);
