@@ -17,6 +17,10 @@
     "partager": "Partager",
     "documentation": "Documentation",
     "resultats": " résultats de thèses pour ",
+    "scroll": "Remonter en haut de la page",
+    "resultatsView": {
+        "plusDeResultats": "Plus de résultats"
+    },
     "resultCard": {
         "par": "Par",
         "dir": "sous la direction de"
