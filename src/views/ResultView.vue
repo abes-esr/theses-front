@@ -147,6 +147,9 @@ async function search(query) {
 
 const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 
+/**
+ * Fonctions
+ */
 function updatePage(payload) {
   modifierPage(payload);
   search(request.value);
@@ -154,11 +157,17 @@ function updatePage(payload) {
   currentPage.value = payload;
 }
 
+/**
+ * Met à jour le nombre de résultat à afficher sur une page
+ * @param payload
+ */
 function updateNombre(payload) {
   modifierNombre(payload);
   search(request.value);
   // Mise à jour des valeurs de pagination dans tous les composants
   currentNombre.value = payload;
+  // Retour à la page une
+  currentPage.value = 1;
 }
 
 function updateTri(payload) {
