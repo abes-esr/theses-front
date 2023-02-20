@@ -86,6 +86,13 @@ watch(requestSearch, (newRequestSearch) => {
   watcherActive = true;
 })
 
+watch(disableCompletion, (newDisableCompletion) => {
+  if (newDisableCompletion) {
+    suggestionActive.value = false;
+    items.value = [];
+  }
+})
+
 async function search() {
   let currentURLParams = Object.assign({}, currentRoute.query);
 

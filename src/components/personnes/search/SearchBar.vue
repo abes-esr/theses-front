@@ -113,6 +113,13 @@ watch(requestSearch, (candidate) => {
   watcherActive = true;
 })
 
+watch(disableCompletion, (newDisableCompletion) => {
+  if (newDisableCompletion) {
+    suggestionActive.value = false;
+    items.value = [];
+  }
+})
+
 /**
  * Fonction pour rechercher des suggestions
  * @param candidate Chaîne de caractère à compléter
