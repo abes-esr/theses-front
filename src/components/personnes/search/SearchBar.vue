@@ -1,27 +1,21 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request"
-                v-model:search="requestSearch"
-                :items="items"
-                @update:modelValue="selectSuggestion"
-                variant="outlined"
-                item-title="suggestion" item-value="suggestion" :loading="isLoading" :menu="suggestionActive"
-                cache-items
-                hide-no-data hide-selected no-filter append-inner-icon @keydown.enter="search">
+    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
+      :items="items" @update:modelValue="selectSuggestion" variant="outlined" item-title="suggestion"
+      item-value="suggestion" :loading="isLoading" :menu="suggestionActive" cache-items hide-no-data hide-selected
+      no-filter append-inner-icon @keydown.enter="search">
       <template v-slot:append-inner>
         <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch">
         </v-btn>
       </template>
       <template v-slot:append>
-        <v-btn color="primary" icon="mdi-magnify"
-               text @click="search" :loading="loading" class="pa-0 ma-0">
+        <v-btn color="primary" icon="mdi-magnify" text @click="search" :loading="loading" class="pa-0 ma-0">
         </v-btn>
       </template>
     </v-combobox>
     <div class="searchbar__action">
-      <v-checkbox label="Désactiver l'autocomplétion"></v-checkbox>
-      <v-btn color="primary" prepend-icon="mdi-magnify"
-             @click="search">RECHERCHE AVANCEE
+      <v-checkbox label="Désactiver l'autocomplétion" v-model="disableCompletion"></v-checkbox>
+      <v-btn color="primary" prepend-icon="mdi-magnify" @click="search">RECHERCHE AVANCEE
       </v-btn>
     </div>
   </div>
@@ -32,10 +26,10 @@ export default {
 };
 </script>
 <script setup>
-import {ref, onMounted, watch} from 'vue'
-import {useRoute, useRouter} from 'vue-router'
-import {computed} from 'vue'
-import {personnesAPIService} from "@/services/PersonnesAPI";
+import { ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { personnesAPIService } from "@/services/PersonnesAPI";
 
 const router = useRouter();
 const currentRoute = useRoute();
@@ -52,17 +46,18 @@ const requestSearch = ref("");
 const emit = defineEmits(['search', 'onError']);
 
 let watcherActive = true;
+const disableCompletion = ref(false);
 
 
 onMounted(
-    () => {
-      if (currentRoute.query && currentRoute.query.q) {
-        request.value = decodeURI(currentRoute.query.q);
-        // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
-        // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
-        watcherActive = false;
-      }
+  () => {
+    if (currentRoute.query && currentRoute.query.q) {
+      request.value = decodeURI(currentRoute.query.q);
+      // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
+      // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
+      watcherActive = false;
     }
+  }
 )
 
 /**
@@ -75,7 +70,7 @@ async function search() {
   if (currentURLParams) {
     currentURLParams.q = encodeURI(request.value)
   } else {
-    currentURLParams = {"q": encodeURI(request.value)}
+    currentURLParams = { "q": encodeURI(request.value) }
   }
 
   if (routeName.value === "resultats") {
@@ -103,13 +98,13 @@ function clearSearch() {
 /* Auto-complétion  */
 /* ---------------- */
 
-const {suggestionPersonne} = personnesAPIService();
+const { suggestionPersonne } = personnesAPIService();
 const items = ref([]);
 const isLoading = ref(false);
 const suggestionActive = ref(false);
 
 watch(requestSearch, (candidate) => {
-  if (candidate != null && candidate.length > 2 && watcherActive) {
+  if (candidate != null && candidate.length > 2 && watcherActive && !disableCompletion.value) {
     getSuggestion(candidate);
   } else {
     items.value = [];
