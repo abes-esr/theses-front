@@ -7,7 +7,7 @@
         </v-icon>
       </template>
       <domain-selector compact></domain-selector>
-      <search-bar @search="search" :loading="loading" @onError="displayError" />
+      <search-bar @search="searchAndReinitialize" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
       <GenericFacetsDrawer :facets="facets" @changeFiltres="chan"></GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
@@ -25,7 +25,7 @@
     </div>
     <div class="sub_header__action">
       <domain-selector compact></domain-selector>
-      <search-bar @search="search" :loading="loading" @onError="displayError" />
+      <search-bar @search="searchAndReinitialize" :loading="loading" @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="vertical-thread"></div>
@@ -42,17 +42,17 @@
     </span>
 
 
-    <div class="result-list" v-if="dataReady">
+    <div v-resize="reinitialize" class="result-list" v-if="dataReady">
       <h1 class="pb-6">{{ nbResult }}{{
         $t(currentRoute.query.domaine +
           '.resultView.resultats')
       }} :
         {{ request }}</h1>
       <div v-if="mobile" class="result-list-wrapper">
-        <ScrollToTopButton class="scroll-top-wrapper" :nb-result=nbResult />
+        <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-top-wrapper" :nb-result=nbResult />
         <GenericResultList :result="result">
         </GenericResultList>
-        <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
+        <MoreResultsButton v-if="!allResultsWereLoaded()" :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
       </div>
       <v-row v-else>
         <v-col cols="11" class="colonnes-resultats">
@@ -90,7 +90,7 @@ import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/MoreResultsButton.vue";
 
 
-const { mobile } = useDisplay()
+const { mobile, mobileBreakpoint } = useDisplay()
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { rechercherThese, getFacets } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
@@ -126,7 +126,13 @@ async function search(query) {
     }).finally(() => {
       loading.value = false;
       dataReady.value = true;
-    });
+    })
+
+    getFacets(query).then(response => {
+      facets.value = response.data;
+    }).catch(error => {
+      displayError(error.message);
+    })
   } else if (currentRoute.query.domaine == "personnes") {
     try {
       result.value = await rechercherPersonne(query);
@@ -139,8 +145,16 @@ async function search(query) {
   }
 }
 
+async function searchAndReinitialize(query) {
+  await search(query);
+  reinitialize();
+}
+
 const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 
+/**
+ * Fonctions
+ */
 function updatePage(payload) {
   modifierPage(payload);
   search(request.value);
@@ -148,11 +162,17 @@ function updatePage(payload) {
   currentPage.value = payload;
 }
 
+/**
+ * Met à jour le nombre de résultat à afficher sur une page
+ * @param payload
+ */
 function updateNombre(payload) {
   modifierNombre(payload);
   search(request.value);
   // Mise à jour des valeurs de pagination dans tous les composants
   currentNombre.value = payload;
+  // Retour à la page une
+  currentPage.value = 1;
 }
 
 function updateTri(payload) {
@@ -164,6 +184,14 @@ function update() {
   search(request.value);
 }
 
+function moreThanXResults(x) {
+  return (result.value.length >= x);
+}
+
+function allResultsWereLoaded() {
+  return moreThanXResults(nbResult.value);
+}
+
 const messageBox = ref(null);
 
 function displayError(message) {
@@ -172,12 +200,12 @@ function displayError(message) {
   })
 }
 
-function updateFacets(query) {
-  getFacets(query).then(response => {
-    facets.value = response.data;
-  }).catch(error => {
-    displayError(error.message);
-  })
+/**
+ * Réinitialiser l'affichage des résultats
+ */
+function reinitialize() {
+  updatePage(1);
+  updateNombre(10);
 }
 
 </script>
