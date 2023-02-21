@@ -49,10 +49,10 @@
       }} :
         {{ request }}</h1>
       <div v-if="mobile" class="result-list-wrapper">
-        <ScrollToTopButton class="scroll-top-wrapper" :nb-result=nbResult />
+        <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-top-wrapper" :nb-result=nbResult />
         <GenericResultList :result="result">
         </GenericResultList>
-        <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
+        <MoreResultsButton v-if="!allResultsWereLoaded()" :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
       </div>
       <v-row v-else>
         <v-col cols="11" class="colonnes-resultats">
@@ -168,6 +168,14 @@ function updateTri(payload) {
 
 function update() {
   search(request.value);
+}
+
+function moreThanXResults(x) {
+  return (result.value.length >= x);
+}
+
+function allResultsWereLoaded() {
+  return moreThanXResults(nbResult.value);
 }
 
 const messageBox = ref(null);
