@@ -42,7 +42,7 @@
     </span>
 
 
-    <div class="result-list" v-if="dataReady">
+    <div v-resize="reinitialize" class="result-list" v-if="dataReady">
       <h1 class="pb-6">{{ nbResult }}{{
         $t(currentRoute.query.domaine +
           '.resultView.resultats')
@@ -90,7 +90,7 @@ import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/MoreResultsButton.vue";
 
 
-const { mobile } = useDisplay()
+const { mobile, mobileBreakpoint } = useDisplay()
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { rechercherThese, getFacets } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
@@ -147,6 +147,9 @@ async function search(query) {
 
 const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 
+/**
+ * Fonctions
+ */
 function updatePage(payload) {
   modifierPage(payload);
   search(request.value);
@@ -154,11 +157,17 @@ function updatePage(payload) {
   currentPage.value = payload;
 }
 
+/**
+ * Met à jour le nombre de résultat à afficher sur une page
+ * @param payload
+ */
 function updateNombre(payload) {
   modifierNombre(payload);
   search(request.value);
   // Mise à jour des valeurs de pagination dans tous les composants
   currentNombre.value = payload;
+  // Retour à la page une
+  currentPage.value = 1;
 }
 
 function updateTri(payload) {
@@ -184,6 +193,14 @@ function displayError(message) {
   messageBox.value?.open(message, {
     type: "error"
   })
+}
+
+/**
+ * Réinitialiser l'affichage des résultats
+ */
+function reinitialize() {
+  updatePage(1);
+  updateNombre(10);
 }
 
 </script>
