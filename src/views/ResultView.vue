@@ -7,7 +7,7 @@
         </v-icon>
       </template>
       <domain-selector compact></domain-selector>
-      <search-bar @search="search" :loading="loading" @onError="displayError" />
+      <search-bar @search="searchAndReinitialize" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
       <GenericFacetsDrawer :facets="facets" @changeFiltres="chan"></GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
@@ -25,7 +25,7 @@
     </div>
     <div class="sub_header__action">
       <domain-selector compact></domain-selector>
-      <search-bar @search="search" :loading="loading" @onError="displayError" />
+      <search-bar @search="searchAndReinitialize" :loading="loading" @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="vertical-thread"></div>
@@ -143,6 +143,11 @@ async function search(query) {
       dataReady.value = true;
     }
   }
+}
+
+async function searchAndReinitialize(query) {
+  await search(query);
+  reinitialize();
 }
 
 const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
