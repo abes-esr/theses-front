@@ -126,13 +126,7 @@ async function search(query) {
     }).finally(() => {
       loading.value = false;
       dataReady.value = true;
-    })
-
-    getFacets(query).then(response => {
-      facets.value = response.data;
-    }).catch(error => {
-      displayError(error.message);
-    })
+    });
   } else if (currentRoute.query.domaine == "personnes") {
     try {
       result.value = await rechercherPersonne(query);
@@ -175,6 +169,14 @@ const messageBox = ref(null);
 function displayError(message) {
   messageBox.value?.open(message, {
     type: "error"
+  })
+}
+
+function updateFacets(query) {
+  getFacets(query).then(response => {
+    facets.value = response.data;
+  }).catch(error => {
+    displayError(error.message);
   })
 }
 

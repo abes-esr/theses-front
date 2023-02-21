@@ -6,11 +6,11 @@
           STATUT
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <v-checkbox :label="`Soutenues : ${facets.soutenue ? facets.soutenue : 0}`" value="soutenues"
+          <v-checkbox :label="`Soutenues : ${facets.statut.soutenue ? facets.status.soutenue : 0}`" value="soutenues"
             v-model="filtres" @update:modelValue="untickAccessible"></v-checkbox>
-          <v-checkbox class="pl-4" :label="`Accessibles en ligne : ${facets.accessible ? facets.accessible : 0}`"
+          <v-checkbox class="pl-4" :label="`Accessibles en ligne : ${facets.accessible.oui ? facets.accessible.oui : 0}`"
             value="accessible" v-model="filtres"></v-checkbox>
-          <v-checkbox :label="`En préparation : ${facets.enCours ? facets.enCours : 0}`" value="enCours"
+          <v-checkbox :label="`En préparation : ${facets.status.enCours ? facets.status.enCours : 0}`" value="enCours"
             v-model="filtres"></v-checkbox>
         </v-expansion-panel-text>
       </v-expansion-panel>
