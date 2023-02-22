@@ -69,7 +69,7 @@
   <div class="search-filter" >
     <div class="left-side"></div>
     <result-pagination-bottom v-model:current-page=currentPage v-if="!mobile" :nb-results=nbResult :current-nombre=currentNombre
-      @changePage="updatePage">
+      @changePage="simpleUpdatePage">
     </result-pagination-bottom>
   </div>
 </template>
@@ -152,6 +152,12 @@ function updatePage(payload) {
   currentPage.value = payload;
 }
 
+function simpleUpdatePage(payload) {
+  modifierPage(payload);
+  // Mise à jour des valeurs de pagination dans tous les composants
+  currentPage.value = payload;
+}
+
 /**
  * Met à jour le nombre de résultat à afficher sur une page
  * @param payload
@@ -193,7 +199,6 @@ function displayError(message) {
 // #TODO appeler updateFacets depuis la recherche de la page principale
 function updateFacets(query) {
   getFacets(query).then(response => {
-    console.log(response)
     facets.value = response.data;
   }).catch(error => {
     displayError(error.message);
