@@ -9,7 +9,7 @@ export default {
 <script setup>
 import { watch, shallowRef, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
-import FacetsDrawerTheses from "@/components/theses/results/FacetsDrawer.vue";
+import FacetsDrawerTheses from "@/components/common/results/FacetsList.vue";
 import FacetsDrawerPersonnes from "@/components/personnes/results/FacetsDrawer.vue";
 
 const activeComponent = shallowRef(FacetsDrawerTheses);

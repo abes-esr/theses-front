@@ -83,11 +83,11 @@ import { useDisplay } from 'vuetify';
 import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
-import ResultPaginationTop from '@/components/common/ResultPaginationTop.vue';
-import ResultPaginationBottom from '@/components/common/ResultPaginationBottom.vue';
+import ResultPaginationTop from '@/components/common/results/ResultPaginationTop.vue';
+import ResultPaginationBottom from '@/components/common/results/ResultPaginationBottom.vue';
 import GenericResultList from "@/components/generic/GenericResultList.vue";
-import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
-import MoreResultsButton from "@/components/common/MoreResultsButton.vue";
+import ScrollToTopButton from "@/components/common/results/ScrollToTopButton.vue";
+import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 
 
 const { mobile } = useDisplay()

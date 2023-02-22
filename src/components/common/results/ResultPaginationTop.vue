@@ -81,7 +81,7 @@ watch(tri, async (newTri) => {
 
 </script>
 <style scoped lang="scss">
-@use 'vuetify/settings';
+@use '../../../../node_modules/vuetify/settings';
 
 .result-pagination {
   background-color: rgb(var(--v-theme-gris-clair));
