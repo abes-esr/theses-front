@@ -63,28 +63,30 @@ function complete(query) {
 
 //Facets
 async function getFacets(query) {
-  return apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(query));
+  // return apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(query));
     let mockupJSON = {
       "data":
-      {
-        "langues": {
-            "cs": 4,
-              "ru": 4,
-              "pt": 27,
-              "en": 1622,
-              "enfr": 695,
-              "it": 8,
-              "fr": 17099,
-              "ro": 9,
-              "es": 28,
-              "zh": 5
-        },
-        "accessible": {
-            "oui": 5591,
-              "non": 13693
-        },
-        "etabSoutenanceN.exact": {
-            "Lyon 1": 987,
+        [
+          {
+            "parentName": "soutenue",
+            "name": "Accessible en ligne",
+            "data": {
+              "accessible": 5591
+            }
+          },
+          {
+            "parentName": null,
+            "name": "Statut",
+            "data": {
+              "soutenue": 19229,
+              "enCours": 55
+            }
+          },
+          {
+            "parentName": null,
+            "name": "Etablissements",
+            "data": {
+              "Lyon 1": 987,
               "Strasbourg": 541,
               "Paris 6": 2223,
               "Nantes": 561,
@@ -94,9 +96,13 @@ async function getFacets(query) {
               "Montpellier 2": 1045,
               "Toulouse 3": 770,
               "Strasbourg 1": 837
-        },
-        "discipline.tri": {
-            "chimie physique": 230,
+            }
+          },
+          {
+            "parentName": null,
+            "name": "Disciplines",
+            "data": {
+              "chimie physique": 230,
               "chimie analytique": 275,
               "chimie organique": 1420,
               "chimie des materiaux": 585,
@@ -106,13 +112,26 @@ async function getFacets(query) {
               "chimie moleculaire": 168,
               "chimie-physique": 195,
               "chimie": 6095
-        },
-        "status": {
-            "soutenue": 19229,
-              "enCours": 55
-        }
-      }
-    };
+            }
+          },
+          {
+            "parentName": null,
+            "name": "Langues",
+            "data": {
+              "cs": 4,
+              "ru": 4,
+              "pt": 27,
+              "en": 1622,
+              "enfr": 695,
+              "it": 8,
+              "fr": 17099,
+              "ro": 9,
+              "es": 28,
+              "zh": 5
+            }
+          }
+        ]
+    }
 
     return new Promise((resolve) => {
         resolve(mockupJSON);
