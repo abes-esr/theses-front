@@ -90,7 +90,7 @@ import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/MoreResultsButton.vue";
 
 
-const { mobile, mobileBreakpoint } = useDisplay()
+const { mobile } = useDisplay()
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { rechercherThese, getFacets } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
@@ -145,12 +145,6 @@ const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 /**
  * Fonctions
  */
-function updatePage(payload) {
-  modifierPage(payload);
-  search(request.value);
-  // Mise à jour des valeurs de pagination dans tous les composants
-  currentPage.value = payload;
-}
 
 function simpleUpdatePage(payload) {
   modifierPage(payload);
@@ -158,6 +152,10 @@ function simpleUpdatePage(payload) {
   currentPage.value = payload;
 }
 
+function updatePage(payload) {
+  simpleUpdatePage(payload);
+  search(request.value);
+}
 /**
  * Met à jour le nombre de résultat à afficher sur une page
  * @param payload
