@@ -62,8 +62,8 @@ function complete(query) {
 }
 
 //Facets
-function getFacets(query) {
-    return apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(query));
+async function getFacets(query) {
+  return apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(query));
 }
 
 //Récupération des infos détaillées d'une theses

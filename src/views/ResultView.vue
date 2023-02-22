@@ -42,7 +42,7 @@
     </span>
 
 
-    <div v-resize="reinitialize" class="result-list" v-if="dataReady">
+    <div v-resize="reinitializeCurrentRequest" class="result-list" v-if="dataReady">
       <h1 class="pb-6">{{ nbResult }}{{
         $t(currentRoute.query.domaine +
           '.resultView.resultats')
@@ -61,7 +61,7 @@
           <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
         </v-col>
         <v-col cols="1" class="colonnes-resultats">
-          <ScrollToTopButton :nb-result=nbResult />
+          <ScrollToTopButton v-if="moreThanXResults(5)" :nb-result=nbResult />
         </v-col>
       </v-row>
     </div>
@@ -69,7 +69,7 @@
   <div class="search-filter" >
     <div class="left-side"></div>
     <result-pagination-bottom v-model:current-page=currentPage v-if="!mobile" :nb-results=nbResult :current-nombre=currentNombre
-      @changePage="updatePage">
+      @changePage="simpleUpdatePage">
     </result-pagination-bottom>
   </div>
 </template>
@@ -103,6 +103,7 @@ onMounted(() => {
   dataReady.value = false;
   request.value = decodeURI(currentRoute.query.q);
   search(request.value);
+  updateFacets(request.value);
 });
 
 let loading = ref(false);
@@ -126,13 +127,7 @@ async function search(query) {
     }).finally(() => {
       loading.value = false;
       dataReady.value = true;
-    })
-
-    getFacets(query).then(response => {
-      facets.value = response.data;
-    }).catch(error => {
-      displayError(error.message);
-    })
+    });
   } else if (currentRoute.query.domaine == "personnes") {
     try {
       result.value = await rechercherPersonne(query);
@@ -145,11 +140,6 @@ async function search(query) {
   }
 }
 
-async function searchAndReinitialize(query) {
-  await search(query);
-  reinitialize();
-}
-
 const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 
 /**
@@ -158,6 +148,12 @@ const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 function updatePage(payload) {
   modifierPage(payload);
   search(request.value);
+  // Mise à jour des valeurs de pagination dans tous les composants
+  currentPage.value = payload;
+}
+
+function simpleUpdatePage(payload) {
+  modifierPage(payload);
   // Mise à jour des valeurs de pagination dans tous les composants
   currentPage.value = payload;
 }
@@ -200,14 +196,35 @@ function displayError(message) {
   })
 }
 
+// #TODO appeler updateFacets depuis la recherche de la page principale
+function updateFacets(query) {
+  getFacets(query).then(response => {
+    facets.value = response.data;
+  }).catch(error => {
+    displayError(error.message);
+  });
+}
+
+function reinitialize() {
+  modifierPage(1);
+  currentPage.value = 1;
+  modifierNombre(10);
+  currentNombre.value = 10;
+}
+
 /**
  * Réinitialiser l'affichage des résultats
  */
-function reinitialize() {
-  updatePage(1);
-  updateNombre(10);
+function reinitializeCurrentRequest() {
+  reinitialize();
+  search(request.value);
 }
 
+function searchAndReinitialize(query) {
+  reinitialize();
+  search(query);
+  updateFacets(query);
+}
 </script>
 
 <style scoped lang="scss">
