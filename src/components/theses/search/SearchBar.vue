@@ -1,8 +1,8 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" clearable :label='$t("rechercher")' v-model="request"
-      v-model:search="requestSearch" type="text" variant="outlined" :items="items" :menu="suggestionActive" cache-items
-      hide-no-data hide-selected no-filter :active="true" return-object append-inner-icon @keydown.enter="search">
+    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
+      type="text" variant="outlined" :items="items" :menu="suggestionActive" cache-items hide-no-data hide-selected
+      no-filter :active="true" return-object append-inner-icon @keydown.enter="search">
       <template v-slot:append-inner>
         <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch">
         </v-btn>
@@ -32,6 +32,7 @@ import { computed } from 'vue'
 
 import router from '@/router';
 import { thesesAPIService } from "@/services/ThesesAPI";
+
 
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
@@ -93,6 +94,13 @@ watch(disableCompletion, (newDisableCompletion) => {
   }
 })
 
+/**
+ * Fonction lorsqu'on vide le champs de saisie
+ */
+function clearSearch() {
+  request.value = "";
+}
+
 async function search() {
   let currentURLParams = Object.assign({}, currentRoute.query);
 
@@ -101,6 +109,7 @@ async function search() {
   } else {
     currentURLParams = { "q": request.value }
   }
+
 
   if (routeName.value === "resultats") {
     router.replace({

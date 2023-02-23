@@ -31,8 +31,8 @@
   <div v-if="!mobile" class="vertical-thread"></div>
   <div v-if="!mobile" class="search-filter">
     <h4 class="left-side">Affiner la recherche</h4>
-    <result-pagination-top v-if="!mobile" v-model:current-page=currentPage :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre"
-      @changeTri="updateTri"></result-pagination-top>
+    <result-pagination-top v-if="!mobile" v-model:current-page=currentPage :nb-results=nbResult @changePage="updatePage"
+      @changeNombre="updateNombre" @changeTri="updateTri"></result-pagination-top>
   </div>
   <div class="main-wrapper">
     <span class="left-side nav-bar" v-if="!mobile">
@@ -52,7 +52,8 @@
         <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-top-wrapper" :nb-result=nbResult />
         <GenericResultList :result="result">
         </GenericResultList>
-        <MoreResultsButton v-if="!allResultsWereLoaded()" :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
+        <MoreResultsButton v-if="!allResultsWereLoaded()" :loading=loading :nb-result=nbResult
+          @changeNombre="updateNombre" />
       </div>
       <v-row v-else>
         <v-col cols="11" class="colonnes-resultats">
@@ -66,10 +67,10 @@
       </v-row>
     </div>
   </div>
-  <div class="search-filter" >
+  <div class="search-filter">
     <div class="left-side"></div>
-    <result-pagination-bottom v-model:current-page=currentPage v-if="!mobile" :nb-results=nbResult :current-nombre=currentNombre
-      @changePage="updatePage">
+    <result-pagination-bottom v-model:current-page=currentPage v-if="!mobile" :nb-results=nbResult
+      :current-nombre=currentNombre @changePage="updatePage">
     </result-pagination-bottom>
   </div>
 </template>
@@ -176,6 +177,7 @@ function updateNombre(payload) {
 }
 
 function updateTri(payload) {
+
   modifierTri(payload);
   search(request.value);
 }

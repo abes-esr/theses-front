@@ -1,6 +1,9 @@
 import axios from 'axios'
 import {ref} from "vue";
 
+import { replaceAndEscape } from "@/services/Common";
+
+
 const apiTheses = axios.create({
     baseURL: import.meta.env.VITE_APP_API,
     headers: {
@@ -47,8 +50,9 @@ function disableOrFilters(filters) {
 function rechercherThese(query) {
     if(query === "")
         query = "*";
+    
     return new Promise((resolve, reject) => {
-        apiTheses.get("/recherche-java/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + "&filtres=" + disableOrFilters(currentFiltres.value).toString()).then((response) => {
+        apiTheses.get("/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query)) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + "&filtres=" + disableOrFilters(currentFiltres.value).toString()).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
@@ -58,12 +62,12 @@ function rechercherThese(query) {
 
 //Autcomplétion recherche simple
 function complete(query) {
-    return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(query));
+    return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
 //Facets
 function getFacets(query) {
-    return apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(query));
+    return apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
 //Récupération des infos détaillées d'une theses
