@@ -7,7 +7,7 @@
       hide-details="true"
     ></v-checkbox>
 
-    <template v-if="facetItem.children && facetItem.children.length">
+    <template v-if="(props.marginOffset < maxRecursionDepth) && facetItem.children && facetItem.children.length">
       <div
         v-for="facetItem in facetItem.children"
         :key="`facet-${facetItem.name}`"
@@ -16,6 +16,7 @@
           :facet-item="facetItem"
           :margin-offset="props.marginOffset+4"
           :parent-checkbox-state="checkboxState"
+          @updateParentCheckbox="updateSelfCheckbox"
         />
       </div>
     </template>
@@ -31,7 +32,10 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+  import { ref, watch } from "vue";
+
+  const maxRecursionDepth = 8; // Multiple de 4 (utilisation de la variable marginOffset) => niveau 2 = 4
+  const emit = defineEmits(["updateParentCheckbox"]);
 
   const props = defineProps({
     facetItem: {
@@ -47,19 +51,33 @@ import { ref, watch } from "vue";
   });
 
   let checkboxState = ref(false);
-  // let refParentCheckboxState = ref(props.parentCheckboxState);
 
-  watch(() => props.parentCheckboxState, (newValue) => {
+  /**
+   * décocher les éléments enfants si l acase est décochée
+   */
+  watch(() => props.parentCheckboxState,
+    async (newValue) => {
     if(newValue === false) {
       checkboxState.value = false;
     }
   });
 
-  watch(() => checkboxState, (newValue, oldValue) => {
+  /**
+   * cocher les éléments parents si la case est cochée
+   */
+  watch(checkboxState, async (newValue) => {
     if(newValue === true) {
-      // emit
+      emit("updateParentCheckbox", true);
     }
   });
+
+/**
+ * Functions
+ */
+
+function updateSelfCheckbox(payload) {
+  checkboxState.value = payload;
+}
 </script>
 
 <style scoped>

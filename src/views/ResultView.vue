@@ -98,6 +98,7 @@ const request = ref("");
 const currentRoute = useRoute();
 
 const isBurgerMenuOpen = ref(false);
+const messageBox = ref(null);
 
 onMounted(() => {
   dataReady.value = false;
@@ -156,6 +157,7 @@ function updatePage(payload) {
   simpleUpdatePage(payload);
   search(request.value);
 }
+
 /**
  * Met à jour le nombre de résultat à afficher sur une page
  * @param payload
@@ -185,8 +187,6 @@ function moreThanXResults(x) {
 function allResultsWereLoaded() {
   return moreThanXResults(nbResult.value);
 }
-
-const messageBox = ref(null);
 
 function displayError(message) {
   messageBox.value?.open(message, {

@@ -66,7 +66,7 @@ watch(parentCurrentPage, async (newCurrentPage) => {
 });
 
 watch(() => props.currentPage,
-  (newValue, oldValue) => {
+  async (newValue) => {
     parentCurrentPage.value = newValue;
 });
 
