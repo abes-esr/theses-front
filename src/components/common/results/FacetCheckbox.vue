@@ -1,18 +1,24 @@
 <template>
-  <div
-    v-for="facetItem in facetItems"
-    :key="`facet-${facetItem.name}`">
     <v-checkbox
       :class="`checkboxes ms-${props.marginOffset}`"
       :label="`${facetItem.name} (${facetItem.value})`"
+      v-model="checkboxState"
       density="compact"
       hide-details="true"
     ></v-checkbox>
 
     <template v-if="facetItem.children && facetItem.children.length">
-      <facet-checkbox :facet-items="facetItem.children" :margin-offset="props.marginOffset+4" />
+      <div
+        v-for="facetItem in facetItem.children"
+        :key="`facet-${facetItem.name}`"
+      >
+        <facet-checkbox
+          :facet-item="facetItem"
+          :margin-offset="props.marginOffset+4"
+          :parent-checkbox-state="checkboxState"
+        />
+      </div>
     </template>
-  </div>
 
   <!--#TODO relier le cochage en cascade -->
 
@@ -25,13 +31,33 @@
 </template>
 
 <script setup>
+import { ref, watch } from "vue";
+
   const props = defineProps({
-    facetItems: {
+    facetItem: {
       type: Object
     },
     marginOffset: {
       type: Number,
       default: 0
+    },
+    parentCheckboxState: {
+      type: Boolean
+    }
+  });
+
+  let checkboxState = ref(false);
+  // let refParentCheckboxState = ref(props.parentCheckboxState);
+
+  watch(() => props.parentCheckboxState, (newValue) => {
+    if(newValue === false) {
+      checkboxState.value = false;
+    }
+  });
+
+  watch(() => checkboxState, (newValue, oldValue) => {
+    if(newValue === true) {
+      // emit
     }
   });
 </script>
