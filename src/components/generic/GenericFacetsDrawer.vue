@@ -9,19 +9,17 @@ export default {
 <script setup>
 import { watch, shallowRef, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
-import FacetsDrawerTheses from "@/components/common/results/FacetsList.vue";
+import FacetsDrawerListTheses from "@/components/common/results/FacetsList.vue";
 import FacetsDrawerPersonnes from "@/components/personnes/results/FacetsDrawer.vue";
 
-const activeComponent = shallowRef(FacetsDrawerTheses);
+const activeComponent = shallowRef(FacetsDrawerListTheses);
 const currentRoute = useRoute();
 
 async function updateComponent(domaine) {
   if (domaine && domaine == "personnes") {
     activeComponent.value = FacetsDrawerPersonnes
-  } else if (domaine && domaine == "theses") {
-    activeComponent.value = FacetsDrawerTheses
   } else {
-    activeComponent.value = FacetsDrawerTheses
+    activeComponent.value = FacetsDrawerListTheses
   }
 }
 

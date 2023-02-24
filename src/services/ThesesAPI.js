@@ -71,34 +71,24 @@ async function getFacets(query) {
           "name": "statut",
           "type": "drawer",
           "search-bar": false,
+          "checked": false,
           checkboxes: [
             {
               "name": "soutenue",
               "value": 19229,
+              "checked": false,
               children: [
                 {
                   "parentName": "soutenue",
                   "name": "Accessible en ligne",
-                  "value": 5591,
-                  "children": [{
-                    "name": "Lyon 1",
-                    "value": 987
-                  },
-                    {
-                      "name": "Strasbourg",
-                      "value": 541
-                    },
-                    {
-                      "name": "Paris 6",
-                      "value": 2223
-                    }]
+                  "value": 5591
                 }
               ]
             },
             {
               "name": "En cours",
               "value": 55,
-              children: []
+              children: [],
             }
           ]
         },

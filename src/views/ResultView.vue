@@ -9,7 +9,10 @@
       <domain-selector compact></domain-selector>
       <search-bar @search="searchAndReinitialize" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
-      <GenericFacetsDrawer :facets="facets" @changeFiltres="chan"></GenericFacetsDrawer>
+      <GenericFacetsDrawer
+        :facets="facets">
+        @updateFacetData="updateFacetData"
+      </GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
   </nav>
@@ -36,7 +39,9 @@
   </div>
   <div class="main-wrapper">
     <span class="left-side nav-bar" v-if="!mobile">
-      <GenericFacetsDrawer :facets="facets">
+      <GenericFacetsDrawer
+        :facets="facets"
+        @updateFacetData="updateFacetData">
       </GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </span>
@@ -80,7 +85,8 @@ import { useRoute } from 'vue-router';
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import { useDisplay } from 'vuetify';
-import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
+// import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
+import GenericFacetsDrawer from "@/components/common/results/FacetsList.vue";
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultPaginationTop from '@/components/common/results/ResultPaginationTop.vue';
@@ -99,6 +105,7 @@ const currentRoute = useRoute();
 
 const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
+const facetsArray = ref({});
 
 onMounted(() => {
   dataReady.value = false;
@@ -201,6 +208,10 @@ function updateFacets(query) {
   }).catch(error => {
     displayError(error.message);
   });
+}
+
+function updateFacetData(facetData) {
+  console.info(facetData)
 }
 
 function reinitialize() {
