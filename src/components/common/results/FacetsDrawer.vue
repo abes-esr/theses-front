@@ -50,11 +50,9 @@ const facetsArray = computed({
 /**
  * Fonctions
  */
-function updateFacetData(filterName) {
-  const facetData = {
-    [props.facet.name]: filterName
-  }
-  emit("updateFacetData", facetData);
+function updateFacetData(filterData) {
+  filterData.facetName = props.facet.name;
+  emit("updateFacetData", filterData);
 }
 </script>
 

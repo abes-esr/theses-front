@@ -102,10 +102,10 @@ const { rechercherThese, getFacets } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
 const request = ref("");
 const currentRoute = useRoute();
-
+// #TODO Nettoyer les usage de facetsArray
 const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
-const facetsArray = ref({});
+let facetsArray = [];
 
 onMounted(() => {
   dataReady.value = false;
@@ -153,7 +153,6 @@ const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 /**
  * Fonctions
  */
-
 function simpleUpdatePage(payload) {
   modifierPage(payload);
   // Mise à jour des valeurs de pagination dans tous les composants
@@ -211,7 +210,35 @@ function updateFacets(query) {
 }
 
 function updateFacetData(facetData) {
-  console.info(facetData)
+  const lastFacetFilter =
+    {
+      [facetData.facetName]: facetData.filterName
+    };
+
+  if(facetData.value) {
+    if( !arrayContainsFilter(lastFacetFilter) ) {
+      facetsArray.push(lastFacetFilter);
+    }
+  } else {
+    facetsArray = facetsArray.filter(function(facetFilter) {
+      return !filtersAreEqual(facetFilter, lastFacetFilter)
+    });
+  }
+}
+
+// Vérifie les chaines de caractères contenues dans les Array
+function filtersAreEqual(object1, object2) {
+  return  ( Object.keys(object1)[0] === Object.keys(object2)[0] && Object.values(object1)[0] === Object.values(object2)[0] );
+}
+
+function arrayContainsFilter(lastFacetFilter) {
+  const countOccurences = facetsArray.filter(function(facetFilter) {
+    return filtersAreEqual(facetFilter, lastFacetFilter)
+  }).length;
+
+  console.warn(countOccurences)
+
+  return countOccurences > 0;
 }
 
 function reinitialize() {

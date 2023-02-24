@@ -63,7 +63,11 @@ import { ref, watch } from "vue";
 
   watch(checkboxState, async (newValue) => {
     // Faire remonter le nom du filtre
-    emit("updateFacetData", props.facetItem.name);
+    const itemData = {
+      filterName: props.facetItem.name,
+      value: newValue
+    }
+    emit("updateFacetData", itemData);
 
     // cocher les éléments parents si la case est cochée
     if(newValue === true) {
