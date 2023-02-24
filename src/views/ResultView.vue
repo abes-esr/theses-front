@@ -10,8 +10,10 @@
       <search-bar @search="searchAndReinitialize" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
       <GenericFacetsDrawer
-        :facets="facets">
+        :facets="facets"
         @updateFacetData="updateFacetData"
+        :facets-array="facetsArray"
+      >
       </GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
@@ -41,7 +43,9 @@
     <span class="left-side nav-bar" v-if="!mobile">
       <GenericFacetsDrawer
         :facets="facets"
-        @updateFacetData="updateFacetData">
+        @updateFacetData="updateFacetData"
+        :facets-array="facetsArray"
+        >
       </GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </span>
@@ -230,6 +234,7 @@ function updateFacetData(facetData) {
       return !filtersAreEqual(facetFilter, lastFacetFilter)
     });
   }
+  console.info("Filtres sélectionnés :")
   console.info(facetsArray)
 }
 

@@ -5,6 +5,7 @@
         :key="`facet-${facet.name}`"
         @updateFacetData="updateFacetData"
         :facet="facet"
+        :facets-array="facetsArray"
         class="my-3"
       />
   </div>

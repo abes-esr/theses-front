@@ -11,9 +11,11 @@
           :key="`facet-${facetItem.name}`"
         >
           <facet-checkbox
-            v-model:facets-array="facetsArray"
+            :facets-array="facetsArray"
+            :facet-name="facet.name"
+            :facet-item="facetItem"
             @updateFacetData="updateFacetData"
-            :facet-item="facetItem" :margin-offset="marginOffset" />
+            :margin-offset="marginOffset" />
         </div>
       </v-expansion-panel-text>
     </v-expansion-panel>

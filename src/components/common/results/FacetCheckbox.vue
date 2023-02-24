@@ -16,24 +16,24 @@
       >
         <facet-checkbox
           :facet-item="facetItem"
+          :facet-name="facetName"
           :margin-offset="props.marginOffset+4"
           :parent-checkbox-state="checkboxState"
+          :facets-array="facetsArray"
           @updateParentCheckbox="updateSelfCheckbox"
           @updateFacetDataRecursive="updateFacetDataRecursive"
         />
       </div>
-<!--          v-model:facets-array="facetsArray"-->
-<!--          @update:facets-array="newValue => facetsArray[facetItem.name] = newValue"-->
     </template>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 
   const emit = defineEmits(['updateParentCheckbox','updateFacetData', 'updateFacetDataRecursive']);
   const props = defineProps({
     facetsArray: {
-      type: Array
+      type: Object
     },
     facetItem: {
       type: Object
@@ -44,12 +44,15 @@ import { ref, watch } from "vue";
     },
     parentCheckboxState: {
       type: Boolean
+    },
+    facetName: {
+      type: String
     }
   });
 
   const maxRecursionDepth = 3;
   const recursionDepth = props.marginOffset/4;  // Multiple de 4 (utilisation de la variable marginOffset) => niveau 2 = 4
-  const checkboxState = ref(false);
+  const checkboxState = ref(arrayContainsFilter());
 
   /**
    * Watchers
@@ -97,6 +100,15 @@ function updateFacetDataRecursive(itemData) {
   } else {
     emit('updateFacetDataRecursive', itemData)
   }
+}
+function arrayContainsFilter() {
+  if(props.facetsArray) {
+    return props.facetsArray.filter(filter =>
+      Object.values(filter)[0] === props.facetItem.name
+      && Object.keys(filter)[0] === props.facetName
+    ).length > 0
+  }
+  return false;
 }
 </script>
 
