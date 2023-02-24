@@ -81,7 +81,23 @@ async function getFacets(query) {
                 {
                   "parentName": "soutenue",
                   "name": "Accessible en ligne",
-                  "value": 5591
+                  "value": 5591,
+                  "checked": false,
+                  "children": [{
+                    "name": "Lyon 1",
+                    "value": 987,
+                    "checked": false,
+                  },
+                    {
+                      "name": "Strasbourg",
+                      "value": 541,
+                      "checked": false,
+                    },
+                    {
+                      "name": "Paris 6",
+                      "value": 2223,
+                      "checked": false,
+                    }]
                 }
               ]
             },
@@ -89,6 +105,7 @@ async function getFacets(query) {
               "name": "En cours",
               "value": 55,
               children: [],
+              "checked": false,
             }
           ]
         },

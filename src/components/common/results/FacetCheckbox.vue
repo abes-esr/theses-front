@@ -7,7 +7,7 @@
       hide-details="true"
     ></v-checkbox>
 
-    <template v-if="(props.marginOffset < maxRecursionDepth)
+    <template v-if="(recursionDepth <= maxRecursionDepth)
                       && facetItem.children
                       && facetItem.children.length">
       <div
@@ -19,6 +19,7 @@
           :margin-offset="props.marginOffset+4"
           :parent-checkbox-state="checkboxState"
           @updateParentCheckbox="updateSelfCheckbox"
+          @updateFacetDataRecursive="updateFacetDataRecursive"
         />
       </div>
 <!--          v-model:facets-array="facetsArray"-->
@@ -29,9 +30,7 @@
 <script setup>
 import { ref, watch } from "vue";
 
-  const maxRecursionDepth = 8; // Multiple de 4 (utilisation de la variable marginOffset) => niveau 2 = 4
-  const emit = defineEmits(['updateParentCheckbox','updateFacetData']);
-
+  const emit = defineEmits(['updateParentCheckbox','updateFacetData', 'updateFacetDataRecursive']);
   const props = defineProps({
     facetsArray: {
       type: Array
@@ -48,6 +47,8 @@ import { ref, watch } from "vue";
     }
   });
 
+  const maxRecursionDepth = 3;
+  const recursionDepth = props.marginOffset/4;  // Multiple de 4 (utilisation de la variable marginOffset) => niveau 2 = 4
   const checkboxState = ref(false);
 
   /**
@@ -67,7 +68,13 @@ import { ref, watch } from "vue";
       filterName: props.facetItem.name,
       value: newValue
     }
-    emit("updateFacetData", itemData);
+
+    if(props.marginOffset === 0) {
+      // Niveau 1  de récursion => sortir
+      emit("updateFacetData", itemData);
+    } else {
+      emit('updateFacetDataRecursive', itemData)
+    }
 
     // cocher les éléments parents si la case est cochée
     if(newValue === true) {
@@ -80,6 +87,16 @@ import { ref, watch } from "vue";
  */
 function updateSelfCheckbox(payload) {
   checkboxState.value = payload;
+}
+
+function updateFacetDataRecursive(itemData) {
+  // Faire remonter le nom du filtre à travers les composants parents
+  if(props.marginOffset === 0) {
+    // Niveau 1  de récursion => sortir
+    emit("updateFacetData", itemData);
+  } else {
+    emit('updateFacetDataRecursive', itemData)
+  }
 }
 </script>
 

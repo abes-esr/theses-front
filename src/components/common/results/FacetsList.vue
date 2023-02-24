@@ -13,7 +13,7 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 import { thesesAPIService } from "@/services/ThesesAPI";
-import FacetDrawer from "@/components/common/results/FacetsDrawer.vue";
+import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
 
 const props = defineProps({
   facetsArray: {

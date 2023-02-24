@@ -209,34 +209,40 @@ function updateFacets(query) {
   });
 }
 
+/**
+ * Met à jour l'Array contenant les filtres sélectionnés.
+ * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
+ * @param facetData objet contenant le nom de la facette et de son filtre correspondant
+ */
 function updateFacetData(facetData) {
   const lastFacetFilter =
     {
       [facetData.facetName]: facetData.filterName
     };
+  console.info(lastFacetFilter)
 
-  if(facetData.value) {
-    if( !arrayContainsFilter(lastFacetFilter) ) {
-      facetsArray.push(lastFacetFilter);
-    }
+  if(facetData.value && !arrayContainsFilter(lastFacetFilter)) {
+    // checkbox cochée
+    facetsArray.push(lastFacetFilter);
   } else {
     facetsArray = facetsArray.filter(function(facetFilter) {
+      console.info(facetFilter)
       return !filtersAreEqual(facetFilter, lastFacetFilter)
     });
   }
+  console.info(facetsArray)
 }
 
 // Vérifie les chaines de caractères contenues dans les Array
 function filtersAreEqual(object1, object2) {
-  return  ( Object.keys(object1)[0] === Object.keys(object2)[0] && Object.values(object1)[0] === Object.values(object2)[0] );
+  return  ( Object.keys(object1)[0] === Object.keys(object2)[0]
+    && Object.values(object1)[0] === Object.values(object2)[0] );
 }
 
 function arrayContainsFilter(lastFacetFilter) {
   const countOccurences = facetsArray.filter(function(facetFilter) {
     return filtersAreEqual(facetFilter, lastFacetFilter)
   }).length;
-
-  console.warn(countOccurences)
 
   return countOccurences > 0;
 }
