@@ -14,6 +14,8 @@
 <script setup>
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
 import { reactive } from "vue";
+import { thesesAPIService } from "@/services/ThesesAPI";
+const { modifierFiltres } = thesesAPIService();
 
 defineProps({
   facets: {
@@ -21,7 +23,8 @@ defineProps({
   }
 });
 
-const facetsArray = reactive([]);
+// const facetsArray = reactive([]);
+let facetsArray = [];
 
 /**
  * Fonctions
@@ -45,9 +48,12 @@ function updateFacetData(facetData) {
     const itemIndex = getFacetItemIndex(lastFacetFilter);
     facetsArray.splice(itemIndex, 1);
   }
-  console.info(lastFacetFilter)
+
+  modifierFiltres(facetsArray);
+
+  console.log(lastFacetFilter)
   console.info("Filtres sélectionnés :")
-  console.info(facetsArray)
+  console.log(facetsArray)
 }
 
 // checkbox cochée

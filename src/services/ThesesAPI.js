@@ -31,10 +31,20 @@ function modifierTri(value) {
 }
 
 function modifierFiltres(value) {
-  currentFiltres.value = value;
+  currentFiltres.value = parseFiltersArray(value);
 }
 
-// Les status soutenue et en cours s'annulent
+function parseFiltersArray(objectsArray) {
+  let filtersArrayURL = [];
+
+  objectsArray.forEach((filter) => {
+    filtersArrayURL.push(encodeURIComponent(Object.keys(filter)[0]) + '=' + encodeURIComponent(Object.values(filter)[0]));
+  });
+
+  return filtersArrayURL.join('&').toLowerCase();
+}
+
+// Les status "soutenue" et "en cours" s'annulent
 function disableOrFilters(filters) {
   if (filters.includes("soutenues") && filters.includes("enCours")) {
     return filters.filter(e => e !== "soutenues").filter(e => e !== "enCours").filter(e => e !== "accessible");
@@ -45,10 +55,13 @@ function disableOrFilters(filters) {
 
 // Recherche simple dans les theses
 function rechercherThese(query) {
+  const url = "/recherche-java/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + "&filtres=" + disableOrFilters(currentFiltres.value).toString();
+  console.log("valeur du string dans l'uri")
+  console.log(url)
   if (query === "")
     query = "*";
   return new Promise((resolve, reject) => {
-    apiTheses.get("/recherche-java/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + "&filtres=" + disableOrFilters(currentFiltres.value).toString()).then((response) => {
+    apiTheses.get(url).then((response) => {
       resolve(response.data);
     }).catch((err) => {
       reject(err);
