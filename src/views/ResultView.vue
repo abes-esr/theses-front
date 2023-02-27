@@ -43,6 +43,7 @@
   <div class="main-wrapper">
     <span class="left-side nav-bar" v-if="!mobile">
       <GenericFacetsDrawer
+        v-model:drawers="facetsStateArray"
         :facets="facets"
         @updateFacetData="updateFacetData"
         :facets-array="facetsArray"
@@ -86,7 +87,7 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent, onMounted, ref } from 'vue';
+import { defineAsyncComponent, onMounted, reactive, ref } from "vue";
 import { useRoute } from 'vue-router';
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
@@ -112,6 +113,16 @@ const currentRoute = useRoute();
 const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
 let facetsArray = [];
+
+const facetsStateArray = reactive({}); // = new Array(); //= n => Array(n).fill({}).map(x => (...x) )
+// #TODO passer par facets pour récupérer la valeur checked
+// foreach(drawer in facets.data) {
+//   facetsStateArray.name = drawer.name;
+//   foreach(checkbox in checkboxes) {
+//     facetsStateArray[checkbox] = checkbox.name;
+//   }
+// }
+
 
 onMounted(() => {
   dataReady.value = false;
@@ -215,32 +226,44 @@ function updateFacets(query) {
   });
 }
 
+
 /**
  * Met à jour l'Array contenant les filtres sélectionnés.
  * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
  * @param facetData objet contenant le nom de la facette et de son filtre correspondant
  */
+
 function updateFacetData(facetData) {
   const lastFacetFilter =
     {
       [facetData.facetName]: facetData.filterName
     };
-  console.info(lastFacetFilter)
 
-  if(facetData.value && !arrayContainsFilter(lastFacetFilter)) {
-    // checkbox cochée
-    facetsArray.push(lastFacetFilter);
+  if(isChecked(facetData, lastFacetFilter)) {
+    facetsArray.splice(0,0, lastFacetFilter)
   } else {
-    facetsArray = facetsArray.filter(function(facetFilter) {
-      console.info(facetFilter)
-      return !filtersAreEqual(facetFilter, lastFacetFilter)
-    });
+    const itemIndex = getFacetItemIndex(lastFacetFilter);
+    facetsArray.splice(itemIndex, 1);
   }
+  console.info(lastFacetFilter)
   console.info("Filtres sélectionnés :")
   console.info(facetsArray)
 }
 
-// Vérifie les chaines de caractères contenues dans les Array
+// checkbox cochée
+function isChecked(facetData, lastFacetFilter) {
+  return facetData.value && !arrayContainsFilter(lastFacetFilter);
+}
+
+// Retourne l'index de l'objet courant dans le tableau facetsArray
+function getFacetItemIndex(lastFacetFilter) {
+  return facetsArray.findIndex(function(facetFilter) {
+    console.info(facetFilter);
+    return filtersAreEqual(facetFilter, lastFacetFilter);
+  });
+}
+
+// Compare les chaines de caractères contenues dans les Array
 function filtersAreEqual(object1, object2) {
   return  ( Object.keys(object1)[0] === Object.keys(object2)[0]
     && Object.values(object1)[0] === Object.values(object2)[0] );
