@@ -14,7 +14,7 @@
         @updateFacetData="updateFacetData"
         :facets-array="facetsArray"
         class="left-side"
-      >
+        >
       </GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
@@ -43,7 +43,6 @@
   <div class="main-wrapper">
     <span class="left-side nav-bar" v-if="!mobile">
       <GenericFacetsDrawer
-        v-model:drawers="facetsStateArray"
         :facets="facets"
         @updateFacetData="updateFacetData"
         :facets-array="facetsArray"
@@ -87,13 +86,12 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent, onMounted, reactive, ref } from "vue";
+import { defineAsyncComponent, onMounted, ref } from "vue";
 import { useRoute } from 'vue-router';
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import { useDisplay } from 'vuetify';
-// import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
-import GenericFacetsDrawer from "@/components/common/results/FacetsList.vue";
+import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultPaginationTop from '@/components/common/results/ResultPaginationTop.vue';
@@ -109,20 +107,8 @@ const { rechercherThese, getFacets } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
 const request = ref("");
 const currentRoute = useRoute();
-// #TODO Nettoyer les usage de facetsArray
 const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
-let facetsArray = [];
-
-const facetsStateArray = reactive({}); // = new Array(); //= n => Array(n).fill({}).map(x => (...x) )
-// #TODO passer par facets pour récupérer la valeur checked
-// foreach(drawer in facets.data) {
-//   facetsStateArray.name = drawer.name;
-//   foreach(checkbox in checkboxes) {
-//     facetsStateArray[checkbox] = checkbox.name;
-//   }
-// }
-
 
 onMounted(() => {
   dataReady.value = false;
@@ -131,6 +117,7 @@ onMounted(() => {
   updateFacets(request.value);
 });
 
+let facetsArray = [];
 let loading = ref(false);
 let result = ref([]);
 let facets = ref({});
@@ -182,16 +169,14 @@ function updatePage(payload) {
 }
 
 /**
- * Met à jour le nombre de résultat à afficher sur une page
+ * Met à jour le nombre de résultats à afficher sur une page
  * @param payload
  */
 function updateNombre(payload) {
   modifierNombre(payload);
   search(request.value);
-  // Mise à jour des valeurs de pagination dans tous les composants
-  currentNombre.value = payload;
-  // Retour à la page une
-  currentPage.value = 1;
+  currentNombre.value = payload; // Mise à jour des valeurs de pagination dans tous les composants
+  currentPage.value = 1; // Retour à la page une
 }
 
 function updateTri(payload) {
@@ -270,18 +255,11 @@ function filtersAreEqual(object1, object2) {
 }
 
 function arrayContainsFilter(lastFacetFilter) {
-  const countOccurences = facetsArray.filter(function(facetFilter) {
+  const countOccurrences = facetsArray.filter(function(facetFilter) {
     return filtersAreEqual(facetFilter, lastFacetFilter)
   }).length;
 
-  return countOccurences > 0;
-}
-
-function reinitialize() {
-  modifierPage(1);
-  currentPage.value = 1;
-  modifierNombre(10);
-  currentNombre.value = 10;
+  return countOccurrences > 0;
 }
 
 /**
@@ -290,6 +268,13 @@ function reinitialize() {
 function reinitializeCurrentRequest() {
   reinitialize();
   search(request.value);
+}
+
+function reinitialize() {
+  modifierPage(1);
+  currentPage.value = 1;
+  modifierNombre(10);
+  currentNombre.value = 10;
 }
 
 function searchAndReinitialize(query) {

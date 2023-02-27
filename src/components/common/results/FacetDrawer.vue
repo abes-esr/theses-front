@@ -26,10 +26,7 @@
 <script setup>
 import FacetCheckbox from "@/components/common/results/FacetCheckbox.vue";
 // import SearchBar from "@/components/generic/GenericSearchBar.vue";
-import { computed, ref } from "vue";
-
-const marginOffset = ref(0);
-const facetItems = props.facet.checkboxes;
+import { ref } from "vue";
 
 const emit = defineEmits(['update:facetsArray', 'updateFacetData']);
 const props = defineProps({
@@ -40,6 +37,8 @@ const props = defineProps({
       type: Object
     }
   });
+const marginOffset = ref(0);
+const facetItems = props.facet.checkboxes;
 
 /**
  * Fonctions

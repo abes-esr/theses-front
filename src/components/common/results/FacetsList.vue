@@ -12,8 +12,6 @@
 </template>
 
 <script setup>
-// import { computed, ref, watch } from "vue";
-// import { thesesAPIService } from "@/services/ThesesAPI";
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
 
 const props = defineProps({
@@ -26,23 +24,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:facetsArray', 'updateFacetData']);
-
-/**
- * Watchers
- */
-
-// const { modifierFiltres } = thesesAPIService();
-// let filtres = ref([]);
-// watch(filtres, async (newFiltres, oldFiltres) => {
-//   if (oldFiltres.includes("soutenues") && !newFiltres.includes("soutenues")) {
-//     filtres.value = newFiltres.filter(e => e !== 'accessible');
-//
-//   } else if (newFiltres.includes("accessible")) {
-//     filtres.value.push("soutenues")
-//   }
-//
-//   modifierFiltres(newFiltres);
-// });
 
 /**
  * Functions

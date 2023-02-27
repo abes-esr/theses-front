@@ -257,7 +257,10 @@ async function getFacets(query) {
     resolve(mockupJSON);
   });
 
-  // return apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(query));
+  // const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(query));
+  // console.log("Réponse API facettes : ")
+  // console.log(facets)
+  // return facets;
 }
 
 //Récupération des infos détaillées d'une theses
