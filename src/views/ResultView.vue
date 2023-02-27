@@ -13,6 +13,7 @@
         :facets="facets"
         @updateFacetData="updateFacetData"
         :facets-array="facetsArray"
+        class="left-side"
       >
       </GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
@@ -45,6 +46,7 @@
         :facets="facets"
         @updateFacetData="updateFacetData"
         :facets-array="facetsArray"
+        class="left-side"
         >
       </GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>

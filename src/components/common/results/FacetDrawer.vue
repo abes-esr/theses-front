@@ -15,7 +15,8 @@
             :facet-name="facet.name"
             :facet-item="facetItem"
             @updateFacetData="updateFacetData"
-            :margin-offset="marginOffset" />
+            :margin-offset="marginOffset"
+          />
         </div>
       </v-expansion-panel-text>
     </v-expansion-panel>
@@ -39,15 +40,6 @@ const props = defineProps({
       type: Object
     }
   });
-const facetsArray = computed({
-  get() {
-    return props.facetsArray;
-  },
-  set(value) {
-    emit('update:facetsArray', value);
-  }
-});
-
 
 /**
  * Fonctions

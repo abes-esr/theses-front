@@ -12,8 +12,8 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
-import { thesesAPIService } from "@/services/ThesesAPI";
+// import { computed, ref, watch } from "vue";
+// import { thesesAPIService } from "@/services/ThesesAPI";
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
 
 const props = defineProps({
@@ -26,15 +26,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:facetsArray', 'updateFacetData']);
-
-const facetsArray = computed({
-  get() {
-    return props.facetsArray;
-  },
-  set(value) {
-    emit('update:facetsArray', value);
-  }
-});
 
 /**
  * Watchers

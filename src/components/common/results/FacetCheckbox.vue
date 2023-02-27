@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { ref, watch } from "vue";
 
   const emit = defineEmits(['updateParentCheckbox','updateFacetData', 'updateFacetDataRecursive']);
   const props = defineProps({
