@@ -9,13 +9,7 @@
       <domain-selector compact></domain-selector>
       <search-bar @search="searchAndReinitialize" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
-      <GenericFacetsDrawer
-        :facets="facets"
-        @updateFacetData="updateFacetData"
-        :facets-array="facetsArray"
-        class="left-side"
-        >
-      </GenericFacetsDrawer>
+      <GenericFacetsDrawer :facets="facets" class="left-side"></GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
   </nav>
@@ -42,17 +36,10 @@
   </div>
   <div class="main-wrapper">
     <span class="left-side nav-bar" v-if="!mobile">
-      <GenericFacetsDrawer
-        :facets="facets"
-        @updateFacetData="updateFacetData"
-        :facets-array="facetsArray"
-        class="left-side"
-        >
-      </GenericFacetsDrawer>
+      <GenericFacetsDrawer :facets="facets" class="left-side"></GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
+<!--      Mettre à jour filtres dans thesesAPI depuis une nouvelle fonction-->
     </span>
-
-
     <div v-resize="reinitializeCurrentRequest" class="result-list" v-if="dataReady">
       <h1 class="pb-6">{{ nbResult }}{{
         $t(currentRoute.query.domaine +
@@ -117,7 +104,6 @@ onMounted(() => {
   updateFacets(request.value);
 });
 
-let facetsArray = [];
 let loading = ref(false);
 let result = ref([]);
 let facets = ref({});
@@ -202,64 +188,12 @@ function displayError(message) {
   })
 }
 
-// #TODO appeler updateFacets depuis la recherche de la page principale
 function updateFacets(query) {
   getFacets(query).then(response => {
     facets.value = response.data;
   }).catch(error => {
     displayError(error.message);
   });
-}
-
-
-/**
- * Met à jour l'Array contenant les filtres sélectionnés.
- * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
- * @param facetData objet contenant le nom de la facette et de son filtre correspondant
- */
-
-function updateFacetData(facetData) {
-  const lastFacetFilter =
-    {
-      [facetData.facetName]: facetData.filterName
-    };
-
-  if(isChecked(facetData, lastFacetFilter)) {
-    facetsArray.splice(0,0, lastFacetFilter)
-  } else {
-    const itemIndex = getFacetItemIndex(lastFacetFilter);
-    facetsArray.splice(itemIndex, 1);
-  }
-  console.info(lastFacetFilter)
-  console.info("Filtres sélectionnés :")
-  console.info(facetsArray)
-}
-
-// checkbox cochée
-function isChecked(facetData, lastFacetFilter) {
-  return facetData.value && !arrayContainsFilter(lastFacetFilter);
-}
-
-// Retourne l'index de l'objet courant dans le tableau facetsArray
-function getFacetItemIndex(lastFacetFilter) {
-  return facetsArray.findIndex(function(facetFilter) {
-    console.info(facetFilter);
-    return filtersAreEqual(facetFilter, lastFacetFilter);
-  });
-}
-
-// Compare les chaines de caractères contenues dans les Array
-function filtersAreEqual(object1, object2) {
-  return  ( Object.keys(object1)[0] === Object.keys(object2)[0]
-    && Object.values(object1)[0] === Object.values(object2)[0] );
-}
-
-function arrayContainsFilter(lastFacetFilter) {
-  const countOccurrences = facetsArray.filter(function(facetFilter) {
-    return filtersAreEqual(facetFilter, lastFacetFilter)
-  }).length;
-
-  return countOccurrences > 0;
 }
 
 /**

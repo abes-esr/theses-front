@@ -71,33 +71,15 @@ async function getFacets(query) {
           "name": "statut",
           "type": "drawer",
           "search-bar": false,
-          "checked": false,
           checkboxes: [
             {
               "name": "soutenue",
               "value": 19229,
-              "checked": false,
-              children: [
+              checkboxes: [
                 {
                   "parentName": "soutenue",
                   "name": "Accessible en ligne",
-                  "value": 5591,
-                  "checked": false,
-                  "children": [{
-                    "name": "Lyon 1",
-                    "value": 987,
-                    "checked": false,
-                  },
-                    {
-                      "name": "Strasbourg",
-                      "value": 541,
-                      "checked": false,
-                    },
-                    {
-                      "name": "Paris 6",
-                      "value": 2223,
-                      "checked": false,
-                    }]
+                  "value": 5591
                 }
               ]
             },
@@ -105,14 +87,12 @@ async function getFacets(query) {
               "name": "En cours",
               "value": 55,
               children: [],
-              "checked": false,
             }
           ]
         },
         {
           "name": "Etablissements",
           "type": "drawer",
-          "search-bar": true,
           "checkboxes": [
             {
               "name": "Lyon 1",

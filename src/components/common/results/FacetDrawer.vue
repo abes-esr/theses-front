@@ -44,7 +44,7 @@ const facetItems = props.facet.checkboxes;
  * Fonctions
  */
 function updateFacetData(filterData) {
-  filterData.facetName = props.facet.name;
+  filterData.facetName = props.facet.name; // Nom de la facette
   emit("updateFacetData", filterData);
 }
 </script>

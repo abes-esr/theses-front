@@ -8,10 +8,10 @@
     ></v-checkbox>
 
     <template v-if="(recursionDepth <= maxRecursionDepth)
-                      && facetItem.children
-                      && facetItem.children.length">
+                      && facetItem.checkboxes
+                      && facetItem.checkboxes.length">
       <div
-        v-for="facetItem in facetItem.children"
+        v-for="facetItem in facetItem.checkboxes"
         :key="`facet-${facetItem.name}`"
       >
         <facet-checkbox

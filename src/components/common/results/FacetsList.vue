@@ -13,24 +13,70 @@
 
 <script setup>
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
+import { reactive } from "vue";
 
-const props = defineProps({
-  facetsArray: {
-    type: Array
-  },
+defineProps({
   facets: {
     type: Object
   }
 });
 
-const emit = defineEmits(['update:facetsArray', 'updateFacetData']);
+const facetsArray = reactive([]);
 
 /**
- * Functions
+ * Fonctions
  */
+
+/**
+ * Met à jour l'Array contenant les filtres sélectionnés.
+ * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
+ * @param facetData objet contenant le nom de la facette et de son filtre correspondant
+ */
+
 function updateFacetData(facetData) {
-  emit("updateFacetData", facetData);
+  const lastFacetFilter =
+    {
+      [facetData.facetName]: facetData.filterName
+    };
+
+  if(isChecked(facetData, lastFacetFilter)) {
+    facetsArray.splice(0,0, lastFacetFilter)
+  } else {
+    const itemIndex = getFacetItemIndex(lastFacetFilter);
+    facetsArray.splice(itemIndex, 1);
+  }
+  console.info(lastFacetFilter)
+  console.info("Filtres sélectionnés :")
+  console.info(facetsArray)
 }
+
+// checkbox cochée
+function isChecked(facetData, lastFacetFilter) {
+  return facetData.value && !arrayContainsFilter(lastFacetFilter);
+}
+
+// Retourne l'index de l'objet courant dans le tableau facetsArray
+function getFacetItemIndex(lastFacetFilter) {
+  return facetsArray.findIndex(function(facetFilter) {
+    console.info(facetFilter);
+    return filtersAreEqual(facetFilter, lastFacetFilter);
+  });
+}
+
+// Compare les chaines de caractères contenues dans les Array
+function filtersAreEqual(object1, object2) {
+  return  ( Object.keys(object1)[0] === Object.keys(object2)[0]
+    && Object.values(object1)[0] === Object.values(object2)[0] );
+}
+
+function arrayContainsFilter(lastFacetFilter) {
+  const countOccurrences = facetsArray.filter(function(facetFilter) {
+    return filtersAreEqual(facetFilter, lastFacetFilter)
+  }).length;
+
+  return countOccurrences > 0;
+}
+
 </script>
 
 <style scoped lang="scss">
