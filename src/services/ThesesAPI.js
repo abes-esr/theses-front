@@ -92,7 +92,25 @@ async function getFacets(query) {
                 {
                   "parentName": "soutenue",
                   "name": "Accessible en ligne",
-                  "value": 5591
+                  "value": 5591,
+                  checkboxes: [
+                    {
+                      "name": "Paris 6",
+                      "value": 2223
+                    },
+                    {
+                      "name": "Nantes",
+                      "value": 561
+                    },
+                    {
+                      "name": "Bordeaux 1",
+                      "value": 966
+                    },
+                    {
+                      "name": "Paris 11",
+                      "value": 1446
+                    },
+                  ]
                 }
               ]
             },

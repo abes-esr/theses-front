@@ -11,7 +11,7 @@
                       && facetItem.checkboxes
                       && facetItem.checkboxes.length">
       <div
-        v-for="facetItem in facetItem.checkboxes"
+        v-for="facetItem in childrenCheckboxes.value"
         :key="`facet-${facetItem.name}`"
       >
         <facet-checkbox
@@ -28,7 +28,8 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { reactive, ref, watch } from "vue";
+import { sortByAlphaNumericOrder } from "@/services/Common";
 
   const emit = defineEmits(['updateParentCheckbox','updateFacetData', 'updateFacetDataRecursive']);
   const props = defineProps({
@@ -53,6 +54,12 @@ import { ref, watch } from "vue";
   const maxRecursionDepth = 3;
   const recursionDepth = props.marginOffset/4;  // Multiple de 4 (utilisation de la variable marginOffset) => niveau 2 = 4
   const checkboxState = ref(arrayContainsFilter());
+  let childrenCheckboxes = reactive([]);
+
+  if (props.facetItem.checkboxes) {
+    childrenCheckboxes.value = reactive(props.facetItem.checkboxes);
+    sortByAlphaNumericOrder(childrenCheckboxes.value);
+  }
 
   /**
    * Watchers

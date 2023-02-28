@@ -1,8 +1,10 @@
 <template>
-  <v-expansion-panels rounded variant="popout">
+  <v-expansion-panels rounded>
     <v-expansion-panel>
-      <v-expansion-panel-title class="checkboxes">
-        {{ facet.name }}
+      <v-expansion-panel-title class="checkboxes" ripple="true">
+        <h3 class="facet-title">
+          {{ facet.name }}
+        </h3>
       </v-expansion-panel-title>
       <v-expansion-panel-text>
 <!--        <facet-search-bar></facet-search-bar> #TODO -->
@@ -27,6 +29,7 @@
 import FacetCheckbox from "@/components/common/results/FacetCheckbox.vue";
 // import SearchBar from "@/components/generic/GenericSearchBar.vue";
 import { reactive, ref } from "vue";
+import { sortByAlphaNumericOrder } from "@/services/Common";
 
 const emit = defineEmits(['update:facetsArray', 'updateFacetData']);
 const props = defineProps({
@@ -38,18 +41,12 @@ const props = defineProps({
   }
 });
 const marginOffset = ref(0);
-let facetItems = props.facet.checkboxes;
-sortByAlphabeticalOrder(facetItems);
+let facetItems = reactive(props.facet.checkboxes);
+sortByAlphaNumericOrder(facetItems);
 
 /**
  * Fonctions
  */
-function sortByAlphabeticalOrder(array) {
-  array.sort((a, b) => {
-    return a.name > b.name;
-  });
-}
-
 function updateFacetData(filterData) {
   filterData.facetName = props.facet.name; // Nom de la facette
   emit("updateFacetData", filterData);
@@ -58,6 +55,11 @@ function updateFacetData(filterData) {
 
 <style scoped>
   .checkboxes {
+    display: inline-flex;
+    flex-direction: row;
+  }
+
+  .facet-title {
     text-transform: capitalize;
   }
 </style>
