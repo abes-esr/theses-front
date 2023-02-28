@@ -26,23 +26,30 @@
 <script setup>
 import FacetCheckbox from "@/components/common/results/FacetCheckbox.vue";
 // import SearchBar from "@/components/generic/GenericSearchBar.vue";
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 
 const emit = defineEmits(['update:facetsArray', 'updateFacetData']);
 const props = defineProps({
-    facetsArray: {
-      type: Array
-    },
-    facet: {
-      type: Object
-    }
-  });
+  facetsArray: {
+    type: Array
+  },
+  facet: {
+    type: Object
+  }
+});
 const marginOffset = ref(0);
-const facetItems = props.facet.checkboxes;
+let facetItems = props.facet.checkboxes;
+sortByAlphabeticalOrder(facetItems);
 
 /**
  * Fonctions
  */
+function sortByAlphabeticalOrder(array) {
+  array.sort((a, b) => {
+    return a.name > b.name;
+  });
+}
+
 function updateFacetData(filterData) {
   filterData.facetName = props.facet.name; // Nom de la facette
   emit("updateFacetData", filterData);

@@ -13,7 +13,7 @@
 
 <script setup>
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
-import { reactive } from "vue";
+// import { reactive } from "vue";
 import { thesesAPIService } from "@/services/ThesesAPI";
 const { modifierFiltres } = thesesAPIService();
 
