@@ -4,6 +4,7 @@
         v-for="facet in facets"
         :key="`facet-${facet.name}`"
         @updateFacetData="updateFacetData"
+        @reinitializeCheckboxes="reinitializeCheckboxes"
         :facet="facet"
         :facets-array="facetsArray"
         class="my-3"
@@ -15,6 +16,8 @@
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
 // import { reactive } from "vue";
 import { thesesAPIService } from "@/services/ThesesAPI";
+import { ref } from "vue";
+
 const { modifierFiltres } = thesesAPIService();
 
 defineProps({
@@ -23,48 +26,24 @@ defineProps({
   }
 });
 
-// const facetsArray = reactive([]);
-let facetsArray = [];
+const facetsArray = ref([]);
 
 /**
  * Fonctions
  */
 
 /**
- * Met à jour l'Array contenant les filtres sélectionnés.
- * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
- * @param facetData objet contenant le nom de la facette et de son filtre correspondant
+ * checkbox cochée
+ * @Param facetData
+ * @Param lastFacetFilter mise en forme de facetData
  */
-
-function updateFacetData(facetData) {
-  const lastFacetFilter =
-    {
-      [facetData.facetName]: facetData.filterName
-    };
-
-  if(isChecked(facetData, lastFacetFilter)) {
-    facetsArray.splice(0,0, lastFacetFilter)
-  } else {
-    const itemIndex = getFacetItemIndex(lastFacetFilter);
-    facetsArray.splice(itemIndex, 1);
-  }
-
-  modifierFiltres(facetsArray);
-
-  console.log(lastFacetFilter)
-  console.info("Filtres sélectionnés :")
-  console.log(facetsArray)
-}
-
-// checkbox cochée
 function isChecked(facetData, lastFacetFilter) {
   return facetData.value && !arrayContainsFilter(lastFacetFilter);
 }
 
 // Retourne l'index de l'objet courant dans le tableau facetsArray
 function getFacetItemIndex(lastFacetFilter) {
-  return facetsArray.findIndex(function(facetFilter) {
-    console.info(facetFilter);
+  return facetsArray.value.findIndex(function(facetFilter) {
     return filtersAreEqual(facetFilter, lastFacetFilter);
   });
 }
@@ -76,13 +55,62 @@ function filtersAreEqual(object1, object2) {
 }
 
 function arrayContainsFilter(lastFacetFilter) {
-  const countOccurrences = facetsArray.filter(function(facetFilter) {
+  const countOccurrences = facetsArray.value.filter(function(facetFilter) {
     return filtersAreEqual(facetFilter, lastFacetFilter)
   }).length;
-
   return countOccurrences > 0;
 }
 
+
+function getFacetItemsIndexes(facetName) {
+  let selectedFiltersIndexes = [];
+
+  facetsArray.value.forEach(function(facetFilter, index) {
+    if (Object.keys(facetFilter)[0] === facetName) {
+      selectedFiltersIndexes.push(index);
+    }
+  });
+  return selectedFiltersIndexes;
+}
+/**
+ * Emit
+ */
+/**
+ * Met à jour l'Array contenant les filtres sélectionnés.
+ * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
+ * @param facetData objet contenant le nom de la facette et de son filtre correspondant
+ */
+function updateFacetData(facetData) {
+  const lastFacetFilter =
+    {
+      [facetData.facetName]: facetData.filterName
+    };
+
+  if(isChecked(facetData, lastFacetFilter)) {
+    // Ajout
+    facetsArray.value.splice(0,0, lastFacetFilter)
+  } else {
+    // Suppression
+    const itemIndex = getFacetItemIndex(lastFacetFilter);
+    if( itemIndex > -1 ) {
+      facetsArray.value.splice(itemIndex, 1);
+    }
+  }
+
+  console.info(facetsArray.value)
+
+  modifierFiltres(facetsArray.value);
+}
+
+function reinitializeCheckboxes(facetName) {
+  let selectedFiltersIndexes = getFacetItemsIndexes(facetName);
+
+  selectedFiltersIndexes.reverse().forEach(function(key) {
+    facetsArray.value.splice(key, 1);
+  });
+
+  modifierFiltres(facetsArray.value)
+}
 </script>
 
 <style scoped lang="scss">

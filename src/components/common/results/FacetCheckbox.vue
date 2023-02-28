@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { sortByAlphaNumericOrder } from "@/services/Common";
 
   const emit = defineEmits(['updateParentCheckbox','updateFacetData', 'updateFacetDataRecursive']);
@@ -54,12 +54,10 @@ import { sortByAlphaNumericOrder } from "@/services/Common";
   const maxRecursionDepth = 3;
   const recursionDepth = props.marginOffset/4;  // Multiple de 4 (utilisation de la variable marginOffset) => niveau 2 = 4
   const checkboxState = ref(arrayContainsFilter());
-  let childrenCheckboxes = reactive([]);
 
-  if (props.facetItem.checkboxes) {
-    childrenCheckboxes.value = reactive(props.facetItem.checkboxes);
-    sortByAlphaNumericOrder(childrenCheckboxes.value);
-  }
+  let childrenCheckboxes = computed(() => {
+    return sortByAlphaNumericOrder(props.facetItem.checkboxes);
+  });
 
   /**
    * Watchers
@@ -71,6 +69,13 @@ import { sortByAlphaNumericOrder } from "@/services/Common";
       checkboxState.value = false;
     }
   });
+
+  // Mise à jour de facetsArray depuis les composants parents
+  watch(props.facetsArray,
+     () => {
+      checkboxState.value = arrayContainsFilter();
+    }
+  );
 
   watch(checkboxState, async (newValue) => {
     // Faire remonter le nom du filtre
@@ -110,10 +115,10 @@ function updateFacetDataRecursive(itemData) {
 }
 function arrayContainsFilter() {
   if(props.facetsArray) {
-    return props.facetsArray.filter(filter =>
-      Object.values(filter)[0] === props.facetItem.name
-      && Object.keys(filter)[0] === props.facetName
-    ).length > 0
+    return props.facetsArray.filter(function(filter) {
+      return Object.values(filter)[0] === props.facetItem.name && Object.keys(filter)[0] === props.facetName
+    }
+    ).length > 0;
   }
   return false;
 }

@@ -5,6 +5,9 @@
         <h3 class="facet-title">
           {{ facet.name }}
         </h3>
+        <v-btn  @click.stop="" @click="reinitializeCheckboxes" class="reinitialize " density="compact" size="small" max-width="5vw" >
+          Réinitialiser
+        </v-btn>
       </v-expansion-panel-title>
       <v-expansion-panel-text>
 <!--        <facet-search-bar></facet-search-bar> #TODO -->
@@ -28,10 +31,10 @@
 <script setup>
 import FacetCheckbox from "@/components/common/results/FacetCheckbox.vue";
 // import SearchBar from "@/components/generic/GenericSearchBar.vue";
-import { reactive, ref } from "vue";
+import { computed, ref } from "vue";
 import { sortByAlphaNumericOrder } from "@/services/Common";
 
-const emit = defineEmits(['update:facetsArray', 'updateFacetData']);
+const emit = defineEmits(['update:facetsArray', 'updateFacetData', 'reinitializeCheckboxes']);
 const props = defineProps({
   facetsArray: {
     type: Array
@@ -41,8 +44,10 @@ const props = defineProps({
   }
 });
 const marginOffset = ref(0);
-let facetItems = reactive(props.facet.checkboxes);
-sortByAlphaNumericOrder(facetItems);
+
+let facetItems = computed(() => {
+  return sortByAlphaNumericOrder(props.facet.checkboxes);
+});
 
 /**
  * Fonctions
@@ -51,9 +56,15 @@ function updateFacetData(filterData) {
   filterData.facetName = props.facet.name; // Nom de la facette
   emit("updateFacetData", filterData);
 }
+
+function reinitializeCheckboxes() {
+  emit("reinitializeCheckboxes", props.facet.name)
+}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@use 'vuetify/settings';
+
   .checkboxes {
     display: inline-flex;
     flex-direction: row;
@@ -61,5 +72,10 @@ function updateFacetData(filterData) {
 
   .facet-title {
     text-transform: capitalize;
+  }
+
+  .reinitialize {
+    font-size: x-small;
+    background-color:  rgb(var(--v-primary-darken-1)) !important;
   }
 </style>

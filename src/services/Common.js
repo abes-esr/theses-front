@@ -2,7 +2,8 @@ export function scrollToTop() {
   window.scrollTo(0, 0);
 }
 
-export function sortByAlphaNumericOrder(array) {
+export function sortByAlphaNumericOrder(source) {
+  let array = [...source];
   const alphaNumericSort = (arr = []) => {
     const sorter = (aObject, bObject) => {
       const a = aObject.name;
@@ -27,4 +28,6 @@ export function sortByAlphaNumericOrder(array) {
   };
 
   alphaNumericSort(array);
+
+  return array;
 }
