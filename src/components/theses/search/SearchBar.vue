@@ -1,10 +1,24 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" clearable :label='$t("rechercher")' v-model="request"
-      v-model:search="requestSearch" type="text" variant="outlined" :items="items" :menu="suggestionActive" cache-items
-      hide-no-data hide-selected no-filter :active="true" return-object append-inner-icon @keydown.enter="search">
+    <v-combobox class="searchbar__input"
+                :label='$t("rechercher")'
+                v-model="request"
+                v-model:search="requestSearch"
+                :items="items"
+                variant="outlined"
+                :menu="suggestionActive"
+                cache-items
+                hide-no-data
+                hide-selected
+                no-filter
+                append-inner-icon
+                @keydown.enter="search"
+                :active="true"
+                return-object
+                type="text"
+    >
       <template v-slot:append-inner>
-        <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch">
+        <v-btn plain flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :ripple="false">
         </v-btn>
       </template>
       <template v-slot:append>
@@ -45,7 +59,7 @@ defineProps({
 })
 const request = ref("");
 const requestSearch = ref("");
-const emit = defineEmits(['search', 'onError']);
+const emit = defineEmits(['search', 'onError', 'reinitializeFacets']);
 let watcherActive = true;
 const disableCompletion = ref(false);
 
@@ -112,7 +126,16 @@ async function search() {
       query: currentURLParams
     })
   }
+
   emit('search', request.value);
+}
+
+/**
+ * Fonction lorsqu'on vide le champs de saisie
+ */
+function clearSearch() {
+  request.value = "";
+  search();
 }
 
 defineExpose({
@@ -209,5 +232,9 @@ defineExpose({
 /* Permet de rendre l'autocompletion + dense */
 :deep(.v-overlay-container) .v-list-item--density-default.v-list-item--one-line {
   min-height: 20px !important;
+}
+
+.no-background-hover::before {
+  background-color: transparent !important;
 }
 </style>

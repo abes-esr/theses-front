@@ -1,9 +1,23 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-      :items="items" @update:modelValue="selectSuggestion" variant="outlined" item-title="suggestion"
-      item-value="suggestion" :loading="isLoading" :menu="suggestionActive" cache-items hide-no-data hide-selected
-      no-filter append-inner-icon @keydown.enter="search">
+    <v-combobox class="searchbar__input"
+                :label='$t("rechercher")'
+                v-model="request"
+                v-model:search="requestSearch"
+                :items="items"
+                variant="outlined"
+                :menu="suggestionActive"
+                cache-items
+                hide-no-data
+                hide-selected
+                no-filter
+                append-inner-icon
+                @keydown.enter="search"
+                @update:modelValue="selectSuggestion"
+                item-title="suggestion"
+                item-value="suggestion"
+                :loading="isLoading"
+    >
       <template v-slot:append-inner>
         <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch">
         </v-btn>

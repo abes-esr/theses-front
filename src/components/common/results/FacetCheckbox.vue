@@ -11,7 +11,7 @@
                       && facetItem.checkboxes
                       && facetItem.checkboxes.length">
       <div
-        v-for="facetItem in childrenCheckboxes.value"
+        v-for="facetItem in childrenCheckboxes"
         :key="`facet-${facetItem.name}`"
       >
         <facet-checkbox
@@ -55,9 +55,12 @@ import { sortByAlphaNumericOrder } from "@/services/Common";
   const recursionDepth = props.marginOffset/4;  // Multiple de 4 (utilisation de la variable marginOffset) => niveau 2 = 4
   const checkboxState = ref(arrayContainsFilter());
 
-  let childrenCheckboxes = computed(() => {
-    return sortByAlphaNumericOrder(props.facetItem.checkboxes);
-  });
+    let childrenCheckboxes = computed(() => {
+      if (props.facetItem.checkboxes) {
+        return sortByAlphaNumericOrder(props.facetItem.checkboxes);
+      }
+      return [];
+    });
 
   /**
    * Watchers

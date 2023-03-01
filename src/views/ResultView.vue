@@ -7,9 +7,9 @@
         </v-icon>
       </template>
       <domain-selector compact></domain-selector>
-      <search-bar @search="searchAndReinitialize" :loading="loading" @onError="displayError" />
+      <search-bar @search="reinitializeFacets" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
-      <GenericFacetsDrawer :facets="facets" class="left-side"></GenericFacetsDrawer>
+      <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets" :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
   </nav>
@@ -25,7 +25,7 @@
     </div>
     <div class="sub_header__action">
       <domain-selector compact></domain-selector>
-      <search-bar @search="searchAndReinitialize" :loading="loading" @onError="displayError" />
+      <search-bar @search="reinitializeFacets" :loading="loading" @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="vertical-thread"></div>
@@ -36,7 +36,7 @@
   </div>
   <div class="main-wrapper">
     <span class="left-side nav-bar" v-if="!mobile">
-      <GenericFacetsDrawer :facets="facets" class="left-side"></GenericFacetsDrawer>
+      <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets" :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
 <!--      Mettre à jour filtres dans thesesAPI depuis une nouvelle fonction-->
     </span>
@@ -86,6 +86,7 @@ import ResultPaginationBottom from '@/components/common/results/ResultPagination
 import GenericResultList from "@/components/generic/GenericResultList.vue";
 import ScrollToTopButton from "@/components/common/results/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
+import { scrollToTop } from "@/services/Common";
 
 
 const { mobile } = useDisplay()
@@ -96,6 +97,7 @@ const request = ref("");
 const currentRoute = useRoute();
 const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
+const resetFacets = ref(0);
 
 onMounted(() => {
   dataReady.value = false;
@@ -113,9 +115,6 @@ let currentPage = ref(1);
 let currentNombre = ref(10);
 
 async function search(query) {
-  request.value = query;
-  loading.value = true;
-
   if (currentRoute.query.domaine == "theses") {
     rechercherThese(query).then(response => {
       result.value = response.theses;
@@ -136,6 +135,11 @@ async function search(query) {
       dataReady.value = true;
     }
   }
+}
+
+function saveQuery(query) {
+  request.value = query;
+  loading.value = true;
 }
 
 const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
@@ -172,6 +176,7 @@ function updateTri(payload) {
 
 function update() {
   search(request.value);
+  scrollToTop();
 }
 
 function moreThanXResults(x) {
@@ -211,10 +216,15 @@ function reinitialize() {
   currentNombre.value = 10;
 }
 
-function searchAndReinitialize(query) {
+function reinitializeFacets(query) {
+  saveQuery(query);
+  resetFacets.value++;
+}
+
+function searchAndReinitialize() {
   reinitialize();
-  search(query);
-  updateFacets(query);
+  search(request.value);
+  updateFacets(request.value);
 }
 </script>
 

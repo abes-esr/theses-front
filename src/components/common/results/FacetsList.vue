@@ -16,16 +16,20 @@
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
 // import { reactive } from "vue";
 import { thesesAPIService } from "@/services/ThesesAPI";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const { modifierFiltres } = thesesAPIService();
 
-defineProps({
+const props = defineProps({
   facets: {
     type: Object
+  },
+  resetFacets: {
+    type: Number
   }
 });
 
+const emit = defineEmits(['update','searchAndReinitialize']);
 const facetsArray = ref([]);
 
 /**
@@ -110,7 +114,22 @@ function reinitializeCheckboxes(facetName) {
   });
 
   modifierFiltres(facetsArray.value)
+  emit('update');
 }
+
+function resetArray(array) {
+  array.splice(0, array.length);
+}
+
+/**
+ * Watchers
+ */
+watch(() => props.resetFacets,
+  () => {
+  resetArray(facetsArray.value);
+  modifierFiltres(facetsArray.value);
+  emit('searchAndReinitialize');
+})
 </script>
 
 <style scoped lang="scss">
