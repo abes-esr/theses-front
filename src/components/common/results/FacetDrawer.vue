@@ -1,13 +1,27 @@
 <template>
   <v-expansion-panels rounded>
     <v-expansion-panel>
-      <v-expansion-panel-title class="checkboxes" ripple="true">
-        <h3 class="facet-title">
-          {{ facet.name }}
-        </h3>
-        <v-btn  @click.stop="" @click="reinitializeCheckboxes" class="reinitialize " density="compact" size="small" max-width="5vw" >
-          Réinitialiser
-        </v-btn>
+      <v-expansion-panel-title ripple="true">
+        <v-row justify="space-between" align="center">
+          <v-col cols="7">
+            <h4 class="facet-title">
+              {{ facet.name }}
+            </h4>
+          </v-col>
+          <v-col cols="2">
+            <v-btn
+              @click.stop=""
+              @click="reinitializeCheckboxes"
+              class="reinitialize"
+              depressed="true"
+              elevation="0"
+              color="primary"
+            >
+              <v-icon>mdi-reload</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="1"></v-col>
+        </v-row>
       </v-expansion-panel-title>
       <v-expansion-panel-text>
 <!--        <facet-search-bar></facet-search-bar> #TODO -->
@@ -65,9 +79,8 @@ function reinitializeCheckboxes() {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-  .checkboxes {
-    display: inline-flex;
-    flex-direction: row;
+  .facet-header {
+    align-items: center;
   }
 
   .facet-title {
@@ -75,7 +88,7 @@ function reinitializeCheckboxes() {
   }
 
   .reinitialize {
-    font-size: x-small;
-    background-color:  rgb(var(--v-primary-darken-1)) !important;
+    width: 36px;
+    min-width: 36px;
   }
 </style>
