@@ -131,7 +131,7 @@ async function search() {
 }
 
 /**
- * Fonction lorsqu'on vide le champs de saisie
+ * Fonction lorsqu'on vide le champ de saisie
  */
 function clearSearch() {
   request.value = "";

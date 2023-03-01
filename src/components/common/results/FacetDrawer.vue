@@ -1,50 +1,47 @@
 <template>
   <v-expansion-panels rounded>
-    <v-expansion-panel>
-      <v-expansion-panel-title ripple="true">
-        <v-row justify="space-between" align="center">
-          <v-col cols="7">
-            <h4 class="facet-title">
-              {{ facet.name }}
-            </h4>
-          </v-col>
-          <v-col cols="2">
-            <v-btn
-              @click.stop=""
-              @click="reinitializeCheckboxes"
-              class="reinitialize"
-              depressed="true"
-              elevation="0"
-              color="primary"
+      <v-expansion-panel>
+        <v-expansion-panel-title ripple="true">
+              <h4 class="facet-title">
+                {{ facet.name }}
+              </h4>
+        </v-expansion-panel-title>
+        <v-expansion-panel-text class="pe-0">
+          <div class="facet-sub-menu">
+              <v-btn
+                @click.stop=""
+                @click="reinitializeCheckboxes"
+                class="reinitialize"
+                depressed="true"
+                elevation="0"
+                color="primary"
+              >
+                <v-icon>mdi-reload</v-icon>
+              </v-btn>
+              <facet-search-bar v-if="facet.searchBar" class="facet-search-bar"></facet-search-bar>
+          </div>
+          <div class="panel-text">
+            <div
+              v-for="facetItem in facetItems"
+              :key="`facet-${facetItem.name}`"
             >
-              <v-icon>mdi-reload</v-icon>
-            </v-btn>
-          </v-col>
-          <v-col cols="1"></v-col>
-        </v-row>
-      </v-expansion-panel-title>
-      <v-expansion-panel-text>
-<!--        <facet-search-bar></facet-search-bar> #TODO -->
-        <div
-          v-for="facetItem in facetItems"
-          :key="`facet-${facetItem.name}`"
-        >
-          <facet-checkbox
-            :facets-array="facetsArray"
-            :facet-name="facet.name"
-            :facet-item="facetItem"
-            @updateFacetData="updateFacetData"
-            :margin-offset="marginOffset"
-          />
-        </div>
-      </v-expansion-panel-text>
-    </v-expansion-panel>
+              <facet-checkbox
+                :facets-array="facetsArray"
+                :facet-name="facet.name"
+                :facet-item="facetItem"
+                @updateFacetData="updateFacetData"
+                :margin-offset="marginOffset"
+              />
+            </div>
+          </div>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
   </v-expansion-panels>
 </template>
 
 <script setup>
 import FacetCheckbox from "@/components/common/results/FacetCheckbox.vue";
-// import SearchBar from "@/components/generic/GenericSearchBar.vue";
+import FacetSearchBar from "@/components/common/results/FacetSearchBar.vue";
 import { computed, ref } from "vue";
 import { sortByAlphaNumericOrder } from "@/services/Common";
 
@@ -90,5 +87,32 @@ function reinitializeCheckboxes() {
   .reinitialize {
     width: 36px;
     min-width: 36px;
+  }
+
+  .panel-text {
+    overflow: auto;
+    padding-left: 10px;
+    //max-height: 80vh;
+    height: 20vh;
+  }
+
+  .v-expansion-panel-text :deep(.v-expansion-panel-text__wrapper) {
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+  }
+
+  .facet-search-bar {
+    width: 60%;
+    margin-left: 10px;
+  }
+
+  .facet-sub-menu {
+    width: 100%;
+    padding: 10px;
+    padding-top: 0px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 </style>

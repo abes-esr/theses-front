@@ -176,7 +176,6 @@ function updateTri(payload) {
 
 function update() {
   search(request.value);
-  scrollToTop();
 }
 
 function moreThanXResults(x) {
