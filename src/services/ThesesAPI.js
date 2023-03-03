@@ -30,8 +30,8 @@ function modifierTri(value) {
   currentTri.value = value;
 }
 
-function modifierFiltres(value) {
-  currentFiltres.value = parseFiltersArray(value);
+function modifierFiltres(objectsArray) {
+  currentFiltres.value = parseFiltersArray(objectsArray);
 }
 
 function setQuery() {
