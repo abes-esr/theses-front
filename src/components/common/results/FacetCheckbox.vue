@@ -88,7 +88,7 @@ import { sortByAlphaNumericOrder } from "@/services/Common";
     }
 
     if(props.marginOffset === 0) {
-      // Niveau 1  de récursion => sortir
+      // Niveau 1 de récursion → sortir
       emit("updateFilterData", filterData);
     } else {
       emit('updateFilterDataRecursive', filterData)
@@ -110,7 +110,7 @@ function updateSelfCheckbox(payload) {
 function updateFilterDataRecursive(filterData) {
   // Faire remonter le nom du filtre à travers les composants parents
   if(props.marginOffset === 0) {
-    // Niveau 1  de récursion => sortir
+    // Niveau 1 de récursion → sortir
     emit("updateFilterData", filterData);
   } else {
     emit('updateFilterDataRecursive', filterData)
