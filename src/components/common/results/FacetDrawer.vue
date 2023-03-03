@@ -30,7 +30,7 @@
                 :facets-array="facetsArray"
                 :facet-name="facet.name"
                 :facet-item="facetItem"
-                @updateFacetData="updateFacetData"
+                @updateFilterData="updateFilterData"
                 :margin-offset="marginOffset"
               />
             </div>
@@ -46,7 +46,7 @@ import FacetSearchBar from "@/components/common/results/FacetSearchBar.vue";
 import { computed, ref } from "vue";
 import { sortByAlphaNumericOrder } from "@/services/Common";
 
-const emit = defineEmits(['update:facetsArray', 'updateFacetData', 'reinitializeCheckboxes']);
+const emit = defineEmits(['update:facetsArray', 'updateFilterData', 'reinitializeCheckboxes']);
 const props = defineProps({
   facetsArray: {
     type: Array
@@ -64,9 +64,9 @@ let facetItems = computed(() => {
 /**
  * Fonctions
  */
-function updateFacetData(filterData) {
+function updateFilterData(filterData) {
   filterData.facetName = props.facet.name; // Nom de la facette
-  emit("updateFacetData", filterData);
+  emit("updateFilterData", filterData);
 }
 
 function reinitializeCheckboxes() {

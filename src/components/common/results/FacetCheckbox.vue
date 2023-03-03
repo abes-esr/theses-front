@@ -21,7 +21,7 @@
           :parent-checkbox-state="checkboxState"
           :facets-array="facetsArray"
           @updateParentCheckbox="updateSelfCheckbox"
-          @updateFacetDataRecursive="updateFacetDataRecursive"
+          @updateFilterDataRecursive="updateFilterDataRecursive"
         />
       </div>
     </template>
@@ -31,7 +31,7 @@
 import { computed, ref, watch } from "vue";
 import { sortByAlphaNumericOrder } from "@/services/Common";
 
-  const emit = defineEmits(['updateParentCheckbox','updateFacetData', 'updateFacetDataRecursive']);
+  const emit = defineEmits(['updateParentCheckbox','updateFilterData', 'updateFilterDataRecursive']);
   const props = defineProps({
     facetsArray: {
       type: Object
@@ -82,16 +82,16 @@ import { sortByAlphaNumericOrder } from "@/services/Common";
 
   watch(checkboxState, async (newValue) => {
     // Faire remonter le nom du filtre
-    const itemData = {
+    const filterData = {
       filterName: props.facetItem.name,
       value: newValue
     }
 
     if(props.marginOffset === 0) {
       // Niveau 1  de récursion => sortir
-      emit("updateFacetData", itemData);
+      emit("updateFilterData", filterData);
     } else {
-      emit('updateFacetDataRecursive', itemData)
+      emit('updateFilterDataRecursive', filterData)
     }
 
     // cocher les éléments parents si la case est cochée
@@ -107,13 +107,13 @@ function updateSelfCheckbox(payload) {
   checkboxState.value = payload;
 }
 
-function updateFacetDataRecursive(itemData) {
+function updateFilterDataRecursive(filterData) {
   // Faire remonter le nom du filtre à travers les composants parents
   if(props.marginOffset === 0) {
     // Niveau 1  de récursion => sortir
-    emit("updateFacetData", itemData);
+    emit("updateFilterData", filterData);
   } else {
-    emit('updateFacetDataRecursive', itemData)
+    emit('updateFilterDataRecursive', filterData)
   }
 }
 function arrayContainsFilter() {

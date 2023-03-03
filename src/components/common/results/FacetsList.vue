@@ -3,7 +3,7 @@
       <facet-drawer
         v-for="facet in facets"
         :key="`facet-${facet.name}`"
-        @updateFacetData="updateFacetData"
+        @updateFilterData="updateFilterData"
         @reinitializeCheckboxes="reinitializeCheckboxes"
         :facet="facet"
         :facets-array="facetsArray"
@@ -37,11 +37,11 @@ const facetsArray = ref([]);
 
 /**
  * checkbox cochée
- * @Param facetData
- * @Param lastFacetFilter mise en forme de facetData
+ * @Param filterData
+ * @Param lastFacetFilter mise en forme de filterData
  */
-function isChecked(facetData, lastFacetFilter) {
-  return facetData.value && !arrayContainsFilter(lastFacetFilter);
+function isChecked(filterData, lastFacetFilter) {
+  return filterData.value && !arrayContainsFilter(lastFacetFilter);
 }
 
 // Retourne l'index de l'objet courant dans le tableau facetsArray
@@ -81,15 +81,15 @@ function getFacetItemsIndexes(facetName) {
 /**
  * Met à jour l'Array contenant les filtres sélectionnés.
  * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
- * @param facetData objet contenant le nom de la facette et de son filtre correspondant
+ * @param filterData objet contenant le nom de la facette et de son filtre correspondant
  */
-function updateFacetData(facetData) {
+function updateFilterData(filterData) {
   const lastFacetFilter =
     {
-      [facetData.facetName]: facetData.filterName
+      [filterData.facetName]: filterData.filterName
     };
 
-  if(isChecked(facetData, lastFacetFilter)) {
+  if(isChecked(filterData, lastFacetFilter)) {
     // Ajout
     facetsArray.value.splice(0,0, lastFacetFilter)
   } else {
