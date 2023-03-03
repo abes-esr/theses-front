@@ -1,23 +1,24 @@
 <template>
   <v-expansion-panels rounded>
       <v-expansion-panel>
-        <v-expansion-panel-title ripple="true">
+        <v-expansion-panel-title ripple="true" class="facet-title-panel">
               <h4 class="facet-title">
                 {{ facet.name }}
               </h4>
-        </v-expansion-panel-title>
-        <v-expansion-panel-text class="pe-0">
-          <div class="facet-sub-menu">
               <v-btn
                 @click.stop=""
                 @click="reinitializeCheckboxes"
-                class="reinitialize"
+                class="reinitialize-button"
+                size="small"
                 depressed="true"
                 elevation="0"
                 color="primary"
               >
                 <v-icon>mdi-reload</v-icon>
               </v-btn>
+        </v-expansion-panel-title>
+        <v-expansion-panel-text class="pe-0">
+          <div class="facet-sub-menu">
               <facet-search-bar v-if="facet.searchBar" class="facet-search-bar"></facet-search-bar>
           </div>
           <div class="panel-text">
@@ -76,43 +77,46 @@ function reinitializeCheckboxes() {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-  .facet-header {
-    align-items: center;
+  .facet-title-panel {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .v-expansion-panel-title :deep(.v-expansion-panel-title__icon) {
+    order: 1;
+  }
+
+  .reinitialize-button {
+    width: 28px;
+    min-width: 28px;
+    order: 3;
   }
 
   .facet-title {
-    text-transform: capitalize;
-  }
-
-  .reinitialize {
-    width: 36px;
-    min-width: 36px;
+    text-align: start;
+    text-transform: uppercase;
+    flex-grow: 2;
+    order: 2;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   .panel-text {
     overflow: auto;
     padding-left: 10px;
     //max-height: 80vh;
-    height: 20vh;
+    height: 20vh; // #TODO bloqué à 20vh pour tests
   }
 
   .v-expansion-panel-text :deep(.v-expansion-panel-text__wrapper) {
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-  }
-
-  .facet-search-bar {
-    width: 60%;
-    margin-left: 10px;
+    padding: 0;
   }
 
   .facet-sub-menu {
-    width: 100%;
     padding: 10px;
-    padding-top: 0px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-end;
+  }
+
+  .facet-sub-menu:empty {
+    padding: 0;
   }
 </style>

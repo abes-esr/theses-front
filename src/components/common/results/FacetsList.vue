@@ -14,7 +14,6 @@
 
 <script setup>
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
-// import { reactive } from "vue";
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { ref, watch } from "vue";
 
@@ -142,6 +141,10 @@ watch(() => props.resetFacets,
 
   .v-expansion-panels {
     width: 80%;
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      width: 100%;
+    }
   }
+
 }
 </style>

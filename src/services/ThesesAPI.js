@@ -10,13 +10,13 @@ const apiTheses = axios.create({
 });
 
 //Page courante
-let currentPage = ref(1);
-//Nomre courant
-let currentNombre = ref(10);
+const currentPage = ref(1);
+//Nombre de résultats par page
+const currentNombre = ref(10);
 //Tri
-let currentTri = ref("pertinence");
-
-let currentFiltres = ref([]);
+const currentTri = ref("pertinence");
+const currentFiltres = ref([]);
+const query = ref("");
 
 function modifierPage(value) {
   currentPage.value = value;
@@ -34,11 +34,14 @@ function modifierFiltres(value) {
   currentFiltres.value = parseFiltersArray(value);
 }
 
+function setQuery() {
+}
+
 function parseFiltersArray(objectsArray) {
   let filtersArrayURL = [];
 
   objectsArray.forEach((filter) => {
-    filtersArrayURL.push(encodeURIComponent(Object.keys(filter)[0]) + '=' + encodeURIComponent(Object.values(filter)[0]));
+    filtersArrayURL.push(Object.keys(filter)[0] + '="' + Object.values(filter)[0] + '"');
   });
 
   return filtersArrayURL.join('&').toLowerCase();
@@ -55,6 +58,7 @@ function disableOrFilters(filters) {
 
 // Recherche simple dans les theses
 function rechercherThese(query) {
+  console.log(currentFiltres.value)
   const filtersRequest = currentFiltres.value
     ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(currentFiltres.value).toString() + "]")
     : "";

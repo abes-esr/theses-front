@@ -16,7 +16,4 @@
 </script>
 
 <style scoped>
-  .facet-search-bar {
-    width: 10%;
-  }
 </style>

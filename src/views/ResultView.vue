@@ -86,9 +86,8 @@ import ResultPaginationBottom from '@/components/common/results/ResultPagination
 import GenericResultList from "@/components/generic/GenericResultList.vue";
 import ScrollToTopButton from "@/components/common/results/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
-import { scrollToTop } from "@/services/Common";
 
-
+const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 const { mobile } = useDisplay()
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { rechercherThese, getFacets } = thesesAPIService();
@@ -98,6 +97,13 @@ const currentRoute = useRoute();
 const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
 const resetFacets = ref(0);
+const loading = ref(false);
+const result = ref([]);
+const facets = ref({});
+const nbResult = ref(0);
+const dataReady = ref(false);
+const currentPage = ref(1);
+const currentNombre = ref(10);
 
 onMounted(() => {
   dataReady.value = false;
@@ -106,13 +112,6 @@ onMounted(() => {
   updateFacets(request.value);
 });
 
-let loading = ref(false);
-let result = ref([]);
-let facets = ref({});
-let nbResult = ref(0);
-let dataReady = ref(false);
-let currentPage = ref(1);
-let currentNombre = ref(10);
 
 async function search(query) {
   if (currentRoute.query.domaine == "theses") {
@@ -137,12 +136,10 @@ async function search(query) {
   }
 }
 
-function saveQuery(query) {
+function setQuery(query) {
   request.value = query;
   loading.value = true;
 }
-
-const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 
 /**
  * Fonctions
@@ -216,7 +213,7 @@ function reinitialize() {
 }
 
 function reinitializeFacets(query) {
-  saveQuery(query);
+  setQuery(query);
   resetFacets.value++;
 }
 
@@ -257,6 +254,12 @@ function searchAndReinitialize() {
   flex-direction: column;
   flex: 1 0 100%;
   max-width: 20vw;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    max-width: 100%;
+    flex: 0 1 auto;
+    padding: 0;
+  }
 }
 
 .sub-header {
