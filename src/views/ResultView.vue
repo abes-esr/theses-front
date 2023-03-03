@@ -40,28 +40,31 @@
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
 <!--      Mettre à jour filtres dans thesesAPI depuis une nouvelle fonction-->
     </span>
-    <div v-resize="reinitializeCurrentRequest" class="result-list" v-if="dataReady">
-      <h1 class="pb-6">{{ nbResult }}{{
-        $t(currentRoute.query.domaine +
-          '.resultView.resultats')
-      }} :
-        {{ request }}</h1>
-      <div v-if="mobile" class="result-list-wrapper">
-        <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-top-wrapper" :nb-result=nbResult />
-        <GenericResultList :result="result">
-        </GenericResultList>
-        <MoreResultsButton v-if="!allResultsWereLoaded()" :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
-      </div>
-      <v-row v-else>
-        <v-col cols="11" class="colonnes-resultats">
+    <div v-resize="reinitializeCurrentRequest" class="result-list">
+      <div v-if="dataReady">
+        <h1 class="pb-6">{{ nbResult }}{{
+            $t(currentRoute.query.domaine +
+              ".resultView.resultats")
+          }} :
+          {{ request }}</h1>
+        <div v-if="mobile" class="result-list-wrapper">
+          <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-top-wrapper" :nb-result=nbResult />
           <GenericResultList :result="result">
           </GenericResultList>
-          <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
-        </v-col>
-        <v-col cols="1" class="colonnes-resultats">
-          <ScrollToTopButton v-if="moreThanXResults(5)" :nb-result=nbResult />
-        </v-col>
-      </v-row>
+          <MoreResultsButton v-if="!allResultsWereLoaded()" :loading=loading :nb-result=nbResult
+                             @changeNombre="updateNombre" />
+        </div>
+        <v-row v-else>
+          <v-col cols="11" class="colonnes-resultats">
+            <GenericResultList :result="result">
+            </GenericResultList>
+            <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
+          </v-col>
+          <v-col cols="1" class="colonnes-resultats">
+            <ScrollToTopButton v-if="moreThanXResults(5)" :nb-result=nbResult />
+          </v-col>
+        </v-row>
+      </div>
     </div>
   </div>
   <div class="search-filter" >
