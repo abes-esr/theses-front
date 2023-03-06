@@ -1,22 +1,8 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input"
-                :label='$t("rechercher")'
-                v-model="request"
-                v-model:search="requestSearch"
-                :items="items"
-                variant="outlined"
-                :menu="suggestionActive"
-                cache-items
-                hide-no-data
-                hide-selected
-                no-filter
-                append-inner-icon
-                @keydown.enter="search"
-                :active="true"
-                return-object
-                type="text"
-    >
+    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
+      :items="items" variant="outlined" :menu="suggestionActive" cache-items hide-no-data hide-selected no-filter
+      append-inner-icon @keydown.enter="search" :active="true" return-object type="text">
       <template v-slot:append-inner>
         <v-btn plain flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :ripple="false">
         </v-btn>
@@ -39,13 +25,14 @@ export default {
 };
 </script>
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue';
 
-import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
 
 import router from '@/router';
 import { thesesAPIService } from "@/services/ThesesAPI";
+
 
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
@@ -56,7 +43,7 @@ defineProps({
     type: Boolean,
     default: false
   },
-})
+});
 const request = ref("");
 const requestSearch = ref("");
 const emit = defineEmits(['search', 'onError', 'reinitializeFacets']);
@@ -73,7 +60,7 @@ onMounted(
       watcherActive = false;
     }
   }
-)
+);
 
 const items = ref([]);
 const suggestionActive = ref(false);
@@ -83,7 +70,7 @@ watch(requestSearch, (newRequestSearch) => {
   if (newRequestSearch.length > 2 && watcherActive && !disableCompletion.value) {
     complete(newRequestSearch)
       .then((res) => {
-        items.value = res.data
+        items.value = res.data;
         if (items.value.length > 0) {
           suggestionActive.value = true;
         }
@@ -92,50 +79,50 @@ watch(requestSearch, (newRequestSearch) => {
         request.value = newRequestSearch;
         suggestionActive.value = false;
         emit('onError', "Autcomplétion : " + error.message);
-      })
+      });
   } else {
     items.value = [];
     suggestionActive.value = false;
   }
   watcherActive = true;
-})
+});
 
 watch(disableCompletion, (newDisableCompletion) => {
   if (newDisableCompletion) {
     suggestionActive.value = false;
     items.value = [];
   }
-})
+});
+
+/**
+ * Fonction lorsqu'on vide le champs de saisie
+ */
+function clearSearch() {
+  request.value = "";
+}
 
 async function search() {
   let currentURLParams = Object.assign({}, currentRoute.query);
 
   if (currentURLParams) {
-    currentURLParams.q = request.value
+    currentURLParams.q = request.value;
   } else {
-    currentURLParams = { "q": request.value }
+    currentURLParams = { "q": request.value };
   }
+
 
   if (routeName.value === "resultats") {
     router.replace({
       query: currentURLParams
-    })
+    });
   } else {
     router.push({
       name: 'resultats',
       query: currentURLParams
-    })
+    });
   }
 
   emit('search', request.value);
-}
-
-/**
- * Fonction lorsqu'on vide le champ de saisie
- */
-function clearSearch() {
-  request.value = "";
-  search();
 }
 
 defineExpose({
