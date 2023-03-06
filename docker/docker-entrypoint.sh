@@ -14,6 +14,9 @@ cp -rf /usr/share/nginx/html.orig/ /usr/share/nginx/html/
 sed -i \
   "s#THESES_FRONT_VITE_APP_API_PLACEHOLDER#${THESES_FRONT_VITE_APP_API}#g" \
   /usr/share/nginx/html/assets/*
+sed -i \
+  "s#THESES_FRONT_VITE_APP_APIREF_PLACEHOLDER#${THESES_FRONT_VITE_APP_APIREF}#g" \
+  /usr/share/nginx/html/assets/*
 
 
 # execute nginx (cf CMD dans Dockerfile)
