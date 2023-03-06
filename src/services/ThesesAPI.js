@@ -1,6 +1,9 @@
 import axios from "axios";
 import { ref } from "vue";
 
+import { replaceAndEscape } from "@/services/Common";
+
+
 const apiTheses = axios.create({
   baseURL: import.meta.env.VITE_APP_API,
   headers: {
@@ -58,16 +61,13 @@ function disableOrFilters(filters) {
 
 // Recherche simple dans les theses
 function rechercherThese(query) {
-  console.log(currentFiltres.value)
   const filtersRequest = currentFiltres.value
     ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(currentFiltres.value).toString() + "]")
     : "";
   if (query === "")
     query = "*";
 
-  const url = "/recherche-java/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + filtersRequest;
-  console.log("valeur du string dans l'url")
-  console.log(url)
+  const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query)) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + filtersRequest;
   return new Promise((resolve, reject) => {
     apiTheses.get(url).then((response) => {
       resolve(response.data);
@@ -79,15 +79,13 @@ function rechercherThese(query) {
 
 //Autcomplétion recherche simple
 function complete(query) {
-  return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(query));
+  return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
 //Facets
 async function getFacets(query) {
 
-  const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(query));
-  console.log("Réponse API facettes : ")
-  console.log(facets)
+const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
   return facets;
 }
 

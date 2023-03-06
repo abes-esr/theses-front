@@ -1,14 +1,7 @@
 <template>
   <div class="facets">
-      <facet-drawer
-        v-for="facet in facets"
-        :key="`facet-${facet.name}`"
-        @updateFilterData="updateFilterData"
-        @reinitializeCheckboxes="reinitializeCheckboxes"
-        :facet="facet"
-        :facets-array="facetsArray"
-        class="my-3"
-      />
+    <facet-drawer v-for="facet in facets" :key="`facet-${facet.name}`" @updateFilterData="updateFilterData"
+      @reinitializeCheckboxes="reinitializeCheckboxes" :facet="facet" :facets-array="facetsArray" class="my-3" />
   </div>
 </template>
 
@@ -28,7 +21,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['update','searchAndReinitialize']);
+const emit = defineEmits(['update', 'searchAndReinitialize']);
 const facetsArray = ref([]);
 
 /**
@@ -46,20 +39,20 @@ function isChecked(filterData, lastFacetFilter) {
 
 // Retourne l'index de l'objet courant dans le tableau facetsArray
 function getFacetItemIndex(lastFacetFilter) {
-  return facetsArray.value.findIndex(function(facetFilter) {
+  return facetsArray.value.findIndex(function (facetFilter) {
     return filtersAreEqual(facetFilter, lastFacetFilter);
   });
 }
 
 // Compare les chaines de caractères contenues dans les Array
 function filtersAreEqual(object1, object2) {
-  return  ( Object.keys(object1)[0] === Object.keys(object2)[0]
-    && Object.values(object1)[0] === Object.values(object2)[0] );
+  return (Object.keys(object1)[0] === Object.keys(object2)[0]
+    && Object.values(object1)[0] === Object.values(object2)[0]);
 }
 
 function arrayContainsFilter(lastFacetFilter) {
-  const countOccurrences = facetsArray.value.filter(function(facetFilter) {
-    return filtersAreEqual(facetFilter, lastFacetFilter)
+  const countOccurrences = facetsArray.value.filter(function (facetFilter) {
+    return filtersAreEqual(facetFilter, lastFacetFilter);
   }).length;
   return countOccurrences > 0;
 }
@@ -68,7 +61,7 @@ function arrayContainsFilter(lastFacetFilter) {
 function getFacetItemsIndexes(facetName) {
   let selectedFiltersIndexes = [];
 
-  facetsArray.value.forEach(function(facetFilter, index) {
+  facetsArray.value.forEach(function (facetFilter, index) {
     if (Object.keys(facetFilter)[0] === facetName) {
       selectedFiltersIndexes.push(index);
     }
@@ -85,34 +78,31 @@ function getFacetItemsIndexes(facetName) {
  */
 function updateFilterData(filterData) {
   const lastFacetFilter =
-    {
-      [filterData.facetName]: filterData.filterName
-    };
+  {
+    [filterData.facetName]: filterData.filterName
+  };
 
-  if(isChecked(filterData, lastFacetFilter)) {
+  if (isChecked(filterData, lastFacetFilter)) {
     // Ajout
-    facetsArray.value.splice(0,0, lastFacetFilter)
+    facetsArray.value.splice(0, 0, lastFacetFilter);
   } else {
     // Suppression
     const itemIndex = getFacetItemIndex(lastFacetFilter);
-    if( itemIndex > -1 ) {
+    if (itemIndex > -1) {
       facetsArray.value.splice(itemIndex, 1);
     }
   }
-
-  console.info(facetsArray.value)
-
   modifierFiltres(facetsArray.value);
 }
 
 function reinitializeCheckboxes(facetName) {
   let selectedFiltersIndexes = getFacetItemsIndexes(facetName);
 
-  selectedFiltersIndexes.reverse().forEach(function(key) {
+  selectedFiltersIndexes.reverse().forEach(function (key) {
     facetsArray.value.splice(key, 1);
   });
 
-  modifierFiltres(facetsArray.value)
+  modifierFiltres(facetsArray.value);
   emit('update');
 }
 
@@ -125,10 +115,10 @@ function resetArray(array) {
  */
 watch(() => props.resetFacets,
   () => {
-  resetArray(facetsArray.value);
-  modifierFiltres(facetsArray.value);
-  emit('searchAndReinitialize');
-})
+    resetArray(facetsArray.value);
+    modifierFiltres(facetsArray.value);
+    emit('searchAndReinitialize');
+  });
 </script>
 
 <style scoped lang="scss">
@@ -141,6 +131,7 @@ watch(() => props.resetFacets,
 
   .v-expansion-panels {
     width: 80%;
+
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       width: 100%;
     }

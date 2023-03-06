@@ -9,7 +9,8 @@
       <domain-selector compact></domain-selector>
       <search-bar @search="reinitializeFacets" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
-      <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets" :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
+      <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+        :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
   </nav>
@@ -31,28 +32,29 @@
   <div v-if="!mobile" class="vertical-thread"></div>
   <div v-if="!mobile" class="search-filter">
     <h4 class="left-side">Affiner la recherche</h4>
-    <result-pagination-top v-if="!mobile" v-model:current-page=currentPage :nb-results=nbResult @changePage="updatePage" @changeNombre="updateNombre"
-      @changeTri="updateTri"></result-pagination-top>
+    <result-pagination-top v-if="!mobile" v-model:current-page=currentPage :nb-results=nbResult @changePage="updatePage"
+      @changeNombre="updateNombre" @changeTri="updateTri"></result-pagination-top>
   </div>
   <div class="main-wrapper">
     <span class="left-side nav-bar" v-if="!mobile">
-      <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets" :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
+      <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+        :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
-<!--      Mettre à jour filtres dans thesesAPI depuis une nouvelle fonction-->
+      <!--      Mettre à jour filtres dans thesesAPI depuis une nouvelle fonction-->
     </span>
-    <div v-resize="reinitializeCurrentRequest" class="result-list">
+    <div class="result-list">
       <div v-if="dataReady">
         <h1 class="pb-6">{{ nbResult }}{{
-            $t(currentRoute.query.domaine +
-              ".resultView.resultats")
-          }} :
+          $t(currentRoute.query.domaine +
+            ".resultView.resultats")
+        }} :
           {{ request }}</h1>
         <div v-if="mobile" class="result-list-wrapper">
           <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-top-wrapper" :nb-result=nbResult />
           <GenericResultList :result="result">
           </GenericResultList>
           <MoreResultsButton v-if="!allResultsWereLoaded()" :loading=loading :nb-result=nbResult
-                             @changeNombre="updateNombre" />
+            @changeNombre="updateNombre" />
         </div>
         <v-row v-else>
           <v-col cols="11" class="colonnes-resultats">
@@ -67,16 +69,16 @@
       </div>
     </div>
   </div>
-  <div class="search-filter" >
+  <div class="search-filter">
     <div class="left-side"></div>
-    <result-pagination-bottom v-model:current-page=currentPage v-if="!mobile" :nb-results=nbResult :current-nombre=currentNombre
-      @changePage="simpleUpdatePage">
+    <result-pagination-bottom v-model:current-page=currentPage v-if="!mobile" :nb-results=nbResult
+      :current-nombre=currentNombre @changePage="simpleUpdatePage">
     </result-pagination-bottom>
   </div>
 </template>
 
 <script setup>
-import { defineAsyncComponent, onMounted, ref } from "vue";
+import { defineAsyncComponent, onMounted, ref, watch } from "vue";
 import { useRoute } from 'vue-router';
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
@@ -91,7 +93,7 @@ import ScrollToTopButton from "@/components/common/results/ScrollToTopButton.vue
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 
 const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
-const { mobile } = useDisplay()
+const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { rechercherThese, getFacets } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
@@ -170,6 +172,7 @@ function updateNombre(payload) {
 }
 
 function updateTri(payload) {
+
   modifierTri(payload);
   search(request.value);
 }
@@ -189,7 +192,7 @@ function allResultsWereLoaded() {
 function displayError(message) {
   messageBox.value?.open(message, {
     type: "error"
-  })
+  });
 }
 
 function updateFacets(query) {
@@ -199,6 +202,11 @@ function updateFacets(query) {
     displayError(error.message);
   });
 }
+
+// Si on passe de desktop à mobile ou inversement, réinitialisation des pages, etc
+watch(mobile, () => {
+  reinitializeCurrentRequest();
+});
 
 /**
  * Réinitialiser l'affichage des résultats
