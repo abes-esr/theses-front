@@ -1,13 +1,12 @@
 <template>
     <v-card flat>
-        <div class="firstHalf">
+        <div class="firstHalf" @click="$router.push({ name: 'these', params: { id: id } })">
             <v-card-title>
                 <v-row>
                     <v-col cols="9" md="10">
                         <v-row class="pa-0 ma-0">
                             <span class="line-clamp">
                                 <v-chip :class="status" label variant="elevated" class="mr-2">
-
                                     <span v-if="status === 'enCours'"><v-icon start
                                             icon="mdi-cogs"></v-icon>Préparation</span>
                                     <span v-if="status === 'soutenue'"><v-icon start
@@ -19,11 +18,6 @@
                     <v-col cols="3" md="2">
                         <v-row class="pr-2 pt-2 justify-end"><span v-if="date">{{ date.slice(-4) }}</span><span v-else>
                                 &nbsp;</span></v-row>
-                        <v-row class="pt-5 pr-1 mb-0 justify-end">
-                            <v-btn flat size="small" append-icon="mdi-arrow-right-bold-circle-outline" color="primary"
-                                @click="$router.push({ name: 'these', params: { id: id } })">
-                                Voir</v-btn>
-                        </v-row>
                     </v-col>
                 </v-row>
             </v-card-title>
@@ -84,7 +78,7 @@ defineProps({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .line-clamp {
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -94,12 +88,13 @@ defineProps({
 
 .v-card {
     border: solid 1px rgb(var(--v-theme-gris-fonce));
-    height: 190px;
 }
 
 :deep(.v-card-title) {
     white-space: break-spaces !important;
     font-size: 1rem;
+    cursor: pointer;
+    min-height: 190px;
 }
 
 .firstHalf {
