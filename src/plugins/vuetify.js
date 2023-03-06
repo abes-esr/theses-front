@@ -3,8 +3,8 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 
 // Vuetify
-import {createVuetify} from 'vuetify'
-import {aliases} from "../components/icons/custom-icon";
+import { createVuetify } from 'vuetify'
+import { aliases } from "../components/icons/custom-icon";
 
 const myCustomLightTheme = {
   dark: false,

@@ -56,7 +56,7 @@ watch(() => props.currentNombre,
 </script>
 
 <style scoped lang="scss">
-@use 'vuetify/settings';
+@use '../../../../node_modules/vuetify/settings';
 
 .v-pagination {
   max-width: 40vw;
