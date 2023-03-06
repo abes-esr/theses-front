@@ -82,6 +82,7 @@ import { defineAsyncComponent, onMounted, ref, watch } from "vue";
 import { useRoute } from 'vue-router';
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
+import { referentielsAPIService } from "@/services/ReferentielsAPI";
 import { useDisplay } from 'vuetify';
 import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
 import SearchBar from '../components/generic/GenericSearchBar.vue';
@@ -97,6 +98,7 @@ const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { rechercherThese, getFacets } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
+const { fetchCodeLangues, codesLangue } = referentielsAPIService();
 const request = ref("");
 const currentRoute = useRoute();
 const isBurgerMenuOpen = ref(false);
@@ -201,6 +203,9 @@ function updateFacets(query) {
   }).catch(error => {
     displayError(error.message);
   });
+
+  // Peuplement de la liste des codes langues
+  fetchCodeLangues();
 }
 
 // Si on passe de desktop à mobile ou inversement, réinitialisation des pages, etc
