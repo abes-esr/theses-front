@@ -12,7 +12,7 @@
 import { ref, watch, computed } from "vue";
 import { scrollToTop } from "@/services/Common";
 
-const emit = defineEmits("changePage");
+const emit = defineEmits(["changePage"]);
 
 const props = defineProps({
   nbResults: {

@@ -7,7 +7,7 @@
         </v-icon>
       </template>
       <domain-selector compact></domain-selector>
-      <search-bar @search="reinitializeFacets" :loading="loading" @onError="displayError" />
+      <search-bar @search="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
       <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
         :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
@@ -26,7 +26,7 @@
     </div>
     <div class="sub_header__action">
       <domain-selector compact></domain-selector>
-      <search-bar @search="reinitializeFacets" :loading="loading" @onError="displayError" />
+      <search-bar @search="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="vertical-thread"></div>
@@ -95,7 +95,7 @@ import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue
 const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const { rechercherThese, getFacets } = thesesAPIService();
+const { rechercherThese, getFacets, setQuery } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
 const request = ref("");
 const currentRoute = useRoute();
@@ -120,7 +120,8 @@ onMounted(() => {
 
 async function search(query) {
   if (currentRoute.query.domaine == "theses") {
-    rechercherThese(query).then(response => {
+    setQuery(query);
+    rechercherThese().then(response => {
       result.value = response.theses;
       nbResult.value = response.totalHits;
     }).catch(error => {
@@ -141,7 +142,7 @@ async function search(query) {
   }
 }
 
-function setQuery(query) {
+function setQueryView(query) {
   request.value = query;
   loading.value = true;
 }
@@ -178,6 +179,7 @@ function updateTri(payload) {
 }
 
 function update() {
+  reinitialize();
   search(request.value);
 }
 
@@ -196,7 +198,8 @@ function displayError(message) {
 }
 
 function updateFacets(query) {
-  getFacets(query).then(response => {
+  setQuery(query);
+  getFacets().then(response => {
     facets.value = response.data;
   }).catch(error => {
     displayError(error.message);
@@ -223,8 +226,8 @@ function reinitialize() {
   currentNombre.value = 10;
 }
 
-function reinitializeFacets(query) {
-  setQuery(query);
+function searchAndReinitializeFacet(query) {
+  setQueryView(query);
   resetFacets.value++;
 }
 

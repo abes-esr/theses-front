@@ -36,7 +36,7 @@ import { thesesAPIService } from "@/services/ThesesAPI";
 
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { complete } = thesesAPIService();
+const { complete, setQuery } = thesesAPIService();
 
 defineProps({
   loading: {
@@ -46,7 +46,7 @@ defineProps({
 });
 const request = ref("");
 const requestSearch = ref("");
-const emit = defineEmits(['search', 'onError', 'reinitializeFacets']);
+const emit = defineEmits(['search', 'onError']);
 let watcherActive = true;
 const disableCompletion = ref(false);
 
@@ -68,7 +68,8 @@ const suggestionActive = ref(false);
 
 watch(requestSearch, (newRequestSearch) => {
   if (newRequestSearch.length > 2 && watcherActive && !disableCompletion.value) {
-    complete(newRequestSearch)
+    setQuery(newRequestSearch);
+    complete()
       .then((res) => {
         items.value = res.data;
         if (items.value.length > 0) {
