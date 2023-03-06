@@ -1,7 +1,7 @@
 <template>
   <v-checkbox :class="`checkboxes ms-${props.marginOffset}`"
-    :label="`${replaceCodeLangue(facetItem.name)} (${facetItem.value})`" v-model="checkboxState" density="compact"
-    hide-details="true"></v-checkbox>
+    :label="`${props.facetName == 'Langues' ? replaceCodeLangue(facetItem.name) : facetItem.name}  (${facetItem.value})`"
+    v-model="checkboxState" density="compact" hide-details="true"></v-checkbox>
 
   <template v-if="(recursionDepth <= maxRecursionDepth)
     && facetItem.checkboxes
@@ -118,8 +118,12 @@ function arrayContainsFilter() {
 }
 
 function replaceCodeLangue(code) {
-  let langueObj = codesLangue.value.find(o => o.codecourt === code);
-  return langueObj.label;
+  if (Object.keys(codesLangue.value).length > 0) {
+    let langueObj = codesLangue.value.find(o => o.codecourt === code);
+    return langueObj ? langueObj.label : code;
+  } else {
+    return code;
+  }
 }
 </script>
 

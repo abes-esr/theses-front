@@ -98,7 +98,7 @@ const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { rechercherThese, getFacets } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
-const { fetchCodeLangues } = referentielsAPIService();
+const { fetchCodeLangues, codesLangue } = referentielsAPIService();
 const request = ref("");
 const currentRoute = useRoute();
 const isBurgerMenuOpen = ref(false);
