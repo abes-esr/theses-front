@@ -62,7 +62,6 @@ function disableOrFilters(filters) {
 
 // Recherche simple dans les theses
 function rechercherThese() {
-  console.info("rechercherThese : " + query.value)
   const filtersRequest = currentFiltres.value
     ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(currentFiltres.value).toString() + "]")
     : "";
@@ -79,14 +78,11 @@ function rechercherThese() {
 
 //Autcomplétion recherche simple
 function complete() {
-  console.info("complete : " + query.value)
   return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
 }
 
 //Facets
 function getFacets() {
-  console.info("getFacets : " + query.value)
-
   const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
   return facets;
 }

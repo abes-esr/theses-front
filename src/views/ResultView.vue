@@ -113,14 +113,14 @@ const currentNombre = ref(10);
 onMounted(() => {
   dataReady.value = false;
   request.value = decodeURI(currentRoute.query.q);
-  search(request.value);
-  updateFacets(request.value);
+  setQuery(request.value);
+  search();
+  updateFacets();
 });
 
 
-async function search(query) {
+async function search() {
   if (currentRoute.query.domaine == "theses") {
-    setQuery(query);
     rechercherThese().then(response => {
       result.value = response.theses;
       nbResult.value = response.totalHits;
@@ -132,7 +132,7 @@ async function search(query) {
     });
   } else if (currentRoute.query.domaine == "personnes") {
     try {
-      result.value = await rechercherPersonne(query);
+      result.value = await rechercherPersonne();
     } catch (error) {
       displayError(error.message);
     } finally {
@@ -158,7 +158,7 @@ function simpleUpdatePage(payload) {
 
 function updatePage(payload) {
   simpleUpdatePage(payload);
-  search(request.value);
+  search();
 }
 
 /**
@@ -167,20 +167,19 @@ function updatePage(payload) {
  */
 function updateNombre(payload) {
   modifierNombre(payload);
-  search(request.value);
+  search();
   currentNombre.value = payload; // Mise à jour des valeurs de pagination dans tous les composants
   currentPage.value = 1; // Retour à la page une
 }
 
 function updateTri(payload) {
-
   modifierTri(payload);
-  search(request.value);
+  search();
 }
 
 function update() {
   reinitialize();
-  search(request.value);
+  search();
 }
 
 function moreThanXResults(x) {
@@ -197,8 +196,7 @@ function displayError(message) {
   });
 }
 
-function updateFacets(query) {
-  setQuery(query);
+function updateFacets() {
   getFacets().then(response => {
     facets.value = response.data;
   }).catch(error => {
@@ -216,7 +214,7 @@ watch(mobile, () => {
  */
 function reinitializeCurrentRequest() {
   reinitialize();
-  search(request.value);
+  search();
 }
 
 function reinitialize() {
@@ -233,8 +231,8 @@ function searchAndReinitializeFacet(query) {
 
 function searchAndReinitialize() {
   reinitialize();
-  search(request.value);
-  updateFacets(request.value);
+  search();
+  updateFacets();
 }
 </script>
 
