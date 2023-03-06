@@ -134,6 +134,7 @@ async function search(query) {
   } else if (currentRoute.query.domaine == "personnes") {
     try {
       result.value = await rechercherPersonne(query);
+      nbResult.value = result.value.length;
     } catch (error) {
       displayError(error.message);
     } finally {
