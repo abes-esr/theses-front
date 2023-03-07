@@ -57,6 +57,21 @@ async function suggestionPersonne(query) {
 }
 
 /**
+ * Fonction pour récupérer les informations d'une personne à partir de son identifiant.
+ * @param id : Identifiant de la personne
+ * @returns {Promise<unknown>}
+ */
+async function getPersonne(id) {
+    return new Promise((resolve, reject) => {
+        apiTheses.get("/personnes/personne/"+id).then((response) => {
+            resolve(response.data);
+        }).catch((err) => {
+            reject(err);
+        });
+    });
+}
+
+/**
  * Service lié aux personnes
  */
 export function personnesAPIService() {
@@ -64,6 +79,7 @@ export function personnesAPIService() {
         modifierPage,
         modifierNombre,
         rechercherPersonne,
-        suggestionPersonne
+        suggestionPersonne,
+        getPersonne
     };
 }
