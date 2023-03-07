@@ -77,14 +77,12 @@ async function getPersonne(id) {
             item.theses.forEach(these => {
                 if (these.role === "auteur") {
                     stats.auteur += 1;
-                } else if (these.role === "directeur") {
-                    stats.directeur += 1;
                 } else if (these.role === "directeur de thèse") {
-                    stats.auteur += 1;
-                } else if (these.role === "rapporteur") {
-                    stats.rapporteur += 1;
+                    stats.directeur += 1;
                 } else if (these.role === "président du jury") {
                     stats.president += 1;
+                } else if (these.role === "rapporteur") {
+                    stats.rapporteur += 1;
                 } else if (these.role === "membre du jury") {
                     stats.jury += 1;
                 }

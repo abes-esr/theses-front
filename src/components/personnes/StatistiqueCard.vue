@@ -1,7 +1,9 @@
 <template>
   <ul>
     <template v-for="(value, name) in stats" :key="name">
-      <li v-if="value != 0 "> {{ name }} : {{ value }} thèse(s)</li>
+      <li v-if="value != 0 "> {{ $t('personnes.personneView.statistiques.' + name) }} : <span>{{ value }}</span>
+        {{ $t('personnes.personneView.statistiques.theses') }}
+      </li>
     </template>
   </ul>
 </template>
@@ -12,7 +14,7 @@ export default {
 </script>
 <script setup>
 
-const props = defineProps({
+defineProps({
   stats: {
     type: Object,
     required: true
@@ -31,7 +33,19 @@ ul {
     width: 5rem;
     color: rgb(var(--v-theme-orange-abes));
     margin-right: 0.5rem;
+  }
 
+  li {
+    margin: 0.2rem 0 0.2rem 0;
+    font-size: 18px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      font-size: 22px;
+    }
+
+    span {
+      color: rgb(var(--v-theme-orange-abes));
+    }
   }
 }
 

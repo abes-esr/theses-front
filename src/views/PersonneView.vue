@@ -1,13 +1,19 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav>
-    <v-menu v-if="mobile" :close-on-content-click="false" content-class="full-screen" location-strategy="static">
+    <v-menu v-if="mobile" :model-value="openMenu" :close-on-content-click="false" content-class="full-screen"
+            location-strategy="static">
       <template v-slot:activator="{ props }">
-        <v-icon v-bind="props" size="40px">mdi-menu
+        <v-icon v-bind="props" size="40px" @click="openMenu = !openMenu">mdi-menu
         </v-icon>
       </template>
-      <domain-selector compact></domain-selector>
-      <search-bar @search="loading = true" :loading="loading" @onError="displayError"/>
+      <div class="statistique__title">
+        <v-icon size="40px">mdi-account</v-icon>
+        <v-btn size=40px icon="mdi-close-box" color="red" variant="text" @click="openMenu = !openMenu"></v-btn>
+      </div>
+      <div class="statistique__content">
+        <statistique-card-personne :stats="item.statistiques"></statistique-card-personne>
+      </div>
     </v-menu>
   </nav>
   <RouterLink class="logo" :to="{ name: 'home' }" v-if="mobile">
@@ -83,6 +89,7 @@ const {getPersonne} = personnesAPIService();
 
 const loading = ref(false);
 const dataReady = ref(false);
+const openMenu = ref(false);
 const item = ref({});
 
 const props = defineProps({
@@ -139,6 +146,12 @@ function displayError(message, opt) {
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
     margin-top: -110px;
   }
+}
+
+.v-menu ::v-deep(.v-overlay__content) {
+  border-radius: 0;
+  margin: 0;
+  background-color: rgb(var(--v-theme-background));
 }
 
 .left-side {
@@ -202,6 +215,30 @@ function displayError(message, opt) {
   }
 }
 
+.statistique__title {
+  align-items: flex-start;
+  background-color: rgb(var(--v-theme-gris-clair));
+  padding-left: 1rem;
+  display: flex;
+  justify-content: space-between;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
+  }
+}
+
+.statistique__content {
+  align-items: flex-start;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
+  }
+
+  ::v-deep(ul) {
+    margin-left: 1rem;
+  }
+}
+
 .search-filter {
   display: flex;
   flex-direction: row;
@@ -209,19 +246,6 @@ function displayError(message, opt) {
 
   h4 {
     background-color: rgb(var(--v-theme-gris-clair));
-  }
-
-  .result-pagination {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
-
-  .statistique__title {
-    align-items: flex-start;
-    background-color: rgb(var(--v-theme-gris-clair));
-    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
-    padding-left: 1rem;
   }
 }
 
@@ -231,15 +255,6 @@ function displayError(message, opt) {
   align-items: flex-start;
   margin-top: 0;
   width: 100%;
-
-  .statistique__content {
-    align-items: flex-start;
-    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
-
-    ::v-deep(ul) {
-      margin-left: 1rem;
-    }
-  }
 
   .result-list {
     width: 100%;

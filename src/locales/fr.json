@@ -1,58 +1,68 @@
 {
-    "slogan": "Le moteur de recherche des thèses françaises",
-    "toutesTheses": "Toutes les thèses",
-    "personnes": "Personnes",
-    "explorer": "EXPLORER",
-    "rechercher": "Rechercher",
-    "accesDirect": "Accès Direct",
-    "apropos": "A Propos",
-    "donnees": "Donnees Personnelles",
-    "CGU": "CGU",
-    "mentions": "Mentions Légales",
-    "accessibilite": "Accessibilité",
-    "referencés": "thèses référencées",
-    "preparation": "thèses en préparation",
-    "personnesRef": "personnes référencées",
-    "assistance": "Assistance",
-    "partager": "Partager",
-    "documentation": "Documentation",
-    "resultats": " résultats de thèses pour ",
-    "scroll": "Remonter en haut de la page",
-    "resultatsView": {
-        "plusDeResultats": "Plus de résultats"
-    },
-    "resultCard": {
-        "par": "Par",
-        "dir": "sous la direction de"
-    },
-    "theseView": {
-        "par": "par",
-        "theseDe": "Thèse de doctorat en",
-        "descFR": "Description en français",
-        "descEN": "Description en anglais",
-        "resume": "Résumé",
-        "direction": "Sous la direction de ",
-        "et": " et de ",
-        "soutenueChip": "Soutenue",
-        "soutenue": "Soutenue le ",
-        "soutenueEn": "Soutenue en ",
-        "a": " à ",
-        "cotutelle": " en cotutelle avec ",
-        "cadre": " dans le cadre de ",
-        "president": "Le président du jury était ",
-        "jury": "Le jury était composé de ",
-        "rapporteur": "Les rapporteurs étaient ",
-        "partenariat": " en partenariat avec ",
-        "motcle": "Mot clés"
-    },
-    "theses": {
-        "resultView": {
-            "resultats": " résultats de thèses pour "
-        }
-    },
-    "personnes": {
-        "resultView": {
-            "resultats": " résultats de personnes pour "
-        }
+  "slogan": "Le moteur de recherche des thèses françaises",
+  "toutesTheses": "Toutes les thèses",
+  "personnes": "Personnes",
+  "explorer": "EXPLORER",
+  "rechercher": "Rechercher",
+  "accesDirect": "Accès Direct",
+  "apropos": "A Propos",
+  "donnees": "Donnees Personnelles",
+  "CGU": "CGU",
+  "mentions": "Mentions Légales",
+  "accessibilite": "Accessibilité",
+  "referencés": "thèses référencées",
+  "preparation": "thèses en préparation",
+  "personnesRef": "personnes référencées",
+  "assistance": "Assistance",
+  "partager": "Partager",
+  "documentation": "Documentation",
+  "resultats": " résultats de thèses pour ",
+  "scroll": "Remonter en haut de la page",
+  "resultatsView": {
+    "plusDeResultats": "Plus de résultats"
+  },
+  "resultCard": {
+    "par": "Par",
+    "dir": "sous la direction de"
+  },
+  "theseView": {
+    "par": "par",
+    "theseDe": "Thèse de doctorat en",
+    "descFR": "Description en français",
+    "descEN": "Description en anglais",
+    "resume": "Résumé",
+    "direction": "Sous la direction de ",
+    "et": " et de ",
+    "soutenueChip": "Soutenue",
+    "soutenue": "Soutenue le ",
+    "soutenueEn": "Soutenue en ",
+    "a": " à ",
+    "cotutelle": " en cotutelle avec ",
+    "cadre": " dans le cadre de ",
+    "president": "Le président du jury était ",
+    "jury": "Le jury était composé de ",
+    "rapporteur": "Les rapporteurs étaient ",
+    "partenariat": " en partenariat avec ",
+    "motcle": "Mot clés"
+  },
+  "theses": {
+    "resultView": {
+      "resultats": " résultats de thèses pour "
     }
+  },
+  "personnes": {
+    "resultView": {
+      "resultats": " résultats de personnes pour "
+    },
+    "personneView": {
+      "statistiques": {
+        "auteur": "Auteur",
+        "directeur": "Directeur",
+        "president": "Président du jury",
+        "rapporteur": "Rapporteur",
+        "jury": "Membre du jury",
+        "theses": "thèse(s)"
+      }
+    }
+  }
 }
