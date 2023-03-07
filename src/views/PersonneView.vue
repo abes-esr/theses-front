@@ -25,17 +25,16 @@
       <search-bar @search="loading = true" :loading="loading" @onError="displayError"/>
     </div>
   </div>
-  <div v-if="!mobile" class="vertical-thread"></div>
   <div v-if="!mobile" class="search-filter">
-    <div class="left-side">
-      <v-icon size="40px">$personne</v-icon>
+    <div class="left-side statistique__title">
+      <v-icon size="40px">mdi-account</v-icon>
     </div>
     <action-bar-personnes></action-bar-personnes>
   </div>
   <div class="main-wrapper">
-    <span class="left-side nav-bar" v-if="!mobile">
-      <statistique-card-personne></statistique-card-personne>
-    </span>
+    <div class="left-side nav-bar statistique__content" v-if="!mobile">
+      <statistique-card-personne :stats="item.statistiques"></statistique-card-personne>
+    </div>
     <div class="result-list">
       <v-card-text v-if="!dataReady">
         <v-container fluid fill-height>
@@ -70,7 +69,6 @@
 
 <script setup>
 import {defineAsyncComponent, onBeforeMount, ref} from 'vue'
-import {useRoute} from 'vue-router'
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 
@@ -81,7 +79,6 @@ import StatistiqueCardPersonne from "@/components/personnes/StatistiqueCard.vue"
 
 const {mobile} = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const route = useRoute();
 const {getPersonne} = personnesAPIService();
 
 const loading = ref(false);
@@ -102,17 +99,17 @@ onBeforeMount(() => {
     dataReady.value = true
   }).catch(error => {
     if (error.response) {
-      displayError(error.response.data.message, {isSticky:true});
+      displayError(error.response.data.message, {isSticky: true});
     } else {
       displayError(error.message);
     }
 
   });
-})
+});
 
 const messageBox = ref(null);
 
-function displayError(message,opt) {
+function displayError(message, opt) {
   messageBox.value?.open(message, {
     ...opt,
     type: "error"
@@ -151,6 +148,7 @@ function displayError(message,opt) {
   flex-direction: column;
   flex: 1 0 100%;
   max-width: 20vw;
+  height: 100%;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     max-width: 100%;
@@ -218,6 +216,13 @@ function displayError(message,opt) {
     flex-direction: row;
     width: 100%;
   }
+
+  .statistique__title {
+    align-items: flex-start;
+    background-color: rgb(var(--v-theme-gris-clair));
+    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
+    padding-left: 1rem;
+  }
 }
 
 
@@ -227,11 +232,13 @@ function displayError(message,opt) {
   margin-top: 0;
   width: 100%;
 
-  .facets {
-    height: 100%;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
+  .statistique__content {
+    align-items: flex-start;
+    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
+
+    ::v-deep(ul) {
+      margin-left: 1rem;
+    }
   }
 
   .result-list {
@@ -304,15 +311,5 @@ function displayError(message,opt) {
 
 .scroll-top-wrapper {
   justify-content: right;
-}
-
-.vertical-thread {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  max-width: 20vw;
-  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
 }
 </style>
