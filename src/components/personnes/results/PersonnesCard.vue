@@ -4,7 +4,7 @@
               <div class="info">
                 <div class="nom-card">
                 <v-icon size="40px">$personne</v-icon>
-                  <RouterLink class="nomprenom"  :to="{ name: 'home' }"
+                  <RouterLink class="nomprenom"  :to="{ name: 'personne', params: { id: item.id } }"
                               v-if="item.has_idref">
                     <span class="prenom">{{ item.prenom }}</span>
                     <span class="nom">{{ item.nom }}</span>

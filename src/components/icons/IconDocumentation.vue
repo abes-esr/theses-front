@@ -6,41 +6,11 @@
       viewBox="0 0 19.579165 19.579165"
       version="1.1"
       id="svg8181"
-      inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
-      sodipodi:docname="icone-documentation.svg"
-      xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-      xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:svg="http://www.w3.org/2000/svg">
-    <sodipodi:namedview
-        id="namedview8183"
-        pagecolor="#ffffff"
-        bordercolor="#666666"
-        borderopacity="1.0"
-        inkscape:pageshadow="2"
-        inkscape:pageopacity="0.0"
-        inkscape:pagecheckerboard="0"
-        inkscape:document-units="mm"
-        showgrid="false"
-        inkscape:zoom="5.1431148"
-        inkscape:cx="24.012686"
-        inkscape:cy="27.609728"
-        inkscape:window-width="1920"
-        inkscape:window-height="1017"
-        inkscape:window-x="-8"
-        inkscape:window-y="-8"
-        inkscape:window-maximized="1"
-        inkscape:current-layer="layer1"
-        fit-margin-top="0"
-        fit-margin-left="0"
-        fit-margin-right="0"
-        fit-margin-bottom="0"
-        units="px"/>
     <defs
         id="defs8178"/>
     <g
-        inkscape:label="Calque 1"
-        inkscape:groupmode="layer"
         id="layer1"
         transform="translate(-2.3359632,-2.1190252)">
       <ellipse

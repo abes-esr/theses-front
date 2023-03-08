@@ -32,7 +32,7 @@ async function rechercherPersonne(query) {
     if (query === "")
         query = "*";
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personnes/recherche", {params: {"q": encodeURI(query.replace(" OU "," OR ").replace(" ET "," AND ").replace(" SAUF "," NOT "))}}).then((response) => {
+        apiTheses.get("/personnes/recherche", {params: {"q": encodeURI(query.replace(" OU ", " OR ").replace(" ET ", " AND ").replace(" SAUF ", " NOT "))}}).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
@@ -57,6 +57,47 @@ async function suggestionPersonne(query) {
 }
 
 /**
+ * Fonction pour récupérer les informations d'une personne à partir de son identifiant.
+ * @param id : Identifiant de la personne
+ * @returns {Promise<unknown>}
+ */
+async function getPersonne(id) {
+    return new Promise((resolve, reject) => {
+        apiTheses.get("/personnes/personne/" + id).then((response) => {
+            const item = response.data;
+
+            const stats = {
+                auteur: 0,
+                directeur: 0,
+                president: 0,
+                rapporteur: 0,
+                jury: 0
+            }
+
+            item.theses.forEach(these => {
+                if (these.role === "auteur") {
+                    stats.auteur += 1;
+                } else if (these.role === "directeur de thèse") {
+                    stats.directeur += 1;
+                } else if (these.role === "président du jury") {
+                    stats.president += 1;
+                } else if (these.role === "rapporteur") {
+                    stats.rapporteur += 1;
+                } else if (these.role === "membre du jury") {
+                    stats.jury += 1;
+                }
+            })
+            resolve({
+                ...item,
+                statistiques: stats
+            });
+        }).catch((err) => {
+            reject(err);
+        });
+    });
+}
+
+/**
  * Service lié aux personnes
  */
 export function personnesAPIService() {
@@ -64,6 +105,7 @@ export function personnesAPIService() {
         modifierPage,
         modifierNombre,
         rechercherPersonne,
-        suggestionPersonne
+        suggestionPersonne,
+        getPersonne
     };
 }
