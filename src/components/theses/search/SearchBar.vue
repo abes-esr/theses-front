@@ -1,8 +1,9 @@
 <template>
   <div class="searchbar">
     <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-      :items="items" variant="outlined" :menu="suggestionActive" cache-items hide-no-data hide-selected no-filter
-      append-inner-icon @keydown.enter="search" :active="true" return-object type="text">
+                :items="items" variant="outlined" :menu="suggestionActive" cache-items hide-no-data hide-selected
+                no-filter
+                append-inner-icon @keydown.enter="search" :active="true" return-object type="text">
       <template v-slot:append-inner>
         <v-btn plain flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :ripple="false">
         </v-btn>
@@ -25,18 +26,14 @@ export default {
 };
 </script>
 <script setup>
-import { ref, watch, onMounted } from 'vue';
-
+import { ref, watch, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { computed } from 'vue';
-
 import router from '@/router';
 import { thesesAPIService } from "@/services/ThesesAPI";
 
-
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { complete } = thesesAPIService();
+const { complete, setQuery } = thesesAPIService();
 
 defineProps({
   loading: {
@@ -46,7 +43,7 @@ defineProps({
 });
 const request = ref("");
 const requestSearch = ref("");
-const emit = defineEmits(['search', 'onError', 'reinitializeFacets']);
+const emit = defineEmits(['search', 'onError']);
 let watcherActive = true;
 const disableCompletion = ref(false);
 
@@ -68,7 +65,8 @@ const suggestionActive = ref(false);
 
 watch(requestSearch, (newRequestSearch) => {
   if (newRequestSearch.length > 2 && watcherActive && !disableCompletion.value) {
-    complete(newRequestSearch)
+    setQuery(newRequestSearch);
+    complete()
       .then((res) => {
         items.value = res.data;
         if (items.value.length > 0) {
