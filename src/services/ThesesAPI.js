@@ -3,7 +3,6 @@ import { ref } from "vue";
 
 import { replaceAndEscape } from "@/services/Common";
 
-
 const apiTheses = axios.create({
   baseURL: import.meta.env.VITE_APP_API,
   headers: {
