@@ -114,8 +114,7 @@ function reinitializeCheckboxes() {
 .panel-text {
   overflow: auto;
   padding-left: 10px;
-  max-height: 80vh;
-  height: 30vh; // #TODO bloqué à 30 pour tests
+  max-height: 60vh;
 }
 
 .v-expansion-panel-text :deep(.v-expansion-panel-text__wrapper) {
