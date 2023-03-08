@@ -1,25 +1,37 @@
 <template>
-    <v-card flat>
-        <div class="firstHalf">
-            <v-card-title>
-                <v-row>
-                    <v-col cols="9" md="10"><span class="line-clamp">{{ item.nom }}</span></v-col>
-                    <v-col cols="3" md="2">
-                        <v-row class="pr-2 pt-2 justify-end">{{ item.prenom }}</v-row>
-                        <v-row class="pt-5 pr-1 justify-end">
-                        </v-row>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="9" md="10" class="pt-1"><span class="line-clamp subtitle">{{ item.id }}</span>
-                    </v-col>
-                </v-row>
-
-            </v-card-title>
+  <v-card flat>
+    <div class="firstHalf">
+      <div class="info">
+        <div class="nom-card">
+          <v-icon size="40px">$personne</v-icon>
+          <RouterLink class="nomprenom" :to="{ name: 'personne', params: { id: item.id }, query:{ 'domaine': currentRoute.query.domaine }}"
+                      v-if="item.has_idref">
+            <span class="prenom">{{ item.prenom }}</span>
+            <span class="nom">{{ item.nom }}</span>
+          </RouterLink>
+          <RouterLink v-else class="nomprenom" :to="{ name: 'these', params: { id: item.theses[0].nnt } }">
+            <span class="prenom">{{ item.prenom }}</span>
+            <span class="nom">{{ item.nom }}</span>
+          </RouterLink>
         </div>
-        <div class="secondHalf">
-        </div>
-    </v-card>
+        <v-divider vertical></v-divider>
+        <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
+          <img alt="logo"
+               id="logoIMG" src="@/assets/idref-icone.png"/>
+        </a>
+      </div>
+      <div class="action">
+        <v-btn color="primary" append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }} ({{ stats.auteur }})
+        </v-btn>
+        <v-btn color="primary" append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Directeurs')">{{ $t('personnes.resultView.personnesCard.directeur') }} ({{ stats.directeur }})
+        </v-btn>
+        <v-btn color="primary" append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Rapporteurs')">{{ $t('personnes.resultView.personnesCard.rapporteur') }} ({{ stats.rapporteur }})
+        </v-btn>
+      </div>
+    </div>
+    <div class="secondHalf">
+    </div>
+  </v-card>
 </template>
 <script>
 export default {
@@ -27,47 +39,171 @@ export default {
 };
 </script>
 <script setup>
-defineProps({
+import {onBeforeMount} from "vue";
+import {useRoute, useRouter} from "vue-router";
+const router = useRouter();
+const currentRoute = useRoute();
+
+const props = defineProps({
   item: {
     type: Object,
     required: true
   }
 })
+
+const stats = {
+  auteur: 0,
+  directeur: 0,
+  president: 0,
+  rapporteur: 0,
+  jury: 0
+}
+
+onBeforeMount(() => {
+
+  props.item.theses.forEach(these => {
+    if (these.role === "auteur") {
+      stats.auteur += 1;
+    } else if (these.role === "directeur de thèse") {
+      stats.directeur += 1;
+    } else if (these.role === "président du jury") {
+      stats.president += 1;
+    } else if (these.role === "rapporteur") {
+      stats.rapporteur += 1;
+    } else if (these.role === "membre du jury") {
+      stats.jury += 1;
+    }
+  })
+})
+
+function goToPersonne(hash) {
+    router.push({
+      name: 'personne',
+      query: { 'domaine': currentRoute.query.domaine },
+      params : { "id": props.item.id },
+      hash: hash?hash:''
+    })
+}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@use 'vuetify/settings';
+
 .line-clamp {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .v-card {
-    border: solid 1px rgb(var(--v-theme-gris-fonce));
-    height: 200px;
+  border: solid 1px rgb(var(--v-theme-gris-fonce));
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
 }
 
-:deep(.v-card-title) {
-    white-space: break-spaces !important;
-    font-size: 1rem;
-}
+
 
 .firstHalf {
-    height: 70%;
+  display: flex;
+  padding:1rem;
+  justify-content: space-between;
+  align-items: center;
+  height: 170px;
+  width: 100%;
+  flex-direction: column;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    height: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  .info {
     width: 100%;
+    flex: 0 0 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      flex: 1 0 30%;
+      max-width: 35%;
+    }
+
+    .nom-card {
+      display: flex;
+      align-items: center;
+
+      .v-icon {
+        margin-right: 1rem;
+      }
+
+      .nomprenom {
+        text-decoration: none;
+        color: rgb(var(--v-theme-primary));
+        font-size: 23.5px;
+
+        @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+          font-size: 29.5px;
+        }
+
+        .prenom {
+          font-weight: 400;
+        }
+
+        .nom {
+          margin-left: 0.5rem;
+          font-weight: 700;
+        }
+      }
+    }
+
+    hr {
+      border-color: rgb(var(--v-theme-primary));
+      opacity: 1;
+      border-width: 0 1.5px 0 0;
+    }
+
+    a {
+      img {
+        max-height: 30px;
+      }
+    }
+  }
+
+  .action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      flex: 0 1 40%;
+      align-items: flex-start;
+    }
+
+    .v-btn {
+      max-height: 30px;
+      font-weight: 500;
+      text-transform: none;
+      padding: 0 8px;
+    }
+  }
 }
 
 .secondHalf {
-    background-color: rgb(var(--v-theme-gris-clair)) !important;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 30%;
+  background-color: rgb(var(--v-theme-gris-clair)) !important;
+  height: 40px;
+
 }
 
 .subtitle {
-    font-size: 0.9rem;
-    font-weight: 400;
+  font-size: 0.9rem;
+  font-weight: 400;
 }
 </style>

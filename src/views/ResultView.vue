@@ -7,7 +7,7 @@
         </v-icon>
       </template>
       <domain-selector compact></domain-selector>
-      <search-bar @search="reinitializeFacets" :loading="loading" @onError="displayError" />
+      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
       <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
         :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
@@ -26,7 +26,7 @@
     </div>
     <div class="sub_header__action">
       <domain-selector compact></domain-selector>
-      <search-bar @search="reinitializeFacets" :loading="loading" @onError="displayError" />
+      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="vertical-thread"></div>
@@ -96,9 +96,9 @@ import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue
 const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const { rechercherThese, getFacets } = thesesAPIService();
+const { rechercherThese, getFacets, setQuery } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
-const { fetchCodeLangues, codesLangue } = referentielsAPIService();
+const { fetchCodeLangues, createLabels } = referentielsAPIService();
 const request = ref("");
 const currentRoute = useRoute();
 const isBurgerMenuOpen = ref(false);
@@ -115,14 +115,15 @@ const currentNombre = ref(10);
 onMounted(() => {
   dataReady.value = false;
   request.value = decodeURI(currentRoute.query.q);
-  search(request.value);
-  updateFacets(request.value);
+  setQuery(request.value);
+  search();
+  updateFacets();
 });
 
 
 async function search(query) {
   if (currentRoute.query.domaine == "theses") {
-    rechercherThese(query).then(response => {
+    rechercherThese().then(response => {
       result.value = response.theses;
       nbResult.value = response.totalHits;
     }).catch(error => {
@@ -134,6 +135,8 @@ async function search(query) {
   } else if (currentRoute.query.domaine == "personnes") {
     try {
       result.value = await rechercherPersonne(query);
+      nbResult.value = result.value.length;
+      setQueryView(query);
     } catch (error) {
       displayError(error.message);
     } finally {
@@ -143,7 +146,7 @@ async function search(query) {
   }
 }
 
-function setQuery(query) {
+function setQueryView(query) {
   request.value = query;
   loading.value = true;
 }
@@ -159,7 +162,7 @@ function simpleUpdatePage(payload) {
 
 function updatePage(payload) {
   simpleUpdatePage(payload);
-  search(request.value);
+  search();
 }
 
 /**
@@ -168,19 +171,19 @@ function updatePage(payload) {
  */
 function updateNombre(payload) {
   modifierNombre(payload);
-  search(request.value);
+  search();
   currentNombre.value = payload; // Mise à jour des valeurs de pagination dans tous les composants
   currentPage.value = 1; // Retour à la page une
 }
 
 function updateTri(payload) {
-
   modifierTri(payload);
-  search(request.value);
+  search();
 }
 
 function update() {
-  search(request.value);
+  reinitialize();
+  search();
 }
 
 function moreThanXResults(x) {
@@ -197,9 +200,9 @@ function displayError(message) {
   });
 }
 
-function updateFacets(query) {
-  getFacets(query).then(response => {
-    facets.value = response.data;
+function updateFacets() {
+  getFacets().then(response => {
+    facets.value = createLabels(response.data);
   }).catch(error => {
     displayError(error.message);
   });
@@ -218,7 +221,7 @@ watch(mobile, () => {
  */
 function reinitializeCurrentRequest() {
   reinitialize();
-  search(request.value);
+  search();
 }
 
 function reinitialize() {
@@ -228,15 +231,15 @@ function reinitialize() {
   currentNombre.value = 10;
 }
 
-function reinitializeFacets(query) {
-  setQuery(query);
+function searchAndReinitializeFacet(query) {
+  setQueryView(query);
   resetFacets.value++;
 }
 
 function searchAndReinitialize() {
   reinitialize();
-  search(request.value);
-  updateFacets(request.value);
+  search();
+  updateFacets();
 }
 </script>
 

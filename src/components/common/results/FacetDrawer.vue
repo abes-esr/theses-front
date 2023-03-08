@@ -52,14 +52,13 @@ let facetItems = computed(() => {
   });
   return filters;
 });
-
 /**
  * Fonctions
  */
 
 function search() {
   facetItems.value.forEach(function (facetItem) {
-    const filterLowerCase = facetItem.name.toLowerCase();
+    const filterLowerCase = facetItem.label.toLowerCase();
     const searchTextLowerCase = filterSearchText.value.toLowerCase();
     facetItem.selected = filterLowerCase.includes(searchTextLowerCase);
   });
@@ -115,8 +114,7 @@ function reinitializeCheckboxes() {
 .panel-text {
   overflow: auto;
   padding-left: 10px;
-  max-height: 80vh;
-  height: 30vh; // #TODO bloqué à 30 pour tests
+  max-height: 60vh;
 }
 
 .v-expansion-panel-text :deep(.v-expansion-panel-text__wrapper) {

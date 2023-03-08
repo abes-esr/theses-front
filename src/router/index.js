@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 const HomeView = () => import("../views/HomeView.vue")
 const ResultView = () => import("../views/ResultView.vue")
 const TheseView = () => import("../views/TheseView.vue")
+const PersonneView = () => import("../views/PersonneView.vue")
 const APropos = () => import("../components/footer-pages/APropos.vue")
 const AccessibilitePage = () => import("../components/footer-pages/AccessibilitePage.vue")
 const CGU = () => import("../components/footer-pages/CGU.vue")
@@ -27,6 +28,12 @@ const router = createRouter({
       path: "/these/:id",
       name: "these",
       component: TheseView,
+      props: true
+    },
+    {
+      path: "/personne/:id",
+      name: "personne",
+      component: PersonneView,
       props: true
     },
     {

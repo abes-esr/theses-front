@@ -3,6 +3,7 @@
       outlined
       :color="colors()"
       v-model="display"
+      :timeout=-1
       :multi-line="options.multiline"
       location="top"
   >

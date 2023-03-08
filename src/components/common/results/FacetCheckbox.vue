@@ -1,6 +1,6 @@
 <template>
   <v-checkbox :class="`checkboxes ms-${props.marginOffset}`"
-    :label="`${props.facetName == 'Langues' ? replaceCodeLangue(facetItem.name) : facetItem.name}  (${facetItem.value})`"
+    :label="`${facetItem.label} (${facetItem.value})`"
     v-model="checkboxState" density="compact" hide-details="true"></v-checkbox>
 
   <template v-if="(recursionDepth <= maxRecursionDepth)
@@ -17,8 +17,6 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 import { sortByAlphaNumericOrder } from "@/services/Common";
-import { referentielsAPIService } from "@/services/ReferentielsAPI";
-
 
 const emit = defineEmits(['updateParentCheckbox', 'updateFilterData', 'updateFilterDataRecursive']);
 const props = defineProps({
@@ -39,8 +37,6 @@ const props = defineProps({
     type: String
   }
 });
-
-const { codesLangue } = referentielsAPIService();
 
 const maxRecursionDepth = 3;
 const recursionDepth = props.marginOffset / 4;  // Multiple de 4 (utilisation de la variable marginOffset) => niveau 2 = 4
@@ -115,15 +111,6 @@ function arrayContainsFilter() {
     ).length > 0;
   }
   return false;
-}
-
-function replaceCodeLangue(code) {
-  if (Object.keys(codesLangue.value).length > 0) {
-    let langueObj = codesLangue.value.find(o => o.codecourt === code);
-    return langueObj ? langueObj.label : code;
-  } else {
-    return code;
-  }
 }
 </script>
 
