@@ -52,7 +52,12 @@
   },
   "personnes": {
     "resultView": {
-      "resultats": " résultats de personnes pour "
+      "resultats": " résultats de personnes pour ",
+      "personnesCard": {
+        "auteur": "Auteur",
+        "directeur": "Directeur",
+        "rapporteur": "Rapporteur"
+      }
     },
     "personneView": {
       "statistiques": {

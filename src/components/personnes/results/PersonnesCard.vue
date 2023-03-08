@@ -21,11 +21,11 @@
         </a>
       </div>
       <div class="action">
-        <v-btn color="primary" prepend-icon="mdi-magnify">Auteurs
+        <v-btn color="primary" append-icon="mdi-arrow-right-circle">{{ $t('personnes.resultView.personnesCard.auteur') }} ({{ stats.auteur }})
         </v-btn>
-        <v-btn color="primary" prepend-icon="mdi-magnify" @click="search">Directeur
+        <v-btn color="primary" append-icon="mdi-arrow-right-circle">{{ $t('personnes.resultView.personnesCard.directeur') }} ({{ stats.directeur }})
         </v-btn>
-        <v-btn color="primary" prepend-icon="mdi-magnify" @click="search">Rapporteur
+        <v-btn color="primary" append-icon="mdi-arrow-right-circle">{{ $t('personnes.resultView.personnesCard.rapporteur') }} ({{ stats.rapporteur }})
         </v-btn>
       </div>
     </div>
@@ -39,11 +39,38 @@ export default {
 };
 </script>
 <script setup>
-defineProps({
+import {onBeforeMount} from "vue";
+
+const props = defineProps({
   item: {
     type: Object,
     required: true
   }
+})
+
+const stats = {
+  auteur: 0,
+  directeur: 0,
+  president: 0,
+  rapporteur: 0,
+  jury: 0
+}
+
+onBeforeMount(() => {
+
+  props.item.theses.forEach(these => {
+    if (these.role === "auteur") {
+      stats.auteur += 1;
+    } else if (these.role === "directeur de thèse") {
+      stats.directeur += 1;
+    } else if (these.role === "président du jury") {
+      stats.president += 1;
+    } else if (these.role === "rapporteur") {
+      stats.rapporteur += 1;
+    } else if (these.role === "membre du jury") {
+      stats.jury += 1;
+    }
+  })
 })
 </script>
 
@@ -71,8 +98,7 @@ defineProps({
   padding:1rem;
   justify-content: space-between;
   align-items: center;
-  //flex-wrap: wrap;
-  height: 200px;
+  height: 170px;
   width: 100%;
   flex-direction: column;
 
@@ -84,14 +110,15 @@ defineProps({
 
   .info {
     width: 100%;
-    flex: 0 0 30%;
+    flex: 0 0 10%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      flex: 0 0 calc(40% - 2rem);
+      flex: 1 0 30%;
+      max-width: 35%;
     }
 
     .nom-card {
@@ -136,31 +163,30 @@ defineProps({
   }
 
   .action {
-    flex: 0 1 40%;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     width: 100%;
     height: 100%;
     flex-wrap: wrap;
-    //flex-direction: column;
 
-
-  /*  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      flex: 0 1 calc(40% - 2rem);
-    }*/
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      flex: 0 1 40%;
+      align-items: flex-start;
+    }
 
     .v-btn {
       max-height: 30px;
       font-weight: 500;
-      font-size: 15px;
+      text-transform: none;
+      padding: 0 8px;
     }
   }
 }
 
 .secondHalf {
   background-color: rgb(var(--v-theme-gris-clair)) !important;
-  height: 25px;
+  height: 40px;
 
 }
 
