@@ -3,7 +3,6 @@ import { ref } from "vue";
 
 import { replaceAndEscape } from "@/services/Common";
 
-
 const apiTheses = axios.create({
   baseURL: import.meta.env.VITE_APP_API,
   headers: {
@@ -37,7 +36,8 @@ function modifierFiltres(objectsArray) {
   currentFiltres.value = parseFiltersArray(objectsArray);
 }
 
-function setQuery() {
+function setQuery(newQuery) {
+  query.value = newQuery ? newQuery : "*";
 }
 
 function parseFiltersArray(objectsArray) {
@@ -60,14 +60,12 @@ function disableOrFilters(filters) {
 }
 
 // Recherche simple dans les theses
-function rechercherThese(query) {
+function rechercherThese() {
   const filtersRequest = currentFiltres.value
     ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(currentFiltres.value).toString() + "]")
     : "";
-  if (query === "")
-    query = "*";
 
-  const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query)) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + filtersRequest;
+  const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query.value)) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + filtersRequest;
   return new Promise((resolve, reject) => {
     apiTheses.get(url).then((response) => {
       resolve(response.data);
@@ -78,14 +76,13 @@ function rechercherThese(query) {
 }
 
 //Autcomplétion recherche simple
-function complete(query) {
-  return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
+function complete() {
+  return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
 }
 
 //Facets
-async function getFacets(query) {
-
-const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
+function getFacets() {
+  const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
   return facets;
 }
 
@@ -103,6 +100,7 @@ export function thesesAPIService() {
     modifierPage,
     modifierNombre,
     modifierTri,
+    setQuery,
     modifierFiltres,
     rechercherThese,
     complete,

@@ -52,14 +52,13 @@ let facetItems = computed(() => {
   });
   return filters;
 });
-
 /**
  * Fonctions
  */
 
 function search() {
   facetItems.value.forEach(function (facetItem) {
-    const filterLowerCase = facetItem.name.toLowerCase();
+    const filterLowerCase = facetItem.label.toLowerCase();
     const searchTextLowerCase = filterSearchText.value.toLowerCase();
     facetItem.selected = filterLowerCase.includes(searchTextLowerCase);
   });
