@@ -43,7 +43,7 @@ defineProps({
 });
 const request = ref("");
 const requestSearch = ref("");
-const emit = defineEmits(['search', 'onError']);
+const emit = defineEmits(['searchAndReinitializeFacet', 'onError']);
 let watcherActive = true;
 const disableCompletion = ref(false);
 
@@ -120,7 +120,7 @@ async function search() {
     });
   }
 
-  emit('search', request.value);
+  emit('searchAndReinitializeFacet', request.value);
 }
 
 defineExpose({

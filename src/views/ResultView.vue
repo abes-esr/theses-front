@@ -7,7 +7,7 @@
         </v-icon>
       </template>
       <domain-selector compact></domain-selector>
-      <search-bar @search="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
+      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
       <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
         :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
@@ -26,7 +26,7 @@
     </div>
     <div class="sub_header__action">
       <domain-selector compact></domain-selector>
-      <search-bar @search="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
+      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="vertical-thread"></div>
@@ -121,7 +121,7 @@ onMounted(() => {
 });
 
 
-async function search() {
+async function search(query) {
   if (currentRoute.query.domaine == "theses") {
     rechercherThese().then(response => {
       result.value = response.theses;
@@ -134,8 +134,9 @@ async function search() {
     });
   } else if (currentRoute.query.domaine == "personnes") {
     try {
-      result.value = await rechercherPersonne();
+      result.value = await rechercherPersonne(query);
       nbResult.value = result.value.length;
+      setQueryView(query);
     } catch (error) {
       displayError(error.message);
     } finally {
