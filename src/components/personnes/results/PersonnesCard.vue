@@ -4,7 +4,7 @@
       <div class="info">
         <div class="nom-card">
           <v-icon size="40px">$personne</v-icon>
-          <RouterLink class="nomprenom" :to="{ name: 'personne', params: { id: item.id } }"
+          <RouterLink class="nomprenom" :to="{ name: 'personne', params: { id: item.id }, query:{ 'domaine': currentRoute.query.domaine }}"
                       v-if="item.has_idref">
             <span class="prenom">{{ item.prenom }}</span>
             <span class="nom">{{ item.nom }}</span>
@@ -21,11 +21,11 @@
         </a>
       </div>
       <div class="action">
-        <v-btn color="primary" append-icon="mdi-arrow-right-circle">{{ $t('personnes.resultView.personnesCard.auteur') }} ({{ stats.auteur }})
+        <v-btn color="primary" append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }} ({{ stats.auteur }})
         </v-btn>
-        <v-btn color="primary" append-icon="mdi-arrow-right-circle">{{ $t('personnes.resultView.personnesCard.directeur') }} ({{ stats.directeur }})
+        <v-btn color="primary" append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Directeurs')">{{ $t('personnes.resultView.personnesCard.directeur') }} ({{ stats.directeur }})
         </v-btn>
-        <v-btn color="primary" append-icon="mdi-arrow-right-circle">{{ $t('personnes.resultView.personnesCard.rapporteur') }} ({{ stats.rapporteur }})
+        <v-btn color="primary" append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Rapporteurs')">{{ $t('personnes.resultView.personnesCard.rapporteur') }} ({{ stats.rapporteur }})
         </v-btn>
       </div>
     </div>
@@ -40,6 +40,9 @@ export default {
 </script>
 <script setup>
 import {onBeforeMount} from "vue";
+import {useRoute, useRouter} from "vue-router";
+const router = useRouter();
+const currentRoute = useRoute();
 
 const props = defineProps({
   item: {
@@ -72,6 +75,15 @@ onBeforeMount(() => {
     }
   })
 })
+
+function goToPersonne(hash) {
+    router.push({
+      name: 'personne',
+      query: { 'domaine': currentRoute.query.domaine },
+      params : { "id": props.item.id },
+      hash: hash?hash:''
+    })
+}
 </script>
 
 <style scoped lang="scss">
