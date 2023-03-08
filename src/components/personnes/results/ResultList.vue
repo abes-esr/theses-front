@@ -1,6 +1,6 @@
 <template>
     <v-row>
-      <v-col v-for="item in result" :key="item.id" cols="12" xs="12" md="6">
+      <v-col v-for="item in result" :key="item.id" cols="12">
         <personnes-card :item="item" />
       </v-col>
     </v-row>
