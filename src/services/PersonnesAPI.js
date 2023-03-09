@@ -7,8 +7,9 @@ const apiTheses = axios.create({
         Accept: 'application/json',
         'Content-Type': 'application/json'
     }
-})
+});
 
+const query = ref("");
 //Page courante
 let currentPage = ref(1);
 //Nomre courant
@@ -22,17 +23,19 @@ function modifierNombre(value) {
     currentNombre.value = value;
 }
 
+function setQueryPersonnes(newQuery) {
+    query.value = newQuery ? newQuery : "*";
+}
+
 /**
  * Fonction pour rechercher des personnes à partir d'un mot.
  * La liste des personnes courantes est mises à jour.
  * @param query
  * @returns {Promise<unknown>}
  */
-async function rechercherPersonne(query) {
-    if (query === "")
-        query = "*";
+async function rechercherPersonne() {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personnes/recherche", {params: {"q": encodeURI(query.replace(" OU ", " OR ").replace(" ET ", " AND ").replace(" SAUF ", " NOT "))}}).then((response) => {
+        apiTheses.get("/personnes/recherche", {params: {"q": encodeURI(query.value.replace(" OU ", " OR ").replace(" ET ", " AND ").replace(" SAUF ", " NOT "))}}).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
@@ -43,12 +46,11 @@ async function rechercherPersonne(query) {
 /**
  * Fonction pour rechercher des suggestions de personnes à partir d'un mot.
  * La liste des suggestions de personnes.
- * @param query
  * @returns {Promise<unknown>}
  */
-async function suggestionPersonne(query) {
+async function suggestionPersonne() {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personnes/completion", {params: {"q": encodeURI(query)}}).then((response) => {
+        apiTheses.get("/personnes/completion", {params: {"q": encodeURI(query.value)}}).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
@@ -106,6 +108,7 @@ export function personnesAPIService() {
         modifierNombre,
         rechercherPersonne,
         suggestionPersonne,
-        getPersonne
+        getPersonne,
+        setQueryPersonnes
     };
 }

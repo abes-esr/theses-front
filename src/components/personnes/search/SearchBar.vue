@@ -48,6 +48,7 @@ import { personnesAPIService } from "@/services/PersonnesAPI";
 const router = useRouter();
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
+const { suggestionPersonne, setQueryPersonnes } = personnesAPIService();
 
 defineProps({
   loading: {
@@ -57,7 +58,7 @@ defineProps({
 })
 const request = ref('');
 const requestSearch = ref("");
-const emit = defineEmits(['search', 'onError']);
+const emit = defineEmits(['searchAndReinitializeFacet', 'onError']);
 
 let watcherActive = true;
 const disableCompletion = ref(false);
@@ -67,6 +68,7 @@ onMounted(
   () => {
     if (currentRoute.query && currentRoute.query.q) {
       request.value = decodeURI(currentRoute.query.q);
+      setQueryPersonnes(request.value);
       // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
       // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
       watcherActive = false;
@@ -97,11 +99,13 @@ async function search() {
       query: currentURLParams
     })
   }
-  emit('search', request.value);
+
+  setQueryPersonnes(request.value);
+  emit('searchAndReinitializeFacet', request.value);
 }
 
 /**
- * Fonction lorsqu'on vide le champs de saisie
+ * Fonction lorsqu'on vide le champ de saisie
  */
 function clearSearch() {
   request.value = "";
@@ -112,7 +116,6 @@ function clearSearch() {
 /* Auto-complétion  */
 /* ---------------- */
 
-const { suggestionPersonne } = personnesAPIService();
 const items = ref([]);
 const isLoading = ref(false);
 const suggestionActive = ref(false);
@@ -142,7 +145,8 @@ watch(disableCompletion, (newDisableCompletion) => {
 async function getSuggestion(candidate) {
   isLoading.value = true;
   try {
-    items.value = await suggestionPersonne(candidate);
+    setQueryPersonnes(candidate);
+    items.value = await suggestionPersonne();
   } catch (error) {
     request.value = candidate;
     emit('onError', "Autcomplétion : " + error.message);

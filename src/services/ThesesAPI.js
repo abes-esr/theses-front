@@ -36,7 +36,7 @@ function modifierFiltres(objectsArray) {
   currentFiltres.value = parseFiltersArray(objectsArray);
 }
 
-function setQuery(newQuery) {
+function setQueryTheses(newQuery) {
   query.value = newQuery ? newQuery : "*";
 }
 
@@ -66,6 +66,7 @@ function rechercherThese() {
     : "";
 
   const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query.value)) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + filtersRequest;
+
   return new Promise((resolve, reject) => {
     apiTheses.get(url).then((response) => {
       resolve(response.data);
@@ -100,7 +101,7 @@ export function thesesAPIService() {
     modifierPage,
     modifierNombre,
     modifierTri,
-    setQuery,
+    setQueryTheses,
     modifierFiltres,
     rechercherThese,
     complete,

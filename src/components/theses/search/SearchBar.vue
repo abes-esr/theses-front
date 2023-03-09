@@ -33,7 +33,7 @@ import { thesesAPIService } from "@/services/ThesesAPI";
 
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { complete, setQuery } = thesesAPIService();
+const { complete, setQueryTheses } = thesesAPIService();
 
 defineProps({
   loading: {
@@ -65,7 +65,7 @@ const suggestionActive = ref(false);
 
 watch(requestSearch, (newRequestSearch) => {
   if (newRequestSearch.length > 2 && watcherActive && !disableCompletion.value) {
-    setQuery(newRequestSearch);
+    setQueryTheses(newRequestSearch);
     complete()
       .then((res) => {
         items.value = res.data;
@@ -120,6 +120,7 @@ async function search() {
     });
   }
 
+  setQueryTheses(request.value);
   emit('searchAndReinitializeFacet', request.value);
 }
 

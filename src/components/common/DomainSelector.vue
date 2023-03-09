@@ -2,7 +2,9 @@
   <div class="domain-selector">
     <v-btn flat @click="select('theses')">
       <v-icon size="50" color="secondary">mdi-school</v-icon>
-      <h2 :class="selected === 'theses' ? 'selected' : ''">{{ $t("toutesTheses") }}</h2>
+      <h2 :class="selected === 'theses' ? 'selected' : ''">
+        {{ $t("toutesTheses") }}
+      </h2>
     </v-btn>
     <v-divider vertical></v-divider>
     <v-btn flat @click="select('personnes')">
@@ -27,6 +29,7 @@ defineProps({
 const selected = ref('theses');
 const router = useRouter();
 const currentRoute = useRoute();
+const emit = defineEmits('changeDomain');
 
 onMounted(() => {
   if (currentRoute.query.domaine) {
@@ -36,18 +39,21 @@ onMounted(() => {
   }
 });
 
-function select(selection) {
+async function select(selection) {
+  console.info("dans le select")
   selected.value = selection;
   let currentURLParams = Object.assign({}, currentRoute.query);
 
   if (currentURLParams && currentURLParams.domaine) {
     currentURLParams.domaine = selection
   } else {
-    currentURLParams = {domaine: selection}
+    currentURLParams = { domaine: selection }
   }
-  router.replace({
+  await router.replace({
     query: currentURLParams
-  })
+  });
+
+  emit('changeDomain');
 }
 
 </script>

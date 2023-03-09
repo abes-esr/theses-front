@@ -6,11 +6,11 @@
         <v-icon v-bind="props" size="40px">mdi-menu
         </v-icon>
       </template>
-      <domain-selector compact></domain-selector>
+      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
       <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
       <h4>Affiner la recherche</h4>
-      <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
+      <FacetsList @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+        :reset-facets="resetFacets" class="left-side"></FacetsList>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
   </nav>
@@ -25,7 +25,7 @@
       <h1>{{ $t("slogan") }}</h1>
     </div>
     <div class="sub_header__action">
-      <domain-selector compact></domain-selector>
+      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
       <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
     </div>
   </div>
@@ -37,8 +37,8 @@
   </div>
   <div class="main-wrapper">
     <span class="left-side nav-bar" v-if="!mobile">
-      <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
+      <FacetsList @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+        :reset-facets="resetFacets" class="left-side"></FacetsList>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
       <!--      Mettre à jour filtres dans thesesAPI depuis une nouvelle fonction-->
     </span>
@@ -84,8 +84,8 @@ import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import { referentielsAPIService } from "@/services/ReferentielsAPI";
 import { useDisplay } from 'vuetify';
-import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
-import SearchBar from '../components/generic/GenericSearchBar.vue';
+import FacetsList from '@/components/common/results/FacetsList.vue';
+import SearchBar from '@/components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultPaginationTop from '@/components/common/results/ResultPaginationTop.vue';
 import ResultPaginationBottom from '@/components/common/results/ResultPaginationBottom.vue';
@@ -96,8 +96,8 @@ import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue
 const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const { rechercherThese, getFacets, setQuery } = thesesAPIService();
-const { rechercherPersonne } = personnesAPIService();
+const { rechercherThese, getFacets, setQueryTheses } = thesesAPIService();
+const { rechercherPersonne, setQueryPersonnes } = personnesAPIService();
 const { fetchCodeLangues, createLabels } = referentielsAPIService();
 const request = ref("");
 const currentRoute = useRoute();
@@ -115,40 +115,46 @@ const currentNombre = ref(10);
 onMounted(() => {
   dataReady.value = false;
   request.value = decodeURI(currentRoute.query.q);
-  setQuery(request.value);
+  setQueryTheses(request.value);
+  setQueryPersonnes(request.value);
   search();
   updateFacets();
 });
 
 
-async function search(query) {
-  if (currentRoute.query.domaine == "theses") {
-    rechercherThese().then(response => {
-      result.value = response.theses;
-      nbResult.value = response.totalHits;
-    }).catch(error => {
-      displayError(error.message);
-    }).finally(() => {
-      loading.value = false;
-      dataReady.value = true;
-    });
-  } else if (currentRoute.query.domaine == "personnes") {
-    try {
-      result.value = await rechercherPersonne(query);
-      nbResult.value = result.value.length;
-      setQueryView(query);
-    } catch (error) {
-      displayError(error.message);
-    } finally {
-      loading.value = false;
-      dataReady.value = true;
+async function search() {
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve, reject) => {
+    if (currentRoute.query.domaine === "theses") {
+      rechercherThese().then(response => {
+        result.value = response.theses;
+        nbResult.value = response.totalHits;
+      }).catch(error => {
+        displayError(error.message);
+        reject(error)
+      }).finally(() => {
+        loading.value = false;
+        dataReady.value = true;
+        resolve();
+      });
+    } else if (currentRoute.query.domaine === "personnes") {
+      try {
+        result.value = await rechercherPersonne();
+        nbResult.value = result.value.length;
+      } catch (error) {
+        displayError(error.message);
+        reject(error);
+      } finally {
+        loading.value = false;
+        dataReady.value = true;
+        resolve();
+      }
     }
-  }
+  });
 }
 
 function setQueryView(query) {
   request.value = query;
-  loading.value = true;
 }
 
 /**
@@ -231,9 +237,16 @@ function reinitialize() {
   currentNombre.value = 10;
 }
 
-function searchAndReinitializeFacet(query) {
+async function searchAndReinitializeFacet(query) {
   setQueryView(query);
+  await searchAndReinitialize();
   resetFacets.value++;
+}
+
+function changeDomain() {
+  setQueryTheses(request.value);
+  setQueryPersonnes(request.value);
+  searchAndReinitializeFacet(request.value);
 }
 
 function searchAndReinitialize() {
