@@ -43,12 +43,12 @@ export default {
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
-import { personnesAPIService } from "@/services/PersonnesAPI";
+import { APIService } from "@/services/StrategyAPI";
 
 const router = useRouter();
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { suggestionPersonne, setQueryPersonnes } = personnesAPIService();
+const { getSuggestion, setQuery } = APIService();
 
 defineProps({
   loading: {
@@ -68,7 +68,7 @@ onMounted(
   () => {
     if (currentRoute.query && currentRoute.query.q) {
       request.value = decodeURI(currentRoute.query.q);
-      setQueryPersonnes(request.value);
+      setQuery(request.value);
       // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
       // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
       watcherActive = false;
@@ -100,7 +100,7 @@ async function search() {
     })
   }
 
-  setQueryPersonnes(request.value);
+  setQuery(request.value);
   emit('searchAndReinitializeFacet', request.value);
 }
 
@@ -122,7 +122,7 @@ const suggestionActive = ref(false);
 
 watch(requestSearch, (candidate) => {
   if (candidate != null && candidate.length > 2 && watcherActive && !disableCompletion.value) {
-    getSuggestion(candidate);
+    getSuggestionPersonne(candidate);
   } else {
     items.value = [];
     suggestionActive.value = false;
@@ -142,11 +142,11 @@ watch(disableCompletion, (newDisableCompletion) => {
  * @param candidate Chaîne de caractère à compléter
  * @returns {Promise<void>}
  */
-async function getSuggestion(candidate) {
+async function getSuggestionPersonne(candidate) {
   isLoading.value = true;
   try {
-    setQueryPersonnes(candidate);
-    items.value = await suggestionPersonne();
+    setQuery(candidate);
+    items.value = await getSuggestion();
   } catch (error) {
     request.value = candidate;
     emit('onError', "Autcomplétion : " + error.message);

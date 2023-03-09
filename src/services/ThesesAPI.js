@@ -1,6 +1,4 @@
 import axios from "axios";
-import { ref } from "vue";
-
 import { replaceAndEscape } from "@/services/Common";
 
 const apiTheses = axios.create({
@@ -11,44 +9,7 @@ const apiTheses = axios.create({
   }
 });
 
-//Page courante
-const currentPage = ref(1);
-//Nombre de résultats par page
-const currentNombre = ref(10);
-//Tri
-const currentTri = ref("pertinence");
-const currentFiltres = ref([]);
-const query = ref("");
 
-function modifierPage(value) {
-  currentPage.value = value;
-}
-
-function modifierNombre(value) {
-  currentNombre.value = value;
-}
-
-function modifierTri(value) {
-  currentTri.value = value;
-}
-
-function modifierFiltres(objectsArray) {
-  currentFiltres.value = parseFiltersArray(objectsArray);
-}
-
-function setQueryTheses(newQuery) {
-  query.value = newQuery ? newQuery : "*";
-}
-
-function parseFiltersArray(objectsArray) {
-  let filtersArrayURL = [];
-
-  objectsArray.forEach((filter) => {
-    filtersArrayURL.push(Object.keys(filter)[0] + '="' + Object.values(filter)[0] + '"');
-  });
-
-  return filtersArrayURL.join('&').toLowerCase();
-}
 
 // Les status "soutenue" et "en cours" s'annulent
 function disableOrFilters(filters) {
@@ -60,12 +21,12 @@ function disableOrFilters(filters) {
 }
 
 // Recherche simple dans les theses
-function rechercherThese() {
-  const filtersRequest = currentFiltres.value
-    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(currentFiltres.value).toString() + "]")
+function queryThesesAPI(query, facets, currentPage, currentNombre, currentTri) {
+  const facetsRequest = facets
+    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(facets.value).toString() + "]")
     : "";
 
-  const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query.value)) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + filtersRequest;
+  const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query.value)) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
 
   return new Promise((resolve, reject) => {
     apiTheses.get(url).then((response) => {
@@ -77,17 +38,25 @@ function rechercherThese() {
 }
 
 //Autcomplétion recherche simple
-function complete() {
-  return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
+function suggestionTheses(query) {
+  return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
-//Facets
-function getFacets() {
-  const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
+/**
+ * Récupération des facettes pour une requête donnée
+ * @param query
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+function getFacetsTheses(query) {
+  const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
   return facets;
 }
 
-//Récupération des infos détaillées d'une theses
+/**
+ * Récupération des infos détaillées d'une theses
+ * @param nnt
+ * @returns {Promise<AxiosResponse<any>>}
+ */
 function getThese(nnt) {
   return apiTheses.get("/recherche-java/these/" + nnt);
 }
@@ -98,14 +67,9 @@ function getThese(nnt) {
  */
 export function thesesAPIService() {
   return {
-    modifierPage,
-    modifierNombre,
-    modifierTri,
-    setQueryTheses,
-    modifierFiltres,
-    rechercherThese,
-    complete,
-    getFacets,
+    queryThesesAPI,
+    suggestionTheses,
+    getFacetsTheses,
     getThese
   };
 }

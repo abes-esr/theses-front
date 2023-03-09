@@ -128,13 +128,13 @@ import { useRoute } from 'vue-router'
 
 import DomainSelector from '@/components/common/DomainSelector.vue';
 
-import { thesesAPIService } from '../services/ThesesAPI';
+import { StrategyAPI } from '@/services/StrategyAPI';
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const route = useRoute();
 
-const { getThese } = thesesAPIService();
+const { getData } = StrategyAPI();
 
 let selected = ref('fr');
 
@@ -150,7 +150,7 @@ let keywordsEN = [];
 
 onBeforeMount(() => {
     dataReady.value = false;
-    getThese(route.params.id).then(result => {
+    getData(route.params.id).then(result => {
         these.value = result.data;
         resume.value = these.value.resumes.fr
         dataReady.value = true;
@@ -188,7 +188,7 @@ function displayError(message) {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .clickable {
     cursor: pointer;
 }

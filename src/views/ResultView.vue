@@ -40,7 +40,6 @@
       <FacetsList @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
         :reset-facets="resetFacets" class="left-side"></FacetsList>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
-      <!--      Mettre à jour filtres dans thesesAPI depuis une nouvelle fonction-->
     </span>
     <div class="result-list">
       <div v-if="dataReady">
@@ -80,8 +79,7 @@
 <script setup>
 import { defineAsyncComponent, onMounted, ref, watch } from "vue";
 import { useRoute } from 'vue-router';
-import { thesesAPIService } from "@/services/ThesesAPI";
-import { personnesAPIService } from "@/services/PersonnesAPI";
+import { StrategyAPI } from "@/services/StrategyAPI";
 import { referentielsAPIService } from "@/services/ReferentielsAPI";
 import { useDisplay } from 'vuetify';
 import FacetsList from '@/components/common/results/FacetsList.vue';
@@ -93,12 +91,11 @@ import GenericResultList from "@/components/generic/GenericResultList.vue";
 import ScrollToTopButton from "@/components/common/results/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 
-const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 const { mobile } = useDisplay();
-const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const { rechercherThese, getFacets, setQueryTheses } = thesesAPIService();
-const { rechercherPersonne, setQueryPersonnes } = personnesAPIService();
+const { modifierPage, modifierNombre, modifierTri, setQuery, getData, getFacets } = StrategyAPI();
 const { fetchCodeLangues, createLabels } = referentielsAPIService();
+const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
+
 const request = ref("");
 const currentRoute = useRoute();
 const isBurgerMenuOpen = ref(false);
@@ -115,8 +112,7 @@ const currentNombre = ref(10);
 onMounted(() => {
   dataReady.value = false;
   request.value = decodeURI(currentRoute.query.q);
-  setQueryTheses(request.value);
-  setQueryPersonnes(request.value);
+  setQuery(request.value);
   search();
   updateFacets();
 });
@@ -126,7 +122,7 @@ async function search() {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     if (currentRoute.query.domaine === "theses") {
-      rechercherThese().then(response => {
+      getData().then(response => {
         result.value = response.theses;
         nbResult.value = response.totalHits;
       }).catch(error => {
@@ -139,7 +135,7 @@ async function search() {
       });
     } else if (currentRoute.query.domaine === "personnes") {
       try {
-        result.value = await rechercherPersonne();
+        result.value = await getData();
         nbResult.value = result.value.length;
       } catch (error) {
         displayError(error.message);
@@ -244,8 +240,7 @@ async function searchAndReinitializeFacet(query) {
 }
 
 function changeDomain() {
-  setQueryTheses(request.value);
-  setQueryPersonnes(request.value);
+  setQuery(request.value);
   searchAndReinitializeFacet(request.value);
 }
 

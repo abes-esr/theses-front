@@ -29,11 +29,11 @@ export default {
 import { ref, watch, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import router from '@/router';
-import { thesesAPIService } from "@/services/ThesesAPI";
+import { StratetegyAPI } from "@/services/StrategyAPI";
 
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { complete, setQueryTheses } = thesesAPIService();
+const { getSuggestion, setQuery } = StratetegyAPI();
 
 defineProps({
   loading: {
@@ -65,8 +65,8 @@ const suggestionActive = ref(false);
 
 watch(requestSearch, (newRequestSearch) => {
   if (newRequestSearch.length > 2 && watcherActive && !disableCompletion.value) {
-    setQueryTheses(newRequestSearch);
-    complete()
+    setQuery(newRequestSearch);
+    getSuggestion()
       .then((res) => {
         items.value = res.data;
         if (items.value.length > 0) {
@@ -120,7 +120,7 @@ async function search() {
     });
   }
 
-  setQueryTheses(request.value);
+  setQuery(request.value);
   emit('searchAndReinitializeFacet', request.value);
 }
 

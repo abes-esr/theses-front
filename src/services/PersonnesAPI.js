@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {ref} from "vue";
+import { replaceAndEscape } from "@/services/Common";
 
 const apiTheses = axios.create({
     baseURL: import.meta.env.VITE_APP_API,
@@ -9,33 +9,19 @@ const apiTheses = axios.create({
     }
 });
 
-const query = ref("");
-//Page courante
-let currentPage = ref(1);
-//Nomre courant
-let currentNombre = ref(10);
-
-function modifierPage(value) {
-    currentPage.value = value;
-}
-
-function modifierNombre(value) {
-    currentNombre.value = value;
-}
-
-function setQueryPersonnes(newQuery) {
-    query.value = newQuery ? newQuery : "*";
-}
-
 /**
  * Fonction pour rechercher des personnes à partir d'un mot.
  * La liste des personnes courantes est mises à jour.
  * @param query
+ * @param facets
+ * @param currentPage
+ * @param currentNombre
+ * @param currentTri
  * @returns {Promise<unknown>}
  */
-async function rechercherPersonne() {
+async function queryPersonnesAPI(query, facets, currentPage, currentNombre, currentTri) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personnes/recherche", {params: {"q": encodeURI(query.value.replace(" OU ", " OR ").replace(" ET ", " AND ").replace(" SAUF ", " NOT "))}}).then((response) => {
+        apiTheses.get("/personnes/recherche", {params: {"q": encodeURI(query.replace(" OU ", " OR ").replace(" ET ", " AND ").replace(" SAUF ", " NOT "))}}).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
@@ -56,6 +42,16 @@ async function suggestionPersonne() {
             reject(err);
         });
     });
+}
+
+/**
+ * Récupération des facettes pour une requête donnée #TODO Fabien Théo ajouter le nom de la route
+ * @param query
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+function getFacetsPersonnes(query) {
+    const facets = apiTheses.get("/recherche-java/personnes/?q=" + encodeURIComponent(replaceAndEscape(query)));
+    return facets;
 }
 
 /**
@@ -104,11 +100,9 @@ async function getPersonne(id) {
  */
 export function personnesAPIService() {
     return {
-        modifierPage,
-        modifierNombre,
-        rechercherPersonne,
+        queryPersonnesAPI,
         suggestionPersonne,
-        getPersonne,
-        setQueryPersonnes
+        getFacetsPersonnes,
+        getPersonne
     };
 }
