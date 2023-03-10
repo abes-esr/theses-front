@@ -16,7 +16,6 @@
 
 <script setup>
 import { computed, ref, watch } from "vue";
-import { sortByAlphaNumericOrder } from "@/services/Common";
 
 const emit = defineEmits(['updateParentCheckbox', 'updateFilterData', 'updateFilterDataRecursive']);
 const props = defineProps({
@@ -44,7 +43,7 @@ const checkboxState = ref(arrayContainsFilter());
 
 let childrenCheckboxes = computed(() => {
   if (props.facetItem.checkboxes) {
-    return sortByAlphaNumericOrder(props.facetItem.checkboxes);
+    return props.facetItem.checkboxes;
   }
   return [];
 });

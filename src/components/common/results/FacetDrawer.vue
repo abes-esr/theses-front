@@ -30,7 +30,6 @@
 <script setup>
 import FacetCheckbox from "@/components/common/results/FacetCheckbox.vue";
 import { computed, ref, watch } from "vue";
-import { sortByAlphaNumericOrder } from "@/services/Common";
 
 const emit = defineEmits(['update:facetsArray', 'updateFilterData', 'reinitializeCheckboxes']);
 const props = defineProps({
@@ -45,7 +44,7 @@ const marginOffset = ref(0);
 const filterSearchText = ref("");
 
 let facetItems = computed(() => {
-  let filters = sortByAlphaNumericOrder(props.facet.checkboxes);
+  let filters = props.facet.checkboxes;
   // Initialisation des booleans selected pour la barre de recherche
   filters.forEach((filter) => {
     filter.selected = true;
@@ -56,7 +55,7 @@ let facetItems = computed(() => {
  * Fonctions
  */
 
-function search() {
+function searchIntoFacet() {
   facetItems.value.forEach(function (facetItem) {
     const filterLowerCase = facetItem.label.toLowerCase();
     const searchTextLowerCase = filterSearchText.value.toLowerCase();
@@ -68,7 +67,7 @@ function search() {
  * Watchers
  */
 watch(filterSearchText, () => {
-  search();
+  searchIntoFacet();
 });
 
 /**

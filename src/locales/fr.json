@@ -18,6 +18,7 @@
   "documentation": "Documentation",
   "resultats": " résultats de thèses pour ",
   "scroll": "Remonter en haut de la page",
+  "clear": "Réinitialiser",
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
   },
@@ -69,5 +70,14 @@
         "theses": "thèse(s)"
       }
     }
+  },
+  "footer": {
+    "texte": "Theses.fr est un moteur de recherche qui recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française. La base de données est en constante évolution.",
+    "opendata": "Theses.fr en Open Data",
+    "catalogue": "Catalogue collectif Sudoc",
+    "idRref": "IdRef Identifiants et référentiels",
+    "tef": "Format TEF (Thèses Electroniques Françaises)",
+    "doc": "Documentation",
+    "assistance": "Guichet d'assistance"
   }
 }
