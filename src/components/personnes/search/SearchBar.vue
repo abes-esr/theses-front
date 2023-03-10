@@ -40,9 +40,8 @@ export default {
 };
 </script>
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch,computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { computed } from 'vue'
 import { APIService } from "@/services/StrategyAPI";
 
 const router = useRouter();
@@ -149,7 +148,7 @@ async function getSuggestionPersonne(candidate) {
     items.value = await getSuggestion();
   } catch (error) {
     request.value = candidate;
-    emit('onError', "Autcomplétion : " + error.message);
+    emit('onError', "Autocomplétion : " + error.message);
   } finally {
     isLoading.value = false;
     suggestionActive.value = true;
@@ -157,7 +156,7 @@ async function getSuggestionPersonne(candidate) {
 }
 
 /**
- * Fonction lorsqu'on selectionne une suggestion
+ * Fonction lorsqu'on sélectionne une suggestion
  * @param value
  */
 function selectSuggestion(value) {

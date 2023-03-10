@@ -50,7 +50,7 @@ async function suggestionPersonne(query) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function getFacetsPersonnes(query) {
-    const facets = apiTheses.get("/recherche-java/personnes/?q=" + encodeURIComponent(replaceAndEscape(query)));
+    const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
     return facets;
 }
 
