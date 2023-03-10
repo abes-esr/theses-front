@@ -50,15 +50,15 @@
           {{ request }}</h1>
         <div v-if="mobile" class="result-list-wrapper">
           <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-top-wrapper" :nb-result=nbResult />
-          <GenericResultList :result="result">
-          </GenericResultList>
+          <result-list :domain-name="domainName" :result="result">
+          </result-list>
           <MoreResultsButton v-if="!allResultsWereLoaded()" :loading=loading :nb-result=nbResult
             @changeNombre="updateNombre" />
         </div>
         <v-row v-else>
           <v-col cols="11" class="colonnes-resultats">
-            <GenericResultList :result="result">
-            </GenericResultList>
+            <result-list :domain-name="domainName" :result="result">
+            </result-list>
             <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
           </v-col>
           <v-col cols="1" class="colonnes-resultats">
@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent, onMounted, ref, watch } from "vue";
+import { computed, defineAsyncComponent, onMounted, ref, watch } from "vue";
 import { useRoute } from 'vue-router';
 import { APIService } from "@/services/StrategyAPI";
 import { referentielsAPIService } from "@/services/ReferentielsAPI";
@@ -87,7 +87,7 @@ import SearchBar from '@/components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultPaginationTop from '@/components/common/results/ResultPaginationTop.vue';
 import ResultPaginationBottom from '@/components/common/results/ResultPaginationBottom.vue';
-import GenericResultList from "@/components/generic/GenericResultList.vue";
+import ResultList from "@/components/common/results/ResultList.vue";
 import ScrollToTopButton from "@/components/common/results/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 
@@ -117,6 +117,9 @@ onMounted(() => {
   updateFacets();
 });
 
+const domainName = computed(() => {
+  return currentRoute.query.domaine;
+});
 
 async function search() {
   // eslint-disable-next-line no-async-promise-executor
