@@ -26,7 +26,7 @@
     </div>
     <div class="sub_header__action">
       <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
+      <search-bar @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="vertical-thread"></div>
@@ -147,6 +147,20 @@ async function search() {
       }
     }
   });
+
+  /**
+   * Version amaigrie à implémenter après normalisation de l'api
+   */
+  // eslint-disable-next-line no-async-promise-executor
+  // return queryAPI().then(async () => {
+  //       result.value = await queryAPI();
+  //       nbResult.value = result.value.length;
+  //     }).catch(error => {
+  //       displayError(error.message);
+  //     }).finally(() => {
+  //       loading.value = false;
+  //       dataReady.value = true;
+  //     });
 }
 
 function setQueryView(query) {

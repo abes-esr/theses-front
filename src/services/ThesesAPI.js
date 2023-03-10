@@ -25,9 +25,10 @@ function queryThesesAPI(query, facets, currentPage, currentNombre, currentTri) {
     : "";
 
   const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query)) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
+
   return new Promise((resolve, reject) => {
     apiTheses.get(url).then((response) => {
-      resolve(response.data);
+      resolve(response.data); // response.data.theses #TODO à rectifier après normalisation
     }).catch((err) => {
       reject(err);
     });

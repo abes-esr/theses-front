@@ -117,7 +117,6 @@ watch(() => props.resetFacets,
   () => {
     resetArray(facetsArray.value);
     modifierFiltres(facetsArray.value);
-    // emit('searchAndReinitialize');
   });
 </script>
 
