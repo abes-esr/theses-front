@@ -3,12 +3,7 @@
     <div class="footerTop">
       <div>
         <h4>Theses.fr</h4>
-        <span>Lorem ipsum dolor sit amet. Ut molestiae quae ex quae omnis id possimus
-                            voluptas sit amet ipsam eos mollitia odit et
-                            saepe ducimus! Aut officiis quidem non suscipit ipsam eos repellat autem id dolorem amet et
-                            facilis sequi sed laboriosam
-                            recusandae quo corporis sapiente. Aut incidunt omnis aut laborum minima eum eveniet quia.
-                        </span>
+        <span>{{ $t("footer.texte") }}</span>
       </div>
       <div>
         <h3>
@@ -16,24 +11,35 @@
           {{ $t("accesDirect") }}
         </h3>
         <ul>
-          <li><span class="orange-link"> ></span><a
-              href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
-              target="_blank">Documentation</a>
+          <li><span class="orange-link"> > </span><a
+              href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank">{{
+                $t("footer.opendata") }}</a>
+          </li>
+          <li><span class="orange-link"> > </span><a href="http://www.sudoc.abes.fr/cbs/" target="_blank">{{
+            $t("footer.catalogue") }}</a>
           </li>
           <li><span class="orange-link"> > </span><a
-              href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/"
-              target="_blank">data.gouv.fr</a>
+              href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{ $t("footer.tef")
+              }}</a>
           </li>
-          <li><span class="orange-link"> > </span><a href="https://stp.abes.fr"
-                                                     target="_blank">Assistance</a>
+          <li><span class="orange-link"> > </span><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
+          }}</a>
+          </li>
+          <li><span class="orange-link"> ></span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
+              target="_blank">{{ $t("footer.doc") }}</a>
+          </li>
+          <li><span class="orange-link"> > </span><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{
+            $t("footer.assistance") }}</a>
           </li>
         </ul>
       </div>
-      <div><img
-          src="../../assets/logo-mesr.svg" alt="logo ministère enseignement supérieur"
-          style="height: 80px;" class="pr-4 ">
-        <img src="../../assets/abes-logo-cercle.svg" alt="logo Abes" style="height: 80px;">
-
+      <div>
+        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank"
+          title="site Ministère Enseignement Supérieur">
+          <img src="../../assets/logo-mesr.svg" alt="logo ministère enseignement supérieur" style="height: 80px;"
+            class="pr-4 "></a>
+        <a href="https://abes.fr/" target="_blank" title="site Abes">
+          <img src="../../assets/abes-logo-cercle.svg" alt="logo Abes" style="height: 80px;"></a>
       </div>
     </div>
     <v-divider></v-divider>
@@ -43,7 +49,7 @@
           {{ new Date().getFullYear() }} —
           <strong>Theses.fr</strong>
           <div id="accessconfig" data-accessconfig-buttonname="Paramètres d’accessibilité"
-               data-accessconfig-params='{ "Prefix" : "a42-ac", "ContainerClass" : "","ModalCloseButton" : "","ModalTitle" : "","FormFieldset" : "","FormFieldsetLegend" : "","FormRadio" : "", "ImageReplacement" : false}'>
+            data-accessconfig-params='{ "Prefix" : "a42-ac", "ContainerClass" : "","ModalCloseButton" : "","ModalTitle" : "","FormFieldset" : "","FormFieldsetLegend" : "","FormRadio" : "", "ImageReplacement" : false}'>
           </div>
         </v-col>
         <v-col cols="12" md="9" class="text-center text-md-right pa-0">
@@ -51,8 +57,7 @@
             {{ $t("apropos") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider>
-          <v-btn plain color="transparent" size="small" href="/donnees"
-                 @click="$router.push({ name: 'donnees' })">
+          <v-btn plain color="transparent" size="small" href="/donnees" @click="$router.push({ name: 'donnees' })">
             {{ $t("donnees") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider>
@@ -82,14 +87,15 @@
   background-color: rgb(var(--v-theme-gris-clair));
   color: rgb(var(--v-theme-fond-noir));
 
+
   .footerTop {
     flex: 1 0 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 90%;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
+    padding-top: 1em;
+    padding-bottom: 1em;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 0 0 70%;
