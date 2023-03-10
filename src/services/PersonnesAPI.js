@@ -34,9 +34,9 @@ async function queryPersonnesAPI(query, facets, currentPage, currentNombre, curr
  * La liste des suggestions de personnes.
  * @returns {Promise<unknown>}
  */
-async function suggestionPersonne() {
+async function suggestionPersonne(query) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personnes/completion", {params: {"q": encodeURI(query.value)}}).then((response) => {
+        apiTheses.get("/personnes/completion", {params: {"q": encodeURI(query)}}).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);

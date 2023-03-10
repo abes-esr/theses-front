@@ -12,22 +12,19 @@ const apiTheses = axios.create({
 
 
 // Les status "soutenue" et "en cours" s'annulent
-function disableOrFilters(filters) {
-  if (filters.includes("soutenues") && filters.includes("enCours")) {
-    return filters.filter(e => e !== "soutenues").filter(e => e !== "enCours").filter(e => e !== "accessible");
-  } else {
-    return filters;
-  }
+function disableOrFilters(facets) {
+  if (facets.includes("soutenues") && facets.includes("enCours"))
+    return facets.filter(e => e !== "soutenues").filter(e => e !== "enCours").filter(e => e !== "accessible");
+  return facets;
 }
 
 // Recherche simple dans les theses
 function queryThesesAPI(query, facets, currentPage, currentNombre, currentTri) {
   const facetsRequest = facets
-    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(facets.value).toString() + "]")
+    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(facets).toString() + "]")
     : "";
 
-  const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query.value)) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
-
+  const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query)) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
   return new Promise((resolve, reject) => {
     apiTheses.get(url).then((response) => {
       resolve(response.data);

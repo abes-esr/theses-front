@@ -40,7 +40,6 @@ onMounted(() => {
 });
 
 async function select(selection) {
-  console.info("dans le select")
   selected.value = selection;
   let currentURLParams = Object.assign({}, currentRoute.query);
 

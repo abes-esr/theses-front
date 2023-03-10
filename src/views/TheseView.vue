@@ -128,13 +128,13 @@ import { useRoute } from 'vue-router'
 
 import DomainSelector from '@/components/common/DomainSelector.vue';
 
-import { StrategyAPI } from '@/services/StrategyAPI';
+import { APIService } from '@/services/StrategyAPI';
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const route = useRoute();
 
-const { getData } = StrategyAPI();
+const { getData } = APIService();
 
 let selected = ref('fr');
 

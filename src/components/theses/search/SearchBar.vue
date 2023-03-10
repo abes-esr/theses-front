@@ -29,11 +29,11 @@ export default {
 import { ref, watch, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import router from '@/router';
-import { StratetegyAPI } from "@/services/StrategyAPI";
+import { APIService } from "@/services/StrategyAPI";
 
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery } = StratetegyAPI();
+const { getSuggestion, setQuery } = APIService();
 
 defineProps({
   loading: {

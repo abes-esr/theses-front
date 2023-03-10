@@ -79,7 +79,7 @@
 <script setup>
 import { defineAsyncComponent, onMounted, ref, watch } from "vue";
 import { useRoute } from 'vue-router';
-import { StrategyAPI } from "@/services/StrategyAPI";
+import { APIService } from "@/services/StrategyAPI";
 import { referentielsAPIService } from "@/services/ReferentielsAPI";
 import { useDisplay } from 'vuetify';
 import FacetsList from '@/components/common/results/FacetsList.vue';
@@ -92,7 +92,7 @@ import ScrollToTopButton from "@/components/common/results/ScrollToTopButton.vue
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 
 const { mobile } = useDisplay();
-const { modifierPage, modifierNombre, modifierTri, setQuery, getData, getFacets } = StrategyAPI();
+const { modifierPage, modifierNombre, modifierTri, setQuery, queryAPI, getFacets } = APIService();
 const { fetchCodeLangues, createLabels } = referentielsAPIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
@@ -122,7 +122,7 @@ async function search() {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     if (currentRoute.query.domaine === "theses") {
-      getData().then(response => {
+      queryAPI().then(response => {
         result.value = response.theses;
         nbResult.value = response.totalHits;
       }).catch(error => {
@@ -135,7 +135,7 @@ async function search() {
       });
     } else if (currentRoute.query.domaine === "personnes") {
       try {
-        result.value = await getData();
+        result.value = await queryAPI();
         nbResult.value = result.value.length;
       } catch (error) {
         displayError(error.message);

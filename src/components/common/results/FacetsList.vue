@@ -7,10 +7,10 @@
 
 <script setup>
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
-import { StrategyAPI } from "@/services/StrategyAPI";
+import { APIService } from "@/services/StrategyAPI";
 import { ref, watch } from "vue";
 
-const { modifierFiltres } = StrategyAPI();
+const { modifierFiltres } = APIService();
 
 const props = defineProps({
   facets: {

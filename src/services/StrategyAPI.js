@@ -6,7 +6,7 @@ import { useRoute } from "vue-router";
 // import fonctions
 const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI } = thesesAPIService();
 const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI } = personnesAPIService();
-const currentRoute = useRoute();
+let currentRoute = useRoute();
 // Page de résultats courante
 const currentPage = ref(1);
 // Nombre de résultats par page
@@ -55,6 +55,9 @@ function parseFacetsValuesArray(objectsArray) {
 }
 
 function getCurrentDomain() {
+  if (!currentRoute) {
+    currentRoute = useRoute();
+  }
   return currentRoute.query.domaine;
 }
 
@@ -63,9 +66,9 @@ function getCurrentDomain() {
  */
 function queryAPI() {
   if(getCurrentDomain() === "theses")
-    return queryThesesAPI(query.value, currentFacets, currentPage, currentNombre, currentTri);
+    return queryThesesAPI(query.value, currentFacets.value, currentPage.value, currentNombre.value, currentTri.value);
   if(getCurrentDomain() === "personnes")
-    return queryPersonnesAPI(query.value, currentFacets, currentPage, currentNombre, currentTri);
+    return queryPersonnesAPI(query.value, currentFacets.value, currentPage.value, currentNombre.value, currentTri.value);
 }
 
 function getFacets() {
@@ -89,6 +92,11 @@ function getSuggestion() {
     return suggestionPersonne(query.value);
 }
 
+/**
+ *
+ * @returns {{modifierFiltres: modifierFiltres, queryAPI: ((function(): (*|undefined))|*), getFacets: ((function(): (*|undefined))|*), modifierNombre: modifierNombre, modifierPage: modifierPage, setQuery: setQuery, getData: ((function(*): (*|undefined))|*), getSuggestion: ((function(): (*|undefined))|*), modifierTri: modifierTri}}
+ * @constructor
+ */
 export function APIService() {
   return {
     modifierPage,
