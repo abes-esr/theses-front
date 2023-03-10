@@ -22,11 +22,11 @@
               href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{ $t("footer.tef")
               }}</a>
           </li>
-          <li><span class="orange-link"> > </span><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idref")
+          <li><span class="orange-link"> > </span><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
           }}</a>
           </li>
           <li><span class="orange-link"> ></span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
-              target="_blank">{{ $t("footer.idref") }}</a>
+              target="_blank">{{ $t("footer.doc") }}</a>
           </li>
           <li><span class="orange-link"> > </span><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{
             $t("footer.assistance") }}</a>
@@ -86,7 +86,6 @@
   width: 100vw;
   background-color: rgb(var(--v-theme-gris-clair));
   color: rgb(var(--v-theme-fond-noir));
-  height: fit-content;
 
 
   .footerTop {
