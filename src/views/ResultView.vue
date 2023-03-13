@@ -93,7 +93,6 @@ import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue
 
 const { mobile } = useDisplay();
 const { modifierPage, modifierNombre, modifierTri, setQuery, queryAPI, getFacets } = APIService();
-const { fetchCodeLangues, createLabels } = referentielsAPIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const request = ref("");
@@ -152,7 +151,7 @@ async function search() {
   });
 
   /**
-   * Version amaigrie à implémenter après normalisation de l'api
+   * #TODO Version amaigrie à implémenter après normalisation de l'api
    */
   // eslint-disable-next-line no-async-promise-executor
   // return queryAPI().then(async () => {
@@ -221,13 +220,10 @@ function displayError(message) {
 
 function updateFacets() {
   getFacets().then(response => {
-    facets.value = createLabels(response.data);
+    facets.value = response;
   }).catch(error => {
     displayError(error.message);
   });
-
-  // Peuplement de la liste des codes langues
-  fetchCodeLangues();
 }
 
 // Si on passe de desktop à mobile ou inversement, réinitialisation des pages, etc
@@ -252,7 +248,7 @@ function reinitialize() {
 
 async function searchAndReinitializeFacet(query) {
   setQueryView(query);
-  await searchAndReinitialize();
+  searchAndReinitialize();
   resetFacets.value++;
 }
 

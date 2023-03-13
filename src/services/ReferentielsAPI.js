@@ -11,11 +11,16 @@ const apiRef = axios.create({
 
 const codesLangue = ref({});
 
-//Peuplement liste langues
+/**
+ * Peuplement liste langues - un seul appel par instance
+ * @returns {Promise<AxiosResponse<any>>}
+ */
 function fetchCodeLangues() {
-    apiRef.get("iso639-2B.json").then((res) => {
+  if(Object.keys(codesLangue.value).length === 0) {
+    return apiRef.get("iso639-2B.json").then((res) => {
         codesLangue.value = res.data;
     });
+  }
 }
 
 function setLabelRecursive(facet) {

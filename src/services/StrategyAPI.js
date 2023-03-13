@@ -2,8 +2,10 @@ import { ref } from "vue";
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import { useRoute } from "vue-router";
+import { referentielsAPIService } from "@/services/ReferentielsAPI";
 
 // import fonctions
+const { fetchCodeLangues, createLabels } = referentielsAPIService();
 const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI } = thesesAPIService();
 const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI } = personnesAPIService();
 let currentRoute = useRoute();
@@ -71,11 +73,33 @@ function queryAPI() {
     return queryPersonnesAPI(query.value, currentFacets.value, currentPage.value, currentNombre.value, currentTri.value);
 }
 
-function getFacets() {
-  if(getCurrentDomain() === "theses")
-    return getFacetsTheses(query.value);
-  if(getCurrentDomain() === "personnes")
-    return getFacetsPersonnes(query.value);
+async function getFacets() {
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve, reject) => {
+    var rawFacets = {};
+
+    await fetchCodeLangues();
+
+    if (getCurrentDomain() === "theses") {
+      await getFacetsTheses(query.value)
+        .then(response => {
+          rawFacets = response.data;
+        });
+    }
+
+    if (getCurrentDomain() === "personnes") {
+      await getFacetsPersonnes(query.value)
+        .then(response => {
+          rawFacets = response.data;
+        });
+    }
+
+    if (Object.keys(rawFacets).length > 0) {
+      createLabels(rawFacets)
+      resolve(rawFacets);
+    }
+    reject();
+  });
 }
 
 function getData(id) {

@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panels rounded>
-    <v-expansion-panel :eager="true">
+    <v-expansion-panel eager>
       <v-expansion-panel-title :ripple="true" class="facet-title-panel">
         <h4 class="facet-title">
           {{ facet.name }}
@@ -10,7 +10,7 @@
           <v-icon>mdi-reload</v-icon>
         </v-btn>
       </v-expansion-panel-title>
-      <v-expansion-panel-text :eager="true" class="pe-0">
+      <v-expansion-panel-text eager class="pe-0">
         <div class="facet-sub-menu">
           <v-text-field v-if="facet.searchBar" :label='$t("rechercher")' v-model="filterSearchText" variant="outlined"
             append-inner-icon="mdi-magnify" density="compact" single-line hide-details
