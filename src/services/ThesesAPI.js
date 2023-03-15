@@ -9,8 +9,6 @@ const apiTheses = axios.create({
   }
 });
 
-
-
 // Les status "soutenue" et "en cours" s'annulent
 function disableOrFilters(facets) {
   if (facets.includes("soutenues") && facets.includes("enCours"))
@@ -28,7 +26,7 @@ function queryThesesAPI(query, facets, currentPage, currentNombre, currentTri) {
 
   return new Promise((resolve, reject) => {
     apiTheses.get(url).then((response) => {
-      resolve(response.data); // response.data.theses #TODO à rectifier après normalisation
+      resolve(response.data);
     }).catch((err) => {
       reject(err);
     });
@@ -46,8 +44,7 @@ function suggestionTheses(query) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function getFacetsTheses(query) {
-  const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
-  return facets;
+  return apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
 /**

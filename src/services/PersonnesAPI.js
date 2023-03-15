@@ -22,7 +22,7 @@ const apiTheses = axios.create({
 async function queryPersonnesAPI(query, facets, currentPage, currentNombre, currentTri) {
     return new Promise((resolve, reject) => {
         apiTheses.get("/personnes/recherche", {params: {"q": encodeURI(query.replace(" OU ", " OR ").replace(" ET ", " AND ").replace(" SAUF ", " NOT "))}}).then((response) => {
-            resolve(response.data);
+            resolve(response.data); // #TODO à rectifier après normalisation
         }).catch((err) => {
             reject(err);
         });

@@ -103,10 +103,29 @@ async function getFacets() {
 }
 
 function getData(id) {
-  if(getCurrentDomain() === "theses")
-    return getThese(id);
-  if(getCurrentDomain() === "personnes")
-    return getPersonne(id);
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise( async (resolve, reject) => {
+    let thesisData = {};
+
+    if (getCurrentDomain() === "theses") {
+      await getThese(id)
+        .then(response => {
+          thesisData = response;
+        });
+    }
+
+    if (getCurrentDomain() === "personnes") {
+      await getPersonne(id)
+        .then(response => {
+          thesisData = response;
+        });
+    }
+
+    if (Object.keys(thesisData).length > 0) {
+      resolve(thesisData);
+    }
+    reject();
+  });
 }
 
 function getSuggestion() {

@@ -80,7 +80,6 @@
 import { computed, defineAsyncComponent, onMounted, ref, watch } from "vue";
 import { useRoute } from 'vue-router';
 import { APIService } from "@/services/StrategyAPI";
-import { referentielsAPIService } from "@/services/ReferentielsAPI";
 import { useDisplay } from 'vuetify';
 import FacetsList from '@/components/common/results/FacetsList.vue';
 import SearchBar from '@/components/generic/GenericSearchBar.vue';
@@ -151,7 +150,7 @@ async function search() {
   });
 
   /**
-   * #TODO Version amaigrie à implémenter après normalisation de l'api
+   * #TODO Version généralisée à implémenter après normalisation de l'api
    */
   // eslint-disable-next-line no-async-promise-executor
   // return queryAPI().then(async () => {
@@ -257,9 +256,9 @@ function changeDomain() {
   searchAndReinitializeFacet(request.value);
 }
 
-function searchAndReinitialize() {
+async function searchAndReinitialize() {
   reinitialize();
-  search();
+  await search();
   updateFacets();
 }
 </script>
