@@ -32,8 +32,6 @@
   <div v-if="!mobile" class="vertical-thread"></div>
   <div v-if="!mobile" class="search-filter">
     <h4 class="left-side">Affiner la recherche</h4>
-    <result-pagination-top v-if="!mobile" v-model:current-page=currentPage :nb-results=nbResult @changePage="updatePage"
-      @changeNombre="updateNombre" @changeTri="updateTri"></result-pagination-top>
   </div>
   <div class="main-wrapper">
     <span class="left-side nav-bar" v-if="!mobile">
@@ -42,37 +40,9 @@
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </span>
     <div class="result-list">
-      <div v-if="dataReady">
-        <h1 class="pb-6">{{ nbResult }}{{
-          $t(currentRoute.query.domaine +
-            ".resultView.resultats")
-        }} :
-          {{ request }}</h1>
-        <div v-if="mobile" class="result-list-wrapper">
-          <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-top-wrapper" :nb-result=nbResult />
-          <result-list :domain-name-change="domainNameChange" :result="result" :loading="loading">
-          </result-list>
-          <MoreResultsButton v-if="!allResultsWereLoaded()" :loading=loading :nb-result=nbResult
-            @changeNombre="updateNombre" />
-        </div>
-        <v-row v-else>
-          <v-col cols="11" class="colonnes-resultats">
-            <result-list :domain-name-change="domainNameChange" :result="result">
-            </result-list>
-            <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
-          </v-col>
-          <v-col cols="1" class="colonnes-resultats">
-            <ScrollToTopButton v-if="moreThanXResults(5)" :nb-result=nbResult />
-          </v-col>
-        </v-row>
-      </div>
+      <result-list :data-ready="dataReady" :result="result" :loading="loading">
+      </result-list>
     </div>
-  </div>
-  <div class="search-filter">
-    <div class="left-side"></div>
-    <result-pagination-bottom v-model:current-page=currentPage v-if="!mobile" :nb-results=nbResult
-      :current-nombre=currentNombre @changePage="simpleUpdatePage">
-    </result-pagination-bottom>
   </div>
 </template>
 
@@ -84,39 +54,35 @@ import { useDisplay } from 'vuetify';
 import FacetsList from '@/components/common/results/FacetsList.vue';
 import SearchBar from '@/components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
-import ResultPaginationTop from '@/components/common/results/ResultPaginationTop.vue';
-import ResultPaginationBottom from '@/components/common/results/ResultPaginationBottom.vue';
 import ResultList from "@/components/common/results/ResultList.vue";
-import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
-import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 
 const { mobile } = useDisplay();
-const { modifierPage, modifierNombre, modifierTri, setQuery, queryAPI, getFacets, setDomaine } = APIService();
+const { setQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, modifierTri } = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
-const request = ref("");
 const currentRoute = useRoute();
+const request = ref("");
+const result = ref([]);
+const dataReady = ref(false);
 const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
 const resetFacets = ref(0);
 const loading = ref(false);
-const result = ref([]);
 const facets = ref({});
 const nbResult = ref(0);
-const dataReady = ref(false);
 const currentPage = ref(1);
 const currentNombre = ref(10);
 
-var domainNameChange = currentRoute.query.domaine;
-
 onMounted(() => {
   dataReady.value = false;
-  request.value = decodeURI(currentRoute.query.q);
-  setQuery(request.value);
+  setQuery(decodeURI(currentRoute.query.q));
   search();
   updateFacets();
 });
 
+/**
+ * Fonctions
+ */
 async function search() {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
@@ -124,7 +90,6 @@ async function search() {
       queryAPI().then(response => {
         result.value = response.theses;
         nbResult.value = response.totalHits;
-        domainNameChange = currentRoute.query.domaine;
       }).catch(error => {
         displayError(error.message);
         reject(error)
@@ -137,12 +102,11 @@ async function search() {
       try {
         result.value = await queryAPI();
         nbResult.value = result.value.length;
-        domainNameChange = currentRoute.query.domaine;
       } catch (error) {
         displayError(error.message);
         reject(error);
       } finally {
-        loading.value = false;
+        loading.value= false;
         dataReady.value = true;
         resolve();
       }
@@ -156,7 +120,7 @@ async function search() {
   // return queryAPI().then(async () => {
   //       result.value = await queryAPI();
   //       nbResult.value = result.value.length;
-  //       domainNameChange = currentRoute.query.domaine;
+  //       domainName = currentRoute.query.domaine;
   //     }).catch(error => {
   //       displayError(error.message);
   //     }).finally(() => {
@@ -165,51 +129,9 @@ async function search() {
   //     });
 }
 
-function setQueryView(query) {
-  request.value = query;
-}
-
-/**
- * Fonctions
- */
-function simpleUpdatePage(payload) {
-  modifierPage(payload);
-  // Mise à jour des valeurs de pagination dans tous les composants
-  currentPage.value = payload;
-}
-
-function updatePage(payload) {
-  simpleUpdatePage(payload);
-  search();
-}
-
-/**
- * Met à jour le nombre de résultats à afficher sur une page
- * @param payload
- */
-function updateNombre(payload) {
-  modifierNombre(payload);
-  search();
-  currentNombre.value = payload; // Mise à jour des valeurs de pagination dans tous les composants
-  currentPage.value = 1; // Retour à la page une
-}
-
-function updateTri(payload) {
-  modifierTri(payload);
-  search();
-}
-
 function update() {
   reinitialize();
   search();
-}
-
-function moreThanXResults(x) {
-  return (result.value.length >= x);
-}
-
-function allResultsWereLoaded() {
-  return moreThanXResults(nbResult.value);
 }
 
 function displayError(message) {
@@ -263,6 +185,42 @@ async function searchAndReinitialize() {
   await search();
   updateFacets();
 }
+
+function setQueryView(query) {
+  query.value = query;
+}
+
+
+function updatePage(payload) {
+  simpleUpdatePage(payload);
+  search();
+}
+
+/**
+ * Met à jour le nombre de résultats à afficher sur une page
+ * @param payload
+ */
+function updateNombre(payload) {
+  modifierNombre(payload);
+  search();
+  currentNombre.value = payload; // Mise à jour des valeurs de pagination dans tous les composants
+  currentPage.value = 1; // Retour à la page une
+}
+
+function updateTri(payload) {
+  modifierTri(payload);
+  search();
+}
+
+function simpleUpdatePage(payload) {
+  modifierPage(payload);
+  // Mise à jour des valeurs de pagination dans tous les composants
+  currentPage.value = payload;
+}
+
+/**
+ * Watchers
+ */
 
 watch(() => currentRoute.query.domaine, () => {
   setDomaine(currentRoute.query.domaine)
@@ -397,10 +355,6 @@ watch(() => currentRoute.query.domaine, () => {
 
 .colonnes-resultats {
   padding: 0;
-}
-
-.result-list-wrapper {
-  display: grid;
 }
 
 .scroll-top-wrapper {
