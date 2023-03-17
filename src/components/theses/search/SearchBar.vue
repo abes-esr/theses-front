@@ -1,9 +1,21 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-                :items="items" variant="outlined" :menu="suggestionActive" cache-items hide-no-data hide-selected
+    <v-combobox class="searchbar__input"
+                :label='$t("rechercher")'
+                v-model="request"
+                v-model:search="requestSearch"
+                :items="items"
+                variant="outlined"
+                :menu="suggestionActive"
+                cache-items
+                hide-no-data
+                hide-selected
                 no-filter
-                append-inner-icon @keydown.enter="search" :active="true" return-object type="text">
+                append-inner-icon
+                @keydown.enter="search"
+                :active="true"
+                return-object
+                type="text">
       <template v-slot:append-inner>
         <v-btn plain flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :ripple="false">
         </v-btn>
@@ -50,8 +62,9 @@ const disableCompletion = ref(false);
 
 onMounted(
   () => {
-    if (useRoute().query.q) {
-      request.value = useRoute().query.q;
+    if (currentRoute.query && currentRoute.query.q) {
+      request.value = decodeURI(currentRoute.query.q);
+      setQuery(request.value);
       // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
       // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
       watcherActive = false;
@@ -61,7 +74,6 @@ onMounted(
 
 const items = ref([]);
 const suggestionActive = ref(false);
-
 
 watch(requestSearch, (newRequestSearch) => {
   if (newRequestSearch.length > 2 && watcherActive && !disableCompletion.value) {
@@ -103,11 +115,10 @@ async function search() {
   let currentURLParams = Object.assign({}, currentRoute.query);
 
   if (currentURLParams) {
-    currentURLParams.q = request.value;
+    currentURLParams.q = encodeURI(request.value)
   } else {
-    currentURLParams = { "q": request.value };
+    currentURLParams = { "q": encodeURI(request.value) }
   }
-
 
   if (routeName.value === "resultats") {
     router.replace({

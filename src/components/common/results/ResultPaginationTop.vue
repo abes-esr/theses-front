@@ -53,11 +53,11 @@ let items = [
   { nom: "Discipline Z-A", cle: "disciplineDesc" }
 ];
 
-let parentCurrentPage = ref(props.currentPage);
-let tri = ref({ nom: "Pertinence", cle: "pertinence" });
-let currentNombre = ref(10);
+const parentCurrentPage = ref(props.currentPage);
+const tri = ref({ nom: "Pertinence", cle: "pertinence" });
+const currentNombre = ref(10);
 
-let nbPages = computed(() => {
+const nbPages = computed(() => {
   return Math.ceil(props.nbResults / currentNombre.value);
 });
 

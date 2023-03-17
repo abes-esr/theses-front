@@ -50,14 +50,14 @@
           {{ request }}</h1>
         <div v-if="mobile" class="result-list-wrapper">
           <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-top-wrapper" :nb-result=nbResult />
-          <result-list :domain-name="domainName" :result="result">
+          <result-list :domain-name-change="domainNameChange" :result="result" :loading="loading">
           </result-list>
           <MoreResultsButton v-if="!allResultsWereLoaded()" :loading=loading :nb-result=nbResult
             @changeNombre="updateNombre" />
         </div>
         <v-row v-else>
           <v-col cols="11" class="colonnes-resultats">
-            <result-list :domain-name="domainName" :result="result">
+            <result-list :domain-name-change="domainNameChange" :result="result">
             </result-list>
             <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
           </v-col>
@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent, onMounted, ref, watch } from "vue";
+import { defineAsyncComponent, onMounted, ref, watch } from "vue";
 import { useRoute } from 'vue-router';
 import { APIService } from "@/services/StrategyAPI";
 import { useDisplay } from 'vuetify';
@@ -91,7 +91,7 @@ import ScrollToTopButton from "@/components/common/results/ScrollToTopButton.vue
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 
 const { mobile } = useDisplay();
-const { modifierPage, modifierNombre, modifierTri, setQuery, queryAPI, getFacets } = APIService();
+const { modifierPage, modifierNombre, modifierTri, setQuery, queryAPI, getFacets, setDomaine } = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const request = ref("");
@@ -107,16 +107,14 @@ const dataReady = ref(false);
 const currentPage = ref(1);
 const currentNombre = ref(10);
 
+var domainNameChange = currentRoute.query.domaine;
+
 onMounted(() => {
   dataReady.value = false;
   request.value = decodeURI(currentRoute.query.q);
   setQuery(request.value);
   search();
   updateFacets();
-});
-
-const domainName = computed(() => {
-  return currentRoute.query.domaine;
 });
 
 async function search() {
@@ -126,6 +124,7 @@ async function search() {
       queryAPI().then(response => {
         result.value = response.theses;
         nbResult.value = response.totalHits;
+        domainNameChange = currentRoute.query.domaine;
       }).catch(error => {
         displayError(error.message);
         reject(error)
@@ -138,6 +137,7 @@ async function search() {
       try {
         result.value = await queryAPI();
         nbResult.value = result.value.length;
+        domainNameChange = currentRoute.query.domaine;
       } catch (error) {
         displayError(error.message);
         reject(error);
@@ -156,6 +156,7 @@ async function search() {
   // return queryAPI().then(async () => {
   //       result.value = await queryAPI();
   //       nbResult.value = result.value.length;
+  //       domainNameChange = currentRoute.query.domaine;
   //     }).catch(error => {
   //       displayError(error.message);
   //     }).finally(() => {
@@ -261,6 +262,10 @@ async function searchAndReinitialize() {
   await search();
   updateFacets();
 }
+
+watch(() => currentRoute.query.domaine, () => {
+  setDomaine(currentRoute.query.domaine)
+});
 </script>
 
 <style scoped lang="scss">

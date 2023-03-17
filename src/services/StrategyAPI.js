@@ -1,14 +1,14 @@
 import { ref } from "vue";
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
-import { useRoute } from "vue-router";
 import { referentielsAPIService } from "@/services/ReferentielsAPI";
 
 // import fonctions
 const { fetchCodeLangues, createLabels } = referentielsAPIService();
 const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI } = thesesAPIService();
 const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI } = personnesAPIService();
-let currentRoute = useRoute();
+
+const domaine = ref("theses");
 // Page de résultats courante
 const currentPage = ref(1);
 // Nombre de résultats par page
@@ -56,20 +56,17 @@ function parseFacetsValuesArray(objectsArray) {
   return filtersArrayURL.join('&').toLowerCase();
 }
 
-function getCurrentDomain() {
-  if (!currentRoute) {
-    currentRoute = useRoute();
-  }
-  return currentRoute.query.domaine;
+function setDomaine(newDomain) {
+  domaine.value = newDomain;
 }
 
 /**
  * Routes
  */
 function queryAPI() {
-  if(getCurrentDomain() === "theses")
+  if(domaine.value === "theses")
     return queryThesesAPI(query.value, currentFacets.value, currentPage.value, currentNombre.value, currentTri.value);
-  if(getCurrentDomain() === "personnes")
+  if(domaine.value === "personnes")
     return queryPersonnesAPI(query.value, currentFacets.value, currentPage.value, currentNombre.value, currentTri.value);
 }
 
@@ -80,17 +77,21 @@ async function getFacets() {
 
     await fetchCodeLangues();
 
-    if (getCurrentDomain() === "theses") {
+    if (domaine.value === "theses") {
       await getFacetsTheses(query.value)
         .then(response => {
           rawFacets = response.data;
-        });
+        }).catch((err) => {
+        reject(err);
+      });
     }
 
-    if (getCurrentDomain() === "personnes") {
+    if (domaine.value === "personnes") {
       await getFacetsPersonnes(query.value)
         .then(response => {
           rawFacets = response.data;
+        }).catch((err) => {
+          reject(err);
         });
     }
 
@@ -107,17 +108,21 @@ function getData(id) {
   return new Promise( async (resolve, reject) => {
     let thesisData = {};
 
-    if (getCurrentDomain() === "theses") {
+    if (domaine.value === "theses") {
       await getThese(id)
         .then(response => {
           thesisData = response;
+        }).catch((err) => {
+          reject(err);
         });
     }
 
-    if (getCurrentDomain() === "personnes") {
+    if (domaine.value === "personnes") {
       await getPersonne(id)
         .then(response => {
           thesisData = response;
+        }).catch((err) => {
+          reject(err);
         });
     }
 
@@ -129,9 +134,10 @@ function getData(id) {
 }
 
 function getSuggestion() {
-  if(getCurrentDomain() === "theses")
+  console.info(domaine.value)
+  if(domaine.value === "theses")
     return suggestionTheses(query.value);
-  if(getCurrentDomain() === "personnes")
+  if(domaine.value === "personnes")
     return suggestionPersonne(query.value);
 }
 
@@ -150,6 +156,7 @@ export function APIService() {
     queryAPI,
     getFacets,
     getData,
-    getSuggestion
+    getSuggestion,
+    setDomaine
   };
 }

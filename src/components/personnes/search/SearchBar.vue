@@ -19,7 +19,7 @@
                 :loading="isLoading"
     >
       <template v-slot:append-inner>
-        <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch">
+        <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :ripple="false">
         </v-btn>
       </template>
       <template v-slot:append>
@@ -79,6 +79,10 @@ onMounted(
  * Fonction pour rechercher
  * @returns {Promise<void>}
  */
+function clearSearch() {
+  request.value = "";
+}
+
 async function search() {
   let currentURLParams = Object.assign({}, currentRoute.query);
 
@@ -91,24 +95,16 @@ async function search() {
   if (routeName.value === "resultats") {
     router.replace({
       query: currentURLParams
-    })
+    });
   } else {
     router.push({
       name: 'resultats',
       query: currentURLParams
-    })
+    });
   }
 
   setQuery(request.value);
   emit('searchAndReinitializeFacet', request.value);
-}
-
-/**
- * Fonction lorsqu'on vide le champ de saisie
- */
-function clearSearch() {
-  request.value = "";
-  search();
 }
 
 /* ---------------- */

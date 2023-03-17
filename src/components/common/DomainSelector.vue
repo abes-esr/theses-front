@@ -50,9 +50,9 @@ async function select(selection) {
   }
   await router.replace({
     query: currentURLParams
+  }).then(() => {
+    emit('changeDomain');
   });
-
-  emit('changeDomain');
 }
 
 </script>
