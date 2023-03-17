@@ -134,7 +134,6 @@ function getData(id) {
 }
 
 function getSuggestion() {
-  console.info(domaine.value)
   if(domaine.value === "theses")
     return suggestionTheses(query.value);
   if(domaine.value === "personnes")

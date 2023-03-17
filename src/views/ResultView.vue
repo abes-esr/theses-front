@@ -87,7 +87,7 @@ import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultPaginationTop from '@/components/common/results/ResultPaginationTop.vue';
 import ResultPaginationBottom from '@/components/common/results/ResultPaginationBottom.vue';
 import ResultList from "@/components/common/results/ResultList.vue";
-import ScrollToTopButton from "@/components/common/results/ScrollToTopButton.vue";
+import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 
 const { mobile } = useDisplay();
@@ -222,6 +222,7 @@ function updateFacets() {
   getFacets().then(response => {
     facets.value = response;
   }).catch(error => {
+    facets.value = {};
     displayError(error.message);
   });
 }
