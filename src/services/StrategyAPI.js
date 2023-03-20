@@ -2,11 +2,12 @@ import { ref } from "vue";
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import { referentielsAPIService } from "@/services/ReferentielsAPI";
+import { replaceAndEscape } from "@/services/Common";
 
 // import fonctions
 const { fetchCodeLangues, createLabels } = referentielsAPIService();
-const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI } = thesesAPIService();
-const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI } = personnesAPIService();
+const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTriTheses } = thesesAPIService();
+const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes } = personnesAPIService();
 
 const domaine = ref("theses");
 // Page de résultats courante
@@ -41,6 +42,12 @@ function setQuery(newQuery) {
   query.value = newQuery ? newQuery : "*";
 }
 
+function getQuery() {
+  return query.value;
+}
+
+
+
 /**
  * Mise en forme du tableau de valeurs des facettes à destination de l'url
  * @param objectsArray
@@ -65,15 +72,15 @@ function setDomaine(newDomain) {
  */
 function queryAPI() {
   if(domaine.value === "theses")
-    return queryThesesAPI(query.value, currentFacets.value, currentPage.value, currentNombre.value, currentTri.value);
+    return queryThesesAPI(replaceAndEscape(query.value), currentFacets.value, currentPage.value, currentNombre.value, currentTri.value);
   if(domaine.value === "personnes")
-    return queryPersonnesAPI(query.value, currentFacets.value, currentPage.value, currentNombre.value, currentTri.value);
+    return queryPersonnesAPI(replaceAndEscape(query.value), currentFacets.value, currentPage.value, currentNombre.value, currentTri.value);
 }
 
 async function getFacets() {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
-    var rawFacets = {};
+    let rawFacets = {};
 
     await fetchCodeLangues();
 
@@ -140,6 +147,13 @@ function getSuggestion() {
     return suggestionPersonne(query.value);
 }
 
+function getItemsTri() {
+  if(domaine.value === "theses")
+    return getItemsTriTheses();
+  if(domaine.value === "personnes")
+    return getItemsTriPersonnes();
+}
+
 /**
  *
  * @returns {{modifierFiltres: modifierFiltres, queryAPI: ((function(): (*|undefined))|*), getFacets: ((function(): (*|undefined))|*), modifierNombre: modifierNombre, modifierPage: modifierPage, setQuery: setQuery, getData: ((function(*): (*|undefined))|*), getSuggestion: ((function(): (*|undefined))|*), modifierTri: modifierTri}}
@@ -152,10 +166,12 @@ export function APIService() {
     modifierTri,
     modifierFiltres,
     setQuery,
+    getQuery,
     queryAPI,
     getFacets,
     getData,
     getSuggestion,
-    setDomaine
+    setDomaine,
+    getItemsTri
   };
 }

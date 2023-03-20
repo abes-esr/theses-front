@@ -14,6 +14,7 @@
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
   </nav>
+
   <RouterLink class="logo" :to="{ name: 'home' }" v-if="mobile">
     <img alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
   </RouterLink>
@@ -29,6 +30,7 @@
       <search-bar @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
     </div>
   </div>
+
   <div v-if="!mobile" class="vertical-thread"></div>
   <div v-if="!mobile" class="search-filter">
     <h4 class="left-side">Affiner la recherche</h4>
@@ -40,7 +42,7 @@
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </span>
     <div class="result-list">
-      <result-list :data-ready="dataReady" :result="result" :loading="loading">
+      <result-list :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :request="request" @search="search">
       </result-list>
     </div>
   </div>
@@ -57,7 +59,7 @@ import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultList from "@/components/common/results/ResultList.vue";
 
 const { mobile } = useDisplay();
-const { setQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, modifierTri } = APIService();
+const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre } = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
@@ -70,12 +72,14 @@ const resetFacets = ref(0);
 const loading = ref(false);
 const facets = ref({});
 const nbResult = ref(0);
-const currentPage = ref(1);
-const currentNombre = ref(10);
+const resetPage = ref(0);
+const resetShowingNumber = ref(0);
 
 onMounted(() => {
+  setDomaine(currentRoute.query.domaine);
   dataReady.value = false;
-  setQuery(decodeURI(currentRoute.query.q));
+  request.value = decodeURI(currentRoute.query.q)
+  setQuery(request.value);
   search();
   updateFacets();
 });
@@ -84,6 +88,7 @@ onMounted(() => {
  * Fonctions
  */
 async function search() {
+  request.value = getQuery();
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     if (currentRoute.query.domaine === "theses") {
@@ -164,19 +169,18 @@ function reinitializeCurrentRequest() {
 
 function reinitialize() {
   modifierPage(1);
-  currentPage.value = 1;
+  resetPage.value++;
   modifierNombre(10);
-  currentNombre.value = 10;
+  resetShowingNumber.value++;
 }
 
 async function searchAndReinitializeFacet(query) {
-  setQueryView(query);
+  setQuery(query);
   searchAndReinitialize();
   resetFacets.value++;
 }
 
 function changeDomain() {
-  setQuery(request.value);
   searchAndReinitializeFacet(request.value);
 }
 
@@ -184,38 +188,6 @@ async function searchAndReinitialize() {
   reinitialize();
   await search();
   updateFacets();
-}
-
-function setQueryView(query) {
-  query.value = query;
-}
-
-
-function updatePage(payload) {
-  simpleUpdatePage(payload);
-  search();
-}
-
-/**
- * Met à jour le nombre de résultats à afficher sur une page
- * @param payload
- */
-function updateNombre(payload) {
-  modifierNombre(payload);
-  search();
-  currentNombre.value = payload; // Mise à jour des valeurs de pagination dans tous les composants
-  currentPage.value = 1; // Retour à la page une
-}
-
-function updateTri(payload) {
-  modifierTri(payload);
-  search();
-}
-
-function simpleUpdatePage(payload) {
-  modifierPage(payload);
-  // Mise à jour des valeurs de pagination dans tous les composants
-  currentPage.value = payload;
 }
 
 /**

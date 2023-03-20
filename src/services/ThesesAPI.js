@@ -22,7 +22,7 @@ function queryThesesAPI(query, facets, currentPage, currentNombre, currentTri) {
     ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(facets).toString() + "]")
     : "";
 
-  const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query)) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
+  const url = "/recherche/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
 
   return new Promise((resolve, reject) => {
     apiTheses.get(url).then((response) => {
@@ -35,7 +35,7 @@ function queryThesesAPI(query, facets, currentPage, currentNombre, currentTri) {
 
 //Autcomplétion recherche simple
 function suggestionTheses(query) {
-  return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
+  return apiTheses.get("/recherche/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
 /**
@@ -44,7 +44,7 @@ function suggestionTheses(query) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function getFacetsTheses(query) {
-  return apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
+  return apiTheses.get("/recherche/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
 /**
@@ -53,7 +53,19 @@ function getFacetsTheses(query) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function getThese(nnt) {
-  return apiTheses.get("/recherche-java/these/" + nnt);
+  return apiTheses.get("/recherche/these/" + nnt);
+}
+
+function getItemsTriTheses() {
+  return [
+    { nom: "Pertinence", cle: "pertinence" },
+    { nom: "Date croissante", cle: "dateAsc" },
+    { nom: "Date décroissante", cle: "dateDesc" },
+    { nom: "Auteurs A-Z", cle: "auteursAsc" },
+    { nom: "Auteurs Z-A", cle: "auteursDesc" },
+    { nom: "Discipline A-Z", cle: "disciplineAsc" },
+    { nom: "Discipline Z-A", cle: "disciplineDesc" }
+  ];
 }
 
 /**
@@ -65,6 +77,7 @@ export function thesesAPIService() {
     queryThesesAPI,
     suggestionTheses,
     getFacetsTheses,
-    getThese
+    getThese,
+    getItemsTriTheses
   };
 }

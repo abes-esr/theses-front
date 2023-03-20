@@ -1,17 +1,19 @@
 <template>
   <h1 class="pb-6">{{ nbResult }}{{
-      $t(domaineNameChange +
+      $t(domainName +
         ".resultView.resultats")
     }} :
-    {{ request }}</h1>
-  <result-pagination-top
+    {{ query }}</h1>
+  <result-pagination
     v-if="!mobile"
-    v-model:current-page=currentPage
     :nb-results=nbResult
-    @changePage="updatePage"
-    @changeNombre="updateNombre"
-    @changeTri="updateTri">
-  </result-pagination-top>
+    :type="'top'"
+    :current-showing-number="currentShowingNumber"
+    :current-page="currentPage"
+    @updateNumber="updateNumber"
+    @updatePage="updatePage"
+    @search="search">
+  </result-pagination>
 
 
   <v-col cols="1" class="colonnes-resultats">
@@ -38,40 +40,41 @@
       v-if="mobile && !allResultsWereLoaded()"
       :loading=loading
       :nb-result=nbResult
-      @changeNombre="updateNombre"
+      @search="search"
     />
   </v-col>
 
-  <result-pagination-bottom
+  <result-pagination
     v-if="!mobile"
-    v-model:current-page=currentPage
     :nb-results=nbResult
-    :current-nombre=currentNombre
-    @changePage="simpleUpdatePage">
-  </result-pagination-bottom>
+    :type="'bottom'"
+    :current-showing-number="currentShowingNumber"
+    :current-page="currentPage"
+    @updateNumber="updateNumber"
+    @updatePage="updatePage"
+    @search="search">
+  </result-pagination>
 </template>
 
 
 <script setup>
-import ResultPaginationTop from '@/components/common/results/ResultPaginationTop.vue';
-import ResultPaginationBottom from '@/components/common/results/ResultPaginationBottom.vue';
+import ResultPagination from '@/components/common/results/ResultPagination.vue';
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 import PersonnesCard from '@/components/personnes/results/PersonnesCard.vue';
 import ResultCard from '@/components/theses/results/ResultCard.vue';
 import { useDisplay } from "vuetify";
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import { APIService } from "@/services/StrategyAPI";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
+const { getQuery } = APIService();
 
 const domainName = ref(currentRoute.query.domaine);
 
 const props = defineProps({
-  request: {
-    type: String
-  },
   result: {
     type: Array,
     required: true
@@ -79,29 +82,70 @@ const props = defineProps({
   dataReady: {
     type: Boolean
   },
-  nbResults: {
+  nbResult: {
     type: Number
-  }
+  },
+  loading: {
+    type: Boolean
+  },
+  resetPage: {
+    type: Number,
+    default: 1
+  },
+  resetShowingNumber: {
+    type: Number,
+    default: 10
+  },
 });
+
+const currentShowingNumber = ref(10);
+const currentPage = ref(1);
+const query = ref("");
+
+onMounted(() => {
+  query.value = getQuery();
+})
 
 /**
  * Emits
  */
+
+const emit = defineEmits('search');
 
 /**
  * Fonctions
  */
 
 function moreThanXResults(x) {
-  return (props.result.value.length >= x);
+  return (props.result.length >= x);
 }
 
 function allResultsWereLoaded() {
-  return moreThanXResults(props.nbResult.value);
+  return moreThanXResults(props.nbResult);
 }
 
+function updateNumber(newNumber) {
+  currentShowingNumber.value = newNumber;
+}
+
+function updatePage(newPage) {
+  currentPage.value = newPage;
+}
+
+function search() {
+  query.value = getQuery();
+  emit('search');
+}
+
+/**
+ * Watchers
+ */
+watch(() => props.resetPage, () => {
+  currentPage.value = 1;
+  query.value = getQuery();
+});
+
+watch(() => props.resetShowingNumber, () => {
+  currentShowingNumber.value = 10;
+});
 </script>
-
-<style scoped>
-
-</style>

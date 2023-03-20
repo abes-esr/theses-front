@@ -94,6 +94,14 @@ async function getPersonne(id) {
         });
     });
 }
+function getItemsTriPersonnes() {
+    return [
+        { nom: "Pertinence", cle: "pertinence" },
+        { nom: "Personnes A-Z", cle: "PersonnesAsc" },
+        { nom: "Personnes Z-A", cle: "PersonnesDesc" }
+    ];
+}
+
 
 /**
  * Service lié aux personnes
@@ -103,6 +111,7 @@ export function personnesAPIService() {
         queryPersonnesAPI,
         suggestionPersonne,
         getFacetsPersonnes,
-        getPersonne
+        getPersonne,
+        getItemsTriPersonnes
     };
 }
