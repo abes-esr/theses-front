@@ -31,19 +31,19 @@
     </div>
   </div>
 
-  <div v-if="!mobile" class="vertical-thread"></div>
-  <div v-if="!mobile" class="search-filter">
-    <h4 class="left-side">Affiner la recherche</h4>
-  </div>
-  <div class="main-wrapper">
+  <div class="result-main-wrapper">
     <span class="left-side nav-bar" v-if="!mobile">
+      <div v-if="!mobile" class="vertical-thread"></div>
+      <div v-if="!mobile" class="search-filter">
+        <h4 class="left-side">Affiner la recherche</h4>
+      </div>
       <FacetsList @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" class="left-side"></FacetsList>
+          :reset-facets="resetFacets" class="left-side"></FacetsList>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </span>
-    <div class="result-list">
-      <result-list :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :request="request" @search="search">
-      </result-list>
+    <div class="result-components">
+      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :request="request" @search="search">
+      </result-components>
     </div>
   </div>
 </template>
@@ -56,7 +56,7 @@ import { useDisplay } from 'vuetify';
 import FacetsList from '@/components/common/results/FacetsList.vue';
 import SearchBar from '@/components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
-import ResultList from "@/components/common/results/ResultList.vue";
+import ResultComponents from "@/components/common/results/ResultComponents.vue";
 
 const { mobile } = useDisplay();
 const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre } = APIService();
@@ -286,51 +286,32 @@ watch(() => currentRoute.query.domaine, () => {
   display: flex;
   flex-direction: row;
   width: 100%;
+  height: 4rem;
 
   h4 {
     background-color: rgb(var(--v-theme-gris-clair));
-  }
-
-  .result-pagination {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+    font-size: 22px;
   }
 }
 
+.nav-bar {
+}
 
-.main-wrapper {
-  flex-direction: row;
-  align-items: flex-start;
+.result-main-wrapper {
+  display: grid;
+  grid-template-columns: 20vw auto;
+  align-items: start;
   margin-top: 0;
   width: 100%;
 
-  .facets {
-    height: 100%;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    grid-template-columns: 100%;
   }
-
-  .result-list {
-    width: 100%;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    margin-bottom: 2rem;
-
+  .result-components {
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
-      margin-right: 3rem;
-      margin-left: 3rem;
     }
   }
-}
-
-.colonnes-resultats {
-  padding: 0;
-}
-
-.scroll-top-wrapper {
-  justify-content: right;
 }
 
 .vertical-thread {

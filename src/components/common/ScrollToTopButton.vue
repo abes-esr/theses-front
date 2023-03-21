@@ -1,9 +1,10 @@
 <template>
-  <div v-if="nbResult" class="scrollTopWrapper">
-    <button class="scrollTopButton" @click="scrollToTop">
-      <div class="circle"></div>
-      <v-icon class="scrollTopIcon" size="35">mdi-chevron-up-box
-      </v-icon>
+  <div v-if="nbResult">
+    <button class="scroll-to-top-button" @click="scrollToTop">
+      <div>
+        <div class="circle"></div>
+        <v-icon class="scroll-to-top-icon" size="35">mdi-chevron-up-box</v-icon>
+      </div>
     </button>
   </div>
 </template>
@@ -27,27 +28,23 @@ export default {
 
 <style scoped lang="scss">
 
-.scrollTopIcon {
-  color: rgb(var(--v-theme-orange-abes));
-}
-
-.scrollTopButton {
-}
-
-.scrollTopWrapper {
-  display:  flex;
-  justify-content: center;
+.scroll-to-top-button {
+  position: sticky;
   z-index: 2;
   top: 90%;
-  position: sticky;
+}
+
+.scroll-to-top-icon {
+  position: absolute;
+  color: rgb(var(--v-theme-orange-abes));
 }
 
 .circle {
   border-radius: 50%;
   width: 25px;
   height: 25px;
-  position: relative;
-  top: 30px;
+  position: absolute;
+  top: 5px;
   left: 5px;
   background: rgb(var(--v-theme-gris-clair));
 }

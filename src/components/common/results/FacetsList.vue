@@ -126,7 +126,6 @@ watch(() => props.resetFacets,
 .facets {
   display: flex;
   flex-direction: column;
-  padding-top: 2rem;
 
   .v-expansion-panels {
     width: 80%;

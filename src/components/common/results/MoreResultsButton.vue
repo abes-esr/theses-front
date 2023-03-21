@@ -11,7 +11,7 @@ import { useDisplay } from "vuetify";
 import { ref } from "vue";
 
 const { mobile } = useDisplay();
-const emit = defineEmits(['changeNombre'] )
+const emit = defineEmits('updateNumber' )
 const props = defineProps({
   nbResult: {
     type: Number,
@@ -23,11 +23,12 @@ const props = defineProps({
   }
 })
 
-let currentNombre = ref(10);
+let currentShowingNumber = ref(10);
 
 function incrementAffichage() {
-  currentNombre.value += 10;
-  emit('changeNombre', currentNombre.value);
+  currentShowingNumber.value += 10;
+  emit('updateNumber', currentShowingNumber.value);
+  emit('search');
 }
 </script>
 

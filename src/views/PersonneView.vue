@@ -41,7 +41,7 @@
     <div class="left-side nav-bar statistique__content" v-if="!mobile">
       <statistique-card-personne :stats="item.statistiques"></statistique-card-personne>
     </div>
-    <div class="result-list">
+    <div class="result-components">
       <v-card-text v-if="!dataReady">
         <v-container fluid fill-height>
           <v-layout justify-center align-center>
@@ -256,7 +256,7 @@ function displayError(message, opt) {
   margin-top: 0;
   width: 100%;
 
-  .result-list {
+  .result-components {
     width: 100%;
     margin-right: 1rem;
     margin-left: 1rem;
@@ -320,11 +320,7 @@ function displayError(message, opt) {
   padding: 0;
 }
 
-.result-list-wrapper {
+.result-components-wrapper {
   display: grid;
-}
-
-.scroll-top-wrapper {
-  justify-content: right;
 }
 </style>
