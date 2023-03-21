@@ -32,15 +32,19 @@
   </div>
 
   <div class="result-main-wrapper">
-    <span class="left-side nav-bar" v-if="!mobile">
+    <div v-if="!mobile">
       <div v-if="!mobile" class="vertical-thread"></div>
-      <div v-if="!mobile" class="search-filter">
-        <h4 class="left-side">Affiner la recherche</h4>
+      <div class="nav-bar">
+        <div v-if="!mobile" class="search-filter">
+          <h4 class="left-side">Affiner la recherche</h4>
+        </div>
+        <FacetsList @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+            :reset-facets="resetFacets" class="left-side"></FacetsList>
+        <div class="left-side mt-4 mb-2">
+          <v-btn @click="update()">Appliquer les filtres</v-btn>
+        </div>
       </div>
-      <FacetsList @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-          :reset-facets="resetFacets" class="left-side"></FacetsList>
-      <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
-    </span>
+    </div>
     <div class="result-components">
       <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :request="request" @search="search">
       </result-components>
@@ -286,7 +290,7 @@ watch(() => currentRoute.query.domaine, () => {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 4rem;
+  min-height: 4rem;
 
   h4 {
     background-color: rgb(var(--v-theme-gris-clair));
@@ -295,6 +299,8 @@ watch(() => currentRoute.query.domaine, () => {
 }
 
 .nav-bar {
+  height: 100%;
+  width: 100%;
 }
 
 .result-main-wrapper {
@@ -309,6 +315,10 @@ watch(() => currentRoute.query.domaine, () => {
     grid-template-columns: 100%;
   }
   .result-components {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
     }
   }

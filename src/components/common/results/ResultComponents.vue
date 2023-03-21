@@ -38,6 +38,7 @@
     :type="'bottom'"
     :current-showing-number="currentShowingNumber"
     :current-page="currentPage"
+    class="pagination-bottom"
     @updateNumber="updateNumber"
     @updatePage="updatePage"
     @search="search">
@@ -153,5 +154,12 @@ watch(() => props.resetShowingNumber, () => {
 
 .result-components-wrapper {
   padding: 1rem 0 2rem 1rem;
+  flex: 1;
+}
+
+.pagination-bottom {
+  position: relative;
+  bottom: 0;
+  z-index: 10;
 }
 </style>

@@ -1,30 +1,22 @@
 <template>
   <div class="result-pagination">
-    <v-row>
-      <v-col cols="4" v-if="type === 'top'">
-        <v-row class="left-row">
-          <span class="pt-5 first-bar-element">Afficher</span>
+      <div v-if="type === 'top'" class="first-bar-element">
+          <span class="pt-5 ">Afficher</span>
           <v-select :items="['10', '25', '50']" v-model="currentShowingNumber" density="compact" variant="underlined"
-                    style="max-width: 50px;" class="mx-2 pt-2" color="orange-abes">
+                     color="orange-abes" class="left-select">
           </v-select>
           <span class="pt-5">résultats par page</span>
-        </v-row>
-      </v-col>
-      <v-col>
-        <v-pagination
-            class="pt-1"
+      </div>
+      <v-pagination
+            class="pt-1 middle-bar-element"
             :length="nbPages"
             total-visible="2"
             v-model="currentPage"
             @update:modelValue="scrollToTop">
-        </v-pagination>
-      </v-col>
-      <v-col cols="4" class="last-col" v-if="type === 'top'">
-        <v-select v-model="tri" class="ml-2 pt-2 last-bar-element" return-object :items=items item-title="nom" item-value="cle" density="compact"
+      </v-pagination>
+      <v-select v-if="type === 'top'" v-model="tri" class="ml-2 pt-2 last-bar-element" return-object :items=items item-title="nom" item-value="cle" density="compact"
                   variant="underlined" color="orange-abes">
-        </v-select>
-      </v-col>
-    </v-row>
+      </v-select>
   </div>
 </template>
 
@@ -37,7 +29,6 @@ import { useRoute } from "vue-router";
 const currentRoute = useRoute();
 const { modifierTri, modifierPage, modifierNombre, getItemsTri } = APIService();
 const emit = defineEmits(['search', 'updatePage', 'updateNumber']);
-const domainName = ref(currentRoute.query.domaine);
 
 const props = defineProps({
   nbResults: {
@@ -115,7 +106,8 @@ watch(() => currentRoute.query.domaine, () => {
 .result-pagination {
   background-color: rgb(var(--v-theme-gris-clair));
   max-height: 4rem;
-  display: grid;
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 .v-pagination {
@@ -123,17 +115,14 @@ watch(() => currentRoute.query.domaine, () => {
   width: unset;
 }
 
-.v-select {
-  flex: 1 0 auto;
-}
-
 .first-bar-element {
-  margin-left: 3rem;
+  margin-left: 1rem;
+  display: flex;
+  overflow: visible;
 }
 
-.last-col {
-  display: flex;
-  justify-content: end;
+.middle-bar-element {
+  flex: 1;
 }
 
 .last-bar-element {
@@ -141,7 +130,9 @@ watch(() => currentRoute.query.domaine, () => {
   max-width: 200px;
 }
 
-.left-row {
-  margin: 0;
+.left-select {
+  max-width: 50px;
+  margin: 0 8px 0;
+  padding-top: 8px;
 }
 </style>
