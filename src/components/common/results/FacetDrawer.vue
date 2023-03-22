@@ -131,6 +131,10 @@ function reinitializeCheckboxes() {
   padding-bottom: 10px;
 }
 
+.v-expansion-panel-title--active :deep(.v-expansion-panel-title__overlay) {
+  opacity: 0;
+}
+
 .facet-sub-menu {
   padding: 10px;
 }

@@ -1,14 +1,24 @@
 <template>
-  <v-checkbox :class="`checkboxes ms-${props.marginOffset}`"
+  <v-checkbox
+    v-model="checkboxState"
+    :class="`checkboxes ms-${props.marginOffset}`"
     :label="`${facetItem.label} (${facetItem.value})`"
-    v-model="checkboxState" density="compact" hide-details="true"></v-checkbox>
+    density="compact"
+    inline
+    hide-details>
+  </v-checkbox>
 
   <template v-if="(recursionDepth <= maxRecursionDepth)
     && facetItem.checkboxes
     && facetItem.checkboxes.length">
     <div v-for="facetItem in childrenCheckboxes" :key="`facet-${facetItem.name}`">
-      <facet-checkbox :facet-item="facetItem" :facet-name="facetName" :margin-offset="props.marginOffset + 4"
-        :parent-checkbox-state="checkboxState" :facets-array="facetsArray" @updateParentCheckbox="updateSelfCheckbox"
+      <facet-checkbox
+        :facet-item="facetItem"
+        :facet-name="facetName"
+        :margin-offset="props.marginOffset + 4"
+        :parent-checkbox-state="checkboxState"
+        :facets-array="facetsArray"
+        @updateParentCheckbox="updateSelfCheckbox"
         @updateFilterDataRecursive="updateFilterDataRecursive" />
     </div>
   </template>
@@ -113,8 +123,12 @@ function arrayContainsFilter() {
 }
 </script>
 
-<style scoped>
-.checkboxes {
-  text-transform: capitalize;
-}
+<style lang="scss">
+  .v-selection-control {
+    align-items: start !important;
+  }
+
+  .v-label {
+    align-items: start !important;
+  }
 </style>
