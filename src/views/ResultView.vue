@@ -7,26 +7,28 @@
         </v-icon>
       </template>
       <domain-selector compact></domain-selector>
-      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
+      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading"
+        @onError="displayError" />
       <h4>Affiner la recherche</h4>
       <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
         :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
   </nav>
-  <RouterLink class="logo" :to="{ name: 'home' }" v-if="mobile">
-    <img alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
+  <RouterLink class="logo" :to="{ name: 'home' }" title="Accueil du site" v-if="mobile">
+    <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
   </RouterLink>
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
-      <RouterLink :to="{ name: 'home' }">
-        <img class="logo" alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
+      <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
       </RouterLink>
       <h1>{{ $t("slogan") }}</h1>
     </div>
     <div class="sub_header__action">
       <domain-selector compact></domain-selector>
-      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
+      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading"
+        @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="vertical-thread"></div>

@@ -1,6 +1,6 @@
 <template>
   <div v-if="nbResult" class="scrollTopWrapper">
-    <button class="scrollTopButton" @click="scrollToTop">
+    <button class="scrollTopButton" @click="scrollToTop" :title='$t("top")'>
       <div class="circle"></div>
       <v-icon class="scrollTopIcon" size="35">mdi-chevron-up-box
       </v-icon>
@@ -9,14 +9,14 @@
 </template>
 
 <script setup>
-  import { scrollToTop } from "@/services/Common";
+import { scrollToTop } from "@/services/Common";
 
-  defineProps({
-    nbResult: {
-      type: Number,
-      default: 0
-    }
-  })
+defineProps({
+  nbResult: {
+    type: Number,
+    default: 0
+  }
+});
 </script>
 
 <script>
@@ -26,16 +26,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .scrollTopIcon {
   color: rgb(var(--v-theme-orange-abes));
 }
 
-.scrollTopButton {
-}
+.scrollTopButton {}
 
 .scrollTopWrapper {
-  display:  flex;
+  display: flex;
   justify-content: center;
   z-index: 2;
   top: 90%;

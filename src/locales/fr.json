@@ -18,7 +18,9 @@
   "documentation": "Documentation",
   "resultats": " résultats de thèses pour ",
   "scroll": "Remonter en haut de la page",
-  "clear": "Réinitialiser",
+  "clear": "Effacer la saisie dans la barre de recherche",
+  "searchButton": "Lancer la recherche",
+  "top": "Retour en haut de la page",
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
   },
@@ -78,6 +80,12 @@
     "idRref": "IdRef Identifiants et référentiels",
     "tef": "Format TEF (Thèses Electroniques Françaises)",
     "doc": "Documentation",
-    "assistance": "Guichet d'assistance"
+    "assistance": "Guichet d'assistance",
+    "logoAbesAlt": "Accéder au site de l’Agence Bibliographique de l’Enseignement Supérieur",
+    "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche" 
+  },
+  "header": {
+    "doc": "Accéder à la documentation du site theses.fr ",
+    "assistance": "Accéder au guichet d’assistance en ligne"
   }
 }

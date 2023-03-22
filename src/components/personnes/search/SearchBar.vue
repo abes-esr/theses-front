@@ -1,29 +1,16 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input"
-                :label='$t("rechercher")'
-                v-model="request"
-                v-model:search="requestSearch"
-                :items="items"
-                variant="outlined"
-                :menu="suggestionActive"
-                cache-items
-                hide-no-data
-                hide-selected
-                no-filter
-                append-inner-icon
-                @keydown.enter="search"
-                @update:modelValue="selectSuggestion"
-                item-title="suggestion"
-                item-value="suggestion"
-                :loading="isLoading"
-    >
+    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
+      :items="items" variant="outlined" :menu="suggestionActive" cache-items hide-no-data hide-selected no-filter
+      append-inner-icon @keydown.enter="search" @update:modelValue="selectSuggestion" item-title="suggestion"
+      item-value="suggestion" :loading="isLoading" role="input" title="Barre de recherche">
       <template v-slot:append-inner>
-        <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch">
+        <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :title='$t("clear")'>
         </v-btn>
       </template>
       <template v-slot:append>
-        <v-btn color="primary" icon="mdi-magnify" text @click="search" :loading="loading" class="pa-0 ma-0">
+        <v-btn color="primary" icon="mdi-magnify" text @click="search" :title='$t("searchButton")' :loading="loading"
+          class="pa-0 ma-0">
         </v-btn>
       </template>
     </v-combobox>
@@ -40,9 +27,9 @@ export default {
 };
 </script>
 <script setup>
-import { ref, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { computed } from 'vue'
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { computed } from 'vue';
 import { personnesAPIService } from "@/services/PersonnesAPI";
 
 const router = useRouter();
@@ -54,7 +41,7 @@ defineProps({
     type: Boolean,
     default: false
   },
-})
+});
 const request = ref('');
 const requestSearch = ref("");
 const emit = defineEmits(['search', 'onError']);
@@ -72,7 +59,7 @@ onMounted(
       watcherActive = false;
     }
   }
-)
+);
 
 /**
  * Fonction pour rechercher
@@ -82,20 +69,20 @@ async function search() {
   let currentURLParams = Object.assign({}, currentRoute.query);
 
   if (currentURLParams) {
-    currentURLParams.q = encodeURI(request.value)
+    currentURLParams.q = encodeURI(request.value);
   } else {
-    currentURLParams = { "q": encodeURI(request.value) }
+    currentURLParams = { "q": encodeURI(request.value) };
   }
 
   if (routeName.value === "resultats") {
     router.replace({
       query: currentURLParams
-    })
+    });
   } else {
     router.push({
       name: 'resultats',
       query: currentURLParams
-    })
+    });
   }
   emit('search', request.value);
 }
@@ -125,14 +112,14 @@ watch(requestSearch, (candidate) => {
     suggestionActive.value = false;
   }
   watcherActive = true;
-})
+});
 
 watch(disableCompletion, (newDisableCompletion) => {
   if (newDisableCompletion) {
     suggestionActive.value = false;
     items.value = [];
   }
-})
+});
 
 /**
  * Fonction pour rechercher des suggestions
@@ -158,7 +145,7 @@ async function getSuggestion(candidate) {
  */
 function selectSuggestion(value) {
   if (value != null && typeof (value) == "object") {
-    request.value = value.suggestion
+    request.value = value.suggestion;
   }
 }
 
