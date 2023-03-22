@@ -18,7 +18,7 @@
     </h1>
     <div v-if="dataReady" class="colonnes-resultats">
         <div>
-          <result-list :result="result">
+          <result-list :result="result" :domain-name-change="domainNameChange">
           </result-list>
             <MoreResultsButton
               v-if="mobile && !allResultsWereLoaded()"
@@ -84,6 +84,9 @@ const props = defineProps({
     type: Number,
     default: 10
   },
+  domainNameChange: {
+    type: String
+  }
 });
 
 const currentShowingNumber = ref(10);

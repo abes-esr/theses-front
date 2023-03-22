@@ -45,13 +45,12 @@ async function suggestionPersonne(query) {
 }
 
 /**
- * Récupération des facettes pour une requête donnée #TODO Fabien Théo ajouter le nom de la route
+ * Récupération des facettes pour une requête donnée  #TODO implémenter route /personne/facets Fabien Théo ajouter le nom de la route
  * @param query
  * @returns {Promise<AxiosResponse<any>>}
  */
 function getFacetsPersonnes(query) {
-    const facets = apiTheses.get("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query))); // #TODO implémenter route /personne/facets
-    return facets;
+    return apiTheses.get("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
 /**

@@ -46,7 +46,7 @@
       </div>
     </div>
     <div class="result-components">
-      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" @search="search">
+      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange" @search="search">
       </result-components>
     </div>
   </div>
@@ -78,6 +78,7 @@ const facets = ref({});
 const nbResult = ref(0);
 const resetPage = ref(0);
 const resetShowingNumber = ref(0);
+const domainNameChange = ref(currentRoute.query.domaine);
 
 onMounted(() => {
   setDomaine(currentRoute.query.domaine);
@@ -100,6 +101,7 @@ async function search() {
       queryAPI().then(response => {
         result.value = response.theses;
         nbResult.value = response.totalHits;
+        domainNameChange.value = currentRoute.query.domaine;
       }).catch(error => {
         displayError(error.message);
         result.value = [];
@@ -114,8 +116,11 @@ async function search() {
       try {
         result.value = await queryAPI();
         nbResult.value = result.value.length;
+        domainNameChange.value = currentRoute.query.domaine;
       } catch (error) {
         displayError(error.message);
+        result.value = [];
+        nbResult.value = 0;
         reject(error);
       } finally {
         loading.value= false;
@@ -132,9 +137,11 @@ async function search() {
   // return queryAPI().then(async () => {
   //       result.value = await queryAPI();
   //       nbResult.value = result.value.length;
-  //       domainName = currentRoute.query.domaine;
+  //       domainNameChange.value = currentRoute.query.domaine;
   //     }).catch(error => {
   //       displayError(error.message);
+  //         result.value = [];
+  //         nbResult.value = 0;
   //     }).finally(() => {
   //       loading.value = false;
   //       dataReady.value = true;
