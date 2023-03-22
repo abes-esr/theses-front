@@ -20,15 +20,15 @@
         <div>
           <result-list :result="result">
           </result-list>
-          <MoreResultsButton
-            v-if="mobile && !allResultsWereLoaded()"
-            :loading=loading
-            :nb-result=nbResult
-            @updateNumber="updateNumber"
-            @search="search"
-          />
+            <MoreResultsButton
+              v-if="mobile && !allResultsWereLoaded()"
+              :loading=loading
+              :nb-result=nbResult
+              @updateNumber="updateNumber"
+              @search="search"
+            />
         </div>
-      <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
+        <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
     </div>
   </div>
 
@@ -140,21 +140,48 @@ watch(() => props.resetShowingNumber, () => {
 </script>
 
 <style lang="scss">
+@use 'vuetify/settings';
 
 .colonnes-resultats {
   padding: 0;
   display: grid;
   grid-template-columns: 95% auto;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    grid-template-columns: none;
+    margin-right: 1rem;
+  }
 }
 
 .scroll-to-top-wrapper {
+  position: sticky;
+  top: 90vh;
   margin-bottom: 3rem;
   margin-left: 10%;
+  width: 30px;
+  height: 30px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    margin: 0 0;
+    height: 60px;
+    left: 90vw;
+    top: unset;
+    bottom: 5vh;
+  }
+}
+
+.bottom-buttons-line {
+  display: flex;
+  justify-content: center;
 }
 
 .result-components-wrapper {
   padding: 1rem 0 2rem 1rem;
   flex: 1;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    padding-bottom: 0;
+  }
 }
 
 .pagination-bottom {

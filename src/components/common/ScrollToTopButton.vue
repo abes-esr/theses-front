@@ -29,13 +29,10 @@ export default {
 <style scoped lang="scss">
 
 .scroll-to-top-button {
-  position: sticky;
   z-index: 2;
-  top: 90%;
 }
 
 .scroll-to-top-icon {
-  position: absolute;
   color: rgb(var(--v-theme-orange-abes));
 }
 

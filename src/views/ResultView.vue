@@ -93,6 +93,7 @@ onMounted(() => {
  */
 async function search() {
   request.value = getQuery();
+  loading.value = true;
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     if (currentRoute.query.domaine === "theses") {
@@ -221,7 +222,7 @@ watch(() => currentRoute.query.domaine, () => {
 .logo {
   margin-top: -55px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
     margin-top: -110px;
   }
 }
@@ -234,7 +235,7 @@ watch(() => currentRoute.query.domaine, () => {
   flex: 1 0 100%;
   max-width: 20vw;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     max-width: 100%;
     flex: 0 1 auto;
     padding: 0;
@@ -311,16 +312,14 @@ watch(() => currentRoute.query.domaine, () => {
   width: 100%;
 
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-template-columns: 100%;
   }
+
   .result-components {
     height: 100%;
     display: flex;
     flex-direction: column;
-
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
-    }
   }
 }
 
