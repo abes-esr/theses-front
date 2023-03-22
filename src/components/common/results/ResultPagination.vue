@@ -12,7 +12,7 @@
             :length="nbPages"
             total-visible="2"
             v-model="currentPage"
-            @update:modelValue="scrollToTop">
+            @update:modelValue="bottomScrollsToTop">
       </v-pagination>
       <v-select v-if="type === 'top'" v-model="tri" class="ml-2 pt-2 last-bar-element" return-object :items=items item-title="nom" item-value="cle" density="compact"
                   variant="underlined" color="orange-abes">
@@ -60,6 +60,18 @@ const currentPage = ref(1);
 const nbPages = computed(() => {
   return Math.ceil(props.nbResults / currentShowingNumber.value);
 });
+
+/**
+ * Fonctions
+ */
+
+function bottomScrollsToTop() {
+  if(props.type === "bottom") scrollToTop();
+}
+
+/**
+ * Watchers
+ */
 
 watch(currentPage, newCurrentPage => {
   modifierPage(newCurrentPage);
