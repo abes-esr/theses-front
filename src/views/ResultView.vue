@@ -46,7 +46,7 @@
       </div>
     </div>
     <div class="result-components">
-      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :request="request" @search="search">
+      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" @search="search">
       </result-components>
     </div>
   </div>

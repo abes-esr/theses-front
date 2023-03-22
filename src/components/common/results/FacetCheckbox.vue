@@ -112,6 +112,3 @@ function arrayContainsFilter() {
   return false;
 }
 </script>
-
-<style scoped>
-</style>

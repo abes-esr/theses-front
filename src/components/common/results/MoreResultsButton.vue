@@ -11,8 +11,9 @@ import { useDisplay } from "vuetify";
 import { ref } from "vue";
 
 const { mobile } = useDisplay();
-const emit = defineEmits('updateNumber' )
-const props = defineProps({
+const emit = defineEmits(['updateNumber', 'search']);
+
+defineProps({
   nbResult: {
     type: Number,
     default: 0
