@@ -111,7 +111,6 @@ export function personnesAPIService() {
         queryPersonnesAPI,
         suggestionPersonne,
         getFacetsPersonnes,
-        getPersonne,
-        getItemsTriPersonnes
+        getPersonne
     };
 }

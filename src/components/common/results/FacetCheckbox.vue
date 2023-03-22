@@ -1,5 +1,5 @@
 <template>
-  <v-checkbox :class="`checkboxes ms-${props.marginOffset}`"
+  <v-checkbox :class="`ms-${props.marginOffset}`"
     :label="`${facetItem.label} (${facetItem.value})`"
     v-model="checkboxState" density="compact" hide-details="true"></v-checkbox>
 
@@ -114,7 +114,4 @@ function arrayContainsFilter() {
 </script>
 
 <style scoped>
-.checkboxes {
-  text-transform: capitalize;
-}
 </style>

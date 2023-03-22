@@ -34,12 +34,10 @@
         </ul>
       </div>
       <div>
-        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank"
-          title="site Ministère Enseignement Supérieur">
-          <img src="../../assets/logo-mesr.svg" alt="logo ministère enseignement supérieur" style="height: 80px;"
-            class="pr-4 "></a>
-        <a href="https://abes.fr/" target="_blank" title="site Abes">
-          <img src="../../assets/abes-logo-cercle.svg" alt="logo Abes" style="height: 80px;"></a>
+        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
+          <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' style="height: 80px;" class="pr-4 "></a>
+        <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
+          <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")' style="height: 80px;"></a>
       </div>
     </div>
     <v-divider></v-divider>

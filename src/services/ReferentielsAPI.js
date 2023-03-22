@@ -23,23 +23,10 @@ function fetchCodeLangues() {
   }
 }
 
-function setLabelRecursive(facet) {
-  // eslint-disable-next-line no-prototype-builtins
-  if (facet.hasOwnProperty('checkboxes')) {
-    facet.checkboxes.forEach((checkbox) => {
-      checkbox.label = checkbox.name;
-    });
-
-    facet.checkboxes.forEach((checkbox) => { setLabelRecursive(checkbox); });
-  }
-}
-
 function createLabels(facetsData) {
   facetsData.forEach((facet) => {
     if (facet.name === 'Langues') {
       facet.checkboxes.forEach((checkbox) => { checkbox.label = getLabelFromCode(checkbox.name) });
-    } else {
-      setLabelRecursive(facet);
     }
   });
 
