@@ -22,8 +22,7 @@ function queryThesesAPI(query, facets, currentPage, currentNombre, currentTri) {
     ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(facets).toString() + "]")
     : "";
 
-  const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query)) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
-
+  const url = "/recherche/simple/?q=" + encodeURIComponent(replaceAndEscape(query)) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + facetsRequest;
   return new Promise((resolve, reject) => {
     apiTheses.get(url).then((response) => {
       resolve(response.data);
@@ -35,16 +34,13 @@ function queryThesesAPI(query, facets, currentPage, currentNombre, currentTri) {
 
 //Autcomplétion recherche simple
 function suggestionTheses(query) {
-  return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
+  return apiTheses.get("/recherche/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
-/**
- * Récupération des facettes pour une requête donnée
- * @param query
- * @returns {Promise<AxiosResponse<any>>}
- */
+//Facets
 function getFacetsTheses(query) {
-  return apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
+  const facets = apiTheses.get("/recherche/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
+  return facets;
 }
 
 /**
@@ -53,7 +49,7 @@ function getFacetsTheses(query) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function getThese(nnt) {
-  return apiTheses.get("/recherche-java/these/" + nnt);
+  return apiTheses.get("/recherche/these/" + nnt);
 }
 
 /**

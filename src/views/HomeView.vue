@@ -1,7 +1,6 @@
 <template>
-  <RouterLink class="logo" :to="{ name: 'home'}">
-    <img alt="logo"
-         id="logoIMG" src="@/assets/icone-theses.svg"/>
+  <RouterLink class="logo" :to="{ name: 'home' }">
+    <img alt="Logo du site theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
   </RouterLink>
   <div class="main-wrapper">
     <Message-box ref="messageBox"></Message-box>
@@ -9,21 +8,21 @@
       <h1 class="pb-16 text-center">{{ $t("slogan") }}</h1>
     </v-row>
     <domain-selector></domain-selector>
-    <search-bar @search="loading = true" :loading="loading" @onError="displayError"/>
+    <search-bar @search="loading = true" :loading="loading" @onError="displayError" />
     <div class="stats">
       <Stats-card titre="546 000" :description="$t('referencés')" date="au 03/06/2022"></Stats-card>
       <Stats-card titre="79 000" :description="$t('preparation')" date="au 03/06/2022"></Stats-card>
       <Stats-card titre="805 000" :description="$t('personnesRef')" date="au 03/06/2022"></Stats-card>
     </div>
-      <p>Le PoC fédé est accessible ici : <a href="/poc-fede/">poc-fede</a></p>
+    <p>Le PoC fédé est accessible ici : <a href="/poc-fede/">poc-fede</a></p>
   </div>
 </template>
 
 <script setup>
-import SearchBar from '../components/generic/GenericSearchBar.vue'
-import StatsCard from '../components/home/StatsCard.vue'
-import DomainSelector from '../components/common/DomainSelector.vue'
-import {defineAsyncComponent, ref} from "vue";
+import SearchBar from '../components/generic/GenericSearchBar.vue';
+import StatsCard from '../components/home/StatsCard.vue';
+import DomainSelector from '../components/common/DomainSelector.vue';
+import { defineAsyncComponent, ref } from "vue";
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
@@ -34,7 +33,7 @@ const messageBox = ref(null);
 function displayError(message) {
   messageBox.value?.open(message, {
     type: "error"
-  })
+  });
 }
 
 </script>
@@ -50,7 +49,7 @@ function displayError(message) {
   }
 
   h1 {
-    color:rgb(var(--v-theme-text-dark-blue));
+    color: rgb(var(--v-theme-text-dark-blue));
     font-weight: 300;
     font-size: 24px;
     line-height: 28px;
@@ -97,5 +96,4 @@ function displayError(message) {
     margin-bottom: 2rem;
   }
 }
-
 </style>
