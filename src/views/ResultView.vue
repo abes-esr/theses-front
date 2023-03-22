@@ -102,6 +102,8 @@ async function search() {
         nbResult.value = response.totalHits;
       }).catch(error => {
         displayError(error.message);
+        result.value = [];
+        nbResult.value = 0;
         reject(error)
       }).finally(() => {
         loading.value = false;
