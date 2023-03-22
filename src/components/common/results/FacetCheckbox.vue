@@ -1,7 +1,12 @@
 <template>
-  <v-checkbox :class="`ms-${props.marginOffset}`"
+  <v-checkbox
+    v-model="checkboxState"
+    :class="`checkboxes ms-${props.marginOffset}`"
     :label="`${facetItem.label} (${facetItem.value})`"
-    v-model="checkboxState" density="compact" hide-details="true"></v-checkbox>
+    density="compact"
+    inline
+    hide-details>
+  </v-checkbox>
 
   <template v-if="(recursionDepth <= maxRecursionDepth)
     && facetItem.checkboxes
@@ -112,3 +117,13 @@ function arrayContainsFilter() {
   return false;
 }
 </script>
+
+<style lang="scss">
+  .v-selection-control {
+    align-items: start !important;
+  }
+
+  .v-label {
+    align-items: start !important;
+  }
+</style>
