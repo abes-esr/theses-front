@@ -100,7 +100,7 @@ const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { rechercherThese, getFacets, setQuery } = thesesAPIService();
 const { rechercherPersonne } = personnesAPIService();
-const { fetchCodeLangues, createLabels } = referentielsAPIService();
+const { fetchCodeLangues } = referentielsAPIService();
 const request = ref("");
 const currentRoute = useRoute();
 const isBurgerMenuOpen = ref(false);
@@ -204,7 +204,7 @@ function displayError(message) {
 
 function updateFacets() {
   getFacets().then(response => {
-    facets.value = createLabels(response.data);
+    facets.value = response.data;
   }).catch(error => {
     displayError(error.message);
   });

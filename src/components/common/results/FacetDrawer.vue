@@ -1,11 +1,11 @@
 <template>
-  <v-expansion-panels rounded>
-    <v-expansion-panel>
-      <v-expansion-panel-title :ripple="true" class="facet-title-panel">
+  <v-expansion-panels>
+    <v-expansion-panel class="elevation-0">
+      <v-expansion-panel-title class="facet-title-panel">
         <h4 class="facet-title">
           {{ facet.name }}
         </h4>
-        <v-btn @click.stop="" @click="reinitializeCheckboxes" class="reinitialize-button" size="small" depressed="true"
+        <v-btn @click.stop="" @click="reinitializeCheckboxes" class="reinitialize-button" size="small" depressed
           elevation="0" color="primary">
           <v-icon>mdi-reload</v-icon>
         </v-btn>
@@ -86,13 +86,19 @@ function reinitializeCheckboxes() {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-.facet-title-panel {
+.v-expansion-panel-title {
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  padding: 0px 10px;
+}
+
+.v-expansion-panel :deep(.v-expansion-panel__shadow) {
+  box-shadow: none;
 }
 
 .v-expansion-panel-title :deep(.v-expansion-panel-title__icon) {
   order: 1;
+  color: rgb(var(--v-theme-orange-abes));
 }
 
 .reinitialize-button {
@@ -102,12 +108,16 @@ function reinitializeCheckboxes() {
 }
 
 .facet-title {
-  text-align: start;
   text-transform: uppercase;
+  font-size: 16px;
   flex-grow: 2;
+  flex-wrap: nowrap;
   order: 2;
-  overflow-wrap: break-word;
-  hyphens: auto;
+  background-color: transparent;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    font-size: 3.8vw;
+  }
 }
 
 .panel-text {
@@ -121,6 +131,10 @@ function reinitializeCheckboxes() {
   padding-bottom: 10px;
 }
 
+.v-expansion-panel-title--active :deep(.v-expansion-panel-title__overlay) {
+  opacity: 0;
+}
+
 .facet-sub-menu {
   padding: 10px;
 }
@@ -128,4 +142,9 @@ function reinitializeCheckboxes() {
 .facet-sub-menu:empty {
   padding: 0;
 }
+
+.facet-title-panel {
+  background-color: rgb(var(--v-theme-gris-clair));
+}
+
 </style>

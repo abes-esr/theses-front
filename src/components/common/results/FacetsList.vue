@@ -9,9 +9,7 @@
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { ref, watch } from "vue";
-import { referentielsAPIService } from "@/services/ReferentielsAPI";
 
-const { codesLangue } = referentielsAPIService();
 const { modifierFiltres } = thesesAPIService();
 
 const props = defineProps({
