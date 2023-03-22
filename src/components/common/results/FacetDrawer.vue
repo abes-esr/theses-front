@@ -115,7 +115,7 @@ function reinitializeCheckboxes() {
   order: 2;
   background-color: transparent;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 3.8vw;
   }
 }
@@ -138,4 +138,9 @@ function reinitializeCheckboxes() {
 .facet-sub-menu:empty {
   padding: 0;
 }
+
+.facet-title-panel {
+  background-color: rgb(var(--v-theme-gris-clair));
+}
+
 </style>
