@@ -65,7 +65,7 @@ function rechercherThese() {
     ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(currentFiltres.value).toString() + "]")
     : "";
 
-  const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query.value)) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + filtersRequest;
+  const url = "/recherche/simple/?q=" + encodeURIComponent(replaceAndEscape(query.value)) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + filtersRequest;
   return new Promise((resolve, reject) => {
     apiTheses.get(url).then((response) => {
       resolve(response.data);
@@ -77,18 +77,18 @@ function rechercherThese() {
 
 //Autcomplétion recherche simple
 function complete() {
-  return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
+  return apiTheses.get("/recherche/completion/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
 }
 
 //Facets
 function getFacets() {
-  const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
+  const facets = apiTheses.get("/recherche/facets/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
   return facets;
 }
 
 //Récupération des infos détaillées d'une theses
 function getThese(nnt) {
-  return apiTheses.get("/recherche-java/these/" + nnt);
+  return apiTheses.get("/recherche/these/" + nnt);
 }
 
 /**
