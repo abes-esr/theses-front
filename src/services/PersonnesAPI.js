@@ -21,9 +21,8 @@ const apiPersonnes = axios.create({
  */
 async function queryPersonnesAPI(query, facetsRequest, currentPage, currentNombre, currentTri) {
     const url = "/personnes/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
-console.info(url)
+
     return new Promise((resolve, reject) => {
-        // apiPersonnes.get("/personnes/recherche", {params: {"q": encodeURI(query.replace(" OU ", " OR ").replace(" ET ", " AND ").replace(" SAUF ", " NOT "))}}).then((response) => {
         apiPersonnes.get(url)
           .then((response) => {
             resolve(response.data); // #TODO à rectifier après normalisation
