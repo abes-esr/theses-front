@@ -326,7 +326,7 @@ watch(() => currentRoute.query.domaine, () => {
   align-items: start;
   margin-top: 0;
   width: 100%;
-
+  height: 100%;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-template-columns: 100%;

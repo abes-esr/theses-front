@@ -172,7 +172,7 @@ defineExpose({
 
 .searchbar {
 
-  flex: 1 0 auto;
+  flex: 0 0 auto;
   margin-top: 1rem;
 
   :deep(.searchbar__input) {
@@ -251,5 +251,13 @@ defineExpose({
       }
     }
   }
+}
+/* Permet de rendre l'autocompletion + dense */
+:deep(.v-overlay-container) .v-list-item--density-default.v-list-item--one-line {
+  min-height: 20px !important;
+}
+
+.no-background-hover::before {
+  background-color: transparent !important;
 }
 </style>
