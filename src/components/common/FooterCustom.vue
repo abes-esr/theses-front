@@ -131,6 +131,10 @@
 
           a {
             color: rgb(var(--v-theme-primary));
+
+            @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+              line-height: 1.8rem;
+            }
           }
         }
       }
@@ -149,6 +153,16 @@
     width: 100%;
     background-color: rgb(var(--v-theme-fond-noir));
     color: rgb(var(--v-theme-background));
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      .v-btn {
+        width: 100%;
+        line-height: 2rem;
+        font-size: 0.9rem;
+        height: 3rem;
+      }
+    }
+
   }
 
   .v-divider {

@@ -87,5 +87,13 @@
   "header": {
     "doc": "Accéder à la documentation du site theses.fr ",
     "assistance": "Accéder au guichet d’assistance en ligne"
+  },
+  "meta": {
+    "desc": "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation.",
+    "titre": "Theses.fr, moteur de recherche des thèses françaises",
+    "titreResult": "Explorer les thèses pour ",
+    "descResult": "Résultat du moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation. Grâce à son moteur de recherche et sa navigation par facette, l’interface donne accès aux données des thèses : titre, docteur, disciplines,  directeurs, établissements de soutenance, écoles doctorales, partenaires de recherche et date de soutenance.",
+    "descThese": "Page détaillée de la thèse ",
+    "descPersonne": "Page détaillée de la personne "
   }
 }

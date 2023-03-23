@@ -94,6 +94,9 @@ import ResultPaginationBottom from '@/components/common/results/ResultPagination
 import GenericResultList from "@/components/generic/GenericResultList.vue";
 import ScrollToTopButton from "@/components/common/results/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
+import { useMeta } from 'vue-meta';
+import { useI18n } from "vue-i18n";
+
 
 const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 const { mobile } = useDisplay();
@@ -103,7 +106,7 @@ const { rechercherPersonne } = personnesAPIService();
 const { fetchCodeLangues } = referentielsAPIService();
 const request = ref("");
 const currentRoute = useRoute();
-const isBurgerMenuOpen = ref(false);
+//const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
 const resetFacets = ref(0);
 const loading = ref(false);
@@ -120,6 +123,12 @@ onMounted(() => {
   setQuery(request.value);
   search();
   updateFacets();
+});
+
+const { t } = useI18n();
+useMeta({
+  title: t("meta.titreResult") + currentRoute.query.q,
+  description: t("meta.descResult")
 });
 
 

@@ -5,6 +5,8 @@ import router from './router'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import messages from "@intlify/unplugin-vue-i18n/messages";
+import { createMetaManager } from 'vue-meta'
+
 
 const i18n = createI18n({
   legacy: false,
@@ -21,4 +23,5 @@ createApp(App)
   .use(router)
   .use(vuetify)
   .use(i18n)
+  .use(createMetaManager()) 
   .mount('#app')
