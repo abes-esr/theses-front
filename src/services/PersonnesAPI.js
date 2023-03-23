@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { replaceAndEscape } from "@/services/Common";
 
-const apiTheses = axios.create({
+const apiPersonnes = axios.create({
     baseURL: import.meta.env.VITE_APP_API,
     headers: {
         Accept: 'application/json',
@@ -19,14 +19,27 @@ const apiTheses = axios.create({
  * @param currentTri
  * @returns {Promise<unknown>}
  */
-async function queryPersonnesAPI(query, facets, currentPage, currentNombre, currentTri) {
+async function queryPersonnesAPI(query, facetsRequest, currentPage, currentNombre, currentTri) {
+    const url = "/personnes/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
+console.info(url)
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personnes/recherche", {params: {"q": encodeURI(query.replace(" OU ", " OR ").replace(" ET ", " AND ").replace(" SAUF ", " NOT "))}}).then((response) => {
+        // apiPersonnes.get("/personnes/recherche", {params: {"q": encodeURI(query.replace(" OU ", " OR ").replace(" ET ", " AND ").replace(" SAUF ", " NOT "))}}).then((response) => {
+        apiPersonnes.get(url)
+          .then((response) => {
             resolve(response.data); // #TODO à rectifier après normalisation
         }).catch((err) => {
             reject(err);
         });
     });
+}
+
+/**
+ * #TODO
+ * @param facets
+ * @returns {*}
+ */
+function disableOrFiltersPersonnes(facets) {
+    return facets;
 }
 
 /**
@@ -36,7 +49,7 @@ async function queryPersonnesAPI(query, facets, currentPage, currentNombre, curr
  */
 async function suggestionPersonne(query) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personnes/completion", {params: {"q": encodeURI(query)}}).then((response) => {
+        apiPersonnes.get("/personnes/completion", {params: {"q": encodeURI(query)}}).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
@@ -50,7 +63,7 @@ async function suggestionPersonne(query) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function getFacetsPersonnes(query) {
-    return apiTheses.get("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query)));
+    return apiPersonnes.get("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
 /**
@@ -60,7 +73,7 @@ function getFacetsPersonnes(query) {
  */
 async function getPersonne(id) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personnes/personne/" + id).then((response) => {
+        apiPersonnes.get("/personnes/personne/" + id).then((response) => {
             const item = response.data;
 
             const stats = {
@@ -111,6 +124,7 @@ export function personnesAPIService() {
         suggestionPersonne,
         getFacetsPersonnes,
         getPersonne,
-        getItemsTriPersonnes
+        getItemsTriPersonnes,
+        disableOrFiltersPersonnes
     };
 }

@@ -9,23 +9,24 @@ const apiTheses = axios.create({
   }
 });
 
-// Les status "soutenue" et "en cours" s'annulent
-function disableOrFilters(facets) {
+/**
+ * Les statuts "soutenue" et "en cours" s'annulent
+ * @param facets
+ * @returns {*}
+ */
+function disableOrFiltersTheses(facets) {
   if (facets.includes("soutenues") && facets.includes("enCours"))
     return facets.filter(e => e !== "soutenues").filter(e => e !== "enCours").filter(e => e !== "accessible");
   return facets;
 }
 
 // Recherche simple dans les theses
-function queryThesesAPI(query, facets, currentPage, currentNombre, currentTri) {
-  const facetsRequest = facets
-    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(facets).toString() + "]")
-    : "";
-
+function queryThesesAPI(query, facetsRequest, currentPage, currentNombre, currentTri) {
   const url = "/recherche/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
 
   return new Promise((resolve, reject) => {
-    apiTheses.get(url).then((response) => {
+    apiTheses.get(url)
+      .then((response) => {
       resolve(response.data);
     }).catch((err) => {
       reject(err);
@@ -78,6 +79,7 @@ export function thesesAPIService() {
     suggestionTheses,
     getFacetsTheses,
     getThese,
-    getItemsTriTheses
+    getItemsTriTheses,
+    disableOrFiltersTheses
   };
 }

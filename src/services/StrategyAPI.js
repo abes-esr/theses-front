@@ -6,8 +6,8 @@ import { replaceAndEscape } from "@/services/Common";
 
 // import fonctions
 const { fetchCodeLangues, createLabels } = referentielsAPIService();
-const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTriTheses } = thesesAPIService();
-const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes } = personnesAPIService();
+const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTriTheses, disableOrFiltersTheses } = thesesAPIService();
+const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes, disableOrFiltersPersonnes } = personnesAPIService();
 
 const domaine = ref("theses");
 // Page de résultats courante
@@ -46,8 +46,6 @@ function getQuery() {
   return query.value;
 }
 
-
-
 /**
  * Mise en forme du tableau de valeurs des facettes à destination de l'url
  * @param objectsArray
@@ -68,14 +66,32 @@ function setDomaine(newDomain) {
 }
 
 /**
+ * Pour thèses : les status "soutenue" et "en cours" s'annulent
+ * @returns {*}
+ */
+function disableOrFilters() {
+  if (domaine.value === "theses") {
+    return disableOrFiltersTheses(currentFacets.value);
+  }
+
+  return currentFacets.value;
+}
+
+/**
  * Routes
  */
 function queryAPI() {
+  const facetsRequest = currentFacets.value.length > 0
+    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters().toString() + "]")
+    : "";
+
   if(domaine.value === "theses")
-    return queryThesesAPI(replaceAndEscape(query.value), currentFacets.value, currentPage.value, currentNombre.value, currentTri.value);
+    return queryThesesAPI(replaceAndEscape(query.value), facetsRequest, currentPage.value, currentNombre.value, currentTri.value);
   if(domaine.value === "personnes")
-    return queryPersonnesAPI(replaceAndEscape(query.value), currentFacets.value, currentPage.value, currentNombre.value, currentTri.value);
+    return queryPersonnesAPI(replaceAndEscape(query.value), facetsRequest, currentPage.value, currentNombre.value, currentTri.value);
 }
+
+
 
 async function getFacets() {
   // eslint-disable-next-line no-async-promise-executor
