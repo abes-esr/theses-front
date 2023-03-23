@@ -2,7 +2,7 @@
   <Message-box ref="messageBox"></Message-box>
   <nav>
     <v-menu v-if="mobile" :model-value="openMenu" :close-on-content-click="false" content-class="full-screen"
-            location-strategy="static">
+      location-strategy="static">
       <template v-slot:activator="{ props }">
         <v-icon v-bind="props" size="40px" @click="openMenu = !openMenu">mdi-menu
         </v-icon>
@@ -17,18 +17,18 @@
     </v-menu>
   </nav>
   <RouterLink class="logo" :to="{ name: 'home' }" v-if="mobile">
-    <img alt="logo" id="logoIMG" src="@/assets/icone-theses.svg"/>
+    <img alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
   </RouterLink>
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
       <RouterLink :to="{ name: 'home' }">
-        <img class="logo" alt="logo" id="logoIMG" src="@/assets/icone-theses.svg"/>
+        <img class="logo" alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
       </RouterLink>
       <h1>{{ $t("slogan") }}</h1>
     </div>
     <div class="sub_header__action">
       <domain-selector compact></domain-selector>
-      <search-bar @search="loading = true" :loading="loading" @onError="displayError"/>
+      <search-bar @search="loading = true" :loading="loading" @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="search-filter">
@@ -61,8 +61,7 @@
           </div>
           <v-divider vertical></v-divider>
           <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-            <img alt="logo"
-                 id="logoIMG" src="@/assets/idref-icone.png"/>
+            <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png" />
           </a>
         </div>
       </div>
@@ -74,39 +73,52 @@
 </template>
 
 <script setup>
-import {defineAsyncComponent, onBeforeMount, ref} from 'vue'
+import { useMeta } from 'vue-meta';
+import { useI18n } from "vue-i18n";
+
+import { defineAsyncComponent, onBeforeMount, ref, watchEffect } from 'vue';
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 
-import {personnesAPIService} from "@/services/PersonnesAPI";
-import {useDisplay} from "vuetify";
+import { personnesAPIService } from "@/services/PersonnesAPI";
+import { useDisplay } from "vuetify";
 import ActionBarPersonnes from "@/components/personnes/ActionBar.vue";
 import StatistiqueCardPersonne from "@/components/personnes/StatistiqueCard.vue";
 
-const {mobile} = useDisplay();
+
+const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const {getPersonne} = personnesAPIService();
+const { getPersonne } = personnesAPIService();
 
 const loading = ref(false);
 const dataReady = ref(false);
 const openMenu = ref(false);
 const item = ref({});
 
+const { t } = useI18n();
+const { meta } = useMeta({});
+
+watchEffect(() => {
+  const titlePersonne = item.value.prenom ? item.value.prenom + item.value.nom : "";
+  meta.title = titlePersonne;
+  meta.description = t("meta.descPersonne") + titlePersonne;
+});
+
 const props = defineProps({
   id: {
     type: String,
     required: true
   }
-})
+});
 
 onBeforeMount(() => {
   dataReady.value = false;
   getPersonne(props.id).then(result => {
     item.value = result;
-    dataReady.value = true
+    dataReady.value = true;
   }).catch(error => {
     if (error.response) {
-      displayError(error.response.data.message, {isSticky: true});
+      displayError(error.response.data.message, { isSticky: true });
     } else {
       displayError(error.message);
     }
@@ -120,7 +132,7 @@ function displayError(message, opt) {
   messageBox.value?.open(message, {
     ...opt,
     type: "error"
-  })
+  });
 }
 
 </script>

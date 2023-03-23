@@ -1,4 +1,7 @@
 <template>
+  <metainfo>
+    <template v-slot:title="{ content }">{{ content }} | Theses.fr</template>
+  </metainfo>
   <v-app>
     <header-custom></header-custom>
     <v-main>
@@ -11,6 +14,9 @@
 <script>
 import HeaderCustom from "@/components/common/HeaderCustom.vue";
 import FooterCustom from "./components/common/FooterCustom.vue";
+import { useMeta } from 'vue-meta';
+import { useI18n } from "vue-i18n";
+
 
 export default {
   components: {
@@ -18,11 +24,17 @@ export default {
     FooterCustom
   },
   name: 'App',
-
+  setup() {
+    const { t } = useI18n();
+    useMeta({
+      title: t("meta.titre"),
+      description: t("meta.desc")
+    });
+  },
   data: () => ({
     //
   }),
-}
+};
 </script>
 
 <style lang="scss">
