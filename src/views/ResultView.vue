@@ -8,9 +8,10 @@
       </template>
       <domain-selector @changeDomain="changeDomain" compact></domain-selector>
       <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
-      <h4>Affiner la recherche</h4>
-      <FacetsList @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" class="left-side"></FacetsList>
+
+      <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+        :reset-facets="resetFacets" class="left-side"></facets-list>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
   </nav>
@@ -32,13 +33,13 @@
 
   <div class="result-main-wrapper">
     <div v-if="!mobile">
-      <div v-if="!mobile" class="vertical-thread"></div>
+      <div class="vertical-thread"></div>
       <div class="nav-bar">
-        <div v-if="!mobile" class="search-filter">
-          <h4 class="left-side">Affiner la recherche</h4>
+        <div class="search-filter left-size">
+          <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
         </div>
-        <FacetsList @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-            :reset-facets="resetFacets" class="left-side"></FacetsList>
+        <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+            :reset-facets="resetFacets" class="left-side"></facets-list>
         <div class="left-side mt-4 mb-2">
           <v-btn @click="update()">Appliquer les filtres</v-btn>
         </div>
@@ -60,16 +61,17 @@ import FacetsList from '@/components/common/results/FacetsList.vue';
 import SearchBar from '@/components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultComponents from "@/components/common/results/ResultComponents.vue";
+import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 
 const { mobile } = useDisplay();
-const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre } = APIService();
+const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, modifierFiltres } = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
 const request = ref("");
 const result = ref([]);
 const dataReady = ref(false);
-const isBurgerMenuOpen = ref(false);
+// const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
 const resetFacets = ref(0);
 const loading = ref(false);
@@ -193,6 +195,13 @@ async function searchAndReinitializeFacet(query) {
   resetFacets.value++;
 }
 
+async function searchAndReinitializeAllFacets() {
+  resetFacets.value++;
+  modifierFiltres(new Array());
+  searchAndReinitialize();
+}
+
+
 function changeDomain() {
   searchAndReinitializeFacet(request.value);
 }
@@ -297,14 +306,13 @@ watch(() => currentRoute.query.domaine, () => {
 
 .search-filter {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10% 0;
   width: 100%;
   min-height: 4rem;
-
-  h4 {
-    background-color: rgb(var(--v-theme-gris-clair));
-    font-size: 22px;
-  }
+  background-color: rgb(var(--v-theme-gris-clair));
+  font-size: 22px;
 }
 
 .nav-bar {
@@ -327,8 +335,8 @@ watch(() => currentRoute.query.domaine, () => {
   .result-components {
     height: 100%;
     width: 100%;
-    justify-content: center;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
   }
 }
 

@@ -53,6 +53,9 @@
       "resultats": " résultats de thèses pour "
     }
   },
+  "results": {
+    "facetsHeader": "Filtres"
+  },
   "personnes": {
     "resultView": {
       "resultats": " résultats de personnes pour ",
