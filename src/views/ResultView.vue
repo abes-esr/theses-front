@@ -14,14 +14,13 @@
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
   </nav>
-
-  <RouterLink class="logo" :to="{ name: 'home' }" v-if="mobile">
-    <img alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
+  <RouterLink class="logo" :to="{ name: 'home' }" title="Accueil du site" v-if="mobile">
+    <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
   </RouterLink>
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
-      <RouterLink :to="{ name: 'home' }">
-        <img class="logo" alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
+      <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
       </RouterLink>
       <h1>{{ $t("slogan") }}</h1>
     </div>
@@ -327,8 +326,9 @@ watch(() => currentRoute.query.domaine, () => {
 
   .result-components {
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
   }
 }
 

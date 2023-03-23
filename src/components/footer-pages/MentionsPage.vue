@@ -1,4 +1,7 @@
 <template>
+    <metainfo>
+        <template v-slot:title="">Mentions Légales | Theses.fr</template>
+    </metainfo>
     <div>
         <v-row>
             <v-col cols="0" md="2"></v-col>

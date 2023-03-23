@@ -1,4 +1,7 @@
 <template>
+    <metainfo>
+        <template v-slot:title="">Données Personnelles | Theses.fr</template>
+    </metainfo>
     <div>
         <v-row class="px-4">
             <v-col cols="0" md="2"></v-col>
