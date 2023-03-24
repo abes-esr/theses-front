@@ -25,6 +25,9 @@
         "par": "By",
         "dir": "supervised by"
     },
+    "results": {
+        "facetsHeader": "Filtres"
+    },
     "theses": {
         "resultView": {
             "resultats": " résultats de thèses pour "

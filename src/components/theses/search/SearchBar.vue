@@ -1,16 +1,27 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-      :items="items" variant="outlined" :menu="suggestionActive" cache-items hide-no-data hide-selected no-filter
-      append-inner-icon @keydown.enter="search" :active="true" return-object>
+    <v-combobox class="searchbar__input"
+                :label='$t("rechercher")'
+                v-model="request"
+                v-model:search="requestSearch"
+                :items="items"
+                variant="outlined"
+                :menu="suggestionActive"
+                cache-items
+                hide-no-data
+                hide-selected
+                no-filter
+                append-inner-icon
+                @keydown.enter="search"
+                :active="true"
+                return-object
+                type="text">
       <template v-slot:append-inner>
-        <v-btn plain flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :title='$t("clear")'
-          :ripple="false">
+        <v-btn plain flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :ripple="false">
         </v-btn>
       </template>
       <template v-slot:append>
-        <v-btn color="primary" icon="mdi-magnify" text @click="search" :title='$t("searchButton")' :loading="loading"
-          class="pa-0 ma-0">
+        <v-btn color="primary" icon="mdi-magnify" text @click="search" :loading="loading" class="pa-0 ma-0">
         </v-btn>
       </template>
     </v-combobox>
@@ -30,11 +41,11 @@ export default {
 import { ref, watch, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import router from '@/router';
-import { thesesAPIService } from "@/services/ThesesAPI";
+import { APIService } from "@/services/StrategyAPI";
 
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { complete, setQuery } = thesesAPIService();
+const { getSuggestion, setQuery } = APIService();
 
 defineProps({
   loading: {
@@ -51,8 +62,9 @@ const disableCompletion = ref(false);
 
 onMounted(
   () => {
-    if (useRoute().query.q) {
-      request.value = useRoute().query.q;
+    if (currentRoute.query && currentRoute.query.q) {
+      request.value = decodeURI(currentRoute.query.q);
+      setQuery(request.value);
       // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
       // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
       watcherActive = false;
@@ -63,11 +75,10 @@ onMounted(
 const items = ref([]);
 const suggestionActive = ref(false);
 
-
 watch(requestSearch, (newRequestSearch) => {
   if (newRequestSearch.length > 2 && watcherActive && !disableCompletion.value) {
     setQuery(newRequestSearch);
-    complete()
+    getSuggestion()
       .then((res) => {
         items.value = res.data;
         if (items.value.length > 0) {
@@ -94,7 +105,7 @@ watch(disableCompletion, (newDisableCompletion) => {
 });
 
 /**
- * Fonction lorsqu'on vide le champs de saisie
+ * Fonction lorsqu'on vide le champ de saisie
  */
 function clearSearch() {
   request.value = "";
@@ -104,11 +115,10 @@ async function search() {
   let currentURLParams = Object.assign({}, currentRoute.query);
 
   if (currentURLParams) {
-    currentURLParams.q = request.value;
+    currentURLParams.q = encodeURI(request.value)
   } else {
-    currentURLParams = { "q": request.value };
+    currentURLParams = { "q": encodeURI(request.value) }
   }
-
 
   if (routeName.value === "resultats") {
     router.replace({
@@ -121,6 +131,7 @@ async function search() {
     });
   }
 
+  setQuery(request.value);
   emit('searchAndReinitializeFacet', request.value);
 }
 

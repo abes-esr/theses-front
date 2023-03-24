@@ -12,13 +12,8 @@
     && facetItem.checkboxes
     && facetItem.checkboxes.length">
     <div v-for="facetItem in childrenCheckboxes" :key="`facet-${facetItem.name}`">
-      <facet-checkbox
-        :facet-item="facetItem"
-        :facet-name="facetName"
-        :margin-offset="props.marginOffset + 4"
-        :parent-checkbox-state="checkboxState"
-        :facets-array="facetsArray"
-        @updateParentCheckbox="updateSelfCheckbox"
+      <facet-checkbox :facet-item="facetItem" :facet-name="facetName" :margin-offset="props.marginOffset + 4"
+        :parent-checkbox-state="checkboxState" :facets-array="facetsArray" @updateParentCheckbox="updateSelfCheckbox"
         @updateFilterDataRecursive="updateFilterDataRecursive" />
     </div>
   </template>

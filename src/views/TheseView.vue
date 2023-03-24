@@ -128,15 +128,14 @@ import { useMeta } from 'vue-meta';
 import { useI18n } from "vue-i18n";
 
 import DomainSelector from '@/components/common/DomainSelector.vue';
-import { thesesAPIService } from '../services/ThesesAPI';
 
-
+import { APIService } from '@/services/StrategyAPI';
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const route = useRoute();
 
-const { getThese } = thesesAPIService();
+const { getData } = APIService();
 
 let selected = ref('fr');
 
@@ -161,16 +160,17 @@ watchEffect(() => {
 
 onBeforeMount(() => {
     dataReady.value = false;
-    getThese(route.params.id).then(result => {
+    getData(route.params.id).then(result => {
         these.value = result.data;
-        resume.value = these.value.resumes.fr;
+        resume.value = these.value.resumes.fr
         dataReady.value = true;
         setKeywords();
     }).catch(error => {
         displayError(error.message);
     });
 
-});
+
+})
 
 function setKeywords() {
     keywordsFR = these.value.sujetsRameau.concat(these.value.sujetsFR);
@@ -193,12 +193,12 @@ const messageBox = ref(null);
 function displayError(message) {
     messageBox.value?.open(message, {
         type: "error"
-    });
+    })
 }
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .clickable {
     cursor: pointer;
 }

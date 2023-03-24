@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panels>
-    <v-expansion-panel class="elevation-0">
+    <v-expansion-panel eager class="elevation-0">
       <v-expansion-panel-title class="facet-title-panel">
         <h4 class="facet-title">
           {{ facet.name }}
