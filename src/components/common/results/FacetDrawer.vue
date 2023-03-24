@@ -17,7 +17,19 @@
             class="facet-search-bar"></v-text-field>
         </div>
         <div class="panel-text">
-          <div v-for="facetItem in facetItems" :key="`facet-${facetItem.name}`">
+          <div v-if="date" class="flex-container">
+            <span class="flex-item">
+              Du<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" model-type="dd/MM/yyyy" format="dd/MM/yyyy"
+                :enable-time-picker="false" select-text="OK" cancel-text="Annuler" text-input placeholder="JJ/MM/AAAA">
+              </VueDatePicker>
+            </span>
+            <span class="flex-item pl-4 pr-4">
+              Au<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" model-type="dd/MM/yyyy" format="dd/MM/yyyy"
+                :enable-time-picker="false" select-text="OK" cancel-text="Annuler" text-input placeholder="JJ/MM/AAAA">
+              </VueDatePicker>
+            </span>
+          </div>
+          <div v-else v-for="facetItem in facetItems" :key="`facet-${facetItem.name}`">
             <facet-checkbox v-if="facetItem.selected" :facets-array="facetsArray" :facet-name="facet.name"
               :facet-item="facetItem" @updateFilterData="updateFilterData" :margin-offset="marginOffset" />
           </div>
@@ -30,20 +42,32 @@
 <script setup>
 import FacetCheckbox from "@/components/common/results/FacetCheckbox.vue";
 import { computed, ref, watch } from "vue";
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 
-const emit = defineEmits(['update:facetsArray', 'updateFilterData', 'reinitializeCheckboxes']);
+const emit = defineEmits(['update:facetsArray', 'updateFilterData', 'updateFilterDateOnly', 'reinitializeCheckboxes']);
 const props = defineProps({
   facetsArray: {
     type: Array
   },
   facet: {
     type: Object
+  },
+  date: {
+    type: Boolean,
+    default: false
   }
 });
 const marginOffset = ref(0);
 const filterSearchText = ref("");
 
+const dateFrom = ref();
+const dateTo = ref();
+
+
 let facetItems = computed(() => {
+  if (props.date)
+    return "";
   let filters = props.facet.checkboxes;
   // Initialisation des booleans selected pour la barre de recherche
   filters.forEach((filter) => {
@@ -70,12 +94,24 @@ watch(filterSearchText, () => {
   searchIntoFacet();
 });
 
+watch(dateFrom, () => {
+  updateFilterDateOnly();
+});
+
+watch(dateTo, () => {
+  updateFilterDateOnly();
+});
+
 /**
  * Emits
  */
 function updateFilterData(filterData) {
   filterData.facetName = props.facet.name; // Nom de la facette
   emit("updateFilterData", filterData);
+}
+
+function updateFilterDateOnly() {
+  emit("updateFilterDateOnly", [dateFrom.value, dateTo.value]);
 }
 
 function reinitializeCheckboxes() {
@@ -147,4 +183,19 @@ function reinitializeCheckboxes() {
   background-color: rgb(var(--v-theme-gris-clair));
 }
 
+.flex-container {
+  display: flex;
+}
+
+.flex-item {
+  flex: 1;
+}
+
+:deep(.dp__input) {
+  font-size: 0.9rem !important;
+  padding-left: 30px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+}
 </style>

@@ -9,6 +9,7 @@
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.7.0",
     "@mdi/font": "5.9.55",
+    "@vuepic/vue-datepicker": "^4.2.2",
     "axios": "^0.27.2",
     "pinia": "^2.0.14",
     "roboto-fontface": "*",
