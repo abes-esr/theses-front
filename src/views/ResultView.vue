@@ -10,10 +10,11 @@
         </div>
       </template>
 
-      <facets-header @closeOverlay="closeOverlay" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+      <facets-header @closeOverlay="closeOverlay"
+                     @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
       <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" class="left-side"></facets-list>
-      <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
+                   :reset-facets="resetFacets" class="left-side"></facets-list>
+      <v-btn class="mt-4" @click="update(); closeOverlay()">Appliquer les filtres</v-btn>
     </v-dialog>
     <v-menu :close-on-content-click="false" content-class="full-screen" location-strategy="static">
       <template v-slot:activator="{ props }">
