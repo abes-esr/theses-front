@@ -1,7 +1,9 @@
 <template>
   <div class="facets">
+    <facet-drawer date :facet="{ 'name': 'Date' }" class="my-2"
+      @updateFilterDateOnly="updateFilterDateOnly($event)"></facet-drawer>
     <facet-drawer v-for="facet in facets" :key="`facet-${facet.name}`" @updateFilterData="updateFilterData"
-      @reinitializeCheckboxes="reinitializeCheckboxes" :facet="facet" :facets-array="facetsArray" class="my-3" />
+      @reinitializeCheckboxes="reinitializeCheckboxes" :facet="facet" :facets-array="facetsArray" class="my-2" />
   </div>
 </template>
 
@@ -91,6 +93,28 @@ function updateFilterData(filterData) {
     if (itemIndex > -1) {
       facetsArray.value.splice(itemIndex, 1);
     }
+  }
+  modifierFiltres(facetsArray.value);
+}
+
+function updateFilterDateOnly(datesArray) {
+  //Supprime les dates précedentes 
+  facetsArray.value = facetsArray.value.filter(objet => {
+    for (let key in objet) {
+      if (key.startsWith("date")) {
+        return false;
+      }
+    }
+    return true;
+  });
+
+
+  //Ajoute les dates courantes dans la liste des filtres, si elles sont définies
+  if (datesArray[0]) {
+    facetsArray.value.splice(0, 0, { ["dateDebut"]: datesArray[0] });
+  }
+  if (datesArray[1]) {
+    facetsArray.value.splice(0, 0, { ["dateFin"]: datesArray[1] });
   }
   modifierFiltres(facetsArray.value);
 }
