@@ -90,6 +90,8 @@ function reinitializeCheckboxes() {
   gap: 10px;
   flex-wrap: nowrap;
   padding: 0px 10px;
+  overflow: hidden;
+
 }
 
 .v-expansion-panel :deep(.v-expansion-panel__shadow) {
@@ -108,6 +110,7 @@ function reinitializeCheckboxes() {
 }
 
 .facet-title {
+  text-align: start;
   text-transform: uppercase;
   overflow: hidden;
   font-size: 16px;

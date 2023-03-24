@@ -128,11 +128,7 @@ watch(() => props.resetFacets,
   flex-direction: column;
 
   .v-expansion-panels {
-    width: 80%;
-
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-      width: 100%;
-    }
+    width: 85%;
   }
 
 }

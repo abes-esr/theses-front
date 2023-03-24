@@ -33,9 +33,7 @@
 
   <div class="result-main-wrapper">
       <div v-if="!mobile" class="nav-bar">
-        <div class="search-filter left-size">
-          <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-        </div>
+        <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
         <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
             :reset-facets="resetFacets" class="left-side"></facets-list>
         <div class="left-side mt-4 mb-2">
@@ -301,15 +299,8 @@ watch(() => currentRoute.query.domaine, () => {
   }
 }
 
-.search-filter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10% 0;
-  width: 100%;
-  min-height: 4rem;
-  background-color: rgb(var(--v-theme-gris-clair));
-  font-size: 22px;
+.v-overlay :deep(.v-overlay__content) {
+  padding: 0 0;
 }
 
 .nav-bar {
