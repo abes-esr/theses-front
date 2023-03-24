@@ -3,7 +3,7 @@
     <div class="filter-meta">
       <v-icon color="primary" class="menu-icon">mdi-filter-menu</v-icon>
       <div class="facet-title">
-        <h4>{{ $t('results.facetsHeader') }}</h4>
+        <p>{{ $t('results.facetsHeader') }}</p>
       </div>
     </div>
     <v-btn v-if="!mobile" @click.stop="" @click="searchAndReinitializeAllFacets" size="small" depressed
@@ -12,9 +12,9 @@
     </v-btn>
     <button v-else @click="closeOverlay" class="close-overlay-button"
            elevation="0" color="transparent">
-      <div>
+      <div class="close-overlay-icon-wrapper">
         <div class="circle"></div>
-        <v-icon class="close-icon" size="35">mdi-close-box</v-icon>
+        <div class="close-icon"><v-icon size="35">mdi-close-box</v-icon></div>
       </div>
     </button>
 
@@ -87,13 +87,10 @@
   letter-spacing: 0.5px;
 }
 
-.close-icon {
-  color: rgb(var(--v-theme-orange-abes));
-}
-
 .close-overlay-button {
   width: 35px;
   height: 35px;
+  position: relative;
 }
 
 .circle {
@@ -105,6 +102,15 @@
   left: 5px;
   background: rgb(var(--v-theme-surface));
 }
+
+.close-icon {
+  color: rgb(var(--v-theme-orange-abes));
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
 
 .reinitialize-button-mobile {
   margin-top: 5px;
