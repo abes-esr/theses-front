@@ -109,6 +109,7 @@ function reinitializeCheckboxes() {
 
 .facet-title {
   text-transform: uppercase;
+  overflow: hidden;
   font-size: 16px;
   flex-grow: 2;
   flex-wrap: nowrap;

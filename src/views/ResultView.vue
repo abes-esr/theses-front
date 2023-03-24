@@ -7,7 +7,7 @@
         </v-icon>
       </template>
       <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
+      <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
 
       <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
       <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
@@ -27,14 +27,12 @@
     </div>
     <div class="sub_header__action">
       <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
+      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
     </div>
   </div>
 
   <div class="result-main-wrapper">
-    <div v-if="!mobile">
-      <div class="vertical-thread"></div>
-      <div class="nav-bar">
+      <div v-if="!mobile" class="nav-bar">
         <div class="search-filter left-size">
           <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
         </div>
@@ -44,7 +42,6 @@
           <v-btn @click="update()">Appliquer les filtres</v-btn>
         </div>
       </div>
-    </div>
     <div class="result-components">
       <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange" @search="search">
       </result-components>
@@ -318,6 +315,8 @@ watch(() => currentRoute.query.domaine, () => {
 .nav-bar {
   height: 100%;
   width: 100%;
+  max-width: 20vw;
+  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
 }
 
 .result-main-wrapper {
@@ -338,15 +337,5 @@ watch(() => currentRoute.query.domaine, () => {
     display: flex;
     flex-direction: column;
   }
-}
-
-.vertical-thread {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  max-width: 20vw;
-  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
 }
 </style>
