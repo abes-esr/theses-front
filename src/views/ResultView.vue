@@ -6,192 +6,152 @@
         <v-icon v-bind="props" size="40px">mdi-menu
         </v-icon>
       </template>
-      <domain-selector compact></domain-selector>
+      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
       <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
-      <h4>Affiner la recherche</h4>
-      <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
+
+      <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+        :reset-facets="resetFacets" class="left-side"></facets-list>
       <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
     </v-menu>
   </nav>
-  <RouterLink class="logo" :to="{ name: 'home' }" v-if="mobile">
-    <img alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
+  <RouterLink class="logo" :to="{ name: 'home' }" title="Accueil du site" v-if="mobile">
+    <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
   </RouterLink>
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
-      <RouterLink :to="{ name: 'home' }">
-        <img class="logo" alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
+      <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
       </RouterLink>
       <h1>{{ $t("slogan") }}</h1>
     </div>
     <div class="sub_header__action">
-      <domain-selector compact></domain-selector>
-      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
+      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+      <search-bar @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
     </div>
   </div>
-  <div v-if="!mobile" class="vertical-thread"></div>
-  <div v-if="!mobile" class="search-filter">
-    <h4 class="left-side">Affiner la recherche</h4>
-    <result-pagination-top v-if="!mobile" v-model:current-page=currentPage :nb-results=nbResult @changePage="updatePage"
-      @changeNombre="updateNombre" @changeTri="updateTri"></result-pagination-top>
-  </div>
-  <div class="main-wrapper">
-    <span class="left-side nav-bar" v-if="!mobile">
-      <GenericFacetsDrawer @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" class="left-side"></GenericFacetsDrawer>
-      <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
-      <!--      Mettre à jour filtres dans thesesAPI depuis une nouvelle fonction-->
-    </span>
-    <div class="result-list">
-      <div v-if="dataReady">
-        <h1 class="pb-6">{{ nbResult }}{{
-          $t(currentRoute.query.domaine +
-            ".resultView.resultats")
-        }} :
-          {{ request }}</h1>
-        <div v-if="mobile" class="result-list-wrapper">
-          <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-top-wrapper" :nb-result=nbResult />
-          <GenericResultList :result="result">
-          </GenericResultList>
-          <MoreResultsButton v-if="!allResultsWereLoaded()" :loading=loading :nb-result=nbResult
-            @changeNombre="updateNombre" />
+
+  <div class="result-main-wrapper">
+    <div v-if="!mobile">
+      <div class="vertical-thread"></div>
+      <div class="nav-bar">
+        <div class="search-filter left-size">
+          <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
         </div>
-        <v-row v-else>
-          <v-col cols="11" class="colonnes-resultats">
-            <GenericResultList :result="result">
-            </GenericResultList>
-            <MoreResultsButton :loading=loading :nb-result=nbResult @changeNombre="updateNombre" />
-          </v-col>
-          <v-col cols="1" class="colonnes-resultats">
-            <ScrollToTopButton v-if="moreThanXResults(5)" :nb-result=nbResult />
-          </v-col>
-        </v-row>
+        <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+            :reset-facets="resetFacets" class="left-side"></facets-list>
+        <div class="left-side mt-4 mb-2">
+          <v-btn @click="update()">Appliquer les filtres</v-btn>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="search-filter">
-    <div class="left-side"></div>
-    <result-pagination-bottom v-model:current-page=currentPage v-if="!mobile" :nb-results=nbResult
-      :current-nombre=currentNombre @changePage="simpleUpdatePage">
-    </result-pagination-bottom>
+    <div class="result-components">
+      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange" @search="search">
+      </result-components>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { defineAsyncComponent, onMounted, ref, watch } from "vue";
 import { useRoute } from 'vue-router';
-import { thesesAPIService } from "@/services/ThesesAPI";
-import { personnesAPIService } from "@/services/PersonnesAPI";
-import { referentielsAPIService } from "@/services/ReferentielsAPI";
+import { APIService } from "@/services/StrategyAPI";
 import { useDisplay } from 'vuetify';
-import GenericFacetsDrawer from '@/components/generic/GenericFacetsDrawer.vue';
-import SearchBar from '../components/generic/GenericSearchBar.vue';
+import FacetsList from '@/components/common/results/FacetsList.vue';
+import SearchBar from '@/components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
-import ResultPaginationTop from '@/components/common/results/ResultPaginationTop.vue';
-import ResultPaginationBottom from '@/components/common/results/ResultPaginationBottom.vue';
-import GenericResultList from "@/components/generic/GenericResultList.vue";
-import ScrollToTopButton from "@/components/common/results/ScrollToTopButton.vue";
-import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
+import ResultComponents from "@/components/common/results/ResultComponents.vue";
+import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 
-const { modifierPage, modifierNombre, modifierTri } = thesesAPIService();
 const { mobile } = useDisplay();
+const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, modifierFiltres } = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const { rechercherThese, getFacets, setQuery } = thesesAPIService();
-const { rechercherPersonne } = personnesAPIService();
-const { fetchCodeLangues, createLabels } = referentielsAPIService();
-const request = ref("");
+
 const currentRoute = useRoute();
-const isBurgerMenuOpen = ref(false);
+const request = ref("");
+const result = ref([]);
+const dataReady = ref(false);
+// const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
 const resetFacets = ref(0);
 const loading = ref(false);
-const result = ref([]);
 const facets = ref({});
 const nbResult = ref(0);
-const dataReady = ref(false);
-const currentPage = ref(1);
-const currentNombre = ref(10);
+const resetPage = ref(0);
+const resetShowingNumber = ref(0);
+const domainNameChange = ref(currentRoute.query.domaine);
 
 onMounted(() => {
+  setDomaine(currentRoute.query.domaine);
   dataReady.value = false;
-  request.value = decodeURI(currentRoute.query.q);
+  request.value = decodeURI(currentRoute.query.q)
   setQuery(request.value);
   search();
   updateFacets();
 });
 
-
-async function search(query) {
-  if (currentRoute.query.domaine == "theses") {
-    rechercherThese().then(response => {
-      result.value = response.theses;
-      nbResult.value = response.totalHits;
-    }).catch(error => {
-      displayError(error.message);
-    }).finally(() => {
-      loading.value = false;
-      dataReady.value = true;
-    });
-  } else if (currentRoute.query.domaine == "personnes") {
-    try {
-      result.value = await rechercherPersonne(query);
-      nbResult.value = result.value.length;
-      setQueryView(query);
-    } catch (error) {
-      displayError(error.message);
-    } finally {
-      loading.value = false;
-      dataReady.value = true;
-    }
-  }
-}
-
-function setQueryView(query) {
-  request.value = query;
-  loading.value = true;
-}
-
 /**
  * Fonctions
  */
-function simpleUpdatePage(payload) {
-  modifierPage(payload);
-  // Mise à jour des valeurs de pagination dans tous les composants
-  currentPage.value = payload;
-}
+async function search() {
+  request.value = getQuery();
+  loading.value = true;
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve, reject) => {
+    if (currentRoute.query.domaine === "theses") {
+      queryAPI().then(response => {
+        result.value = response.theses;
+        nbResult.value = response.totalHits;
+        domainNameChange.value = currentRoute.query.domaine;
+      }).catch(error => {
+        displayError(error.message);
+        result.value = [];
+        nbResult.value = 0;
+        reject(error)
+      }).finally(() => {
+        loading.value = false;
+        dataReady.value = true;
+        resolve();
+      });
+    } else if (currentRoute.query.domaine === "personnes") {
+      try {
+        result.value = await queryAPI();
+        nbResult.value = result.value.length;
+        domainNameChange.value = currentRoute.query.domaine;
+      } catch (error) {
+        displayError(error.message);
+        result.value = [];
+        nbResult.value = 0;
+        reject(error);
+      } finally {
+        loading.value= false;
+        dataReady.value = true;
+        resolve();
+      }
+    }
+  });
 
-function updatePage(payload) {
-  simpleUpdatePage(payload);
-  search();
-}
-
-/**
- * Met à jour le nombre de résultats à afficher sur une page
- * @param payload
- */
-function updateNombre(payload) {
-  modifierNombre(payload);
-  search();
-  currentNombre.value = payload; // Mise à jour des valeurs de pagination dans tous les composants
-  currentPage.value = 1; // Retour à la page une
-}
-
-function updateTri(payload) {
-  modifierTri(payload);
-  search();
+  /**
+   * #TODO Version généralisée à implémenter après normalisation de l'api
+   */
+  // eslint-disable-next-line no-async-promise-executor
+  // return queryAPI().then(async () => {
+  //       result.value = await queryAPI();
+  //       nbResult.value = result.value.length;
+  //       domainNameChange.value = currentRoute.query.domaine;
+  //     }).catch(error => {
+  //       displayError(error.message);
+  //         result.value = [];
+  //         nbResult.value = 0;
+  //     }).finally(() => {
+  //       loading.value = false;
+  //       dataReady.value = true;
+  //     });
 }
 
 function update() {
   reinitialize();
   search();
-}
-
-function moreThanXResults(x) {
-  return (result.value.length >= x);
-}
-
-function allResultsWereLoaded() {
-  return moreThanXResults(nbResult.value);
 }
 
 function displayError(message) {
@@ -202,13 +162,11 @@ function displayError(message) {
 
 function updateFacets() {
   getFacets().then(response => {
-    facets.value = createLabels(response.data);
+    facets.value = response;
   }).catch(error => {
+    facets.value = {};
     displayError(error.message);
   });
-
-  // Peuplement de la liste des codes langues
-  fetchCodeLangues();
 }
 
 // Si on passe de desktop à mobile ou inversement, réinitialisation des pages, etc
@@ -226,21 +184,41 @@ function reinitializeCurrentRequest() {
 
 function reinitialize() {
   modifierPage(1);
-  currentPage.value = 1;
+  resetPage.value++;
   modifierNombre(10);
-  currentNombre.value = 10;
+  resetShowingNumber.value++;
 }
 
-function searchAndReinitializeFacet(query) {
-  setQueryView(query);
+async function searchAndReinitializeFacet(query) {
+  setQuery(query);
+  searchAndReinitialize();
   resetFacets.value++;
 }
 
-function searchAndReinitialize() {
+async function searchAndReinitializeAllFacets() {
+  resetFacets.value++;
+  modifierFiltres(new Array());
+  searchAndReinitialize();
+}
+
+
+function changeDomain() {
+  searchAndReinitializeFacet(request.value);
+}
+
+async function searchAndReinitialize() {
   reinitialize();
-  search();
+  await search();
   updateFacets();
 }
+
+/**
+ * Watchers
+ */
+
+watch(() => currentRoute.query.domaine, () => {
+  setDomaine(currentRoute.query.domaine)
+});
 </script>
 
 <style scoped lang="scss">
@@ -261,7 +239,7 @@ function searchAndReinitialize() {
 .logo {
   margin-top: -55px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
     margin-top: -110px;
   }
 }
@@ -274,7 +252,7 @@ function searchAndReinitialize() {
   flex: 1 0 100%;
   max-width: 20vw;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     max-width: 100%;
     flex: 0 1 auto;
     padding: 0;
@@ -328,57 +306,38 @@ function searchAndReinitialize() {
 
 .search-filter {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10% 0;
   width: 100%;
-
-  h4 {
-    background-color: rgb(var(--v-theme-gris-clair));
-  }
-
-  .result-pagination {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
+  min-height: 4rem;
+  background-color: rgb(var(--v-theme-gris-clair));
+  font-size: 22px;
 }
 
+.nav-bar {
+  height: 100%;
+  width: 100%;
+}
 
-.main-wrapper {
-  flex-direction: row;
-  align-items: flex-start;
+.result-main-wrapper {
+  display: grid;
+  grid-template-columns: 20vw auto;
+  align-items: start;
   margin-top: 0;
   width: 100%;
+  height: 100%;
 
-  .facets {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    grid-template-columns: 100%;
+  }
+
+  .result-components {
     height: 100%;
     width: 100%;
-    justify-content: center;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
   }
-
-  .result-list {
-    width: 100%;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    margin-bottom: 2rem;
-
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
-      margin-right: 3rem;
-      margin-left: 3rem;
-    }
-  }
-}
-
-.colonnes-resultats {
-  padding: 0;
-}
-
-.result-list-wrapper {
-  display: grid;
-}
-
-.scroll-top-wrapper {
-  justify-content: right;
 }
 
 .vertical-thread {

@@ -19,7 +19,7 @@
                 :loading="isLoading"
     >
       <template v-slot:append-inner>
-        <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch">
+        <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :ripple="false">
         </v-btn>
       </template>
       <template v-slot:append>
@@ -40,14 +40,14 @@ export default {
 };
 </script>
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch,computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { computed } from 'vue'
-import { personnesAPIService } from "@/services/PersonnesAPI";
+import { APIService } from "@/services/StrategyAPI";
 
 const router = useRouter();
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
+const { getSuggestion, setQuery } = APIService();
 
 defineProps({
   loading: {
@@ -57,7 +57,7 @@ defineProps({
 })
 const request = ref('');
 const requestSearch = ref("");
-const emit = defineEmits(['search', 'onError']);
+const emit = defineEmits(['searchAndReinitializeFacet', 'onError']);
 
 let watcherActive = true;
 const disableCompletion = ref(false);
@@ -67,6 +67,7 @@ onMounted(
   () => {
     if (currentRoute.query && currentRoute.query.q) {
       request.value = decodeURI(currentRoute.query.q);
+      setQuery(request.value);
       // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
       // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
       watcherActive = false;
@@ -78,6 +79,10 @@ onMounted(
  * Fonction pour rechercher
  * @returns {Promise<void>}
  */
+function clearSearch() {
+  request.value = "";
+}
+
 async function search() {
   let currentURLParams = Object.assign({}, currentRoute.query);
 
@@ -90,36 +95,29 @@ async function search() {
   if (routeName.value === "resultats") {
     router.replace({
       query: currentURLParams
-    })
+    });
   } else {
     router.push({
       name: 'resultats',
       query: currentURLParams
-    })
+    });
   }
-  emit('search', request.value);
-}
 
-/**
- * Fonction lorsqu'on vide le champs de saisie
- */
-function clearSearch() {
-  request.value = "";
-  search();
+  setQuery(request.value);
+  emit('searchAndReinitializeFacet', request.value);
 }
 
 /* ---------------- */
 /* Auto-complétion  */
 /* ---------------- */
 
-const { suggestionPersonne } = personnesAPIService();
 const items = ref([]);
 const isLoading = ref(false);
 const suggestionActive = ref(false);
 
 watch(requestSearch, (candidate) => {
   if (candidate != null && candidate.length > 2 && watcherActive && !disableCompletion.value) {
-    getSuggestion(candidate);
+    getSuggestionPersonne(candidate);
   } else {
     items.value = [];
     suggestionActive.value = false;
@@ -139,13 +137,14 @@ watch(disableCompletion, (newDisableCompletion) => {
  * @param candidate Chaîne de caractère à compléter
  * @returns {Promise<void>}
  */
-async function getSuggestion(candidate) {
+async function getSuggestionPersonne(candidate) {
   isLoading.value = true;
   try {
-    items.value = await suggestionPersonne(candidate);
+    setQuery(candidate);
+    items.value = await getSuggestion();
   } catch (error) {
     request.value = candidate;
-    emit('onError', "Autcomplétion : " + error.message);
+    emit('onError', "Autocomplétion : " + error.message);
   } finally {
     isLoading.value = false;
     suggestionActive.value = true;
@@ -153,7 +152,7 @@ async function getSuggestion(candidate) {
 }
 
 /**
- * Fonction lorsqu'on selectionne une suggestion
+ * Fonction lorsqu'on sélectionne une suggestion
  * @param value
  */
 function selectSuggestion(value) {
@@ -173,7 +172,7 @@ defineExpose({
 
 .searchbar {
 
-  flex: 1 0 auto;
+  flex: 0 0 auto;
   margin-top: 1rem;
 
   :deep(.searchbar__input) {
@@ -252,5 +251,13 @@ defineExpose({
       }
     }
   }
+}
+/* Permet de rendre l'autocompletion + dense */
+:deep(.v-overlay-container) .v-list-item--density-default.v-list-item--one-line {
+  min-height: 20px !important;
+}
+
+.no-background-hover::before {
+  background-color: transparent !important;
 }
 </style>

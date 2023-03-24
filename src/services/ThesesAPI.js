@@ -1,6 +1,4 @@
 import axios from "axios";
-import { ref } from "vue";
-
 import { replaceAndEscape } from "@/services/Common";
 
 const apiTheses = axios.create({
@@ -11,63 +9,24 @@ const apiTheses = axios.create({
   }
 });
 
-//Page courante
-const currentPage = ref(1);
-//Nombre de résultats par page
-const currentNombre = ref(10);
-//Tri
-const currentTri = ref("pertinence");
-const currentFiltres = ref([]);
-const query = ref("");
-
-function modifierPage(value) {
-  currentPage.value = value;
-}
-
-function modifierNombre(value) {
-  currentNombre.value = value;
-}
-
-function modifierTri(value) {
-  currentTri.value = value;
-}
-
-function modifierFiltres(objectsArray) {
-  currentFiltres.value = parseFiltersArray(objectsArray);
-}
-
-function setQuery(newQuery) {
-  query.value = newQuery ? newQuery : "*";
-}
-
-function parseFiltersArray(objectsArray) {
-  let filtersArrayURL = [];
-
-  objectsArray.forEach((filter) => {
-    filtersArrayURL.push(Object.keys(filter)[0] + '="' + Object.values(filter)[0] + '"');
-  });
-
-  return filtersArrayURL.join('&').toLowerCase();
-}
-
-// Les status "soutenue" et "en cours" s'annulent
-function disableOrFilters(filters) {
-  if (filters.includes("soutenues") && filters.includes("enCours")) {
-    return filters.filter(e => e !== "soutenues").filter(e => e !== "enCours").filter(e => e !== "accessible");
-  } else {
-    return filters;
-  }
+/**
+ * Les statuts "soutenue" et "en cours" s'annulent
+ * @param facets
+ * @returns {*}
+ */
+function disableOrFiltersTheses(facets) {
+  if (facets.includes("soutenues") && facets.includes("enCours"))
+    return facets.filter(e => e !== "soutenues").filter(e => e !== "enCours").filter(e => e !== "accessible");
+  return facets;
 }
 
 // Recherche simple dans les theses
-function rechercherThese() {
-  const filtersRequest = currentFiltres.value
-    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters(currentFiltres.value).toString() + "]")
-    : "";
+function queryThesesAPI(query, facetsRequest, currentPage, currentNombre, currentTri) {
+  const url = "/recherche/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
 
-  const url = "/recherche-java/simple/?q=" + encodeURIComponent(replaceAndEscape(query.value)) + "&debut=" + ((currentPage.value - 1) * currentNombre.value) + "&nombre=" + currentNombre.value + "&tri=" + currentTri.value + filtersRequest;
   return new Promise((resolve, reject) => {
-    apiTheses.get(url).then((response) => {
+    apiTheses.get(url)
+      .then((response) => {
       resolve(response.data);
     }).catch((err) => {
       reject(err);
@@ -76,19 +35,38 @@ function rechercherThese() {
 }
 
 //Autcomplétion recherche simple
-function complete() {
-  return apiTheses.get("/recherche-java/completion/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
+function suggestionTheses(query) {
+  return apiTheses.get("/recherche/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
-//Facets
-function getFacets() {
-  const facets = apiTheses.get("/recherche-java/facets/?q=" + encodeURIComponent(replaceAndEscape(query.value)));
-  return facets;
+/**
+ * Récupération des facettes pour une requête donnée
+ * @param query
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+function getFacetsTheses(query) {
+  return apiTheses.get("/recherche/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
-//Récupération des infos détaillées d'une theses
+/**
+ * Récupération des infos détaillées d'une theses
+ * @param nnt
+ * @returns {Promise<AxiosResponse<any>>}
+ */
 function getThese(nnt) {
-  return apiTheses.get("/recherche-java/these/" + nnt);
+  return apiTheses.get("/recherche/these/" + nnt);
+}
+
+function getItemsTriTheses() {
+  return [
+    { nom: "Pertinence", cle: "pertinence" },
+    { nom: "Date croissante", cle: "dateAsc" },
+    { nom: "Date décroissante", cle: "dateDesc" },
+    { nom: "Auteurs A-Z", cle: "auteursAsc" },
+    { nom: "Auteurs Z-A", cle: "auteursDesc" },
+    { nom: "Discipline A-Z", cle: "disciplineAsc" },
+    { nom: "Discipline Z-A", cle: "disciplineDesc" }
+  ];
 }
 
 /**
@@ -97,14 +75,11 @@ function getThese(nnt) {
  */
 export function thesesAPIService() {
   return {
-    modifierPage,
-    modifierNombre,
-    modifierTri,
-    setQuery,
-    modifierFiltres,
-    rechercherThese,
-    complete,
-    getFacets,
-    getThese
+    queryThesesAPI,
+    suggestionTheses,
+    getFacetsTheses,
+    getThese,
+    getItemsTriTheses,
+    disableOrFiltersTheses
   };
 }

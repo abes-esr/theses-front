@@ -1,7 +1,12 @@
 <template>
-  <v-checkbox :class="`checkboxes ms-${props.marginOffset}`"
+  <v-checkbox
+    v-model="checkboxState"
+    :class="`checkboxes ms-${props.marginOffset}`"
     :label="`${facetItem.label} (${facetItem.value})`"
-    v-model="checkboxState" density="compact" hide-details="true"></v-checkbox>
+    density="compact"
+    inline
+    hide-details>
+  </v-checkbox>
 
   <template v-if="(recursionDepth <= maxRecursionDepth)
     && facetItem.checkboxes
@@ -16,7 +21,6 @@
 
 <script setup>
 import { computed, ref, watch } from "vue";
-import { sortByAlphaNumericOrder } from "@/services/Common";
 
 const emit = defineEmits(['updateParentCheckbox', 'updateFilterData', 'updateFilterDataRecursive']);
 const props = defineProps({
@@ -44,7 +48,7 @@ const checkboxState = ref(arrayContainsFilter());
 
 let childrenCheckboxes = computed(() => {
   if (props.facetItem.checkboxes) {
-    return sortByAlphaNumericOrder(props.facetItem.checkboxes);
+    return props.facetItem.checkboxes;
   }
   return [];
 });
@@ -114,8 +118,12 @@ function arrayContainsFilter() {
 }
 </script>
 
-<style scoped>
-.checkboxes {
-  text-transform: capitalize;
-}
+<style lang="scss">
+  .v-selection-control {
+    align-items: start !important;
+  }
+
+  .v-label {
+    align-items: start !important;
+  }
 </style>

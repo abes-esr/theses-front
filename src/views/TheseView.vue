@@ -36,8 +36,7 @@
                 </h2>
                 <v-row class="pa-0 ma-0">
                     <v-chip :class="these.status" label variant="elevated" class="mr-2">
-                        <span v-if="these.status === 'enCours'"><v-icon start
-                                icon="mdi-cogs"></v-icon>Préparation</span>
+                        <span v-if="these.status === 'enCours'"><v-icon start icon="mdi-cogs"></v-icon>Préparation</span>
                         <span v-if="these.status === 'soutenue'"><v-icon start
                                 icon="mdi-school-outline"></v-icon>Soutenue</span>
                     </v-chip>
@@ -123,18 +122,20 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount, watch, defineAsyncComponent } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, onBeforeMount, watch, defineAsyncComponent, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
+import { useMeta } from 'vue-meta';
+import { useI18n } from "vue-i18n";
 
 import DomainSelector from '@/components/common/DomainSelector.vue';
 
-import { thesesAPIService } from '../services/ThesesAPI';
+import { APIService } from '@/services/StrategyAPI';
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const route = useRoute();
 
-const { getThese } = thesesAPIService();
+const { getData } = APIService();
 
 let selected = ref('fr');
 
@@ -147,10 +148,19 @@ let resume = ref("");
 let keywordsFR = [];
 let keywordsEN = [];
 
+const { t } = useI18n();
+const { meta } = useMeta({});
+
+watchEffect(() => {
+    const titleThese = these.value.titrePrincipal ? these.value.titrePrincipal : "";
+    meta.title = titleThese;
+    meta.description = t("meta.descThese") + titleThese;
+});
+
 
 onBeforeMount(() => {
     dataReady.value = false;
-    getThese(route.params.id).then(result => {
+    getData(route.params.id).then(result => {
         these.value = result.data;
         resume.value = these.value.resumes.fr
         dataReady.value = true;
@@ -188,7 +198,7 @@ function displayError(message) {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .clickable {
     cursor: pointer;
 }

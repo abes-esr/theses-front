@@ -1,38 +1,54 @@
 import axios from 'axios'
-import {ref} from "vue";
+import { replaceAndEscape } from "@/services/Common";
 
-const apiTheses = axios.create({
+const apiPersonnes = axios.create({
     baseURL: import.meta.env.VITE_APP_API,
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
     }
-})
-
-//Page courante
-let currentPage = ref(1);
-//Nomre courant
-let currentNombre = ref(10);
-
-function modifierPage(value) {
-    currentPage.value = value;
-}
-
-function modifierNombre(value) {
-    currentNombre.value = value;
-}
+});
 
 /**
  * Fonction pour rechercher des personnes à partir d'un mot.
  * La liste des personnes courantes est mises à jour.
  * @param query
+ * @param facets
+ * @param currentPage
+ * @param currentNombre
+ * @param currentTri
  * @returns {Promise<unknown>}
  */
-async function rechercherPersonne(query) {
-    if (query === "")
-        query = "*";
+async function queryPersonnesAPI(query, facetsRequest, currentPage, currentNombre, currentTri) {
+    const url = "/personnes/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
+
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personnes/recherche", {params: {"q": encodeURI(query.replace(" OU ", " OR ").replace(" ET ", " AND ").replace(" SAUF ", " NOT "))}}).then((response) => {
+        apiPersonnes.get(url)
+          .then((response) => {
+            resolve(response.data); // #TODO à rectifier après normalisation
+        }).catch((err) => {
+            reject(err);
+        });
+    });
+}
+
+/**
+ * #TODO
+ * @param facets
+ * @returns {*}
+ */
+function disableOrFiltersPersonnes(facets) {
+    return facets;
+}
+
+/**
+ * Fonction pour rechercher des suggestions de personnes à partir d'un mot.
+ * La liste des suggestions de personnes.
+ * @returns {Promise<unknown>}
+ */
+async function suggestionPersonne(query) {
+    return new Promise((resolve, reject) => {
+        apiPersonnes.get("/personnes/completion", {params: {"q": encodeURI(query)}}).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             reject(err);
@@ -41,19 +57,12 @@ async function rechercherPersonne(query) {
 }
 
 /**
- * Fonction pour rechercher des suggestions de personnes à partir d'un mot.
- * La liste des suggestions de personnes.
+ * Récupération des facettes pour une requête donnée  #TODO implémenter route /personne/facets Fabien Théo ajouter le nom de la route
  * @param query
- * @returns {Promise<unknown>}
+ * @returns {Promise<AxiosResponse<any>>}
  */
-async function suggestionPersonne(query) {
-    return new Promise((resolve, reject) => {
-        apiTheses.get("/personnes/completion", {params: {"q": encodeURI(query)}}).then((response) => {
-            resolve(response.data);
-        }).catch((err) => {
-            reject(err);
-        });
-    });
+function getFacetsPersonnes(query) {
+    return apiPersonnes.get("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
 /**
@@ -63,7 +72,7 @@ async function suggestionPersonne(query) {
  */
 async function getPersonne(id) {
     return new Promise((resolve, reject) => {
-        apiTheses.get("/personnes/personne/" + id).then((response) => {
+        apiPersonnes.get("/personnes/personne/" + id).then((response) => {
             const item = response.data;
 
             const stats = {
@@ -96,16 +105,25 @@ async function getPersonne(id) {
         });
     });
 }
+function getItemsTriPersonnes() {
+    return [
+        { nom: "Pertinence", cle: "pertinence" },
+        { nom: "Personnes A-Z", cle: "PersonnesAsc" },
+        { nom: "Personnes Z-A", cle: "PersonnesDesc" }
+    ];
+}
+
 
 /**
  * Service lié aux personnes
  */
 export function personnesAPIService() {
     return {
-        modifierPage,
-        modifierNombre,
-        rechercherPersonne,
+        queryPersonnesAPI,
         suggestionPersonne,
-        getPersonne
+        getFacetsPersonnes,
+        getPersonne,
+        getItemsTriPersonnes,
+        disableOrFiltersPersonnes
     };
 }

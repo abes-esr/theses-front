@@ -9,10 +9,14 @@
             <span class="prenom">{{ item.prenom }}</span>
             <span class="nom">{{ item.nom }}</span>
           </RouterLink>
-          <RouterLink v-else class="nomprenom" :to="{ name: 'these', params: { id: item.theses[0].nnt } }">
+          <RouterLink v-else-if="item.theses[0].nnt" class="nomprenom" :to="{ name: 'these', params: { id: item.theses[0].nnt } }">
             <span class="prenom">{{ item.prenom }}</span>
             <span class="nom">{{ item.nom }}</span>
           </RouterLink>
+          <div v-else class="nomprenom">
+            <span class="prenom">{{ item.prenom }}</span>
+            <span class="nom">{{ item.nom }}</span>
+          </div>
         </div>
         <v-divider vertical></v-divider>
         <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">

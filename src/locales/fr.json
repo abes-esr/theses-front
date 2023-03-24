@@ -18,7 +18,9 @@
   "documentation": "Documentation",
   "resultats": " résultats de thèses pour ",
   "scroll": "Remonter en haut de la page",
-  "clear": "Réinitialiser",
+  "clear": "Effacer la saisie dans la barre de recherche",
+  "searchButton": "Lancer la recherche",
+  "top": "Retour en haut de la page",
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
   },
@@ -51,6 +53,9 @@
       "resultats": " résultats de thèses pour "
     }
   },
+  "results": {
+    "facetsHeader": "Filtres"
+  },
   "personnes": {
     "resultView": {
       "resultats": " résultats de personnes pour ",
@@ -78,6 +83,20 @@
     "idRref": "IdRef Identifiants et référentiels",
     "tef": "Format TEF (Thèses Electroniques Françaises)",
     "doc": "Documentation",
-    "assistance": "Guichet d'assistance"
+    "assistance": "Guichet d'assistance",
+    "logoAbesAlt": "Accéder au site de l’Agence Bibliographique de l’Enseignement Supérieur",
+    "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche" 
+  },
+  "header": {
+    "doc": "Accéder à la documentation du site theses.fr ",
+    "assistance": "Accéder au guichet d’assistance en ligne"
+  },
+  "meta": {
+    "desc": "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation.",
+    "titre": "Theses.fr, moteur de recherche des thèses françaises",
+    "titreResult": "Explorer les thèses pour ",
+    "descResult": "Résultat du moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation. Grâce à son moteur de recherche et sa navigation par facette, l’interface donne accès aux données des thèses : titre, docteur, disciplines,  directeurs, établissements de soutenance, écoles doctorales, partenaires de recherche et date de soutenance.",
+    "descThese": "Page détaillée de la thèse ",
+    "descPersonne": "Page détaillée de la personne "
   }
 }

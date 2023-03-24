@@ -34,12 +34,10 @@
         </ul>
       </div>
       <div>
-        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank"
-          title="site Ministère Enseignement Supérieur">
-          <img src="../../assets/logo-mesr.svg" alt="logo ministère enseignement supérieur" style="height: 80px;"
-            class="pr-4 "></a>
-        <a href="https://abes.fr/" target="_blank" title="site Abes">
-          <img src="../../assets/abes-logo-cercle.svg" alt="logo Abes" style="height: 80px;"></a>
+        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
+          <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' style="height: 80px;" class="pr-4 "></a>
+        <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
+          <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")' style="height: 80px;"></a>
       </div>
     </div>
     <v-divider></v-divider>
@@ -133,6 +131,10 @@
 
           a {
             color: rgb(var(--v-theme-primary));
+
+            @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+              line-height: 1.8rem;
+            }
           }
         }
       }
@@ -151,6 +153,16 @@
     width: 100%;
     background-color: rgb(var(--v-theme-fond-noir));
     color: rgb(var(--v-theme-background));
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      .v-btn {
+        width: 100%;
+        line-height: 2rem;
+        font-size: 0.9rem;
+        height: 3rem;
+      }
+    }
+
   }
 
   .v-divider {

@@ -7,12 +7,10 @@
 
 <script setup>
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
-import { thesesAPIService } from "@/services/ThesesAPI";
+import { APIService } from "@/services/StrategyAPI";
 import { ref, watch } from "vue";
-import { referentielsAPIService } from "@/services/ReferentielsAPI";
 
-const { codesLangue } = referentielsAPIService();
-const { modifierFiltres } = thesesAPIService();
+const { modifierFiltres } = APIService();
 
 const props = defineProps({
   facets: {
@@ -119,7 +117,6 @@ watch(() => props.resetFacets,
   () => {
     resetArray(facetsArray.value);
     modifierFiltres(facetsArray.value);
-    emit('searchAndReinitialize');
   });
 </script>
 
@@ -129,7 +126,6 @@ watch(() => props.resetFacets,
 .facets {
   display: flex;
   flex-direction: column;
-  padding-top: 2rem;
 
   .v-expansion-panels {
     width: 80%;
