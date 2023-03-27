@@ -59,7 +59,7 @@
             :reset-facets="resetFacets" class="left-side"></facets-list>
       </div>
     <div class="result-components">
-      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange" @search="search">
+      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange" :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
       </result-components>
     </div>
   </div>
@@ -95,6 +95,7 @@ const resetShowingNumber = ref(0);
 const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
 const showSearchBar = ref(false);
+const selectedFacets = ref([]);
 
 onMounted(() => {
   setDomaine(currentRoute.query.domaine);
@@ -164,7 +165,10 @@ async function search() {
   //     });
 }
 
-function update() {
+function update(facetsArray) {
+  if (facetsArray) {
+    selectedFacets.value = facetsArray;
+  }
   reinitialize();
   search();
 }
@@ -217,7 +221,7 @@ async function searchAndReinitializeFacet(query) {
 async function searchAndReinitializeAllFacets() {
   showSearchBar.value = false;
   resetFacets.value++;
-  modifierFiltres(new Array());
+  modifierFiltres([]);
   searchAndReinitialize();
 }
 

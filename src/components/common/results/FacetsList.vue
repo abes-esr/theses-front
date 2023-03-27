@@ -26,6 +26,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update', 'searchAndReinitialize']);
 const facetsArray = ref([]);
+const facetsChipsArray = ref([]);
 
 /**
  * Fonctions
@@ -47,7 +48,7 @@ function getFacetItemIndex(lastFacetFilter) {
   });
 }
 
-// Compare les chaines de caractères contenues dans les Array
+// Compare les chaines de caractè1 contenues dans les Array
 function filtersAreEqual(object1, object2) {
   return (Object.keys(object1)[0] === Object.keys(object2)[0]
     && Object.values(object1)[0] === Object.values(object2)[0]);
@@ -76,8 +77,20 @@ function getFacetItemsIndexes(facetName) {
  */
 
 function update() {
-  emit('update');
+  emit('update', facetsChipsArray.value);
   emit('closeOverlay');
+}
+
+function addToChips(filterData, lastFacetFilter) {
+  const chipData = {
+    'label': filterData.label,
+    'filter': lastFacetFilter
+  };
+  facetsChipsArray.value.splice(0, 0, chipData);
+}
+
+function deleteFromChips(itemIndex) {
+  facetsChipsArray.value.splice(itemIndex, 1);
 }
 
 /**
@@ -94,11 +107,14 @@ function updateFilterData(filterData) {
   if (isChecked(filterData, lastFacetFilter)) {
     // Ajout
     facetsArray.value.splice(0, 0, lastFacetFilter);
+
+    addToChips(filterData, lastFacetFilter);
   } else {
     // Suppression
     const itemIndex = getFacetItemIndex(lastFacetFilter);
     if (itemIndex > -1) {
       facetsArray.value.splice(itemIndex, 1);
+      deleteFromChips(itemIndex);
     }
   }
   modifierFiltres(facetsArray.value);
@@ -157,6 +173,7 @@ watch(() => props.resetFacets,
 .facets {
   display: flex;
   flex-direction: column;
+  padding: 1em 0;
 
   .v-expansion-panels {
     width: 85%;
