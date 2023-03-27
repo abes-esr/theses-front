@@ -11,7 +11,7 @@
       <v-btn icon="$rss" title="Flux RSS" size="x-large"></v-btn>
       <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
           icon="$assistance" :title='$t("header.assistance")' size="x-large"></v-btn></a>
-      <a href="http://documentation.abes.fr/aidethesesfr/index.htm" :alt='$t("header.doc")' target="_blank"><v-btn
+      <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
           icon="$documentation" :title='$t("header.doc")' size="x-large"></v-btn></a>
     </div>
   </v-app-bar>
