@@ -354,6 +354,7 @@ watch(() => currentRoute.query.domaine, () => {
 
 .v-overlay :deep(.v-overlay__content) {
   padding: 0 0;
+  background-color: rgb(var(--v-theme-background));
 }
 
 .nav-bar {
