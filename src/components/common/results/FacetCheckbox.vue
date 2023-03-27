@@ -1,12 +1,14 @@
 <template>
-  <v-checkbox
-    v-model="checkboxState"
-    :class="`checkboxes ms-${props.marginOffset}`"
-    :label="`${facetItem.label} (${facetItem.value})`"
-    density="compact"
-    inline
-    hide-details>
-  </v-checkbox>
+  <v-lazy :options="{ threshold: 0.5 }" transition="fade-transition">
+    <v-checkbox
+      v-model="checkboxState"
+      :class="`checkboxes ms-${props.marginOffset}`"
+      :label="`${facetItem.label} (${facetItem.value})`"
+      density="compact"
+      inline
+      hide-details>
+    </v-checkbox>
+  </v-lazy>
 
   <template v-if="(recursionDepth <= maxRecursionDepth)
     && facetItem.checkboxes
