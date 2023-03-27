@@ -1,23 +1,44 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
-  <nav>
-    <v-menu v-if="mobile" :close-on-content-click="false" content-class="full-screen" location-strategy="static">
+  <nav v-if="mobile" class="mobile-nav-bar">
+<!--    Menu filtres-->
+    <v-dialog v-model="dialogVisible" fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen" location-strategy="static">
       <template v-slot:activator="{ props }">
-        <v-icon v-bind="props" size="40px">mdi-menu
-        </v-icon>
+        <div class="filter-mobile-nav-bar">
+          <v-icon v-bind="props" size="40px">mdi-filter-variant
+          </v-icon>
+          <p v-bind="props">Filtrer</p>
+        </div>
       </template>
-      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @search="search" @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
 
-      <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" class="left-side"></facets-list>
-      <v-btn class="mt-4" @click="update()">Appliquer les filtres</v-btn>
-    </v-menu>
+      <facets-header @closeOverlay="closeOverlay"
+                     @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
+                   :reset-facets="resetFacets" class="left-side"></facets-list>
+    </v-dialog>
+
+<!--    Bouton menu recherche/selecteur these/personnes-->
+        <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+          :class="{ 'magnify-logo-active': showSearchBar }"
+          >mdi-magnify
+        </v-icon>
   </nav>
-  <RouterLink class="logo" :to="{ name: 'home' }" title="Accueil du site" v-if="mobile">
-    <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-  </RouterLink>
+
+  <div v-if="mobile" class="logo-menu-wrapper">
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
+      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+    </RouterLink>
+<!--    Menu recherche/selecteur these/personnes-->
+    <v-expand-transition>
+      <div v-show="showSearchBar" class="expanded-search-bar-container">
+        <div class="expanded-search-bar">
+          <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
+        </div>
+      </div>
+    </v-expand-transition>
+  </div>
+
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
       <RouterLink :to="{ name: 'home' }" title="Accueil du site">
@@ -27,24 +48,16 @@
     </div>
     <div class="sub_header__action">
       <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @searchAndReinitializeFacet="searchAndReinitializeFacet" :loading="loading" @onError="displayError" />
+      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
     </div>
   </div>
 
   <div class="result-main-wrapper">
-    <div v-if="!mobile">
-      <div class="vertical-thread"></div>
-      <div class="nav-bar">
-        <div class="search-filter left-size">
-          <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-        </div>
+      <div v-if="!mobile" class="nav-bar">
+        <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
         <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
             :reset-facets="resetFacets" class="left-side"></facets-list>
-        <div class="left-side mt-4 mb-2">
-          <v-btn @click="update()">Appliquer les filtres</v-btn>
-        </div>
       </div>
-    </div>
     <div class="result-components">
       <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange" @search="search">
       </result-components>
@@ -80,6 +93,8 @@ const nbResult = ref(0);
 const resetPage = ref(0);
 const resetShowingNumber = ref(0);
 const domainNameChange = ref(currentRoute.query.domaine);
+const dialogVisible = ref(false);
+const showSearchBar = ref(false);
 
 onMounted(() => {
   setDomaine(currentRoute.query.domaine);
@@ -160,6 +175,10 @@ function displayError(message) {
   });
 }
 
+function closeOverlay() {
+  dialogVisible.value = false;
+}
+
 function updateFacets() {
   getFacets().then(response => {
     facets.value = response;
@@ -196,6 +215,7 @@ async function searchAndReinitializeFacet(query) {
 }
 
 async function searchAndReinitializeAllFacets() {
+  showSearchBar.value = false;
   resetFacets.value++;
   modifierFiltres(new Array());
   searchAndReinitialize();
@@ -236,12 +256,40 @@ watch(() => currentRoute.query.domaine, () => {
   border-right: solid rgb(var(--v-theme-primary)) 3px;
 }
 
-.logo {
-  margin-top: -55px;
+.logo-menu-wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-colums: 33% 33% 33%;
+  grid-template-row: 33% 33% 33%;
+}
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-    margin-top: -110px;
-  }
+.logo {
+  grid-column-start: 1;
+  justify-self: center;
+  grid-row-start: 1;
+  align-self: start;
+}
+
+.magnify-logo-active {
+  color: rgb(var(--v-theme-orange-abes));
+}
+
+.expanded-search-bar-container {
+  width: 100%;
+  grid-column-start: 1;
+  justify-self: center;
+  grid-row-start: 1;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(var(--v-theme-gris-clair));
+  border-bottom: 1px solid #bbb;
+  border-top: 1px solid #bbb;
+}
+
+.expanded-search-bar {
+  width: 80%;
 }
 
 .left-side {
@@ -304,20 +352,31 @@ watch(() => currentRoute.query.domaine, () => {
   }
 }
 
-.search-filter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10% 0;
-  width: 100%;
-  min-height: 4rem;
-  background-color: rgb(var(--v-theme-gris-clair));
-  font-size: 22px;
+.v-overlay :deep(.v-overlay__content) {
+  padding: 0 0;
+  background-color: rgb(var(--v-theme-background));
 }
 
 .nav-bar {
   height: 100%;
   width: 100%;
+  max-width: 20vw;
+  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
+}
+
+.mobile-nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 0 10px;
+}
+
+.filter-mobile-nav-bar {
+  display: flex;
+  align-content: center;
+  p {
+    padding: 10% 0;
+  }
 }
 
 .result-main-wrapper {
@@ -338,15 +397,5 @@ watch(() => currentRoute.query.domaine, () => {
     display: flex;
     flex-direction: column;
   }
-}
-
-.vertical-thread {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  max-width: 20vw;
-  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
 }
 </style>

@@ -4,6 +4,7 @@
       @updateFilterDateOnly="updateFilterDateOnly($event)"></facet-drawer>
     <facet-drawer v-for="facet in facets" :key="`facet-${facet.name}`" @updateFilterData="updateFilterData"
       @reinitializeCheckboxes="reinitializeCheckboxes" :facet="facet" :facets-array="facetsArray" class="my-2" />
+    <v-btn @click="update">Appliquer les filtres</v-btn>
   </div>
 </template>
 
@@ -73,6 +74,12 @@ function getFacetItemsIndexes(facetName) {
 /**
  * Emit
  */
+
+function update() {
+  emit('update');
+  emit('closeOverlay');
+}
+
 /**
  * Met à jour l'Array contenant les filtres sélectionnés.
  * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
@@ -98,7 +105,7 @@ function updateFilterData(filterData) {
 }
 
 function updateFilterDateOnly(datesArray) {
-  //Supprime les dates précedentes 
+  //Supprime les dates précedentes
   facetsArray.value = facetsArray.value.filter(objet => {
     for (let key in objet) {
       if (key.startsWith("date")) {
@@ -152,11 +159,7 @@ watch(() => props.resetFacets,
   flex-direction: column;
 
   .v-expansion-panels {
-    width: 80%;
-
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-      width: 100%;
-    }
+    width: 85%;
   }
 
 }
