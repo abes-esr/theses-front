@@ -1,5 +1,5 @@
 <template>
-  <v-lazy :options="{ threshold: 0.5 }" transition="fade-transition">
+  <v-lazy :options="{ threshold: 0.5, rootMargin: '2000px' }">
     <v-checkbox
       v-model="checkboxState"
       :class="`checkboxes ms-${props.marginOffset}`"

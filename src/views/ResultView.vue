@@ -1,6 +1,7 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav v-if="mobile" class="mobile-nav-bar">
+<!--    Menu filtres-->
     <v-dialog v-model="dialogVisible" fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen" location-strategy="static">
       <template v-slot:activator="{ props }">
         <div class="filter-mobile-nav-bar">
@@ -12,24 +13,32 @@
 
       <facets-header @closeOverlay="closeOverlay"
                      @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
                    :reset-facets="resetFacets" class="left-side"></facets-list>
-      <v-btn class="mt-4" @click="update(); closeOverlay()">Appliquer les filtres</v-btn>
     </v-dialog>
-    <v-menu :close-on-content-click="false" content-class="full-screen" location-strategy="static">
-      <template v-slot:activator="{ props }">
-        <v-icon v-bind="props" size="40px">mdi-magnify
-        </v-icon>
-      </template>
 
-      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
-    </v-menu>
+<!--    Bouton menu recherche/selecteur these/personnes-->
+        <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+          :class="{ 'magnify-logo-active': showSearchBar }"
+          >mdi-magnify
+        </v-icon>
   </nav>
 
-  <RouterLink class="logo" :to="{ name: 'home' }" title="Accueil du site" v-if="mobile">
-    <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-  </RouterLink>
+  <div v-if="mobile" class="logo-menu-wrapper">
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
+      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+    </RouterLink>
+<!--    Menu recherche/selecteur these/personnes-->
+    <v-expand-transition>
+      <div v-show="showSearchBar" class="expanded-search-bar-container">
+        <div class="expanded-search-bar">
+          <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
+        </div>
+      </div>
+    </v-expand-transition>
+  </div>
+
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
       <RouterLink :to="{ name: 'home' }" title="Accueil du site">
@@ -48,9 +57,6 @@
         <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
         <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
             :reset-facets="resetFacets" class="left-side"></facets-list>
-        <div class="left-side mt-4 mb-2">
-          <v-btn @click="update()">Appliquer les filtres</v-btn>
-        </div>
       </div>
     <div class="result-components">
       <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange" @search="search">
@@ -88,6 +94,7 @@ const resetPage = ref(0);
 const resetShowingNumber = ref(0);
 const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
+const showSearchBar = ref(false);
 
 onMounted(() => {
   setDomaine(currentRoute.query.domaine);
@@ -208,6 +215,7 @@ async function searchAndReinitializeFacet(query) {
 }
 
 async function searchAndReinitializeAllFacets() {
+  showSearchBar.value = false;
   resetFacets.value++;
   modifierFiltres(new Array());
   searchAndReinitialize();
@@ -248,12 +256,40 @@ watch(() => currentRoute.query.domaine, () => {
   border-right: solid rgb(var(--v-theme-primary)) 3px;
 }
 
-.logo {
-  margin-top: -55px;
+.logo-menu-wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-colums: 33% 33% 33%;
+  grid-template-row: 33% 33% 33%;
+}
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-    margin-top: -110px;
-  }
+.logo {
+  grid-column-start: 1;
+  justify-self: center;
+  grid-row-start: 1;
+  align-self: start;
+}
+
+.magnify-logo-active {
+  color: rgb(var(--v-theme-orange-abes));
+}
+
+.expanded-search-bar-container {
+  width: 100%;
+  grid-column-start: 1;
+  justify-self: center;
+  grid-row-start: 1;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(var(--v-theme-gris-clair));
+  border-bottom: 1px solid #bbb;
+  border-top: 1px solid #bbb;
+}
+
+.expanded-search-bar {
+  width: 80%;
 }
 
 .left-side {

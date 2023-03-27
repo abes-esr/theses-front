@@ -2,6 +2,7 @@
   <div class="facets">
     <facet-drawer v-for="facet in facets" :key="`facet-${facet.name}`" @updateFilterData="updateFilterData"
       @reinitializeCheckboxes="reinitializeCheckboxes" :facet="facet" :facets-array="facetsArray" class="my-3" />
+    <v-btn @click="update">Appliquer les filtres</v-btn>
   </div>
 </template>
 
@@ -71,6 +72,12 @@ function getFacetItemsIndexes(facetName) {
 /**
  * Emit
  */
+
+function update() {
+  emit('update');
+  emit('closeOverlay');
+}
+
 /**
  * Met à jour l'Array contenant les filtres sélectionnés.
  * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
