@@ -53,13 +53,16 @@
   </div>
 
   <div class="result-main-wrapper">
-      <div v-if="!mobile" class="nav-bar">
-        <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-        <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-            :reset-facets="resetFacets" class="left-side"></facets-list>
-      </div>
+    <div v-if="!mobile" class="nav-bar">
+      <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+                   :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+    </div>
     <div class="result-components">
-      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange" :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
+      <result-components :data-ready="dataReady" :result="result" :loading="loading"
+                         :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
+                         :domain-name-change="domainNameChange" :facets="selectedFacets"
+                         @search="search" @deleteFilter="deleteFilter">
       </result-components>
     </div>
   </div>
@@ -96,6 +99,8 @@ const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
 const showSearchBar = ref(false);
 const selectedFacets = ref([]);
+const filterToBeDeleted = ref([]);
+const numberOfDeletedChips =ref(0);
 
 onMounted(() => {
   setDomaine(currentRoute.query.domaine);
@@ -167,6 +172,7 @@ async function search() {
 
 function update(facetsArray) {
   if (facetsArray) {
+    // mise à jour des chips
     selectedFacets.value = facetsArray;
   }
   reinitialize();
@@ -234,6 +240,18 @@ async function searchAndReinitialize() {
   reinitialize();
   await search();
   updateFacets();
+}
+
+/**
+ * Envoie le filtre à supprimer au composant FacetsList, utilisation de numberOfDeletedChips pour détecter la suppression d'un même objet deux fois d'affilée
+ * @param filter
+ */
+function deleteFilter(filter) {
+  numberOfDeletedChips.value++;
+  filterToBeDeleted.value = {
+    'numberOfDeletedChips': numberOfDeletedChips.value,
+    'filter': filter.filter
+  };
 }
 
 /**
