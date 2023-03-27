@@ -1,7 +1,6 @@
 <template>
   <div class="chips-list">
     <v-chip
-      class="chip"
       v-for="facet in facets"
       :key="`facet-chip-${facet.label}`"
       label
@@ -10,7 +9,9 @@
       size="small"
       @click:close="deleteFilter(facet)"
     >
-      {{ facet.label }}
+      <label class="chip-label">
+        {{ facet.label }}
+      </label>
     </v-chip>
   </div>
 </template>
@@ -31,11 +32,19 @@ function deleteFilter(facet) {
 <style scoped lang="scss">
   .chips-list {
     display: flex;
+    flex-wrap: wrap;
     padding: 6px 0 18px;
   }
 
-  .chip {
-    margin: 0 5px;
+  .v-chip {
+    margin: 5px 5px;
     color: rgb(var(--v-theme-primary));
+    display: inline-flex;
+    justify-content: space-between;
+    max-width: 300px;
+  }
+
+  .chip-label {
+    overflow: hidden;
   }
 </style>

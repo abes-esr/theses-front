@@ -4,7 +4,7 @@
       @updateFilterDateOnly="updateFilterDateOnly($event)"></facet-drawer>
     <facet-drawer v-for="facet in facets" :key="`facet-${facet.name}`" @updateFilterData="updateFilterData"
       @reinitializeCheckboxes="reinitializeCheckboxes" :facet="facet" :facets-array="facetsArray" class="my-2" />
-    <v-btn @click="update">Appliquer les filtres</v-btn>
+    <v-btn v-if="mobile" @click="update">Appliquer les filtres</v-btn>
   </div>
 </template>
 
@@ -12,6 +12,7 @@
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
 import { APIService } from "@/services/StrategyAPI";
 import { ref, watch } from "vue";
+import { useDisplay } from "vuetify";
 
 const { modifierFiltres } = APIService();
 
@@ -27,6 +28,7 @@ const props = defineProps({
   }
 });
 
+const { mobile } = useDisplay();
 const emit = defineEmits(['update', 'searchAndReinitialize']);
 const facetsArray = ref([]);
 const facetsChipsArray = ref([]);
@@ -124,6 +126,7 @@ function updateFilterData(filterData) {
     }
   }
   modifierFiltres(facetsArray.value);
+  emit('update', facetsChipsArray.value);
 }
 
 function updateFilterDateOnly(datesArray) {

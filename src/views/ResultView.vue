@@ -2,7 +2,7 @@
   <Message-box ref="messageBox"></Message-box>
   <nav v-if="mobile" class="mobile-nav-bar">
 <!--    Menu filtres-->
-    <v-dialog v-model="dialogVisible" fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen" location-strategy="static">
+    <v-dialog v-model="dialogVisible" eager fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen" location-strategy="static">
       <template v-slot:activator="{ props }">
         <div class="filter-mobile-nav-bar">
           <v-icon v-bind="props" size="40px">mdi-filter-variant
