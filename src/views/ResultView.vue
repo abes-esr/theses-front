@@ -2,21 +2,19 @@
   <Message-box ref="messageBox"></Message-box>
   <nav v-if="mobile" class="mobile-nav-bar">
 <!--    Menu filtres-->
-    <v-dialog v-model="dialogVisible" eager fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen" location-strategy="static">
+    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
       <template v-slot:activator="{ props }">
-        <div class="filter-mobile-nav-bar">
-          <v-icon v-bind="props" size="40px">mdi-filter-variant
-          </v-icon>
-          <p v-bind="props">Filtrer</p>
-        </div>
+          <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
+            <v-icon v-bind="props" size="40px">mdi-filter-variant
+            </v-icon>
+            <p v-bind="props">Filtrer</p>
+          </button>
       </template>
-
-      <facets-header @closeOverlay="closeOverlay"
-                     @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
-                   :reset-facets="resetFacets" class="left-side"></facets-list>
+          <facets-header @closeOverlay="closeOverlay"
+                         @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+          <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
+                       :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </v-dialog>
-
 <!--    Bouton menu recherche/selecteur these/personnes-->
         <v-icon @click="showSearchBar = !showSearchBar" size="40px"
           :class="{ 'magnify-logo-active': showSearchBar }"
