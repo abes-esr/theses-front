@@ -127,7 +127,6 @@ function reinitializeCheckboxes() {
   flex-wrap: nowrap;
   padding: 0px 10px;
   overflow: hidden;
-
 }
 
 .v-expansion-panel :deep(.v-expansion-panel__shadow) {
@@ -151,12 +150,12 @@ function reinitializeCheckboxes() {
   overflow: hidden;
   font-size: 16px;
   flex-grow: 2;
-  flex-wrap: nowrap;
   order: 2;
   background-color: transparent;
+  //hyphens: auto;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    font-size: 3.8vw;
+    font-size: 13px;
   }
 }
 

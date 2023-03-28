@@ -138,7 +138,7 @@ watch(() => currentRoute.query.domaine, () => {
 }
 
 .last-bar-element {
-  margin-right: 3rem;
+  margin: 0 1rem;
   max-width: 200px;
 }
 

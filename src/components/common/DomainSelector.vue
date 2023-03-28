@@ -75,7 +75,7 @@ async function select(selection) {
     background-color: transparent;
     padding: 0;
 
-    :v-deep(.v-btn__content) {
+    ::v-deep(.v-btn__content) {
       display: flex;
       flex-direction: column;
 

@@ -39,6 +39,6 @@ export default createVuetify({
     aliases
   },
   display: {
-    mobileBreakpoint: 'sm'
+    mobileBreakpoint: 'md'
   }
 })

@@ -158,7 +158,7 @@ watch(() => props.resetShowingNumber, () => {
   display: grid;
   grid-template-columns: 95% auto;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: none;
     margin-right: 1rem;
   }
@@ -172,7 +172,7 @@ watch(() => props.resetShowingNumber, () => {
   width: 30px;
   height: 30px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     margin: 0 0;
     height: 60px;
     left: 90vw;
@@ -190,7 +190,7 @@ watch(() => props.resetShowingNumber, () => {
   padding: 1rem 0 2rem 1rem;
   flex: 1;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     padding-bottom: 0;
   }
 }
