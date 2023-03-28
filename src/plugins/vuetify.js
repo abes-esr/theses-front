@@ -37,5 +37,8 @@ export default createVuetify({
   icons: {
     defaultSet: 'mdi',
     aliases
+  },
+  display: {
+    mobileBreakpoint: 'sm'
   }
 })
