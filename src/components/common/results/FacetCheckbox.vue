@@ -1,5 +1,5 @@
 <template>
-  <v-lazy :options="{ threshold: 0.5, rootMargin: '2000px' }">
+  <v-lazy :min-height="10" :options="{ threshold: 1.0 }">
     <v-checkbox
       v-model="checkboxState"
       :class="`checkboxes ms-${props.marginOffset}`"

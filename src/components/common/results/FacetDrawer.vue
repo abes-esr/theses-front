@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panels>
-    <v-expansion-panel eager class="elevation-0">
+    <v-expansion-panel class="elevation-0">
       <v-expansion-panel-title class="facet-title-panel">
         <h4 class="facet-title">
           {{ facet.name }}
@@ -10,13 +10,13 @@
           <v-icon>mdi-reload</v-icon>
         </v-btn>
       </v-expansion-panel-title>
-      <v-expansion-panel-text class="pe-0">
+      <v-expansion-panel-text eager class="pe-0">
         <div class="facet-sub-menu">
           <v-text-field v-if="facet.searchBar" :label='$t("rechercher")' v-model="filterSearchText" variant="outlined"
             append-inner-icon="mdi-magnify" density="compact" single-line hide-details
             class="facet-search-bar"></v-text-field>
         </div>
-        <div class="panel-text">
+        <div class="panel-text" ref="`facet-${facet.name}`">
           <div v-if="date" class="flex-container">
             <span class="flex-item">
               Du<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" model-type="dd/MM/yyyy" format="dd/MM/yyyy"
@@ -29,8 +29,8 @@
               </VueDatePicker>
             </span>
           </div>
-          <div v-else v-for="facetItem in facetItems" :key="`facet-${facetItem.name}`">
-            <facet-checkbox v-if="facetItem.selected" :facets-array="facetsArray" :facet-name="facet.name"
+          <div v-else v-for="(facetItem, index) in facetItems" :key="`facet-${facetItem.name}`">
+            <facet-checkbox v-if="facetItem.selected" :key="`${facet.name}-value-${index}`" :facets-array="facetsArray" :facet-name="facet.name"
               :facet-item="facetItem" @updateFilterData="updateFilterData" :margin-offset="marginOffset" />
           </div>
         </div>
@@ -58,6 +58,7 @@ const props = defineProps({
     default: false
   }
 });
+
 const marginOffset = ref(0);
 const filterSearchText = ref("");
 
@@ -75,6 +76,7 @@ let facetItems = computed(() => {
   });
   return filters;
 });
+
 /**
  * Fonctions
  */
