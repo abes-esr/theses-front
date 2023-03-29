@@ -77,7 +77,8 @@ watch(checkboxState, async (newValue) => {
   // Faire remonter le nom du filtre
   const filterData = {
     filterName: props.facetItem.name,
-    value: newValue
+    value: newValue,
+    label: props.facetItem.label,
   };
 
   if (props.marginOffset === 0) {

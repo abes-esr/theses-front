@@ -7,7 +7,7 @@
       </div>
     </div>
     <v-btn v-if="!mobile" @click.stop="" @click="searchAndReinitializeAllFacets" size="small" depressed
-           elevation="0" color="primary">
+           elevation="0" color="primary" class="desktop-reinitialize-button">
       Réinitialiser
     </v-btn>
     <button v-else @click="closeOverlay" class="close-overlay-button"
@@ -58,6 +58,7 @@
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     padding: 0 7%;
+    font-size: 16px;
   }
 }
 
@@ -121,5 +122,13 @@
 .reinitialize-button-mobile {
   grid-column-end: 3;
   justify-self: end;
+}
+
+.desktop-reinitialize-button {
+    padding: 0 12px;
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    font-size: 10px;
+    padding: 0 4px;
+  }
 }
 </style>

@@ -4,7 +4,7 @@
       @updateFilterDateOnly="updateFilterDateOnly($event)"></facet-drawer>
     <facet-drawer v-for="facet in facets" :key="`facet-${facet.name}`" @updateFilterData="updateFilterData"
       @reinitializeCheckboxes="reinitializeCheckboxes" :facet="facet" :facets-array="facetsArray" class="my-2" />
-    <v-btn @click="update">Appliquer les filtres</v-btn>
+    <v-btn v-if="mobile" @click="update">Appliquer les filtres</v-btn>
   </div>
 </template>
 
@@ -12,6 +12,7 @@
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
 import { APIService } from "@/services/StrategyAPI";
 import { ref, watch } from "vue";
+import { useDisplay } from "vuetify";
 
 const { modifierFiltres } = APIService();
 
@@ -21,11 +22,16 @@ const props = defineProps({
   },
   resetFacets: {
     type: Number
+  },
+  filterToBeDeleted: {
+    type: Object
   }
 });
 
+const { mobile } = useDisplay();
 const emit = defineEmits(['update', 'searchAndReinitialize']);
 const facetsArray = ref([]);
+const facetsChipsArray = ref([]);
 
 /**
  * Fonctions
@@ -47,7 +53,7 @@ function getFacetItemIndex(lastFacetFilter) {
   });
 }
 
-// Compare les chaines de caractères contenues dans les Array
+// Compare les chaines de caractè1 contenues dans les Array
 function filtersAreEqual(object1, object2) {
   return (Object.keys(object1)[0] === Object.keys(object2)[0]
     && Object.values(object1)[0] === Object.values(object2)[0]);
@@ -76,8 +82,23 @@ function getFacetItemsIndexes(facetName) {
  */
 
 function update() {
-  emit('update');
+  emit('update', facetsChipsArray.value);
   emit('closeOverlay');
+}
+
+function addToChips(filterData) {
+  const chipData = {
+    'label': filterData.label,
+    'filter': {
+      'facetName': filterData.facetName,
+      'filterName': filterData.filterName
+    }
+  };
+  facetsChipsArray.value.splice(0, 0, chipData);
+}
+
+function deleteFromChips(itemIndex) {
+  facetsChipsArray.value.splice(itemIndex, 1);
 }
 
 /**
@@ -94,14 +115,18 @@ function updateFilterData(filterData) {
   if (isChecked(filterData, lastFacetFilter)) {
     // Ajout
     facetsArray.value.splice(0, 0, lastFacetFilter);
+
+    addToChips(filterData);
   } else {
     // Suppression
     const itemIndex = getFacetItemIndex(lastFacetFilter);
     if (itemIndex > -1) {
       facetsArray.value.splice(itemIndex, 1);
+      deleteFromChips(itemIndex);
     }
   }
   modifierFiltres(facetsArray.value);
+  emit('update', facetsChipsArray.value);
 }
 
 function updateFilterDateOnly(datesArray) {
@@ -131,6 +156,7 @@ function reinitializeCheckboxes(facetName) {
 
   selectedFiltersIndexes.reverse().forEach(function (key) {
     facetsArray.value.splice(key, 1);
+    deleteFromChips(key);
   });
 
   modifierFiltres(facetsArray.value);
@@ -144,10 +170,28 @@ function resetArray(array) {
 /**
  * Watchers
  */
+/**
+ * watch: bouton réinitialiser toutes les facettes
+ */
 watch(() => props.resetFacets,
   () => {
     resetArray(facetsArray.value);
+    resetArray(facetsChipsArray.value);
     modifierFiltres(facetsArray.value);
+  });
+
+/**
+ * watch: suppression d'un v-chip
+ * Nécessite un timer pour attendre la mise à jour des filtres imbriqués
+ */
+watch(() => props.filterToBeDeleted,
+  (newValue) => {
+    updateFilterData(newValue.filter);
+    modifierFiltres(facetsArray.value);
+
+    setTimeout(() => {
+      emit('searchAndReinitialize');
+    }, 500);
   });
 </script>
 
@@ -157,6 +201,7 @@ watch(() => props.resetFacets,
 .facets {
   display: flex;
   flex-direction: column;
+  padding: 1em 0;
 
   .v-expansion-panels {
     width: 85%;

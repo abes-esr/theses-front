@@ -1,34 +1,30 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav v-if="mobile" class="mobile-nav-bar">
-<!--    Menu filtres-->
-    <v-dialog v-model="dialogVisible" fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen" location-strategy="static">
-      <template v-slot:activator="{ props }">
-        <div class="filter-mobile-nav-bar">
-          <v-icon v-bind="props" size="40px">mdi-filter-variant
-          </v-icon>
-          <p v-bind="props">Filtrer</p>
-        </div>
-      </template>
-
-      <facets-header @closeOverlay="closeOverlay"
-                     @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
-                   :reset-facets="resetFacets" class="left-side"></facets-list>
-    </v-dialog>
-
+<!--    Bouton filtres-->
+    <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
+      <v-icon v-bind="props" size="40px">mdi-filter-variant
+      </v-icon>
+      <p v-bind="props">Filtrer</p>
+    </button>
 <!--    Bouton menu recherche/selecteur these/personnes-->
-        <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-          :class="{ 'magnify-logo-active': showSearchBar }"
-          >mdi-magnify
-        </v-icon>
+    <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+            :class="{ 'magnify-logo-active': showSearchBar }"
+    >mdi-magnify
+    </v-icon>
   </nav>
-
+<!--    Menu filtres-->
   <div v-if="mobile" class="logo-menu-wrapper">
     <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
 <!--    Menu recherche/selecteur these/personnes-->
+    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+          <facets-header @closeOverlay="closeOverlay"
+                         @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+          <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
+                       :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+    </v-dialog>
     <v-expand-transition>
       <div v-show="showSearchBar" class="expanded-search-bar-container">
         <div class="expanded-search-bar">
@@ -38,7 +34,6 @@
       </div>
     </v-expand-transition>
   </div>
-
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
       <RouterLink :to="{ name: 'home' }" title="Accueil du site">
@@ -53,13 +48,16 @@
   </div>
 
   <div class="result-main-wrapper">
-      <div v-if="!mobile" class="nav-bar">
-        <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-        <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-            :reset-facets="resetFacets" class="left-side"></facets-list>
-      </div>
+    <div v-if="!mobile" class="nav-bar">
+      <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+                   :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+    </div>
     <div class="result-components">
-      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange" @search="search">
+      <result-components :data-ready="dataReady" :result="result" :loading="loading"
+                         :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
+                         :domain-name-change="domainNameChange" :facets="selectedFacets"
+                         @search="search" @deleteFilter="deleteFilter">
       </result-components>
     </div>
   </div>
@@ -95,6 +93,9 @@ const resetShowingNumber = ref(0);
 const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
 const showSearchBar = ref(false);
+const selectedFacets = ref([]);
+const filterToBeDeleted = ref([]);
+const numberOfDeletedChips =ref(0);
 
 onMounted(() => {
   setDomaine(currentRoute.query.domaine);
@@ -164,7 +165,11 @@ async function search() {
   //     });
 }
 
-function update() {
+function update(facetsArray) {
+  if (facetsArray) {
+    // mise à jour des chips
+    selectedFacets.value = facetsArray;
+  }
   reinitialize();
   search();
 }
@@ -217,7 +222,7 @@ async function searchAndReinitializeFacet(query) {
 async function searchAndReinitializeAllFacets() {
   showSearchBar.value = false;
   resetFacets.value++;
-  modifierFiltres(new Array());
+  modifierFiltres([]);
   searchAndReinitialize();
 }
 
@@ -230,6 +235,18 @@ async function searchAndReinitialize() {
   reinitialize();
   await search();
   updateFacets();
+}
+
+/**
+ * Envoie le filtre à supprimer au composant FacetsList, utilisation de numberOfDeletedChips pour détecter la suppression d'un même objet deux fois d'affilée
+ * @param filter
+ */
+function deleteFilter(filter) {
+  numberOfDeletedChips.value++;
+  filterToBeDeleted.value = {
+    'numberOfDeletedChips': numberOfDeletedChips.value,
+    'filter': filter.filter
+  };
 }
 
 /**
@@ -259,12 +276,12 @@ watch(() => currentRoute.query.domaine, () => {
 .logo-menu-wrapper {
   width: 100%;
   display: grid;
-  grid-template-colums: 33% 33% 33%;
-  grid-template-row: 33% 33% 33%;
+  grid-template-columns: 33% 33% 33%;
+  grid-template-rows: 33% 33% 33%;
 }
 
 .logo {
-  grid-column-start: 1;
+  grid-column-start: 2;
   justify-self: center;
   grid-row-start: 1;
   align-self: start;
@@ -276,7 +293,7 @@ watch(() => currentRoute.query.domaine, () => {
 
 .expanded-search-bar-container {
   width: 100%;
-  grid-column-start: 1;
+  grid-column: 1 / 5;
   justify-self: center;
   grid-row-start: 1;
   align-self: start;
@@ -300,7 +317,7 @@ watch(() => currentRoute.query.domaine, () => {
   flex: 1 0 100%;
   max-width: 20vw;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     max-width: 100%;
     flex: 0 1 auto;
     padding: 0;
@@ -387,7 +404,7 @@ watch(() => currentRoute.query.domaine, () => {
   width: 100%;
   height: 100%;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: 100%;
   }
 

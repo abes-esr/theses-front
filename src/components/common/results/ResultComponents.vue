@@ -11,11 +11,12 @@
   </result-pagination>
 
   <div class="result-components-wrapper">
-    <h1 class="pb-6">{{ nbResult }}{{
+    <h1>{{ nbResult }}{{
         $t(domainName +
           ".resultView.resultats")
       }} : {{ query }}
     </h1>
+    <facets-chips :facets="facets" @deleteFilter="deleteFilter" />
     <div v-if="dataReady" class="colonnes-resultats">
         <div>
           <result-list :result="result" :domain-name-change="domainNameChange">
@@ -47,7 +48,7 @@
 
 
 <script setup>
-import ResultPagination from '@/components/common/results/ResultPagination.vue';
+import ResultPagination from "@/components/common/results/ResultPagination.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 import { useDisplay } from "vuetify";
@@ -55,6 +56,7 @@ import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { APIService } from "@/services/StrategyAPI";
 import ResultList from "@/components/common/results/ResultList.vue";
+import FacetsChips from "@/components/common/results/FacetsChips.vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
@@ -86,6 +88,9 @@ const props = defineProps({
   },
   domainNameChange: {
     type: String
+  },
+  facets: {
+    type: Array
   }
 });
 
@@ -101,8 +106,11 @@ onMounted(() => {
  * Emits
  */
 
-const emit = defineEmits('search');
+const emit = defineEmits(['search', 'deleteFilter']);
 
+function deleteFilter(facet) {
+  emit('deleteFilter', facet);
+}
 /**
  * Fonctions
  */
@@ -150,7 +158,7 @@ watch(() => props.resetShowingNumber, () => {
   display: grid;
   grid-template-columns: 95% auto;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: none;
     margin-right: 1rem;
   }
@@ -164,7 +172,7 @@ watch(() => props.resetShowingNumber, () => {
   width: 30px;
   height: 30px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     margin: 0 0;
     height: 60px;
     left: 90vw;
@@ -182,7 +190,7 @@ watch(() => props.resetShowingNumber, () => {
   padding: 1rem 0 2rem 1rem;
   flex: 1;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     padding-bottom: 0;
   }
 }
