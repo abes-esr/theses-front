@@ -10,7 +10,7 @@
           <v-icon>mdi-reload</v-icon>
         </v-btn>
       </v-expansion-panel-title>
-      <v-expansion-panel-text eager class="pe-0">
+      <v-expansion-panel-text class="pe-0">
         <div class="facet-sub-menu">
           <v-text-field v-if="facet.searchBar" :label='$t("rechercher")' v-model="filterSearchText" variant="outlined"
             append-inner-icon="mdi-magnify" density="compact" single-line hide-details
