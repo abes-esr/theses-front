@@ -6,7 +6,6 @@
                 v-model:search="requestSearch"
                 :items="items"
                 variant="outlined"
-                :menu="suggestionActive"
                 cache-items
                 hide-no-data
                 hide-selected
@@ -17,6 +16,8 @@
                 item-title="suggestion"
                 item-value="suggestion"
                 :loading="isLoading"
+                :menu="suggestionActive"
+                :menu-props="menuProps"
     >
       <template v-slot:append-inner>
         <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :ripple="false">
@@ -47,7 +48,7 @@ import { APIService } from "@/services/StrategyAPI";
 const router = useRouter();
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery, setDomaine } = APIService();
+const { getSuggestion, setQuery } = APIService();
 
 defineProps({
   loading: {
@@ -62,6 +63,9 @@ const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
 let watcherActive = true;
 const disableCompletion = ref(false);
 
+const menuProps = {
+  'scrollStrategy': 'close'
+};
 
 onMounted(
   () => {

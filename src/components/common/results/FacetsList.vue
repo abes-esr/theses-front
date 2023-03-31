@@ -1,6 +1,6 @@
 <template>
   <div class="facets">
-    <facet-drawer date :facet="{ 'name': 'Date' }" class="my-2"
+    <facet-drawer date :facet="{ 'name': 'Date' }" class="my-2" @reinitializeCheckboxes="reinitializeDates"
       @updateFilterDateOnly="updateFilterDateOnly($event)"></facet-drawer>
     <facet-drawer v-for="facet in facets" :key="`facet-${facet.name}`" @updateFilterData="updateFilterData"
       @reinitializeCheckboxes="reinitializeCheckboxes" :facet="facet" :facets-array="facetsArray" class="my-2" />
@@ -77,6 +77,18 @@ function getFacetItemsIndexes(facetName) {
   });
   return selectedFiltersIndexes;
 }
+
+function clearDates() {
+  //Supprime les dates précedentes
+  facetsArray.value = facetsArray.value.filter(objet => {
+    for (let key in objet) {
+      if (key.startsWith("date")) {
+        return false;
+      }
+    }
+    return true;
+  });
+}
 /**
  * Emit
  */
@@ -130,17 +142,7 @@ function updateFilterData(filterData) {
 }
 
 function updateFilterDateOnly(datesArray) {
-  //Supprime les dates précedentes
-  facetsArray.value = facetsArray.value.filter(objet => {
-    for (let key in objet) {
-      if (key.startsWith("date")) {
-        return false;
-      }
-    }
-    return true;
-  });
-
-
+  clearDates();
   //Ajoute les dates courantes dans la liste des filtres, si elles sont définies
   if (datesArray[0]) {
     facetsArray.value.splice(0, 0, { ["dateDebut"]: datesArray[0] });
@@ -149,6 +151,7 @@ function updateFilterDateOnly(datesArray) {
     facetsArray.value.splice(0, 0, { ["dateFin"]: datesArray[1] });
   }
   modifierFiltres(facetsArray.value);
+  emit('update', facetsChipsArray.value);
 }
 
 function reinitializeCheckboxes(facetName) {
@@ -159,6 +162,12 @@ function reinitializeCheckboxes(facetName) {
     deleteFromChips(key);
   });
 
+  modifierFiltres(facetsArray.value);
+  emit('update');
+}
+
+function reinitializeDates() {
+  clearDates();
   modifierFiltres(facetsArray.value);
   emit('update');
 }
