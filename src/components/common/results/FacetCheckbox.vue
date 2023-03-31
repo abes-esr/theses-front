@@ -1,5 +1,5 @@
 <template>
-  <v-lazy :options="{ threshold: 0.5, rootMargin: '2000px' }">
+  <v-lazy :min-height="10" :options="{ threshold: 1.0 }">
     <v-checkbox
       v-model="checkboxState"
       :class="`checkboxes ms-${props.marginOffset}`"
@@ -77,7 +77,8 @@ watch(checkboxState, async (newValue) => {
   // Faire remonter le nom du filtre
   const filterData = {
     filterName: props.facetItem.name,
-    value: newValue
+    value: newValue,
+    label: props.facetItem.label,
   };
 
   if (props.marginOffset === 0) {

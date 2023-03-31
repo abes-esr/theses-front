@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panels>
-    <v-expansion-panel eager class="elevation-0">
+    <v-expansion-panel class="elevation-0">
       <v-expansion-panel-title class="facet-title-panel">
         <h4 class="facet-title">
           {{ facet.name }}
@@ -16,7 +16,7 @@
             append-inner-icon="mdi-magnify" density="compact" single-line hide-details
             class="facet-search-bar"></v-text-field>
         </div>
-        <div class="panel-text">
+        <div class="panel-text" ref="`facet-${facet.name}`">
           <div v-if="date" class="flex-container">
             <span class="flex-item">
               Du<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" model-type="dd/MM/yyyy" format="dd/MM/yyyy"
@@ -29,8 +29,8 @@
               </VueDatePicker>
             </span>
           </div>
-          <div v-else v-for="facetItem in facetItems" :key="`facet-${facetItem.name}`">
-            <facet-checkbox v-if="facetItem.selected" :facets-array="facetsArray" :facet-name="facet.name"
+          <div v-else v-for="(facetItem, index) in facetItems" :key="`facet-${facetItem.name}`">
+            <facet-checkbox v-if="facetItem.selected" :key="`${facet.name}-value-${index}`" :facets-array="facetsArray" :facet-name="facet.name"
               :facet-item="facetItem" @updateFilterData="updateFilterData" :margin-offset="marginOffset" />
           </div>
         </div>
@@ -58,6 +58,7 @@ const props = defineProps({
     default: false
   }
 });
+
 const marginOffset = ref(0);
 const filterSearchText = ref("");
 
@@ -75,6 +76,7 @@ let facetItems = computed(() => {
   });
   return filters;
 });
+
 /**
  * Fonctions
  */
@@ -127,7 +129,6 @@ function reinitializeCheckboxes() {
   flex-wrap: nowrap;
   padding: 0px 10px;
   overflow: hidden;
-
 }
 
 .v-expansion-panel :deep(.v-expansion-panel__shadow) {
@@ -151,12 +152,12 @@ function reinitializeCheckboxes() {
   overflow: hidden;
   font-size: 16px;
   flex-grow: 2;
-  flex-wrap: nowrap;
   order: 2;
   background-color: transparent;
+  //hyphens: auto;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    font-size: 3.8vw;
+    font-size: 13px;
   }
 }
 
