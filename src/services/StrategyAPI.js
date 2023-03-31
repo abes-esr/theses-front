@@ -19,6 +19,8 @@ const currentTri = ref("pertinence");
 const currentFacets = ref([]);
 const query = ref("");
 
+
+
 /**
  * Fonctions communes
  */
@@ -36,10 +38,12 @@ function modifierTri(value) {
 
 function modifierFiltres(objectsArray) {
   currentFacets.value = parseFacetsValuesArray(objectsArray);
+  setURLParameters();
 }
 
 function setQuery(newQuery) {
   query.value = newQuery ? newQuery : "*";
+  setURLParameters();
 }
 
 function getQuery() {
@@ -91,7 +95,50 @@ function queryAPI() {
     return queryPersonnesAPI(replaceAndEscape(query.value), facetsRequest, currentPage.value, currentNombre.value, currentTri.value);
 }
 
+function setURLParameters() {
+  const url = document.location;
+  let currentURLParams = new URL(url).searchParams;
 
+  currentURLParams = setURLFilters(currentURLParams);
+  currentURLParams = setURLQuery(currentURLParams);
+  currentURLParams = setURLDomaine(currentURLParams);
+  updateURL(url, currentURLParams);
+}
+
+function setURLFilters(currentURLParams) {
+  if (currentFacets.value && currentFacets.value.length > 0) {
+    currentURLParams.set("filtres", encodeURIComponent("[" + disableOrFilters().toString() + "]"));
+  } else {
+    currentURLParams.delete("filtres");
+  }
+
+  return currentURLParams;
+}
+
+function setURLQuery(currentURLParams) {
+  if (query.value) {
+    currentURLParams.set("q", encodeURIComponent(query.value));
+  } else {
+    currentURLParams.delete("q");
+  }
+
+  return currentURLParams;
+}
+
+function setURLDomaine(currentURLParams) {
+  if (domaine.value) {
+    currentURLParams.set("domaine", encodeURIComponent(domaine.value));
+  } else {
+    currentURLParams.set("domaine", 'theses');
+  }
+
+  return currentURLParams;
+}
+
+function updateURL(url, currentURLParams) {
+  const newUrl = `${url.pathname}?${currentURLParams}`;
+  window.history.pushState({}, "", newUrl);
+}
 
 async function getFacets() {
   // eslint-disable-next-line no-async-promise-executor

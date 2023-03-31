@@ -47,7 +47,7 @@ import { APIService } from "@/services/StrategyAPI";
 const router = useRouter();
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery } = APIService();
+const { getSuggestion, setQuery, setDomaine } = APIService();
 
 defineProps({
   loading: {
@@ -72,6 +72,7 @@ onMounted(
       // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
       watcherActive = false;
     }
+    setDomaine(currentRoute.query.domaine);
   }
 )
 
@@ -84,27 +85,15 @@ function clearSearch() {
 }
 
 async function search() {
-  let currentURLParams = Object.assign({}, currentRoute.query);
-
-  if (currentURLParams) {
-    currentURLParams.q = encodeURI(request.value)
-  } else {
-    currentURLParams = { "q": encodeURI(request.value) }
-  }
-
   if (routeName.value === "resultats") {
-    router.replace({
-      query: currentURLParams
-    });
+    setQuery(request.value);
+    emit('searchAndReinitializeAllFacets', request.value);
   } else {
     router.push({
       name: 'resultats',
-      query: currentURLParams
+      query: {'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine)}
     });
   }
-
-  setQuery(request.value);
-  emit('searchAndReinitializeAllFacets', request.value);
 }
 
 /* ---------------- */
