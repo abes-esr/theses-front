@@ -19,19 +19,20 @@
         <div class="panel-text" ref="`facet-${facet.name}`">
           <div v-if="date" class="flex-container">
             <span class="flex-item">
-              Du<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" model-type="dd/MM/yyyy" format="dd/MM/yyyy"
-                :enable-time-picker="false" select-text="OK" cancel-text="Annuler" text-input placeholder="JJ/MM/AAAA">
+              De<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA">
               </VueDatePicker>
             </span>
             <span class="flex-item pl-4 pr-4">
-              Au<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" model-type="dd/MM/yyyy" format="dd/MM/yyyy"
-                :enable-time-picker="false" select-text="OK" cancel-text="Annuler" text-input placeholder="JJ/MM/AAAA">
+              A<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA">
               </VueDatePicker>
             </span>
           </div>
           <div v-else v-for="(facetItem, index) in facetItems" :key="`facet-${facetItem.name}`">
-            <facet-checkbox v-if="facetItem.selected" :key="`${facet.name}-value-${index}`" :facets-array="facetsArray" :facet-name="facet.name"
-              :facet-item="facetItem" @updateFilterData="updateFilterData" :margin-offset="marginOffset" />
+            <facet-checkbox v-if="facetItem.selected" :key="`${facet.name}-value-${index}`" :facets-array="facetsArray"
+              :facet-name="facet.name" :facet-item="facetItem" @updateFilterData="updateFilterData"
+              :margin-offset="marginOffset" />
           </div>
         </div>
       </v-expansion-panel-text>
@@ -63,7 +64,7 @@ const marginOffset = ref(0);
 const filterSearchText = ref("");
 
 const dateFrom = ref();
-const dateTo = ref();
+const dateTo = ref(new Date().getFullYear());
 
 
 let facetItems = computed(() => {
@@ -117,6 +118,8 @@ function updateFilterDateOnly() {
 }
 
 function reinitializeCheckboxes() {
+  if (props.date)
+    dateFrom.value = dateTo.value = "";
   emit("reinitializeCheckboxes", props.facet.name);
 }
 </script>
