@@ -6,7 +6,6 @@
                 v-model:search="requestSearch"
                 :items="items"
                 variant="outlined"
-                :menu="suggestionActive"
                 cache-items
                 hide-no-data
                 hide-selected
@@ -15,7 +14,10 @@
                 @keydown.enter="search"
                 :active="true"
                 return-object
-                type="text">
+                type="text"
+                :menu="suggestionActive"
+                :menu-props="menuProps"
+    >
       <template v-slot:append-inner>
         <v-btn plain flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :ripple="false">
         </v-btn>
@@ -75,6 +77,10 @@ onMounted(
 const items = ref([]);
 const suggestionActive = ref(false);
 
+const menuProps = {
+  'scrollStrategy': 'close'
+};
+
 watch(requestSearch, (newRequestSearch) => {
   if (newRequestSearch.length > 2 && watcherActive && !disableCompletion.value) {
     setQuery(newRequestSearch);
@@ -131,6 +137,7 @@ async function search() {
     });
   }
 
+  suggestionActive.value = false;
   setQuery(request.value);
   emit('searchAndReinitializeAllFacets', request.value);
 }
