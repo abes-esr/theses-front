@@ -63,8 +63,8 @@ function getFacetItemIndex(lastFacetFilter) {
 
 // Compare les chaines de caractè1 contenues dans les Array
 function filtersAreEqual(object1, object2) {
-  return (Object.keys(object1)[0] === Object.keys(object2)[0]
-    && Object.values(object1)[0] === Object.values(object2)[0]);
+  return (Object.keys(object1)[0].toLowerCase() === Object.keys(object2)[0].toLowerCase()
+    && Object.values(object1)[0].toLowerCase() === Object.values(object2)[0].toLowerCase());
 }
 
 function arrayContainsFilter(lastFacetFilter) {
@@ -135,7 +135,7 @@ function updateFilterData(filterData) {
   if (isChecked(filterData, lastFacetFilter)) {
     // Ajout
     facetsArray.value.splice(0, 0, lastFacetFilter);
-console.info(facetsArray.value)
+
     addToChips(filterData);
   } else {
     // Suppression
