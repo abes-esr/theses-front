@@ -38,12 +38,12 @@ function modifierTri(value) {
 
 function modifierFiltres(objectsArray) {
   currentFacets.value = parseFacetsValuesArray(objectsArray);
-  setURLParameters();
+  setURLFilters();
 }
 
 function setQuery(newQuery) {
   query.value = newQuery ? newQuery : "*";
-  setURLParameters();
+  setURLQuery()
 }
 
 function getQuery() {
@@ -67,6 +67,7 @@ function parseFacetsValuesArray(objectsArray) {
 
 function setDomaine(newDomain) {
   domaine.value = newDomain;
+  setURLDomaine();
 }
 
 /**
@@ -96,43 +97,91 @@ function queryAPI() {
 }
 
 function setURLParameters() {
-  const url = document.location;
-  let currentURLParams = new URL(url).searchParams;
-
-  currentURLParams = setURLFilters(currentURLParams);
-  currentURLParams = setURLQuery(currentURLParams);
-  currentURLParams = setURLDomaine(currentURLParams);
-  updateURL(url, currentURLParams);
+  setURLFilters();
+  setURLQuery();
+  setURLDomaine();
 }
 
-function setURLFilters(currentURLParams) {
+function getURLParams() {
+  const url = document.location;
+  return new URL(url).searchParams;
+}
+
+function setURLFilters() {
+  let currentURLParams = getURLParams();
+
   if (currentFacets.value && currentFacets.value.length > 0) {
     currentURLParams.set("filtres", encodeURIComponent("[" + disableOrFilters().toString() + "]"));
   } else {
     currentURLParams.delete("filtres");
   }
 
-  return currentURLParams;
+  updateURL(document.location, currentURLParams);
 }
 
-function setURLQuery(currentURLParams) {
+function setURLQuery() {
+  let currentURLParams = getURLParams();
+
   if (query.value) {
     currentURLParams.set("q", encodeURIComponent(query.value));
   } else {
     currentURLParams.delete("q");
   }
 
-  return currentURLParams;
+  updateURL(document.location, currentURLParams);
 }
 
-function setURLDomaine(currentURLParams) {
+function getFacetsArrayFromURL() {
+  if (!currentFacets.value) return [];
+
+  var facetsArray = []
+  const stringifiedFacetsArray  = currentFacets.value.slice(currentFacets.value.indexOf('[')+1, currentFacets.value.indexOf(']'))
+    .split('&');
+
+  stringifiedFacetsArray.forEach((facet) => {
+    let line = facet.split('=');
+    facetsArray.splice(
+      0, 0, {
+      [line[0]]: line[1].replaceAll('"', '')
+    });
+  });
+
+  return facetsArray;
+}
+
+function setURLDomaine() {
+  let currentURLParams = getURLParams();
+
   if (domaine.value) {
     currentURLParams.set("domaine", encodeURIComponent(domaine.value));
   } else {
     currentURLParams.set("domaine", 'theses');
   }
 
-  return currentURLParams;
+  updateURL(document.location, currentURLParams);
+}
+
+function getURLParameters() {
+  const url = document.location;
+  let currentURLParams = new URL(url).searchParams;
+
+  currentFacets.value = getURLParameterNoBrackets(currentURLParams, 'filtres');
+  console.log(currentFacets.value)
+  query.value = getURLParameter(currentURLParams, 'q');
+  domaine.value = getURLParameter(currentURLParams, 'domaine');
+  // updateURL(url, currentURLParams);
+}
+
+function getURLParameterNoBrackets(currentURLParams, parameter) {
+  return getURLParameter(currentURLParams, parameter).replaceAll('[', '').replaceAll(']', '');
+}
+
+function getURLParameter(currentURLParams, parameter) {
+  if (currentURLParams.get(parameter)) {
+    return decodeURIComponent(currentURLParams.get(parameter));
+  }
+
+  return "";
 }
 
 function updateURL(url, currentURLParams) {
@@ -235,6 +284,8 @@ export function APIService() {
     getData,
     getSuggestion,
     setDomaine,
-    getItemsTri
+    getItemsTri,
+    getURLParameters,
+    getFacetsArrayFromURL
   };
 }

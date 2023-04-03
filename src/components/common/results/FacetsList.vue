@@ -11,10 +11,10 @@
 <script setup>
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
 import { APIService } from "@/services/StrategyAPI";
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 
-const { modifierFiltres } = APIService();
+const { modifierFiltres, getFacetsArrayFromURL } = APIService();
 
 const props = defineProps({
   facets: {
@@ -32,6 +32,14 @@ const { mobile } = useDisplay();
 const emit = defineEmits(['update', 'searchAndReinitialize']);
 const facetsArray = ref([]);
 const facetsChipsArray = ref([]);
+
+onMounted(() => {
+  setTimeout(() => {
+
+    facetsArray.value = getFacetsArrayFromURL();
+    console.log(facetsArray.value)
+  }, 1000)
+});
 
 /**
  * Fonctions
@@ -127,7 +135,7 @@ function updateFilterData(filterData) {
   if (isChecked(filterData, lastFacetFilter)) {
     // Ajout
     facetsArray.value.splice(0, 0, lastFacetFilter);
-
+console.info(facetsArray.value)
     addToChips(filterData);
   } else {
     // Suppression

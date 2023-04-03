@@ -113,7 +113,7 @@ function updateFilterDataRecursive(filterData) {
 function arrayContainsFilter() {
   if (props.facetsArray) {
     return props.facetsArray.filter(function (filter) {
-      return Object.values(filter)[0] === props.facetItem.name && Object.keys(filter)[0] === props.facetName;
+      return Object.values(filter)[0].toLowerCase() === props.facetItem.name.toLowerCase() && Object.keys(filter)[0].toLowerCase() === props.facetName.toLowerCase();
     }
     ).length > 0;
   }

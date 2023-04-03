@@ -75,7 +75,7 @@ import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 
 const { mobile } = useDisplay();
-const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, modifierFiltres } = APIService();
+const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, modifierFiltres, getURLParameters } = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
@@ -97,13 +97,15 @@ const selectedFacets = ref([]);
 const filterToBeDeleted = ref([]);
 const numberOfDeletedChips =ref(0);
 
-onMounted(() => {
+onMounted(async () => {
+  getURLParameters();
   setDomaine(currentRoute.query.domaine);
   dataReady.value = false;
-  request.value = decodeURI(currentRoute.query.q)
+  request.value = decodeURI(currentRoute.query.q);
   setQuery(request.value);
   search();
   updateFacets();
+  // #TODO Récupérer les parametres dans Strategy API; parser filtres pour récupérer un tableau exploitable pour activer les checkboxes
 });
 
 /**
