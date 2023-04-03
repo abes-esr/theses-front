@@ -166,10 +166,8 @@ function getURLParameters() {
   let currentURLParams = new URL(url).searchParams;
 
   currentFacets.value = getURLParameterNoBrackets(currentURLParams, 'filtres');
-  console.log(currentFacets.value)
   query.value = getURLParameter(currentURLParams, 'q');
   domaine.value = getURLParameter(currentURLParams, 'domaine');
-  // updateURL(url, currentURLParams);
 }
 
 function getURLParameterNoBrackets(currentURLParams, parameter) {

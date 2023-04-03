@@ -35,9 +35,19 @@ const facetsChipsArray = ref([]);
 
 onMounted(() => {
   setTimeout(() => {
-
+// #TODO se débarasser du timeout, récupérer les labels à la place des noms (code langues et majuscules)
     facetsArray.value = getFacetsArrayFromURL();
-    console.log(facetsArray.value)
+
+    facetsArray.value.forEach((facet) => {
+      const filterData = {
+        facetName: Object.keys(facet)[0],
+        filterName: Object.values(facet)[0],
+        label: Object.values(facet)[0],
+      }
+      addToChips(filterData);
+    });
+
+    emit('update', facetsChipsArray.value);
   }, 1000)
 });
 
@@ -65,6 +75,17 @@ function getFacetItemIndex(lastFacetFilter) {
 function filtersAreEqual(object1, object2) {
   return (Object.keys(object1)[0].toLowerCase() === Object.keys(object2)[0].toLowerCase()
     && Object.values(object1)[0].toLowerCase() === Object.values(object2)[0].toLowerCase());
+}
+
+function getChipFacetItemIndex(lastFacetFilter) {
+  return facetsChipsArray.value.findIndex(function (facetFilter) {
+    return chipFiltersAreEqual(facetFilter, lastFacetFilter);
+  });
+}
+
+function chipFiltersAreEqual(chipObject, filterObject) {
+  return (chipObject.filter.facetName.toLowerCase() === Object.keys(filterObject)[0].toLowerCase()
+    && chipObject.filter.filterName.toLowerCase() === Object.values(filterObject)[0].toLowerCase());
 }
 
 function arrayContainsFilter(lastFacetFilter) {
@@ -114,6 +135,7 @@ function addToChips(filterData) {
       'filterName': filterData.filterName
     }
   };
+
   facetsChipsArray.value.splice(0, 0, chipData);
 }
 
@@ -139,12 +161,17 @@ function updateFilterData(filterData) {
     addToChips(filterData);
   } else {
     // Suppression
-    const itemIndex = getFacetItemIndex(lastFacetFilter);
+    let itemIndex = getFacetItemIndex(lastFacetFilter);
     if (itemIndex > -1) {
       facetsArray.value.splice(itemIndex, 1);
+    }
+
+    itemIndex = getChipFacetItemIndex(lastFacetFilter);
+    if (itemIndex > -1) {
       deleteFromChips(itemIndex);
     }
   }
+
   modifierFiltres(facetsArray.value);
   emit('update', facetsChipsArray.value);
 }
