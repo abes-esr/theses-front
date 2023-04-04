@@ -136,7 +136,8 @@ function getFacetsArrayFromURL() {
   if (!currentFacets.value) return [];
 
   var facetsArray = []
-  const stringifiedFacetsArray  = currentFacets.value.slice(currentFacets.value.indexOf('[')+1, currentFacets.value.indexOf(']'))
+  const stringifiedFacetsArray  = currentFacets.value
+    .slice(currentFacets.value.indexOf('[')+1, currentFacets.value.indexOf(']'))
     .split('&');
 
   stringifiedFacetsArray.forEach((facet) => {
@@ -195,13 +196,17 @@ function setURLDomaine() {
   updateURL(document.location, currentURLParams);
 }
 
-function getURLParameters() {
-  const url = document.location;
-  let currentURLParams = new URL(url).searchParams;
+async function getURLParameters() {
+  return new Promise((resolve) => {
+    const url = document.location;
+    let currentURLParams = new URL(url).searchParams;
 
-  currentFacets.value = getURLParameterNoBrackets(currentURLParams, 'filtres');
-  query.value = getURLParameter(currentURLParams, 'q');
-  domaine.value = getURLParameter(currentURLParams, 'domaine');
+    currentFacets.value = getURLParameterNoBrackets(currentURLParams, 'filtres');
+    query.value = getURLParameter(currentURLParams, 'q');
+    domaine.value = getURLParameter(currentURLParams, 'domaine');
+
+    resolve();
+  });
 }
 
 function getURLParameterNoBrackets(currentURLParams, parameter) {

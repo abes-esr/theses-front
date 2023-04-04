@@ -1,6 +1,6 @@
 <template>
   <div class="facets">
-    <facet-drawer date :facet="{ 'name': 'Date' }" class="my-2" @reinitializeCheckboxes="reinitializeDates"
+    <facet-drawer v-if="domaine === 'theses'" date :facet="{ 'name': 'Date' }" class="my-2" @reinitializeCheckboxes="reinitializeDates"
       @updateFilterDateOnly="updateFilterDateOnly($event)"></facet-drawer>
     <facet-drawer v-for="facet in facets" :key="`facet-${facet.name}`" @updateFilterData="updateFilterData"
       @reinitializeCheckboxes="reinitializeCheckboxes" :facet="facet" :facets-array="facetsArray" class="my-2" />
@@ -11,7 +11,7 @@
 <script setup>
 import FacetDrawer from "@/components/common/results/FacetDrawer.vue";
 import { APIService } from "@/services/StrategyAPI";
-import { onMounted, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 
 const { modifierFiltres, getFacetsArrayFromURL } = APIService();
@@ -25,6 +25,12 @@ const props = defineProps({
   },
   filterToBeDeleted: {
     type: Object
+  },
+  domaine: {
+    type: String
+  },
+  parametersLoaded: {
+    type: Number
   }
 });
 
@@ -33,22 +39,20 @@ const emit = defineEmits(['update', 'searchAndReinitialize']);
 const facetsArray = ref([]);
 const facetsChipsArray = ref([]);
 
-onMounted(() => {
-  setTimeout(() => {
-// #TODO se débarasser du timeout, récupérer les labels à la place des noms (code langues et majuscules)
-    facetsArray.value = getFacetsArrayFromURL();
 
-    facetsArray.value.forEach((facet) => {
-      const filterData = {
-        facetName: facet.facetName,
-        filterName: facet.filterName,
-        label: facet.label
-      }
-      addToChips(filterData);
-    });
+watch(() => props.parametersLoaded, () => {
+  facetsArray.value = getFacetsArrayFromURL();
 
-    emit('update', facetsChipsArray.value);
-  }, 1000)
+  facetsArray.value.forEach((facet) => {
+    const filterData = {
+      facetName: facet.facetName,
+      filterName: facet.filterName,
+      label: facet.label
+    }
+    addToChips(filterData);
+  });
+
+  emit('update', facetsChipsArray.value);
 });
 
 /**

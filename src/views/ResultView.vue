@@ -23,7 +23,7 @@
           <facets-header @closeOverlay="closeOverlay"
                          @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
           <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
-                       :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+                       :reset-facets="resetFacets" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </v-dialog>
     <v-expand-transition>
       <div v-show="showSearchBar" class="expanded-search-bar-container">
@@ -51,7 +51,7 @@
     <div v-if="!mobile" class="nav-bar">
       <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
       <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-                   :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+                   :reset-facets="resetFacets" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </div>
     <div class="result-components">
       <result-components :data-ready="dataReady" :result="result" :loading="loading"
@@ -95,17 +95,18 @@ const dialogVisible = ref(false);
 const showSearchBar = ref(false);
 const selectedFacets = ref([]);
 const filterToBeDeleted = ref([]);
-const numberOfDeletedChips =ref(0);
+const numberOfDeletedChips = ref(0);
+const parametersLoaded = ref(0);
 
 onMounted(async () => {
-  getURLParameters();
-  setDomaine(currentRoute.query.domaine);
-  dataReady.value = false;
-  request.value = decodeURI(currentRoute.query.q);
-  setQuery(request.value);
-  search();
-  updateFacets();
-  // #TODO Récupérer les parametres dans Strategy API; parser filtres pour récupérer un tableau exploitable pour activer les checkboxes
+  getURLParameters().then(() => {
+    setDomaine(currentRoute.query.domaine);
+    dataReady.value = false;
+    request.value = decodeURI(currentRoute.query.q);
+    setQuery(request.value);
+    search();
+    updateFacets(true);
+  });
 });
 
 /**
@@ -186,9 +187,10 @@ function closeOverlay() {
   dialogVisible.value = false;
 }
 
-function updateFacets() {
+function updateFacets(firstLoad) {
   getFacets().then(response => {
     facets.value = response;
+    if (firstLoad) parametersLoaded.value++;
   }).catch(error => {
     facets.value = {};
     displayError(error.message);
