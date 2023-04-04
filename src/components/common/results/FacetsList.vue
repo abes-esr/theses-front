@@ -40,9 +40,9 @@ onMounted(() => {
 
     facetsArray.value.forEach((facet) => {
       const filterData = {
-        facetName: Object.keys(facet)[0],
-        filterName: Object.values(facet)[0],
-        label: Object.values(facet)[0],
+        facetName: facet.facetName,
+        filterName: facet.filterName,
+        label: facet.label
       }
       addToChips(filterData);
     });

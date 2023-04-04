@@ -5,7 +5,7 @@ import { referentielsAPIService } from "@/services/ReferentielsAPI";
 import { replaceAndEscape } from "@/services/Common";
 
 // import fonctions
-const { fetchCodeLangues, createLabels } = referentielsAPIService();
+const { fetchCodeLangues, createLabels, getLabelFromCode } = referentielsAPIService();
 const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTriTheses, disableOrFiltersTheses } = thesesAPIService();
 const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes, disableOrFiltersPersonnes } = personnesAPIService();
 
@@ -18,8 +18,9 @@ const currentNombre = ref(10);
 const currentTri = ref("pertinence");
 const currentFacets = ref([]);
 const query = ref("");
+const rawFacets = ref([]);
 
-
+fetchCodeLangues();
 
 /**
  * Fonctions communes
@@ -146,6 +147,39 @@ function getFacetsArrayFromURL() {
     });
   });
 
+  return getFacetsLabels(facetsArray);
+}
+
+function getLabelFromURLName(urlFacet) {
+  let correspondingFacet = {};
+
+  rawFacets.value.forEach((facet) => {
+    if (facet.name.toLowerCase() === urlFacet.facetName.toLowerCase()) {
+      correspondingFacet = facet.checkboxes.find((filter) => {
+        return filter.name.toLowerCase() === urlFacet.filterName.toLowerCase();
+      });
+    }
+  });
+
+  return correspondingFacet ? correspondingFacet.label : "";
+}
+
+/**
+ * Récupère les labels des filtres avec mise en forme et
+ * @param facetsArray
+ */
+function getFacetsLabels(facetsArray) {
+  facetsArray.forEach((facet) => {
+    facet.filterName = Object.values(facet)[0];
+    facet.facetName = Object.keys(facet)[0];
+
+    if (Object.keys(facet)[0].toLowerCase() === 'langues') {
+      facet.label = getLabelFromCode(facet.filterName);
+    } else {
+      facet.label = getLabelFromURLName(facet);
+    }
+  });
+
   return facetsArray;
 }
 
@@ -190,14 +224,12 @@ function updateURL(url, currentURLParams) {
 async function getFacets() {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
-    let rawFacets = {};
-
-    await fetchCodeLangues();
+    rawFacets.value = [];
 
     if (domaine.value === "theses") {
       await getFacetsTheses(query.value)
         .then(response => {
-          rawFacets = response.data;
+          rawFacets.value = response.data;
         }).catch((err) => {
         reject(err);
       });
@@ -206,15 +238,15 @@ async function getFacets() {
     if (domaine.value === "personnes") {
       await getFacetsPersonnes(query.value)
         .then(response => {
-          rawFacets = response.data;
+          rawFacets.value = response.data;
         }).catch((err) => {
           reject(err);
         });
     }
 
-    if (Object.keys(rawFacets).length > 0) {
-      createLabels(rawFacets)
-      resolve(rawFacets);
+    if (Object.keys(rawFacets.value).length > 0) {
+      createLabels(rawFacets.value)
+      resolve(rawFacets.value);
     }
     reject();
   });
