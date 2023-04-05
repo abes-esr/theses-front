@@ -57,6 +57,9 @@ const props = defineProps({
   date: {
     type: Boolean,
     default: false
+  },
+  reinitializeDateFieldsTrigger: {
+    type: Number
   }
 });
 
@@ -117,11 +120,23 @@ function updateFilterDateOnly() {
   emit("updateFilterDateOnly", [dateFrom.value, dateTo.value]);
 }
 
-function reinitializeCheckboxes() {
+function reinitializeDateFields() {
   if (props.date)
     dateFrom.value = dateTo.value = "";
+}
+
+function reinitializeCheckboxes() {
+  reinitializeDateFields();
   emit("reinitializeCheckboxes", props.facet.name);
 }
+
+/**
+ * Watchers
+ */
+watch(() => props.reinitializeDateFieldsTrigger,
+  () => {
+  reinitializeDateFields();
+});
 </script>
 
 <style scoped lang="scss">
@@ -130,7 +145,7 @@ function reinitializeCheckboxes() {
 .v-expansion-panel-title {
   gap: 10px;
   flex-wrap: nowrap;
-  padding: 0px 10px;
+  padding: 0 10;
   overflow: hidden;
 }
 

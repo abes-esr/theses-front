@@ -40,8 +40,11 @@ function modifierTri(value) {
 }
 
 function modifierFiltres(objectsArray) {
-  currentFacets.value = parseFacetsValuesArray(objectsArray);
-  setURLFilters();
+  return new Promise((resolve) => {
+    currentFacets.value = parseFacetsValuesArray(objectsArray);
+    setURLFilters();
+    resolve();
+  });
 }
 
 function setQuery(newQuery) {

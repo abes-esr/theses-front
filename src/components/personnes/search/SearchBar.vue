@@ -50,7 +50,7 @@ import { APIService } from "@/services/StrategyAPI";
 const router = useRouter();
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery } = APIService();
+const { getSuggestion, setQuery, setDomaine } = APIService();
 
 defineProps({
   loading: {

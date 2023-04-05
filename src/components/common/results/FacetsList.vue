@@ -1,9 +1,19 @@
 <template>
   <div class="facets">
-    <facet-drawer v-if="domaine === 'theses'" date :facet="{ 'name': 'Date' }" class="my-2" @reinitializeCheckboxes="reinitializeDates"
-      @updateFilterDateOnly="updateFilterDateOnly($event)"></facet-drawer>
-    <facet-drawer v-for="facet in facets" :key="`facet-${facet.name}`" @updateFilterData="updateFilterData"
-      @reinitializeCheckboxes="reinitializeCheckboxes" :facet="facet" :facets-array="facetsArray" class="my-2" />
+    <facet-drawer v-if="domaine === 'theses'"
+                  date
+                  :facet="{ 'name': 'Date' }" class="my-2"
+                  :reinitialize-date-fields-trigger="reinitializeDateFieldsTrigger"
+                  @updateFilterDateOnly="updateFilterDateOnly($event)"
+                  @reinitializeCheckboxes="reinitializeDates">
+    </facet-drawer>
+    <facet-drawer v-for="facet in facets" class="my-2"
+                  :key="`facet-${facet.name}`"
+                  :facet="facet"
+                  :facets-array="facetsArray"
+                  @updateFilterData="updateFilterData"
+                  @reinitializeCheckboxes="reinitializeCheckboxes">
+    </facet-drawer>
     <v-btn v-if="mobile" @click="update">Appliquer les filtres</v-btn>
   </div>
 </template>
@@ -38,6 +48,7 @@ const { mobile } = useDisplay();
 const emit = defineEmits(['update', 'searchAndReinitialize']);
 const facetsArray = ref([]);
 const facetsChipsArray = ref([]);
+const reinitializeDateFieldsTrigger = ref(0);
 
 /**
  * Fonctions
@@ -276,6 +287,7 @@ function resetArray(array) {
  */
 watch(() => props.resetFacets,
   () => {
+    reinitializeDateFieldsTrigger.value++;
     resetArray(facetsArray.value);
     resetArray(facetsChipsArray.value);
     modifierFiltres(facetsArray.value);
@@ -288,11 +300,10 @@ watch(() => props.resetFacets,
 watch(() => props.filterToBeDeleted,
   (newValue) => {
     updateFilterData(newValue.filter);
-    modifierFiltres(facetsArray.value);
-
-    setTimeout(() => {
-      emit('searchAndReinitialize');
-    }, 500);
+    modifierFiltres(facetsArray.value)
+      .then(() => {
+        emit('searchAndReinitialize');
+    });
   });
 
 /**
