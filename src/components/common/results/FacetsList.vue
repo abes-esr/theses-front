@@ -60,14 +60,27 @@ function isDateFilter(facetFilter) {
 // Retourne l'index de l'objet courant dans le tableau facetsArray
 function getFacetItemIndex(lastFacetFilter) {
   return facetsArray.value.findIndex(function (facetFilter) {
-    return isDateFilter(facetFilter) || filtersAreEqual(facetFilter, lastFacetFilter);
+    return filtersAreEqual(facetFilter, lastFacetFilter);
   });
 }
 
-// Compare les chaines de caractè1 contenues dans les Array
-function filtersAreEqual(object1, object2) {
-  return (Object.keys(object1)[0].toLowerCase() === Object.keys(object2)[0].toLowerCase()
-    && Object.values(object1)[0].toLowerCase() === Object.values(object2)[0].toLowerCase());
+/**
+ * Compare les chaines de caractères contenues dans les Array
+ * Pour les dates on ne compare que le nom du filtre ( dateDebut | dateFin )
+ * @param comparedObject
+ * @param currentObject
+ * @returns {boolean}
+ */
+function filtersAreEqual(comparedObject, currentObject) {
+  console.log('comparedObject') //#TODO mercredi 05/04 écraser la bonne date pour les deux arrays
+  console.log(comparedObject) //#TODO mercredi 05/04
+  console.log('currentObject') //#TODO mercredi 05/04
+  console.log(currentObject) //#TODO mercredi 05/04
+  console.info("isDateFilter : " + isDateFilter(currentObject) && Object.keys(comparedObject)[0].toLowerCase() === Object.keys(currentObject)[0].toLowerCase())
+  return ( isDateFilter(currentObject)
+      && Object.keys(comparedObject)[0].toLowerCase() === Object.keys(currentObject)[0].toLowerCase() )
+    || ( Object.keys(comparedObject)[0].toLowerCase() === Object.keys(currentObject)[0].toLowerCase()
+      && Object.values(comparedObject)[0].toLowerCase() === Object.values(currentObject)[0].toLowerCase() );
 }
 
 function getChipFacetItemIndex(lastFacetFilter) {
@@ -76,16 +89,16 @@ function getChipFacetItemIndex(lastFacetFilter) {
   });
 }
 
-function chipFiltersAreEqual(chipObject, lastFacetFilter) {
-  console.log('chipobject') //#TODO mercredi 05/04 écraser la bonne date pour les deux arrays
-  console.log(chipObject) //#TODO mercredi 05/04
-  console.log('lastFacetFilter') //#TODO mercredi 05/04
-  console.log(lastFacetFilter) //#TODO mercredi 05/04
-  console.info("isDateFilter : " + isDateFilter(lastFacetFilter) && chipObject.filter.filterName.toLowerCase() === Object.keys(lastFacetFilter)[0].toLowerCase())
-  return ( isDateFilter(lastFacetFilter)
-            && chipObject.filter.filterName.toLowerCase() === Object.keys(lastFacetFilter)[0].toLowerCase() )
-  ||      (chipObject.filter.facetName.toLowerCase() === Object.keys(lastFacetFilter)[0].toLowerCase()
-            && chipObject.filter.filterName.toLowerCase() === Object.values(lastFacetFilter)[0].toLowerCase() );
+function chipFiltersAreEqual(comparedChipObject, currentObject) {
+  console.log('comparedChipObject') //#TODO mercredi 05/04 écraser la bonne date pour les deux arrays
+  console.log(comparedChipObject) //#TODO mercredi 05/04
+  console.log('currentObject') //#TODO mercredi 05/04
+  console.log(currentObject) //#TODO mercredi 05/04
+  console.info("isDateFilter : " + isDateFilter(currentObject) && comparedChipObject.filter.filterName.toLowerCase() === Object.keys(currentObject)[0].toLowerCase())
+  return ( isDateFilter(currentObject)
+            && comparedChipObject.filter.filterName.toLowerCase() === Object.keys(currentObject)[0].toLowerCase() )
+  ||      ( comparedChipObject.filter.facetName.toLowerCase() === Object.keys(currentObject)[0].toLowerCase()
+            && comparedChipObject.filter.filterName.toLowerCase() === Object.values(currentObject)[0].toLowerCase() );
 }
 
 function arrayContainsFilter(lastFacetFilter) {
@@ -155,6 +168,10 @@ function deleteFromChips(itemIndex) {
   facetsChipsArray.value.splice(itemIndex, 1);
 }
 
+function deleteFromFilters(itemIndex) {
+  facetsArray.value.splice(itemIndex, 1);
+}
+
 /**
  * Met à jour l'Array contenant les filtres sélectionnés.
  * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
@@ -168,13 +185,13 @@ function updateFilterData(filterData) {
 
   if (isChecked(filterData, lastFacetFilter)) {
     // Ajout
-    facetsArray.value.splice(0, 0, lastFacetFilter);
+    addToFilters(lastFacetFilter);
     addToChips(filterData);
   } else {
     // Suppression
     let itemIndex = getFacetItemIndex(lastFacetFilter);
     if (itemIndex > -1) {
-      facetsArray.value.splice(itemIndex, 1);
+      deleteFromFilters(itemIndex);
     }
 
     itemIndex = getChipFacetItemIndex(lastFacetFilter);
@@ -187,33 +204,43 @@ function updateFilterData(filterData) {
   emit('update', facetsChipsArray.value);
 }
 
-function updateFilterDateOnly(datesArray) {
-  // clearDates();
-  let itemIndex = -1;
-  //Ajoute les dates courantes dans la liste des filtres, si elles sont définies
-  // Date début
-  if (datesArray[0]) {
-    const filterDateDebut  = { 'dateDebut': datesArray[0] };
+function addToFilters(filterDateDebut) {
+  facetsArray.value.splice(0, 0, filterDateDebut);
+}
+
+function addOrOverwriteDate(datesArray) {
+  var dateFiltersNames = [
+    'dateDebut',
+    'dateFin'
+  ];
+
+  datesArray.forEach((dateData, key) => {
+    const filterDateDebut = { [dateFiltersNames[key]]: dateData };
+    let itemIndex = -1;
 
     itemIndex = getFacetItemIndex(filterDateDebut);
-    console.info("index " + itemIndex)
+    console.info("index " + itemIndex);
     if (itemIndex > -1) {
-      facetsArray.value.splice(itemIndex, 1);
+      deleteFromFilters(itemIndex);
     }
-    facetsArray.value.splice(0, 0, filterDateDebut);
 
     itemIndex = getChipFacetItemIndex(filterDateDebut);
-    console.info("index chip " + itemIndex)
+    console.info("index chip " + itemIndex);
     if (itemIndex > -1) {
+      console.warn("deleting chip");
       deleteFromChips(itemIndex);
     }
-    addToChips(filterDateDebut);
-  }
 
-  // Date fin
-  if (datesArray[1]) {
-    facetsArray.value.splice(0, 0, { ["dateFin"]: datesArray[1] });
-  }
+    if (Object.values(filterDateDebut)[0]) {
+      addToFilters(filterDateDebut);
+      addToChips(filterDateDebut);
+    }
+  });
+}
+
+function updateFilterDateOnly(datesArray) {
+  //Ajoute les dates courantes dans la liste des filtres, si elles sont définies
+  addOrOverwriteDate(datesArray);
 
   modifierFiltres(facetsArray.value);
   emit('update', facetsChipsArray.value);

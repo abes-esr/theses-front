@@ -60,7 +60,8 @@ function getQuery() {
  */
 function parseFacetsValuesArray(objectsArray) {
   let filtersArrayURL = [];
-
+console.log("array prêt a etre ajouté à l'url : ")
+console.log(objectsArray)
   objectsArray.forEach((filter) => {
     filtersArrayURL.push(Object.keys(filter)[0] + '="' + Object.values(filter)[0] + '"');
   });

@@ -110,9 +110,17 @@ function updateFilterDataRecursive(filterData) {
     emit('updateFilterDataRecursive', filterData);
   }
 }
+
+function isDateFilter(filter) {
+  return Object.keys(filter)[0].toLowerCase().startsWith("date");
+}
+
 function arrayContainsFilter() {
   if (props.facetsArray) {
     return props.facetsArray.filter(function (filter) {
+      if(isDateFilter(filter) ) {
+        return false;
+      }
       return Object.values(filter)[0].toLowerCase() === props.facetItem.name.toLowerCase() && Object.keys(filter)[0].toLowerCase() === props.facetName.toLowerCase();
     }
     ).length > 0;
