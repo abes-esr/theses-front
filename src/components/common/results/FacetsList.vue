@@ -2,8 +2,13 @@
   <div class="facets">
     <facet-drawer v-if="domaine === 'theses'"
                   date
+                  key="facet-date"
                   :facet="{ 'name': 'Date' }" class="my-2"
+                  :facets-array="facetsArray"
+                  :parameters-loaded="parametersLoaded"
                   :reinitialize-date-fields-trigger="reinitializeDateFieldsTrigger"
+                  :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+                  :reinitialize-date-to-trigger="reinitializeDateToTrigger"
                   @updateFilterDateOnly="updateFilterDateOnly($event)"
                   @reinitializeCheckboxes="reinitializeDates">
     </facet-drawer>
@@ -41,6 +46,12 @@ const props = defineProps({
   },
   parametersLoaded: {
     type: Number
+  },
+  reinitializeDateFromTrigger: {
+    type: Number
+  },
+  reinitializeDateToTrigger: {
+    type: Number
   }
 });
 
@@ -64,7 +75,6 @@ function isChecked(filterData, lastFacetFilter) {
 }
 
 function isDateFilter(facetFilter) {
-  console.info("function isfacetfilter : "+Object.keys(facetFilter)[0].startsWith("date"))
   return Object.keys(facetFilter)[0].startsWith("date");
 }
 
@@ -77,17 +87,12 @@ function getFacetItemIndex(lastFacetFilter) {
 
 /**
  * Compare les chaines de caractères contenues dans les Array
- * Pour les dates on ne compare que le nom du filtre ( dateDebut | dateFin )
+ * Pour les dates on ne compare que le nom du filtre ( datedebut | datefin )
  * @param comparedObject
  * @param currentObject
  * @returns {boolean}
  */
 function filtersAreEqual(comparedObject, currentObject) {
-  console.log('comparedObject') //#TODO mercredi 05/04 écraser la bonne date pour les deux arrays
-  console.log(comparedObject) //#TODO mercredi 05/04
-  console.log('currentObject') //#TODO mercredi 05/04
-  console.log(currentObject) //#TODO mercredi 05/04
-  console.info("isDateFilter : " + isDateFilter(currentObject) && Object.keys(comparedObject)[0].toLowerCase() === Object.keys(currentObject)[0].toLowerCase())
   return ( isDateFilter(currentObject)
       && Object.keys(comparedObject)[0].toLowerCase() === Object.keys(currentObject)[0].toLowerCase() )
     || ( Object.keys(comparedObject)[0].toLowerCase() === Object.keys(currentObject)[0].toLowerCase()
@@ -101,11 +106,6 @@ function getChipFacetItemIndex(lastFacetFilter) {
 }
 
 function chipFiltersAreEqual(comparedChipObject, currentObject) {
-  console.log('comparedChipObject') //#TODO mercredi 05/04 écraser la bonne date pour les deux arrays
-  console.log(comparedChipObject) //#TODO mercredi 05/04
-  console.log('currentObject') //#TODO mercredi 05/04
-  console.log(currentObject) //#TODO mercredi 05/04
-  console.info("isDateFilter : " + isDateFilter(currentObject) && comparedChipObject.filter.filterName.toLowerCase() === Object.keys(currentObject)[0].toLowerCase())
   return ( isDateFilter(currentObject)
             && comparedChipObject.filter.filterName.toLowerCase() === Object.keys(currentObject)[0].toLowerCase() )
   ||      ( comparedChipObject.filter.facetName.toLowerCase() === Object.keys(currentObject)[0].toLowerCase()
@@ -221,8 +221,8 @@ function addToFilters(filterDateDebut) {
 
 function addOrOverwriteDate(datesArray) {
   var dateFiltersNames = [
-    'dateDebut',
-    'dateFin'
+    'datedebut',
+    'datefin'
   ];
 
   datesArray.forEach((dateData, key) => {
@@ -230,15 +230,12 @@ function addOrOverwriteDate(datesArray) {
     let itemIndex = -1;
 
     itemIndex = getFacetItemIndex(filterDateDebut);
-    console.info("index " + itemIndex);
     if (itemIndex > -1) {
       deleteFromFilters(itemIndex);
     }
 
     itemIndex = getChipFacetItemIndex(filterDateDebut);
-    console.info("index chip " + itemIndex);
     if (itemIndex > -1) {
-      console.warn("deleting chip");
       deleteFromChips(itemIndex);
     }
 

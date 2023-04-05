@@ -56,7 +56,15 @@
     }
   },
   "results": {
-    "facetsHeader": "Filtres"
+    "facetsHeader": "Filtres",
+    "chips": {
+      "from": "à partir de",
+      "to": "jusqu'à"
+    },
+    "drawer": {
+      "from": "de",
+      "to": "à"
+    }
   },
   "personnes": {
     "resultView": {

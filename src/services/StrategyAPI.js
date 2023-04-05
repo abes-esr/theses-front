@@ -22,6 +22,8 @@ const currentTri = ref("pertinence");
 const currentFacets = ref([]);
 const query = ref("");
 const rawFacets = ref([]);
+
+
 fetchCodeLangues();
 
 /**
@@ -69,8 +71,6 @@ function getFacetsRequest() {
  */
 function parseFacetsValuesArray(objectsArray) {
   let filtersArrayURL = [];
-console.log("array prêt a etre ajouté à l'url : ")
-console.log(objectsArray)
   objectsArray.forEach((filter) => {
     filtersArrayURL.push(Object.keys(filter)[0] + '="' + Object.values(filter)[0] + '"');
   });
@@ -184,6 +184,9 @@ function getFacetsLabels(facetsArray) {
 
     if (Object.keys(facet)[0].toLowerCase() === 'langues') {
       facet.label = getLabelFromCode(facet.filterName);
+    } else if (Object.keys(facet)[0].toLowerCase().startsWith('date')) {
+      facet.label = parseInt(facet.filterName);
+      facet.filterName = facet.facetName;
     } else {
       facet.label = getLabelFromURLName(facet);
     }

@@ -26,7 +26,15 @@
         "dir": "supervised by"
     },
     "results": {
-        "facetsHeader": "Filtres"
+        "facetsHeader": "Filters",
+        "chips": {
+            "from": "from",
+            "to": "to"
+        },
+        "drawer": {
+            "from": "from",
+            "to": "to"
+        }
     },
     "theses": {
         "resultView": {

@@ -22,7 +22,7 @@
           <facets-header @closeOverlay="closeOverlay"
                          @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
           <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
-                       :reset-facets="resetFacets" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+                       :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger" :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </v-dialog>
     <v-expand-transition>
       <div v-show="showSearchBar" class="expanded-search-bar-container">
@@ -52,7 +52,7 @@
     <div v-if="!mobile" class="nav-bar">
       <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
       <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-                   :reset-facets="resetFacets" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+                   :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger" :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </div>
     <div class="result-components">
       <result-components :data-ready="dataReady" :result="result" :loading="loading"
@@ -98,6 +98,8 @@ const selectedFacets = ref([]);
 const filterToBeDeleted = ref([]);
 const numberOfDeletedChips = ref(0);
 const parametersLoaded = ref(0);
+const reinitializeDateFromTrigger = ref(0);
+const reinitializeDateToTrigger = ref(0);
 
 onMounted(async () => {
   getURLParameters().then(() => {
@@ -244,12 +246,21 @@ async function searchAndReinitialize() {
   await search();
 }
 
+function deleteDateFilterIfIsDate(filter) {
+  if (filter.filter.facetName === 'datedebut') {
+    reinitializeDateFromTrigger.value++;
+  } else if (filter.filter.facetName === 'datefin') {
+    reinitializeDateToTrigger.value++;
+  }
+}
+
 /**
  * Envoie le filtre à supprimer au composant FacetsList, utilisation de numberOfDeletedChips pour détecter la suppression d'un même objet deux fois d'affilée
  * @param filter
  */
 function deleteFilter(filter) {
   numberOfDeletedChips.value++;
+  deleteDateFilterIfIsDate(filter);
   filterToBeDeleted.value = {
     'numberOfDeletedChips': numberOfDeletedChips.value,
     'filter': filter.filter

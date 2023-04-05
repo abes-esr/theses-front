@@ -19,12 +19,12 @@
         <div class="panel-text" ref="`facet-${facet.name}`">
           <div v-if="date" class="flex-container">
             <span class="flex-item">
-              De<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+              {{ $t("results.drawer.from") }}<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
                 model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA">
               </VueDatePicker>
             </span>
             <span class="flex-item pl-4 pr-4">
-              A<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+              {{ $t("results.drawer.to") }}<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
                 model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA">
               </VueDatePicker>
             </span>
@@ -42,7 +42,7 @@
 
 <script setup>
 import FacetCheckbox from "@/components/common/results/FacetCheckbox.vue";
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
@@ -60,6 +60,15 @@ const props = defineProps({
   },
   reinitializeDateFieldsTrigger: {
     type: Number
+  },
+  reinitializeDateFromTrigger: {
+    type: Number
+  },
+  reinitializeDateToTrigger: {
+    type: Number
+  },
+  parametersLoaded: {
+    type:Number
   }
 });
 
@@ -68,7 +77,6 @@ const filterSearchText = ref("");
 
 const dateFrom = ref();
 const dateTo = ref(new Date().getFullYear());
-
 
 let facetItems = computed(() => {
   if (props.date)
@@ -130,6 +138,16 @@ function reinitializeCheckboxes() {
   emit("reinitializeCheckboxes", props.facet.name);
 }
 
+function reinitializeDateFromField() {
+  if (props.date)
+    dateFrom.value = "";
+}
+
+function reinitializeDateToField() {
+  if (props.date)
+    dateTo.value = "";
+}
+
 /**
  * Watchers
  */
@@ -137,6 +155,36 @@ watch(() => props.reinitializeDateFieldsTrigger,
   () => {
   reinitializeDateFields();
 });
+
+watch(() => props.reinitializeDateFromTrigger,
+  () => {
+    reinitializeDateFromField();
+  });
+
+watch(() => props.reinitializeDateToTrigger,
+  () => {
+    reinitializeDateToField();
+  });
+
+/**
+ * Initialisation des valeurs dates depuis chargées l'url
+ */
+watch(() => props.parametersLoaded,
+  () => {
+    if (props.date) {
+      props.facetsArray.forEach((filter) => {
+        if (filter.datedebut) {
+          dateFrom.value = filter.datedebut;
+        } else if (filter.datefin) {
+          dateTo.value = filter.datefin;
+        } else if (filter.facetName === "datedebut") {
+          dateFrom.value = filter.label;
+        } else if (filter.facetName === "datefin") {
+          dateTo.value = filter.label;
+        }
+      });
+    }
+  });
 </script>
 
 <style scoped lang="scss">
