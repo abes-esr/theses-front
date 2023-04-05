@@ -87,7 +87,6 @@ function disableOrFilters() {
  * Routes
  */
 function queryAPI() {
-
   if(domaine.value === "theses")
     return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentNombre.value, currentTri.value);
   if(domaine.value === "personnes")
@@ -104,7 +103,7 @@ async function getFacets() {
     await fetchCodeLangues();
 
     if (domaine.value === "theses") {
-      await getFacetsTheses(query.value, getFacetsRequest)
+      await getFacetsTheses(query.value, getFacetsRequest())
         .then(response => {
           rawFacets = response.data;
         }).catch((err) => {
