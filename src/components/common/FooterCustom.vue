@@ -35,14 +35,14 @@
       </div>
       <div>
         <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
-          <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' style="height: 80px;" class="pr-4 "></a>
+          <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' style="height: 60px;" class="pr-4 "></a>
         <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
           <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")' style="height: 80px;"></a>
       </div>
     </div>
     <v-divider></v-divider>
     <v-card-text class="footerBottom">
-      <v-row class="px-4">
+      <v-row class="px-6">
         <v-col cols="12" md="3" class="text-center text-md-left pa-0">
           {{ new Date().getFullYear() }} —
           <strong>Theses.fr</strong>
@@ -98,7 +98,7 @@
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 0 0 70%;
       flex-direction: row;
-      width: 98%;
+      width: 97%;
     }
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
@@ -171,6 +171,9 @@
 
 }
 
+h3 {
+  color: rgb(var(--v-theme-primary));
+}
 
 .orange-link {
   color: rgb(var(--v-theme-orange-abes));
