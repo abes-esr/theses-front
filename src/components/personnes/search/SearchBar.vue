@@ -1,36 +1,23 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input"
-                :label='$t("rechercher")'
-                v-model="request"
-                v-model:search="requestSearch"
-                :items="items"
-                variant="outlined"
-                cache-items
-                hide-no-data
-                hide-selected
-                no-filter
-                append-inner-icon
-                @keydown.enter="search"
-                @update:modelValue="selectSuggestion"
-                item-title="suggestion"
-                item-value="suggestion"
-                :loading="isLoading"
-                :menu="suggestionActive"
-                :menu-props="menuProps"
-    >
+    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
+      :items="items" variant="outlined" cache-items hide-no-data hide-selected no-filter append-inner-icon
+      @keydown.enter="search" @update:modelValue="selectSuggestion" item-title="suggestion" item-value="suggestion"
+      :loading="isLoading" :menu="suggestionActive" :menu-props="menuProps">
       <template v-slot:append-inner>
-        <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :ripple="false">
+        <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :title='$t("clear")' :ripple="false">
         </v-btn>
       </template>
       <template v-slot:append>
-        <v-btn color="primary" icon="mdi-magnify" text @click="search" :loading="loading" class="pa-0 ma-0">
+        <v-btn color="primary" icon="mdi-magnify" text @click="search" :title='$t("searchButton")' :loading="loading"
+          class="pa-0 ma-0">
         </v-btn>
       </template>
     </v-combobox>
     <div class="searchbar__action">
-      <v-checkbox label="Désactiver l'autocomplétion" v-model="disableCompletion"></v-checkbox>
-      <v-btn color="primary" prepend-icon="mdi-magnify" @click="search">RECHERCHE AVANCEE
+      <v-checkbox label="Désactiver l'autocomplétion" v-model="disableCompletion"
+        :title='$t("disableSuggestion")'></v-checkbox>
+      <v-btn color="primary" prepend-icon="mdi-magnify" @click="search" :title='$t("avancee")'>{{ $t("avancee") }}
       </v-btn>
     </div>
   </div>
@@ -41,8 +28,8 @@ export default {
 };
 </script>
 <script setup>
-import { ref, onMounted, watch,computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, onMounted, watch, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { APIService } from "@/services/StrategyAPI";
 
 const router = useRouter();
@@ -55,7 +42,7 @@ defineProps({
     type: Boolean,
     default: false
   },
-})
+});
 const request = ref('');
 const requestSearch = ref("");
 const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
@@ -77,7 +64,7 @@ onMounted(
       watcherActive = false;
     }
   }
-)
+);
 
 /**
  * Fonction pour rechercher
@@ -91,9 +78,9 @@ async function search() {
   let currentURLParams = Object.assign({}, currentRoute.query);
 
   if (currentURLParams) {
-    currentURLParams.q = encodeURI(request.value)
+    currentURLParams.q = encodeURI(request.value);
   } else {
-    currentURLParams = { "q": encodeURI(request.value) }
+    currentURLParams = { "q": encodeURI(request.value) };
   }
 
   if (routeName.value === "resultats") {
@@ -128,14 +115,14 @@ watch(requestSearch, (candidate) => {
     suggestionActive.value = false;
   }
   watcherActive = true;
-})
+});
 
 watch(disableCompletion, (newDisableCompletion) => {
   if (newDisableCompletion) {
     suggestionActive.value = false;
     items.value = [];
   }
-})
+});
 
 /**
  * Fonction pour rechercher des suggestions
@@ -162,7 +149,7 @@ async function getSuggestionPersonne(candidate) {
  */
 function selectSuggestion(value) {
   if (value != null && typeof (value) == "object") {
-    request.value = value.suggestion
+    request.value = value.suggestion;
   }
 }
 
@@ -257,6 +244,7 @@ defineExpose({
     }
   }
 }
+
 /* Permet de rendre l'autocompletion + dense */
 :deep(.v-overlay-container) .v-list-item--density-default.v-list-item--one-line {
   min-height: 20px !important;

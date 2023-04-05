@@ -20,6 +20,8 @@
   "scroll": "Remonter en haut de la page",
   "clear": "Effacer la saisie dans la barre de recherche",
   "searchButton": "Lancer la recherche",
+  "avancee":"Recherche Avancée",
+  "disableSuggestion": "Désactiver l'autocomplétion",
   "top": "Retour en haut de la page",
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
