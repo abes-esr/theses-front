@@ -19,17 +19,20 @@
                 :menu-props="menuProps"
     >
       <template v-slot:append-inner>
-        <v-btn plain flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :ripple="false">
+        <v-btn plain flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :title='$t("clear")'
+          :ripple="false">
         </v-btn>
       </template>
       <template v-slot:append>
-        <v-btn color="primary" icon="mdi-magnify" text @click="search" :loading="loading" class="pa-0 ma-0">
+        <v-btn color="primary" icon="mdi-magnify" text @click="search" :title='$t("searchButton")' :loading="loading"
+          class="pa-0 ma-0">
         </v-btn>
       </template>
     </v-combobox>
     <div class="searchbar__action">
-      <v-checkbox label="Désactiver l'autocomplétion" v-model="disableCompletion"></v-checkbox>
-      <v-btn color="primary" prepend-icon="mdi-magnify" @click="search">RECHERCHE AVANCEE
+      <v-checkbox label="Désactiver l'autocomplétion" v-model="disableCompletion"
+        :title='$t("disableSuggestion")'></v-checkbox>
+      <v-btn color="primary" prepend-icon="mdi-magnify" :title='$t("avancee")' @click="search">{{ $t("avancee") }}
       </v-btn>
     </div>
   </div>

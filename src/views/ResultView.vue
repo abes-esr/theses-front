@@ -7,10 +7,9 @@
       </v-icon>
       <p v-bind="props">Filtrer</p>
     </button>
-<!--    Bouton menu recherche/selecteur these/personnes-->
+    <!--    Bouton menu recherche/selecteur these/personnes-->
     <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-            :class="{ 'magnify-logo-active': showSearchBar }"
-    >mdi-magnify
+      :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav>
 <!--    Menu filtres-->
@@ -29,7 +28,8 @@
       <div v-show="showSearchBar" class="expanded-search-bar-container">
         <div class="expanded-search-bar">
           <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
+          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+            @onError="displayError" />
         </div>
       </div>
     </v-expand-transition>
@@ -43,7 +43,8 @@
     </div>
     <div class="sub_header__action">
       <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
+      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+        @onError="displayError" />
     </div>
   </div>
 
@@ -115,6 +116,9 @@ onMounted(async () => {
 async function search() {
   request.value = getQuery();
   loading.value = true;
+
+  updateFacets();
+
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     if (currentRoute.query.domaine === "theses") {
@@ -126,7 +130,7 @@ async function search() {
         displayError(error.message);
         result.value = [];
         nbResult.value = 0;
-        reject(error)
+        reject(error);
       }).finally(() => {
         loading.value = false;
         dataReady.value = true;
@@ -143,7 +147,7 @@ async function search() {
         nbResult.value = 0;
         reject(error);
       } finally {
-        loading.value= false;
+        loading.value = false;
         dataReady.value = true;
         resolve();
       }
@@ -238,7 +242,6 @@ function changeDomain() {
 async function searchAndReinitialize() {
   reinitialize();
   await search();
-  updateFacets();
 }
 
 /**
@@ -258,7 +261,7 @@ function deleteFilter(filter) {
  */
 
 watch(() => currentRoute.query.domaine, () => {
-  setDomaine(currentRoute.query.domaine)
+  setDomaine(currentRoute.query.domaine);
 });
 </script>
 
@@ -395,6 +398,7 @@ watch(() => currentRoute.query.domaine, () => {
 .filter-mobile-nav-bar {
   display: flex;
   align-content: center;
+
   p {
     padding: 10% 0;
   }
