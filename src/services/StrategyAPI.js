@@ -46,6 +46,12 @@ function getQuery() {
   return query.value;
 }
 
+function getFacetsRequest() {
+  return currentFacets.value.length > 0
+  ? "&filtres=" + encodeURIComponent("[" + disableOrFilters().toString() + "]")
+  : "";
+}
+
 /**
  * Mise en forme du tableau de valeurs des facettes à destination de l'url
  * @param objectsArray
@@ -81,14 +87,10 @@ function disableOrFilters() {
  * Routes
  */
 function queryAPI() {
-  const facetsRequest = currentFacets.value.length > 0
-    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters().toString() + "]")
-    : "";
-
   if(domaine.value === "theses")
-    return queryThesesAPI(replaceAndEscape(query.value), facetsRequest, currentPage.value, currentNombre.value, currentTri.value);
+    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentNombre.value, currentTri.value);
   if(domaine.value === "personnes")
-    return queryPersonnesAPI(replaceAndEscape(query.value), facetsRequest, currentPage.value, currentNombre.value, currentTri.value);
+    return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentNombre.value, currentTri.value);
 }
 
 
@@ -101,7 +103,7 @@ async function getFacets() {
     await fetchCodeLangues();
 
     if (domaine.value === "theses") {
-      await getFacetsTheses(query.value)
+      await getFacetsTheses(query.value, getFacetsRequest())
         .then(response => {
           rawFacets = response.data;
         }).catch((err) => {
