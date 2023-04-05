@@ -9,6 +9,9 @@ const { fetchCodeLangues, createLabels, getLabelFromCode } = referentielsAPIServ
 const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTriTheses, disableOrFiltersTheses } = thesesAPIService();
 const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes, disableOrFiltersPersonnes } = personnesAPIService();
 
+/**
+ * Initialisation
+ */
 const domaine = ref("theses");
 // Page de résultats courante
 const currentPage = ref(1);
@@ -19,7 +22,6 @@ const currentTri = ref("pertinence");
 const currentFacets = ref([]);
 const query = ref("");
 const rawFacets = ref([]);
-
 fetchCodeLangues();
 
 /**

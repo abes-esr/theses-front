@@ -39,22 +39,6 @@ const emit = defineEmits(['update', 'searchAndReinitialize']);
 const facetsArray = ref([]);
 const facetsChipsArray = ref([]);
 
-
-watch(() => props.parametersLoaded, () => {
-  facetsArray.value = getFacetsArrayFromURL();
-
-  facetsArray.value.forEach((facet) => {
-    const filterData = {
-      facetName: facet.facetName,
-      filterName: facet.filterName,
-      label: facet.label
-    }
-    addToChips(filterData);
-  });
-
-  emit('update', facetsChipsArray.value);
-});
-
 /**
  * Fonctions
  */
@@ -68,10 +52,15 @@ function isChecked(filterData, lastFacetFilter) {
   return filterData.value && !arrayContainsFilter(lastFacetFilter);
 }
 
+function isDateFilter(facetFilter) {
+  console.info("function isfacetfilter : "+Object.keys(facetFilter)[0].startsWith("date"))
+  return Object.keys(facetFilter)[0].startsWith("date");
+}
+
 // Retourne l'index de l'objet courant dans le tableau facetsArray
 function getFacetItemIndex(lastFacetFilter) {
   return facetsArray.value.findIndex(function (facetFilter) {
-    return filtersAreEqual(facetFilter, lastFacetFilter);
+    return isDateFilter(facetFilter) || filtersAreEqual(facetFilter, lastFacetFilter);
   });
 }
 
@@ -87,9 +76,16 @@ function getChipFacetItemIndex(lastFacetFilter) {
   });
 }
 
-function chipFiltersAreEqual(chipObject, filterObject) {
-  return (chipObject.filter.facetName.toLowerCase() === Object.keys(filterObject)[0].toLowerCase()
-    && chipObject.filter.filterName.toLowerCase() === Object.values(filterObject)[0].toLowerCase());
+function chipFiltersAreEqual(chipObject, lastFacetFilter) {
+  console.log('chipobject') //#TODO mercredi 05/04 écraser la bonne date pour les deux arrays
+  console.log(chipObject) //#TODO mercredi 05/04
+  console.log('lastFacetFilter') //#TODO mercredi 05/04
+  console.log(lastFacetFilter) //#TODO mercredi 05/04
+  console.info("isDateFilter : " + isDateFilter(lastFacetFilter) && chipObject.filter.filterName.toLowerCase() === Object.keys(lastFacetFilter)[0].toLowerCase())
+  return ( isDateFilter(lastFacetFilter)
+            && chipObject.filter.filterName.toLowerCase() === Object.keys(lastFacetFilter)[0].toLowerCase() )
+  ||      (chipObject.filter.facetName.toLowerCase() === Object.keys(lastFacetFilter)[0].toLowerCase()
+            && chipObject.filter.filterName.toLowerCase() === Object.values(lastFacetFilter)[0].toLowerCase() );
 }
 
 function arrayContainsFilter(lastFacetFilter) {
@@ -132,13 +128,25 @@ function update() {
 }
 
 function addToChips(filterData) {
-  const chipData = {
-    'label': filterData.label,
-    'filter': {
-      'facetName': filterData.facetName,
-      'filterName': filterData.filterName
+var chipData = {};
+
+  if ( isDateFilter(filterData) ) {
+    chipData = {
+      'label': Object.values(filterData)[0],
+      'filter': {
+        'facetName': Object.keys(filterData)[0],
+        'filterName': Object.keys(filterData)[0]
+      }
     }
-  };
+  } else {
+    chipData = {
+      'label': filterData.label,
+      'filter': {
+        'facetName': filterData.facetName,
+        'filterName': filterData.filterName
+      }
+    };
+  }
 
   facetsChipsArray.value.splice(0, 0, chipData);
 }
@@ -161,7 +169,6 @@ function updateFilterData(filterData) {
   if (isChecked(filterData, lastFacetFilter)) {
     // Ajout
     facetsArray.value.splice(0, 0, lastFacetFilter);
-
     addToChips(filterData);
   } else {
     // Suppression
@@ -181,14 +188,33 @@ function updateFilterData(filterData) {
 }
 
 function updateFilterDateOnly(datesArray) {
-  clearDates();
+  // clearDates();
+  let itemIndex = -1;
   //Ajoute les dates courantes dans la liste des filtres, si elles sont définies
+  // Date début
   if (datesArray[0]) {
-    facetsArray.value.splice(0, 0, { ["dateDebut"]: datesArray[0] });
+    const filterDateDebut  = { 'dateDebut': datesArray[0] };
+
+    itemIndex = getFacetItemIndex(filterDateDebut);
+    console.info("index " + itemIndex)
+    if (itemIndex > -1) {
+      facetsArray.value.splice(itemIndex, 1);
+    }
+    facetsArray.value.splice(0, 0, filterDateDebut);
+
+    itemIndex = getChipFacetItemIndex(filterDateDebut);
+    console.info("index chip " + itemIndex)
+    if (itemIndex > -1) {
+      deleteFromChips(itemIndex);
+    }
+    addToChips(filterDateDebut);
   }
+
+  // Date fin
   if (datesArray[1]) {
     facetsArray.value.splice(0, 0, { ["dateFin"]: datesArray[1] });
   }
+
   modifierFiltres(facetsArray.value);
   emit('update', facetsChipsArray.value);
 }
@@ -241,6 +267,25 @@ watch(() => props.filterToBeDeleted,
       emit('searchAndReinitialize');
     }, 500);
   });
+
+/**
+ * Met à jour les chips selon les paramètres filtres de l'url
+ */
+watch(() => props.parametersLoaded, () => {
+  facetsArray.value = getFacetsArrayFromURL();
+
+  facetsArray.value.forEach((facet) => {
+    const filterData = {
+      facetName: facet.facetName,
+      filterName: facet.filterName,
+      label: facet.label
+    }
+    addToChips(filterData);
+  });
+
+  emit('update', facetsChipsArray.value);
+});
+
 </script>
 
 <style scoped lang="scss">

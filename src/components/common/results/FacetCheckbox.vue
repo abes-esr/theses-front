@@ -48,22 +48,6 @@ const maxRecursionDepth = 3;
 const recursionDepth = props.marginOffset / 4;  // Multiple de 4 (utilisation de la variable marginOffset) => niveau 2 = 4
 const checkboxState = ref(arrayContainsFilter());
 
-// if(checkboxState.value) {
-//   const filterData = {
-//     filterName: props.facetItem.name,
-//     value: true,
-//     label: props.facetItem.label,
-//   };
-//
-//   if (props.marginOffset === 0) {
-//     // Niveau 1 de récursion → sortir
-//     emit("updateFilterData", filterData);
-//   } else {
-//     emit('updateFilterDataRecursive', filterData);
-//   }
-// }
-
-
 let childrenCheckboxes = computed(() => {
   if (props.facetItem.checkboxes) {
     return props.facetItem.checkboxes;
