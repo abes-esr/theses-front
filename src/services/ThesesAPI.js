@@ -44,8 +44,8 @@ function suggestionTheses(query) {
  * @param query
  * @returns {Promise<AxiosResponse<any>>}
  */
-function getFacetsTheses(query) {
-  return apiTheses.get("/recherche/facets/?q=" + encodeURIComponent(replaceAndEscape(query)));
+function getFacetsTheses(query, facetsRequest) {
+  return apiTheses.get("/recherche/facets/?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);
 }
 
 /**

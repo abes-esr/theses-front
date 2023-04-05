@@ -1,35 +1,37 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav v-if="mobile" class="mobile-nav-bar">
-<!--    Bouton filtres-->
+    <!--    Bouton filtres-->
     <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
       <v-icon v-bind="props" size="40px">mdi-filter-variant
       </v-icon>
       <p v-bind="props">Filtrer</p>
     </button>
-<!--    Bouton menu recherche/selecteur these/personnes-->
+    <!--    Bouton menu recherche/selecteur these/personnes-->
     <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-            :class="{ 'magnify-logo-active': showSearchBar }"
-    >mdi-magnify
+      :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav>
-<!--    Menu filtres-->
+  <!--    Menu filtres-->
   <div v-if="mobile" class="logo-menu-wrapper">
     <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
-<!--    Menu recherche/selecteur these/personnes-->
-    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-          <facets-header @closeOverlay="closeOverlay"
-                         @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-          <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
-                       :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+    <!--    Menu recherche/selecteur these/personnes-->
+    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+      :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+      <facets-header @closeOverlay="closeOverlay"
+        @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay"
+        :facets="facets" :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted"
+        class="left-side"></facets-list>
     </v-dialog>
     <v-expand-transition>
       <div v-show="showSearchBar" class="expanded-search-bar-container">
         <div class="expanded-search-bar">
           <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
+          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+            @onError="displayError" />
         </div>
       </div>
     </v-expand-transition>
@@ -43,7 +45,8 @@
     </div>
     <div class="sub_header__action">
       <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
+      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+        @onError="displayError" />
     </div>
   </div>
 
@@ -51,13 +54,12 @@
     <div v-if="!mobile" class="nav-bar">
       <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
       <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-                   :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+        :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </div>
     <div class="result-components">
-      <result-components :data-ready="dataReady" :result="result" :loading="loading"
-                         :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
-                         :domain-name-change="domainNameChange" :facets="selectedFacets"
-                         @search="search" @deleteFilter="deleteFilter">
+      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
+        :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange"
+        :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
       </result-components>
     </div>
   </div>
@@ -95,15 +97,14 @@ const dialogVisible = ref(false);
 const showSearchBar = ref(false);
 const selectedFacets = ref([]);
 const filterToBeDeleted = ref([]);
-const numberOfDeletedChips =ref(0);
+const numberOfDeletedChips = ref(0);
 
 onMounted(() => {
   setDomaine(currentRoute.query.domaine);
   dataReady.value = false;
-  request.value = decodeURI(currentRoute.query.q)
+  request.value = decodeURI(currentRoute.query.q);
   setQuery(request.value);
   search();
-  updateFacets();
 });
 
 /**
@@ -112,6 +113,9 @@ onMounted(() => {
 async function search() {
   request.value = getQuery();
   loading.value = true;
+
+  updateFacets();
+
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     if (currentRoute.query.domaine === "theses") {
@@ -123,7 +127,7 @@ async function search() {
         displayError(error.message);
         result.value = [];
         nbResult.value = 0;
-        reject(error)
+        reject(error);
       }).finally(() => {
         loading.value = false;
         dataReady.value = true;
@@ -140,7 +144,7 @@ async function search() {
         nbResult.value = 0;
         reject(error);
       } finally {
-        loading.value= false;
+        loading.value = false;
         dataReady.value = true;
         resolve();
       }
@@ -234,7 +238,6 @@ function changeDomain() {
 async function searchAndReinitialize() {
   reinitialize();
   await search();
-  updateFacets();
 }
 
 /**
@@ -254,7 +257,7 @@ function deleteFilter(filter) {
  */
 
 watch(() => currentRoute.query.domaine, () => {
-  setDomaine(currentRoute.query.domaine)
+  setDomaine(currentRoute.query.domaine);
 });
 </script>
 
@@ -391,6 +394,7 @@ watch(() => currentRoute.query.domaine, () => {
 .filter-mobile-nav-bar {
   display: flex;
   align-content: center;
+
   p {
     padding: 10% 0;
   }
