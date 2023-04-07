@@ -124,7 +124,7 @@ function getFacetItemsIndexes(facetName) {
   let selectedFiltersIndexes = [];
 
   facetsArray.value.forEach(function (facetFilter, index) {
-    if (Object.keys(facetFilter)[0] === facetName) {
+    if (Object.keys(facetFilter)[0].toLowerCase() === facetName.toLowerCase()) {
       selectedFiltersIndexes.push(index);
     }
   });

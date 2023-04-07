@@ -159,12 +159,38 @@ function getFacetsArrayFromURL() {
   return getFacetsLabels(facetsArray);
 }
 
+/**
+ * Aplatit tous les niveaux de récursion des checkboxes pour une facette donnée
+ * @param facetArray
+ * @returns {*[]}
+ */
+function getFlattenedCheckboxesArray(facetArray) {
+  let deepArray = [];
+
+  if (facetArray.checkboxes) {
+    deepArray.push(...facetArray.checkboxes);
+
+    facetArray.checkboxes.forEach((facet) => {
+      deepArray.push(...getFlattenedCheckboxesArray(facet));
+    });
+  }
+  return deepArray;
+}
+
+/**
+ * Récupère le label d'un filtre récupéré depuis l'url ; permet d'avoir le texte mis en forme
+ * depth gère la récursion
+ * @param urlFacet
+ * @returns {*|string|string}
+ */
 function getLabelFromURLName(urlFacet) {
   let correspondingFacet = {};
+  let currentFacets = [];
 
   rawFacets.value.forEach((facet) => {
     if (facet.name.toLowerCase() === urlFacet.facetName.toLowerCase()) {
-      correspondingFacet = facet.checkboxes.find((filter) => {
+      currentFacets = getFlattenedCheckboxesArray(facet);
+      correspondingFacet = currentFacets.find((filter) => {
         return filter.name.toLowerCase() === urlFacet.filterName.toLowerCase();
       });
     }
@@ -174,7 +200,7 @@ function getLabelFromURLName(urlFacet) {
 }
 
 /**
- * Récupère les labels des filtres avec mise en forme et
+ * Récupère les labels des filtres avec mise en forme ; les noms des langues pour les codes langues ; le int de l'année pour les dates
  * @param facetsArray
  */
 function getFacetsLabels(facetsArray) {
@@ -188,7 +214,8 @@ function getFacetsLabels(facetsArray) {
       facet.label = parseInt(facet.filterName);
       facet.filterName = facet.facetName;
     } else {
-      facet.label = getLabelFromURLName(facet);
+      let label = getLabelFromURLName(facet);
+      facet.label = label ? label : facet.filterName;
     }
   });
 
@@ -299,10 +326,12 @@ function getData(id) {
 }
 
 function getSuggestion() {
-  if(domaine.value === "theses")
-    return suggestionTheses(query.value);
-  if(domaine.value === "personnes")
-    return suggestionPersonne(query.value);
+  return new Promise ((resolve) => {
+    if(domaine.value === "theses")
+      resolve(suggestionTheses(query.value));
+    if(domaine.value === "personnes")
+      resolve(suggestionPersonne(query.value));
+  });
 }
 
 function getItemsTri() {

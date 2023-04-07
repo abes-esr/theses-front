@@ -74,7 +74,9 @@ onMounted(
       // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
       watcherActive = false;
     }
-    setDomaine(currentRoute.query.domaine);
+
+    if (currentRoute.query && currentRoute.query.domaine)
+      setDomaine(decodeURI(currentRoute.query.domaine));
   }
 );
 

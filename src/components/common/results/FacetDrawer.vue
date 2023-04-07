@@ -42,7 +42,7 @@
 
 <script setup>
 import FacetCheckbox from "@/components/common/results/FacetCheckbox.vue";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
@@ -193,7 +193,7 @@ watch(() => props.parametersLoaded,
 .v-expansion-panel-title {
   gap: 10px;
   flex-wrap: nowrap;
-  padding: 0 10;
+  padding: 0 10px;
   overflow: hidden;
 }
 
