@@ -5,10 +5,13 @@ import { referentielsAPIService } from "@/services/ReferentielsAPI";
 import { replaceAndEscape } from "@/services/Common";
 
 // import fonctions
-const { fetchCodeLangues, createLabels } = referentielsAPIService();
+const { fetchCodeLangues, createLabels, getLabelFromCode } = referentielsAPIService();
 const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTriTheses, disableOrFiltersTheses } = thesesAPIService();
 const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes, disableOrFiltersPersonnes } = personnesAPIService();
 
+/**
+ * Initialisation
+ */
 const domaine = ref("theses");
 // Page de résultats courante
 const currentPage = ref(1);
@@ -18,6 +21,10 @@ const currentNombre = ref(10);
 const currentTri = ref("pertinence");
 const currentFacets = ref([]);
 const query = ref("");
+const rawFacets = ref([]);
+
+
+fetchCodeLangues();
 
 /**
  * Fonctions communes
@@ -35,15 +42,26 @@ function modifierTri(value) {
 }
 
 function modifierFiltres(objectsArray) {
-  currentFacets.value = parseFacetsValuesArray(objectsArray);
+  return new Promise((resolve) => {
+    currentFacets.value = parseFacetsValuesArray(objectsArray);
+    setURLFilters();
+    resolve();
+  });
 }
 
 function setQuery(newQuery) {
   query.value = newQuery ? newQuery : "*";
+  setURLQuery()
 }
 
 function getQuery() {
   return query.value;
+}
+
+function getFacetsRequest() {
+  return currentFacets.value.length > 0
+  ? "&filtres=" + encodeURIComponent("[" + disableOrFilters().toString() + "]")
+  : "";
 }
 
 /**
@@ -53,7 +71,6 @@ function getQuery() {
  */
 function parseFacetsValuesArray(objectsArray) {
   let filtersArrayURL = [];
-
   objectsArray.forEach((filter) => {
     filtersArrayURL.push(Object.keys(filter)[0] + '="' + Object.values(filter)[0] + '"');
   });
@@ -63,6 +80,7 @@ function parseFacetsValuesArray(objectsArray) {
 
 function setDomaine(newDomain) {
   domaine.value = newDomain;
+  setURLDomaine();
 }
 
 /**
@@ -81,29 +99,180 @@ function disableOrFilters() {
  * Routes
  */
 function queryAPI() {
-  const facetsRequest = currentFacets.value.length > 0
-    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters().toString() + "]")
-    : "";
-
   if(domaine.value === "theses")
-    return queryThesesAPI(replaceAndEscape(query.value), facetsRequest, currentPage.value, currentNombre.value, currentTri.value);
+    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentNombre.value, currentTri.value);
   if(domaine.value === "personnes")
-    return queryPersonnesAPI(replaceAndEscape(query.value), facetsRequest, currentPage.value, currentNombre.value, currentTri.value);
+    return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentNombre.value, currentTri.value);
 }
 
+function setURLParameters() {
+  setURLFilters();
+  setURLQuery();
+  setURLDomaine();
+}
 
+function getURLParams() {
+  const url = document.location;
+  return new URL(url).searchParams;
+}
+
+function setURLFilters() {
+  let currentURLParams = getURLParams();
+
+  if (currentFacets.value && currentFacets.value.length > 0) {
+    currentURLParams.set("filtres", encodeURIComponent("[" + disableOrFilters().toString() + "]"));
+  } else {
+    currentURLParams.delete("filtres");
+  }
+
+  updateURL(document.location, currentURLParams);
+}
+
+function setURLQuery() {
+  let currentURLParams = getURLParams();
+
+  if (query.value) {
+    currentURLParams.set("q", encodeURIComponent(query.value));
+  } else {
+    currentURLParams.delete("q");
+  }
+
+  updateURL(document.location, currentURLParams);
+}
+
+function getFacetsArrayFromURL() {
+  if (!currentFacets.value) return [];
+
+  var facetsArray = []
+  const stringifiedFacetsArray  = currentFacets.value
+    .slice(currentFacets.value.indexOf('[')+1, currentFacets.value.indexOf(']'))
+    .split('&');
+
+  stringifiedFacetsArray.forEach((facet) => {
+    let line = facet.split('=');
+    facetsArray.splice(
+      0, 0, {
+      [line[0]]: line[1].replaceAll('"', '')
+    });
+  });
+
+  return getFacetsLabels(facetsArray);
+}
+
+/**
+ * Aplatit tous les niveaux de récursion des checkboxes pour une facette donnée
+ * @param facetArray
+ * @returns {*[]}
+ */
+function getFlattenedCheckboxesArray(facetArray) {
+  let deepArray = [];
+
+  if (facetArray.checkboxes) {
+    deepArray.push(...facetArray.checkboxes);
+
+    facetArray.checkboxes.forEach((facet) => {
+      deepArray.push(...getFlattenedCheckboxesArray(facet));
+    });
+  }
+  return deepArray;
+}
+
+/**
+ * Récupère le label d'un filtre récupéré depuis l'url ; permet d'avoir le texte mis en forme
+ * depth gère la récursion
+ * @param urlFacet
+ * @returns {*|string|string}
+ */
+function getLabelFromURLName(urlFacet) {
+  let correspondingFacet = {};
+  let currentFacets = [];
+
+  rawFacets.value.forEach((facet) => {
+    if (facet.name.toLowerCase() === urlFacet.facetName.toLowerCase()) {
+      currentFacets = getFlattenedCheckboxesArray(facet);
+      correspondingFacet = currentFacets.find((filter) => {
+        return filter.name.toLowerCase() === urlFacet.filterName.toLowerCase();
+      });
+    }
+  });
+
+  return correspondingFacet ? correspondingFacet.label : "";
+}
+
+/**
+ * Récupère les labels des filtres avec mise en forme ; les noms des langues pour les codes langues ; le int de l'année pour les dates
+ * @param facetsArray
+ */
+function getFacetsLabels(facetsArray) {
+  facetsArray.forEach((facet) => {
+    facet.filterName = Object.values(facet)[0];
+    facet.facetName = Object.keys(facet)[0];
+
+    if (Object.keys(facet)[0].toLowerCase() === 'langues') {
+      facet.label = getLabelFromCode(facet.filterName);
+    } else if (Object.keys(facet)[0].toLowerCase().startsWith('date')) {
+      facet.label = parseInt(facet.filterName);
+      facet.filterName = facet.facetName;
+    } else {
+      let label = getLabelFromURLName(facet);
+      facet.label = label ? label : facet.filterName;
+    }
+  });
+
+  return facetsArray;
+}
+
+function setURLDomaine() {
+  let currentURLParams = getURLParams();
+
+  if (domaine.value) {
+    currentURLParams.set("domaine", encodeURIComponent(domaine.value));
+  } else {
+    currentURLParams.set("domaine", 'theses');
+  }
+
+  updateURL(document.location, currentURLParams);
+}
+
+async function getURLParameters() {
+  return new Promise((resolve) => {
+    const url = document.location;
+    let currentURLParams = new URL(url).searchParams;
+
+    currentFacets.value = getURLParameterNoBrackets(currentURLParams, 'filtres');
+    query.value = getURLParameter(currentURLParams, 'q');
+    domaine.value = getURLParameter(currentURLParams, 'domaine');
+
+    resolve();
+  });
+}
+
+function getURLParameterNoBrackets(currentURLParams, parameter) {
+  return getURLParameter(currentURLParams, parameter).replaceAll('[', '').replaceAll(']', '');
+}
+
+function getURLParameter(currentURLParams, parameter) {
+  if (currentURLParams.get(parameter)) {
+    return decodeURIComponent(currentURLParams.get(parameter));
+  }
+
+  return "";
+}
+
+function updateURL(url, currentURLParams) {
+  const newUrl = `${url.pathname}?${currentURLParams}`;
+  window.history.pushState({}, "", newUrl);
+}
 
 async function getFacets() {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
-    let rawFacets = {};
-
-    await fetchCodeLangues();
+    rawFacets.value = [];
 
     if (domaine.value === "theses") {
-      await getFacetsTheses(query.value)
+      await getFacetsTheses(query.value, getFacetsRequest())
         .then(response => {
-          rawFacets = response.data;
+          rawFacets.value = response.data;
         }).catch((err) => {
         reject(err);
       });
@@ -112,15 +281,15 @@ async function getFacets() {
     if (domaine.value === "personnes") {
       await getFacetsPersonnes(query.value)
         .then(response => {
-          rawFacets = response.data;
+          rawFacets.value = response.data;
         }).catch((err) => {
           reject(err);
         });
     }
 
-    if (Object.keys(rawFacets).length > 0) {
-      createLabels(rawFacets)
-      resolve(rawFacets);
+    if (Object.keys(rawFacets.value).length > 0) {
+      createLabels(rawFacets.value)
+      resolve(rawFacets.value);
     }
     reject();
   });
@@ -157,10 +326,12 @@ function getData(id) {
 }
 
 function getSuggestion() {
-  if(domaine.value === "theses")
-    return suggestionTheses(query.value);
-  if(domaine.value === "personnes")
-    return suggestionPersonne(query.value);
+  return new Promise ((resolve) => {
+    if(domaine.value === "theses")
+      resolve(suggestionTheses(query.value));
+    if(domaine.value === "personnes")
+      resolve(suggestionPersonne(query.value));
+  });
 }
 
 function getItemsTri() {
@@ -188,6 +359,8 @@ export function APIService() {
     getData,
     getSuggestion,
     setDomaine,
-    getItemsTri
+    getItemsTri,
+    getURLParameters,
+    getFacetsArrayFromURL
   };
 }

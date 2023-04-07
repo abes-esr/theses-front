@@ -7,10 +7,9 @@
       </v-icon>
       <p v-bind="props">Filtrer</p>
     </button>
-<!--    Bouton menu recherche/selecteur these/personnes-->
+    <!--    Bouton menu recherche/selecteur these/personnes-->
     <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-            :class="{ 'magnify-logo-active': showSearchBar }"
-    >mdi-magnify
+      :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav>
 <!--    Menu filtres-->
@@ -23,13 +22,14 @@
           <facets-header @closeOverlay="closeOverlay"
                          @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
           <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
-                       :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+                       :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger" :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </v-dialog>
     <v-expand-transition>
       <div v-show="showSearchBar" class="expanded-search-bar-container">
         <div class="expanded-search-bar">
           <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
+          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+            @onError="displayError" />
         </div>
       </div>
     </v-expand-transition>
@@ -43,7 +43,8 @@
     </div>
     <div class="sub_header__action">
       <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading" @onError="displayError" />
+      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+        @onError="displayError" />
     </div>
   </div>
 
@@ -51,7 +52,7 @@
     <div v-if="!mobile" class="nav-bar">
       <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
       <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-                   :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+                   :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger" :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </div>
     <div class="result-components">
       <result-components :data-ready="dataReady" :result="result" :loading="loading"
@@ -75,7 +76,7 @@ import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 
 const { mobile } = useDisplay();
-const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, modifierFiltres } = APIService();
+const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, modifierFiltres, getURLParameters } = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
@@ -95,15 +96,20 @@ const dialogVisible = ref(false);
 const showSearchBar = ref(false);
 const selectedFacets = ref([]);
 const filterToBeDeleted = ref([]);
-const numberOfDeletedChips =ref(0);
+const numberOfDeletedChips = ref(0);
+const parametersLoaded = ref(0);
+const reinitializeDateFromTrigger = ref(0);
+const reinitializeDateToTrigger = ref(0);
 
-onMounted(() => {
-  setDomaine(currentRoute.query.domaine);
-  dataReady.value = false;
-  request.value = decodeURI(currentRoute.query.q)
-  setQuery(request.value);
-  search();
-  updateFacets();
+onMounted(async () => {
+  getURLParameters().then(() => {
+    setDomaine(currentRoute.query.domaine);
+    dataReady.value = false;
+    request.value = decodeURI(currentRoute.query.q);
+    setQuery(request.value);
+    search();
+    updateFacets(true);
+  });
 });
 
 /**
@@ -112,6 +118,9 @@ onMounted(() => {
 async function search() {
   request.value = getQuery();
   loading.value = true;
+
+  updateFacets();
+
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     if (currentRoute.query.domaine === "theses") {
@@ -123,7 +132,7 @@ async function search() {
         displayError(error.message);
         result.value = [];
         nbResult.value = 0;
-        reject(error)
+        reject(error);
       }).finally(() => {
         loading.value = false;
         dataReady.value = true;
@@ -140,7 +149,7 @@ async function search() {
         nbResult.value = 0;
         reject(error);
       } finally {
-        loading.value= false;
+        loading.value = false;
         dataReady.value = true;
         resolve();
       }
@@ -184,9 +193,10 @@ function closeOverlay() {
   dialogVisible.value = false;
 }
 
-function updateFacets() {
+function updateFacets(firstLoad) {
   getFacets().then(response => {
     facets.value = response;
+    if (firstLoad) parametersLoaded.value++;
   }).catch(error => {
     facets.value = {};
     displayError(error.message);
@@ -234,7 +244,14 @@ function changeDomain() {
 async function searchAndReinitialize() {
   reinitialize();
   await search();
-  updateFacets();
+}
+
+function deleteDateFilterIfIsDate(filter) {
+  if (filter.filter.facetName === 'datedebut') {
+    reinitializeDateFromTrigger.value++;
+  } else if (filter.filter.facetName === 'datefin') {
+    reinitializeDateToTrigger.value++;
+  }
 }
 
 /**
@@ -243,6 +260,7 @@ async function searchAndReinitialize() {
  */
 function deleteFilter(filter) {
   numberOfDeletedChips.value++;
+  deleteDateFilterIfIsDate(filter);
   filterToBeDeleted.value = {
     'numberOfDeletedChips': numberOfDeletedChips.value,
     'filter': filter.filter
@@ -254,7 +272,7 @@ function deleteFilter(filter) {
  */
 
 watch(() => currentRoute.query.domaine, () => {
-  setDomaine(currentRoute.query.domaine)
+  setDomaine(currentRoute.query.domaine);
 });
 </script>
 
@@ -391,6 +409,7 @@ watch(() => currentRoute.query.domaine, () => {
 .filter-mobile-nav-bar {
   display: flex;
   align-content: center;
+
   p {
     padding: 10% 0;
   }

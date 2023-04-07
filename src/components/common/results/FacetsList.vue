@@ -1,9 +1,24 @@
 <template>
   <div class="facets">
-    <facet-drawer date :facet="{ 'name': 'Date' }" class="my-2" @reinitializeCheckboxes="reinitializeDates"
-      @updateFilterDateOnly="updateFilterDateOnly($event)"></facet-drawer>
-    <facet-drawer v-for="facet in facets" :key="`facet-${facet.name}`" @updateFilterData="updateFilterData"
-      @reinitializeCheckboxes="reinitializeCheckboxes" :facet="facet" :facets-array="facetsArray" class="my-2" />
+    <facet-drawer v-if="domaine === 'theses'"
+                  date
+                  key="facet-date"
+                  :facet="{ 'name': 'Date' }" class="my-2"
+                  :facets-array="facetsArray"
+                  :parameters-loaded="parametersLoaded"
+                  :reinitialize-date-fields-trigger="reinitializeDateFieldsTrigger"
+                  :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+                  :reinitialize-date-to-trigger="reinitializeDateToTrigger"
+                  @updateFilterDateOnly="updateFilterDateOnly($event)"
+                  @reinitializeCheckboxes="reinitializeDates">
+    </facet-drawer>
+    <facet-drawer v-for="facet in facets" class="my-2"
+                  :key="`facet-${facet.name}`"
+                  :facet="facet"
+                  :facets-array="facetsArray"
+                  @updateFilterData="updateFilterData"
+                  @reinitializeCheckboxes="reinitializeCheckboxes">
+    </facet-drawer>
     <v-btn v-if="mobile" @click="update">Appliquer les filtres</v-btn>
   </div>
 </template>
@@ -14,7 +29,7 @@ import { APIService } from "@/services/StrategyAPI";
 import { ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 
-const { modifierFiltres } = APIService();
+const { modifierFiltres, getFacetsArrayFromURL } = APIService();
 
 const props = defineProps({
   facets: {
@@ -25,6 +40,18 @@ const props = defineProps({
   },
   filterToBeDeleted: {
     type: Object
+  },
+  domaine: {
+    type: String
+  },
+  parametersLoaded: {
+    type: Number
+  },
+  reinitializeDateFromTrigger: {
+    type: Number
+  },
+  reinitializeDateToTrigger: {
+    type: Number
   }
 });
 
@@ -32,6 +59,7 @@ const { mobile } = useDisplay();
 const emit = defineEmits(['update', 'searchAndReinitialize']);
 const facetsArray = ref([]);
 const facetsChipsArray = ref([]);
+const reinitializeDateFieldsTrigger = ref(0);
 
 /**
  * Fonctions
@@ -46,6 +74,10 @@ function isChecked(filterData, lastFacetFilter) {
   return filterData.value && !arrayContainsFilter(lastFacetFilter);
 }
 
+function isDateFilter(facetFilter) {
+  return Object.keys(facetFilter)[0].startsWith("date");
+}
+
 // Retourne l'index de l'objet courant dans le tableau facetsArray
 function getFacetItemIndex(lastFacetFilter) {
   return facetsArray.value.findIndex(function (facetFilter) {
@@ -53,10 +85,31 @@ function getFacetItemIndex(lastFacetFilter) {
   });
 }
 
-// Compare les chaines de caractè1 contenues dans les Array
-function filtersAreEqual(object1, object2) {
-  return (Object.keys(object1)[0] === Object.keys(object2)[0]
-    && Object.values(object1)[0] === Object.values(object2)[0]);
+/**
+ * Compare les chaines de caractères contenues dans les Array
+ * Pour les dates on ne compare que le nom du filtre ( datedebut | datefin )
+ * @param comparedObject
+ * @param currentObject
+ * @returns {boolean}
+ */
+function filtersAreEqual(comparedObject, currentObject) {
+  return ( isDateFilter(currentObject)
+      && Object.keys(comparedObject)[0].toLowerCase() === Object.keys(currentObject)[0].toLowerCase() )
+    || ( Object.keys(comparedObject)[0].toLowerCase() === Object.keys(currentObject)[0].toLowerCase()
+      && Object.values(comparedObject)[0].toLowerCase() === Object.values(currentObject)[0].toLowerCase() );
+}
+
+function getChipFacetItemIndex(lastFacetFilter) {
+  return facetsChipsArray.value.findIndex(function (facetFilter) {
+    return chipFiltersAreEqual(facetFilter, lastFacetFilter);
+  });
+}
+
+function chipFiltersAreEqual(comparedChipObject, currentObject) {
+  return ( isDateFilter(currentObject)
+            && comparedChipObject.filter.filterName.toLowerCase() === Object.keys(currentObject)[0].toLowerCase() )
+  ||      ( comparedChipObject.filter.facetName.toLowerCase() === Object.keys(currentObject)[0].toLowerCase()
+            && comparedChipObject.filter.filterName.toLowerCase() === Object.values(currentObject)[0].toLowerCase() );
 }
 
 function arrayContainsFilter(lastFacetFilter) {
@@ -71,7 +124,7 @@ function getFacetItemsIndexes(facetName) {
   let selectedFiltersIndexes = [];
 
   facetsArray.value.forEach(function (facetFilter, index) {
-    if (Object.keys(facetFilter)[0] === facetName) {
+    if (Object.keys(facetFilter)[0].toLowerCase() === facetName.toLowerCase()) {
       selectedFiltersIndexes.push(index);
     }
   });
@@ -99,18 +152,35 @@ function update() {
 }
 
 function addToChips(filterData) {
-  const chipData = {
-    'label': filterData.label,
-    'filter': {
-      'facetName': filterData.facetName,
-      'filterName': filterData.filterName
+var chipData = {};
+
+  if ( isDateFilter(filterData) ) {
+    chipData = {
+      'label': Object.values(filterData)[0],
+      'filter': {
+        'facetName': Object.keys(filterData)[0],
+        'filterName': Object.keys(filterData)[0]
+      }
     }
-  };
+  } else {
+    chipData = {
+      'label': filterData.label,
+      'filter': {
+        'facetName': filterData.facetName,
+        'filterName': filterData.filterName
+      }
+    };
+  }
+
   facetsChipsArray.value.splice(0, 0, chipData);
 }
 
 function deleteFromChips(itemIndex) {
   facetsChipsArray.value.splice(itemIndex, 1);
+}
+
+function deleteFromFilters(itemIndex) {
+  facetsArray.value.splice(itemIndex, 1);
 }
 
 /**
@@ -126,30 +196,60 @@ function updateFilterData(filterData) {
 
   if (isChecked(filterData, lastFacetFilter)) {
     // Ajout
-    facetsArray.value.splice(0, 0, lastFacetFilter);
-
+    addToFilters(lastFacetFilter);
     addToChips(filterData);
   } else {
     // Suppression
-    const itemIndex = getFacetItemIndex(lastFacetFilter);
+    let itemIndex = getFacetItemIndex(lastFacetFilter);
     if (itemIndex > -1) {
-      facetsArray.value.splice(itemIndex, 1);
+      deleteFromFilters(itemIndex);
+    }
+
+    itemIndex = getChipFacetItemIndex(lastFacetFilter);
+    if (itemIndex > -1) {
       deleteFromChips(itemIndex);
     }
   }
+
   modifierFiltres(facetsArray.value);
   emit('update', facetsChipsArray.value);
 }
 
+function addToFilters(filterDateDebut) {
+  facetsArray.value.splice(0, 0, filterDateDebut);
+}
+
+function addOrOverwriteDate(datesArray) {
+  var dateFiltersNames = [
+    'datedebut',
+    'datefin'
+  ];
+
+  datesArray.forEach((dateData, key) => {
+    const filterDateDebut = { [dateFiltersNames[key]]: dateData };
+    let itemIndex = -1;
+
+    itemIndex = getFacetItemIndex(filterDateDebut);
+    if (itemIndex > -1) {
+      deleteFromFilters(itemIndex);
+    }
+
+    itemIndex = getChipFacetItemIndex(filterDateDebut);
+    if (itemIndex > -1) {
+      deleteFromChips(itemIndex);
+    }
+
+    if (Object.values(filterDateDebut)[0]) {
+      addToFilters(filterDateDebut);
+      addToChips(filterDateDebut);
+    }
+  });
+}
+
 function updateFilterDateOnly(datesArray) {
-  clearDates();
   //Ajoute les dates courantes dans la liste des filtres, si elles sont définies
-  if (datesArray[0]) {
-    facetsArray.value.splice(0, 0, { ["dateDebut"]: datesArray[0] });
-  }
-  if (datesArray[1]) {
-    facetsArray.value.splice(0, 0, { ["dateFin"]: datesArray[1] });
-  }
+  addOrOverwriteDate(datesArray);
+
   modifierFiltres(facetsArray.value);
   emit('update', facetsChipsArray.value);
 }
@@ -184,6 +284,7 @@ function resetArray(array) {
  */
 watch(() => props.resetFacets,
   () => {
+    reinitializeDateFieldsTrigger.value++;
     resetArray(facetsArray.value);
     resetArray(facetsChipsArray.value);
     modifierFiltres(facetsArray.value);
@@ -196,12 +297,30 @@ watch(() => props.resetFacets,
 watch(() => props.filterToBeDeleted,
   (newValue) => {
     updateFilterData(newValue.filter);
-    modifierFiltres(facetsArray.value);
-
-    setTimeout(() => {
-      emit('searchAndReinitialize');
-    }, 500);
+    modifierFiltres(facetsArray.value)
+      .then(() => {
+        emit('searchAndReinitialize');
+    });
   });
+
+/**
+ * Met à jour les chips selon les paramètres filtres de l'url
+ */
+watch(() => props.parametersLoaded, () => {
+  facetsArray.value = getFacetsArrayFromURL();
+
+  facetsArray.value.forEach((facet) => {
+    const filterData = {
+      facetName: facet.facetName,
+      filterName: facet.filterName,
+      label: facet.label
+    }
+    addToChips(filterData);
+  });
+
+  emit('update', facetsChipsArray.value);
+});
+
 </script>
 
 <style scoped lang="scss">

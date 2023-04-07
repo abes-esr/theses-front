@@ -1,7 +1,6 @@
 <template>
     <div class="pa-4">
         <Message-box ref="messageBox"></Message-box>
-
         <v-row class="justify-center">
             <v-col cols="12" md="6" class="pt-0">
                 <domain-selector compact></domain-selector>
@@ -115,9 +114,12 @@
                     <v-row class="ma-0">
                         <span> {{ resume }}</span>
                     </v-row>
+
                 </div>
             </v-col>
         </v-row>
+        <ScrollToTopButton v-show="hasScrolled" class="scroll-to-top-wrapper" :nb-result=1 />
+
     </div>
 </template>
 
@@ -126,6 +128,8 @@ import { ref, onBeforeMount, watch, defineAsyncComponent, watchEffect } from 'vu
 import { useRoute } from 'vue-router';
 import { useMeta } from 'vue-meta';
 import { useI18n } from "vue-i18n";
+import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
+
 
 import DomainSelector from '@/components/common/DomainSelector.vue';
 
@@ -157,20 +161,20 @@ watchEffect(() => {
     meta.description = t("meta.descThese") + titleThese;
 });
 
+let hasScrolled = ref(false);
 
 onBeforeMount(() => {
     dataReady.value = false;
+    window.addEventListener('scroll', () => { hasScrolled.value = true; });
     getData(route.params.id).then(result => {
         these.value = result.data;
-        resume.value = these.value.resumes.fr
+        resume.value = these.value.resumes.fr;
         dataReady.value = true;
         setKeywords();
     }).catch(error => {
         displayError(error.message);
     });
-
-
-})
+});
 
 function setKeywords() {
     keywordsFR = these.value.sujetsRameau.concat(these.value.sujetsFR);
@@ -193,12 +197,14 @@ const messageBox = ref(null);
 function displayError(message) {
     messageBox.value?.open(message, {
         type: "error"
-    })
+    });
 }
 
 </script>
 
 <style scoped lang="scss">
+@use 'vuetify/settings';
+
 .clickable {
     cursor: pointer;
 }
@@ -231,5 +237,22 @@ function displayError(message) {
 
 .v-list {
     background-color: transparent !important;
+}
+
+.scroll-to-top-wrapper {
+    position: sticky;
+    top: 90vh;
+    margin-bottom: 1rem;
+    margin-left: 97%;
+    width: 30px;
+    height: 30px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+        margin: 0 0;
+        height: 60px;
+        left: 90vw;
+        top: unset;
+        bottom: 1vh;
+    }
 }
 </style>

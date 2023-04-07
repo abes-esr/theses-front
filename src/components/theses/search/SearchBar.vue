@@ -1,8 +1,23 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-      :items="items" variant="outlined" cache-items hide-no-data hide-selected no-filter append-inner-icon
-      @keydown.enter="search" :active="true" return-object type="text" :menu="suggestionActive" :menu-props="menuProps">
+    <v-combobox class="searchbar__input"
+                :label='$t("rechercher")'
+                v-model="request"
+                v-model:search="requestSearch"
+                :items="items"
+                variant="outlined"
+                cache-items
+                hide-no-data
+                hide-selected
+                no-filter
+                append-inner-icon
+                @keydown.enter="search"
+                :active="true"
+                return-object
+                type="text"
+                :menu="suggestionActive"
+                :menu-props="menuProps"
+    >
       <template v-slot:append-inner>
         <v-btn plain flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :title='$t("clear")'
           :ripple="false">
@@ -35,7 +50,7 @@ import { APIService } from "@/services/StrategyAPI";
 
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery } = APIService();
+const { getSuggestion, setQuery, setDomaine } = APIService();
 
 defineProps({
   loading: {
@@ -59,6 +74,9 @@ onMounted(
       // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
       watcherActive = false;
     }
+
+    if (currentRoute.query && currentRoute.query.domaine)
+      setDomaine(decodeURI(currentRoute.query.domaine));
   }
 );
 
@@ -106,28 +124,16 @@ function clearSearch() {
 }
 
 async function search() {
-  let currentURLParams = Object.assign({}, currentRoute.query);
-
-  if (currentURLParams) {
-    currentURLParams.q = encodeURI(request.value);
-  } else {
-    currentURLParams = { "q": encodeURI(request.value) };
-  }
-
   if (routeName.value === "resultats") {
-    router.replace({
-      query: currentURLParams
-    });
+    setQuery(request.value);
+    emit('searchAndReinitializeAllFacets', request.value);
   } else {
+    setDomaine(currentRoute.query.domaine);
     router.push({
       name: 'resultats',
-      query: currentURLParams
+      query: {'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine)}
     });
   }
-
-  suggestionActive.value = false;
-  setQuery(request.value);
-  emit('searchAndReinitializeAllFacets', request.value);
 }
 
 defineExpose({

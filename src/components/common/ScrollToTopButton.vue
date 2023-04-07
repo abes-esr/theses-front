@@ -10,14 +10,14 @@
 </template>
 
 <script setup>
-  import { scrollToTop } from "@/services/Common";
+import { scrollToTop } from "@/services/Common";
 
-  defineProps({
-    nbResult: {
-      type: Number,
-      default: 0
-    }
-  })
+defineProps({
+  nbResult: {
+    type: Number,
+    default: 0
+  }
+});
 </script>
 
 <script>
@@ -27,7 +27,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .scroll-to-top-button {
   z-index: 2;
 }

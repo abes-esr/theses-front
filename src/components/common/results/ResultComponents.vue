@@ -62,7 +62,7 @@ const currentRoute = useRoute();
 const { mobile } = useDisplay();
 const { getQuery, modifierNombre } = APIService();
 
-const domainName = ref(currentRoute.query.domaine);
+const domainName = currentRoute.query.domaine ? ref(currentRoute.query.domaine) : ref('theses');
 
 const props = defineProps({
   result: {

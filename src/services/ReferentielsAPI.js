@@ -45,6 +45,7 @@ function getLabelFromCode(code) {
 export function referentielsAPIService() {
   return {
     fetchCodeLangues,
-    createLabels
+    createLabels,
+    getLabelFromCode
   };
 }
