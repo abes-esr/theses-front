@@ -1,7 +1,7 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav v-if="mobile" class="mobile-nav-bar">
-    <!--    Bouton filtres-->
+<!--    Bouton filtres-->
     <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
       <v-icon v-bind="props" size="40px">mdi-filter-variant
       </v-icon>
@@ -12,19 +12,17 @@
       :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav>
-  <!--    Menu filtres-->
+<!--    Menu filtres-->
   <div v-if="mobile" class="logo-menu-wrapper">
     <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
-    <!--    Menu recherche/selecteur these/personnes-->
-    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
-      :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <facets-header @closeOverlay="closeOverlay"
-        @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay"
-        :facets="facets" :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted"
-        class="left-side"></facets-list>
+<!--    Menu recherche/selecteur these/personnes-->
+    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+          <facets-header @closeOverlay="closeOverlay"
+                         @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+          <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
+                       :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger" :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </v-dialog>
     <v-expand-transition>
       <div v-show="showSearchBar" class="expanded-search-bar-container">
@@ -54,12 +52,13 @@
     <div v-if="!mobile" class="nav-bar">
       <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
       <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+                   :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger" :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </div>
     <div class="result-components">
-      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
-        :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange"
-        :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
+      <result-components :data-ready="dataReady" :result="result" :loading="loading"
+                         :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
+                         :domain-name-change="domainNameChange" :facets="selectedFacets"
+                         @search="search" @deleteFilter="deleteFilter">
       </result-components>
     </div>
   </div>
@@ -77,7 +76,7 @@ import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 
 const { mobile } = useDisplay();
-const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, modifierFiltres } = APIService();
+const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, modifierFiltres, getURLParameters } = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
@@ -98,13 +97,19 @@ const showSearchBar = ref(false);
 const selectedFacets = ref([]);
 const filterToBeDeleted = ref([]);
 const numberOfDeletedChips = ref(0);
+const parametersLoaded = ref(0);
+const reinitializeDateFromTrigger = ref(0);
+const reinitializeDateToTrigger = ref(0);
 
-onMounted(() => {
-  setDomaine(currentRoute.query.domaine);
-  dataReady.value = false;
-  request.value = decodeURI(currentRoute.query.q);
-  setQuery(request.value);
-  search();
+onMounted(async () => {
+  getURLParameters().then(() => {
+    setDomaine(currentRoute.query.domaine);
+    dataReady.value = false;
+    request.value = decodeURI(currentRoute.query.q);
+    setQuery(request.value);
+    search();
+    updateFacets(true);
+  });
 });
 
 /**
@@ -188,9 +193,10 @@ function closeOverlay() {
   dialogVisible.value = false;
 }
 
-function updateFacets() {
+function updateFacets(firstLoad) {
   getFacets().then(response => {
     facets.value = response;
+    if (firstLoad) parametersLoaded.value++;
   }).catch(error => {
     facets.value = {};
     displayError(error.message);
@@ -240,12 +246,21 @@ async function searchAndReinitialize() {
   await search();
 }
 
+function deleteDateFilterIfIsDate(filter) {
+  if (filter.filter.facetName === 'datedebut') {
+    reinitializeDateFromTrigger.value++;
+  } else if (filter.filter.facetName === 'datefin') {
+    reinitializeDateToTrigger.value++;
+  }
+}
+
 /**
  * Envoie le filtre à supprimer au composant FacetsList, utilisation de numberOfDeletedChips pour détecter la suppression d'un même objet deux fois d'affilée
  * @param filter
  */
 function deleteFilter(filter) {
   numberOfDeletedChips.value++;
+  deleteDateFilterIfIsDate(filter);
   filterToBeDeleted.value = {
     'numberOfDeletedChips': numberOfDeletedChips.value,
     'filter': filter.filter

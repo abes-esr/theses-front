@@ -35,6 +35,7 @@ function queryThesesAPI(query, facetsRequest, currentPage, currentNombre, curren
 }
 
 //Autcomplétion recherche simple
+// #TODO gérer les erreurs
 function suggestionTheses(query) {
   return apiTheses.get("/recherche/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
@@ -44,6 +45,7 @@ function suggestionTheses(query) {
  * @param query
  * @returns {Promise<AxiosResponse<any>>}
  */
+// #TODO gérer les erreurs
 function getFacetsTheses(query, facetsRequest) {
   return apiTheses.get("/recherche/facets/?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);
 }
@@ -53,6 +55,7 @@ function getFacetsTheses(query, facetsRequest) {
  * @param nnt
  * @returns {Promise<AxiosResponse<any>>}
  */
+// #TODO gérer les erreurs
 function getThese(nnt) {
   return apiTheses.get("/recherche/these/" + nnt);
 }

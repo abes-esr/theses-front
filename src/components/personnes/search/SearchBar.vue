@@ -1,9 +1,24 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-      :items="items" variant="outlined" cache-items hide-no-data hide-selected no-filter append-inner-icon
-      @keydown.enter="search" @update:modelValue="selectSuggestion" item-title="suggestion" item-value="suggestion"
-      :loading="isLoading" :menu="suggestionActive" :menu-props="menuProps">
+    <v-combobox class="searchbar__input"
+                :label='$t("rechercher")'
+                v-model="request"
+                v-model:search="requestSearch"
+                :items="items"
+                variant="outlined"
+                cache-items
+                hide-no-data
+                hide-selected
+                no-filter
+                append-inner-icon
+                @keydown.enter="search"
+                @update:modelValue="selectSuggestion"
+                item-title="suggestion"
+                item-value="suggestion"
+                :loading="isLoading"
+                :menu="suggestionActive"
+                :menu-props="menuProps"
+    >
       <template v-slot:append-inner>
         <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :title='$t("clear")' :ripple="false">
         </v-btn>
@@ -35,7 +50,7 @@ import { APIService } from "@/services/StrategyAPI";
 const router = useRouter();
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery } = APIService();
+const { getSuggestion, setQuery, setDomaine } = APIService();
 
 defineProps({
   loading: {
@@ -63,8 +78,9 @@ onMounted(
       // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
       watcherActive = false;
     }
+    setDomaine(currentRoute.query.domaine);
   }
-);
+)
 
 /**
  * Fonction pour rechercher
@@ -75,28 +91,15 @@ function clearSearch() {
 }
 
 async function search() {
-  let currentURLParams = Object.assign({}, currentRoute.query);
-
-  if (currentURLParams) {
-    currentURLParams.q = encodeURI(request.value);
-  } else {
-    currentURLParams = { "q": encodeURI(request.value) };
-  }
-
   if (routeName.value === "resultats") {
-    router.replace({
-      query: currentURLParams
-    });
+    setQuery(request.value);
+    emit('searchAndReinitializeAllFacets', request.value);
   } else {
     router.push({
       name: 'resultats',
-      query: currentURLParams
+      query: {'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine)}
     });
   }
-
-  suggestionActive.value = false;
-  setQuery(request.value);
-  emit('searchAndReinitializeAllFacets', request.value);
 }
 
 /* ---------------- */
@@ -115,14 +118,14 @@ watch(requestSearch, (candidate) => {
     suggestionActive.value = false;
   }
   watcherActive = true;
-});
+})
 
 watch(disableCompletion, (newDisableCompletion) => {
   if (newDisableCompletion) {
     suggestionActive.value = false;
     items.value = [];
   }
-});
+})
 
 /**
  * Fonction pour rechercher des suggestions
@@ -149,7 +152,7 @@ async function getSuggestionPersonne(candidate) {
  */
 function selectSuggestion(value) {
   if (value != null && typeof (value) == "object") {
-    request.value = value.suggestion;
+    request.value = value.suggestion
   }
 }
 
