@@ -149,6 +149,47 @@ function setURLQuery() {
 }
 
 /**
+ * Récupère seulement les filtres présents dans l'URL ET dans le retour elastic search
+ * @param facetsArray
+ * @returns {*[]}
+ */
+function getFiltersOnlyInURLAndInESResponse(facetsArray) {
+  let dataCleanedFacetsArray = [];
+
+  rawFacets.value.forEach((facet) => {
+    dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
+      if (facet.name.toLowerCase() === Object.keys(urlFacet)[0].toLowerCase()) {
+        return rawFacetReturnedFilter(facet, Object.values(urlFacet)[0]);
+      }
+      return false;
+    }));
+  });
+
+  return dataCleanedFacetsArray;
+}
+
+/**
+ * Parse le paramètre filtres de l'url pour le restituer dans un array
+ * @returns {*[]}
+ */
+function getFacetsArrayFromURLString() {
+  let facetsArray  = [];
+  const stringifiedFacetsArray = currentFacets.value
+    .slice(currentFacets.value.indexOf("[") + 1, currentFacets.value.indexOf("]"))
+    .split("&");
+
+  stringifiedFacetsArray.forEach((facet) => {
+    let line = facet.split("=");
+    facetsArray.splice(
+      0, 0, {
+        [line[0]]: line[1].replaceAll("\"", "")
+      });
+  });
+
+  return facetsArray;
+}
+
+/**
  * Parse le parametre filtres de l'url pour récupérer chaque filtre
  * Et les nettoyer selon les résultats d'elastic search puis récupérer la mise en forme des labels d'elastic search
  * @returns {*|*[]}
@@ -156,29 +197,10 @@ function setURLQuery() {
 function getFacetsArrayFromURL() {
   if (!currentFacets.value) return [];
 
-  let facetsArray = []
-  const stringifiedFacetsArray  = currentFacets.value
-    .slice(currentFacets.value.indexOf('[')+1, currentFacets.value.indexOf(']'))
-    .split('&');
-
-  stringifiedFacetsArray.forEach((facet) => {
-    let line = facet.split('=');
-    facetsArray.splice(
-      0, 0, {
-      [line[0]]: line[1].replaceAll('"', '')
-    });
-  });
+  let facetsArray = getFacetsArrayFromURLString();
 
   // Enlever les filtres qui ne sont pas dans la liste de facettes retournée par elastic search
-  let dataCleanedFacetsArray = [];
-  rawFacets.value.forEach((facet) => {
-    dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
-      if (facet.name.toLowerCase() === Object.keys(urlFacet)[0].toLowerCase()){
-        return rawFacetReturnedFilter(facet, Object.values(urlFacet)[0]);
-      }
-      return false;
-    }));
-  });
+  let dataCleanedFacetsArray = getFiltersOnlyInURLAndInESResponse(facetsArray);
 
   // Récupérer les labels avec les mises en forme récupérées depuis elastic search
   return getFacetsLabels(dataCleanedFacetsArray);
