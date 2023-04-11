@@ -176,12 +176,10 @@ var chipData = {};
 }
 
 function deleteFromChips(itemIndex) {
-  setWorkingFacetName('');
   facetsChipsArray.value.splice(itemIndex, 1);
 }
 
 function deleteFromFilters(itemIndex) {
-  setWorkingFacetName('');
   facetsArray.value.splice(itemIndex, 1);
 }
 
@@ -202,7 +200,6 @@ function updateFilterData(filterData) {
     addToChips(filterData);
   } else {
     // Suppression
-    setWorkingFacetName('');
     let itemIndex = getFacetItemIndex(lastFacetFilter);
     if (itemIndex > -1) {
       deleteFromFilters(itemIndex);
