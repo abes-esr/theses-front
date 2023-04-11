@@ -285,7 +285,16 @@ function replaceWorkingFacet(facetsArray, currentWorkingFacet) {
   return facetsArray;
 }
 
+/**
+ * Récupère les filtres cochés qui ne sont pas dans la liste courante des facettes
+ * En les ajoutant dans le tableau des facettes, derrière les facettes retournées par la recherche courante et par ordre alphabétique
+ */
 function addCheckedFilters() {
+  // Tri alphabétique
+  checkedFilters.value.sort((a, b) => {
+    return Object.values(a)[0] > Object.values(b)[0];
+  });
+
   checkedFilters.value.forEach((checkedFilter) => {
     const checkedFilterFacetName = Object.keys(checkedFilter)[0];
     const checkedFilterName = Object.values(checkedFilter)[0];
