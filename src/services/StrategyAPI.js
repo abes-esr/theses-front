@@ -148,10 +148,15 @@ function setURLQuery() {
   updateURL(document.location, currentURLParams);
 }
 
+/**
+ * Parse le parametre filtres de l'url pour récupérer chaque filtre
+ * Et les nettoyer selon les résultats d'elastic search puis récupérer la mise en forme des labels d'elastic search
+ * @returns {*|*[]}
+ */
 function getFacetsArrayFromURL() {
   if (!currentFacets.value) return [];
 
-  var facetsArray = []
+  let facetsArray = []
   const stringifiedFacetsArray  = currentFacets.value
     .slice(currentFacets.value.indexOf('[')+1, currentFacets.value.indexOf(']'))
     .split('&');
@@ -164,7 +169,19 @@ function getFacetsArrayFromURL() {
     });
   });
 
-  return getFacetsLabels(facetsArray);
+  // Enlever les filtres qui ne sont pas dans la liste de facettes retournée par elastic search
+  let dataCleanedFacetsArray = [];
+  rawFacets.value.forEach((facet) => {
+    dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
+      if (facet.name.toLowerCase() === Object.keys(urlFacet)[0].toLowerCase()){
+        return rawFacetReturnedFilter(facet, Object.values(urlFacet)[0]);
+      }
+      return false;
+    }));
+  });
+
+  // Récupérer les labels avec les mises en forme récupérées depuis elastic search
+  return getFacetsLabels(dataCleanedFacetsArray);
 }
 
 /**
@@ -409,7 +426,6 @@ function getItemsTri() {
 
 function addToMap(filterData) {
   labelMap.value.set(filterData.filterName, filterData.label);
-  console.info(labelMap.value);
 }
 
 /**
