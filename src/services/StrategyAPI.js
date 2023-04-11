@@ -22,6 +22,8 @@ const currentTri = ref("pertinence");
 const currentFacets = ref([]);
 const query = ref("");
 const rawFacets = ref([]);
+const checkedFilters = ref([]);
+const currentWorkingFacetName = ref("");
 
 
 fetchCodeLangues();
@@ -41,10 +43,11 @@ function modifierTri(value) {
   currentTri.value = value;
 }
 
-function modifierFiltres(objectsArray) {
+function setCheckedFilters(objectsArray) {
   return new Promise((resolve) => {
     currentFacets.value = parseFacetsValuesArray(objectsArray);
     setURLFilters();
+    checkedFilters.value = objectsArray;
     resolve();
   });
 }
@@ -52,6 +55,10 @@ function modifierFiltres(objectsArray) {
 function setQuery(newQuery) {
   query.value = newQuery ? newQuery : "*";
   setURLQuery()
+}
+
+function setWorkingFacetName(facetName) {
+  currentWorkingFacetName.value = facetName;
 }
 
 function getQuery() {
@@ -264,15 +271,62 @@ function updateURL(url, currentURLParams) {
   window.history.pushState({}, "", newUrl);
 }
 
+function replaceWorkingFacet(facetsArray, currentWorkingFacet) {
+  console.log(facetsArray)
+  if (currentWorkingFacet.length > 0) {
+    const facetIndex = facetsArray.findIndex((facet) => {
+      return facet.name.toLowerCase() === currentWorkingFacetName.value.toLowerCase();
+    });
+
+    if (facetIndex > -1)
+      facetsArray.splice(facetIndex, 1, currentWorkingFacet[0]);
+  }
+
+  return facetsArray;
+}
+
+function addCheckedFilters() {
+  checkedFilters.value.forEach((checkedFilter) => {
+    const checkedFilterFacetName = Object.keys(checkedFilter)[0];
+    const checkedFilterName = Object.values(checkedFilter)[0];
+
+    getBackCheckedFiltersIntoList(checkedFilterName, checkedFilterFacetName);
+  });
+}
+
+function rawFacetReturnedFilter(facet, checkedFilterName) {
+  return facet.checkboxes.filter((filter) => {
+    return filter.name.toLowerCase() === checkedFilterName.toLowerCase();
+  }).length > 0;
+}
+
+function getBackCheckedFiltersIntoList(checkedFilterName, checkedFilterFacetName) {
+  rawFacets.value.forEach((facet) => {
+    if (facet.name.toLowerCase() === checkedFilterFacetName.toLowerCase()) {
+      if (!rawFacetReturnedFilter(facet, checkedFilterName))
+        facet.checkboxes.push(
+          {
+            'name': checkedFilterName,
+            'label': checkedFilterName,
+            'value': 0
+          }
+        );
+        console.log('pushed checkedFilter to rawfacets')
+    }
+  });
+}
+
 async function getFacets() {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
-    rawFacets.value = [];
+    const currentWorkingFacet = rawFacets.value.filter((facet) => {
+      return facet.name.toLowerCase() === currentWorkingFacetName.value.toLowerCase();
+    });
 
     if (domaine.value === "theses") {
       await getFacetsTheses(query.value, getFacetsRequest())
         .then(response => {
-          rawFacets.value = response.data;
+          rawFacets.value = replaceWorkingFacet(response.data, currentWorkingFacet);
         }).catch((err) => {
         reject(err);
       });
@@ -288,7 +342,8 @@ async function getFacets() {
     }
 
     if (Object.keys(rawFacets.value).length > 0) {
-      createLabels(rawFacets.value)
+      addCheckedFilters();
+      createLabels(rawFacets.value);
       resolve(rawFacets.value);
     }
     reject();
@@ -343,7 +398,7 @@ function getItemsTri() {
 
 /**
  *
- * @returns {{modifierFiltres: modifierFiltres, queryAPI: ((function(): (*|undefined))|*), getFacets: ((function(): (*|undefined))|*), modifierNombre: modifierNombre, modifierPage: modifierPage, setQuery: setQuery, getData: ((function(*): (*|undefined))|*), getSuggestion: ((function(): (*|undefined))|*), modifierTri: modifierTri}}
+ * @returns {{setCheckedFilters: setCheckedFilters, queryAPI: ((function(): (*|undefined))|*), getFacets: ((function(): (*|undefined))|*), modifierNombre: modifierNombre, modifierPage: modifierPage, setQuery: setQuery, getData: ((function(*): (*|undefined))|*), getSuggestion: ((function(): (*|undefined))|*), modifierTri: modifierTri}}
  * @constructor
  */
 export function APIService() {
@@ -351,7 +406,7 @@ export function APIService() {
     modifierPage,
     modifierNombre,
     modifierTri,
-    modifierFiltres,
+    setCheckedFilters,
     setQuery,
     getQuery,
     queryAPI,
@@ -361,6 +416,7 @@ export function APIService() {
     setDomaine,
     getItemsTri,
     getURLParameters,
-    getFacetsArrayFromURL
+    getFacetsArrayFromURL,
+    setWorkingFacetName,
   };
 }

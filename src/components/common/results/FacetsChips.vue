@@ -31,6 +31,7 @@ defineProps({
 const emit = defineEmits('deleteFilter');
 
 function deleteFilter(facet) {
+  // setWorkingFacetName('');
   emit('deleteFilter', facet);
 }
 </script>
