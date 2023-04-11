@@ -24,6 +24,7 @@ const query = ref("");
 const rawFacets = ref([]);
 const checkedFilters = ref([]);
 const currentWorkingFacetName = ref("");
+const labelMap = ref(new Map());
 
 
 fetchCodeLangues();
@@ -272,7 +273,6 @@ function updateURL(url, currentURLParams) {
 }
 
 function replaceWorkingFacet(facetsArray, currentWorkingFacet) {
-  console.log(facetsArray)
   if (currentWorkingFacet.length > 0) {
     const facetIndex = facetsArray.findIndex((facet) => {
       return facet.name.toLowerCase() === currentWorkingFacetName.value.toLowerCase();
@@ -303,15 +303,17 @@ function rawFacetReturnedFilter(facet, checkedFilterName) {
 function getBackCheckedFiltersIntoList(checkedFilterName, checkedFilterFacetName) {
   rawFacets.value.forEach((facet) => {
     if (facet.name.toLowerCase() === checkedFilterFacetName.toLowerCase()) {
-      if (!rawFacetReturnedFilter(facet, checkedFilterName))
+      if (!rawFacetReturnedFilter(facet, checkedFilterName)) {
+        const label = labelMap.value.get(checkedFilterName);
+
         facet.checkboxes.push(
           {
             'name': checkedFilterName,
-            'label': checkedFilterName,
+            'label': label ? label : checkedFilterName,
             'value': 0
           }
         );
-        console.log('pushed checkedFilter to rawfacets')
+      }
     }
   });
 }
@@ -396,6 +398,11 @@ function getItemsTri() {
     return getItemsTriPersonnes();
 }
 
+function addToMap(filterData) {
+  labelMap.value.set(filterData.filterName, filterData.label);
+  console.info(labelMap.value);
+}
+
 /**
  *
  * @returns {{setCheckedFilters: setCheckedFilters, queryAPI: ((function(): (*|undefined))|*), getFacets: ((function(): (*|undefined))|*), modifierNombre: modifierNombre, modifierPage: modifierPage, setQuery: setQuery, getData: ((function(*): (*|undefined))|*), getSuggestion: ((function(): (*|undefined))|*), modifierTri: modifierTri}}
@@ -418,5 +425,6 @@ export function APIService() {
     getURLParameters,
     getFacetsArrayFromURL,
     setWorkingFacetName,
+    addToMap
   };
 }
