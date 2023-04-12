@@ -1,6 +1,6 @@
 <template>
   <div class="facets">
-    <facet-drawer v-if="domaine === 'theses'"
+    <facet-drawer v-if="domaine === 'theses' && Object.keys(facets).length > 0"
                   date
                   key="facet-date"
                   :facet="{ 'name': 'Date' }" class="my-2"
@@ -152,7 +152,7 @@ function update() {
 }
 
 function addToChips(filterData) {
-var chipData = {};
+let chipData = {};
 
   if ( isDateFilter(filterData) ) {
     chipData = {

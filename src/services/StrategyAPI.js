@@ -157,6 +157,7 @@ function getFiltersOnlyInURLAndInESResponse(facetsArray) {
   let dataCleanedFacetsArray = [];
 
   rawFacets.value.forEach((facet) => {
+
     dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
       if (facet.name.toLowerCase() === Object.keys(urlFacet)[0].toLowerCase()) {
         return rawFacetReturnedFilter(facet, Object.values(urlFacet)[0]);
@@ -338,7 +339,7 @@ function addCheckedFilters() {
     const checkedFilterFacetName = Object.keys(checkedFilter)[0];
     const checkedFilterName = Object.values(checkedFilter)[0];
 
-    getBackCheckedFiltersIntoList(checkedFilterName, checkedFilterFacetName);
+    getCheckedFiltersBackIntoList(checkedFilterName, checkedFilterFacetName);
   });
 }
 
@@ -348,10 +349,19 @@ function rawFacetReturnedFilter(facet, checkedFilterName) {
   }).length > 0;
 }
 
-function getBackCheckedFiltersIntoList(checkedFilterName, checkedFilterFacetName) {
+/**
+ * Si les filtres cochés présents dans rawFacets ne sont pas dans la liste des facettes
+ * retournées par l'API alors on les ajoute à cette même liste avec la valeur 0
+ * @param checkedFilterName
+ * @param checkedFilterFacetName
+ */
+function getCheckedFiltersBackIntoList(checkedFilterName, checkedFilterFacetName) {
   rawFacets.value.forEach((facet) => {
     if (facet.name.toLowerCase() === checkedFilterFacetName.toLowerCase()) {
-      if (!rawFacetReturnedFilter(facet, checkedFilterName)) {
+      let currentFacet = { ...facet }; // cloner l'objet
+      currentFacet.checkboxes = getFlattenedCheckboxesArray(facet);
+
+      if (!rawFacetReturnedFilter(currentFacet, checkedFilterName)) {
         const label = labelMap.value.get(checkedFilterName);
 
         facet.checkboxes.push(
