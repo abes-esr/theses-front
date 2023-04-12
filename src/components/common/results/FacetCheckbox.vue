@@ -22,7 +22,10 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
+import { APIService } from "@/services/StrategyAPI";
+
+const { addToMap } = APIService();
 
 const emit = defineEmits(['updateParentCheckbox', 'updateFilterData', 'updateFilterDataRecursive']);
 const props = defineProps({
@@ -42,6 +45,15 @@ const props = defineProps({
   facetName: {
     type: String
   }
+});
+
+onMounted(() => {
+  const filterData = {
+    filterName: props.facetItem.name,
+    label: props.facetItem.label,
+  };
+
+  addToMap(filterData);
 });
 
 const maxRecursionDepth = 3;

@@ -22,6 +22,10 @@
   </div>
 </template>
 <script setup>
+import { APIService } from "@/services/StrategyAPI";
+
+const { setWorkingFacetName } = APIService();
+
 defineProps({
   facets: {
     type: Object
@@ -31,6 +35,7 @@ defineProps({
 const emit = defineEmits('deleteFilter');
 
 function deleteFilter(facet) {
+  setWorkingFacetName('');
   emit('deleteFilter', facet);
 }
 </script>

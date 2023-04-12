@@ -76,7 +76,7 @@ import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 
 const { mobile } = useDisplay();
-const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, modifierFiltres, getURLParameters } = APIService();
+const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, setCheckedFilters, getURLParameters, setWorkingFacetName } = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
@@ -232,7 +232,8 @@ async function searchAndReinitializeFacet(query) {
 async function searchAndReinitializeAllFacets() {
   showSearchBar.value = false;
   resetFacets.value++;
-  modifierFiltres([]);
+  setWorkingFacetName('')
+  setCheckedFilters([]);
   searchAndReinitialize();
 }
 

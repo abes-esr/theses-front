@@ -1,6 +1,6 @@
 <template>
   <div class="facets">
-    <facet-drawer v-if="domaine === 'theses'"
+    <facet-drawer v-if="domaine === 'theses' && Object.keys(facets).length > 0"
                   date
                   key="facet-date"
                   :facet="{ 'name': 'Date' }" class="my-2"
@@ -29,7 +29,7 @@ import { APIService } from "@/services/StrategyAPI";
 import { ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 
-const { modifierFiltres, getFacetsArrayFromURL } = APIService();
+const { setCheckedFilters, getFacetsArrayFromURL, setWorkingFacetName } = APIService();
 
 const props = defineProps({
   facets: {
@@ -152,7 +152,7 @@ function update() {
 }
 
 function addToChips(filterData) {
-var chipData = {};
+let chipData = {};
 
   if ( isDateFilter(filterData) ) {
     chipData = {
@@ -211,12 +211,13 @@ function updateFilterData(filterData) {
     }
   }
 
-  modifierFiltres(facetsArray.value);
+  setCheckedFilters(facetsArray.value);
   emit('update', facetsChipsArray.value);
 }
 
-function addToFilters(filterDateDebut) {
-  facetsArray.value.splice(0, 0, filterDateDebut);
+function addToFilters(filterObject) {
+  setWorkingFacetName( Object.keys(filterObject)[0] );
+  facetsArray.value.splice(0, 0, filterObject);
 }
 
 function addOrOverwriteDate(datesArray) {
@@ -250,7 +251,7 @@ function updateFilterDateOnly(datesArray) {
   //Ajoute les dates courantes dans la liste des filtres, si elles sont définies
   addOrOverwriteDate(datesArray);
 
-  modifierFiltres(facetsArray.value);
+  setCheckedFilters(facetsArray.value);
   emit('update', facetsChipsArray.value);
 }
 
@@ -262,13 +263,13 @@ function reinitializeCheckboxes(facetName) {
     deleteFromChips(key);
   });
 
-  modifierFiltres(facetsArray.value);
+  setCheckedFilters(facetsArray.value);
   emit('update');
 }
 
 function reinitializeDates() {
   clearDates();
-  modifierFiltres(facetsArray.value);
+  setCheckedFilters(facetsArray.value);
   emit('update');
 }
 
@@ -287,7 +288,7 @@ watch(() => props.resetFacets,
     reinitializeDateFieldsTrigger.value++;
     resetArray(facetsArray.value);
     resetArray(facetsChipsArray.value);
-    modifierFiltres(facetsArray.value);
+    setCheckedFilters(facetsArray.value);
   });
 
 /**
@@ -297,7 +298,7 @@ watch(() => props.resetFacets,
 watch(() => props.filterToBeDeleted,
   (newValue) => {
     updateFilterData(newValue.filter);
-    modifierFiltres(facetsArray.value)
+    setCheckedFilters(facetsArray.value)
       .then(() => {
         emit('searchAndReinitialize');
     });
