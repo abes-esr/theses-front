@@ -22,6 +22,9 @@ const currentTri = ref("pertinence");
 const currentFacets = ref([]);
 const query = ref("");
 const rawFacets = ref([]);
+const checkedFilters = ref([]);
+const currentWorkingFacetName = ref("");
+const labelMap = ref(new Map());
 
 
 fetchCodeLangues();
@@ -41,10 +44,11 @@ function modifierTri(value) {
   currentTri.value = value;
 }
 
-function modifierFiltres(objectsArray) {
+function setCheckedFilters(objectsArray) {
   return new Promise((resolve) => {
     currentFacets.value = parseFacetsValuesArray(objectsArray);
     setURLFilters();
+    checkedFilters.value = objectsArray;
     resolve();
   });
 }
@@ -52,6 +56,10 @@ function modifierFiltres(objectsArray) {
 function setQuery(newQuery) {
   query.value = newQuery ? newQuery : "*";
   setURLQuery()
+}
+
+function setWorkingFacetName(facetName) {
+  currentWorkingFacetName.value = facetName;
 }
 
 function getQuery() {
@@ -140,23 +148,63 @@ function setURLQuery() {
   updateURL(document.location, currentURLParams);
 }
 
+/**
+ * Récupère seulement les filtres présents dans l'URL ET dans le retour elastic search
+ * @param facetsArray
+ * @returns {*[]}
+ */
+function getFiltersOnlyInURLAndInESResponse(facetsArray) {
+  let dataCleanedFacetsArray = [];
+
+  rawFacets.value.forEach((facet) => {
+
+    dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
+      if (facet.name.toLowerCase() === Object.keys(urlFacet)[0].toLowerCase()) {
+        return rawFacetReturnedFilter(facet, Object.values(urlFacet)[0]);
+      }
+      return false;
+    }));
+  });
+
+  return dataCleanedFacetsArray;
+}
+
+/**
+ * Parse le paramètre filtres de l'url pour le restituer dans un array
+ * @returns {*[]}
+ */
+function getFacetsArrayFromURLString() {
+  let facetsArray  = [];
+  const stringifiedFacetsArray = currentFacets.value
+    .slice(currentFacets.value.indexOf("[") + 1, currentFacets.value.indexOf("]"))
+    .split("&");
+
+  stringifiedFacetsArray.forEach((facet) => {
+    let line = facet.split("=");
+    facetsArray.splice(
+      0, 0, {
+        [line[0]]: line[1].replaceAll("\"", "")
+      });
+  });
+
+  return facetsArray;
+}
+
+/**
+ * Parse le parametre filtres de l'url pour récupérer chaque filtre
+ * Et les nettoyer selon les résultats d'elastic search puis récupérer la mise en forme des labels d'elastic search
+ * @returns {*|*[]}
+ */
 function getFacetsArrayFromURL() {
   if (!currentFacets.value) return [];
 
-  var facetsArray = []
-  const stringifiedFacetsArray  = currentFacets.value
-    .slice(currentFacets.value.indexOf('[')+1, currentFacets.value.indexOf(']'))
-    .split('&');
+  let facetsArray = getFacetsArrayFromURLString();
 
-  stringifiedFacetsArray.forEach((facet) => {
-    let line = facet.split('=');
-    facetsArray.splice(
-      0, 0, {
-      [line[0]]: line[1].replaceAll('"', '')
-    });
-  });
+  // Enlever les filtres qui ne sont pas dans la liste de facettes retournée par elastic search
+  let dataCleanedFacetsArray = getFiltersOnlyInURLAndInESResponse(facetsArray);
 
-  return getFacetsLabels(facetsArray);
+  // Récupérer les labels avec les mises en forme récupérées depuis elastic search
+  return getFacetsLabels(dataCleanedFacetsArray);
 }
 
 /**
@@ -264,15 +312,81 @@ function updateURL(url, currentURLParams) {
   window.history.pushState({}, "", newUrl);
 }
 
+function replaceWorkingFacet(facetsArray, currentWorkingFacet) {
+  if (currentWorkingFacet.length > 0) {
+    const facetIndex = facetsArray.findIndex((facet) => {
+      return facet.name.toLowerCase() === currentWorkingFacetName.value.toLowerCase();
+    });
+
+    if (facetIndex > -1)
+      facetsArray.splice(facetIndex, 1, currentWorkingFacet[0]);
+  }
+
+  return facetsArray;
+}
+
+/**
+ * Récupère les filtres cochés qui ne sont pas dans la liste courante des facettes
+ * En les ajoutant dans le tableau des facettes, derrière les facettes retournées par la recherche courante et par ordre alphabétique
+ */
+function addCheckedFilters() {
+  // Tri alphabétique
+  checkedFilters.value.sort((a, b) => {
+    return Object.values(a)[0] > Object.values(b)[0];
+  });
+
+  checkedFilters.value.forEach((checkedFilter) => {
+    const checkedFilterFacetName = Object.keys(checkedFilter)[0];
+    const checkedFilterName = Object.values(checkedFilter)[0];
+
+    getCheckedFiltersBackIntoList(checkedFilterName, checkedFilterFacetName);
+  });
+}
+
+function rawFacetReturnedFilter(facet, checkedFilterName) {
+  return facet.checkboxes.filter((filter) => {
+    return filter.name.toLowerCase() === checkedFilterName.toLowerCase();
+  }).length > 0;
+}
+
+/**
+ * Si les filtres cochés présents dans rawFacets ne sont pas dans la liste des facettes
+ * retournées par l'API alors on les ajoute à cette même liste avec la valeur 0
+ * @param checkedFilterName
+ * @param checkedFilterFacetName
+ */
+function getCheckedFiltersBackIntoList(checkedFilterName, checkedFilterFacetName) {
+  rawFacets.value.forEach((facet) => {
+    if (facet.name.toLowerCase() === checkedFilterFacetName.toLowerCase()) {
+      let currentFacet = { ...facet }; // cloner l'objet
+      currentFacet.checkboxes = getFlattenedCheckboxesArray(facet);
+
+      if (!rawFacetReturnedFilter(currentFacet, checkedFilterName)) {
+        const label = labelMap.value.get(checkedFilterName);
+
+        facet.checkboxes.push(
+          {
+            'name': checkedFilterName,
+            'label': label ? label : checkedFilterName,
+            'value': 0
+          }
+        );
+      }
+    }
+  });
+}
+
 async function getFacets() {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
-    rawFacets.value = [];
+    const currentWorkingFacet = rawFacets.value.filter((facet) => {
+      return facet.name.toLowerCase() === currentWorkingFacetName.value.toLowerCase();
+    });
 
     if (domaine.value === "theses") {
       await getFacetsTheses(query.value, getFacetsRequest())
         .then(response => {
-          rawFacets.value = response.data;
+          rawFacets.value = replaceWorkingFacet(response.data, currentWorkingFacet);
         }).catch((err) => {
         reject(err);
       });
@@ -288,7 +402,8 @@ async function getFacets() {
     }
 
     if (Object.keys(rawFacets.value).length > 0) {
-      createLabels(rawFacets.value)
+      addCheckedFilters();
+      createLabels(rawFacets.value);
       resolve(rawFacets.value);
     }
     reject();
@@ -341,9 +456,13 @@ function getItemsTri() {
     return getItemsTriPersonnes();
 }
 
+function addToMap(filterData) {
+  labelMap.value.set(filterData.filterName, filterData.label);
+}
+
 /**
  *
- * @returns {{modifierFiltres: modifierFiltres, queryAPI: ((function(): (*|undefined))|*), getFacets: ((function(): (*|undefined))|*), modifierNombre: modifierNombre, modifierPage: modifierPage, setQuery: setQuery, getData: ((function(*): (*|undefined))|*), getSuggestion: ((function(): (*|undefined))|*), modifierTri: modifierTri}}
+ * @returns {{setCheckedFilters: setCheckedFilters, queryAPI: ((function(): (*|undefined))|*), getFacets: ((function(): (*|undefined))|*), modifierNombre: modifierNombre, modifierPage: modifierPage, setQuery: setQuery, getData: ((function(*): (*|undefined))|*), getSuggestion: ((function(): (*|undefined))|*), modifierTri: modifierTri}}
  * @constructor
  */
 export function APIService() {
@@ -351,7 +470,7 @@ export function APIService() {
     modifierPage,
     modifierNombre,
     modifierTri,
-    modifierFiltres,
+    setCheckedFilters,
     setQuery,
     getQuery,
     queryAPI,
@@ -361,6 +480,8 @@ export function APIService() {
     setDomaine,
     getItemsTri,
     getURLParameters,
-    getFacetsArrayFromURL
+    getFacetsArrayFromURL,
+    setWorkingFacetName,
+    addToMap
   };
 }
