@@ -113,6 +113,16 @@ function getItemsTriPersonnes() {
     ];
 }
 
+function getItemsTriMapPersonnes() {
+    let itemsNamesMap = new Map();
+
+    itemsNamesMap.set("pertinence", "Pertinence");
+    itemsNamesMap.set("PersonnesAsc", "Personnes A-Z");
+    itemsNamesMap.set("PersonnesDesc", "Personnes Z-A");
+
+    return itemsNamesMap;
+}
+
 
 /**
  * Service lié aux personnes
@@ -124,6 +134,7 @@ export function personnesAPIService() {
         getFacetsPersonnes,
         getPersonne,
         getItemsTriPersonnes,
-        disableOrFiltersPersonnes
+        disableOrFiltersPersonnes,
+        getItemsTriMapPersonnes
     };
 }

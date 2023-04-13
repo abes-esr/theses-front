@@ -6,15 +6,17 @@ import { replaceAndEscape } from "@/services/Common";
 
 // import fonctions
 const { fetchCodeLangues, createLabels, getLabelFromCode } = referentielsAPIService();
-const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTriTheses, disableOrFiltersTheses } = thesesAPIService();
-const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes, disableOrFiltersPersonnes } = personnesAPIService();
+const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTriTheses, disableOrFiltersTheses, getItemsTriMapTheses } = thesesAPIService();
+const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes, disableOrFiltersPersonnes, getItemsTriMapPersonnes } = personnesAPIService();
 
 /**
  * Initialisation
  */
 let currentURLParams = getURLParams();
+
 const startingParameterPage = parseInt( getURLParameter(currentURLParams, 'page') );
 const startingParameterShowingNumber = parseInt( getURLParameter(currentURLParams, 'nb') );
+const startingParameterTri = getURLParameter(currentURLParams, 'tri');
 
 const domaine = ref("theses");
 // Page de résultats courante
@@ -22,7 +24,7 @@ const currentPage = ref(startingParameterPage ? startingParameterPage : 1);
 // Nombre de résultats par page
 const currentShowingNumber = ref(startingParameterShowingNumber ? startingParameterShowingNumber : 10);
 // Valeur de tri
-const currentTri = ref("pertinence");
+const currentTri = ref(startingParameterTri ? startingParameterTri : "pertinence");
 
 const currentFacets = ref([]);
 const query = ref("");
@@ -48,13 +50,13 @@ function getCurrentPage() {
 }
 
 function modifierNombre(value) {
-  currentShowingNumber.value = value;
+  currentShowingNumber.value = parseInt(value);
   setURLSingleParameter(value, 'nb');
 }
 
 function getCurrentShowingNumber() {
   if(currentShowingNumber.value)
-    return currentShowingNumber.value;
+    return parseInt(currentShowingNumber.value);
 }
 
 function modifierTri(value) {
@@ -135,15 +137,18 @@ function setURLSingleParameter(parameter, parameterName) {
 
 async function getURLParameters() {
   return new Promise((resolve) => {
-    const url = document.location;
-    let currentURLParams = new URL(url).searchParams;
+    let currentURLParams = getURLParams();
+
+    const startingParameterPage = parseInt( getURLParameter(currentURLParams, 'page') );
+    const startingParameterShowingNumber = parseInt( getURLParameter(currentURLParams, 'nb') );
+    const startingParameterTri = getURLParameter(currentURLParams, 'tri');
 
     currentFacets.value = getURLParameterNoBrackets(currentURLParams, 'filtres');
     query.value = getURLParameter(currentURLParams, 'q');
     domaine.value = getURLParameter(currentURLParams, 'domaine');
-    currentTri.value = getURLParameter(currentURLParams, 'tri');
-    currentPage.value = getURLParameter(currentURLParams, 'page');
-    currentShowingNumber.value = getURLParameter(currentURLParams, 'nb');
+    currentPage.value = startingParameterPage ? startingParameterPage : 1;
+    currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
+    currentTri.value = startingParameterTri ? startingParameterTri : "pertinence";
 
     resolve();
   });
@@ -196,6 +201,7 @@ function disableOrFilters() {
  * Routes
  */
 function queryAPI() {
+
   if(domaine.value === "theses")
     return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentShowingNumber.value, currentTri.value);
   if(domaine.value === "personnes")
@@ -468,7 +474,14 @@ function getItemsTri() {
     return getItemsTriPersonnes();
 }
 
-function addToMap(filterData) {
+function getTriMap() {
+  if(domaine.value === "theses")
+    return getItemsTriMapTheses();
+  if(domaine.value === "personnes")
+    return getItemsTriMapPersonnes();
+}
+
+function addToFiltersLabelsMap(filterData) {
   labelMap.value.set(filterData.filterName, filterData.label);
 }
 
@@ -497,6 +510,7 @@ export function APIService() {
     getURLParameters,
     getFacetsArrayFromURL,
     setWorkingFacetName,
-    addToMap
+    addToFiltersLabelsMap,
+    getTriMap
   };
 }

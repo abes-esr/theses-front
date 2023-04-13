@@ -72,6 +72,20 @@ function getItemsTriTheses() {
   ];
 }
 
+function getItemsTriMapTheses() {
+  let itemsNamesMap = new Map();
+
+  itemsNamesMap.set("pertinence", "Pertinence");
+  itemsNamesMap.set("dateAsc", "Date croissante");
+  itemsNamesMap.set("dateDesc", "Date décroissante");
+  itemsNamesMap.set("auteursAsc", "Auteurs A-Z");
+  itemsNamesMap.set("auteursDesc", "Auteurs Z-A");
+  itemsNamesMap.set("disciplineAsc", "Discipline A-Z");
+  itemsNamesMap.set("disciplineDesc", "Discipline Z-A");
+
+  return itemsNamesMap;
+}
+
 /**
  * Service lié aux thèses
  * @returns {{rechercherPersonne: ((function(*): Promise<AxiosResponse<*>>)|*), listePersonnes: Ref<UnwrapRef<{}>>, selectedDomain: Ref<UnwrapRef<string>>, modifierDomaine: modifierDomaine}}
@@ -83,6 +97,7 @@ export function thesesAPIService() {
     getFacetsTheses,
     getThese,
     getItemsTriTheses,
-    disableOrFiltersTheses
+    disableOrFiltersTheses,
+    getItemsTriMapTheses
   };
 }

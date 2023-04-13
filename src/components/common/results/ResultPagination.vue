@@ -27,7 +27,7 @@ import { scrollToTop } from "@/services/Common";
 import { useRoute } from "vue-router";
 
 const currentRoute = useRoute();
-const { modifierTri, modifierPage, modifierNombre, getItemsTri, getCurrentPage, getCurrentShowingNumber  } = APIService();
+const { modifierTri, modifierPage, modifierNombre, getItemsTri, getCurrentPage, getCurrentShowingNumber, getCurrentTri, getTriMap } = APIService();
 const emit = defineEmits(['search', 'updatePage', 'updateNumber']);
 
 const props = defineProps({
@@ -52,7 +52,7 @@ const props = defineProps({
 
 const items = ref(getItemsTri());
 
-const tri = ref({ nom: "Pertinence", cle: "pertinence" });
+const tri = ref(getCurrentSortName());
 
 const currentShowingNumber = ref(getCurrentShowingNumber());
 const currentPage = ref(getCurrentPage());
@@ -105,9 +105,18 @@ watch(() => props.currentShowingNumber, () => {
   currentShowingNumber.value = props.currentShowingNumber;
 });
 
+function getCurrentSortName() {
+  const startingTri = getCurrentTri();
+  const itemsTriMap = getTriMap();
+  const startingTriName = itemsTriMap.get(startingTri) ? itemsTriMap.get(startingTri) : "Pertinence";
+  return { nom: startingTriName, cle: startingTri ? startingTri : "pertinence" };
+}
+
 // Mise à jour des valeurs de tri
 watch(() => currentRoute.query.domaine, () => {
+  modifierTri('pertinence');
   items.value = getItemsTri();
+  tri.value = getCurrentSortName();
 });
 
 </script>
