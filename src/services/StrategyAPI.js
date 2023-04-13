@@ -12,13 +12,18 @@ const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, 
 /**
  * Initialisation
  */
+let currentURLParams = getURLParams();
+const startingParameterPage = parseInt( getURLParameter(currentURLParams, 'page') );
+const startingParameterShowingNumber = parseInt( getURLParameter(currentURLParams, 'nb') );
+
 const domaine = ref("theses");
 // Page de résultats courante
-const currentPage = ref(1);
+const currentPage = ref(startingParameterPage ? startingParameterPage : 1);
 // Nombre de résultats par page
-const currentNombre = ref(10);
+const currentShowingNumber = ref(startingParameterShowingNumber ? startingParameterShowingNumber : 10);
 // Valeur de tri
 const currentTri = ref("pertinence");
+
 const currentFacets = ref([]);
 const query = ref("");
 const rawFacets = ref([]);
@@ -33,15 +38,43 @@ fetchCodeLangues();
  * Fonctions communes
  */
 function modifierPage(value) {
-  currentPage.value = value;
+  currentPage.value = parseInt(value);
+  setURLSingleParameter(value, 'page');
+}
+
+function getCurrentPage() {
+  if(currentPage.value)
+    return parseInt(currentPage.value);
 }
 
 function modifierNombre(value) {
-  currentNombre.value = value;
+  currentShowingNumber.value = value;
+  setURLSingleParameter(value, 'nb');
+}
+
+function getCurrentShowingNumber() {
+  if(currentShowingNumber.value)
+    return currentShowingNumber.value;
 }
 
 function modifierTri(value) {
   currentTri.value = value;
+  setURLSingleParameter(value, 'tri');
+}
+
+function setDomaine(newDomain) {
+  domaine.value = newDomain;
+  setURLSingleParameter(newDomain, 'domaine');
+}
+
+function getCurrentTri() {
+  if(currentTri.value)
+    return currentTri.value;
+}
+
+function setQuery(newQuery) {
+  query.value = newQuery ? newQuery : "*";
+  setURLSingleParameter(newQuery, 'q');
 }
 
 function setCheckedFilters(objectsArray) {
@@ -51,11 +84,6 @@ function setCheckedFilters(objectsArray) {
     checkedFilters.value = objectsArray;
     resolve();
   });
-}
-
-function setQuery(newQuery) {
-  query.value = newQuery ? newQuery : "*";
-  setURLQuery()
 }
 
 function setWorkingFacetName(facetName) {
@@ -73,6 +101,72 @@ function getFacetsRequest() {
 }
 
 /**
+ * Gestion URL
+ */
+
+function getURLParams() {
+  const url = document.location;
+  return new URL(url).searchParams;
+}
+
+function setURLFilters() {
+  let currentURLParams = getURLParams();
+
+  if (currentFacets.value && currentFacets.value.length > 0) {
+    currentURLParams.set("filtres", encodeURIComponent("[" + disableOrFilters().toString() + "]"));
+  } else {
+    currentURLParams.delete("filtres");
+  }
+
+  updateURL(document.location, currentURLParams);
+}
+
+function setURLSingleParameter(parameter, parameterName) {
+  let currentURLParams = getURLParams();
+  if (parameter && parameterName) {
+    currentURLParams.set(parameterName, encodeURIComponent(parameter));
+  } else if (parameterName === "domaine") {
+    currentURLParams.set("domaine", "theses");
+  } else {
+    currentURLParams.delete(parameterName);
+  }
+  updateURL(document.location, currentURLParams);
+}
+
+async function getURLParameters() {
+  return new Promise((resolve) => {
+    const url = document.location;
+    let currentURLParams = new URL(url).searchParams;
+
+    currentFacets.value = getURLParameterNoBrackets(currentURLParams, 'filtres');
+    query.value = getURLParameter(currentURLParams, 'q');
+    domaine.value = getURLParameter(currentURLParams, 'domaine');
+    currentTri.value = getURLParameter(currentURLParams, 'tri');
+    currentPage.value = getURLParameter(currentURLParams, 'page');
+    currentShowingNumber.value = getURLParameter(currentURLParams, 'nb');
+
+    resolve();
+  });
+}
+
+function getURLParameterNoBrackets(currentURLParams, parameter) {
+  return getURLParameter(currentURLParams, parameter).replaceAll('[', '').replaceAll(']', '');
+}
+
+function getURLParameter(currentURLParams, parameter) {
+  if (currentURLParams.get(parameter)) {
+    return decodeURIComponent(currentURLParams.get(parameter));
+  }
+
+  return "";
+}
+
+function updateURL(url, currentURLParams) {
+  const newUrl = `${url.pathname}?${currentURLParams}`;
+  window.history.pushState({}, "", newUrl);
+}
+
+/**
  * Mise en forme du tableau de valeurs des facettes à destination de l'url
  * @param objectsArray
  * @returns {string}
@@ -84,11 +178,6 @@ function parseFacetsValuesArray(objectsArray) {
   });
 
   return filtersArrayURL.join('&').toLowerCase();
-}
-
-function setDomaine(newDomain) {
-  domaine.value = newDomain;
-  setURLDomaine();
 }
 
 /**
@@ -108,44 +197,9 @@ function disableOrFilters() {
  */
 function queryAPI() {
   if(domaine.value === "theses")
-    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentNombre.value, currentTri.value);
+    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentShowingNumber.value, currentTri.value);
   if(domaine.value === "personnes")
-    return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentNombre.value, currentTri.value);
-}
-
-function setURLParameters() {
-  setURLFilters();
-  setURLQuery();
-  setURLDomaine();
-}
-
-function getURLParams() {
-  const url = document.location;
-  return new URL(url).searchParams;
-}
-
-function setURLFilters() {
-  let currentURLParams = getURLParams();
-
-  if (currentFacets.value && currentFacets.value.length > 0) {
-    currentURLParams.set("filtres", encodeURIComponent("[" + disableOrFilters().toString() + "]"));
-  } else {
-    currentURLParams.delete("filtres");
-  }
-
-  updateURL(document.location, currentURLParams);
-}
-
-function setURLQuery() {
-  let currentURLParams = getURLParams();
-
-  if (query.value) {
-    currentURLParams.set("q", encodeURIComponent(query.value));
-  } else {
-    currentURLParams.delete("q");
-  }
-
-  updateURL(document.location, currentURLParams);
+    return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentShowingNumber.value, currentTri.value);
 }
 
 /**
@@ -268,48 +322,6 @@ function getFacetsLabels(facetsArray) {
   });
 
   return facetsArray;
-}
-
-function setURLDomaine() {
-  let currentURLParams = getURLParams();
-
-  if (domaine.value) {
-    currentURLParams.set("domaine", encodeURIComponent(domaine.value));
-  } else {
-    currentURLParams.set("domaine", 'theses');
-  }
-
-  updateURL(document.location, currentURLParams);
-}
-
-async function getURLParameters() {
-  return new Promise((resolve) => {
-    const url = document.location;
-    let currentURLParams = new URL(url).searchParams;
-
-    currentFacets.value = getURLParameterNoBrackets(currentURLParams, 'filtres');
-    query.value = getURLParameter(currentURLParams, 'q');
-    domaine.value = getURLParameter(currentURLParams, 'domaine');
-
-    resolve();
-  });
-}
-
-function getURLParameterNoBrackets(currentURLParams, parameter) {
-  return getURLParameter(currentURLParams, parameter).replaceAll('[', '').replaceAll(']', '');
-}
-
-function getURLParameter(currentURLParams, parameter) {
-  if (currentURLParams.get(parameter)) {
-    return decodeURIComponent(currentURLParams.get(parameter));
-  }
-
-  return "";
-}
-
-function updateURL(url, currentURLParams) {
-  const newUrl = `${url.pathname}?${currentURLParams}`;
-  window.history.pushState({}, "", newUrl);
 }
 
 function replaceWorkingFacet(facetsArray, currentWorkingFacet) {
@@ -470,6 +482,9 @@ export function APIService() {
     modifierPage,
     modifierNombre,
     modifierTri,
+    getCurrentPage,
+    getCurrentShowingNumber,
+    getCurrentTri,
     setCheckedFilters,
     setQuery,
     getQuery,

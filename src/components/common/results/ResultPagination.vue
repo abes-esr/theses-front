@@ -27,7 +27,7 @@ import { scrollToTop } from "@/services/Common";
 import { useRoute } from "vue-router";
 
 const currentRoute = useRoute();
-const { modifierTri, modifierPage, modifierNombre, getItemsTri } = APIService();
+const { modifierTri, modifierPage, modifierNombre, getItemsTri, getCurrentPage, getCurrentShowingNumber  } = APIService();
 const emit = defineEmits(['search', 'updatePage', 'updateNumber']);
 
 const props = defineProps({
@@ -54,9 +54,8 @@ const items = ref(getItemsTri());
 
 const tri = ref({ nom: "Pertinence", cle: "pertinence" });
 
-const currentShowingNumber = ref(10);
-const currentPage = ref(1);
-
+const currentShowingNumber = ref(getCurrentShowingNumber());
+const currentPage = ref(getCurrentPage());
 const nbPages = computed(() => {
   return Math.ceil(props.nbResults / currentShowingNumber.value);
 });

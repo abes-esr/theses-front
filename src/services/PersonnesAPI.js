@@ -15,12 +15,12 @@ const apiPersonnes = axios.create({
  * @param query
  * @param facets
  * @param currentPage
- * @param currentNombre
+ * @param currentShowingNumber
  * @param currentTri
  * @returns {Promise<unknown>}
  */
-async function queryPersonnesAPI(query, facetsRequest, currentPage, currentNombre, currentTri) {
-    const url = "/personnes/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
+async function queryPersonnesAPI(query, facetsRequest, currentPage, currentShowingNumber, currentTri) {
+    const url = "/personnes/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentTri + facetsRequest;
 
     return new Promise((resolve, reject) => {
         apiPersonnes.get(url)

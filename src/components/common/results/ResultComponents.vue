@@ -60,7 +60,7 @@ import FacetsChips from "@/components/common/results/FacetsChips.vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
-const { getQuery, modifierNombre } = APIService();
+const { getQuery, modifierNombre, getCurrentPage, getCurrentShowingNumber } = APIService();
 
 const domainName = currentRoute.query.domaine ? ref(currentRoute.query.domaine) : ref('theses');
 
@@ -79,12 +79,10 @@ const props = defineProps({
     type: Boolean
   },
   resetPage: {
-    type: Number,
-    default: 1
+    type: Number
   },
   resetShowingNumber: {
-    type: Number,
-    default: 10
+    type: Number
   },
   domainNameChange: {
     type: String
@@ -94,9 +92,9 @@ const props = defineProps({
   }
 });
 
-const currentShowingNumber = ref(10);
-const currentPage = ref(1);
 const query = ref("");
+const currentPage = ref(getCurrentPage());
+const currentShowingNumber = ref(getCurrentShowingNumber());
 
 onMounted(() => {
   query.value = getQuery();
