@@ -156,6 +156,11 @@ function setURLQuery() {
 function getFiltersOnlyInURLAndInESResponse(facetsArray) {
   let dataCleanedFacetsArray = [];
 
+  // Gestion dates
+  dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
+    return Object.keys(urlFacet)[0].startsWith('date');
+  }));
+  // Gestion autres facettes retournées par theses-api-recherche
   rawFacets.value.forEach((facet) => {
 
     dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
