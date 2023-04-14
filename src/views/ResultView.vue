@@ -176,6 +176,7 @@ async function search(firstLoad = false) {
 function update(facetsArray) {
   reinitialize();
   loadChips(facetsArray);
+  search();
 }
 
 function loadChips(facetsArray) {
@@ -183,7 +184,6 @@ function loadChips(facetsArray) {
     // mise à jour des chips
     selectedFacets.value = facetsArray;
   }
-  search();
 }
 
 function displayError(message) {

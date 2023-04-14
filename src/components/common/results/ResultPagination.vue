@@ -79,23 +79,29 @@ function bottomScrollsToTop() {
 
 watch(currentPageNumber, newCurrentPageNumber => {
   setPageNumber(newCurrentPageNumber);
-  emit('search');
-  emit('updatePage', newCurrentPageNumber);
+  emit("updatePage", newCurrentPageNumber);
+  if (props.type === "top") {
+    emit("search");
+  }
 });
 
 watch(currentShowingNumber, newShowingNumber => {
   setShowingNumber(newShowingNumber);
-  emit('search');
   setPageNumber(1);
-  emit('updateNumber', newShowingNumber);
-  emit('updatePage', 1);
+  emit("updateNumber", newShowingNumber);
+  emit("updatePage", 1);
+  if (props.type === "top") {
+    emit("search");
+  }
 });
 
 watch(tri, async (newTri) => {
   setPageNumber(1);
-  emit('updatePage', 1);
   setSorting(newTri.cle);
-  emit('search');
+  emit("updatePage", 1);
+  if (props.type === "top") {
+    emit("search");
+  }
 });
 
 
