@@ -12,11 +12,11 @@ const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, 
 /**
  * Initialisation
  */
-let currentURLParams = getURLParams();
+const currentURLParams = ref( getURLParams() );
 
-const startingParameterPage = parseInt( getURLParameter(currentURLParams, 'page') );
-const startingParameterShowingNumber = parseInt( getURLParameter(currentURLParams, 'nb') );
-const startingParameterTri = getURLParameter(currentURLParams, 'tri');
+const startingParameterPage = parseInt( getURLParameter('page') );
+const startingParameterShowingNumber = parseInt( getURLParameter('nb') );
+const startingParameterTri = getURLParameter('tri');
 
 const domaine = ref("theses");
 // Page de résultats courante
@@ -112,40 +112,34 @@ function getURLParams() {
 }
 
 function setURLFilters() {
-  let currentURLParams = getURLParams();
-
   if (currentFacets.value && currentFacets.value.length > 0) {
-    currentURLParams.set("filtres", encodeURIComponent("[" + disableOrFilters().toString() + "]"));
+    currentURLParams.value.set("filtres", encodeURIComponent("[" + disableOrFilters().toString() + "]"));
   } else {
-    currentURLParams.delete("filtres");
+    currentURLParams.value.delete("filtres");
   }
-
-  updateURL(document.location, currentURLParams);
+  updateURL();
 }
 
 function setURLSingleParameter(parameter, parameterName) {
-  let currentURLParams = getURLParams();
   if (parameter && parameterName) {
-    currentURLParams.set(parameterName, encodeURIComponent(parameter));
+    currentURLParams.value.set(parameterName, encodeURIComponent(parameter));
   } else if (parameterName === "domaine") {
-    currentURLParams.set("domaine", "theses");
+    currentURLParams.value.set("domaine", "theses");
   } else {
-    currentURLParams.delete(parameterName);
+    currentURLParams.value.delete(parameterName);
   }
-  updateURL(document.location, currentURLParams);
+  updateURL();
 }
 
 async function getURLParameters() {
   return new Promise((resolve) => {
-    let currentURLParams = getURLParams();
+    const startingParameterPage = parseInt( getURLParameter('page') );
+    const startingParameterShowingNumber = parseInt( getURLParameter('nb') );
+    const startingParameterTri = getURLParameter('tri');
 
-    const startingParameterPage = parseInt( getURLParameter(currentURLParams, 'page') );
-    const startingParameterShowingNumber = parseInt( getURLParameter(currentURLParams, 'nb') );
-    const startingParameterTri = getURLParameter(currentURLParams, 'tri');
-
-    currentFacets.value = getURLParameterNoBrackets(currentURLParams, 'filtres');
-    query.value = getURLParameter(currentURLParams, 'q');
-    domaine.value = getURLParameter(currentURLParams, 'domaine');
+    currentFacets.value = getURLParameterNoBrackets('filtres');
+    query.value = getURLParameter('q');
+    domaine.value = getURLParameter('domaine');
     currentPage.value = startingParameterPage ? startingParameterPage : 1;
     currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
     currentTri.value = startingParameterTri ? startingParameterTri : "pertinence";
@@ -154,21 +148,22 @@ async function getURLParameters() {
   });
 }
 
-function getURLParameterNoBrackets(currentURLParams, parameter) {
-  return getURLParameter(currentURLParams, parameter).replaceAll('[', '').replaceAll(']', '');
+function getURLParameterNoBrackets(parameter) {
+  return getURLParameter(parameter).replaceAll('[', '').replaceAll(']', '');
 }
 
-function getURLParameter(currentURLParams, parameter) {
-  if (currentURLParams.get(parameter)) {
-    return decodeURIComponent(currentURLParams.get(parameter));
+function getURLParameter(parameter) {
+  if (currentURLParams.value.get(parameter)) {
+    return decodeURIComponent(currentURLParams.value.get(parameter));
   }
 
   return "";
 }
 
-function updateURL(url, currentURLParams) {
-  const newUrl = `${url.pathname}?${currentURLParams}`;
-  window.history.pushState({}, "", newUrl);
+function updateURL() {
+  const url = document.location;
+  const newUrl = `${url.pathname}?${currentURLParams.value}`;
+  window.history.pushState({ back: window.location.href },  "", newUrl);
 }
 
 /**
