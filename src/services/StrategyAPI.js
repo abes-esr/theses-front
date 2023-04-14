@@ -155,9 +155,12 @@ function setURLQuery() {
  */
 function getFiltersOnlyInURLAndInESResponse(facetsArray) {
   let dataCleanedFacetsArray = [];
-
+  // Gestion dates
+  dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
+    return Object.keys(urlFacet)[0].startsWith('date');
+  }));
+  // Gestion autres facettes retournées par theses-api-recherche
   rawFacets.value.forEach((facet) => {
-
     dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
       if (facet.name.toLowerCase() === Object.keys(urlFacet)[0].toLowerCase()) {
         return rawFacetReturnedFilter(facet, Object.values(urlFacet)[0]);
@@ -165,7 +168,6 @@ function getFiltersOnlyInURLAndInESResponse(facetsArray) {
       return false;
     }));
   });
-
   return dataCleanedFacetsArray;
 }
 
@@ -344,7 +346,9 @@ function addCheckedFilters() {
 }
 
 function rawFacetReturnedFilter(facet, checkedFilterName) {
-  return facet.checkboxes.filter((filter) => {
+  let flattenedFacet = getFlattenedCheckboxesArray(facet);
+
+  return flattenedFacet.filter((filter) => {
     return filter.name.toLowerCase() === checkedFilterName.toLowerCase();
   }).length > 0;
 }
