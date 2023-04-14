@@ -11,7 +11,7 @@
             class="pt-1 middle-bar-element"
             :length="nbPages"
             total-visible="2"
-            v-model="currentPage"
+            v-model="currentPageNumber"
             @update:modelValue="bottomScrollsToTop">
       </v-pagination>
       <v-select v-if="type === 'top'" v-model="tri" class="ml-2 pt-2 last-bar-element" return-object :items=items item-title="nom" item-value="cle" density="compact"
@@ -27,7 +27,7 @@ import { scrollToTop } from "@/services/Common";
 import { useRoute } from "vue-router";
 
 const currentRoute = useRoute();
-const { modifierTri, modifierPage, modifierNombre, getItemsTri, getCurrentPage, getCurrentShowingNumber, getCurrentTri, getTriMap } = APIService();
+const { setSorting, setPageNumber, setShowingNumber, getItemsTri, getCurrentPageNumber, getCurrentShowingNumber, getCurrentSorting, getTriMap } = APIService();
 const emit = defineEmits(['search', 'updatePage', 'updateNumber']);
 
 const props = defineProps({
@@ -39,7 +39,7 @@ const props = defineProps({
     Type: String,
     default: 'top'
   },
-  currentPage: {
+  currentPageNumber: {
     type: Number,
     default: 1
   },
@@ -49,13 +49,18 @@ const props = defineProps({
   }
 });
 
+const items = ref();
+const tri = ref();
 
-const items = ref(getItemsTri());
+if (props.type === 'top') {
+  items.value = getItemsTri();
+  tri.value = getCurrentSortName();
+}
 
-const tri = ref(getCurrentSortName());
 
 const currentShowingNumber = ref(getCurrentShowingNumber());
-const currentPage = ref(getCurrentPage());
+const currentPageNumber = ref(getCurrentPageNumber());
+
 const nbPages = computed(() => {
   return Math.ceil(props.nbResults / currentShowingNumber.value);
 });
@@ -72,24 +77,24 @@ function bottomScrollsToTop() {
  * Watchers
  */
 
-watch(currentPage, newCurrentPage => {
-  modifierPage(newCurrentPage);
+watch(currentPageNumber, newCurrentPageNumber => {
+  setPageNumber(newCurrentPageNumber);
   emit('search');
-  emit('updatePage', newCurrentPage);
+  emit('updatePage', newCurrentPageNumber);
 });
 
 watch(currentShowingNumber, newShowingNumber => {
-  modifierNombre(newShowingNumber);
+  setShowingNumber(newShowingNumber);
   emit('search');
-  modifierPage(1);
+  setPageNumber(1);
   emit('updateNumber', newShowingNumber);
   emit('updatePage', 1);
 });
 
 watch(tri, async (newTri) => {
-  modifierPage(1);
+  setPageNumber(1);
   emit('updatePage', 1);
-  modifierTri(newTri.cle);
+  setSorting(newTri.cle);
   emit('search');
 });
 
@@ -97,8 +102,8 @@ watch(tri, async (newTri) => {
 /**
  * Watcher des autres barres de pagination
  */
-watch(() => props.currentPage, () => {
-  currentPage.value = props.currentPage;
+watch(() => props.currentPageNumber, () => {
+  currentPageNumber.value = props.currentPageNumber;
 });
 
 watch(() => props.currentShowingNumber, () => {
@@ -106,7 +111,7 @@ watch(() => props.currentShowingNumber, () => {
 });
 
 function getCurrentSortName() {
-  const startingTri = getCurrentTri();
+  const startingTri = getCurrentSorting();
   const itemsTriMap = getTriMap();
   const startingTriName = itemsTriMap.get(startingTri) ? itemsTriMap.get(startingTri) : "Pertinence";
   return { nom: startingTriName, cle: startingTri ? startingTri : "pertinence" };
@@ -114,7 +119,7 @@ function getCurrentSortName() {
 
 // Mise à jour des valeurs de tri
 watch(() => currentRoute.query.domaine, () => {
-  modifierTri('pertinence');
+  setSorting('pertinence');
   items.value = getItemsTri();
   tri.value = getCurrentSortName();
 });

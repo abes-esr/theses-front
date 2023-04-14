@@ -76,7 +76,7 @@ import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 
 const { mobile } = useDisplay();
-const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, setCheckedFilters, getURLParameters, setWorkingFacetName } = APIService();
+const { setQuery, getQuery, queryAPI, getFacets, setDomaine, setPageNumber, setShowingNumber, setCheckedFilters, getURLParameters, setWorkingFacetName } = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
@@ -173,9 +173,9 @@ async function search(firstLoad = false) {
   //     });
 }
 
-function update() {
+function update(facetsArray) {
   reinitialize();
-  search();
+  loadChips(facetsArray);
 }
 
 function loadChips(facetsArray) {
@@ -220,9 +220,9 @@ function reinitializeCurrentRequest() {
 }
 
 function reinitialize() {
-  modifierPage(1);
+  setPageNumber(1);
   resetPage.value++;
-  modifierNombre(10);
+  setShowingNumber(10);
   resetShowingNumber.value++;
 }
 

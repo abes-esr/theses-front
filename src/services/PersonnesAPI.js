@@ -14,13 +14,13 @@ const apiPersonnes = axios.create({
  * La liste des personnes courantes est mises à jour.
  * @param query
  * @param facets
- * @param currentPage
+ * @param currentPageNumber
  * @param currentShowingNumber
- * @param currentTri
+ * @param currentSorting
  * @returns {Promise<unknown>}
  */
-async function queryPersonnesAPI(query, facetsRequest, currentPage, currentShowingNumber, currentTri) {
-    const url = "/personnes/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentTri + facetsRequest;
+async function queryPersonnesAPI(query, facetsRequest, currentPageNumber, currentShowingNumber, currentSorting) {
+    const url = "/personnes/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPageNumber - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentSorting + facetsRequest;
 
     return new Promise((resolve, reject) => {
         apiPersonnes.get(url)

@@ -20,11 +20,11 @@ const startingParameterTri = getURLParameter('tri');
 
 const domaine = ref("theses");
 // Page de résultats courante
-const currentPage = ref(startingParameterPage ? startingParameterPage : 1);
+const currentPageNumber = ref(startingParameterPage ? startingParameterPage : 1);
 // Nombre de résultats par page
 const currentShowingNumber = ref(startingParameterShowingNumber ? startingParameterShowingNumber : 10);
 // Valeur de tri
-const currentTri = ref(startingParameterTri ? startingParameterTri : "pertinence");
+const currentSorting = ref(startingParameterTri ? startingParameterTri : "pertinence");
 
 const currentFacets = ref([]);
 const query = ref("");
@@ -39,17 +39,17 @@ fetchCodeLangues();
 /**
  * Fonctions communes
  */
-function modifierPage(value) {
-  currentPage.value = parseInt(value);
+function setPageNumber(value) {
+  currentPageNumber.value = parseInt(value);
   setURLSingleParameter(value, 'page');
 }
 
-function getCurrentPage() {
-  if(currentPage.value)
-    return parseInt(currentPage.value);
+function getCurrentPageNumber() {
+  if(currentPageNumber.value)
+    return parseInt(currentPageNumber.value);
 }
 
-function modifierNombre(value) {
+function setShowingNumber(value) {
   currentShowingNumber.value = parseInt(value);
   setURLSingleParameter(value, 'nb');
 }
@@ -59,8 +59,8 @@ function getCurrentShowingNumber() {
     return parseInt(currentShowingNumber.value);
 }
 
-function modifierTri(value) {
-  currentTri.value = value;
+function setSorting(value) {
+  currentSorting.value = value;
   setURLSingleParameter(value, 'tri');
 }
 
@@ -69,14 +69,14 @@ function setDomaine(newDomain) {
   setURLSingleParameter(newDomain, 'domaine');
 }
 
-function getCurrentTri() {
-  if(currentTri.value)
-    return currentTri.value;
+function getCurrentSorting() {
+  if(currentSorting.value)
+    return currentSorting.value;
 }
 
 function setQuery(newQuery) {
-  query.value = newQuery ? newQuery : "*";
-  setURLSingleParameter(newQuery, 'q');
+  query.value = (typeof newQuery !== 'undefined' && newQuery !== '') ? newQuery : '*';
+  setURLSingleParameter(query.value, 'q');
 }
 
 function setCheckedFilters(objectsArray) {
@@ -136,13 +136,16 @@ async function getURLParameters() {
     const startingParameterPage = parseInt( getURLParameter('page') );
     const startingParameterShowingNumber = parseInt( getURLParameter('nb') );
     const startingParameterTri = getURLParameter('tri');
+    const startingParameterFiltres = getURLParameterNoBrackets('filtres');
+    const startingParameterQ = getURLParameter('q');
+    const startingParameterDomaine = getURLParameter('domaine');
 
-    currentFacets.value = getURLParameterNoBrackets('filtres');
-    query.value = getURLParameter('q');
-    domaine.value = getURLParameter('domaine');
-    currentPage.value = startingParameterPage ? startingParameterPage : 1;
+    currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
     currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
-    currentTri.value = startingParameterTri ? startingParameterTri : "pertinence";
+    currentSorting.value = startingParameterTri ? startingParameterTri : 'pertinence';
+    currentFacets.value = startingParameterFiltres ? startingParameterFiltres : '';
+    query.value = (startingParameterQ && typeof startingParameterQ !== 'undefined') ? startingParameterQ : '*';
+    domaine.value = startingParameterDomaine ? startingParameterDomaine : 'theses';
 
     resolve();
   });
@@ -196,11 +199,12 @@ function disableOrFilters() {
  * Routes
  */
 function queryAPI() {
+  query.value = (typeof query.value === 'undefined') ? '*' : query.value;
 
   if(domaine.value === "theses")
-    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentShowingNumber.value, currentTri.value);
+    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
   if(domaine.value === "personnes")
-    return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPage.value, currentShowingNumber.value, currentTri.value);
+    return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
 }
 
 /**
@@ -338,6 +342,30 @@ function replaceWorkingFacet(facetsArray, currentWorkingFacet) {
   }
 
   return facetsArray;
+}
+
+/**
+ * Réinitialisation
+ */
+function deleteAllUrlParameters() {
+  setURLFilters();
+  currentURLParams.value.delete("q");
+  currentURLParams.value.delete("tri");
+  currentURLParams.value.delete("page");
+  currentURLParams.value.delete("nb");
+
+  updateURL();
+}
+
+function reinitializeResultData() {
+  query.value = '*';
+  currentSorting.value = 'pertinence';
+  currentPageNumber.value = 1;
+  currentShowingNumber.value = 10;
+  currentFacets.value = [];
+  rawFacets.value = [];
+
+  deleteAllUrlParameters();
 }
 
 /**
@@ -486,17 +514,17 @@ function addToFiltersLabelsMap(filterData) {
 
 /**
  *
- * @returns {{setCheckedFilters: setCheckedFilters, queryAPI: ((function(): (*|undefined))|*), getFacets: ((function(): (*|undefined))|*), modifierNombre: modifierNombre, modifierPage: modifierPage, setQuery: setQuery, getData: ((function(*): (*|undefined))|*), getSuggestion: ((function(): (*|undefined))|*), modifierTri: modifierTri}}
+ * @returns {{setCheckedFilters: setCheckedFilters, queryAPI: ((function(): (*|undefined))|*), getFacets: ((function(): (*|undefined))|*), setShowingNumber: setShowingNumber, setPageNumber: setPageNumber, setQuery: setQuery, getData: ((function(*): (*|undefined))|*), getSuggestion: ((function(): (*|undefined))|*), setSorting: setSorting}}
  * @constructor
  */
 export function APIService() {
   return {
-    modifierPage,
-    modifierNombre,
-    modifierTri,
-    getCurrentPage,
+    setPageNumber,
+    setShowingNumber,
+    setSorting,
+    getCurrentPageNumber,
     getCurrentShowingNumber,
-    getCurrentTri,
+    getCurrentSorting,
     setCheckedFilters,
     setQuery,
     getQuery,
@@ -510,6 +538,7 @@ export function APIService() {
     getFacetsArrayFromURL,
     setWorkingFacetName,
     addToFiltersLabelsMap,
-    getTriMap
+    getTriMap,
+    reinitializeResultData
   };
 }

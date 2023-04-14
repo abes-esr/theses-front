@@ -4,7 +4,7 @@
     :nb-results=nbResult
     :type="'top'"
     :current-showing-number="currentShowingNumber"
-    :current-page="currentPage"
+    :current-page-number="currentPageNumber"
     @updateNumber="updateNumber"
     @updatePage="updatePage"
     @search="search">
@@ -38,7 +38,7 @@
     :nb-results=nbResult
     :type="'bottom'"
     :current-showing-number="currentShowingNumber"
-    :current-page="currentPage"
+    :current-page-number="currentPageNumber"
     class="pagination-bottom"
     @updateNumber="updateNumber"
     @updatePage="updatePage"
@@ -60,7 +60,7 @@ import FacetsChips from "@/components/common/results/FacetsChips.vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
-const { getQuery, modifierNombre, getCurrentPage, getCurrentShowingNumber } = APIService();
+const { getQuery, getCurrentPageNumber, getCurrentShowingNumber } = APIService();
 
 const domainName = currentRoute.query.domaine ? ref(currentRoute.query.domaine) : ref('theses');
 
@@ -93,7 +93,7 @@ const props = defineProps({
 });
 
 const query = ref("");
-const currentPage = ref(getCurrentPage());
+const currentPageNumber = ref(getCurrentPageNumber());
 const currentShowingNumber = ref(getCurrentShowingNumber());
 
 onMounted(() => {
@@ -123,11 +123,10 @@ function allResultsWereLoaded() {
 
 function updateNumber(newNumber) {
   currentShowingNumber.value = newNumber;
-  modifierNombre(newNumber);
 }
 
 function updatePage(newPage) {
-  currentPage.value = newPage;
+  currentPageNumber.value = newPage;
 }
 
 function search() {
@@ -139,7 +138,7 @@ function search() {
  * Watchers
  */
 watch(() => props.resetPage, () => {
-  currentPage.value = 1;
+  currentPageNumber.value = 1;
   query.value = getQuery();
 });
 

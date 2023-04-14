@@ -21,8 +21,8 @@ function disableOrFiltersTheses(facets) {
 }
 
 // Recherche simple dans les theses
-function queryThesesAPI(query, facetsRequest, currentPage, currentShowingNumber, currentTri) {
-  const url = "/recherche/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentTri + facetsRequest;
+function queryThesesAPI(query, facetsRequest, currentPageNumber, currentShowingNumber, currentSorting) {
+  const url = "/recherche/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPageNumber - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentSorting + facetsRequest;
 
   return new Promise((resolve, reject) => {
     apiTheses.get(url)
