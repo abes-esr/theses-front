@@ -78,6 +78,10 @@ const filterSearchText = ref("");
 const dateFrom = ref();
 const dateTo = ref(new Date().getFullYear());
 
+/**
+ * Initialisation
+ */
+
 let facetItems = computed(() => {
   if (props.date)
     return "";
@@ -88,6 +92,8 @@ let facetItems = computed(() => {
   });
   return filters;
 });
+
+fillDateDrawerFields();
 
 /**
  * Fonctions
@@ -166,24 +172,28 @@ watch(() => props.reinitializeDateToTrigger,
     reinitializeDateToField();
   });
 
+function fillDateDrawerFields() {
+  if (props.date) {
+    props.facetsArray.forEach((filter) => {
+      if (filter.datedebut) {
+        dateFrom.value = filter.datedebut;
+      } else if (filter.datefin) {
+        dateTo.value = filter.datefin;
+      } else if (filter.facetName === "datedebut") {
+        dateFrom.value = filter.label;
+      } else if (filter.facetName === "datefin") {
+        dateTo.value = filter.label;
+      }
+    });
+  }
+}
+
 /**
  * Initialisation des valeurs dates depuis chargées l'url
  */
 watch(() => props.parametersLoaded,
   () => {
-    if (props.date) {
-      props.facetsArray.forEach((filter) => {
-        if (filter.datedebut) {
-          dateFrom.value = filter.datedebut;
-        } else if (filter.datefin) {
-          dateTo.value = filter.datefin;
-        } else if (filter.facetName === "datedebut") {
-          dateFrom.value = filter.label;
-        } else if (filter.facetName === "datefin") {
-          dateTo.value = filter.label;
-        }
-      });
-    }
+      fillDateDrawerFields();
   });
 </script>
 
@@ -234,8 +244,7 @@ watch(() => props.parametersLoaded,
 }
 
 .v-expansion-panel-text :deep(.v-expansion-panel-text__wrapper) {
-  padding: 0;
-  padding-bottom: 10px;
+  padding: 10px 0 10px;
 }
 
 .v-expansion-panel-title--active :deep(.v-expansion-panel-title__overlay) {
@@ -243,7 +252,7 @@ watch(() => props.parametersLoaded,
 }
 
 .facet-sub-menu {
-  padding: 10px;
+  padding: 0 10px 10px;
 }
 
 .facet-sub-menu:empty {
