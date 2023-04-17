@@ -27,7 +27,7 @@ import { scrollToTop } from "@/services/Common";
 import { useRoute } from "vue-router";
 
 const currentRoute = useRoute();
-const { setSorting, setPageNumber, setShowingNumber, getItemsTri, getCurrentPageNumber, getCurrentShowingNumber, getCurrentSorting, getTriMap } = APIService();
+const { setSorting, setPageNumber, setShowingNumber, getItemsTri, getCurrentSorting, getTriMap } = APIService();
 const emit = defineEmits(['search', 'updatePage', 'updateNumber']);
 
 const props = defineProps({
@@ -53,13 +53,16 @@ const items = ref();
 const tri = ref();
 
 if (props.type === 'top') {
+  const startingTri = currentRoute.query.tri;
   items.value = getItemsTri();
-  tri.value = getCurrentSortName();
+  const itemsTriMap = getTriMap();
+  const startingTriName = itemsTriMap.get(startingTri) ? itemsTriMap.get(startingTri) : "Pertinence";
+  tri.value = { nom: startingTriName, cle: startingTri ? startingTri : "pertinence" };
 }
 
 
-const currentShowingNumber = ref(getCurrentShowingNumber());
-const currentPageNumber = ref(getCurrentPageNumber());
+const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
+const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
 
 const nbPages = computed(() => {
   return Math.ceil(props.nbResults / currentShowingNumber.value);

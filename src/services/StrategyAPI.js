@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import { router } from "@/router";
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import { referentielsAPIService } from "@/services/ReferentielsAPI";
@@ -12,19 +13,18 @@ const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, 
 /**
  * Initialisation
  */
-const currentURLParams = ref( getURLParams() );
 
-const startingParameterPage = parseInt( getURLParameter('page') );
-const startingParameterShowingNumber = parseInt( getURLParameter('nb') );
-const startingParameterTri = getURLParameter('tri');
+const startingParameterPageFirstLoad = parseInt( getURLParameter('page') );
+const startingParameterShowingNumberFirstLoad = parseInt( getURLParameter('nb') );
+const startingParameterTriFirstLoad = getURLParameter('tri');
 
 const domaine = ref("theses");
 // Page de résultats courante
-const currentPageNumber = ref(startingParameterPage ? startingParameterPage : 1);
+const currentPageNumber = ref(startingParameterPageFirstLoad ? startingParameterPageFirstLoad : 1);
 // Nombre de résultats par page
-const currentShowingNumber = ref(startingParameterShowingNumber ? startingParameterShowingNumber : 10);
+const currentShowingNumber = ref(startingParameterShowingNumberFirstLoad ? startingParameterShowingNumberFirstLoad : 10);
 // Valeur de tri
-const currentSorting = ref(startingParameterTri ? startingParameterTri : "pertinence");
+const currentSorting = ref(startingParameterTriFirstLoad ? startingParameterTriFirstLoad : "pertinence");
 
 const currentFacets = ref([]);
 const query = ref("");
@@ -33,7 +33,6 @@ const checkedFilters = ref([]);
 const currentWorkingFacetName = ref("");
 const labelMap = ref(new Map());
 
-
 fetchCodeLangues();
 
 /**
@@ -41,7 +40,7 @@ fetchCodeLangues();
  */
 function setPageNumber(value) {
   currentPageNumber.value = parseInt(value);
-  setURLSingleParameter(value, 'page');
+  updateURL();
 }
 
 function getCurrentPageNumber() {
@@ -51,7 +50,7 @@ function getCurrentPageNumber() {
 
 function setShowingNumber(value) {
   currentShowingNumber.value = parseInt(value);
-  setURLSingleParameter(value, 'nb');
+  updateURL();
 }
 
 function getCurrentShowingNumber() {
@@ -61,12 +60,12 @@ function getCurrentShowingNumber() {
 
 function setSorting(value) {
   currentSorting.value = value;
-  setURLSingleParameter(value, 'tri');
+  updateURL();
 }
 
 function setDomaine(newDomain) {
   domaine.value = newDomain;
-  setURLSingleParameter(newDomain, 'domaine');
+  updateURL();
 }
 
 function getCurrentSorting() {
@@ -76,13 +75,13 @@ function getCurrentSorting() {
 
 function setQuery(newQuery) {
   query.value = (typeof newQuery !== 'undefined' && newQuery !== '') ? newQuery : '*';
-  setURLSingleParameter(query.value, 'q');
+  updateURL();
 }
 
 function setCheckedFilters(objectsArray) {
   return new Promise((resolve) => {
     currentFacets.value = parseFacetsValuesArray(objectsArray);
-    setURLFilters();
+    updateURL();
     checkedFilters.value = objectsArray;
     resolve();
   });
@@ -105,32 +104,6 @@ function getFacetsRequest() {
 /**
  * Gestion URL
  */
-
-function getURLParams() {
-  const url = document.location;
-  return new URL(url).searchParams;
-}
-
-function setURLFilters() {
-  if (currentFacets.value && currentFacets.value.length > 0) {
-    currentURLParams.value.set("filtres", encodeURIComponent("[" + disableOrFilters().toString() + "]"));
-  } else {
-    currentURLParams.value.delete("filtres");
-  }
-  updateURL();
-}
-
-function setURLSingleParameter(parameter, parameterName) {
-  if (parameter && parameterName) {
-    currentURLParams.value.set(parameterName, encodeURIComponent(parameter));
-  } else if (parameterName === "domaine") {
-    currentURLParams.value.set("domaine", "theses");
-  } else {
-    currentURLParams.value.delete(parameterName);
-  }
-  updateURL();
-}
-
 async function getURLParameters() {
   return new Promise((resolve) => {
     const startingParameterPage = parseInt( getURLParameter('page') );
@@ -156,17 +129,34 @@ function getURLParameterNoBrackets(parameter) {
 }
 
 function getURLParameter(parameter) {
-  if (currentURLParams.value.get(parameter)) {
-    return decodeURIComponent(currentURLParams.value.get(parameter));
+  const params = router.currentRoute._value.query;
+  if (params[parameter]) {
+    return decodeURIComponent(params[parameter]);
   }
-
   return "";
 }
 
+function setParameters() {
+  let params = {};
+
+  if (currentFacets.value) params['filtres'] = encodeURIComponent("[" + disableOrFilters().toString() + "]");
+  if (query.value) params['q'] = query.value;
+  if (currentPageNumber.value) params['page'] = currentPageNumber.value;
+  if (currentShowingNumber.value) params['nb'] = currentShowingNumber.value;
+  if (currentSorting.value) params['tri'] = currentSorting.value;
+  if (domaine.value) params['domaine'] = domaine.value;
+
+  return params;
+}
+
 function updateURL() {
-  const url = document.location;
-  const newUrl = `${url.pathname}?${currentURLParams.value}`;
-  window.history.pushState({ back: window.location.href },  "", newUrl);
+  if(router.currentRoute._value.name === 'resultats') {
+    const routerParams = setParameters();
+    router.replace({
+      name: 'resultats',
+      query: routerParams
+    });
+  }
 }
 
 /**
@@ -347,16 +337,6 @@ function replaceWorkingFacet(facetsArray, currentWorkingFacet) {
 /**
  * Réinitialisation
  */
-function deleteAllUrlParameters() {
-  setURLFilters();
-  currentURLParams.value.delete("q");
-  currentURLParams.value.delete("tri");
-  currentURLParams.value.delete("page");
-  currentURLParams.value.delete("nb");
-
-  updateURL();
-}
-
 function reinitializeResultData() {
   query.value = '*';
   currentSorting.value = 'pertinence';
@@ -364,8 +344,6 @@ function reinitializeResultData() {
   currentShowingNumber.value = 10;
   currentFacets.value = [];
   rawFacets.value = [];
-
-  deleteAllUrlParameters();
 }
 
 /**
