@@ -372,15 +372,21 @@ function rawFacetReturnedFilter(facet, checkedFilterName) {
   }).length > 0;
 }
 
+function facetIsEmpty(facet) {
+  return Object.keys(facet.checkboxes).length < 1;
+}
+
 /**
  * Si les filtres cochés présents dans rawFacets ne sont pas dans la liste des facettes
  * retournées par l'API alors on les ajoute à cette même liste avec la valeur 0
+ * Seulement si la facette est peuplée
  * @param checkedFilterName
  * @param checkedFilterFacetName
  */
 function getCheckedFiltersBackIntoList(checkedFilterName, checkedFilterFacetName) {
   rawFacets.value.forEach((facet) => {
-    if (facet.name.toLowerCase() === checkedFilterFacetName.toLowerCase()) {
+    if ( !facetIsEmpty(facet)
+      && (facet.name.toLowerCase() === checkedFilterFacetName.toLowerCase()) ) {
       let currentFacet = { ...facet }; // cloner l'objet
       currentFacet.checkboxes = getFlattenedCheckboxesArray(facet);
 

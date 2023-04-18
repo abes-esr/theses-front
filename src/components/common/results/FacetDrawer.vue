@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels>
+  <v-expansion-panels v-if="date || Object.keys( facet.checkboxes ).length > 0">
     <v-expansion-panel class="elevation-0">
       <v-expansion-panel-title class="facet-title-panel">
         <h4 class="facet-title">
