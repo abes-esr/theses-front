@@ -14,13 +14,13 @@ const apiPersonnes = axios.create({
  * La liste des personnes courantes est mises à jour.
  * @param query
  * @param facets
- * @param currentPage
- * @param currentNombre
- * @param currentTri
+ * @param currentPageNumber
+ * @param currentShowingNumber
+ * @param currentSorting
  * @returns {Promise<unknown>}
  */
-async function queryPersonnesAPI(query, facetsRequest, currentPage, currentNombre, currentTri) {
-    const url = "/personnes/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
+async function queryPersonnesAPI(query, facetsRequest, currentPageNumber, currentShowingNumber, currentSorting) {
+    const url = "/personnes/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPageNumber - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentSorting + facetsRequest;
 
     return new Promise((resolve, reject) => {
         apiPersonnes.get(url)
@@ -113,6 +113,16 @@ function getItemsTriPersonnes() {
     ];
 }
 
+function getItemsTriMapPersonnes() {
+    let itemsNamesMap = new Map();
+
+    itemsNamesMap.set("pertinence", "Pertinence");
+    itemsNamesMap.set("PersonnesAsc", "Personnes A-Z");
+    itemsNamesMap.set("PersonnesDesc", "Personnes Z-A");
+
+    return itemsNamesMap;
+}
+
 
 /**
  * Service lié aux personnes
@@ -124,6 +134,7 @@ export function personnesAPIService() {
         getFacetsPersonnes,
         getPersonne,
         getItemsTriPersonnes,
-        disableOrFiltersPersonnes
+        disableOrFiltersPersonnes,
+        getItemsTriMapPersonnes
     };
 }

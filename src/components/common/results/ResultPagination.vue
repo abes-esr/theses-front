@@ -11,7 +11,7 @@
             class="pt-1 middle-bar-element"
             :length="nbPages"
             total-visible="2"
-            v-model="currentPage"
+            v-model="currentPageNumber"
             @update:modelValue="bottomScrollsToTop">
       </v-pagination>
       <v-select v-if="type === 'top'" v-model="tri" class="ml-2 pt-2 last-bar-element" return-object :items=items item-title="nom" item-value="cle" density="compact"
@@ -27,7 +27,7 @@ import { scrollToTop } from "@/services/Common";
 import { useRoute } from "vue-router";
 
 const currentRoute = useRoute();
-const { modifierTri, modifierPage, modifierNombre, getItemsTri } = APIService();
+const { setSorting, setPageNumber, setShowingNumber, getItemsTri, getCurrentSorting, getTriMap } = APIService();
 const emit = defineEmits(['search', 'updatePage', 'updateNumber']);
 
 const props = defineProps({
@@ -39,7 +39,7 @@ const props = defineProps({
     Type: String,
     default: 'top'
   },
-  currentPage: {
+  currentPageNumber: {
     type: Number,
     default: 1
   },
@@ -49,13 +49,20 @@ const props = defineProps({
   }
 });
 
+const items = ref();
+const tri = ref();
 
-const items = ref(getItemsTri());
+if (props.type === 'top') {
+  const startingTri = currentRoute.query.tri;
+  items.value = getItemsTri();
+  const itemsTriMap = getTriMap();
+  const startingTriName = itemsTriMap.get(startingTri) ? itemsTriMap.get(startingTri) : "Pertinence";
+  tri.value = { nom: startingTriName, cle: startingTri ? startingTri : "pertinence" };
+}
 
-const tri = ref({ nom: "Pertinence", cle: "pertinence" });
 
-const currentShowingNumber = ref(10);
-const currentPage = ref(1);
+const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
+const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
 
 const nbPages = computed(() => {
   return Math.ceil(props.nbResults / currentShowingNumber.value);
@@ -73,42 +80,57 @@ function bottomScrollsToTop() {
  * Watchers
  */
 
-watch(currentPage, newCurrentPage => {
-  modifierPage(newCurrentPage);
-  emit('search');
-  emit('updatePage', newCurrentPage);
+watch(currentPageNumber, newCurrentPageNumber => {
+  setPageNumber(newCurrentPageNumber);
+  emit("updatePage", newCurrentPageNumber);
+  if (props.type === "top") {
+    emit("search");
+  }
 });
 
 watch(currentShowingNumber, newShowingNumber => {
-  modifierNombre(newShowingNumber);
-  emit('search');
-  modifierPage(1);
-  emit('updateNumber', newShowingNumber);
-  emit('updatePage', 1);
+  setShowingNumber(newShowingNumber);
+  setPageNumber(1);
+  emit("updateNumber", newShowingNumber);
+  emit("updatePage", 1);
+  if (props.type === "top") {
+    emit("search");
+  }
 });
 
 watch(tri, async (newTri) => {
-  modifierPage(1);
-  emit('updatePage', 1);
-  modifierTri(newTri.cle);
-  emit('search');
+  setPageNumber(1);
+  setSorting(newTri.cle);
+  emit("updatePage", 1);
+  if (props.type === "top") {
+    emit("search");
+  }
 });
 
 
 /**
  * Watcher des autres barres de pagination
  */
-watch(() => props.currentPage, () => {
-  currentPage.value = props.currentPage;
+watch(() => props.currentPageNumber, () => {
+  currentPageNumber.value = props.currentPageNumber;
 });
 
 watch(() => props.currentShowingNumber, () => {
   currentShowingNumber.value = props.currentShowingNumber;
 });
 
+function getCurrentSortName() {
+  const startingTri = getCurrentSorting();
+  const itemsTriMap = getTriMap();
+  const startingTriName = itemsTriMap.get(startingTri) ? itemsTriMap.get(startingTri) : "Pertinence";
+  return { nom: startingTriName, cle: startingTri ? startingTri : "pertinence" };
+}
+
 // Mise à jour des valeurs de tri
 watch(() => currentRoute.query.domaine, () => {
+  setSorting('pertinence');
   items.value = getItemsTri();
+  tri.value = getCurrentSortName();
 });
 
 </script>

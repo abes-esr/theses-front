@@ -25,7 +25,7 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { APIService } from "@/services/StrategyAPI";
 
-const { addToMap } = APIService();
+const { addToFiltersLabelsMap } = APIService();
 
 const emit = defineEmits(['updateParentCheckbox', 'updateFilterData', 'updateFilterDataRecursive']);
 const props = defineProps({
@@ -53,7 +53,7 @@ onMounted(() => {
     label: props.facetItem.label,
   };
 
-  addToMap(filterData);
+  addToFiltersLabelsMap(filterData);
 });
 
 const maxRecursionDepth = 3;

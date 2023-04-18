@@ -21,7 +21,7 @@
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
           <facets-header @closeOverlay="closeOverlay"
                          @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-          <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
+          <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
                        :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger" :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </v-dialog>
     <v-expand-transition>
@@ -51,7 +51,7 @@
   <div class="result-main-wrapper">
     <div v-if="!mobile" class="nav-bar">
       <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-      <facets-list @update="update" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
                    :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger" :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </div>
     <div class="result-components">
@@ -76,7 +76,7 @@ import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 
 const { mobile } = useDisplay();
-const { setQuery, getQuery, queryAPI, getFacets, setDomaine, modifierPage, modifierNombre, setCheckedFilters, getURLParameters, setWorkingFacetName } = APIService();
+const { setQuery, getQuery, queryAPI, getFacets, setDomaine, setPageNumber, setShowingNumber, setCheckedFilters, getURLParameters, setWorkingFacetName } = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
@@ -107,19 +107,18 @@ onMounted(async () => {
     dataReady.value = false;
     request.value = decodeURI(currentRoute.query.q);
     setQuery(request.value);
-    search();
-    updateFacets(true);
+    search(true);
   });
 });
 
 /**
  * Fonctions
  */
-async function search() {
+async function search(firstLoad = false) {
   request.value = getQuery();
   loading.value = true;
 
-  updateFacets();
+  updateFacets(firstLoad);
 
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
@@ -175,12 +174,16 @@ async function search() {
 }
 
 function update(facetsArray) {
+  reinitialize();
+  loadChips(facetsArray);
+  search();
+}
+
+function loadChips(facetsArray) {
   if (facetsArray) {
     // mise à jour des chips
     selectedFacets.value = facetsArray;
   }
-  reinitialize();
-  search();
 }
 
 function displayError(message) {
@@ -217,9 +220,9 @@ function reinitializeCurrentRequest() {
 }
 
 function reinitialize() {
-  modifierPage(1);
+  setPageNumber(1);
   resetPage.value++;
-  modifierNombre(10);
+  setShowingNumber(10);
   resetShowingNumber.value++;
 }
 

@@ -22,13 +22,20 @@
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import StatsCard from '../components/home/StatsCard.vue';
 import DomainSelector from '../components/common/DomainSelector.vue';
-import { defineAsyncComponent, ref } from "vue";
+import { defineAsyncComponent, onMounted, ref } from "vue";
+import { APIService } from "@/services/StrategyAPI";
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
+const { reinitializeResultData } = APIService();
 
 let loading = ref(false);
 
 const messageBox = ref(null);
+
+onMounted(() => {
+  // réinitialiser les éléments liés à la recherche au retour à la page d'accueil
+  reinitializeResultData();
+})
 
 function displayError(message) {
   messageBox.value?.open(message, {
