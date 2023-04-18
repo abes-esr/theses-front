@@ -172,7 +172,7 @@ let chipData = {};
     };
   }
 
-  facetsChipsArray.value.splice(0, 0, chipData);
+  facetsChipsArray.value.splice(facetsChipsArray.value.length, 0, chipData);
 }
 
 function deleteFromChips(itemIndex) {
