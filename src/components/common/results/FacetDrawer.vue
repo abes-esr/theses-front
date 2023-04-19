@@ -20,12 +20,16 @@
           <div v-if="date" class="flex-container">
             <span class="flex-item">
               {{ $t("results.drawer.from") }}<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA" :max-date="dateFromMax">
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA" :max-date="dateFromMax"
+                :teleport-center="teleportCenter"
+            >
               </VueDatePicker>
             </span>
             <span class="flex-item pl-4 pr-4">
               {{ $t("results.drawer.to") }}<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin">
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin"
+                :teleport-center="teleportCenter"
+            >
               </VueDatePicker>
             </span>
           </div>
@@ -45,7 +49,9 @@ import FacetCheckbox from "@/components/common/results/FacetCheckbox.vue";
 import { computed, ref, watch } from "vue";
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
+import { useDisplay } from "vuetify";
 
+const { mobile } = useDisplay();
 const emit = defineEmits(['update:facetsArray', 'updateFilterData', 'updateFilterDateOnly', 'reinitializeCheckboxes']);
 const props = defineProps({
   facetsArray: {
@@ -93,6 +99,8 @@ let dateToMin = computed(() => {
 let dateToMax = computed(() => {
   return new Date();
 });
+
+const teleportCenter = ref(mobile);
 
 /**
  * Initialisation
@@ -246,7 +254,6 @@ watch(() => props.parametersLoaded,
   flex-grow: 2;
   order: 2;
   background-color: transparent;
-  //hyphens: auto;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 13px;
@@ -286,17 +293,13 @@ watch(() => props.parametersLoaded,
 .flex-item {
   flex: 1;
 }
+</style>
 
-:deep(.dp__arrow_top) {
-  left: 25% !important;
+<style>
+.dp__arrow_bottom {
+  display: none !important;
 }
-
-:deep(.dp__input) {
-  font-size: 0.9rem !important;
-  padding-left: 30px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-right: 2px;
+.dp__arrow_top {
+  display: none !important;
 }
-
 </style>
