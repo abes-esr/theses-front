@@ -20,12 +20,12 @@
           <div v-if="date" class="flex-container">
             <span class="flex-item">
               {{ $t("results.drawer.from") }}<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA">
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA" :max-date="dateFromMax">
               </VueDatePicker>
             </span>
             <span class="flex-item pl-4 pr-4">
               {{ $t("results.drawer.to") }}<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA">
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin">
               </VueDatePicker>
             </span>
           </div>
@@ -77,6 +77,22 @@ const filterSearchText = ref("");
 
 const dateFrom = ref();
 const dateTo = ref(new Date().getFullYear());
+
+let dateFromMax = computed(() => {
+  return dateTo.value && ( dateTo.value <= (new Date()).getFullYear() )
+    ? new Date(dateTo.value + '-12-31')
+    : new Date();
+});
+
+let dateToMin = computed(() => {
+  return dateFrom.value
+    ? new Date(dateFrom.value + '-01-01')
+    : new Date('1900-01-01');
+});
+
+let dateToMax = computed(() => {
+  return new Date();
+});
 
 /**
  * Initialisation
@@ -271,6 +287,10 @@ watch(() => props.parametersLoaded,
   flex: 1;
 }
 
+:deep(.dp__arrow_top) {
+  left: 25% !important;
+}
+
 :deep(.dp__input) {
   font-size: 0.9rem !important;
   padding-left: 30px;
@@ -278,4 +298,5 @@ watch(() => props.parametersLoaded,
   padding-bottom: 2px;
   padding-right: 2px;
 }
+
 </style>
