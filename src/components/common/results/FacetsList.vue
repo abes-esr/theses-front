@@ -56,7 +56,7 @@ const props = defineProps({
 });
 
 const { mobile } = useDisplay();
-const emit = defineEmits(['update', 'searchAndReinitialize']);
+const emit = defineEmits(['update', 'searchAndReinitialize', 'loadChips']);
 const facetsArray = ref([]);
 const facetsChipsArray = ref([]);
 const reinitializeDateFieldsTrigger = ref(0);
@@ -172,7 +172,7 @@ let chipData = {};
     };
   }
 
-  facetsChipsArray.value.splice(0, 0, chipData);
+  facetsChipsArray.value.splice(facetsChipsArray.value.length, 0, chipData);
 }
 
 function deleteFromChips(itemIndex) {
@@ -221,7 +221,7 @@ function addToFilters(filterObject) {
 }
 
 function addOrOverwriteDate(datesArray) {
-  var dateFiltersNames = [
+  let dateFiltersNames = [
     'datedebut',
     'datefin'
   ];
@@ -310,16 +310,18 @@ watch(() => props.filterToBeDeleted,
 watch(() => props.parametersLoaded, () => {
   facetsArray.value = getFacetsArrayFromURL();
 
-  facetsArray.value.forEach((facet) => {
-    const filterData = {
-      facetName: facet.facetName,
-      filterName: facet.filterName,
-      label: facet.label
-    }
-    addToChips(filterData);
-  });
+  if ( Object.keys(facetsArray.value).length > 0 ) {
+    facetsArray.value.forEach((facet) => {
+      const filterData = {
+        facetName: facet.facetName,
+        filterName: facet.filterName,
+        label: facet.label
+      }
+      addToChips(filterData);
+    });
 
-  emit('update', facetsChipsArray.value);
+    emit('loadChips', facetsChipsArray.value);
+  }
 });
 
 </script>

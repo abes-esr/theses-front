@@ -21,8 +21,8 @@ function disableOrFiltersTheses(facets) {
 }
 
 // Recherche simple dans les theses
-function queryThesesAPI(query, facetsRequest, currentPage, currentNombre, currentTri) {
-  const url = "/recherche/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPage - 1) * currentNombre) + "&nombre=" + currentNombre + "&tri=" + currentTri + facetsRequest;
+function queryThesesAPI(query, facetsRequest, currentPageNumber, currentShowingNumber, currentSorting) {
+  const url = "/recherche/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPageNumber - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentSorting + facetsRequest;
 
   return new Promise((resolve, reject) => {
     apiTheses.get(url)
@@ -72,6 +72,20 @@ function getItemsTriTheses() {
   ];
 }
 
+function getItemsTriMapTheses() {
+  let itemsNamesMap = new Map();
+
+  itemsNamesMap.set("pertinence", "Pertinence");
+  itemsNamesMap.set("dateAsc", "Date croissante");
+  itemsNamesMap.set("dateDesc", "Date décroissante");
+  itemsNamesMap.set("auteursAsc", "Auteurs A-Z");
+  itemsNamesMap.set("auteursDesc", "Auteurs Z-A");
+  itemsNamesMap.set("disciplineAsc", "Discipline A-Z");
+  itemsNamesMap.set("disciplineDesc", "Discipline Z-A");
+
+  return itemsNamesMap;
+}
+
 /**
  * Service lié aux thèses
  * @returns {{rechercherPersonne: ((function(*): Promise<AxiosResponse<*>>)|*), listePersonnes: Ref<UnwrapRef<{}>>, selectedDomain: Ref<UnwrapRef<string>>, modifierDomaine: modifierDomaine}}
@@ -83,6 +97,7 @@ export function thesesAPIService() {
     getFacetsTheses,
     getThese,
     getItemsTriTheses,
-    disableOrFiltersTheses
+    disableOrFiltersTheses,
+    getItemsTriMapTheses
   };
 }

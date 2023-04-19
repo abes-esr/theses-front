@@ -4,7 +4,7 @@
     :nb-results=nbResult
     :type="'top'"
     :current-showing-number="currentShowingNumber"
-    :current-page="currentPage"
+    :current-page-number="currentPageNumber"
     @updateNumber="updateNumber"
     @updatePage="updatePage"
     @search="search">
@@ -38,7 +38,7 @@
     :nb-results=nbResult
     :type="'bottom'"
     :current-showing-number="currentShowingNumber"
-    :current-page="currentPage"
+    :current-page-number="currentPageNumber"
     class="pagination-bottom"
     @updateNumber="updateNumber"
     @updatePage="updatePage"
@@ -60,7 +60,7 @@ import FacetsChips from "@/components/common/results/FacetsChips.vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
-const { getQuery, modifierNombre } = APIService();
+const { getQuery } = APIService();
 
 const domainName = currentRoute.query.domaine ? ref(currentRoute.query.domaine) : ref('theses');
 
@@ -79,12 +79,10 @@ const props = defineProps({
     type: Boolean
   },
   resetPage: {
-    type: Number,
-    default: 1
+    type: Number
   },
   resetShowingNumber: {
-    type: Number,
-    default: 10
+    type: Number
   },
   domainNameChange: {
     type: String
@@ -94,9 +92,10 @@ const props = defineProps({
   }
 });
 
-const currentShowingNumber = ref(10);
-const currentPage = ref(1);
 const query = ref("");
+
+const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
+const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
 
 onMounted(() => {
   query.value = getQuery();
@@ -125,11 +124,10 @@ function allResultsWereLoaded() {
 
 function updateNumber(newNumber) {
   currentShowingNumber.value = newNumber;
-  modifierNombre(newNumber);
 }
 
 function updatePage(newPage) {
-  currentPage.value = newPage;
+  currentPageNumber.value = newPage;
 }
 
 function search() {
@@ -141,7 +139,7 @@ function search() {
  * Watchers
  */
 watch(() => props.resetPage, () => {
-  currentPage.value = 1;
+  currentPageNumber.value = 1;
   query.value = getQuery();
 });
 
