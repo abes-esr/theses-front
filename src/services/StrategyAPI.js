@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { router } from "@/router";
+import { useDisplay } from "vuetify";
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import { referentielsAPIService } from "@/services/ReferentielsAPI";
@@ -13,7 +14,6 @@ const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, 
 /**
  * Initialisation
  */
-
 const startingParameterPageFirstLoad = parseInt( getURLParameter('page') );
 const startingParameterShowingNumberFirstLoad = parseInt( getURLParameter('nb') );
 const startingParameterTriFirstLoad = getURLParameter('tri');
@@ -106,19 +106,21 @@ function getFacetsRequest() {
  */
 async function getURLParameters() {
   return new Promise((resolve) => {
-    const startingParameterPage = parseInt( getURLParameter('page') );
-    const startingParameterShowingNumber = parseInt( getURLParameter('nb') );
+    const mobile = useDisplay().mobile._object.mobile;
+
     const startingParameterTri = getURLParameter('tri');
     const startingParameterFiltres = getURLParameterNoBrackets('filtres');
     const startingParameterQ = getURLParameter('q');
     const startingParameterDomaine = getURLParameter('domaine');
+    const startingParameterPage = mobile ? 1 : parseInt( getURLParameter('page') );
+    const startingParameterShowingNumber = mobile ? 10 : parseInt( getURLParameter('nb') );
 
-    currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
-    currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
     currentSorting.value = startingParameterTri ? startingParameterTri : 'pertinence';
     currentFacets.value = startingParameterFiltres ? startingParameterFiltres : '';
     query.value = (startingParameterQ && typeof startingParameterQ !== 'undefined') ? startingParameterQ : '*';
     domaine.value = startingParameterDomaine ? startingParameterDomaine : 'theses';
+    currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
+    currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
 
     resolve();
   });
