@@ -18,11 +18,11 @@
   "documentation": "Documentation",
   "resultats": " résultats de thèses pour ",
   "scroll": "Remonter en haut de la page",
-  "clear": "Effacer la saisie dans la barre de recherche",
-  "searchButton": "Lancer la recherche",
+  "clear": "Effacer",
+  "searchButton": "Rechercher",
   "avancee":"Recherche Avancée",
   "disableSuggestion": "Désactiver l'autocomplétion",
-  "top": "Retour en haut de la page",
+  "top": "Haut de la page",
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
   },
@@ -82,7 +82,8 @@
         "president": "Président du jury",
         "rapporteur": "Rapporteur",
         "jury": "Membre du jury",
-        "theses": "thèse(s)"
+        "theses": "thèse(s)",
+        "theses2": "thèse(s)"
       }
     }
   },
@@ -98,8 +99,8 @@
     "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche" 
   },
   "header": {
-    "doc": "Accéder à la documentation du site theses.fr ",
-    "assistance": "Accéder au guichet d’assistance en ligne"
+    "doc": "Accéder à la documentation de theses.fr ",
+    "assistance": "Accéder au guichet d’assistance de l'Abes"
   },
   "meta": {
     "desc": "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation.",

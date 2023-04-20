@@ -1,12 +1,7 @@
 <template>
   <v-lazy :min-height="10" :options="{ threshold: 1.0 }">
-    <v-checkbox
-      v-model="checkboxState"
-      :class="`checkboxes ms-${props.marginOffset}`"
-      :label="`${facetItem.label} (${facetItem.value})`"
-      density="compact"
-      inline
-      hide-details>
+    <v-checkbox v-model="checkboxState" :class="`checkboxes ms-${props.marginOffset}`"
+      :label="`${replaceFacetsText(facetItem.label)} (${facetItem.value})`" density="compact" inline hide-details>
     </v-checkbox>
   </v-lazy>
 
@@ -24,6 +19,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from "vue";
 import { APIService } from "@/services/StrategyAPI";
+import { replaceFacetsText } from "@/services/Common";
 
 const { addToFiltersLabelsMap } = APIService();
 
@@ -124,16 +120,16 @@ function updateFilterDataRecursive(filterData) {
 }
 
 function isDateFilter(filter) {
-  return Object.keys(filter)[0].toLowerCase().startsWith("date");
+  return Object.keys(filter)[0].startsWith("date");
 }
 
 function arrayContainsFilter() {
   if (props.facetsArray) {
     return props.facetsArray.filter(function (filter) {
-      if(isDateFilter(filter) ) {
+      if (isDateFilter(filter)) {
         return false;
       }
-      return Object.values(filter)[0].toLowerCase() === props.facetItem.name.toLowerCase() && Object.keys(filter)[0].toLowerCase() === props.facetName.toLowerCase();
+      return Object.values(filter)[0] === props.facetItem.name && Object.keys(filter)[0] === props.facetName;
     }
     ).length > 0;
   }
@@ -142,11 +138,11 @@ function arrayContainsFilter() {
 </script>
 
 <style lang="scss">
-  .v-selection-control {
-    align-items: start !important;
-  }
+.v-selection-control {
+  align-items: start !important;
+}
 
-  .v-label {
-    align-items: start !important;
-  }
+.v-label {
+  align-items: start !important;
+}
 </style>

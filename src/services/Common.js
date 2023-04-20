@@ -27,7 +27,6 @@ export function replaceAndEscape(q) {
   q = deleteUnevenQuotes(q);
     for(const [key, value] of Object.entries(listKeywordsAndChars)){
       q = remplacerMotsCles(q, q, key, value, 0);
-
     }
     return q;
 }
@@ -62,3 +61,17 @@ function deleteUnevenQuotes(q) {
   }
   return q;
 }
+
+const facetsToReplace = {
+  "enCours" : "En préparation",
+  "soutenue" : "Soutenues",
+}
+
+export function replaceFacetsText(text) {
+  if(text in facetsToReplace) {
+    return facetsToReplace[text];
+  } else {
+    return text;
+  }
+}
+

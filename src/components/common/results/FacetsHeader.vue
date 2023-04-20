@@ -6,12 +6,11 @@
         <p>{{ $t('results.facetsHeader') }}</p>
       </div>
     </div>
-    <v-btn v-if="!mobile" @click.stop="" @click="searchAndReinitializeAllFacets" size="small" depressed
-           elevation="0" color="primary" class="desktop-reinitialize-button">
+    <v-btn v-if="!mobile" @click.stop="" @click="searchAndReinitializeAllFacets" size="small" depressed elevation="0"
+      color="primary" class="desktop-reinitialize-button">
       Réinitialiser
     </v-btn>
-    <button v-else @click="closeOverlay" class="close-overlay-button"
-           elevation="0" color="transparent">
+    <button v-else @click="closeOverlay" class="close-overlay-button" elevation="0" color="transparent">
       <div class="close-overlay-icon-wrapper">
         <div class="circle"></div>
         <div class="close-icon"><v-icon size="35">mdi-close-box</v-icon></div>
@@ -20,26 +19,26 @@
 
   </div>
   <div v-if="mobile" class="reinitialize-button-mobile">
-    <v-btn @click.stop="" @click="searchAndReinitializeAllFacets" class="reinitialize-button-mobile" size="small" depressed
-           elevation="0" color="primary">
+    <v-btn @click.stop="" @click="searchAndReinitializeAllFacets" class="reinitialize-button-mobile" size="small"
+      depressed elevation="0" color="primary">
       Réinitialiser
     </v-btn>
   </div>
 </template>
 
 <script setup>
-  import { useDisplay } from "vuetify";
-  const { mobile } = useDisplay();
+import { useDisplay } from "vuetify";
+const { mobile } = useDisplay();
 
-  const emit = defineEmits(['searchAndReinitializeAllFacets', 'closeOverlay']);
+const emit = defineEmits(['searchAndReinitializeAllFacets', 'closeOverlay']);
 
-  function searchAndReinitializeAllFacets() {
-    emit('searchAndReinitializeAllFacets');
-  }
+function searchAndReinitializeAllFacets() {
+  emit('searchAndReinitializeAllFacets');
+}
 
-  function closeOverlay() {
-    emit('closeOverlay');
-  }
+function closeOverlay() {
+  emit('closeOverlay');
+}
 </script>
 
 <style lang="scss" scoped>
@@ -81,9 +80,10 @@
   grid-column-start: 3;
   background-color: transparent;
   padding: 10% 0;
+  overflow: visible !important;
 }
 
-.v-btn--elevated :deep(.v-btn__content)  {
+.v-btn--elevated :deep(.v-btn__content) {
   text-transform: capitalize;
   letter-spacing: 0.5px;
 }
@@ -116,7 +116,7 @@
 .reinitialize-button-mobile {
   margin-top: 5px;
   display: grid;
-  grid-template-columns: 7.5% 85% 7.5% ;
+  grid-template-columns: 7.5% 85% 7.5%;
 }
 
 .reinitialize-button-mobile {
@@ -125,7 +125,8 @@
 }
 
 .desktop-reinitialize-button {
-    padding: 0 12px;
+  padding: 0 12px;
+
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 10px;
     padding: 0 4px;
