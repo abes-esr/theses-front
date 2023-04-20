@@ -1,6 +1,6 @@
 <template>
   <div v-if="nbResult">
-    <button class="scroll-to-top-button" @click="scrollToTop">
+    <button class="scroll-to-top-button" @click="scrollToTop" :title='$t("top")'>
       <div>
         <div class="circle"></div>
         <v-icon class="scroll-to-top-icon" size="35">mdi-chevron-up-box</v-icon>
