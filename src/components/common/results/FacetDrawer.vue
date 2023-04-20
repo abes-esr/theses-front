@@ -252,11 +252,11 @@ watch(() => props.parametersLoaded,
   flex-grow: 2;
   order: 2;
   background-color: transparent;
-  <<<<<<< HEAD padding-top: 5px;
+  padding-top: 5px;
   padding-bottom: 5px;
 
   //hyphens: auto;
-  =======>>>>>>>fa39c06e2fcd4a35435584fefcd53b55b75a4bcf @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 13px;
   }
 }
