@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels v-if="date || Object.keys( facet.checkboxes ).length > 0">
+  <v-expansion-panels v-if="date || Object.keys(facet.checkboxes).length > 0">
     <v-expansion-panel class="elevation-0">
       <v-expansion-panel-title class="facet-title-panel">
         <h4 class="facet-title">
@@ -19,13 +19,15 @@
         <div class="panel-text" ref="`facet-${facet.name}`">
           <div v-if="date" class="flex-container">
             <span class="flex-item">
-              {{ $t("results.drawer.from") }}<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA">
+              {{ $t("results.drawer.from") }}<VueDatePicker v-model="dateFrom" :teleport-center="true" locale="fr"
+                auto-apply :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false"
+                text-input placeholder="AAAA">
               </VueDatePicker>
             </span>
             <span class="flex-item pl-4 pr-4">
-              {{ $t("results.drawer.to") }}<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA">
+              {{ $t("results.drawer.to") }}<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply
+                :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
+                placeholder="AAAA">
               </VueDatePicker>
             </span>
           </div>
@@ -68,7 +70,7 @@ const props = defineProps({
     type: Number
   },
   parametersLoaded: {
-    type:Number
+    type: Number
   }
 });
 
@@ -101,8 +103,8 @@ fillDateDrawerFields();
 
 function searchIntoFacet() {
   facetItems.value.forEach(function (facetItem) {
-    const filterLowerCase = facetItem.label.toLowerCase();
-    const searchTextLowerCase = filterSearchText.value.toLowerCase();
+    const filterLowerCase = facetItem.label;
+    const searchTextLowerCase = filterSearchText.value;
     facetItem.selected = filterLowerCase.includes(searchTextLowerCase);
   });
 }
@@ -159,8 +161,8 @@ function reinitializeDateToField() {
  */
 watch(() => props.reinitializeDateFieldsTrigger,
   () => {
-  reinitializeDateFields();
-});
+    reinitializeDateFields();
+  });
 
 watch(() => props.reinitializeDateFromTrigger,
   () => {
@@ -193,7 +195,7 @@ function fillDateDrawerFields() {
  */
 watch(() => props.parametersLoaded,
   () => {
-      fillDateDrawerFields();
+    fillDateDrawerFields();
   });
 </script>
 
@@ -230,6 +232,8 @@ watch(() => props.parametersLoaded,
   flex-grow: 2;
   order: 2;
   background-color: transparent;
+  padding-top: 5px;
+  padding-bottom: 5px;
   //hyphens: auto;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
@@ -277,5 +281,23 @@ watch(() => props.parametersLoaded,
   padding-top: 2px;
   padding-bottom: 2px;
   padding-right: 2px;
+}
+
+:deep(.dp__arrow_bottom) {
+  display: none !important;
+}
+
+:deep(.dp__arrow_top) {
+  display: none !important;
+}
+</style>
+
+<style>
+.dp__arrow_bottom {
+  display: none !important;
+}
+
+.dp__arrow_top {
+  display: none !important;
 }
 </style>

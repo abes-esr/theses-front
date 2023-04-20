@@ -170,7 +170,7 @@ function parseFacetsValuesArray(objectsArray) {
     filtersArrayURL.push(Object.keys(filter)[0] + '="' + Object.values(filter)[0] + '"');
   });
 
-  return filtersArrayURL.join('&').toLowerCase();
+  return filtersArrayURL.join('&');
 }
 
 /**
@@ -211,7 +211,7 @@ function getFiltersOnlyInURLAndInESResponse(facetsArray) {
   // Gestion autres facettes retournées par theses-api-recherche
   rawFacets.value.forEach((facet) => {
     dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
-      if (facet.name.toLowerCase() === Object.keys(urlFacet)[0].toLowerCase()) {
+      if (facet.name === Object.keys(urlFacet)[0]) {
         return rawFacetReturnedFilter(facet, Object.values(urlFacet)[0]);
       }
       return false;
@@ -287,10 +287,10 @@ function getLabelFromURLName(urlFacet) {
   let currentFacets = [];
 
   rawFacets.value.forEach((facet) => {
-    if (facet.name.toLowerCase() === urlFacet.facetName.toLowerCase()) {
+    if (facet.name === urlFacet.facetName) {
       currentFacets = getFlattenedCheckboxesArray(facet);
       correspondingFacet = currentFacets.find((filter) => {
-        return filter.name.toLowerCase() === urlFacet.filterName.toLowerCase();
+        return filter.name === urlFacet.filterName;
       });
     }
   });
@@ -307,9 +307,9 @@ function getFacetsLabels(facetsArray) {
     facet.filterName = Object.values(facet)[0];
     facet.facetName = Object.keys(facet)[0];
 
-    if (Object.keys(facet)[0].toLowerCase() === 'langues') {
+    if (Object.keys(facet)[0] === 'langues') {
       facet.label = getLabelFromCode(facet.filterName);
-    } else if (Object.keys(facet)[0].toLowerCase().startsWith('date')) {
+    } else if (Object.keys(facet)[0].startsWith('date')) {
       facet.label = parseInt(facet.filterName);
       facet.filterName = facet.facetName;
     } else {
@@ -324,7 +324,7 @@ function getFacetsLabels(facetsArray) {
 function replaceWorkingFacet(facetsArray, currentWorkingFacet) {
   if (currentWorkingFacet.length > 0) {
     const facetIndex = facetsArray.findIndex((facet) => {
-      return facet.name.toLowerCase() === currentWorkingFacetName.value.toLowerCase();
+      return facet.name === currentWorkingFacetName.value;
     });
 
     if (facetIndex > -1)
@@ -368,7 +368,7 @@ function rawFacetReturnedFilter(facet, checkedFilterName) {
   let flattenedFacet = getFlattenedCheckboxesArray(facet);
 
   return flattenedFacet.filter((filter) => {
-    return filter.name.toLowerCase() === checkedFilterName.toLowerCase();
+    return filter.name === checkedFilterName;
   }).length > 0;
 }
 
@@ -386,7 +386,7 @@ function facetIsEmpty(facet) {
 function getCheckedFiltersBackIntoList(checkedFilterName, checkedFilterFacetName) {
   rawFacets.value.forEach((facet) => {
     if ( !facetIsEmpty(facet)
-      && (facet.name.toLowerCase() === checkedFilterFacetName.toLowerCase()) ) {
+      && (facet.name === checkedFilterFacetName) ) {
       let currentFacet = { ...facet }; // cloner l'objet
       currentFacet.checkboxes = getFlattenedCheckboxesArray(facet);
 
@@ -409,7 +409,7 @@ async function getFacets() {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     const currentWorkingFacet = rawFacets.value.filter((facet) => {
-      return facet.name.toLowerCase() === currentWorkingFacetName.value.toLowerCase();
+      return facet.name === currentWorkingFacetName.value;
     });
 
     if (domaine.value === "theses") {
