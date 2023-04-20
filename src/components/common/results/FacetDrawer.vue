@@ -20,12 +20,16 @@
           <div v-if="date" class="flex-container">
             <span class="flex-item">
               {{ $t("results.drawer.from") }}<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA">
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA" :max-date="dateFromMax"
+                :teleport-center="teleportCenter"
+            >
               </VueDatePicker>
             </span>
             <span class="flex-item pl-4 pr-4">
               {{ $t("results.drawer.to") }}<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA">
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin"
+                :teleport-center="teleportCenter"
+            >
               </VueDatePicker>
             </span>
           </div>
@@ -45,7 +49,9 @@ import FacetCheckbox from "@/components/common/results/FacetCheckbox.vue";
 import { computed, ref, watch } from "vue";
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
+import { useDisplay } from "vuetify";
 
+const { mobile } = useDisplay();
 const emit = defineEmits(['update:facetsArray', 'updateFilterData', 'updateFilterDateOnly', 'reinitializeCheckboxes']);
 const props = defineProps({
   facetsArray: {
@@ -77,6 +83,24 @@ const filterSearchText = ref("");
 
 const dateFrom = ref();
 const dateTo = ref(new Date().getFullYear());
+
+let dateFromMax = computed(() => {
+  return dateTo.value && ( dateTo.value <= (new Date()).getFullYear() )
+    ? new Date(dateTo.value + '-12-31')
+    : new Date();
+});
+
+let dateToMin = computed(() => {
+  return dateFrom.value
+    ? new Date(dateFrom.value + '-01-01')
+    : new Date('1900-01-01');
+});
+
+let dateToMax = computed(() => {
+  return new Date();
+});
+
+const teleportCenter = ref(mobile);
 
 /**
  * Initialisation
@@ -230,7 +254,6 @@ watch(() => props.parametersLoaded,
   flex-grow: 2;
   order: 2;
   background-color: transparent;
-  //hyphens: auto;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 13px;
@@ -270,12 +293,13 @@ watch(() => props.parametersLoaded,
 .flex-item {
   flex: 1;
 }
+</style>
 
-:deep(.dp__input) {
-  font-size: 0.9rem !important;
-  padding-left: 30px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-right: 2px;
+<style>
+.dp__arrow_bottom {
+  display: none !important;
+}
+.dp__arrow_top {
+  display: none !important;
 }
 </style>
