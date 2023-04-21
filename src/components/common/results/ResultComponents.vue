@@ -23,7 +23,7 @@
       <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
     </div>
     <div v-else>
-      <div v-for="i in 10" :key="i" class="skeleton">
+      <div v-for="i in currentShowingNumber" :key="i" class="skeleton">
         <v-card flat style="margin-bottom: 1rem;"><v-skeleton-loader type="article"></v-skeleton-loader></v-card>
       </div>
     </div>
