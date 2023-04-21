@@ -1,6 +1,8 @@
 // Styles
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
+import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
+
 
 // Vuetify
 import { createVuetify } from 'vuetify'
@@ -40,5 +42,8 @@ export default createVuetify({
   },
   display: {
     mobileBreakpoint: 'md'
+  },
+  components: {
+    VSkeletonLoader
   }
 })

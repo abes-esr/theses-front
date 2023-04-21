@@ -11,6 +11,7 @@
       :facets-array="facetsArray" @updateFilterData="updateFilterData" @reinitializeCheckboxes="reinitializeCheckboxes">
     </facet-drawer>
     <v-btn v-if="mobile" @click="update">Appliquer les filtres</v-btn>
+    <v-skeleton-loader v-if="loading" v-for="i in 6" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
   </div>
 </template>
 
@@ -43,6 +44,9 @@ const props = defineProps({
   },
   reinitializeDateToTrigger: {
     type: Number
+  },
+  loading: {
+    type: Boolean
   }
 });
 
@@ -327,6 +331,13 @@ watch(() => props.parametersLoaded, () => {
 
   .v-expansion-panels {
     width: 85%;
+  }
+
+  .skeleton {
+    height: 48px !important;
+    width: 85%;
+    background-color: rgb(var(--v-theme-gris-clair));
+    margin-bottom: 1em;
   }
 
 }
