@@ -5,11 +5,13 @@
 
   <div class="result-components-wrapper">
     <Transition mode="out-in">
-      <h1 v-if="dataReady">{{ nbResult }}{{
-        $t(domainName +
-          ".resultView.resultats")
-      }} : {{ query }}
-      </h1>
+      <h2 class="returned-results-statement" v-if="dataReady">
+        <span>{{ $t("results.searched") }}&nbsp;</span>
+        <span class="orange-text">"{{ query }}"&nbsp;</span>
+        <span>{{ $t("results.returned") }}&nbsp;</span>
+        <span class="orange-text">{{ nbResult }}&nbsp;</span>
+        <span>{{ $t("results.results") }}</span>
+      </h2>
       <h1 v-else>Recherche...</h1>
     </Transition>
     <facets-chips :facets="facets" @deleteFilter="deleteFilter" />
@@ -211,5 +213,18 @@ watch(() => props.resetShowingNumber, () => {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.returned-results-statement {
+  display: inline-block;
+  font-family: Roboto-Medium, sans-serif;
+  font-weight: 500;
+  font-size: 26.5px;
+}
+
+.orange-text {
+  color: rgb(var(--v-theme-orange-abes));
+  font-family: Roboto-Bold, sans-serif;
+  font-weight: 700;
 }
 </style>

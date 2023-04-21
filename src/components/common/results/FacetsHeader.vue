@@ -2,9 +2,7 @@
   <div class="search-filter">
     <div class="filter-meta">
       <v-icon color="primary" class="menu-icon">mdi-filter-menu</v-icon>
-      <div class="facet-title">
-        <p>{{ $t('results.facetsHeader') }}</p>
-      </div>
+      <span class="facet-title-header">{{ $t('results.facetsHeader') }}</span>
     </div>
     <v-btn v-if="!mobile" @click.stop="" @click="searchAndReinitializeAllFacets" size="small" depressed elevation="0"
       color="primary" class="desktop-reinitialize-button">
@@ -74,13 +72,17 @@ function closeOverlay() {
   grid-row-start: 2;
 }
 
-.facet-title {
+.facet-title-header {
   height: 100%;
-  grid-row-start: 2;
   grid-column-start: 3;
   background-color: transparent;
   padding: 10% 0;
   overflow: visible !important;
+
+  font-size: 22px;
+  font-weight: 400;
+  font-family: Roboto-Regular, sans-serif;
+  color: rgb(var(--v-text-dark-blue));
 }
 
 .v-btn--elevated :deep(.v-btn__content) {

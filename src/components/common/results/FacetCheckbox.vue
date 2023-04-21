@@ -138,6 +138,11 @@ function arrayContainsFilter() {
 </script>
 
 <style lang="scss">
+.checkboxes :deep(.v-selection-control__wrapper) > v-label {
+  color: green;
+  font-size: 15px;
+}
+
 .v-selection-control {
   align-items: start !important;
 }

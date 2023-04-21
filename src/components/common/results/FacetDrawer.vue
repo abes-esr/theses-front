@@ -2,9 +2,13 @@
   <v-expansion-panels v-if="date || Object.keys(facet.checkboxes).length > 0">
     <v-expansion-panel class="elevation-0">
       <v-expansion-panel-title class="facet-title-panel">
-        <h4 class="facet-title">
+        <template v-slot:actions="{ expanded }">
+          <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
+          </v-icon>
+        </template>
+        <h3 class="facet-title">
           {{ facet.name }}
-        </h4>
+        </h3>
         <v-btn @click.stop="" @click="reinitializeCheckboxes" class="reinitialize-button" size="small" depressed
           elevation="0" color="primary">
           <v-icon>mdi-reload</v-icon>
@@ -248,7 +252,6 @@ watch(() => props.parametersLoaded,
   text-align: start;
   text-transform: uppercase;
   overflow: hidden;
-  font-size: 16px;
   flex-grow: 2;
   order: 2;
   background-color: transparent;
@@ -312,6 +315,11 @@ watch(() => props.parametersLoaded,
 :deep(.dp__arrow_top) {
   display: none !important;
 }
+
+v-expansion-panel-text :deep(.v-field__input), v-expansion-panel-text :deep(.v-field-label) {
+  font-size: 17px !important;
+}
+
 </style>
 
 <style>

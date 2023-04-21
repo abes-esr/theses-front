@@ -34,7 +34,10 @@
         "drawer": {
             "from": "from",
             "to": "to"
-        }
+        },
+        "searched": "Search on",
+        "returned": "returned",
+        "results": "results"
     },
     "theses": {
         "resultView": {

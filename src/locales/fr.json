@@ -64,7 +64,10 @@
     "drawer": {
       "from": "de",
       "to": "à"
-    }
+    },
+    "searched": "La recherche sur",
+    "returned": "a retourné",
+    "results": "résultats"
   },
   "personnes": {
     "resultView": {
