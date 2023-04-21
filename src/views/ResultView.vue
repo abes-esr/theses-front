@@ -1,7 +1,7 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav v-if="mobile" class="mobile-nav-bar">
-<!--    Bouton filtres-->
+    <!--    Bouton filtres-->
     <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
       <v-icon v-bind="props" size="40px">mdi-filter-variant
       </v-icon>
@@ -12,17 +12,21 @@
       :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav>
-<!--    Menu filtres-->
+  <!--    Menu filtres-->
   <div v-if="mobile" class="logo-menu-wrapper">
     <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
-<!--    Menu recherche/selecteur these/personnes-->
-    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-          <facets-header @closeOverlay="closeOverlay"
-                         @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-          <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize" @closeOverlay="closeOverlay" :facets="facets"
-                       :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger" :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+    <!--    Menu recherche/selecteur these/personnes-->
+    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+      :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+      <facets-header @closeOverlay="closeOverlay"
+        @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
+        @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
+        :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
+        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </v-dialog>
     <v-expand-transition>
       <div v-show="showSearchBar" class="expanded-search-bar-container">
@@ -52,13 +56,15 @@
     <div v-if="!mobile" class="nav-bar">
       <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
       <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-                   :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger" :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange" :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+        :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
+        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
+        class="left-side"></facets-list>
     </div>
     <div class="result-components">
-      <result-components :data-ready="dataReady" :result="result" :loading="loading"
-                         :nb-result="nbResult" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
-                         :domain-name-change="domainNameChange" :facets="selectedFacets"
-                         @search="search" @deleteFilter="deleteFilter">
+      <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
+        :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange"
+        :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
       </result-components>
     </div>
   </div>
@@ -83,6 +89,7 @@ const currentRoute = useRoute();
 const request = ref("");
 const result = ref([]);
 const dataReady = ref(false);
+const dataFacetsReady = ref(false);
 // const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
 const resetFacets = ref(0);
@@ -174,6 +181,7 @@ async function search(firstLoad = false) {
 }
 
 function update(facetsArray) {
+  dataReady.value = false;
   reinitialize();
   loadChips(facetsArray);
   search();
@@ -199,7 +207,10 @@ function closeOverlay() {
 function updateFacets(firstLoad) {
   getFacets().then(response => {
     facets.value = response;
-    if (firstLoad) parametersLoaded.value++;
+    if (firstLoad) {
+      parametersLoaded.value++;
+      dataFacetsReady.value = true;
+    }
   }).catch(error => {
     facets.value = {};
     displayError(error.message);
@@ -235,7 +246,7 @@ async function searchAndReinitializeFacet(query) {
 async function searchAndReinitializeAllFacets() {
   showSearchBar.value = false;
   resetFacets.value++;
-  setWorkingFacetName('')
+  setWorkingFacetName('');
   setCheckedFilters([]);
   searchAndReinitialize();
 }
@@ -246,6 +257,7 @@ function changeDomain() {
 }
 
 async function searchAndReinitialize() {
+  dataReady.value = false;
   reinitialize();
   await search();
 }

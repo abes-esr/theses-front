@@ -1,48 +1,37 @@
 <template>
-  <result-pagination
-    v-if="!mobile"
-    :nb-results=nbResult
-    :type="'top'"
-    :current-showing-number="currentShowingNumber"
-    :current-page-number="currentPageNumber"
-    @updateNumber="updateNumber"
-    @updatePage="updatePage"
-    @search="search">
+  <result-pagination v-if="!mobile" :nb-results=nbResult :type="'top'" :current-showing-number="currentShowingNumber"
+    :current-page-number="currentPageNumber" @updateNumber="updateNumber" @updatePage="updatePage" @search="search">
   </result-pagination>
 
   <div class="result-components-wrapper">
-    <h1>{{ nbResult }}{{
+    <Transition mode="out-in">
+      <h1 v-if="dataReady">{{ nbResult }}{{
         $t(domainName +
           ".resultView.resultats")
       }} : {{ query }}
-    </h1>
+      </h1>
+      <h1 v-else>Recherche...</h1>
+    </Transition>
     <facets-chips :facets="facets" @deleteFilter="deleteFilter" />
     <div v-if="dataReady" class="colonnes-resultats">
-        <div>
-          <result-list :result="result" :domain-name-change="domainNameChange">
-          </result-list>
-            <MoreResultsButton
-              v-if="mobile && !allResultsWereLoaded()"
-              :loading=loading
-              :nb-result=nbResult
-              @updateNumber="updateNumber"
-              @search="search"
-            />
-        </div>
-        <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
+      <div>
+        <result-list :result="result" :domain-name-change="domainNameChange">
+        </result-list>
+        <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
+          @updateNumber="updateNumber" @search="search" />
+      </div>
+      <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
+    </div>
+    <div v-else>
+      <div v-for="i in 10" :key="i" class="skeleton">
+        <v-card flat style="margin-bottom: 1rem;"><v-skeleton-loader type="article"></v-skeleton-loader></v-card>
+      </div>
     </div>
   </div>
 
-  <result-pagination
-    v-if="!mobile"
-    :nb-results=nbResult
-    :type="'bottom'"
-    :current-showing-number="currentShowingNumber"
-    :current-page-number="currentPageNumber"
-    class="pagination-bottom"
-    @updateNumber="updateNumber"
-    @updatePage="updatePage"
-    @search="search">
+  <result-pagination v-if="!mobile" :nb-results=nbResult :type="'bottom'" :current-showing-number="currentShowingNumber"
+    :current-page-number="currentPageNumber" class="pagination-bottom" @updateNumber="updateNumber"
+    @updatePage="updatePage" @search="search">
   </result-pagination>
 </template>
 
@@ -99,7 +88,7 @@ const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.q
 
 onMounted(() => {
   query.value = getQuery();
-})
+});
 
 /**
  * Emits
@@ -198,5 +187,29 @@ watch(() => props.resetShowingNumber, () => {
   position: relative;
   bottom: 0;
   z-index: 10;
+}
+
+.v-card {
+  margin-bottom: 1rem;
+  border: solid 1px rgb(var(--v-theme-gris-fonce));
+  min-height: 190px;
+
+}
+
+.skeleton {
+  padding: 0;
+  display: grid;
+  grid-template-columns: 95%
+}
+
+//Animations texte
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
