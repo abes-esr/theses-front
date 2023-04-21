@@ -10,7 +10,7 @@
     <v-btn flat @click="select('personnes')">
       <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
       <h2 :class="selected === 'personnes' ? 'selected' : ''">
-        {{ $t("personnes") }}
+        {{ $t("toutesPersonnes") }}
       </h2>
     </v-btn>
   </div>
