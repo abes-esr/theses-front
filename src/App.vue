@@ -112,11 +112,11 @@ h1 {
 }
 
 h2 {
-  color: rgb(var(--v-text-dark-blue));
+  color: rgb(var(--v-theme-primary));
 }
 
 h3 {
-  color: rgb(var(--v-text-dark-blue));
+  color: rgb(var(--v-theme-primary));
   font-size: 15px;
   font-family: "Roboto-Bold", sans-serif;
   font-weight: 700;

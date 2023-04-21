@@ -316,18 +316,10 @@ watch(() => props.parametersLoaded,
   display: none !important;
 }
 
-v-expansion-panel-text :deep(.v-field__input), v-expansion-panel-text :deep(.v-field-label) {
+.v-field__field > .v-label {
   font-size: 17px !important;
+  font-family: Roboto-Medium, sans-serif;
+  font-weight: 500;
 }
 
-</style>
-
-<style>
-.dp__arrow_bottom {
-  display: none !important;
-}
-
-.dp__arrow_top {
-  display: none !important;
-}
 </style>

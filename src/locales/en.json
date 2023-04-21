@@ -23,7 +23,9 @@
     },
     "resultCard": {
         "par": "By",
-        "dir": "supervised by"
+        "dir": "supervised by",
+        "defended": "Defended thesis",
+        "ongoing": "Ongoing thesis"
     },
     "results": {
         "facetsHeader": "Filters",

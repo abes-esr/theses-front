@@ -28,7 +28,9 @@
   },
   "resultCard": {
     "par": "Par",
-    "dir": "sous la direction de"
+    "dir": "sous la direction de",
+    "defended": "Thèse soutenue",
+    "ongoing": "Thèse en cours"
   },
   "theseView": {
     "par": "par",
