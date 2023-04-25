@@ -1,24 +1,9 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input"
-                :label='$t("rechercher")'
-                v-model="request"
-                v-model:search="requestSearch"
-                :items="items"
-                variant="outlined"
-                cache-items
-                hide-no-data
-                hide-selected
-                no-filter
-                append-inner-icon
-                @keydown.enter="search"
-                @update:modelValue="selectSuggestion"
-                item-title="suggestion"
-                item-value="suggestion"
-                :loading="isLoading"
-                :menu="suggestionActive"
-                :menu-props="menuProps"
-    >
+    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
+      :items="items" variant="outlined" cache-items hide-no-data hide-selected hide-details no-filter append-inner-icon
+      @keydown.enter="search" @update:modelValue="selectSuggestion" item-title="suggestion" item-value="suggestion"
+      :loading="isLoading" :menu="suggestionActive" :menu-props="menuProps">
       <template v-slot:append-inner>
         <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :title='$t("clear")' :ripple="false">
         </v-btn>
@@ -32,7 +17,7 @@
     <div class="searchbar__action">
       <v-checkbox label="Désactiver l'autocomplétion" v-model="disableCompletion"
         :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn color="primary" prepend-icon="mdi-magnify" @click="search" :title='$t("avancee")'>{{ $t("avancee") }}
+      <v-btn color="primary" append-icon="mdi-magnify" @click="search" :title='$t("avancee")'>{{ $t("avancee") }}
       </v-btn>
     </div>
   </div>
@@ -80,7 +65,7 @@ onMounted(
     }
     setDomaine(currentRoute.query.domaine);
   }
-)
+);
 
 /**
  * Fonction pour rechercher
@@ -97,7 +82,7 @@ async function search() {
   } else {
     router.push({
       name: 'resultats',
-      query: {'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine)}
+      query: { 'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine) }
     });
   }
 }
@@ -118,14 +103,14 @@ watch(requestSearch, (candidate) => {
     suggestionActive.value = false;
   }
   watcherActive = true;
-})
+});
 
 watch(disableCompletion, (newDisableCompletion) => {
   if (newDisableCompletion) {
     suggestionActive.value = false;
     items.value = [];
   }
-})
+});
 
 /**
  * Fonction pour rechercher des suggestions
@@ -152,7 +137,7 @@ async function getSuggestionPersonne(candidate) {
  */
 function selectSuggestion(value) {
   if (value != null && typeof (value) == "object") {
-    request.value = value.suggestion
+    request.value = value.suggestion;
   }
 }
 
@@ -171,6 +156,10 @@ defineExpose({
   margin-top: 1rem;
 
   :deep(.searchbar__input) {
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      padding-bottom: 10px;
+    }
 
     .v-field__field {
       background-color: rgb(var(--v-theme-surface));
@@ -235,6 +224,12 @@ defineExpose({
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       justify-content: space-between;
+    }
+
+    :deep(.v-label) {
+      color: rgb(var(--v-theme-primary));
+      opacity: 1;
+      font-size: 0.95rem;
     }
 
     .v-input {
