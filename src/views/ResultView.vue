@@ -124,6 +124,7 @@ onMounted(async () => {
 async function search(firstLoad = false) {
   request.value = getQuery();
   loading.value = true;
+  dataReady.value = false;
 
   updateFacets(firstLoad);
 
