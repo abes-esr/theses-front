@@ -46,7 +46,9 @@ defineProps({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@use 'vuetify/settings';
+
 h3 {
     color: rgb(var(--v-theme-secondary-darken-2));
 }
@@ -55,6 +57,11 @@ h3 {
     border: solid 1px rgb(var(--v-theme-gris-clair));
     overflow: visible;
     padding-top: 20px;
+    margin-top: 40px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+        margin-top: 0;
+    }
 }
 
 .v-card-title {
