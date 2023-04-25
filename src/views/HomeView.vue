@@ -112,10 +112,10 @@ function displayError(message) {
     flex-direction: column;
     width: 100%;
     height: 100%;
+    padding-top: 40px;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
       flex-direction: row;
-      padding-top: 40px;
     }
 
     .v-card {
