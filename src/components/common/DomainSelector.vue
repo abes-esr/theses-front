@@ -10,21 +10,21 @@
     <v-btn flat @click="select('personnes')">
       <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
       <h2 :class="selected === 'personnes' ? 'selected' : ''">
-        {{ $t("personnes") }}
+        {{ $t("toutesPersonnes") }}
       </h2>
     </v-btn>
   </div>
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue'
-import {useRoute, useRouter} from 'vue-router'
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 defineProps({
   compact: {
     type: Boolean
   }
-})
+});
 
 const selected = ref('theses');
 const router = useRouter();
@@ -33,9 +33,9 @@ const emit = defineEmits('changeDomain');
 
 onMounted(() => {
   if (currentRoute.query.domaine) {
-    selected.value = currentRoute.query.domaine
+    selected.value = currentRoute.query.domaine;
   } else {
-    select("theses")
+    select("theses");
   }
 });
 
@@ -44,9 +44,9 @@ async function select(selection) {
   let currentURLParams = Object.assign({}, currentRoute.query);
 
   if (currentURLParams && currentURLParams.domaine) {
-    currentURLParams.domaine = selection
+    currentURLParams.domaine = selection;
   } else {
-    currentURLParams = { domaine: selection }
+    currentURLParams = { domaine: selection };
   }
   await router.replace({
     query: currentURLParams
@@ -66,7 +66,7 @@ async function select(selection) {
   align-items: center;
   width: 100%;
   background-color: transparent;
-  margin-top:1rem;
+  margin-top: 1rem;
 
   .v-btn {
     flex: 0 1 48%;
