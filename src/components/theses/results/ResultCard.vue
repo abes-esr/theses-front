@@ -13,8 +13,11 @@
                   {{ titre }}
                 </div>
                 <div class="card-title-date">
-                  <span class="card-text-bold" v-if="date">
-                    {{ date.slice(-4) }}
+                  <span class="card-text-bold card-date-text" v-if="date">
+                    <p v-if="status !== 'soutenue'">{{ $t('resultCard.since') }}</p>
+                    <p v-if="!mobile">{{'\xa0'}}</p>
+                    <p>{{ date.slice(-4) }}</p>
+                    <p class="date-spacer"></p>
                   </span>
                   <span v-else>
                     {{'\xa0'}}
@@ -76,7 +79,7 @@ import ThesisIcon from "@/components/theses/results/ThesisIcon.vue";
 import { useDisplay } from "vuetify";
 const { mobile } = useDisplay();
 
-defineProps({
+const props = defineProps({
     titre: {
         type: String,
         default: ''
@@ -120,7 +123,7 @@ defineProps({
 
 .card-title-wrapper {
   display: grid !important;
-  grid-template-columns: 1fr 20fr 1fr;
+  grid-template-columns: 1fr 20fr 3fr;
 }
 
 .line-clamp {
@@ -155,7 +158,28 @@ defineProps({
 .card-title-date {
   grid-column-start: 3;
   display: flex;
+}
+
+.card-date-text {
+  width: 100%;
   justify-content: right;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  font-size: 18px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    flex-wrap: wrap;
+    flex-direction: column;
+    font-size: 15px;
+    text-align: right;
+  }
+}
+
+.date-spacer {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    flex-grow: 4;
+  }
 }
 
 .v-card {
