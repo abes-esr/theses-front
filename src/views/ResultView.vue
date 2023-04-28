@@ -23,7 +23,7 @@
       <facets-header @closeOverlay="closeOverlay"
         @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
       <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-        @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
+        :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
         :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
         :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
         :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
@@ -124,6 +124,7 @@ onMounted(async () => {
 async function search(firstLoad = false) {
   request.value = getQuery();
   loading.value = true;
+  dataReady.value = false;
 
   updateFacets(firstLoad);
 

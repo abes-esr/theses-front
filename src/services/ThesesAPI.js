@@ -22,7 +22,7 @@ function disableOrFiltersTheses(facets) {
 
 // Recherche simple dans les theses
 function queryThesesAPI(query, facetsRequest, currentPageNumber, currentShowingNumber, currentSorting) {
-  const url = "/recherche/simple/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPageNumber - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentSorting + facetsRequest;
+  const url = "/theses/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPageNumber - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentSorting + facetsRequest;
 
   return new Promise((resolve, reject) => {
     apiTheses.get(url)
@@ -37,7 +37,7 @@ function queryThesesAPI(query, facetsRequest, currentPageNumber, currentShowingN
 //Autcomplétion recherche simple
 // #TODO gérer les erreurs
 function suggestionTheses(query) {
-  return apiTheses.get("/recherche/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
+  return apiTheses.get("/theses/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
 /**
@@ -47,7 +47,7 @@ function suggestionTheses(query) {
  */
 // #TODO gérer les erreurs
 function getFacetsTheses(query, facetsRequest) {
-  return apiTheses.get("/recherche/facets/?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);
+  return apiTheses.get("/theses/facets/?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);
 }
 
 /**
@@ -57,7 +57,7 @@ function getFacetsTheses(query, facetsRequest) {
  */
 // #TODO gérer les erreurs
 function getThese(nnt) {
-  return apiTheses.get("/recherche/these/" + nnt);
+  return apiTheses.get("/theses/these/" + nnt);
 }
 
 function getItemsTriTheses() {

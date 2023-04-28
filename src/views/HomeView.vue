@@ -1,21 +1,26 @@
 <template>
-  <RouterLink class="logo" :to="{ name: 'home' }">
-    <img alt="Logo du site theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
-  </RouterLink>
-  <div class="main-wrapper">
-    <Message-box ref="messageBox"></Message-box>
-    <v-row class="justify-center">
-      <h1 class="pb-16 text-center">{{ $t("slogan") }}</h1>
-    </v-row>
-    <domain-selector></domain-selector>
-    <search-bar @search="loading = true" :loading="loading" @onError="displayError" />
-    <div class="stats">
-      <Stats-card titre="546 000" :description="$t('referencés')" date="au 03/06/2022"></Stats-card>
-      <Stats-card titre="79 000" :description="$t('preparation')" date="au 03/06/2022"></Stats-card>
-      <Stats-card titre="805 000" :description="$t('personnesRef')" date="au 03/06/2022"></Stats-card>
+  <v-container>
+    <RouterLink class="logo" :to="{ name: 'home' }">
+      <img alt="Logo du site theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
+    </RouterLink>
+    <div class="main-wrapper">
+      <Message-box ref="messageBox"></Message-box>
+      <v-row class="justify-center">
+        <h1 class="pb-8 text-center">{{ $t("slogan") }}</h1>
+      </v-row>
+      <domain-selector></domain-selector>
+      <search-bar @search="loading = true" :loading="loading" @onError="displayError" />
+      <div class="stats">
+        <Stats-card titre="546 000" :description="$t('referencés')" date="au 03/06/2022" badge="mdi-check"
+          badgecolor="green"></Stats-card>
+        <Stats-card titre="79 000" :description="$t('preparation')" date="au 03/06/2022" badge="mdi-progress-clock"
+          badgecolor="orange"></Stats-card>
+        <Stats-card titre="805 000" :description="$t('personnesRef')" date="au 03/06/2022"
+          icon="mdi-account"></Stats-card>
+      </div>
+      <p>Le PoC fédé est accessible ici : <a href="/poc-fede/">poc-fede</a></p>
     </div>
-    <p>Le PoC fédé est accessible ici : <a href="/poc-fede/">poc-fede</a></p>
-  </div>
+  </v-container>
 </template>
 
 <script setup>
@@ -35,7 +40,7 @@ const messageBox = ref(null);
 onMounted(() => {
   // réinitialiser les éléments liés à la recherche au retour à la page d'accueil
   reinitializeResultData();
-})
+});
 
 function displayError(message) {
   messageBox.value?.open(message, {
@@ -47,6 +52,35 @@ function displayError(message) {
 
 <style scoped lang="scss">
 @use 'vuetify/settings';
+
+//Container pour afficher l'image de fond
+.v-container {
+  padding: 0;
+  max-width: none;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  background-image: url(@/assets/background.svg);
+  background-repeat: repeat-x;
+  background-size: auto 50%;
+  background-position: bottom -80px left -10px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'xs')} {
+    background-size: auto 25%;
+    background-position: bottom -50px center;
+    background-attachment: fixed;
+  }
+}
+
+#logoIMG {
+  margin-top: 10px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    margin-top: 20px;
+  }
+}
 
 .main-wrapper {
   width: 90vw;
@@ -63,7 +97,7 @@ function displayError(message) {
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       font-size: 43px;
-      line-height: 28px;
+      line-height: 50px;
     }
   }
 
@@ -78,6 +112,7 @@ function displayError(message) {
     flex-direction: column;
     width: 100%;
     height: 100%;
+    padding-top: 40px;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
       flex-direction: row;

@@ -46,6 +46,8 @@ export default {
 }
 
 main {
+
+
   display: flex !important;
   justify-content: center;
   align-items: center;

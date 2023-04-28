@@ -17,6 +17,7 @@ const myCustomLightTheme = {
     'primary-darken-1': '#3700B3',
     secondary: '#00A0DC',
     'secondary-darken-1': '#018786',
+    'secondary-darken-2': '#005A8F',
     'orange-abes': '#CF491B',
     'gris-clair' : '#e6e6e6',
     'gris-fonce': '#b3b2b4',
