@@ -12,7 +12,7 @@
         <span class="orange-text">{{ nbResult }}{{'\xa0'}}</span>
         <span>{{ $t("results.results") }}</span>
       </h2>
-      <h1 v-else>Recherche...</h1>
+      <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
     <facets-chips :facets="facets" @deleteFilter="deleteFilter" />
     <div v-if="dataReady" class="colonnes-resultats">

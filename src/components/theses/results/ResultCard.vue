@@ -23,9 +23,7 @@
               </div>
             </v-card-title>
         </div>
-        <div class="vertical-spacer">
-
-        </div>
+        <div class="vertical-spacer"></div>
         <div class="secondHalf">
             <v-card-text class="py-2 card-text-wrapper">
               <span class="card-text">

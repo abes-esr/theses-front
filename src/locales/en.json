@@ -49,6 +49,7 @@
     },
     "results": {
         "facetsHeader": "Filters",
+        "searching": "Searching...",
         "chips": {
             "from": "from",
             "to": "to"

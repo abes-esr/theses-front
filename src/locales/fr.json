@@ -54,6 +54,7 @@
   },
   "results": {
     "facetsHeader": "Filtres",
+    "searching": "Recherche...",
     "chips": {
       "from": "à partir de",
       "to": "jusqu'à"
