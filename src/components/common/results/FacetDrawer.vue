@@ -2,9 +2,13 @@
   <v-expansion-panels v-if="date || Object.keys(facet.checkboxes).length > 0">
     <v-expansion-panel class="elevation-0">
       <v-expansion-panel-title class="facet-title-panel">
-        <h4 class="facet-title">
+        <template v-slot:actions="{ expanded }">
+          <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
+          </v-icon>
+        </template>
+        <h3 class="facet-title">
           {{ facet.name }}
-        </h4>
+        </h3>
         <v-btn @click.stop="" @click="reinitializeCheckboxes" class="reinitialize-button" size="small" depressed
           elevation="0" color="primary">
           <v-icon>mdi-reload</v-icon>
@@ -17,15 +21,17 @@
             class="facet-search-bar"></v-text-field>
         </div>
         <div class="panel-text" ref="`facet-${facet.name}`">
-          <div v-if="date" class="flex-container">
-            <span class="flex-item">
-              {{ $t("results.drawer.from") }}<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply
+          <div v-if="date" class="date-container">
+            <span class="date-item">
+              <p>{{ $t("results.drawer.from") }}</p>
+              <VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply
                 :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
                 placeholder="AAAA" :max-date="dateFromMax" :teleport-center="teleportCenter">
               </VueDatePicker>
             </span>
-            <span class="flex-item pl-4 pr-4">
-              {{ $t("results.drawer.to") }}<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply
+            <span class="date-item">
+              <p>{{ $t("results.drawer.to") }}</p>
+              <VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply
                 :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
                 placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin" :teleport-center="teleportCenter">
               </VueDatePicker>
@@ -248,22 +254,20 @@ watch(() => props.parametersLoaded,
   text-align: start;
   text-transform: uppercase;
   overflow: hidden;
-  font-size: 16px;
   flex-grow: 2;
   order: 2;
   background-color: transparent;
   padding-top: 5px;
   padding-bottom: 5px;
 
-  //hyphens: auto;
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    font-size: 13px;
+    font-size: 15px;
   }
 }
 
 .panel-text {
   overflow: auto;
-  padding-left: 10px;
+  padding: 0 10px;
   max-height: 60vh;
 }
 
@@ -287,12 +291,31 @@ watch(() => props.parametersLoaded,
   background-color: rgb(var(--v-theme-gris-clair));
 }
 
-.flex-container {
+.date-container {
   display: flex;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    flex-direction: column;
+  }
 }
 
-.flex-item {
+.date-item {
   flex: 1;
+  padding-right: 5px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    padding: 0 0;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  p {
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+      text-align: center;
+    }
+  }
 }
 </style>
 
@@ -312,14 +335,15 @@ watch(() => props.parametersLoaded,
 :deep(.dp__arrow_top) {
   display: none !important;
 }
-</style>
 
-<style>
-.dp__arrow_bottom {
-  display: none !important;
+.v-field__field > .v-label {
+  font-size: 17px !important;
+  font-family: Roboto-Medium, sans-serif;
+  font-weight: 500;
 }
 
-.dp__arrow_top {
-  display: none !important;
+.dp__input {
+  padding: 3px 0 3px 35px;
+  font-size: 14px;
 }
 </style>

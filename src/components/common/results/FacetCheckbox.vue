@@ -137,12 +137,24 @@ function arrayContainsFilter() {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+@use 'vuetify/settings';
+
 .v-selection-control {
   align-items: start !important;
 }
 
-.v-label {
-  align-items: start !important;
+:deep(.v-label) {
+  align-items: start;
+  padding-top: 3px;
+  color: rgb(var(--v-theme-primary));
+  opacity: 1 !important;
+  font-size: 15px !important;
+  font-family: Roboto-Medium, sans-serif;
+  font-weight: 500;
+}
+
+:deep(.v-selection-control__wrapper) {
+  align-self: start;
 }
 </style>

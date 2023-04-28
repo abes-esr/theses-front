@@ -33,6 +33,7 @@
         </v-btn>
       </div>
     </div>
+    <div class="vertical-spacer"></div>
     <div class="secondHalf">
     </div>
   </v-card>
@@ -198,6 +199,10 @@ function goToPersonne(hash) {
       padding: 0 8px;
     }
   }
+}
+
+.vertical-spacer {
+  flex: 1;
 }
 
 .secondHalf {

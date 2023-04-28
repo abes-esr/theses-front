@@ -9,10 +9,10 @@
           size="small"
           @click:close="deleteFilter(facet)"
         >
-          <label v-if="facet.filter.facetName === 'datedebut'" :title="facet.label" class="chip-label">
+          <label v-if="facet.filter.facetName === 'datedebut'" :title="$t('results.chips.from') + ' ' + facet.label" class="chip-label">
             {{ $t("results.chips.from") }} {{ facet.label }}
           </label>
-          <label v-else-if="facet.filter.facetName === 'datefin'" :title="`à ${facet.label}`" class="chip-label">
+          <label v-else-if="facet.filter.facetName === 'datefin'" :title="$t('results.chips.to') + ' ' + facet.label" class="chip-label">
             {{ $t("results.chips.to") }} {{ facet.label }}
           </label>
           <label v-else :title="facet.label" class="chip-label">
@@ -57,5 +57,9 @@ function deleteFilter(facet) {
 
   .chip-label {
     overflow: hidden;
+    font-size: 14px;
+    font-family: Roboto-Regular, sans-serif;
+    font-weight: 400;
+    color: rgb(var(--v-theme-primary));
   }
 </style>
