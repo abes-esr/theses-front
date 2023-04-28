@@ -23,10 +23,33 @@
     },
     "resultCard": {
         "par": "By",
-        "dir": "supervised by"
+        "dir": "supervised by",
+        "defended": "Defended thesis",
+        "ongoing": "Ongoing thesis"
+    },
+    "theseView": {
+        "par": "par",
+        "theseDe": "PhD thesis field : ",
+        "descFR": "French description",
+        "descEN": "English description",
+        "resume": "Abstract",
+        "direction": "Under the direction of ",
+        "et": " and ",
+        "soutenueChip": "Defended",
+        "soutenue": "Defended on ",
+        "soutenueEn": "Defended on ",
+        "a": " à ",
+        "cotutelle": " en cotutelle avec ",
+        "cadre": " dans le cadre de ",
+        "president": "Le président du jury était ",
+        "jury": "Le jury était composé de ",
+        "rapporteur": "Les rapporteurs étaient ",
+        "partenariat": " en partenariat avec ",
+        "motcle": "Mot clés"
     },
     "results": {
         "facetsHeader": "Filters",
+        "searching": "Searching...",
         "chips": {
             "from": "from",
             "to": "to"
@@ -34,7 +57,10 @@
         "drawer": {
             "from": "from",
             "to": "to"
-        }
+        },
+        "searched": "Search on",
+        "returned": "returned",
+        "results": "result(s)"
     },
     "theses": {
         "resultView": {
@@ -45,5 +71,8 @@
         "resultView": {
             "resultats": " résultats de personnes pour "
         }
+    },
+    "header": {
+        "accessibility": "Accessibility tools"
     }
 }

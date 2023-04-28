@@ -36,5 +36,6 @@ function incrementAffichage() {
 <style scoped>
 .moreResultsButton {
   z-index: 3;
+  font-size: 21px;
 }
 </style>

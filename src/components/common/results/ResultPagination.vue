@@ -153,6 +153,7 @@ watch(() => currentRoute.query.domaine, () => {
   margin-left: 1rem;
   display: flex;
   overflow: visible;
+  font-size: 15px;
 }
 
 .middle-bar-element {
@@ -162,11 +163,12 @@ watch(() => currentRoute.query.domaine, () => {
 .last-bar-element {
   margin: 0 1rem;
   max-width: 200px;
+  font-size: 15px;
 }
 
 .left-select {
   max-width: 50px;
   margin: 0 8px 0;
-  padding-top: 8px;
+  padding-top: 6px;
 }
 </style>

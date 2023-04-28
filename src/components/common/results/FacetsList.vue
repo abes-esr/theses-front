@@ -10,7 +10,7 @@
     <facet-drawer v-for="facet in facets" class="my-2" :key="`facet-${facet.name}`" :facet="facet"
       :facets-array="facetsArray" @updateFilterData="updateFilterData" @reinitializeCheckboxes="reinitializeCheckboxes">
     </facet-drawer>
-    <v-btn v-if="mobile" @click="update">Appliquer les filtres</v-btn>
+    <v-btn v-if="mobile" class="filters-btn" @click="update">Appliquer les filtres</v-btn>
     <v-skeleton-loader v-if="loading" v-for="i in 6" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
   </div>
 </template>
@@ -340,5 +340,8 @@ watch(() => props.parametersLoaded, () => {
     margin-bottom: 1em;
   }
 
+  .filters-btn {
+    margin-top: 15px;
+  }
 }
 </style>
