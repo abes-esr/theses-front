@@ -3,15 +3,13 @@
         <div class="firstHalf" @click="$router.push({ name: 'these', params: { id: id } })">
             <v-card-title>
               <div class="card-title-wrapper line-clamp">
-                <div class="thesis-icon">
-                  <span v-if="status === 'enCours'">
-                    <img alt="$t('resultCard.ongoing')" id="logoIMG" src="@/assets/these-en-cours-icone-min.svg" />
-                  </span>
-                  <span v-else-if="status === 'soutenue'">
-                    <img alt="$t('resultCard.defended')" id="logoIMG" src="@/assets/these-soutenue-icone-min.svg" />
-                  </span>
+                <div v-if="!mobile" class="thesis-icon" >
+                  <thesis-icon :status="status"></thesis-icon>
                 </div>
-                <div class="card-title">
+                <div v-if="mobile" class="card-title">
+                    <thesis-icon :status="status" :titre="titre"></thesis-icon>
+                </div>
+                <div v-else class="card-title">
                   {{ titre }}
                 </div>
                 <div class="card-title-date">
@@ -19,7 +17,7 @@
                     {{ date.slice(-4) }}
                   </span>
                   <span v-else>
-                    &nbsp;
+                    {{'\xa0'}}
                   </span>
                 </div>
               </div>
@@ -31,14 +29,14 @@
         <div class="secondHalf">
             <v-card-text class="py-2 card-text-wrapper">
               <span class="card-text">
-                {{ $t('resultCard.par') }}&nbsp;
+                {{ $t('resultCard.par') }}{{'\xa0'}}
               </span>
 
               <span v-for="(item, index) in auteur" :key="item.ppn">
-                <span class="card-text">{{ item.prenom }}&nbsp;</span>
-                <span class="card-text-bold">{{ item.nom }}&nbsp;</span>
+                <span class="card-text">{{ item.prenom }}{{'\xa0'}}</span>
+                <span class="card-text-bold">{{ item.nom }}{{'\xa0'}}</span>
                 <span v-if="index < auteur.length - 2">
-                  ,&nbsp;
+                  ,{{'\xa0'}}
                 </span>
                 <span v-else-if="index === auteur.length - 2" class="card-text">
                   {{ $t('theseView.et') }}
@@ -46,18 +44,18 @@
               </span>
 
               <span class="card-text">
-                {{ $t('resultCard.dir') }}&nbsp;
+                {{ $t('resultCard.dir') }}{{'\xa0'}}
               </span>
 
               <span v-for="(item, index) in directeurs" :key="item.ppn">
                 <span class="card-text">
-                  {{ item.prenom }}&nbsp;
+                  {{ item.prenom }}{{'\xa0'}}
                 </span>
                 <span class="card-text-bold">
                   {{ item.nom }}
                 </span>
                 <span v-if="index < directeurs.length - 2">
-                  ,&nbsp;
+                  ,{{'\xa0'}}
                 </span>
                 <span v-else-if="index === directeurs.length - 2" class="card-text">
                   {{ $t('theseView.et') }}
@@ -76,6 +74,10 @@ export default {
 };
 </script>
 <script setup>
+import ThesisIcon from "@/components/theses/results/ThesisIcon.vue";
+import { useDisplay } from "vuetify";
+const { mobile } = useDisplay();
+
 defineProps({
     titre: {
         type: String,
@@ -111,6 +113,8 @@ defineProps({
 </script>
 
 <style scoped lang="scss">
+@use 'vuetify/settings';
+
 .card-container {
   display: flex;
   flex-direction: column;
@@ -130,6 +134,24 @@ defineProps({
 
 .thesis-icon {
   grid-column-start: 1;
+    grid-row-start: 1;
+}
+
+.card-title {
+  grid-column-start: 2;
+  padding: 0 10px 0;
+  font-size: 18px;
+  font-family: Roboto-Regular, sans-serif;
+  font-weight: 600;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    line-height: 1.6rem !important;
+    padding: 0;
+
+  }
 }
 
 .card-title-date {
@@ -170,14 +192,6 @@ defineProps({
 .card-text .card-text-bold {
   white-space: unset !important;
   font-size: 15px;
-}
-
-.card-title {
-  grid-column-start: 2;
-  padding: 0 10px 0;
-  font-size: 18px;
-  font-family: Roboto-Regular, sans-serif;
-  font-weight: 600;
 }
 
 .card-text {

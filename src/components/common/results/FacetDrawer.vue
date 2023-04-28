@@ -258,9 +258,8 @@ watch(() => props.parametersLoaded,
   padding-top: 5px;
   padding-bottom: 5px;
 
-  //hyphens: auto;
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    font-size: 13px;
+    font-size: 15px;
   }
 }
 
@@ -322,4 +321,8 @@ watch(() => props.parametersLoaded,
   font-weight: 500;
 }
 
+.dp__input {
+  padding: 3px 0 3px 35px;
+  font-size: 14px;
+}
 </style>

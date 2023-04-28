@@ -68,14 +68,14 @@ main {
     position: relative;
     z-index: 2000;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       margin-top: -75px;
     }
 
     img {
       height: 70px;
 
-      @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
         height: 150px;
       }
     }

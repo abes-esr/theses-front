@@ -6,10 +6,10 @@
   <div class="result-components-wrapper">
     <Transition mode="out-in">
       <h2 class="returned-results-statement" v-if="dataReady">
-        <span>{{ $t("results.searched") }}&nbsp;</span>
-        <span class="orange-text">"{{ query }}"&nbsp;</span>
-        <span>{{ $t("results.returned") }}&nbsp;</span>
-        <span class="orange-text">{{ nbResult }}&nbsp;</span>
+        <span>{{ $t("results.searched") }}{{'\xa0'}}</span>
+        <span class="orange-text">"{{ query }}"{{'\xa0'}}</span>
+        <span>{{ $t("results.returned") }}{{'\xa0'}}</span>
+        <span class="orange-text">{{ nbResult }}{{'\xa0'}}</span>
         <span>{{ $t("results.results") }}</span>
       </h2>
       <h1 v-else>Recherche...</h1>
@@ -220,6 +220,10 @@ watch(() => props.resetShowingNumber, () => {
   font-family: Roboto-Medium, sans-serif;
   font-weight: 500;
   font-size: 26.5px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    font-size: 24.5px;
+  }
 }
 
 .orange-text {

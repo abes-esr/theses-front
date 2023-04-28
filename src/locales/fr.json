@@ -52,11 +52,6 @@
     "partenariat": " en partenariat avec ",
     "motcle": "Mot clés"
   },
-  "theses": {
-    "resultView": {
-      "resultats": " résultats de thèses pour "
-    }
-  },
   "results": {
     "facetsHeader": "Filtres",
     "chips": {
@@ -69,7 +64,7 @@
     },
     "searched": "La recherche sur",
     "returned": "a retourné",
-    "results": "résultats"
+    "results": "résultat(s)"
   },
   "personnes": {
     "resultView": {
@@ -105,7 +100,8 @@
   },
   "header": {
     "doc": "Accéder à la documentation de theses.fr ",
-    "assistance": "Accéder au guichet d’assistance de l'Abes"
+    "assistance": "Accéder au guichet d’assistance de l'Abes",
+    "accessibility": "Outils d'accessibilité"
   },
   "meta": {
     "desc": "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation.",
