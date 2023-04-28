@@ -21,15 +21,17 @@
             class="facet-search-bar"></v-text-field>
         </div>
         <div class="panel-text" ref="`facet-${facet.name}`">
-          <div v-if="date" class="flex-container">
-            <span class="flex-item">
-              {{ $t("results.drawer.from") }}<VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply
+          <div v-if="date" class="date-container">
+            <span class="date-item">
+              <p>{{ $t("results.drawer.from") }}</p>
+              <VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply
                 :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
                 placeholder="AAAA" :max-date="dateFromMax" :teleport-center="teleportCenter">
               </VueDatePicker>
             </span>
-            <span class="flex-item pl-4 pr-4">
-              {{ $t("results.drawer.to") }}<VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply
+            <span class="date-item">
+              <p>{{ $t("results.drawer.to") }}</p>
+              <VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply
                 :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
                 placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin" :teleport-center="teleportCenter">
               </VueDatePicker>
@@ -265,7 +267,7 @@ watch(() => props.parametersLoaded,
 
 .panel-text {
   overflow: auto;
-  padding-left: 10px;
+  padding: 0 10px;
   max-height: 60vh;
 }
 
@@ -289,12 +291,31 @@ watch(() => props.parametersLoaded,
   background-color: rgb(var(--v-theme-gris-clair));
 }
 
-.flex-container {
+.date-container {
   display: flex;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    flex-direction: column;
+  }
 }
 
-.flex-item {
+.date-item {
   flex: 1;
+  padding-right: 5px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    padding: 0 0;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  p {
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+      text-align: center;
+    }
+  }
 }
 </style>
 
