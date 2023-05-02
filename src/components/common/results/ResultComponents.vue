@@ -1,6 +1,6 @@
 <template>
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'top'" :current-showing-number="currentShowingNumber"
-    :current-page-number="currentPageNumber" @updateNumber="updateNumber" @updatePage="updatePage" @search="search">
+    :current-page-number="currentPageNumber" @updateShowingNumber="updateShowingNumber" @updatePage="updatePage" @search="search">
   </result-pagination>
 
   <div class="result-components-wrapper">
@@ -20,7 +20,7 @@
         <result-list :result="result" :domain-name-change="domainNameChange">
         </result-list>
         <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
-          @updateNumber="updateNumber" @search="search" />
+          @updateShowingNumber="updateShowingNumber" @search="search" />
       </div>
       <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
     </div>
@@ -32,7 +32,7 @@
   </div>
 
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'bottom'" :current-showing-number="currentShowingNumber"
-    :current-page-number="currentPageNumber" class="pagination-bottom" @updateNumber="updateNumber"
+    :current-page-number="currentPageNumber" class="pagination-bottom" @updateShowingNumber="updateShowingNumber"
     @updatePage="updatePage" @search="search">
   </result-pagination>
 </template>
@@ -113,8 +113,8 @@ function allResultsWereLoaded() {
   return moreThanXResults(props.nbResult);
 }
 
-function updateNumber(newNumber) {
-  currentShowingNumber.value = newNumber;
+function updateShowingNumber() {
+  currentShowingNumber.value += 10;
   setShowingNumber(currentShowingNumber.value);
 }
 

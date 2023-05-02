@@ -31,6 +31,8 @@ function handleScroll() {
   let scrollToTopButton = document.getElementById("scrollToTopBtn");
   let scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
 
+  if (scrollToTopButton === null || typeof scrollToTopButton === 'undefined') return -1;
+
   if ((rootElement.scrollTop / scrollTotal) > 0.20) {
     scrollToTopButton.classList.add("show-scroll-to-top-button");
   } else {
