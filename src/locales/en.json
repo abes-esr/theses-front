@@ -25,7 +25,8 @@
         "par": "By",
         "dir": "supervised by",
         "defended": "Defended thesis",
-        "ongoing": "Ongoing thesis"
+        "ongoing": "Ongoing thesis",
+        "since": "Since"
     },
     "theseView": {
         "par": "par",

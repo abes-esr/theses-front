@@ -1,6 +1,7 @@
 <template>
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'top'" :current-showing-number="currentShowingNumber"
-    :current-page-number="currentPageNumber" @updateNumber="updateNumber" @updatePage="updatePage" @search="search">
+    :current-page-number="currentPageNumber" @updateShowingNumber="updateShowingNumber"
+    @updatePage="updatePage" @search="search">
   </result-pagination>
 
   <div class="result-components-wrapper">
@@ -15,24 +16,26 @@
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
     <facets-chips :facets="facets" @deleteFilter="deleteFilter" />
-    <div v-if="dataReady" class="colonnes-resultats">
-      <div>
+    <div v-if="mobile || dataReady" class="colonnes-resultats">
         <result-list :result="result" :domain-name-change="domainNameChange">
         </result-list>
-        <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
-          @updateNumber="updateNumber" @search="search" />
-      </div>
-      <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" id="scrollToTopBtn" :nb-result=nbResult />
+      <ScrollToTopButton v-if="!mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
     </div>
     <div v-else>
       <div v-for="i in currentShowingNumber" :key="i" class="skeleton">
-        <v-card flat style="margin-bottom: 1rem;"><v-skeleton-loader type="article"></v-skeleton-loader></v-card>
+        <v-card flat style="margin-bottom: 1rem;">
+          <v-skeleton-loader type="article">
+          </v-skeleton-loader>
+        </v-card>
       </div>
     </div>
+    <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
+                       @addTenResultsToList="addTenResultsToList" @search="search" />
+    <ScrollToTopButton v-if="mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
   </div>
 
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'bottom'" :current-showing-number="currentShowingNumber"
-    :current-page-number="currentPageNumber" class="pagination-bottom" @updateNumber="updateNumber"
+    :current-page-number="currentPageNumber" class="pagination-bottom" @updateShowingNumber="updateShowingNumber"
     @updatePage="updatePage" @search="search">
   </result-pagination>
 </template>
@@ -90,25 +93,8 @@ const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.q
 
 onMounted(() => {
   query.value = getQuery();
-
-  document.addEventListener("scroll", handleScroll);
 });
 
-function handleScroll() {
-  let rootElement = document.documentElement;
-  let scrollToTopButton = document.getElementById("scrollToTopBtn");
-  let scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
-  console.log(rootElement)
-  console.log(scrollToTopButton)
-  console.log(scrollTotal)
-  console.info(rootElement.scrollTop / scrollTotal)
-
-  if ((rootElement.scrollTop / scrollTotal) > 0.20) {
-    scrollToTopButton.classList.add("show-scroll-to-top-button");
-  } else {
-    scrollToTopButton.classList.remove("show-scroll-to-top-button");
-  }
-}
 /**
  * Emits
  */
@@ -130,8 +116,13 @@ function allResultsWereLoaded() {
   return moreThanXResults(props.nbResult);
 }
 
-function updateNumber(newNumber) {
-  currentShowingNumber.value = newNumber;
+function updateShowingNumber(newValue) {
+  currentShowingNumber.value = newValue;
+  setShowingNumber(currentShowingNumber.value);
+}
+
+function addTenResultsToList() {
+  currentShowingNumber.value += 10;
   setShowingNumber(currentShowingNumber.value);
 }
 
@@ -186,15 +177,6 @@ watch(() => props.resetShowingNumber, () => {
     top: unset;
     bottom: 5vh;
   }
-
-  opacity: 0;
-  transform: translateY(100px);
-  transition: all .5s ease;
-}
-
-.show-scroll-to-top-button {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .bottom-buttons-line {
