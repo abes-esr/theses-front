@@ -14,9 +14,8 @@
             v-model="currentPageNumber"
             @update:modelValue="bottomScrollsToTop">
       </v-pagination>
-      <v-select v-if="type === 'top'" v-model="tri" class="ml-2 pt-2 last-bar-element" return-object :items=items item-title="nom" item-value="cle" density="compact"
-                  variant="underlined" color="orange-abes">
-      </v-select>
+    <sorting-select v-if="type === 'top'" class="ml-2 pt-2 last-bar-element" @updatePageNumber="updatePageNumber">
+    </sorting-select>
   </div>
 </template>
 
@@ -25,9 +24,10 @@ import { ref, watch, computed } from "vue";
 import { APIService } from "@/services/StrategyAPI";
 import { scrollToTop } from "@/services/Common";
 import { useRoute } from "vue-router";
+import SortingSelect from "@/components/common/results/SortingSelect.vue";
 
 const currentRoute = useRoute();
-const { setSorting, setPageNumber, setShowingNumber, getItemsTri, getCurrentSorting, getTriMap } = APIService();
+const { setPageNumber, setShowingNumber } = APIService();
 const emit = defineEmits(['search', 'updatePage', 'updateShowingNumber']);
 
 const props = defineProps({
@@ -49,18 +49,6 @@ const props = defineProps({
   }
 });
 
-const items = ref();
-const tri = ref();
-
-if (props.type === 'top') {
-  const startingTri = currentRoute.query.tri;
-  items.value = getItemsTri();
-  const itemsTriMap = getTriMap();
-  const startingTriName = itemsTriMap.get(startingTri) ? itemsTriMap.get(startingTri) : "Pertinence";
-  tri.value = { nom: startingTriName, cle: startingTri ? startingTri : "pertinence" };
-}
-
-
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
 
@@ -74,6 +62,13 @@ const nbPages = computed(() => {
 
 function bottomScrollsToTop() {
   if(props.type === "bottom") scrollToTop();
+}
+
+function updatePageNumber(pageNumber) {
+  currentPageNumber.value = pageNumber;
+  setPageNumber(pageNumber);
+  emit("updatePage", pageNumber);
+  emit("search");
 }
 
 /**
@@ -98,16 +93,6 @@ watch(currentShowingNumber, newShowingNumber => {
   }
 });
 
-watch(tri, async (newTri) => {
-  setPageNumber(1);
-  setSorting(newTri.cle);
-  emit("updatePage", 1);
-  if (props.type === "top") {
-    emit("search");
-  }
-});
-
-
 /**
  * Watcher des autres barres de pagination
  */
@@ -119,21 +104,8 @@ watch(() => props.currentShowingNumber, () => {
   currentShowingNumber.value = props.currentShowingNumber;
 });
 
-function getCurrentSortName() {
-  const startingTri = getCurrentSorting();
-  const itemsTriMap = getTriMap();
-  const startingTriName = itemsTriMap.get(startingTri) ? itemsTriMap.get(startingTri) : "Pertinence";
-  return { nom: startingTriName, cle: startingTri ? startingTri : "pertinence" };
-}
-
-// Mise à jour des valeurs de tri
-watch(() => currentRoute.query.domaine, () => {
-  setSorting('pertinence');
-  items.value = getItemsTri();
-  tri.value = getCurrentSortName();
-});
-
 </script>
+
 <style scoped lang="scss">
 @use '../../../../node_modules/vuetify/settings';
 
