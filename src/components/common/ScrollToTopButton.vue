@@ -33,7 +33,7 @@ function handleScroll() {
 
   if (scrollToTopButton === null || typeof scrollToTopButton === 'undefined') return -1;
 
-  if ((rootElement.scrollTop / scrollTotal) > 0.20) {
+  if ((rootElement.scrollTop / scrollTotal) > 0.01) {
     scrollToTopButton.classList.add("show-scroll-to-top-button");
   } else {
     scrollToTopButton.classList.remove("show-scroll-to-top-button");

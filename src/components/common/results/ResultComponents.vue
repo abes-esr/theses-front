@@ -1,6 +1,7 @@
 <template>
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'top'" :current-showing-number="currentShowingNumber"
-    :current-page-number="currentPageNumber" @updateShowingNumber="updateShowingNumber" @updatePage="updatePage" @search="search">
+    :current-page-number="currentPageNumber" @updateShowingNumber="updateShowingNumber"
+    @updatePage="updatePage" @search="search">
   </result-pagination>
 
   <div class="result-components-wrapper">
@@ -15,20 +16,22 @@
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
     <facets-chips :facets="facets" @deleteFilter="deleteFilter" />
-    <div v-if="dataReady" class="colonnes-resultats">
-      <div>
+    <div v-if="mobile || dataReady" class="colonnes-resultats">
         <result-list :result="result" :domain-name-change="domainNameChange">
         </result-list>
-        <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
-          @updateShowingNumber="updateShowingNumber" @search="search" />
-      </div>
-      <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
+      <ScrollToTopButton v-if="!mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
     </div>
     <div v-else>
       <div v-for="i in currentShowingNumber" :key="i" class="skeleton">
-        <v-card flat style="margin-bottom: 1rem;"><v-skeleton-loader type="article"></v-skeleton-loader></v-card>
+        <v-card flat style="margin-bottom: 1rem;">
+          <v-skeleton-loader type="article">
+          </v-skeleton-loader>
+        </v-card>
       </div>
     </div>
+    <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
+                       @addTenResultsToList="addTenResultsToList" @search="search" />
+    <ScrollToTopButton v-if="mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
   </div>
 
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'bottom'" :current-showing-number="currentShowingNumber"
@@ -113,7 +116,12 @@ function allResultsWereLoaded() {
   return moreThanXResults(props.nbResult);
 }
 
-function updateShowingNumber() {
+function updateShowingNumber(newValue) {
+  currentShowingNumber.value = newValue;
+  setShowingNumber(currentShowingNumber.value);
+}
+
+function addTenResultsToList() {
   currentShowingNumber.value += 10;
   setShowingNumber(currentShowingNumber.value);
 }

@@ -28,7 +28,7 @@ import { useRoute } from "vue-router";
 
 const currentRoute = useRoute();
 const { setSorting, setPageNumber, setShowingNumber, getItemsTri, getCurrentSorting, getTriMap } = APIService();
-const emit = defineEmits(['search', 'updatePage', 'updateNumber']);
+const emit = defineEmits(['search', 'updatePage', 'updateShowingNumber']);
 
 const props = defineProps({
   nbResults: {
@@ -91,7 +91,7 @@ watch(currentPageNumber, newCurrentPageNumber => {
 watch(currentShowingNumber, newShowingNumber => {
   setShowingNumber(newShowingNumber);
   setPageNumber(1);
-  emit("updateNumber", newShowingNumber);
+  emit("updateShowingNumber", newShowingNumber);
   emit("updatePage", 1);
   if (props.type === "top") {
     emit("search");
