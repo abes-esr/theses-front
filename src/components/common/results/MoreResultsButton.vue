@@ -8,8 +8,6 @@
 
 <script setup>
 import { useDisplay } from "vuetify";
-import { ref } from "vue";
-
 const { mobile } = useDisplay();
 const emit = defineEmits(['updateNumber', 'search']);
 
@@ -24,11 +22,9 @@ defineProps({
   }
 })
 
-let currentShowingNumber = ref(10);
 
 function incrementAffichage() {
-  currentShowingNumber.value += 10;
-  emit('updateNumber', currentShowingNumber.value);
+  emit('updateShowingNumber');
   emit('search');
 }
 </script>
