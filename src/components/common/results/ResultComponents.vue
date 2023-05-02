@@ -4,7 +4,13 @@
     @updatePage="updatePage" @search="search">
   </result-pagination>
 
+
   <div class="result-components-wrapper">
+    <div v-if="mobile" class="sort-select-wrapper">
+      <span class="sort-label">{{ $t('results.sort') }}</span>
+      <sorting-select class="sort-select" @updatePageNumberFromSortingSelect="updatePageNumberFromSortingSelect">
+      </sorting-select>
+    </div>
     <Transition mode="out-in">
       <h2 class="returned-results-statement" v-if="dataReady">
         <span>{{ $t("results.searched") }}{{'\xa0'}}</span>
@@ -51,6 +57,7 @@ import { useRoute } from "vue-router";
 import { APIService } from "@/services/StrategyAPI";
 import ResultList from "@/components/common/results/ResultList.vue";
 import FacetsChips from "@/components/common/results/FacetsChips.vue";
+import SortingSelect from "@/components/common/results/SortingSelect.vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
@@ -128,6 +135,11 @@ function addTenResultsToList() {
 
 function updatePage(newPage) {
   currentPageNumber.value = newPage;
+}
+
+function updatePageNumberFromSortingSelect(pageNumber) {
+  updatePage(pageNumber);
+  emit('search');
 }
 
 function search() {
@@ -238,5 +250,35 @@ watch(() => props.resetShowingNumber, () => {
   color: rgb(var(--v-theme-orange-abes));
   font-family: Roboto-Bold, sans-serif;
   font-weight: 700;
+}
+
+.sort-select-wrapper {
+  margin: -50px 0 20px;
+  display: grid;
+  grid-template-columns: 5fr 4fr 10px;
+  grid-template-rows: 30px 30px;
+}
+
+.sort-label {
+  grid-row-start: 1;
+  grid-column-end: 3;
+  justify-self: end;
+  align-self: center;
+
+  font-size: 15px;
+  font-family: Roboto-Bold, sans-serif;
+  font-weight: 500;
+}
+
+.sort-select {
+  grid-row-start: 2;
+  grid-column-start: 2;
+  justify-self: end;
+
+  .v-select__selection-text {
+    font-size: 14px;
+    font-family: Roboto-Medium, sans-serif;
+    font-weight: 500;
+  }
 }
 </style>

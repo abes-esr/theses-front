@@ -1,6 +1,11 @@
 <template>
-  <v-select v-model="tri" return-object :items=items item-title="nom" item-value="cle" density="compact"
-            variant="underlined" color="orange-abes">
+  <v-select class="select-box" v-model="tri" return-object :items=items item-title="nom" item-value="cle" density="compact"
+            flat single-line variant="solo" menu-icon="mdi-chevron-down">
+    <template v-slot:menu-icon>
+      <v-icon>
+        mdi-chevron-down
+      </v-icon>
+    </template>
   </v-select>
 </template>
 
@@ -11,7 +16,7 @@ import { APIService } from "@/services/StrategyAPI";
 
 const currentRoute = useRoute();
 
-const emit = defineEmits('updatePageNumber')
+const emit = defineEmits(['updatePageNumberFromSortingSelect', 'search'])
 const { setSorting, getItemsTri, getCurrentSorting, getTriMap } = APIService();
 
 const items = ref();
@@ -44,7 +49,8 @@ function getCurrentSortName() {
 
 watch(tri, async (newTri) => {
   setSorting(newTri.cle);
-  emit("updatePageNumber", 1);
+  emit("updatePageNumberFromSortingSelect", 1);
+  emit("search");
 });
 
 
@@ -59,6 +65,34 @@ watch(() => currentRoute.query.domaine, () => {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@use 'vuetify/settings';
+
+.select-box {
+  :deep(.v-field--appended) {
+    padding-inline-end: 0 !important;
+  }
+
+  :deep(.v-field--variant-solo) {
+    box-shadow: unset;
+    outline: solid 1px rgb(var(--v-theme-gris-fonce));
+    height: 30px;
+  }
+
+  :deep(.v-field__input) {
+    padding-top: 5px;
+    padding-inline-start: 7px;
+  }
+
+  :deep(.v-field__append-inner) {
+    padding-top: 5px;
+    color: rgb(var(--v-theme-orange-abes));
+
+    i {
+      opacity: 1 !important;
+    }
+  }
+}
+
 
 </style>

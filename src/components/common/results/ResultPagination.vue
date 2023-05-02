@@ -1,21 +1,29 @@
 <template>
   <div class="result-pagination">
       <div v-if="type === 'top'" class="first-bar-element">
-          <span class="pt-5 ">Afficher</span>
-          <v-select :items="['10', '25', '50']" v-model="currentShowingNumber" density="compact" variant="underlined"
-                     color="orange-abes" class="left-select">
+          <span class="show-span no-wrap-text">{{ $t('results.show') }}</span>
+          <v-select :items="['10', '25', '50']" v-model="currentShowingNumber" density="compact" variant="solo"
+                     class="left-select" menu-icon="mdi-chevron-down">
+            <template v-slot:menu-icon>
+              <v-icon>
+                mdi-chevron-down
+              </v-icon>
+            </template>
           </v-select>
-          <span class="pt-5">résultats par page</span>
+          <span class="results-number-span no-wrap-text">{{ $t('results.resultsPerPage') }}</span>
       </div>
       <v-pagination
-            class="pt-1 middle-bar-element"
+            class="middle-bar-element"
             :length="nbPages"
             total-visible="2"
             v-model="currentPageNumber"
             @update:modelValue="bottomScrollsToTop">
       </v-pagination>
-    <sorting-select v-if="type === 'top'" class="ml-2 pt-2 last-bar-element" @updatePageNumber="updatePageNumber">
-    </sorting-select>
+    <div v-if="type === 'top'" class="last-bar-element">
+      <span class="sort-by-span no-wrap-text">{{ $t('results.sortBy') }}</span>
+      <sorting-select class="right-select" @updatePageNumberFromSortingSelect="updatePageNumberFromSortingSelect" @search="search">
+      </sorting-select>
+    </div>
   </div>
 </template>
 
@@ -64,7 +72,7 @@ function bottomScrollsToTop() {
   if(props.type === "bottom") scrollToTop();
 }
 
-function updatePageNumber(pageNumber) {
+function updatePageNumberFromSortingSelect(pageNumber) {
   currentPageNumber.value = pageNumber;
   setPageNumber(pageNumber);
   emit("updatePage", pageNumber);
@@ -128,19 +136,74 @@ watch(() => props.currentShowingNumber, () => {
   font-size: 15px;
 }
 
-.middle-bar-element {
-  flex: 1;
+.show-span{
+  padding-top: 22px;
 }
 
-.last-bar-element {
-  margin: 0 1rem;
-  max-width: 200px;
-  font-size: 15px;
-}
 
 .left-select {
   max-width: 50px;
-  margin: 0 8px 0;
+  margin: 10px 8px 0;
   padding-top: 6px;
+
+  :deep(.v-field--appended) {
+    padding-inline-end: 0 !important;
+  }
+
+  :deep(.v-field--variant-solo) {
+    box-shadow: unset;
+    outline: solid 1px rgb(var(--v-theme-gris-fonce));
+    height: 30px;
+  }
+
+  :deep(.v-field__input) {
+    padding-top: 5px;
+    padding-inline-start: 7px;
+  }
+
+  :deep(.v-field__append-inner) {
+    padding-top: 5px;
+
+    color: rgb(var(--v-theme-orange-abes));
+
+    i {
+      opacity: 1 !important;
+    }
+  }
+}
+
+.no-wrap-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.results-number-span {
+  padding-top: 22px;
+  height: 50px;
+}
+
+.middle-bar-element {
+  flex: 1;
+  margin-top: 5px;
+}
+
+.last-bar-element {
+  margin-top: 17px;
+  margin-right: 20px;
+  width: 220px;
+
+  display: inline-flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.sort-by-span {
+  padding-top: 4px;
+}
+
+.right-select {
+  max-width: 150px;
+  font-size: 15px;
 }
 </style>
