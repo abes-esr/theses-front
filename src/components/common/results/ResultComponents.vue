@@ -1,6 +1,7 @@
 <template>
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'top'" :current-showing-number="currentShowingNumber"
-    :current-page-number="currentPageNumber" @updateShowingNumber="updateShowingNumber" @updatePage="updatePage" @search="search">
+    :current-page-number="currentPageNumber" @updateShowingNumber="updateShowingNumber"
+    @updatePage="updatePage" @search="search">
   </result-pagination>
 
   <div class="result-components-wrapper">
@@ -16,10 +17,8 @@
     </Transition>
     <facets-chips :facets="facets" @deleteFilter="deleteFilter" />
     <div v-if="mobile || dataReady" class="colonnes-resultats">
-      <div>
         <result-list :result="result" :domain-name-change="domainNameChange">
         </result-list>
-      </div>
       <ScrollToTopButton v-if="!mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
     </div>
     <div v-else>
@@ -31,7 +30,7 @@
       </div>
     </div>
     <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
-                       @updateShowingNumber="updateShowingNumber" @search="search" />
+                       @addTenResultsToList="addTenResultsToList" @search="search" />
     <ScrollToTopButton v-if="mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
   </div>
 
@@ -117,7 +116,12 @@ function allResultsWereLoaded() {
   return moreThanXResults(props.nbResult);
 }
 
-function updateShowingNumber() {
+function updateShowingNumber(newValue) {
+  currentShowingNumber.value = newValue;
+  setShowingNumber(currentShowingNumber.value);
+}
+
+function addTenResultsToList() {
   currentShowingNumber.value += 10;
   setShowingNumber(currentShowingNumber.value);
 }
