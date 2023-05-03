@@ -64,6 +64,10 @@
       "from": "de",
       "to": "à"
     },
+    "show": "Afficher",
+    "resultsPerPage": "résultats par page",
+    "sort": "Trier",
+    "sortBy": "Trier par",
     "searched": "La recherche sur",
     "returned": "a retourné",
     "results": "résultat(s)"
