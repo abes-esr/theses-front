@@ -1,5 +1,5 @@
 <template>
-  <div class="facets">
+  <div class="facets left-side">
     <div class="search-filter">
       <div class="filter-meta">
         <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
@@ -23,6 +23,10 @@ import { ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 
 const props = defineProps({
+  loading: {
+    type: Boolean,
+    default: true
+  }
 });
 
 const { mobile } = useDisplay();
@@ -34,10 +38,7 @@ const { mobile } = useDisplay();
 
 .search-filter {
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10%;
+  padding: 4px 20px;
   width: 100%;
   background-color: rgb(var(--v-theme-gris-clair));
   font-size: 22px;
@@ -46,12 +47,14 @@ const { mobile } = useDisplay();
     padding: 0 7%;
     font-size: 16px;
   }
+
+  margin-bottom: 1em;
 }
 
 .filter-meta {
   height: 2rem;
   display: inline-grid;
-  grid-template-columns: 1fr 1fr 10fr;
+  grid-template-columns: 2fr 1fr 10fr;
   grid-template-rows: 20% 60% 20%;
 }
 
@@ -61,16 +64,20 @@ const { mobile } = useDisplay();
   grid-row-start: 2;
 }
 
+.v-icon--size-default {
+  font-size: 28px;
+}
+
 .facet-title-header {
   height: 100%;
   grid-column-start: 3;
   grid-row-start: 2;
   background-color: transparent;
-  margin-top: -3px;
+  margin-top: -5px;
   overflow: visible !important;
 
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 20px;
+  font-weight: 500;
   font-family: Roboto-Regular, sans-serif;
   color: rgb(var(--v-text-dark-blue));
 }
@@ -79,7 +86,7 @@ const { mobile } = useDisplay();
   display: flex;
   flex-direction: column;
 
-  .v-expansion-panels {
+  .buttons-list {
     width: 85%;
   }
 
