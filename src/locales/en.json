@@ -46,7 +46,8 @@
         "jury": "Le jury était composé de ",
         "rapporteur": "Les rapporteurs étaient ",
         "partenariat": " en partenariat avec ",
-        "motcle": "Mot clés"
+        "motcle": "Mot clés",
+        "valide": "Validated by the jury"
     },
     "results": {
         "facetsHeader": "Filters",

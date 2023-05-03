@@ -1,17 +1,99 @@
 <template>
-    <div class="pa-4">
-        <Message-box ref="messageBox"></Message-box>
-        <v-row class="justify-center">
+  <Message-box ref="messageBox"></Message-box>
+  <!-- <nav v-if="mobile" class="mobile-nav-bar"> -->
+    <!--    Bouton filtres-->
+   <!-- <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
+      <v-icon v-bind="props" size="40px">mdi-filter-variant
+      </v-icon>
+      <span v-bind="props">Filtrer</span>
+    </button> -->
+    <!--    Bouton menu recherche/selecteur these/personnes-->
+    <!-- <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+      :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+    </v-icon>
+  </nav> -->
+  <!--    Menu filtres-->
+  <!-- <div v-if="mobile" class="logo-menu-wrapper">
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
+      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-thesi
+    s.svg" />
+    </RouterLink> -->
+    <!--    Menu recherche/selecteur these/personnes-->
+    <!-- <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+      :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+      <facets-header @closeOverlay="closeOverlay"
+        @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
+        :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
+        :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
+        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+    </v-dialog>
+    <v-expand-transition>
+      <div v-show="showSearchBar" class="expanded-search-bar-container">
+        <div class="expanded-search-bar">
+          <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+            @onError="displayError" />
+        </div>
+      </div>
+    </v-expand-transition>
+  </div> -->
+
+  <!-- Bare laterale Desktop -->
+  <!-- <div v-else class="sub-header"> -->
+<div class="sub-header">
+    <div class="left-side sub_header__logo">
+      <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+      </RouterLink>
+      <h1>{{ $t("slogan") }}</h1>
+    </div>
+    <div class="sub_header__action">
+      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+        @onError="displayError" />
+    </div>
+</div>
+
+  <div class="thesis-main-wrapper">
+    <div v-if="!mobile" class="nav-bar">
+        <buttons-list></buttons-list>
+
+
+      <!-- 
+        Futur composent boutons (bare de gauche)
+      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
+        :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
+        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
+        class="left-side"></facets-list> -->
+    </div>
+    <div class="thesis-components">
+      <!-- Futur coposent affichage these
+        <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
+        :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange"
+        :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
+      </result-components> -->
+    </div>
+  </div>
+
+
+
+
+    <!-- <div class="pa-4">
+        <Message-box ref="messageBox"></Message-box> -->
+        <!-- <v-row class="justify-center">
             <v-col cols="12" md="6" class="pt-0">
                 <domain-selector compact></domain-selector>
             </v-col>
-        </v-row>
+        </v-row> -->
         <!--<v-row class="justify-center">
             <v-col cols="12" md="6" class="py-0">
                 <search-bar @search="search" :loading="loading" @onError="displayError" />
             </v-col>
         </v-row>-->
-        <v-row v-if="dataReady">
+        <!-- <v-row v-if="dataReady">
             <v-col cols="2" class="pa-6 pl-8">
                 <v-row>
                     <h2>{{ $t('theseView.motcle') }}</h2>
@@ -121,7 +203,7 @@
         </v-row>
         <ScrollToTopButton v-show="hasScrolled" class="scroll-to-top-wrapper" :nb-result=1 />
 
-    </div>
+    </div> -->
 </template>
 
 <script setup>
@@ -130,6 +212,10 @@ import { useRoute } from 'vue-router';
 import { useMeta } from 'vue-meta';
 import { useI18n } from "vue-i18n";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
+import SearchBar from "@/components/personnes/search/SearchBar.vue";
+import ButtonsList from "@/components/theses/ButtonsList.vue";
+
+
 
 
 import DomainSelector from '@/components/common/DomainSelector.vue';
@@ -206,6 +292,92 @@ function displayError(message) {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
+.sub-header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  .sub_header__logo {
+    background-color: rgb(var(--v-theme-surface));
+    z-index: 2;
+
+    h1 {
+      text-align: center;
+      width: 80%;
+      font-weight: 300;
+      font-size: 16px;
+    }
+
+    .logo {
+      margin-top: 0;
+    }
+  }
+
+  .sub_header__action {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 auto;
+
+    .domain-selector,
+    .searchbar {
+      width: 70%;
+    }
+
+    .domain-selector {
+      :deep(.v-btn__content) {
+        flex-direction: row;
+      }
+
+      :deep(.v-icon) {
+        margin-right: 1rem;
+      }
+    }
+  }
+}
+
+.left-side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex: 1 0 100%;
+  max-width: 20vw;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    max-width: 100%;
+    flex: 0 1 auto;
+    padding: 0;
+  }
+}
+
+.thesis-main-wrapper {
+  display: grid;
+  grid-template-columns: 20vw auto;
+  align-items: start;
+  margin-top: 0;
+  width: 100%;
+  height: 100%;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    grid-template-columns: 100%;
+  }
+
+  .thesis-components {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.nav-bar {
+  height: 100%;
+  width: 100%;
+  max-width: 20vw;
+  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
+}
 .clickable {
     cursor: pointer;
 }
