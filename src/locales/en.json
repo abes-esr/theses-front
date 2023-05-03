@@ -1,7 +1,7 @@
 {
     "slogan": "French PhD Search Engine",
     "toutesTheses": "All thesis",
-    "personnes": "People",
+    "toutesPersonnes": "People",
     "explorer": "EXPLORE",
     "rechercher": "Search",
     "accesDirect": "Links",
@@ -59,6 +59,10 @@
             "from": "from",
             "to": "to"
         },
+        "show": "Show",
+        "resultsPerPage": "results per page",
+        "sort": "Sort",
+        "sortBy": "Sort by",
         "searched": "Search on",
         "returned": "returned",
         "results": "result(s)"

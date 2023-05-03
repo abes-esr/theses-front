@@ -1,22 +1,29 @@
 <template>
   <div class="result-pagination">
       <div v-if="type === 'top'" class="first-bar-element">
-          <span class="pt-5 ">Afficher</span>
-          <v-select :items="['10', '25', '50']" v-model="currentShowingNumber" density="compact" variant="underlined"
-                     color="orange-abes" class="left-select">
+          <span class="show-span no-wrap-text">{{ $t('results.show') }}</span>
+          <v-select :items="['10', '25', '50']" v-model="currentShowingNumber" density="compact" variant="solo"
+                     class="left-select" menu-icon="mdi-chevron-down">
+            <template v-slot:menu-icon>
+              <v-icon>
+                mdi-chevron-down
+              </v-icon>
+            </template>
           </v-select>
-          <span class="pt-5">résultats par page</span>
+          <span class="results-number-span no-wrap-text">{{ $t('results.resultsPerPage') }}</span>
       </div>
       <v-pagination
-            class="pt-1 middle-bar-element"
+            class="middle-bar-element"
             :length="nbPages"
             total-visible="2"
             v-model="currentPageNumber"
             @update:modelValue="bottomScrollsToTop">
       </v-pagination>
-      <v-select v-if="type === 'top'" v-model="tri" class="ml-2 pt-2 last-bar-element" return-object :items=items item-title="nom" item-value="cle" density="compact"
-                  variant="underlined" color="orange-abes">
-      </v-select>
+    <div v-if="type === 'top'" class="last-bar-element">
+      <span class="sort-by-span no-wrap-text">{{ $t('results.sortBy') }}</span>
+      <sorting-select class="right-select" @updatePageNumberFromSortingSelect="updatePageNumberFromSortingSelect" @search="search">
+      </sorting-select>
+    </div>
   </div>
 </template>
 
@@ -25,9 +32,10 @@ import { ref, watch, computed } from "vue";
 import { APIService } from "@/services/StrategyAPI";
 import { scrollToTop } from "@/services/Common";
 import { useRoute } from "vue-router";
+import SortingSelect from "@/components/common/results/SortingSelect.vue";
 
 const currentRoute = useRoute();
-const { setSorting, setPageNumber, setShowingNumber, getItemsTri, getCurrentSorting, getTriMap } = APIService();
+const { setPageNumber, setShowingNumber } = APIService();
 const emit = defineEmits(['search', 'updatePage', 'updateShowingNumber']);
 
 const props = defineProps({
@@ -49,18 +57,6 @@ const props = defineProps({
   }
 });
 
-const items = ref();
-const tri = ref();
-
-if (props.type === 'top') {
-  const startingTri = currentRoute.query.tri;
-  items.value = getItemsTri();
-  const itemsTriMap = getTriMap();
-  const startingTriName = itemsTriMap.get(startingTri) ? itemsTriMap.get(startingTri) : "Pertinence";
-  tri.value = { nom: startingTriName, cle: startingTri ? startingTri : "pertinence" };
-}
-
-
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
 
@@ -74,6 +70,13 @@ const nbPages = computed(() => {
 
 function bottomScrollsToTop() {
   if(props.type === "bottom") scrollToTop();
+}
+
+function updatePageNumberFromSortingSelect(pageNumber) {
+  currentPageNumber.value = pageNumber;
+  setPageNumber(pageNumber);
+  emit("updatePage", pageNumber);
+  emit("search");
 }
 
 /**
@@ -98,16 +101,6 @@ watch(currentShowingNumber, newShowingNumber => {
   }
 });
 
-watch(tri, async (newTri) => {
-  setPageNumber(1);
-  setSorting(newTri.cle);
-  emit("updatePage", 1);
-  if (props.type === "top") {
-    emit("search");
-  }
-});
-
-
 /**
  * Watcher des autres barres de pagination
  */
@@ -119,21 +112,8 @@ watch(() => props.currentShowingNumber, () => {
   currentShowingNumber.value = props.currentShowingNumber;
 });
 
-function getCurrentSortName() {
-  const startingTri = getCurrentSorting();
-  const itemsTriMap = getTriMap();
-  const startingTriName = itemsTriMap.get(startingTri) ? itemsTriMap.get(startingTri) : "Pertinence";
-  return { nom: startingTriName, cle: startingTri ? startingTri : "pertinence" };
-}
-
-// Mise à jour des valeurs de tri
-watch(() => currentRoute.query.domaine, () => {
-  setSorting('pertinence');
-  items.value = getItemsTri();
-  tri.value = getCurrentSortName();
-});
-
 </script>
+
 <style scoped lang="scss">
 @use '../../../../node_modules/vuetify/settings';
 
@@ -156,19 +136,74 @@ watch(() => currentRoute.query.domaine, () => {
   font-size: 15px;
 }
 
-.middle-bar-element {
-  flex: 1;
+.show-span{
+  padding-top: 22px;
 }
 
-.last-bar-element {
-  margin: 0 1rem;
-  max-width: 200px;
-  font-size: 15px;
-}
 
 .left-select {
   max-width: 50px;
-  margin: 0 8px 0;
+  margin: 10px 8px 0;
   padding-top: 6px;
+
+  :deep(.v-field--appended) {
+    padding-inline-end: 0 !important;
+  }
+
+  :deep(.v-field--variant-solo) {
+    box-shadow: unset;
+    outline: solid 1px rgb(var(--v-theme-gris-fonce));
+    height: 30px;
+  }
+
+  :deep(.v-field__input) {
+    padding-top: 5px;
+    padding-inline-start: 7px;
+  }
+
+  :deep(.v-field__append-inner) {
+    padding-top: 5px;
+
+    color: rgb(var(--v-theme-orange-abes));
+
+    i {
+      opacity: 1 !important;
+    }
+  }
+}
+
+.no-wrap-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.results-number-span {
+  padding-top: 22px;
+  height: 50px;
+}
+
+.middle-bar-element {
+  flex: 1;
+  margin-top: 5px;
+}
+
+.last-bar-element {
+  margin-top: 17px;
+  margin-right: 20px;
+  width: 220px;
+
+  display: inline-flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.sort-by-span {
+  padding-top: 4px;
+}
+
+.right-select {
+  max-width: 150px;
+  font-size: 15px;
 }
 </style>

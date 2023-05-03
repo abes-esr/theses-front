@@ -5,7 +5,7 @@
     <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
       <v-icon v-bind="props" size="40px">mdi-filter-variant
       </v-icon>
-      <p v-bind="props">Filtrer</p>
+      <span v-bind="props">Filtrer</span>
     </button>
     <!--    Bouton menu recherche/selecteur these/personnes-->
     <v-icon @click="showSearchBar = !showSearchBar" size="40px"
@@ -427,7 +427,7 @@ watch(() => currentRoute.query.domaine, () => {
   display: flex;
   align-content: center;
 
-  p {
+  span {
     padding: 10% 0;
   }
 }
@@ -450,5 +450,9 @@ watch(() => currentRoute.query.domaine, () => {
     display: flex;
     flex-direction: column;
   }
+}
+
+.logo-menu-wrapper > .expanded-search-bar-container {
+  margin-bottom: 40px;
 }
 </style>
