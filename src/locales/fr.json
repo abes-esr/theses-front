@@ -52,7 +52,12 @@
     "rapporteur": "Les rapporteurs étaient ",
     "partenariat": " en partenariat avec ",
     "motcle": "Mot clés",
-    "valide": "Validé par le jury"
+    "valide": "Validé par le jury",
+    "retour": "Retour aux résultats",
+    "thesePrecedente": "Thèse précédente",
+    "theseSuivante": "Thèse suivante",
+    "alert": "Signaler une erreur",
+    "exporter": "Exporter"
   },
   "results": {
     "facetsHeader": "Filtres",

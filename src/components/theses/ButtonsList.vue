@@ -1,7 +1,7 @@
 <template>
   <div class="facets left-side">
     <div class="search-filter">
-      <div class="filter-meta">
+      <div class="filter-meta text-no-wrap">
         <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
         <span class="facet-title-header">{{ $t("theseView.valide") }}</span>
       </div>
@@ -42,6 +42,10 @@ const { mobile } = useDisplay();
   width: 100%;
   background-color: rgb(var(--v-theme-gris-clair));
   font-size: 22px;
+  height: 42px;
+
+  display: inline-flex;
+  align-items: center;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     padding: 0 7%;
