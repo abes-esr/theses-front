@@ -24,7 +24,7 @@ const tri = ref();
 
 onMounted(() => {
   items.value = getItemsTri();
-  tri.value = getCurrentSortName()
+  tri.value = getCurrentSortName();
 });
 
 /**
