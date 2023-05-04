@@ -11,7 +11,7 @@
 
 <script setup>
 import { useRoute } from "vue-router";
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { APIService } from "@/services/StrategyAPI";
 
 const currentRoute = useRoute();
@@ -22,11 +22,10 @@ const { setSorting, getItemsTri, getCurrentSorting, getTriMap } = APIService();
 const items = ref();
 const tri = ref();
 
-const startingTri = currentRoute.query.tri;
-items.value = getItemsTri();
-const itemsTriMap = getTriMap();
-const startingTriName = itemsTriMap.get(startingTri) ? itemsTriMap.get(startingTri) : "Pertinence";
-tri.value = { nom: startingTriName, cle: startingTri ? startingTri : "pertinence" };
+onMounted(() => {
+  items.value = getItemsTri();
+  tri.value = getCurrentSortName()
+});
 
 /**
  * Fonctions
