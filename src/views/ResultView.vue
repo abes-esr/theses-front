@@ -218,7 +218,7 @@ function updateFacets(firstLoad) {
   });
 }
 
-// Si on passe de desktop à mobile ou inversement, réinitialisation des pages, etc
+// Si on passe de desktop à mobile ou inversement, réinitialisation des variables de pagination
 watch(mobile, () => {
   reinitializeCurrentRequest();
 });
