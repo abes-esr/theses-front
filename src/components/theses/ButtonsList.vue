@@ -1,35 +1,57 @@
 <template>
-  <div class="facets left-side">
+  <MessageBox ref="messageBox"></MessageBox>
+  <div class="buttons">
     <div class="search-filter">
-      <div class="filter-meta text-no-wrap">
+      <div class="filter-meta no-wrap-text">
         <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
-        <span class="facet-title-header">{{ $t("theseView.valide") }}</span>
+        <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
       </div>
     </div>
-    <!-- <facet-drawer v-if="domaine === 'theses' && Object.keys(facets).length > 0" date key="facet-date" -->
-    <!-- v-for sur la liste des bouttons -->
-    <v-skeleton-loader
-      v-if="loading"
-      v-for="i in 6"
-      :key="i"
-      type="list-item"
-      class="skeleton"
-    ></v-skeleton-loader>
+    <div class="listButtons no-wrap-text">
+      <v-btn color="primary" append-icon="mdi-arrow-right-circle" class="" flat v-for="b in listButtons" :key="b"
+        :href="baseURL + b.url" target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+          b.libelle }}</v-btn>
+      <v-skeleton-loader v-if="loading" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-import { useDisplay } from "vuetify";
+import { ref, onMounted, defineAsyncComponent } from "vue";
+import { thesesAPIService } from '@/services/ThesesAPI';
+const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
+const messageBox = ref(null);
+function displayError(message) {
+  messageBox.value?.open(message, {
+    type: "error"
+  });
+}
 
 const props = defineProps({
-  loading: {
-    type: Boolean,
-    default: true
+  nnt: {
+    type: String,
+    default: ""
   }
 });
 
-const { mobile } = useDisplay();
+const { getButtons } = thesesAPIService();
+const loading = ref(true);
+const listButtons = ref([]);
+const baseURL = import.meta.env.VITE_APP_API;
+
+onMounted(() => {
+  getButtons(props.nnt).then((res) => {
+    listButtons.value = res.data.buttons;
+  })
+    .catch((err) => {
+      displayError("Accès en ligne : " + err.message);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+
+});
+
 
 </script>
 
@@ -72,7 +94,7 @@ const { mobile } = useDisplay();
   font-size: 28px;
 }
 
-.facet-title-header {
+.buttons-title-header {
   height: 100%;
   grid-column-start: 3;
   grid-row-start: 2;
@@ -86,7 +108,23 @@ const { mobile } = useDisplay();
   color: rgb(var(--v-text-dark-blue));
 }
 
-.facets {
+.listButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .v-btn {
+    width: 85%;
+    margin-bottom: 10px;
+    display: inline-flex;
+    justify-content: space-between;
+    text-transform: none;
+    margin-bottom: 1em;
+
+  }
+}
+
+.buttons {
   display: flex;
   flex-direction: column;
 
@@ -95,7 +133,7 @@ const { mobile } = useDisplay();
   }
 
   .skeleton {
-    height: 48px !important;
+    height: 36px !important;
     width: 85%;
     background-color: rgb(var(--v-theme-gris-clair));
     margin-bottom: 1em;

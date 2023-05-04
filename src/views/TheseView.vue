@@ -1,14 +1,14 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <!-- <nav v-if="mobile" class="mobile-nav-bar"> -->
-    <!--    Bouton filtres-->
-   <!-- <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
+  <!--    Bouton filtres-->
+  <!-- <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
       <v-icon v-bind="props" size="40px">mdi-filter-variant
       </v-icon>
       <span v-bind="props">Filtrer</span>
     </button> -->
-    <!--    Bouton menu recherche/selecteur these/personnes-->
-    <!-- <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+  <!--    Bouton menu recherche/selecteur these/personnes-->
+  <!-- <v-icon @click="showSearchBar = !showSearchBar" size="40px"
       :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav> -->
@@ -18,8 +18,8 @@
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-thesi
     s.svg" />
     </RouterLink> -->
-    <!--    Menu recherche/selecteur these/personnes-->
-    <!-- <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+  <!--    Menu recherche/selecteur these/personnes-->
+  <!-- <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
       :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
       <facets-header @closeOverlay="closeOverlay"
         @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
@@ -42,7 +42,7 @@
 
   <!-- Bare laterale Desktop -->
   <!-- <div v-else class="sub-header"> -->
-<div class="sub-header">
+  <div class="sub-header">
     <div class="left-side sub_header__logo">
       <RouterLink :to="{ name: 'home' }" title="Accueil du site">
         <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
@@ -54,11 +54,11 @@
       <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
         @onError="displayError" />
     </div>
-</div>
+  </div>
 
   <div class="thesis-main-wrapper">
     <div v-if="!mobile" class="nav-bar">
-        <buttons-list></buttons-list>
+      <buttons-list :nnt="route.params.id"></buttons-list>
       <!--
         Futur composent boutons (bare de gauche)
       <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
@@ -91,6 +91,10 @@ const MessageBox = defineAsyncComponent(() => import('@/components/common/Messag
 const route = useRoute();
 const { mobile } = useDisplay();
 
+watch(mobile, () => {
+  console.log(mobile);
+});
+
 const { getData } = APIService();
 
 let selected = ref('fr');
@@ -108,48 +112,48 @@ const { t } = useI18n();
 const { meta } = useMeta({});
 
 watchEffect(() => {
-    const titleThese = these.value.titrePrincipal ? these.value.titrePrincipal : "";
-    meta.title = titleThese;
-    meta.description = t("meta.descThese") + titleThese;
+  const titleThese = these.value.titrePrincipal ? these.value.titrePrincipal : "";
+  meta.title = titleThese;
+  meta.description = t("meta.descThese") + titleThese;
 });
 
 let hasScrolled = ref(false);
 
 onBeforeMount(() => {
-    dataReady.value = false;
-    window.addEventListener('scroll', () => { hasScrolled.value = true; });
-    getData(route.params.id).then(result => {
-        these.value = result.data;
-        resume.value = these.value.resumes.fr;
-        dataReady.value = true;
-        setKeywords();
-    }).catch(error => {
-        displayError(error.message);
-    });
+  dataReady.value = false;
+  window.addEventListener('scroll', () => { hasScrolled.value = true; });
+  getData(route.params.id).then(result => {
+    these.value = result.data;
+    resume.value = these.value.resumes.fr;
+    dataReady.value = true;
+    setKeywords();
+  }).catch(error => {
+    displayError(error.message);
+  });
 });
 
 function setKeywords() {
-    keywordsFR = these.value.sujetsRameau.concat(these.value.sujetsFR);
-    keywordsEN = these.value.sujetsEN;
+  keywordsFR = these.value.sujetsRameau.concat(these.value.sujetsFR);
+  keywordsEN = these.value.sujetsEN;
 }
 
 function select(selection) {
-    selected.value = selection;
+  selected.value = selection;
 }
 
 watch(selected, async (newSelected) => {
-    for (const [key, value] of Object.entries(these.value.resumes)) {
-        if (key === newSelected)
-            resume.value = value;
-    }
+  for (const [key, value] of Object.entries(these.value.resumes)) {
+    if (key === newSelected)
+      resume.value = value;
+  }
 });
 
 const messageBox = ref(null);
 
 function displayError(message) {
-    messageBox.value?.open(message, {
-        type: "error"
-    });
+  messageBox.value?.open(message, {
+    type: "error"
+  });
 }
 
 </script>
@@ -243,54 +247,55 @@ function displayError(message) {
   max-width: 20vw;
   border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
 }
+
 .clickable {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .selected {
-    border-bottom: solid 2px rgb(var(--v-theme-orange-abes));
+  border-bottom: solid 2px rgb(var(--v-theme-orange-abes));
 }
 
 .normalFont {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 .orange {
-    color: rgb(var(--v-theme-orange-abes));
+  color: rgb(var(--v-theme-orange-abes));
 }
 
 .desc {
-    border-left: solid 5px rgb(var(--v-theme-orange-abes));
+  border-left: solid 5px rgb(var(--v-theme-orange-abes));
 }
 
 .soutenue {
-    background-color: rgb(var(--v-theme-orange-abes));
+  background-color: rgb(var(--v-theme-orange-abes));
 
 }
 
 .enCours {
-    background-color: rgb(var(--v-theme-secondary));
-    ;
+  background-color: rgb(var(--v-theme-secondary));
+  ;
 }
 
 .v-list {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .scroll-to-top-wrapper {
-    position: sticky;
-    top: 90vh;
-    margin-bottom: 1rem;
-    margin-left: 97%;
-    width: 30px;
-    height: 30px;
+  position: sticky;
+  top: 90vh;
+  margin-bottom: 1rem;
+  margin-left: 97%;
+  width: 30px;
+  height: 30px;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-        margin: 0 0;
-        height: 60px;
-        left: 90vw;
-        top: unset;
-        bottom: 1vh;
-    }
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    margin: 0 0;
+    height: 60px;
+    left: 90vw;
+    top: unset;
+    bottom: 1vh;
+  }
 }
 </style>

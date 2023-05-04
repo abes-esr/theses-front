@@ -60,6 +60,10 @@ function getThese(nnt) {
   return apiTheses.get("/theses/these/" + nnt);
 }
 
+function getButtons(nnt) {
+  return apiTheses.get("/button/" + nnt);
+}
+
 function getItemsTriTheses() {
   return [
     { nom: "Pertinence", cle: "pertinence" },
@@ -98,6 +102,7 @@ export function thesesAPIService() {
     getThese,
     getItemsTriTheses,
     disableOrFiltersTheses,
-    getItemsTriMapTheses
+    getItemsTriMapTheses,
+    getButtons
   };
 }

@@ -132,6 +132,12 @@ h4 {
 .clickable {
   cursor: pointer;
 }
+
+.no-wrap-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 </style>
 <style scoped lang="scss">
 @use 'vuetify/settings';
