@@ -46,7 +46,13 @@
         "jury": "Le jury était composé de ",
         "rapporteur": "Les rapporteurs étaient ",
         "partenariat": " en partenariat avec ",
-        "motcle": "Mot clés"
+        "motcle": "Mot clés",
+        "valide": "Validated by the jury",
+        "retour": "Back to results",
+        "thesePrecedente": "Previous thesis",
+        "theseSuivante": "Next thesis",
+        "alert": "Report an error",
+        "exporter": "Export"
     },
     "results": {
         "facetsHeader": "Filters",

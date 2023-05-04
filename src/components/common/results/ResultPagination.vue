@@ -28,13 +28,11 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 import { APIService } from "@/services/StrategyAPI";
 import { scrollToTop } from "@/services/Common";
-import { useRoute } from "vue-router";
 import SortingSelect from "@/components/common/results/SortingSelect.vue";
 
-const currentRoute = useRoute();
 const { setPageNumber, setShowingNumber } = APIService();
 const emit = defineEmits(['search', 'updatePage', 'updateShowingNumber']);
 
@@ -57,8 +55,13 @@ const props = defineProps({
   }
 });
 
-const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
-const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
+const currentPageNumber = ref();
+const currentShowingNumber = ref();
+
+onMounted(() => {
+  currentPageNumber.value = props.currentPageNumber;
+  currentShowingNumber.value = props.currentShowingNumber;
+});
 
 const nbPages = computed(() => {
   return Math.ceil(props.nbResults / currentShowingNumber.value);
@@ -111,6 +114,10 @@ watch(() => props.currentPageNumber, () => {
 watch(() => props.currentShowingNumber, () => {
   currentShowingNumber.value = props.currentShowingNumber;
 });
+
+/**
+ * Watcher breakpoints
+ */
 
 </script>
 
