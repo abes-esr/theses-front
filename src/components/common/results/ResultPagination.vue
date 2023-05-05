@@ -86,21 +86,25 @@ function updatePageNumberFromSortingSelect(pageNumber) {
  * Watchers
  */
 
-watch(currentPageNumber, newCurrentPageNumber => {
-  setPageNumber(newCurrentPageNumber);
-  emit("updatePage", newCurrentPageNumber);
-  if (props.type === "top") {
-    emit("search");
+watch(currentPageNumber, (newCurrentPageNumber, previousCurrentPageNumber) => {
+  if(typeof previousCurrentPageNumber !== 'undefined') {
+    setPageNumber(newCurrentPageNumber);
+    emit("updatePage", newCurrentPageNumber);
+    if (props.type === "top") {
+      emit("search");
+    }
   }
 });
 
-watch(currentShowingNumber, newShowingNumber => {
-  setShowingNumber(newShowingNumber);
-  setPageNumber(1);
-  emit("updateShowingNumber", newShowingNumber);
-  emit("updatePage", 1);
-  if (props.type === "top") {
-    emit("search");
+watch(currentShowingNumber, (newShowingNumber, previousShowingNumber) => {
+  if(typeof previousShowingNumber !== 'undefined') {
+    setShowingNumber(newShowingNumber);
+    setPageNumber(1);
+    emit("updateShowingNumber", newShowingNumber);
+    emit("updatePage", 1);
+    if (props.type === "top") {
+      emit("search");
+    }
   }
 });
 

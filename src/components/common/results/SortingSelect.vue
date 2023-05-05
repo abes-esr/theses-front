@@ -46,10 +46,12 @@ function getCurrentSortName() {
  * Watchers
  */
 
-watch(tri, async (newTri) => {
-  setSorting(newTri.cle);
-  emit("updatePageNumberFromSortingSelect", 1);
-  emit("search");
+watch(tri, async (newSortingArray, previousSortingArray) => {
+  if(typeof previousSortingArray !== 'undefined') { // Pas de mise à jour de la page à la première initialisation
+    setSorting(newSortingArray.cle);
+    emit("updatePageNumberFromSortingSelect", 1);
+    emit("search");
+  }
 });
 
 

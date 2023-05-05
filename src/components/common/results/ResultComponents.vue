@@ -4,7 +4,6 @@
     @updatePage="updatePage" @search="search">
   </result-pagination>
 
-
   <div class="result-components-wrapper">
     <div v-if="mobile" class="sort-select-wrapper">
       <span class="sort-label">{{ $t('results.sort') }}</span>
@@ -111,10 +110,10 @@ const emit = defineEmits(['search', 'deleteFilter']);
 function deleteFilter(facet) {
   emit('deleteFilter', facet);
 }
+
 /**
  * Fonctions
  */
-
 function moreThanXResults(x) {
   return (props.result.length >= x);
 }

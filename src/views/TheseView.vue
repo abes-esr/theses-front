@@ -90,26 +90,17 @@ const MessageBox = defineAsyncComponent(() => import('@/components/common/Messag
 
 const route = useRoute();
 const { mobile } = useDisplay();
-
-watch(mobile, () => {
-  console.log(mobile);
-});
-
 const { getData } = APIService();
+const { t } = useI18n();
+const { meta } = useMeta({});
 
 let selected = ref('fr');
-
 let dataReady = ref(false);
-
 let these = ref({});
-
 let resume = ref("");
-
 let keywordsFR = [];
 let keywordsEN = [];
 
-const { t } = useI18n();
-const { meta } = useMeta({});
 
 watchEffect(() => {
   const titleThese = these.value.titrePrincipal ? these.value.titrePrincipal : "";
