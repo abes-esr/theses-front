@@ -1,14 +1,14 @@
 <template>
   <div class="facets">
     <facet-drawer v-if="domaine === 'theses' && Object.keys(facets).length > 0" date key="facet-date"
-      :facet="{ 'name': 'Date' }" class="my-2" :facets-array="facetsArray" :parameters-loaded="parametersLoaded"
-      :reinitialize-date-fields-trigger="reinitializeDateFieldsTrigger"
-      :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-      :reinitialize-date-to-trigger="reinitializeDateToTrigger" @updateFilterDateOnly="updateFilterDateOnly($event)"
-      @reinitializeCheckboxes="reinitializeDates">
+                  :facet="{ 'name': 'Date' }" class="my-2" :facets-array="facetsArray" :parameters-loaded="parametersLoaded"
+                  :reinitialize-date-fields-trigger="reinitializeDateFieldsTrigger"
+                  :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+                  :reinitialize-date-to-trigger="reinitializeDateToTrigger" @updateFilterDateOnly="updateFilterDateOnly($event)"
+                  @reinitializeCheckboxes="reinitializeDates">
     </facet-drawer>
     <facet-drawer v-for="facet in facets" class="my-2" :key="`facet-${facet.name}`" :facet="facet"
-      :facets-array="facetsArray" @updateFilterData="updateFilterData" @reinitializeCheckboxes="reinitializeCheckboxes">
+                  :facets-array="facetsArray" @updateFilterData="updateFilterData" @reinitializeCheckboxes="reinitializeCheckboxes">
     </facet-drawer>
     <v-btn v-if="mobile" class="filters-btn" @click="update">Appliquer les filtres</v-btn>
     <v-skeleton-loader v-if="loading" v-for="i in 6" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
@@ -89,7 +89,7 @@ function getFacetItemIndex(lastFacetFilter) {
  */
 function filtersAreEqual(comparedObject, currentObject) {
   return (isDateFilter(currentObject)
-    && Object.keys(comparedObject)[0] === Object.keys(currentObject)[0])
+      && Object.keys(comparedObject)[0] === Object.keys(currentObject)[0])
     || (Object.keys(comparedObject)[0] === Object.keys(currentObject)[0]
       && Object.values(comparedObject)[0] === Object.values(currentObject)[0]);
 }
@@ -102,7 +102,7 @@ function getChipFacetItemIndex(lastFacetFilter) {
 
 function chipFiltersAreEqual(comparedChipObject, currentObject) {
   return (isDateFilter(currentObject)
-    && comparedChipObject.filter.filterName === Object.keys(currentObject)[0])
+      && comparedChipObject.filter.filterName === Object.keys(currentObject)[0])
     || (comparedChipObject.filter.facetName === Object.keys(currentObject)[0]
       && comparedChipObject.filter.filterName === Object.values(currentObject)[0]);
 }
@@ -146,6 +146,12 @@ function update() {
   emit('closeOverlay');
 }
 
+function handleSpecialCase(label) {
+  if (label === "enCours") return  "En préparation";
+  if (label === "soutenue") return  "Soutenues";
+  return label;
+}
+
 function addToChips(filterData) {
   let chipData = {};
 
@@ -158,6 +164,9 @@ function addToChips(filterData) {
       }
     };
   } else {
+    // Cas Particuliers
+    filterData.label = handleSpecialCase(filterData.label);
+
     chipData = {
       'label': filterData.label,
       'filter': {
@@ -185,9 +194,9 @@ function deleteFromFilters(itemIndex) {
  */
 function updateFilterData(filterData) {
   const lastFacetFilter =
-  {
-    [filterData.facetName]: filterData.filterName
-  };
+    {
+      [filterData.facetName]: filterData.filterName
+    };
 
   if (isChecked(filterData, lastFacetFilter)) {
     // Ajout
@@ -210,6 +219,10 @@ function updateFilterData(filterData) {
   emit('update', facetsChipsArray.value);
 }
 
+/**
+ * WorkingFacetName est la facette qui est en cours d'utilisation/séléction
+ * @param filterObject
+ */
 function addToFilters(filterObject) {
   setWorkingFacetName(Object.keys(filterObject)[0]);
   facetsArray.value.splice(0, 0, filterObject);
