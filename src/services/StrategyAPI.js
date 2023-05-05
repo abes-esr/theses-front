@@ -313,7 +313,7 @@ function getFacetsLabels(facetsArray) {
   facetsArray.forEach((facet) => {
     facet.filterName = Object.values(facet)[0];
     facet.facetName = Object.keys(facet)[0];
-    console.log(facet)
+    
     if (Object.keys(facet)[0] === 'langues') {
       facet.label = getLabelFromCode(facet.filterName);
     } else if (Object.keys(facet)[0].startsWith('date')) {
