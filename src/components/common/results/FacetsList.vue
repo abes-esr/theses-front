@@ -146,6 +146,12 @@ function update() {
   emit('closeOverlay');
 }
 
+function handleSpecialCase(label) {
+  if (label === "enCours") return  "En préparation";
+  if (label === "soutenue") return  "Soutenues";
+  return label;
+}
+
 function addToChips(filterData) {
   let chipData = {};
 
@@ -158,6 +164,9 @@ function addToChips(filterData) {
       }
     };
   } else {
+    // Cas Particuliers
+    filterData.label = handleSpecialCase(filterData.label);
+
     chipData = {
       'label': filterData.label,
       'filter': {
@@ -210,6 +219,10 @@ function updateFilterData(filterData) {
   emit('update', facetsChipsArray.value);
 }
 
+/**
+ * WorkingFacetName est la facette qui est en cours d'utilisation/séléction
+ * @param filterObject
+ */
 function addToFilters(filterObject) {
   setWorkingFacetName(Object.keys(filterObject)[0]);
   facetsArray.value.splice(0, 0, filterObject);
