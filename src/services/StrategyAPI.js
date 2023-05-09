@@ -102,8 +102,8 @@ function getQuery() {
 
 function getFacetsRequest() {
   return currentFacets.value.length > 0
-  ? "&filtres=" + encodeURIComponent("[" + disableOrFilters().toString() + "]")
-  : "";
+    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters().toString() + "]")
+    : "";
 }
 
 /**
@@ -313,7 +313,7 @@ function getFacetsLabels(facetsArray) {
   facetsArray.forEach((facet) => {
     facet.filterName = Object.values(facet)[0];
     facet.facetName = Object.keys(facet)[0];
-console.log(facet)
+
     if (Object.keys(facet)[0] === 'langues') {
       facet.label = getLabelFromCode(facet.filterName);
     } else if (Object.keys(facet)[0].startsWith('date')) {
@@ -435,8 +435,8 @@ async function getFacets() {
         .then(response => {
           rawFacets.value = replaceWorkingFacet(response.data, currentWorkingFacet);
         }).catch((err) => {
-        reject(err);
-      });
+          reject(err);
+        });
     }
 
     if (domaine.value === "personnes") {
