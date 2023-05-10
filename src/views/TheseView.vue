@@ -74,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref, watch, defineAsyncComponent, onMounted } from "vue";
+import { ref, watch, defineAsyncComponent } from "vue";
 import { useRoute } from 'vue-router';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import SearchBar from "@/components/personnes/search/SearchBar.vue";
@@ -90,12 +90,9 @@ const route = useRoute();
 const { mobile } = useDisplay();
 const { getData } = APIService();
 
-const selected = ref('fr');
 const dataReady = ref(false);
 const these = ref({});
 const resume = ref("");
-let keywordsFR = [];
-let keywordsEN = [];
 
 const hasScrolled = ref(false);
 
@@ -106,27 +103,15 @@ const hasScrolled = ref(false);
     these.value = result.data;
     resume.value = these.value.resumes.fr;
     dataReady.value = true;
-    // setKeywords();
   }).catch(error => {
     displayError(error.message);
   });
 
 
-function setKeywords() {
-  keywordsFR = these.value.sujetsRameau.concat(these.value.sujetsFR);
-  keywordsEN = these.value.sujetsEN;
-}
 
 function select(selection) {
   selected.value = selection;
 }
-
-watch(selected, async (newSelected) => {
-  for (const [key, value] of Object.entries(these.value.resumes)) {
-    if (key === newSelected)
-      resume.value = value;
-  }
-});
 
 const messageBox = ref(null);
 
