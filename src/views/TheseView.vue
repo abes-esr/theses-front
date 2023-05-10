@@ -68,16 +68,14 @@
         class="left-side"></facets-list> -->
     </div>
     <div class="thesis-components">
-      <thesis-component :data-ready="true"></thesis-component>
+      <thesis-component :these="these" :data-ready="true"></thesis-component>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onBeforeMount, watch, defineAsyncComponent, watchEffect } from 'vue';
+import { ref, watch, defineAsyncComponent, onMounted } from "vue";
 import { useRoute } from 'vue-router';
-import { useMeta } from 'vue-meta';
-import { useI18n } from "vue-i18n";
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import SearchBar from "@/components/personnes/search/SearchBar.vue";
 import ButtonsList from "@/components/theses/ButtonsList.vue";
@@ -91,37 +89,28 @@ const MessageBox = defineAsyncComponent(() => import('@/components/common/Messag
 const route = useRoute();
 const { mobile } = useDisplay();
 const { getData } = APIService();
-const { t } = useI18n();
-const { meta } = useMeta({});
 
-let selected = ref('fr');
-let dataReady = ref(false);
-let these = ref({});
-let resume = ref("");
+const selected = ref('fr');
+const dataReady = ref(false);
+const these = ref({});
+const resume = ref("");
 let keywordsFR = [];
 let keywordsEN = [];
 
+const hasScrolled = ref(false);
 
-watchEffect(() => {
-  const titleThese = these.value.titrePrincipal ? these.value.titrePrincipal : "";
-  meta.title = titleThese;
-  meta.description = t("meta.descThese") + titleThese;
-});
 
-let hasScrolled = ref(false);
-
-onBeforeMount(() => {
   dataReady.value = false;
-  window.addEventListener('scroll', () => { hasScrolled.value = true; });
+  // window.addEventListener('scroll', () => { hasScrolled.value = true; });
   getData(route.params.id).then(result => {
     these.value = result.data;
     resume.value = these.value.resumes.fr;
     dataReady.value = true;
-    setKeywords();
+    // setKeywords();
   }).catch(error => {
     displayError(error.message);
   });
-});
+
 
 function setKeywords() {
   keywordsFR = these.value.sujetsRameau.concat(these.value.sujetsFR);

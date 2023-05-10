@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   status: {
     type: String,
     default: 'soutenue'
