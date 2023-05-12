@@ -1,12 +1,12 @@
 <template>
-  <div v-if="dataReady">
+  <div v-if="dataReady && these !== {}">
     <thesis-toolbar />
     <thesis-title :data-ready="dataReady" :status="these.status" :titles="these.titres" />
-    <thesis-table :these="these" />
-    <v-divider :thickness="3" class="border-opacity-50" length="90%" inset="5%" />
-    <thesis-keywords :data-ready="dataReady" :these="these" :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
-    <v-divider :thickness="3" class="border-opacity-50" length="90%" inset="5%" />
-    <thesis-resume />
+    <thesis-table class="thesis-component" :these="these" />
+    <v-divider :thickness="2" class="divider border-opacity-50" length="90%" />
+    <thesis-keywords class="thesis-component" :data-ready="dataReady" :these="these" :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
+    <v-divide :thickness="2" class="divider border-opacity-50" length="90%" />
+    <thesis-resume class="thesis-component" />
     <scroll-to-top-button v-show="hasScrolled" class="scroll-to-top-wrapper" :nb-result=1 />
 </div>
 </template>
@@ -50,3 +50,13 @@ watchEffect(() => {
 
 </script>
 
+<style scoped lang="scss">
+  .thesis-component {
+    width: 92%;
+    margin: 0 auto 10px;
+  }
+
+  .divider {
+    margin: 10px auto 15px;
+  }
+</style>

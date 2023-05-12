@@ -21,7 +21,8 @@
 const props = defineProps({
   status: {
     type: String,
-    default: 'soutenue'
+    default: 'soutenue',
+    required: true
   },
   titre: {
     type: String

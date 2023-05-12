@@ -87,9 +87,9 @@
       </tr>
 <!-- Jury -->
 <!-- Président-->
-      <tr v-if="these.presidentJury" class="table-rows">
+      <tr v-if="(these.presidentJury && these.presidentJury.nom) || (these.membresJury && these.membresJury.length > 0) || (these.rapporteurs && these.rapporteurs.length > 0)" class="table-rows">
         <td><strong>{{ $t('theseView.jury') }}</strong></td>
-        <td class="table-cell">
+        <td v-if="these.presidentJury && these.presidentJury.nom" class="table-cell">
           <span><strong>{{ $t('theseView.president') }}</strong> {{ these.presidentJury.prenom }} <strong>{{ these.presidentJury.nom }}</strong> </span>
         </td>
       </tr>
@@ -143,7 +143,6 @@ const props = defineProps({
   .table {
     width: 92%;
     margin: auto;
-    margin-bottom: 10px;
 
     border-left: 3px solid rgb(var(--v-theme-text-dark-blue));;
   }
