@@ -5,7 +5,7 @@
     </RouterLink>
     <div class="main-wrapper">
       <Message-box ref="messageBox"></Message-box>
-      <v-row class="justify-center">
+      <v-row class="justify-center max-height-200">
         <h1 class="pb-8 text-center">{{ $t("slogan") }}</h1>
       </v-row>
       <domain-selector></domain-selector>
@@ -73,6 +73,7 @@ function displayError(message) {
 .v-container {
   padding: 0;
   max-width: none;
+  height: 100% !important;
   display: flex !important;
   justify-content: center;
   align-items: center;
@@ -127,10 +128,10 @@ function displayError(message) {
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: 100%;
     padding-top: 40px;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+      max-height: 500px;
       flex-direction: row;
     }
 
@@ -152,6 +153,10 @@ function displayError(message) {
     align-items: center;
     height: 60px;
     margin-bottom: 2rem;
+  }
+
+  .max-height-200 {
+    max-height: 200px;
   }
 }
 </style>
