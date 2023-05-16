@@ -11,12 +11,12 @@
       <domain-selector></domain-selector>
       <search-bar @search="loading = true" :loading="loading" @onError="displayError" />
       <div class="stats">
-        <Stats-card titre="546 000" :description="$t('referencés')" date="au 03/06/2022" badge="mdi-check"
-          badgecolor="green"></Stats-card>
-        <Stats-card titre="79 000" :description="$t('preparation')" date="au 03/06/2022" badge="mdi-progress-clock"
-          badgecolor="orange"></Stats-card>
-        <Stats-card titre="805 000" :description="$t('personnesRef')" date="au 03/06/2022"
-          icon="mdi-account"></Stats-card>
+        <Stats-card :titre=nbTheses :description="$t('referencés')" badge="mdi-check" badgecolor="green"
+          url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
+        <Stats-card :titre=nbSujets :description="$t('preparation')" badge="mdi-progress-clock" badgecolor="orange"
+          url="/resultats?filtres=%255BStatut%253D%2522enCours%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
+        <Stats-card :titre=nbPersonnes :description="$t('personnesRef')" icon="mdi-account"
+          url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></Stats-card>
       </div>
       <p>Le PoC fédé est accessible ici : <a href="/poc-fede/">poc-fede</a></p>
     </div>
@@ -29,17 +29,33 @@ import StatsCard from '../components/home/StatsCard.vue';
 import DomainSelector from '../components/common/DomainSelector.vue';
 import { defineAsyncComponent, onMounted, ref } from "vue";
 import { APIService } from "@/services/StrategyAPI";
+import { thesesAPIService } from "@/services/ThesesAPI";
+import { personnesAPIService } from "@/services/PersonnesAPI";
+
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { reinitializeResultData } = APIService();
+const { getStatsTheses, getStatsSujets } = thesesAPIService();
+const { getStatsPersonnes } = personnesAPIService();
 
 let loading = ref(false);
 
 const messageBox = ref(null);
 
+const nbPersonnes = ref(0), nbTheses = ref(0), nbSujets = ref(0);
+
 onMounted(() => {
   // réinitialiser les éléments liés à la recherche au retour à la page d'accueil
   reinitializeResultData();
+  getStatsTheses().then(result => {
+    nbTheses.value = result.data;
+  });
+  getStatsSujets().then(result => {
+    nbSujets.value = result.data;
+  });
+  getStatsPersonnes().then(result => {
+    nbPersonnes.value = result.data;
+  });
 });
 
 function displayError(message) {

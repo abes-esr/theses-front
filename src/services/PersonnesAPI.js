@@ -123,6 +123,10 @@ function getItemsTriMapPersonnes() {
     return itemsNamesMap;
 }
 
+function getStatsPersonnes() {
+    return apiPersonnes.get("/personnes/stats")
+}
+
 
 /**
  * Service lié aux personnes
@@ -133,6 +137,7 @@ export function personnesAPIService() {
         suggestionPersonne,
         getFacetsPersonnes,
         getPersonne,
+        getStatsPersonnes,
         getItemsTriPersonnes,
         disableOrFiltersPersonnes,
         getItemsTriMapPersonnes
