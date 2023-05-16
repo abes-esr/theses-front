@@ -9,7 +9,6 @@
             <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
         </v-card-title>
         <v-card-subtitle class="d-flex justify-center">{{ description }}</v-card-subtitle>
-        <v-card-text class="d-flex justify-center pt-2 pb-3">{{ $t("au") + new Date().toLocaleDateString() }}</v-card-text>
         <a :href="url" style="text-decoration: none;">
             <v-row class="pa-0 pb-5 ma-0 d-flex justify-center">
                 <h4>{{ $t("explorer") }}</h4>
@@ -77,17 +76,17 @@ h4 {
 }
 
 .v-card-subtitle {
+    padding-top: 10px;
+    padding-bottom: 15px;
+    padding-right: 5px;
+    padding-left: 5px;
     color: rgb(var(--v-theme-primary));
     opacity: 1;
     font-size: 20px;
     font-weight: 300;
-}
-
-.v-card-text {
-    color: rgb(var(--v-theme-primary));
-    font-style: italic;
-    font-weight: 400;
-    font-size: 15px;
+    letter-spacing: normal;
+    white-space: break-spaces;
+    text-align: center;
 }
 
 .icon {
