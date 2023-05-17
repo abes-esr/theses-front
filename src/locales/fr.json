@@ -2,6 +2,7 @@
   "slogan": "Le moteur de recherche des thèses françaises",
   "toutesTheses": "Les thèses",
   "toutesPersonnes": "Les personnes",
+  "au": "au ",
   "explorer": "EXPLORER",
   "rechercher": "Rechercher",
   "accesDirect": "Accès Direct",
@@ -51,7 +52,13 @@
     "jury": "Le jury était composé de ",
     "rapporteur": "Les rapporteurs étaient ",
     "partenariat": " en partenariat avec ",
-    "motcle": "Mot clés"
+    "motcle": "Mot clés",
+    "valide": "Validé par le jury",
+    "retour": "Retour aux résultats",
+    "thesePrecedente": "Thèse précédente",
+    "theseSuivante": "Thèse suivante",
+    "alert": "Signaler une erreur",
+    "exporter": "Exporter"
   },
   "results": {
     "facetsHeader": "Filtres",
@@ -64,6 +71,10 @@
       "from": "de",
       "to": "à"
     },
+    "show": "Afficher",
+    "resultsPerPage": "résultats par page",
+    "sort": "Trier",
+    "sortBy": "Trier par",
     "searched": "La recherche sur",
     "returned": "a retourné",
     "results": "résultat(s)"

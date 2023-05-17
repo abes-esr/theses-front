@@ -63,7 +63,6 @@ main {
   }
 
   .logo {
-    height: 100%;
     margin-top: -35px;
     position: relative;
     z-index: 2000;
@@ -131,6 +130,12 @@ h4 {
 
 .clickable {
   cursor: pointer;
+}
+
+.no-wrap-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
 <style scoped lang="scss">

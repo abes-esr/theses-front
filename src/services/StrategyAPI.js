@@ -14,18 +14,11 @@ const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, 
 /**
  * Initialisation
  */
-const startingParameterPageFirstLoad = parseInt( getURLParameter('page') );
-const startingParameterShowingNumberFirstLoad = parseInt( getURLParameter('nb') );
-const startingParameterTriFirstLoad = getURLParameter('tri');
 
 const domaine = ref("theses");
-// Page de résultats courante
-const currentPageNumber = ref(startingParameterPageFirstLoad ? startingParameterPageFirstLoad : 1);
-// Nombre de résultats par page
-const currentShowingNumber = ref(startingParameterShowingNumberFirstLoad ? startingParameterShowingNumberFirstLoad : 10);
-// Valeur de tri
-const currentSorting = ref(startingParameterTriFirstLoad ? startingParameterTriFirstLoad : "pertinence");
-
+const currentPageNumber = ref();
+const currentShowingNumber = ref();
+const currentSorting = ref();
 const currentFacets = ref([]);
 const query = ref("");
 const rawFacets = ref([]);
@@ -44,8 +37,12 @@ function setPageNumber(value) {
 }
 
 function getCurrentPageNumber() {
-  if(currentPageNumber.value)
+  if(typeof currentPageNumber.value != 'undefined'){
     return parseInt(currentPageNumber.value);
+  } else {
+    const startingParameterPageFirstLoad = parseInt( getURLParameter('page') );
+    return  startingParameterPageFirstLoad ? startingParameterPageFirstLoad : 1;
+  }
 }
 
 function setShowingNumber(value) {
@@ -54,8 +51,12 @@ function setShowingNumber(value) {
 }
 
 function getCurrentShowingNumber() {
-  if(currentShowingNumber.value)
+  if(typeof currentShowingNumber.value !== 'undefined') {
     return parseInt(currentShowingNumber.value);
+  } else {
+    const startingParameterShowingNumberFirstLoad = parseInt( getURLParameter('nb') );
+    return startingParameterShowingNumberFirstLoad ? startingParameterShowingNumberFirstLoad : 10;
+  }
 }
 
 function setSorting(value) {
@@ -69,8 +70,12 @@ function setDomaine(newDomain) {
 }
 
 function getCurrentSorting() {
-  if(currentSorting.value)
+  if(typeof currentSorting.value !== 'undefined') {
     return currentSorting.value;
+  } else {
+    const startingParameterTriFirstLoad = getURLParameter('tri');
+    return startingParameterTriFirstLoad ? startingParameterTriFirstLoad : "pertinence";
+  }
 }
 
 function setQuery(newQuery) {
@@ -97,8 +102,8 @@ function getQuery() {
 
 function getFacetsRequest() {
   return currentFacets.value.length > 0
-  ? "&filtres=" + encodeURIComponent("[" + disableOrFilters().toString() + "]")
-  : "";
+    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters().toString() + "]")
+    : "";
 }
 
 /**
@@ -308,7 +313,7 @@ function getFacetsLabels(facetsArray) {
   facetsArray.forEach((facet) => {
     facet.filterName = Object.values(facet)[0];
     facet.facetName = Object.keys(facet)[0];
-
+    
     if (Object.keys(facet)[0] === 'langues') {
       facet.label = getLabelFromCode(facet.filterName);
     } else if (Object.keys(facet)[0].startsWith('date')) {
@@ -316,11 +321,22 @@ function getFacetsLabels(facetsArray) {
       facet.filterName = facet.facetName;
     } else {
       let label = getLabelFromURLName(facet);
+
+      // Cas particulier
+      label = handleSpecialCase(label);
+
       facet.label = label ? label : facet.filterName;
     }
   });
 
   return facetsArray;
+}
+
+
+function handleSpecialCase(label) {
+  if (label === "enCours") return  "En préparation";
+  if (label === "soutenue") return  "Soutenues";
+  return label;
 }
 
 function replaceWorkingFacet(facetsArray, currentWorkingFacet) {
@@ -419,8 +435,8 @@ async function getFacets() {
         .then(response => {
           rawFacets.value = replaceWorkingFacet(response.data, currentWorkingFacet);
         }).catch((err) => {
-        reject(err);
-      });
+          reject(err);
+        });
     }
 
     if (domaine.value === "personnes") {

@@ -60,6 +60,10 @@ function getThese(nnt) {
   return apiTheses.get("/theses/these/" + nnt);
 }
 
+function getButtons(nnt) {
+  return apiTheses.get("/button/" + nnt);
+}
+
 function getItemsTriTheses() {
   return [
     { nom: "Pertinence", cle: "pertinence" },
@@ -86,6 +90,14 @@ function getItemsTriMapTheses() {
   return itemsNamesMap;
 }
 
+function getStatsTheses() {
+  return apiTheses.get("/theses/statsTheses");
+}
+
+function getStatsSujets() {
+  return apiTheses.get("/theses/statsSujets");
+}
+
 /**
  * Service lié aux thèses
  * @returns {{rechercherPersonne: ((function(*): Promise<AxiosResponse<*>>)|*), listePersonnes: Ref<UnwrapRef<{}>>, selectedDomain: Ref<UnwrapRef<string>>, modifierDomaine: modifierDomaine}}
@@ -96,8 +108,11 @@ export function thesesAPIService() {
     suggestionTheses,
     getFacetsTheses,
     getThese,
+    getStatsSujets,
+    getStatsTheses,
     getItemsTriTheses,
     disableOrFiltersTheses,
-    getItemsTriMapTheses
+    getItemsTriMapTheses,
+    getButtons
   };
 }

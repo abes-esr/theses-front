@@ -1,34 +1,42 @@
 <template>
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'top'" :current-showing-number="currentShowingNumber"
-    :current-page-number="currentPageNumber" @updateShowingNumber="updateShowingNumber" @updatePage="updatePage" @search="search">
+    :current-page-number="currentPageNumber" @updateShowingNumber="updateShowingNumber" @updatePage="updatePage"
+    @search="search">
   </result-pagination>
 
   <div class="result-components-wrapper">
+    <div v-if="mobile" class="sort-select-wrapper">
+      <span class="sort-label">{{ $t('results.sort') }}</span>
+      <sorting-select class="sort-select" @updatePageNumberFromSortingSelect="updatePageNumberFromSortingSelect">
+      </sorting-select>
+    </div>
     <Transition mode="out-in">
       <h2 class="returned-results-statement" v-if="dataReady">
-        <span>{{ $t("results.searched") }}{{'\xa0'}}</span>
-        <span class="orange-text">"{{ query }}"{{'\xa0'}}</span>
-        <span>{{ $t("results.returned") }}{{'\xa0'}}</span>
-        <span class="orange-text">{{ nbResult }}{{'\xa0'}}</span>
+        <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
+        <span class="orange-text">"{{ query }}"{{ '\xa0' }}</span>
+        <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
+        <span class="orange-text">{{ nbResult }}{{ '\xa0' }}</span>
         <span>{{ $t("results.results") }}</span>
       </h2>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
     <facets-chips :facets="facets" @deleteFilter="deleteFilter" />
-    <div v-if="dataReady" class="colonnes-resultats">
-      <div>
-        <result-list :result="result" :domain-name-change="domainNameChange">
-        </result-list>
-        <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
-          @updateShowingNumber="updateShowingNumber" @search="search" />
-      </div>
-      <ScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
+    <div v-if="mobile || dataReady" class="colonnes-resultats">
+      <result-list :result="result" :domain-name-change="domainNameChange">
+      </result-list>
+      <ScrollToTopButton v-if="!mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
     </div>
     <div v-else>
       <div v-for="i in currentShowingNumber" :key="i" class="skeleton">
-        <v-card flat style="margin-bottom: 1rem;"><v-skeleton-loader type="article"></v-skeleton-loader></v-card>
+        <v-card flat style="margin-bottom: 1rem;">
+          <v-skeleton-loader type="article">
+          </v-skeleton-loader>
+        </v-card>
       </div>
     </div>
+    <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
+      @addTenResultsToList="addTenResultsToList" @search="search" />
+    <ScrollToTopButton v-if="mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
   </div>
 
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'bottom'" :current-showing-number="currentShowingNumber"
@@ -48,6 +56,7 @@ import { useRoute } from "vue-router";
 import { APIService } from "@/services/StrategyAPI";
 import ResultList from "@/components/common/results/ResultList.vue";
 import FacetsChips from "@/components/common/results/FacetsChips.vue";
+import SortingSelect from "@/components/common/results/SortingSelect.vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
@@ -101,10 +110,10 @@ const emit = defineEmits(['search', 'deleteFilter']);
 function deleteFilter(facet) {
   emit('deleteFilter', facet);
 }
+
 /**
  * Fonctions
  */
-
 function moreThanXResults(x) {
   return (props.result.length >= x);
 }
@@ -113,13 +122,23 @@ function allResultsWereLoaded() {
   return moreThanXResults(props.nbResult);
 }
 
-function updateShowingNumber() {
+function updateShowingNumber(newValue) {
+  currentShowingNumber.value = newValue;
+  setShowingNumber(currentShowingNumber.value);
+}
+
+function addTenResultsToList() {
   currentShowingNumber.value += 10;
   setShowingNumber(currentShowingNumber.value);
 }
 
 function updatePage(newPage) {
   currentPageNumber.value = newPage;
+}
+
+function updatePageNumberFromSortingSelect(pageNumber) {
+  updatePage(pageNumber);
+  emit('search');
 }
 
 function search() {
@@ -140,7 +159,7 @@ watch(() => props.resetShowingNumber, () => {
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use 'vuetify/settings';
 
 .colonnes-resultats {
@@ -230,5 +249,35 @@ watch(() => props.resetShowingNumber, () => {
   color: rgb(var(--v-theme-orange-abes));
   font-family: Roboto-Bold, sans-serif;
   font-weight: 700;
+}
+
+.sort-select-wrapper {
+  margin: -50px 0 20px;
+  display: grid;
+  grid-template-columns: 5fr 4fr 10px;
+  grid-template-rows: 30px 30px;
+}
+
+.sort-label {
+  grid-row-start: 1;
+  grid-column-end: 3;
+  justify-self: end;
+  align-self: center;
+
+  font-size: 15px;
+  font-family: Roboto-Bold, sans-serif;
+  font-weight: 500;
+}
+
+.sort-select {
+  grid-row-start: 2;
+  grid-column-start: 2;
+  justify-self: end;
+
+  .v-select__selection-text {
+    font-size: 14px;
+    font-family: Roboto-Medium, sans-serif;
+    font-weight: 500;
+  }
 }
 </style>
