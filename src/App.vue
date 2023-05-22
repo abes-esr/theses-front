@@ -63,7 +63,6 @@ main {
   }
 
   .logo {
-    height: 100%;
     margin-top: -35px;
     position: relative;
     z-index: 2000;

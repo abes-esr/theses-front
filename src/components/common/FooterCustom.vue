@@ -86,6 +86,10 @@
   color: rgb(var(--v-theme-fond-noir));
   flex-basis: 1%;
 
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    max-height: 300px;
+  }
+
   .footerTop {
     flex: 1 0 100%;
     display: flex;
