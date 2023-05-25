@@ -135,6 +135,7 @@ watch(mobile, (newValue) => {
 
   .v-chip-group {
     margin: 0 10px;
+    padding: 0;
     justify-content: start;
     flex-wrap: nowrap;
 

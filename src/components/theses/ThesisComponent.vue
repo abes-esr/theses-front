@@ -4,11 +4,15 @@
     <thesis-title :data-ready="dataReady" :status="these.status" :titles="these.titres" />
     <thesis-table class="thesis-component" :these="these" />
     <v-divider :thickness="2" class="divider border-opacity-50" length="90%" />
-    <thesis-keywords class="thesis-component" :data-ready="dataReady" :these="these" :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
+    <thesis-keywords class="thesis-component" :data-ready="dataReady" :these="these"
+                     :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
     <v-divider :thickness="2" class="divider border-opacity-50" length="90%" />
-    <thesis-resume class="thesis-component" :data-ready="dataReady" :these="these" :selected-language="selectedLanguage" />
-    <scroll-to-top-button v-show="hasScrolled" class="scroll-to-top-wrapper" :nb-result=1 />
-</div>
+    <thesis-resume class="thesis-component" :data-ready="dataReady" :these="these"
+                   :selected-language="selectedLanguage" />
+    <div class="scroll-to-top-container">
+      <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1 />
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -52,6 +56,8 @@ watchEffect(() => {
 </script>
 
 <style scoped lang="scss">
+@use 'vuetify/settings';
+
   .thesis-component {
     width: 92%;
     margin: 0 auto 20px;
@@ -60,4 +66,24 @@ watchEffect(() => {
   .divider {
     margin: 10px auto 15px;
   }
+
+  .scroll-to-top-container {
+    position: absolute;
+    left: 95%;
+    top: 30%;
+    width: 5%;
+    bottom: 300px;
+  }
+
+  .scroll-to-top-wrapper {
+    margin-left: 25px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+        //margin: 0 0;
+        //height: 60px;
+        //left: 90vw;
+        //top: unset;
+        //bottom: 5vh;
+      }
+    }
 </style>
