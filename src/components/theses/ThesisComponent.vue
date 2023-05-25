@@ -5,8 +5,8 @@
     <thesis-table class="thesis-component" :these="these" />
     <v-divider :thickness="2" class="divider border-opacity-50" length="90%" />
     <thesis-keywords class="thesis-component" :data-ready="dataReady" :these="these" :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
-    <v-divide :thickness="2" class="divider border-opacity-50" length="90%" />
-    <thesis-resume :data-ready="dataReady" :these="these" class="thesis-component" />
+    <v-divider :thickness="2" class="divider border-opacity-50" length="90%" />
+    <thesis-resume class="thesis-component" :data-ready="dataReady" :these="these" :selected-language="selectedLanguage" />
     <scroll-to-top-button v-show="hasScrolled" class="scroll-to-top-wrapper" :nb-result=1 />
 </div>
 </template>
@@ -21,6 +21,7 @@ import { ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 import { useMeta } from "vue-meta";
 import ThesisTitle from "@/components/theses/ThesisTitle.vue";
+import ThesisResume from "@/components/theses/ThesisResume.vue";
 
 const { mobile } = useDisplay();
 const { t } = useI18n();
@@ -53,7 +54,7 @@ watchEffect(() => {
 <style scoped lang="scss">
   .thesis-component {
     width: 92%;
-    margin: 0 auto 10px;
+    margin: 0 auto 20px;
   }
 
   .divider {

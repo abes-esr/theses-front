@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="key-words-tile-wrapper">
-      <v-icon color="primary">mdi-view-list-outline</v-icon>
+    <div class="key-words-title-wrapper">
+      <v-icon color="primary">mdi-list-box</v-icon>
       <h1>{{ $t('theseView.motcle') }}</h1>
   <!--    language selector-->
     </div>
@@ -97,7 +97,6 @@ function setKeywords() {
 
   keywordsFR.value = ( typeof props.these.sujetsFR === 'undefined' ) ? sujetsRameau : sujetsRameau.concat(sujetsFR);
   keywordsEN.value = props.these.sujetsEN;
-  console.info(keywordsFR.value)
 }
 
 /**
@@ -113,10 +112,10 @@ watch(mobile, (newValue) => {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-  .key-words-tile-wrapper {
+  .key-words-title-wrapper {
     display: inline-flex;
     align-items: center;
-    margin-left: 10px;
+    margin-left: 5px;
   }
 
   h1 {
@@ -129,13 +128,13 @@ watch(mobile, (newValue) => {
     color: rgb(var(--v-theme-text-dark-blue))
   }
 
-  .mdi-view-list-outline.v-icon--size-default {
-    font-size: 35px;
-    width: 30px;
+  .mdi-list-box.v-icon--size-default {
+    font-size: 30px;
+    width: 35px;
   }
 
   .v-chip-group {
-    padding: 0 0;
+    margin: 0 10px;
     justify-content: start;
     flex-wrap: nowrap;
 
