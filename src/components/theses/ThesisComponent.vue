@@ -6,7 +6,7 @@
     <v-divider :thickness="2" class="divider border-opacity-50" length="90%" />
     <thesis-keywords class="thesis-component" :data-ready="dataReady" :these="these" :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
     <v-divide :thickness="2" class="divider border-opacity-50" length="90%" />
-    <thesis-resume class="thesis-component" />
+    <thesis-resume :data-ready="dataReady" :these="these" class="thesis-component" />
     <scroll-to-top-button v-show="hasScrolled" class="scroll-to-top-wrapper" :nb-result=1 />
 </div>
 </template>

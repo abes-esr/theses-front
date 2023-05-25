@@ -1,5 +1,9 @@
 <template>
-
+  <div class="abstract-tile-wrapper">
+    <v-icon color="primary">mdi-file-document-arrow-right</v-icon>
+    <h1>{{ $t('theseView.resume') }}</h1>
+    <!--    language selector-->
+  </div>
 </template>
 
 <script setup>

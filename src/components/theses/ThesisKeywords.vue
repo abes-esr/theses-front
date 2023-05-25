@@ -2,18 +2,18 @@
   <div>
     <div class="key-words-tile-wrapper">
       <v-icon color="primary">mdi-view-list-outline</v-icon>
-      <h1>Mots clés</h1>
+      <h1>{{ $t('theseView.motcle') }}</h1>
   <!--    language selector-->
     </div>
     <v-chip-group id="first-chip-line">
-      <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord+forceRenderKey" :title="keyWord">
-        <span class="key-word-label">{{ keyWord }}</span>
+      <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord.keyword+forceRenderKey" :title="keyWord.keyword">
+        <span class="key-word-label">{{ keyWord.keyword }}</span>
       </v-chip>
     </v-chip-group>
     <v-chip-group id="second-chip-line">
   <!--      readmore button effect-->
-        <v-chip v-show="readMore" label v-for="keyWord in selectKeyWords(Infinity, keyWordPerLine)" :key="keyWord+forceRenderKey" :title="keyWord">
-          <span class="key-word-label">{{ keyWord }}</span>
+        <v-chip v-show="readMore" label v-for="keyWord in selectKeyWords(Infinity, keyWordPerLine)" :key="keyWord.keyword+forceRenderKey" :title="keyWord.keyword">
+          <span class="key-word-label">{{ keyWord.keyword }}</span>
         </v-chip>
       </v-chip-group>
     <div id="key-words-button-wrapper" v-if="selectKeyWords(Infinity, keyWordPerLine).length > 0">
@@ -54,8 +54,6 @@ const readMore = ref(false);
 
 onBeforeUpdate(() => {
   setKeywords();
-  console.log(keywordsFR.value)
-  console.log(props.these)
 });
 
 /**
@@ -73,8 +71,33 @@ function selectKeyWords(numberOfWords, offset) {
 }
 
 function setKeywords() {
-  keywordsFR.value = ( typeof props.these.sujetsFR === 'undefined' ) ? props.these.sujetsRameau : props.these.sujetsRameau.concat(props.these.sujetsFR);
+  let sujetsFR = [];
+  let sujetsRameau = [];
+
+  if( typeof props.these.sujetsFR !== 'undefined' ) {
+    props.these.sujetsFR.forEach((keyWord) => {
+      sujetsFR.push(
+        { 'keyword': keyWord,
+          'type': 'sujetsFR'
+        }
+      )
+    });
+  }
+
+  if( typeof props.these.sujetsRameau !== 'undefined' ) {
+    props.these.sujetsRameau.forEach((keyWord) => {
+      sujetsRameau.push(
+        {
+          'keyword': keyWord,
+          'type': 'sujetsRameau'
+        }
+      )
+    });
+  }
+
+  keywordsFR.value = ( typeof props.these.sujetsFR === 'undefined' ) ? sujetsRameau : sujetsRameau.concat(sujetsFR);
   keywordsEN.value = props.these.sujetsEN;
+  console.info(keywordsFR.value)
 }
 
 /**
