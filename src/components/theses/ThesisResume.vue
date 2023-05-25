@@ -6,7 +6,7 @@
         <!--    language selector-->
     </div>
       <div id="resume-text">
-        <p>
+        <p :class='{ "truncated-text": !readMore }'>
           {{ resume }}
         </p>
       </div>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { onBeforeUpdate, ref, toRef, watch } from "vue";
+import { onBeforeUpdate, ref, watch } from "vue";
 
 const props = defineProps({
   these: {
@@ -79,7 +79,12 @@ watch(() => props.selectedLanguage, async (newSelected) => {
     font-family: Roboto-Regular, sans-serif;
     font-weight: 400;
     letter-spacing: 0px;
-    color: rgb(var(--v-theme-text-dark-blue))
+    color: rgb(var(--v-theme-text-dark-blue));
+  }
+
+  .truncated-text {
+    height: 50px;
+    overflow: hidden;
   }
 
   #resume-text {
