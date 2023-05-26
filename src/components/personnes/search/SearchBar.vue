@@ -1,9 +1,9 @@
 <template>
   <div class="searchbar">
     <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-      :items="items" variant="outlined" cache-items hide-no-data hide-selected hide-details no-filter append-inner-icon
-      @keydown.enter="search" @update:modelValue="selectSuggestion" item-title="suggestion" item-value="suggestion"
-      :loading="isLoading" :menu="suggestionActive" :menu-props="menuProps">
+                :items="personnes" variant="outlined" cache-items hide-no-data hide-selected hide-details no-filter append-inner-icon
+                @keydown.enter="search" @update:modelValue="selectSuggestion" item-title="suggestion" item-value="suggestion"
+                :loading="isLoading" :menu="suggestionActive" :menu-props="menuProps">
       <template v-slot:append-inner>
         <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :title='$t("clear")' :ripple="false">
         </v-btn>
@@ -91,7 +91,8 @@ async function search() {
 /* Auto-complétion  */
 /* ---------------- */
 
-const items = ref([]);
+const personnes = ref([]);
+const thematiques = ref([]);
 const isLoading = ref(false);
 const suggestionActive = ref(false);
 
@@ -99,7 +100,8 @@ watch(requestSearch, (candidate) => {
   if (candidate != null && candidate.length > 2 && watcherActive && !disableCompletion.value) {
     getSuggestionPersonne(candidate);
   } else {
-    items.value = [];
+    personnes.value = [];
+    thematiques.value = [];
     suggestionActive.value = false;
   }
   watcherActive = true;
@@ -108,7 +110,8 @@ watch(requestSearch, (candidate) => {
 watch(disableCompletion, (newDisableCompletion) => {
   if (newDisableCompletion) {
     suggestionActive.value = false;
-    items.value = [];
+    personnes.value = [];
+    thematiques.value = [];
   }
 });
 
@@ -121,7 +124,9 @@ async function getSuggestionPersonne(candidate) {
   isLoading.value = true;
   try {
     setQuery(candidate);
-    items.value = await getSuggestion();
+    const suggestions = await getSuggestion();
+    personnes.value = suggestions.personnes;
+    thematiques.value = suggestions.thematiques;
   } catch (error) {
     request.value = candidate;
     emit('onError', "Autocomplétion : " + error.message);
