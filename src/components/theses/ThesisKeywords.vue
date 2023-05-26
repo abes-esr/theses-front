@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="keywordsAreSet">
     <div class="key-words-title-wrapper">
       <v-icon color="primary">mdi-list-box</v-icon>
       <h1>{{ $t('theseView.motcle') }}</h1>
@@ -19,7 +19,7 @@
     <div id="key-words-button-wrapper" v-if="selectKeyWords(Infinity, keyWordPerLine).length > 0">
       <v-btn id="read-more-button" @click="readMore = !readMore" flat>
         <span></span>
-        <span>{{ readMore ? 'Moins' : 'Lire la suite' }}</span>
+        <span>{{ readMore ? $t('theseView.showLessKeywords') : $t('theseView.showMoreKeywords') }}</span>
         <v-icon class="toggle-up-down" :class='{ "rotate": readMore }'>mdi-arrow-down-circle-outline</v-icon>
       </v-btn>
     </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, onBeforeUpdate, ref, watch } from "vue";
+import { onBeforeUpdate, ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 
 const props = defineProps({
@@ -39,6 +39,9 @@ const props = defineProps({
     type: String
   },
   dataReady: {
+    type: Boolean
+  },
+  keywordsAreSet: {
     type: Boolean
   }
 });
@@ -186,7 +189,7 @@ watch(mobile, (newValue) => {
     background-color: rgb(var(--v-theme-primary));
     text-transform: none;
     color: white;
-    width: 130px;
+    width: 220px;
     display: inline-flex;
     padding: 0 7px;
     letter-spacing: 0px;

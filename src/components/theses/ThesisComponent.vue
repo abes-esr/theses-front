@@ -3,11 +3,11 @@
     <thesis-toolbar />
     <thesis-title :data-ready="dataReady" :status="these.status" :titles="these.titres" />
     <thesis-table class="thesis-component" :these="these" />
-    <v-divider :thickness="2" class="divider border-opacity-50" length="90%" />
-    <thesis-keywords class="thesis-component" :data-ready="dataReady" :these="these"
+    <v-divider v-if="keywordsAreSet" :thickness="2" class="divider border-opacity-50" length="90%" />
+    <thesis-keywords class="thesis-component" :keywords-are-set="keywordsAreSet" :data-ready="dataReady" :these="these"
                      :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
-    <v-divider :thickness="2" class="divider border-opacity-50" length="90%" />
-    <thesis-resume class="thesis-component" :data-ready="dataReady" :these="these"
+    <v-divider v-if="resumeIsSet" :thickness="2" class="divider border-opacity-50" length="90%" />
+    <thesis-resume class="thesis-component" :resume-is-set="resumeIsSet" :data-ready="dataReady" :these="these"
                    :selected-language="selectedLanguage" />
     <div class="scroll-to-top-container">
       <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1 />
@@ -20,14 +20,12 @@ import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import ThesisToolbar from "@/components/theses/ThesisToolbar.vue";
 import ThesisTable from "@/components/theses/ThesisTable.vue";
 import ThesisKeywords from "@/components/theses/ThesisKeywords.vue";
-import { useDisplay } from "vuetify";
-import { ref, watch, watchEffect } from "vue";
+import { onBeforeUpdate, ref, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 import { useMeta } from "vue-meta";
 import ThesisTitle from "@/components/theses/ThesisTitle.vue";
 import ThesisResume from "@/components/theses/ThesisResume.vue";
 
-const { mobile } = useDisplay();
 const { t } = useI18n();
 const { meta } = useMeta({});
 const selectedLanguage = ref('fr');
@@ -40,6 +38,14 @@ const props = defineProps({
   these: {
     type: Object
   }
+});
+
+const resumeIsSet = ref(false);
+const keywordsAreSet = ref(false);
+
+onBeforeUpdate(() => {
+  keywordsAreSet.value = props.these.sujetsRameau.length > 0 || Object.entries(props.these.sujets).length > 0;
+  resumeIsSet.value = props.these.resumes !== {};
 });
 
 function changeLanguage(newValue) {

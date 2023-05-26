@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="resumeIsSet">
     <div class="resume-title-wrapper">
         <v-icon color="primary">mdi-file-document-arrow-right</v-icon>
         <h1>{{ $t('theseView.resume') }}</h1>
@@ -13,7 +13,7 @@
     <div id="resume-button-wrapper" v-if="typeof resume !== 'undefined'">
       <v-btn id="read-more-button" @click="readMore = !readMore" flat>
         <span></span>
-        <span>{{ readMore ? 'Moins' : 'Lire la suite' }}</span>
+        <span>{{ readMore ? $t('theseView.showLessAbstract') : $t('theseView.showMoreAbstract') }}</span>
         <v-icon class="toggle-up-down" :class='{ "rotate": readMore }'>mdi-arrow-down-circle-outline</v-icon>
       </v-btn>
     </div>
@@ -30,6 +30,9 @@ const props = defineProps({
   selectedLanguage: {
     type: String,
     default: 'fr'
+  },
+  resumeIsSet: {
+    type: Boolean
   }
 });
 
@@ -106,7 +109,7 @@ watch(() => props.selectedLanguage, async (newSelected) => {
     background-color: rgb(var(--v-theme-primary));
     text-transform: none;
     color: white;
-    width: 130px;
+    width: 220px;
     display: inline-flex;
     padding: 0 7px;
     letter-spacing: 0px;
