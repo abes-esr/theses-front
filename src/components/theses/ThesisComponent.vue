@@ -44,8 +44,9 @@ const resumeIsSet = ref(false);
 const keywordsAreSet = ref(false);
 
 onBeforeUpdate(() => {
-  keywordsAreSet.value = props.these.sujetsRameau.length > 0 || Object.entries(props.these.sujets).length > 0;
-  resumeIsSet.value = props.these.resumes !== {};
+  keywordsAreSet.value = (typeof props.these.sujetsRameau !== 'undefined' && props.these.sujetsRameau.length > 0)
+    || (typeof props.these.sujets !== 'undefined' &&  Object.entries(props.these.sujets).length > 0 );
+  resumeIsSet.value = typeof props.these.resumes !== 'undefined' && props.these.resumes !== {};
 });
 
 function changeLanguage(newValue) {
