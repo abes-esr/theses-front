@@ -38,12 +38,6 @@ export const router = createRouter({
       props: true
     },
     {
-      path: "/erreur/:nnt",
-      name: "erreur",
-      component: ReportErrorView,
-      props: true
-    },
-    {
       path: "/apropos",
       name: "apropos",
       component: APropos

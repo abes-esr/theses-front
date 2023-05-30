@@ -1,8 +1,7 @@
 <template>
     <v-container>
-        <p>Les données que vous voyez dans theses.fr sont de la responsabilité des établissements de soutenance. Vous pouvez
-            contacter les personnels des établissements de soutenance via le formulaire suivant.
-            Faites part de vos remarques concernant la page : <a target="_blank" :href="href">{{ href }}</a>
+        <p>{{ $t('reportErrorView.info') }} <br /> {{ $t('reportErrorView.info2') }}<a target="_blank" :href="href">{{ href
+        }}</a>
         </p>
         <v-form id="form" ref="form" v-model="isValid">
             <div class="form-row"><v-text-field :label="$t('reportErrorView.nom')" v-model="nom" :rules=requiredRule
@@ -79,4 +78,8 @@ function validate() {
 
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+p {
+    padding-bottom: 30px;
+}
+</style>
