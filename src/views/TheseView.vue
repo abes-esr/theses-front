@@ -1,48 +1,38 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
-  <!-- <nav v-if="mobile" class="mobile-nav-bar"> -->
-  <!--    Bouton filtres-->
-  <!-- <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
-      <v-icon v-bind="props" size="40px">mdi-filter-variant
+   <nav v-if="mobile" class="mobile-nav-bar">
+  <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
+      <v-icon v-bind="props" size="40px">mdi-menu
       </v-icon>
-      <span v-bind="props">Filtrer</span>
-    </button> -->
-  <!--    Bouton menu recherche/selecteur these/personnes-->
-  <!-- <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+    </button>
+<!--      Bouton menu recherche/selecteur these/personnes-->
+  <v-icon @click="showSearchBar = !showSearchBar" size="40px"
       :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
-  </nav> -->
-  <!--    Menu filtres-->
-  <!-- <div v-if="mobile" class="logo-menu-wrapper">
+  </nav>
+  <!-- Menu boutons-liens -->
+  <div v-if="mobile" class="logo-menu-wrapper">
     <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
-      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-thesi
-    s.svg" />
-    </RouterLink> -->
+      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+    </RouterLink>
   <!--    Menu recherche/selecteur these/personnes-->
-  <!-- <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
-      :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <facets-header @closeOverlay="closeOverlay"
-        @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-        :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
-        :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+        :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+      <buttons-list @closeOverlay="closeOverlay"></buttons-list>
     </v-dialog>
-    <v-expand-transition>
-      <div v-show="showSearchBar" class="expanded-search-bar-container">
-        <div class="expanded-search-bar">
-          <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-            @onError="displayError" />
+      <v-expand-transition>
+        <div v-show="showSearchBar" class="expanded-search-bar-container">
+          <div class="expanded-search-bar">
+            <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+            <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+              @onError="displayError" />
+          </div>
         </div>
-      </div>
-    </v-expand-transition>
-  </div> -->
+      </v-expand-transition>
+  </div>
 
-  <!-- Bare laterale Desktop -->
-  <!-- <div v-else class="sub-header"> -->
-  <div class="sub-header">
+  <!-- Bare latérale Desktop -->
+  <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
       <RouterLink :to="{ name: 'home' }" title="Accueil du site">
         <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
@@ -58,14 +48,8 @@
 
   <div class="thesis-main-wrapper">
     <div v-if="!mobile" class="nav-bar">
+      <!-- Futur composant boutons (barre de gauche)-->
       <buttons-list :nnt="route.params.id"></buttons-list>
-      <!--
-        Futur composent boutons (bare de gauche)
-      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
-        class="left-side"></facets-list> -->
     </div>
     <div class="thesis-components">
       <thesis-component :these="these" :data-ready="true"></thesis-component>
@@ -90,7 +74,7 @@ const MessageBox = defineAsyncComponent(() => import('@/components/common/Messag
 const route = useRoute();
 const { mobile } = useDisplay();
 const { getData } = APIService();
-
+const dialogVisible =ref(false);
 const dataReady = ref(false);
 const these = ref({});
 const resume = ref("");
@@ -123,10 +107,17 @@ function select(selection) {
 
 const messageBox = ref(null);
 
+/**
+ * Fonctions
+ */
 function displayError(message) {
   messageBox.value?.open(message, {
     type: "error"
   });
+}
+
+function closeOverlay() {
+  dialogVisible.value = false;
 }
 
 </script>
@@ -177,6 +168,46 @@ function displayError(message) {
       }
     }
   }
+}
+
+
+.mobile-nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 0 10px;
+}
+
+.filter-mobile-nav-bar {
+  display: flex;
+  align-content: center;
+
+  span {
+    padding: 10% 0;
+  }
+}
+
+.logo-menu-wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-template-rows: 33% 33% 33%;
+}
+
+.logo {
+  grid-column-start: 2;
+  justify-self: center;
+  grid-row-start: 1;
+  align-self: start;
+}
+
+
+.logo-menu-wrapper > .expanded-search-bar-container {
+  margin-bottom: 40px;
+}
+
+.magnify-logo-active {
+  color: rgb(var(--v-theme-orange-abes));
 }
 
 .left-side {
