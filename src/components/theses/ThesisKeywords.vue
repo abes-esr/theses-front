@@ -118,6 +118,7 @@ watch(mobile, (newValue) => {
 
   #second-chip-line :deep(.v-chip--disabled), #first-chip-line :deep(.v-chip--disabled) {
     opacity: unset;
+    pointer-events: unset;
   }
 
   .key-words-title-wrapper {
