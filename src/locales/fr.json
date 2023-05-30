@@ -91,10 +91,10 @@
     "personneView": {
       "statistiques": {
         "auteur": "Auteur",
-        "directeur": "Directeur",
-        "president": "Président du jury",
+        "directeur de thèse": "Directeur",
+        "président du jury": "Président du jury",
         "rapporteur": "Rapporteur",
-        "jury": "Membre du jury",
+        "membre du jury": "Membre du jury",
         "theses": "thèse(s)",
         "theses2": "thèse(s)"
       }

@@ -12,7 +12,7 @@
         <v-btn size=40px icon="mdi-close-box" color="red" variant="text" @click="openMenu = !openMenu"></v-btn>
       </div>
       <div class="statistique__content">
-        <statistique-card-personne :stats="item.statistiques"></statistique-card-personne>
+        <statistique-card-personne :stats="item.roles"></statistique-card-personne>
       </div>
     </v-menu>
   </nav>
@@ -39,7 +39,7 @@
   </div>
   <div class="main-wrapper">
     <div class="left-side nav-bar statistique__content" v-if="!mobile">
-      <statistique-card-personne :stats="item.statistiques"></statistique-card-personne>
+      <statistique-card-personne :stats="item.roles"></statistique-card-personne>
     </div>
     <div class="result-components">
       <v-card-text v-if="!dataReady">
