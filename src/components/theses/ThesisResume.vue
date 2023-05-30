@@ -40,7 +40,7 @@ const resume = ref("");
 const readMore = ref(false);
 
 onBeforeUpdate(() => {
-  if (typeof props.these.resumes !== 'undefined') {
+  if (typeof props.these.resumes !== 'undefined' && typeof props.these.resumes[props.selectedLanguage] !== 'undefined' ) {
     resume.value = props.these.resumes[props.selectedLanguage];
   }
 });

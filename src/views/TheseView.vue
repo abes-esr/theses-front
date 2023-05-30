@@ -74,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref, watch, defineAsyncComponent } from "vue";
+import { ref, defineAsyncComponent } from "vue";
 import { useRoute } from 'vue-router';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import SearchBar from "@/components/personnes/search/SearchBar.vue";
@@ -83,6 +83,7 @@ import ThesisComponent from "@/components/theses/ThesisComponent.vue";
 
 import { APIService } from '@/services/StrategyAPI';
 import { useDisplay } from "vuetify";
+import router from "@/router";
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
@@ -100,6 +101,13 @@ const hasScrolled = ref(false);
   dataReady.value = false;
   // window.addEventListener('scroll', () => { hasScrolled.value = true; });
   getData(route.params.id).then(result => {
+    /** Redirection */
+    if(typeof result.data === 'undefined' || result.data === "") {
+      router.push({
+        name: 'home'
+      })
+    }
+
     these.value = result.data;
     resume.value = these.value.resumes.fr;
     dataReady.value = true;
