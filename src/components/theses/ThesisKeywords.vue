@@ -6,7 +6,8 @@
   <!--    language selector-->
     </div>
     <v-chip-group id="first-chip-line">
-      <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord.keyword+forceRenderKey" :title="keyWord.keyword">
+      <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord.keyword+forceRenderKey" :title="keyWord.keyword"
+        :disabled="keyWord.type === 'sujetsRameau' ? true : false" >
         <span class="key-word-label">{{ keyWord.keyword }}</span>
       </v-chip>
     </v-chip-group>
@@ -114,6 +115,10 @@ watch(mobile, (newValue) => {
 
 <style scoped lang="scss">
 @use 'vuetify/settings';
+
+  #second-chip-line :deep(.v-chip--disabled), #first-chip-line :deep(.v-chip--disabled) {
+    opacity: unset;
+  }
 
   .key-words-title-wrapper {
     display: inline-flex;

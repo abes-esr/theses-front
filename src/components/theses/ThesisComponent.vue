@@ -84,6 +84,7 @@ watchEffect(() => {
 
   .scroll-to-top-wrapper {
     margin-left: 25px;
+    margin-bottom: 0;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
         //margin: 0 0;
