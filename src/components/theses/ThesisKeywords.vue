@@ -6,14 +6,21 @@
   <!--    language selector-->
     </div>
     <v-chip-group id="first-chip-line">
-      <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord.keyword+forceRenderKey" :title="keyWord.keyword"
-        :disabled="keyWord.type === 'sujetsRameau' ? true : false" >
+      <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)"
+              :key="keyWord.keyword+forceRenderKey" :title="keyWord.keyword"
+              :disabled="keyWord.type === 'sujetsRameau' ? false : true"
+              @click="$router.push({ name: 'resultats', query: { sujetRameau: keyWord.keyword, q: keyWord.query ? keyWord.query : keyWord.keyword } });"
+      >
         <span class="key-word-label">{{ keyWord.keyword }}</span>
       </v-chip>
     </v-chip-group>
     <v-chip-group id="second-chip-line">
   <!--      readmore button effect-->
-        <v-chip v-show="readMore" label v-for="keyWord in selectKeyWords(Infinity, keyWordPerLine)" :key="keyWord.keyword+forceRenderKey" :title="keyWord.keyword">
+        <v-chip v-show="readMore" label v-for="keyWord in selectKeyWords(Infinity, keyWordPerLine)"
+                :key="keyWord.keyword+forceRenderKey" :title="keyWord.keyword"
+                :disabled="keyWord.type === 'sujetsRameau' ? false : true"
+
+        >
           <span class="key-word-label">{{ keyWord.keyword }}</span>
         </v-chip>
       </v-chip-group>
@@ -92,7 +99,8 @@ function setKeywords() {
     props.these.sujetsRameau.forEach((keyWord) => {
       sujetsRameau.push(
         {
-          'keyword': keyWord,
+          'keyword': keyWord.libelle,
+          'query': `"${keyWord.libelle}" ET "${keyWord.ppn}"`,
           'type': 'sujetsRameau'
         }
       )

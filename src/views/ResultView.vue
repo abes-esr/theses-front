@@ -214,7 +214,10 @@ function updateFacets(firstLoad) {
     }
   }).catch(error => {
     facets.value = {};
-    displayError(error.message);
+    if (typeof error !== 'undefined' && typeof error.message !== 'undefined') {
+      displayError(error.message);
+    }
+    console.error(error)
   });
 }
 
