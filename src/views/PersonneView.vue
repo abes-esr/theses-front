@@ -64,12 +64,70 @@
             <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png" />
           </a>
         </div>
-      </div>
-    </div>
+        <div class="theses">
+        <div v-if="item.theses['auteur'] && item.theses['auteur'].length > 0">
+          <hr />
+          <h2 id="Auteurs">Auteurs de {{ item.theses['auteur'].length }} thèse(s) </h2>
+          <div v-for="these in item.theses['auteur']" :key="`auteur-${these.nnt}`" class="card-wrapper">
+            <result-card :titre="these.titre"
+                         :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                         :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline" :etab="these.etablissement_soutenance.nom"
+                         :id="these.nnt" :status="these.status">
+            </result-card>
+          </div>
+        </div>
+
+        <div v-if="item.theses['directeur de thèse'] && item.theses['directeur de thèse'].length > 0">
+          <hr />
+          <h2 id="Directeurs">Directeurs de {{ item.theses['directeur de thèse'].length }} thèse(s) </h2>
+          <div v-for="these in item.theses['directeur de thèse']" :key="`directeur-${these.nnt}`" class="card-wrapper">
+            <result-card :titre="these.titre"
+                         :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                         :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline" :etab="these.etablissement_soutenance.nom"
+                         :id="these.nnt" :status="these.status">
+            </result-card>
+          </div>
+        </div>
+
+        <div v-if="item.theses['rapporteur'] && item.theses['rapporteur'].length > 0">
+          <hr />
+          <h2 id="Rapporteurs">Rapporteurs pour {{ item.theses['rapporteur'].length }} thèse(s) </h2>
+          <div v-for="these in item.theses['rapporteur']" :key="`rapporteur-${these.nnt}`" class="card-wrapper">
+            <result-card :titre="these.titre"
+                         :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                         :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline" :etab="these.etablissement_soutenance.nom"
+                         :id="these.nnt" :status="these.status">
+            </result-card>
+          </div>
+        </div>
+
+        <div v-if="item.theses['président du jury'] && item.theses['président du jury'].length > 0">
+          <hr />
+          <h2 id="Rapporteurs">Président de jury pour {{ item.theses['président du jury'].length }} thèse(s) </h2>
+          <div v-for="these in item.theses['président du jury']" :key="`president-${these.nnt}`" class="card-wrapper">
+            <result-card :titre="these.titre"
+                         :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                         :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline" :etab="these.etablissement_soutenance.nom"
+                         :id="these.nnt" :status="these.status">
+            </result-card>
+          </div>
+        </div>
+
+        <div v-if="item.theses['membre du jury'] && item.theses['membre du jury'].length > 0">
+          <hr />
+          <h2 id="Rapporteurs">Membre du jury pour {{ item.theses['membre du jury'].length }} thèse(s) </h2>
+          <div v-for="these in item.theses['membre du jury']" :key="`membre-${these.nnt}`" class="card-wrapper">
+            <result-card :titre="these.titre"
+                         :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                         :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline" :etab="these.etablissement_soutenance.nom"
+                         :id="these.nnt" :status="these.status">
+            </result-card>
+          </div>
+        </div>
+        </div>
+      </div></div>
   </div>
-  <div class="search-filter">
-    <div class="left-side"></div>
-  </div>
+  <scroll-to-top-button v-show="hasScrolled" class="scroll-to-top-wrapper" :nb-result=1 />
 </template>
 
 <script setup>
@@ -84,6 +142,8 @@ import { personnesAPIService } from "@/services/PersonnesAPI";
 import { useDisplay } from "vuetify";
 import ActionBarPersonnes from "@/components/personnes/ActionBar.vue";
 import StatistiqueCardPersonne from "@/components/personnes/StatistiqueCard.vue";
+import ResultCard from "@/components/theses/results/ResultCard.vue";
+import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 
 
 const { mobile } = useDisplay();
@@ -93,6 +153,7 @@ const { getPersonne } = personnesAPIService();
 const loading = ref(false);
 const dataReady = ref(false);
 const openMenu = ref(false);
+const hasScrolled = ref(false);
 const item = ref({});
 
 const { t } = useI18n();
@@ -241,6 +302,7 @@ function displayError(message, opt) {
 
 .statistique__content {
   align-items: flex-start;
+  justify-content: flex-start;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
     border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
@@ -323,6 +385,21 @@ function displayError(message, opt) {
         img {
           max-height: 30px;
         }
+      }
+    }
+
+    .theses {
+
+      h2 {
+        margin-bottom:1rem;
+      }
+
+      hr {
+        margin:1rem 0 2rem 0;
+      }
+
+      .card-wrapper {
+        margin-bottom: 1rem;
       }
     }
   }
