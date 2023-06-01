@@ -147,8 +147,9 @@ async function search(firstLoad = false) {
       });
     } else if (currentRoute.query.domaine === "personnes") {
       try {
-        result.value = await queryAPI();
-        nbResult.value = result.value.length;
+        const response = await queryAPI();
+        result.value = response.personnes;
+        nbResult.value = response.totalHits;
         domainNameChange.value = currentRoute.query.domaine;
       } catch (error) {
         displayError(error.message);
