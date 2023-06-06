@@ -10,16 +10,17 @@
       :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav>
-  <!-- Menu boutons-liens -->
+  <!-- Icone retour accueil -->
   <div v-if="mobile" class="logo-menu-wrapper">
     <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
-  <!--    Menu recherche/selecteur these/personnes-->
+<!--    Menu boutons-liens-->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
         :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <buttons-list @closeOverlay="closeOverlay"></buttons-list>
+      <buttons-list :nnt="route.params.id" @closeOverlay="closeOverlay"></buttons-list>
     </v-dialog>
+  <!--    Menu recherche/selecteur these/personnes-->
       <v-expand-transition>
         <div v-show="showSearchBar" class="expanded-search-bar-container">
           <div class="expanded-search-bar">
@@ -74,7 +75,8 @@ const MessageBox = defineAsyncComponent(() => import('@/components/common/Messag
 const route = useRoute();
 const { mobile } = useDisplay();
 const { getData } = APIService();
-const dialogVisible =ref(false);
+const dialogVisible = ref(false);
+const showSearchBar = ref(false);
 const dataReady = ref(false);
 const these = ref({});
 const resume = ref("");
@@ -83,7 +85,7 @@ const hasScrolled = ref(false);
 
 
   dataReady.value = false;
-  // window.addEventListener('scroll', () => { hasScrolled.value = true; });
+  window.addEventListener('scroll', () => { hasScrolled.value = true; });
   getData(route.params.id).then(result => {
     /** Redirection */
     if(typeof result.data === 'undefined' || result.data === "") {
@@ -201,13 +203,31 @@ function closeOverlay() {
   align-self: start;
 }
 
-
 .logo-menu-wrapper > .expanded-search-bar-container {
   margin-bottom: 40px;
 }
 
 .magnify-logo-active {
   color: rgb(var(--v-theme-orange-abes));
+}
+
+.expanded-search-bar-container {
+  width: 100%;
+  grid-column: 1 / 5;
+  justify-self: center;
+  grid-row-start: 1;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(var(--v-theme-gris-clair));
+  border-bottom: 1px solid #bbb;
+  border-top: 1px solid #bbb;
+}
+
+
+.expanded-search-bar {
+  width: 80%;
 }
 
 .left-side {

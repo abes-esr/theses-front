@@ -3,10 +3,10 @@
     <thesis-toolbar />
     <thesis-title :data-ready="dataReady" :status="these.status" :titles="these.titres" />
     <thesis-table class="thesis-component" :these="these" />
-    <v-divider v-if="keywordsAreSet" :thickness="2" class="divider border-opacity-50" length="90%" />
+    <v-divider v-if="keywordsAreSet" :thickness="1" class="divider border-opacity-50" length="90%" />
     <thesis-keywords class="thesis-component" :keywords-are-set="keywordsAreSet" :data-ready="dataReady" :these="these"
                      :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
-    <v-divider v-if="resumeIsSet" :thickness="2" class="divider border-opacity-50" length="90%" />
+    <v-divider v-if="resumeIsSet" :thickness="1" class="divider border-opacity-50" length="90%" />
     <thesis-resume class="thesis-component" :resume-is-set="resumeIsSet" :data-ready="dataReady" :these="these"
                    :selected-language="selectedLanguage" />
     <div class="scroll-to-top-container">

@@ -158,6 +158,7 @@ watch(mobile, (newValue) => {
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       flex-wrap: wrap;
+      justify-content: space-between;
     }
   }
 
@@ -171,7 +172,7 @@ watch(mobile, (newValue) => {
     width: 19%;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-      width: 48%;
+      width: 46%;
     }
   }
 
