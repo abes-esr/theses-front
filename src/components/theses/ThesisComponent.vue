@@ -76,10 +76,20 @@ watchEffect(() => {
 
   .scroll-to-top-container {
     position: absolute;
-    left: 95%;
+    left: 94%;
     top: 30%;
     width: 5%;
     bottom: 300px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      left: 95%;
+      bottom: 730px;
+    }
+
+    @media #{ map-get(settings.$display-breakpoints, 'xs')} {
+      left: 90%;
+      bottom: 800px;
+    }
   }
 
   .scroll-to-top-wrapper {
@@ -87,11 +97,9 @@ watchEffect(() => {
     margin-bottom: 0;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-        //margin: 0 0;
-        //height: 60px;
-        //left: 90vw;
-        //top: unset;
-        //bottom: 5vh;
+        margin: 0 0;
+        height: 60px;
+        top: 90vh !important;
       }
     }
 </style>
