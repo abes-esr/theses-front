@@ -51,7 +51,7 @@
       <v-divider vertical></v-divider>
       <div class="etablissements">
         <template v-for="name in item.etablissements " :key="name">
-          {{ name }}<span class="separator">, </span>
+          {{ name }}<span class="separator">; </span>
         </template>
       </div>
     </div>
