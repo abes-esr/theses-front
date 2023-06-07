@@ -2,7 +2,7 @@
   <Message-box ref="messageBox"></Message-box>
   <nav>
     <v-menu v-if="mobile" :model-value="openMenu" :close-on-content-click="false" content-class="full-screen"
-      location-strategy="static">
+            location-strategy="static">
       <template v-slot:activator="{ props }">
         <v-icon v-bind="props" size="40px" @click="openMenu = !openMenu">mdi-menu
         </v-icon>
@@ -17,18 +17,18 @@
     </v-menu>
   </nav>
   <RouterLink class="logo" :to="{ name: 'home' }" v-if="mobile">
-    <img alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
+    <img alt="logo" id="logoIMG" src="@/assets/icone-theses.svg"/>
   </RouterLink>
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
       <RouterLink :to="{ name: 'home' }">
-        <img class="logo" alt="logo" id="logoIMG" src="@/assets/icone-theses.svg" />
+        <img class="logo" alt="logo" id="logoIMG" src="@/assets/icone-theses.svg"/>
       </RouterLink>
       <h1>{{ $t("slogan") }}</h1>
     </div>
     <div class="sub_header__action">
       <domain-selector compact></domain-selector>
-      <search-bar @search="loading = true" :loading="loading" @onError="displayError" />
+      <search-bar @search="loading = true" :loading="loading" @onError="displayError"/>
     </div>
   </div>
   <div v-if="!mobile" class="search-filter">
@@ -61,42 +61,112 @@
           </div>
           <v-divider vertical></v-divider>
           <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-            <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png" />
+            <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png"/>
           </a>
+        </div>
+        <personne-motcles :motsCles="item.mots_cles"/>
+        <div class="theses">
+          <div v-if="item.theses['auteur'] && item.theses['auteur'].length > 0">
+            <hr/>
+            <h2 id="Auteurs">Auteurs de {{ item.theses['auteur'].length }} thèse(s) </h2>
+            <div v-for="these in item.theses['auteur']" :key="`auteur-${these.nnt}`" class="card-wrapper">
+              <result-card :titre="these.titre"
+                           :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                           :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                           :etab="these.etablissement_soutenance.nom"
+                           :id="these.nnt" :status="these.status">
+              </result-card>
+            </div>
+          </div>
+
+          <div v-if="item.theses['directeur de thèse'] && item.theses['directeur de thèse'].length > 0">
+            <hr/>
+            <h2 id="Directeurs">Directeurs de {{ item.theses['directeur de thèse'].length }} thèse(s) </h2>
+            <div v-for="these in item.theses['directeur de thèse']" :key="`directeur-${these.nnt}`"
+                 class="card-wrapper">
+              <result-card :titre="these.titre"
+                           :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                           :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                           :etab="these.etablissement_soutenance.nom"
+                           :id="these.nnt" :status="these.status">
+              </result-card>
+            </div>
+          </div>
+
+          <div v-if="item.theses['rapporteur'] && item.theses['rapporteur'].length > 0">
+            <hr/>
+            <h2 id="Rapporteurs">Rapporteurs pour {{ item.theses['rapporteur'].length }} thèse(s) </h2>
+            <div v-for="these in item.theses['rapporteur']" :key="`rapporteur-${these.nnt}`" class="card-wrapper">
+              <result-card :titre="these.titre"
+                           :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                           :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                           :etab="these.etablissement_soutenance.nom"
+                           :id="these.nnt" :status="these.status">
+              </result-card>
+            </div>
+          </div>
+
+          <div v-if="item.theses['président du jury'] && item.theses['président du jury'].length > 0">
+            <hr/>
+            <h2 id="Rapporteurs">Président de jury pour {{ item.theses['président du jury'].length }} thèse(s) </h2>
+            <div v-for="these in item.theses['président du jury']" :key="`president-${these.nnt}`" class="card-wrapper">
+              <result-card :titre="these.titre"
+                           :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                           :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                           :etab="these.etablissement_soutenance.nom"
+                           :id="these.nnt" :status="these.status">
+              </result-card>
+            </div>
+          </div>
+
+          <div v-if="item.theses['membre du jury'] && item.theses['membre du jury'].length > 0">
+            <hr/>
+            <h2 id="Rapporteurs">Membre du jury pour {{ item.theses['membre du jury'].length }} thèse(s) </h2>
+            <div v-for="these in item.theses['membre du jury']" :key="`membre-${these.nnt}`" class="card-wrapper">
+              <result-card :titre="these.titre"
+                           :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                           :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                           :etab="these.etablissement_soutenance.nom"
+                           :id="these.nnt" :status="these.status">
+              </result-card>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="search-filter">
-    <div class="left-side"></div>
-  </div>
+  <scroll-to-top-button v-show="hasScrolled" class="scroll-to-top-wrapper" :nb-result=1 />
 </template>
 
 <script setup>
-import { useMeta } from 'vue-meta';
-import { useI18n } from "vue-i18n";
+import {useMeta} from 'vue-meta';
+import {useI18n} from "vue-i18n";
 
-import { defineAsyncComponent, onBeforeMount, ref, watchEffect } from 'vue';
+import {defineAsyncComponent, onBeforeMount, ref, watchEffect} from 'vue';
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 
-import { personnesAPIService } from "@/services/PersonnesAPI";
-import { useDisplay } from "vuetify";
+import {personnesAPIService} from "@/services/PersonnesAPI";
+import {useDisplay} from "vuetify";
 import ActionBarPersonnes from "@/components/personnes/ActionBar.vue";
 import StatistiqueCardPersonne from "@/components/personnes/StatistiqueCard.vue";
+import ResultCard from "@/components/theses/results/ResultCard.vue";
+import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
+import PersonneMotcles from "@/components/personnes/MotsCles.vue";
 
 
-const { mobile } = useDisplay();
+const {mobile} = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const { getPersonne } = personnesAPIService();
+const {getPersonne} = personnesAPIService();
 
 const loading = ref(false);
 const dataReady = ref(false);
 const openMenu = ref(false);
+const hasScrolled = ref(false);
 const item = ref({});
 
-const { t } = useI18n();
-const { meta } = useMeta({});
+const {t} = useI18n();
+const {meta} = useMeta({});
 
 watchEffect(() => {
   const titlePersonne = item.value.prenom ? item.value.prenom + item.value.nom : "";
@@ -118,7 +188,7 @@ onBeforeMount(() => {
     dataReady.value = true;
   }).catch(error => {
     if (error.response) {
-      displayError(error.response.data.message, { isSticky: true });
+      displayError(error.response.data.message, {isSticky: true});
     } else {
       displayError(error.message);
     }
@@ -241,6 +311,7 @@ function displayError(message, opt) {
 
 .statistique__content {
   align-items: flex-start;
+  justify-content: flex-start;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
     border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
@@ -325,6 +396,22 @@ function displayError(message, opt) {
         }
       }
     }
+
+    .theses {
+
+      h2 {
+        margin-bottom: 1rem;
+      }
+
+      hr {
+        margin: 1rem 0 2rem 0;
+      }
+
+      .card-wrapper {
+        margin-bottom: 1rem;
+      }
+    }
+
   }
 }
 
