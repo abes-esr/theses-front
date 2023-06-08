@@ -109,6 +109,10 @@
         "membre du jury": "Membre du jury",
         "theses": "thèse(s)",
         "theses2": "thèse(s)"
+      },
+      "motsCles": {
+        "readMore": "Lire la suite",
+        "readLess": "Refermer"
       }
     }
   },

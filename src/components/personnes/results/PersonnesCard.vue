@@ -45,13 +45,13 @@
     <div class="secondHalf">
       <div class="disciplines">
         <template v-for="name in item.disciplines" :key="name">
-          {{ name }}<span class="separator">, </span>
+          {{ name }}<span class="separator">; </span>
         </template>
       </div>
       <v-divider vertical></v-divider>
       <div class="etablissements">
         <template v-for="name in item.etablissements " :key="name">
-          {{ name }}<span class="separator">, </span>
+          {{ name }}<span class="separator">; </span>
         </template>
       </div>
     </div>
