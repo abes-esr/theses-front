@@ -82,8 +82,8 @@ function selectKeyWords(numberOfWords, offset) {
 }
 
 function setKeywords() {
-  let sujetsFR = [];
-  let sujetsRameau = [];
+  const sujetsFR = [];
+  const sujetsRameau = [];
 
   if( typeof props.these.sujetsFR !== 'undefined' ) {
     props.these.sujetsFR.forEach((keyWord) => {
