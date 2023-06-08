@@ -11,7 +11,7 @@
         </p>
       </div>
     <div id="resume-button-wrapper" v-if="typeof resume !== 'undefined'">
-      <v-btn id="read-more-button" @click="readMore = !readMore" flat>
+      <v-btn id="read-more-button" @click="readMore = !readMore; scrollToTopOfAbstract();" flat>
         <span></span>
         <span>{{ readMore ? $t('theseView.showLessAbstract') : $t('theseView.showMoreAbstract') }}</span>
         <v-icon class="toggle-up-down" :class='{ "rotate": readMore }'>mdi-arrow-down-circle-outline</v-icon>
@@ -44,6 +44,15 @@ onBeforeUpdate(() => {
     resume.value = props.these.resumes[props.selectedLanguage];
   }
 });
+
+/**
+ * Fonctions
+ */
+function scrollToTopOfAbstract() {
+  if(readMore.value === false) {
+    document.getElementById("top-of-abstract-component").scrollIntoView();
+  }
+}
 
 /**
  * Watchers

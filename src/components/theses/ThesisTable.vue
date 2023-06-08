@@ -140,7 +140,6 @@ const props = defineProps({
     width: 100%;
   }
 
-
   .table-rows {
     width: 100%;
     padding: 0 10px 0;
