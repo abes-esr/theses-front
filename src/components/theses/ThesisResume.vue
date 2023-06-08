@@ -50,7 +50,7 @@ onBeforeUpdate(() => {
  */
 function scrollToTopOfAbstract() {
   if(readMore.value === false) {
-    document.getElementById("top-of-abstract-component").scrollIntoView();
+    document.getElementById("top-of-thesis-component").scrollIntoView();
   }
 }
 

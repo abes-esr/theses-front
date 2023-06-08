@@ -1,7 +1,7 @@
 <template>
   <div v-if="dataReady && these !== {}">
     <thesis-toolbar />
-    <thesis-title :data-ready="dataReady" :status="these.status" :titles="these.titres" id="top-of-abstract-component" />
+    <thesis-title :data-ready="dataReady" :status="these.status" :titles="these.titres" id="top-of-thesis-component" />
     <thesis-table class="thesis-component" :these="these" />
     <v-divider v-if="keywordsAreSet" :thickness="1" class="divider border-opacity-50" length="90%" />
     <thesis-keywords class="thesis-component" :keywords-are-set="keywordsAreSet" :data-ready="dataReady" :these="these"
@@ -102,4 +102,8 @@ watchEffect(() => {
         top: 90vh !important;
       }
     }
+
+  #top-of-thesis-component {
+    hyphens: auto;
+  }
 </style>
