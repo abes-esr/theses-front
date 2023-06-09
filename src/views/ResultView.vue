@@ -215,11 +215,15 @@ async function searchAndReinitializeFacet(query) {
   resetFacets.value++;
 }
 
+function resetBeforeSearch() {
+  resetFacets.value++;
+  setWorkingFacetName("");
+  setCheckedFilters([]);
+}
+
 async function searchAndReinitializeAllFacets() {
   showSearchBar.value = false;
-  resetFacets.value++;
-  setWorkingFacetName('');
-  setCheckedFilters([]);
+  resetBeforeSearch();
   searchAndReinitialize();
 }
 

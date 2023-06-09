@@ -24,17 +24,17 @@
           <div v-if="date" class="date-container">
             <span class="date-item">
               <p>{{ $t("results.drawer.from") }}</p>
-              <VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply
+              <vue-date-picker v-model="dateFrom" @update:model-value="updateFilterDateOnly" :teleport="true" locale="fr" auto-apply
                 :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
                 placeholder="AAAA" :max-date="dateFromMax" :teleport-center="teleportCenter">
-              </VueDatePicker>
+              </vue-date-picker>
             </span>
             <span class="date-item">
               <p>{{ $t("results.drawer.to") }}</p>
-              <VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply
+              <vue-date-picker v-model="dateTo" @update:model-value="updateFilterDateOnly" :teleport="true" locale="fr" auto-apply
                 :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
                 placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin" :teleport-center="teleportCenter">
-              </VueDatePicker>
+              </vue-date-picker>
             </span>
           </div>
           <div v-else v-for="(facetItem, index) in facetItems" :key="`facet-${facetItem.name}`">
@@ -142,14 +142,6 @@ watch(filterSearchText, () => {
   searchIntoFacet();
 });
 
-watch(dateFrom, () => {
-  updateFilterDateOnly();
-});
-
-watch(dateTo, () => {
-  updateFilterDateOnly();
-});
-
 /**
  * Emits
  */
@@ -168,8 +160,12 @@ function reinitializeDateFields() {
 }
 
 function reinitializeCheckboxes() {
-  reinitializeDateFields();
-  emit("reinitializeCheckboxes", props.facet.name);
+  if(props.date) {
+    reinitializeDateFields();
+    updateFilterDateOnly();
+  } else {
+    emit("reinitializeCheckboxes", props.facet.name);
+  }
 }
 
 function reinitializeDateFromField() {
