@@ -128,58 +128,25 @@ async function search(firstLoad = false) {
 
   updateFacets(firstLoad);
 
-  // eslint-disable-next-line no-async-promise-executor
-  return new Promise(async (resolve, reject) => {
-    if (currentRoute.query.domaine === "theses") {
-      queryAPI().then(response => {
-        result.value = response.theses;
-        nbResult.value = response.totalHits;
-        domainNameChange.value = currentRoute.query.domaine;
-      }).catch(error => {
-        displayError(error.message);
-        result.value = [];
-        nbResult.value = 0;
-        reject(error);
-      }).finally(() => {
-        loading.value = false;
-        dataReady.value = true;
-        resolve();
-      });
-    } else if (currentRoute.query.domaine === "personnes") {
-      try {
-        const response = await queryAPI();
-        result.value = response.personnes;
-        nbResult.value = response.totalHits;
-        domainNameChange.value = currentRoute.query.domaine;
-      } catch (error) {
-        displayError(error.message);
-        result.value = [];
-        nbResult.value = 0;
-        reject(error);
-      } finally {
-        loading.value = false;
-        dataReady.value = true;
-        resolve();
-      }
-    }
-  });
-
   /**
-   * #TODO Version généralisée à implémenter après normalisation de l'api
+   * Chargement des donnees
    */
-  // eslint-disable-next-line no-async-promise-executor
-  // return queryAPI().then(async () => {
-  //       result.value = await queryAPI();
-  //       nbResult.value = result.value.length;
-  //       domainNameChange.value = currentRoute.query.domaine;
-  //     }).catch(error => {
-  //       displayError(error.message);
-  //         result.value = [];
-  //         nbResult.value = 0;
-  //     }).finally(() => {
-  //       loading.value = false;
-  //       dataReady.value = true;
-  //     });
+  return queryAPI().then((response) => {
+    if (!["theses", "personnes"].includes(currentRoute.query.domaine)) {
+      throw new Error("Erreur de nom de paramètres");
+    }
+
+    result.value = response[currentRoute.query.domaine];
+    nbResult.value = response.totalHits;
+    domainNameChange.value = currentRoute.query.domaine;
+  }).catch(error => {
+    displayError(error.message);
+    result.value = [];
+    nbResult.value = 0;
+  }).finally(() => {
+    loading.value = false;
+    dataReady.value = true;
+  });
 }
 
 function update(facetsArray) {
