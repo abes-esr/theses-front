@@ -26,7 +26,8 @@ const myCustomLightTheme = {
     success: '#4CAF50',
     warning: '#FB8C00',
     'fond-noir': "#000000",
-    'text-dark-blue': "#0B2134"
+    'text-dark-blue': "#0B2134",
+    'fond-chip-blue': "#ABB9D5"
   }
 }
 

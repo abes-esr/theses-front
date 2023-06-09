@@ -173,23 +173,6 @@ watch(() => props.resetShowingNumber, () => {
   }
 }
 
-.scroll-to-top-wrapper {
-  position: sticky;
-  top: 90vh;
-  margin-bottom: 3rem;
-  margin-left: 10%;
-  width: 30px;
-  height: 30px;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    margin: 0 0;
-    height: 60px;
-    left: 90vw;
-    top: unset;
-    bottom: 5vh;
-  }
-}
-
 .bottom-buttons-line {
   display: flex;
   justify-content: center;
