@@ -1,4 +1,7 @@
 {
+    "errors": {
+        "parameters": "Error in parameters value"
+    },
     "slogan": "French PhD Search Engine",
     "toutesTheses": "All thesis",
     "toutesPersonnes": "People",
