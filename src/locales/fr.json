@@ -80,6 +80,10 @@
     "results": "résultat(s)"
   },
   "personnes": {
+    "searchBar": {
+      "loading": "Recherche en cours...",
+      "noData": "Pas de données"
+    },
     "resultView": {
       "resultats": " résultats de personnes pour ",
       "personnesCard": {
@@ -91,12 +95,16 @@
     "personneView": {
       "statistiques": {
         "auteur": "Auteur",
-        "directeur": "Directeur",
-        "president": "Président du jury",
+        "directeur de thèse": "Directeur",
+        "président du jury": "Président du jury",
         "rapporteur": "Rapporteur",
-        "jury": "Membre du jury",
+        "membre du jury": "Membre du jury",
         "theses": "thèse(s)",
         "theses2": "thèse(s)"
+      },
+      "motsCles": {
+        "readMore": "Lire la suite",
+        "readLess": "Refermer"
       }
     }
   },
@@ -109,7 +117,7 @@
     "doc": "Documentation",
     "assistance": "Guichet d'assistance",
     "logoAbesAlt": "Accéder au site de l’Agence Bibliographique de l’Enseignement Supérieur",
-    "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche" 
+    "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche"
   },
   "header": {
     "doc": "Accéder à la documentation de theses.fr ",
