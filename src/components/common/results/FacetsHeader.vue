@@ -113,8 +113,6 @@ function closeOverlay() {
   left: 0;
 }
 
-
-
 .reinitialize-button-mobile {
   margin-top: 5px;
   display: grid;

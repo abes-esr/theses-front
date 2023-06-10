@@ -5,7 +5,7 @@
             <v-badge v-if="badge" class="badge" :icon="badge" :color="badgecolor" />
         </div>
         <v-card-title class="d-flex justify-center pb-1">
-            <h1 v-if="titre !== 0"> {{ titre }} </h1>
+            <h1 v-if="titre !== 0"> {{ titre.toLocaleString() }} </h1>
             <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
         </v-card-title>
         <v-card-subtitle class="d-flex justify-center">{{ description }}</v-card-subtitle>

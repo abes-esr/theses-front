@@ -9,6 +9,8 @@ const apiTheses = axios.create({
   }
 });
 
+/// #TODO Passer les routes en variables/paramètres?
+
 /**
  * Les statuts "soutenue" et "en cours" s'annulent
  * @param facets
