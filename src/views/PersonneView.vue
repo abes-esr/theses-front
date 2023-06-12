@@ -108,7 +108,7 @@
 
           <div v-if="item.theses['président du jury'] && item.theses['président du jury'].length > 0">
             <hr/>
-            <h2 id="Rapporteurs">{{ $t("personnes.personneView.roles.rapporteur",[item.theses['président du jury'].length]) }}</h2>
+            <h2>{{ $t("personnes.personneView.roles.president",[item.theses['président du jury'].length]) }}</h2>
             <div v-for="these in item.theses['président du jury']" :key="`president-${these.nnt}`" class="card-wrapper">
               <result-card :titre="these.titre"
                            :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
@@ -121,7 +121,7 @@
 
           <div v-if="item.theses['membre du jury'] && item.theses['membre du jury'].length > 0">
             <hr/>
-            <h2 id="Rapporteurs">{{ $t("personnes.personneView.roles.membre",[item.theses['membre du jury'].length]) }}</h2>
+            <h2>{{ $t("personnes.personneView.roles.membre",[item.theses['membre du jury'].length]) }}</h2>
             <div v-for="these in item.theses['membre du jury']" :key="`membre-${these.nnt}`" class="card-wrapper">
               <result-card :titre="these.titre"
                            :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
@@ -142,7 +142,7 @@
 import {useMeta} from 'vue-meta';
 import {useI18n} from "vue-i18n";
 
-import {defineAsyncComponent, onBeforeMount, ref, watchEffect} from 'vue';
+import {defineAsyncComponent, onBeforeMount, onUpdated, ref, watchEffect} from 'vue';
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 
@@ -153,11 +153,12 @@ import StatistiqueCardPersonne from "@/components/personnes/StatistiqueCard.vue"
 import ResultCard from "@/components/theses/results/ResultCard.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import PersonneMotcles from "@/components/personnes/MotsCles.vue";
-
+import {useRoute} from "vue-router";
 
 const {mobile} = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const {getPersonne} = personnesAPIService();
+const currentRoute = useRoute();
 
 const loading = ref(false);
 const dataReady = ref(false);
@@ -192,9 +193,14 @@ onBeforeMount(() => {
     } else {
       displayError(error.message);
     }
-
   });
 });
+
+onUpdated(() => {
+  if (currentRoute.hash) {
+    document.getElementById(currentRoute.hash.substring(1))?.scrollIntoView({ behavior: "smooth"});
+  }
+})
 
 const messageBox = ref(null);
 
