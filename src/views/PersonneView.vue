@@ -68,7 +68,7 @@
         <div class="theses">
           <div v-if="item.theses['auteur'] && item.theses['auteur'].length > 0">
             <hr/>
-            <h2 id="Auteurs">Auteurs de {{ item.theses['auteur'].length }} thèse(s) </h2>
+            <h2 id="Auteurs">{{ $t("personnes.personneView.roles.auteur",[item.theses['auteur'].length]) }}</h2>
             <div v-for="these in item.theses['auteur']" :key="`auteur-${these.nnt}`" class="card-wrapper">
               <result-card :titre="these.titre"
                            :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
@@ -81,7 +81,7 @@
 
           <div v-if="item.theses['directeur de thèse'] && item.theses['directeur de thèse'].length > 0">
             <hr/>
-            <h2 id="Directeurs">Directeurs de {{ item.theses['directeur de thèse'].length }} thèse(s) </h2>
+            <h2 id="Directeurs">{{ $t("personnes.personneView.roles.directeur",[item.theses['directeur de thèse'].length]) }}</h2>
             <div v-for="these in item.theses['directeur de thèse']" :key="`directeur-${these.nnt}`"
                  class="card-wrapper">
               <result-card :titre="these.titre"
@@ -95,7 +95,7 @@
 
           <div v-if="item.theses['rapporteur'] && item.theses['rapporteur'].length > 0">
             <hr/>
-            <h2 id="Rapporteurs">Rapporteurs pour {{ item.theses['rapporteur'].length }} thèse(s) </h2>
+            <h2 id="Rapporteurs">{{ $t("personnes.personneView.roles.rapporteur",[item.theses['rapporteur'].length]) }}</h2>
             <div v-for="these in item.theses['rapporteur']" :key="`rapporteur-${these.nnt}`" class="card-wrapper">
               <result-card :titre="these.titre"
                            :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
@@ -108,7 +108,7 @@
 
           <div v-if="item.theses['président du jury'] && item.theses['président du jury'].length > 0">
             <hr/>
-            <h2 id="Rapporteurs">Président de jury pour {{ item.theses['président du jury'].length }} thèse(s) </h2>
+            <h2 id="Rapporteurs">{{ $t("personnes.personneView.roles.rapporteur",[item.theses['président du jury'].length]) }}</h2>
             <div v-for="these in item.theses['président du jury']" :key="`president-${these.nnt}`" class="card-wrapper">
               <result-card :titre="these.titre"
                            :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
@@ -121,7 +121,7 @@
 
           <div v-if="item.theses['membre du jury'] && item.theses['membre du jury'].length > 0">
             <hr/>
-            <h2 id="Rapporteurs">Membre du jury pour {{ item.theses['membre du jury'].length }} thèse(s) </h2>
+            <h2 id="Rapporteurs">{{ $t("personnes.personneView.roles.membre",[item.theses['membre du jury'].length]) }}</h2>
             <div v-for="these in item.theses['membre du jury']" :key="`membre-${these.nnt}`" class="card-wrapper">
               <result-card :titre="these.titre"
                            :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
