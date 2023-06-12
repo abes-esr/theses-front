@@ -1,8 +1,8 @@
 <template>
   <div class="searchbar">
     <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-                :items="personnes" variant="outlined" cache-items hide-no-data hide-selected hide-details no-filter append-inner-icon
-                @keydown.enter="search" @update:modelValue="selectSuggestion" item-title="suggestion" item-value="suggestion"
+                :items="suggestions" variant="outlined" append-inner-icon :hide-no-data="!suggestionActive" no-filter :no-data-text="isLoading?$t('personnes.searchBar.loading'):$t('personnes.searchBar.noData')"
+                @keydown.enter="search"
                 :loading="isLoading" :menu="suggestionActive" :menu-props="menuProps">
       <template v-slot:append-inner>
         <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :title='$t("clear")' :ripple="false">
@@ -10,13 +10,31 @@
       </template>
       <template v-slot:append>
         <v-btn color="primary" icon="mdi-magnify" text @click="search" :title='$t("searchButton")' :loading="loading"
-          class="pa-0 ma-0">
+               class="pa-0 ma-0">
         </v-btn>
+      </template>
+      <template v-slot:prepend-item v-if="suggestions.length > 0">
+        <h3>Personnes</h3>
+        <h3>Thématiques</h3>
+      </template>
+      <template v-slot:item="{ item, props, index }">
+        <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.personne==null" @click="selectSuggestion(item.raw.personne)">
+          <span v-if=" item.raw.personne != null">{{
+              item.raw.personne.suggestion
+            }}</span>
+          <span v-else ></span>
+        </v-list-item>
+        <v-list-item  v-bind="props" :key="index" :title="false" :disabled="item.raw.thematique==null" @click="selectSuggestion(item.raw.thematique)">
+          <span v-if=" item.raw.thematique != null">{{
+              item.raw.thematique.suggestion
+            }}</span>
+          <span v-else ></span>
+        </v-list-item>
       </template>
     </v-combobox>
     <div class="searchbar__action">
       <v-checkbox label="Désactiver l'autocomplétion" v-model="disableCompletion"
-        :title='$t("disableSuggestion")'></v-checkbox>
+                  :title='$t("disableSuggestion")'></v-checkbox>
       <v-btn color="primary" append-icon="mdi-magnify" @click="search" :title='$t("avancee")'>{{ $t("avancee") }}
       </v-btn>
     </div>
@@ -51,20 +69,22 @@ let watcherActive = true;
 const disableCompletion = ref(false);
 
 const menuProps = {
-  'scrollStrategy': 'close'
+  'scroll-strategy': 'close',
+  'open-on-focus': false,
+  'content-class': 'autocompl',
 };
 
 onMounted(
-  () => {
-    if (currentRoute.query && currentRoute.query.q) {
-      request.value = decodeURI(currentRoute.query.q);
-      setQuery(request.value);
-      // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
-      // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
-      watcherActive = false;
+    () => {
+      if (currentRoute.query && currentRoute.query.q) {
+        request.value = decodeURI(currentRoute.query.q);
+        setQuery(request.value);
+        // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
+        // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
+        //watcherActive = false;
+      }
+      setDomaine(currentRoute.query.domaine);
     }
-    setDomaine(currentRoute.query.domaine);
-  }
 );
 
 /**
@@ -91,17 +111,16 @@ async function search() {
 /* Auto-complétion  */
 /* ---------------- */
 
-const personnes = ref([]);
-const thematiques = ref([]);
+const suggestions = ref([]);
 const isLoading = ref(false);
 const suggestionActive = ref(false);
 
-watch(requestSearch, (candidate) => {
+watch(requestSearch, async (candidate) => {
+  await getSuggestionPersonne(candidate);
   if (candidate != null && candidate.length > 2 && watcherActive && !disableCompletion.value) {
     getSuggestionPersonne(candidate);
   } else {
-    personnes.value = [];
-    thematiques.value = [];
+    suggestions.value = [];
     suggestionActive.value = false;
   }
   watcherActive = true;
@@ -110,8 +129,7 @@ watch(requestSearch, (candidate) => {
 watch(disableCompletion, (newDisableCompletion) => {
   if (newDisableCompletion) {
     suggestionActive.value = false;
-    personnes.value = [];
-    thematiques.value = [];
+    suggestions.value = [];
   }
 });
 
@@ -124,9 +142,14 @@ async function getSuggestionPersonne(candidate) {
   isLoading.value = true;
   try {
     setQuery(candidate);
-    const suggestions = await getSuggestion();
-    personnes.value = suggestions.personnes;
-    thematiques.value = suggestions.thematiques;
+    suggestions.value = [];
+    const candidates = await getSuggestion();
+    for (let index=0;index<Math.max(candidates.personnes.length,candidates.thematiques.length);index++) {
+      suggestions.value[index] = {
+        personne:candidates.personnes[index]?candidates.personnes[index]:null,
+        thematique:candidates.thematiques[index]?candidates.thematiques[index]:null,
+      }
+    }
   } catch (error) {
     request.value = candidate;
     emit('onError', "Autocomplétion : " + error.message);
@@ -144,6 +167,7 @@ function selectSuggestion(value) {
   if (value != null && typeof (value) == "object") {
     request.value = value.suggestion;
   }
+  search()
 }
 
 defineExpose({
@@ -151,7 +175,6 @@ defineExpose({
 });
 
 </script>
-
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
@@ -248,12 +271,29 @@ defineExpose({
   }
 }
 
-/* Permet de rendre l'autocompletion + dense */
-:deep(.v-overlay-container) .v-list-item--density-default.v-list-item--one-line {
-  min-height: 20px !important;
-}
-
 .no-background-hover::before {
   background-color: transparent !important;
+}
+</style>
+<style lang="scss">
+@use 'vuetify/settings';
+
+.autocompl .v-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+
+  /* Permet de rendre l'autocompletion + dense */
+  .v-list-item {
+    min-height: 140px !important;
+
+    @media only screen and (min-width: 600px) {
+      min-height: 60px !important;
+    }
+
+    @media only screen and (min-width: 900px) {
+      min-height: 20px !important;
+    }
+  }
 }
 </style>
