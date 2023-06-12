@@ -120,6 +120,13 @@
       "motsCles": {
         "readMore": "Lire la suite",
         "readLess": "Refermer"
+      },
+      "roles": {
+        "auteur": "Auteur de {0} thèse(s)",
+        "directeur": "Directeur de {0} thèse(s)",
+        "rapporteur": "Rapporteur pour {0} thèse(s)",
+        "president": "Président de jury pour {0} thèse(s)",
+        "membre": "Membre du jury pour {0} thèse(s)"
       }
     }
   },
