@@ -1,7 +1,7 @@
 <template>
-  <ul>
+  <ul v-if="stats">
     <template v-for="key in ['auteur','directeur de thèse','rapporteur','président du jury','membre du jury']" :key="key">
-      <li v-if="stats[key] != 0 "> {{ $t('personnes.personneView.statistiques.' + key) }} : <span>{{ stats[key] }}</span>
+      <li v-if="stats[key] && stats[key] != 0 "> {{ $t('personnes.personneView.statistiques.' + key) }} : <span>{{ stats[key] }}</span>
         {{ $t('personnes.personneView.statistiques.theses') }}
       </li>
     </template>
