@@ -66,7 +66,7 @@ import SearchBar from "@/components/personnes/search/SearchBar.vue";
 import ButtonsList from "@/components/theses/ButtonsList.vue";
 import ThesisComponent from "@/components/theses/ThesisComponent.vue";
 
-import { ThesesService } from '@/services/ThesesAPI';
+import { thesesAPIService } from '@/services/ThesesAPI';
 import { useDisplay } from "vuetify";
 import router from "@/router";
 
@@ -74,7 +74,7 @@ const MessageBox = defineAsyncComponent(() => import('@/components/common/Messag
 
 const route = useRoute();
 const { mobile } = useDisplay();
-const { getThese } = ThesesService();
+const { getThese } = thesesAPIService();
 const dialogVisible = ref(false);
 const showSearchBar = ref(false);
 const dataReady = ref(false);
