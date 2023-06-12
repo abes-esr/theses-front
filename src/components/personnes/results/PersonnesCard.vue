@@ -27,17 +27,17 @@
         </a>
       </div>
       <div class="action">
-        <v-btn v-if="item.roles['auteur'] > 0" color="primary" append-icon="mdi-arrow-right-circle"
+        <v-btn :disabled="!item.roles['auteur'] || !item.these.nnt" color="primary" append-icon="mdi-arrow-right-circle"
                @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }}
-          ({{ item.roles["auteur"] }})
+          ({{ item.roles["auteur"]?item.roles["auteur"]:0 }})
         </v-btn>
-        <v-btn v-if="item.roles['directeur de thèse'] > 0" color="primary" append-icon="mdi-arrow-right-circle"
+        <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these.nnt" color="primary" append-icon="mdi-arrow-right-circle"
                @click="goToPersonne('#Directeurs')">{{ $t('personnes.resultView.personnesCard.directeur') }}
-          ({{ item.roles["directeur de thèse"] }})
+          ({{ item.roles["directeur de thèse"]?item.roles["directeur de thèse"]:0 }})
         </v-btn>
-        <v-btn v-if="item.roles['rapporteur'] > 0" color="primary" append-icon="mdi-arrow-right-circle"
+        <v-btn :disabled="!item.roles['rapporteur'] || !item.these.nnt" color="primary" append-icon="mdi-arrow-right-circle"
                @click="goToPersonne('#Rapporteurs')">{{ $t('personnes.resultView.personnesCard.rapporteur') }}
-          ({{ item.roles["rapporteur"] }})
+          ({{ item.roles["rapporteur"]?item.roles["rapporteur"]:0 }})
         </v-btn>
       </div>
     </div>
@@ -76,12 +76,19 @@ const props = defineProps({
 })
 
 function goToPersonne(hash) {
-  router.push({
-    name: 'personne',
-    query: {'domaine': currentRoute.query.domaine},
-    params: {"id": props.item.id},
-    hash: hash ? hash : ''
-  })
+  if (props.item.has_idref) {
+    router.push({
+      name: 'personne',
+      query: {'domaine': currentRoute.query.domaine},
+      params: {"id": props.item.id},
+      hash: hash ? hash : ''
+    })
+  } else {
+    router.push({
+      name: 'these',
+      params: {"id": props.item.these.nnt}
+    })
+  }
 }
 </script>
 
