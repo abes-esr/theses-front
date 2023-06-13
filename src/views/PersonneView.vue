@@ -1,8 +1,8 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav>
-    <v-menu v-if="mobile" :model-value="openMenu" :close-on-content-click="false" content-class="full-screen"
-            location-strategy="static">
+    <v-dialog v-if="mobile" :model-value="openMenu" eager location-strategy="static" persistent no-click-animation fullscreen
+            :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
       <template v-slot:activator="{ props }">
         <v-icon v-bind="props" size="40px" @click="openMenu = !openMenu">mdi-menu
         </v-icon>
@@ -14,7 +14,7 @@
       <div class="statistique__content">
         <statistique-card-personne :stats="item.roles"></statistique-card-personne>
       </div>
-    </v-menu>
+    </v-dialog>
   </nav>
   <RouterLink class="logo" :to="{ name: 'home' }" v-if="mobile">
     <img alt="logo" id="logoIMG" src="@/assets/icone-theses.svg"/>
@@ -167,7 +167,6 @@ const currentRoute = useRoute();
 const loading = ref(false);
 const dataReady = ref(false);
 const openMenu = ref(false);
-const hasScrolled = ref(false);
 const item = ref({});
 
 const {t} = useI18n();
