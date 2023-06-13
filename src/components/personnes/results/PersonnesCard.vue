@@ -10,8 +10,8 @@
             <span class="prenom">{{ item.prenom }}</span>
             <span class="nom">{{ item.nom }}</span>
           </RouterLink>
-          <RouterLink v-else-if="item.these.nnt" class="nomprenom"
-                      :to="{ name: 'these', params: { id: item.these.nnt } }">
+          <RouterLink v-else-if="item.these.id" class="nomprenom"
+                      :to="{ name: 'these', params: { id: item.these.id } }">
             <span class="prenom">{{ item.prenom }}</span>
             <span class="nom">{{ item.nom }}</span>
           </RouterLink>
@@ -27,15 +27,15 @@
         </a>
       </div>
       <div class="action">
-        <v-btn :disabled="!item.roles['auteur'] || !item.these.nnt" color="primary" append-icon="mdi-arrow-right-circle"
+        <v-btn :disabled="!item.roles['auteur'] || !item.these.id" color="primary" append-icon="mdi-arrow-right-circle"
                @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }}
           ({{ item.roles["auteur"]?item.roles["auteur"]:0 }})
         </v-btn>
-        <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these.nnt" color="primary" append-icon="mdi-arrow-right-circle"
+        <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these.id" color="primary" append-icon="mdi-arrow-right-circle"
                @click="goToPersonne('#Directeurs')">{{ $t('personnes.resultView.personnesCard.directeur') }}
           ({{ item.roles["directeur de thèse"]?item.roles["directeur de thèse"]:0 }})
         </v-btn>
-        <v-btn :disabled="!item.roles['rapporteur'] || !item.these.nnt" color="primary" append-icon="mdi-arrow-right-circle"
+        <v-btn :disabled="!item.roles['rapporteur'] || !item.these.id" color="primary" append-icon="mdi-arrow-right-circle"
                @click="goToPersonne('#Rapporteurs')">{{ $t('personnes.resultView.personnesCard.rapporteur') }}
           ({{ item.roles["rapporteur"]?item.roles["rapporteur"]:0 }})
         </v-btn>
@@ -86,7 +86,7 @@ function goToPersonne(hash) {
   } else {
     router.push({
       name: 'these',
-      params: {"id": props.item.these.nnt}
+      params: {"id": props.item.these.id}
     })
   }
 }
