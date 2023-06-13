@@ -139,7 +139,7 @@
     </div>
   </div>
   <div class="scroll-to-top-container">
-    <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1/>
+    <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1></scroll-to-top-button>
   </div>
 </template>
 
