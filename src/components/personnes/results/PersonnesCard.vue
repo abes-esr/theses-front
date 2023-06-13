@@ -2,8 +2,15 @@
   <v-card flat>
     <div class="firstHalf">
       <div class="info">
+        <v-icon size="40px">$personne</v-icon>
+        <div class="sep">
+          <v-divider vertical v-if="item.has_idref"></v-divider>
+        </div>
+        <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
+          <img alt="logo"
+               id="logoIMG" src="@/assets/idref-icone.png"/>
+        </a>
         <div class="nom-card">
-          <v-icon size="40px">$personne</v-icon>
           <RouterLink class="nomprenom"
                       :to="{ name: 'personne', params: { id: item.id }, query:{ 'domaine': currentRoute.query.domaine }}"
                       v-if="item.has_idref">
@@ -20,24 +27,21 @@
             <span class="nom">{{ item.nom }}</span>
           </div>
         </div>
-        <v-divider vertical></v-divider>
-        <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-          <img alt="logo"
-               id="logoIMG" src="@/assets/idref-icone.png"/>
-        </a>
       </div>
       <div class="action">
         <v-btn :disabled="!item.roles['auteur'] || !item.these.nnt" color="primary" append-icon="mdi-arrow-right-circle"
                @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }}
-          ({{ item.roles["auteur"]?item.roles["auteur"]:0 }})
+          ({{ item.roles["auteur"] ? item.roles["auteur"] : 0 }})
         </v-btn>
-        <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these.nnt" color="primary" append-icon="mdi-arrow-right-circle"
+        <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these.nnt" color="primary"
+               append-icon="mdi-arrow-right-circle"
                @click="goToPersonne('#Directeurs')">{{ $t('personnes.resultView.personnesCard.directeur') }}
-          ({{ item.roles["directeur de thèse"]?item.roles["directeur de thèse"]:0 }})
+          ({{ item.roles["directeur de thèse"] ? item.roles["directeur de thèse"] : 0 }})
         </v-btn>
-        <v-btn :disabled="!item.roles['rapporteur'] || !item.these.nnt" color="primary" append-icon="mdi-arrow-right-circle"
+        <v-btn :disabled="!item.roles['rapporteur'] || !item.these.nnt" color="primary"
+               append-icon="mdi-arrow-right-circle"
                @click="goToPersonne('#Rapporteurs')">{{ $t('personnes.resultView.personnesCard.rapporteur') }}
-          ({{ item.roles["rapporteur"]?item.roles["rapporteur"]:0 }})
+          ({{ item.roles["rapporteur"] ? item.roles["rapporteur"] : 0 }})
         </v-btn>
       </div>
     </div>
@@ -115,7 +119,7 @@ function goToPersonne(hash) {
   padding: 1rem;
   justify-content: space-between;
   align-items: center;
-  height: 170px;
+  height: calc(100% + 180px);
   width: 100%;
   flex-direction: column;
 
@@ -129,24 +133,49 @@ function goToPersonne(hash) {
     width: 100%;
     flex: 0 0 10%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-
+    flex-wrap: wrap;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 1 0 30%;
       max-width: 35%;
     }
 
+    .v-icon {
+      margin-right: 1rem;
+      flex: 0 0 10%;
+    }
+
+    .sep {
+      height: 40px;
+      margin-right: 1rem;
+
+      hr {
+        border-color: rgb(var(--v-theme-primary));
+        opacity: 1;
+        border-width: 0 1.5px 0 0;
+      }
+    }
+
+    a {
+      img {
+        max-height: 45px;
+      }
+    }
+
     .nom-card {
+      flex: 1 0 100%;
       display: flex;
       align-items: center;
 
-      .v-icon {
-        margin-right: 1rem;
+      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+        flex: 1 0 60%;
+        margin-left: 1rem;
       }
 
       .nomprenom {
+        display: flex;
+        flex-direction: column;
         text-decoration: none;
         color: rgb(var(--v-theme-primary));
         font-size: 23.5px;
@@ -160,21 +189,8 @@ function goToPersonne(hash) {
         }
 
         .nom {
-          margin-left: 0.5rem;
           font-weight: 700;
         }
-      }
-    }
-
-    hr {
-      border-color: rgb(var(--v-theme-primary));
-      opacity: 1;
-      border-width: 0 1.5px 0 0;
-    }
-
-    a {
-      img {
-        max-height: 30px;
       }
     }
   }
@@ -184,12 +200,11 @@ function goToPersonne(hash) {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: 100px;
     flex-wrap: wrap;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 0 1 40%;
-      align-items: flex-start;
     }
 
     .v-btn {
