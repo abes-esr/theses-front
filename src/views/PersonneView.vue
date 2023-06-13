@@ -68,66 +68,68 @@
         <div class="theses">
           <div v-if="item.theses['auteur'] && item.theses['auteur'].length > 0">
             <hr/>
-            <h2 id="Auteurs">{{ $t("personnes.personneView.roles.auteur",[item.theses['auteur'].length]) }}</h2>
-            <div v-for="these in item.theses['auteur']" :key="`auteur-${these.nnt}`" class="card-wrapper">
+            <h2 id="Auteurs">{{ $t("personnes.personneView.roles.auteur", [item.theses['auteur'].length]) }}</h2>
+            <div v-for="these in item.theses['auteur']" :key="`auteur-${these.id}`" class="card-wrapper">
+
               <result-card :titre="these.titre"
-                           :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB'):new Date(these.date_soutenance).toLocaleDateString('en-GB')"
                            :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
                            :etab="these.etablissement_soutenance.nom"
-                           :id="these.nnt" :status="these.status">
+                           :id="these.id" :status="these.status">
               </result-card>
             </div>
           </div>
 
           <div v-if="item.theses['directeur de thèse'] && item.theses['directeur de thèse'].length > 0">
             <hr/>
-            <h2 id="Directeurs">{{ $t("personnes.personneView.roles.directeur",[item.theses['directeur de thèse'].length]) }}</h2>
-            <div v-for="these in item.theses['directeur de thèse']" :key="`directeur-${these.nnt}`"
-                 class="card-wrapper">
+            <h2 id="Directeurs">
+              {{ $t("personnes.personneView.roles.directeur", [item.theses['directeur de thèse'].length]) }}</h2>
+            <div v-for="these in item.theses['directeur de thèse']" :key="`directeur-${these.id}`" class="card-wrapper">
               <result-card :titre="these.titre"
-                           :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB'):new Date(these.date_soutenance).toLocaleDateString('en-GB')"
                            :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
                            :etab="these.etablissement_soutenance.nom"
-                           :id="these.nnt" :status="these.status">
+                           :id="these.id" :status="these.status">
               </result-card>
             </div>
           </div>
 
           <div v-if="item.theses['rapporteur'] && item.theses['rapporteur'].length > 0">
             <hr/>
-            <h2 id="Rapporteurs">{{ $t("personnes.personneView.roles.rapporteur",[item.theses['rapporteur'].length]) }}</h2>
-            <div v-for="these in item.theses['rapporteur']" :key="`rapporteur-${these.nnt}`" class="card-wrapper">
+            <h2 id="Rapporteurs">{{
+                $t("personnes.personneView.roles.rapporteur", [item.theses['rapporteur'].length]) }}</h2>
+            <div v-for="these in item.theses['rapporteur']" :key="`rapporteur-${these.id}`" class="card-wrapper">
               <result-card :titre="these.titre"
-                           :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB'):new Date(these.date_soutenance).toLocaleDateString('en-GB')"
                            :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
                            :etab="these.etablissement_soutenance.nom"
-                           :id="these.nnt" :status="these.status">
+                           :id="these.id" :status="these.status">
               </result-card>
             </div>
           </div>
 
           <div v-if="item.theses['président du jury'] && item.theses['président du jury'].length > 0">
             <hr/>
-            <h2>{{ $t("personnes.personneView.roles.president",[item.theses['président du jury'].length]) }}</h2>
-            <div v-for="these in item.theses['président du jury']" :key="`president-${these.nnt}`" class="card-wrapper">
+            <h2>{{ $t("personnes.personneView.roles.president", [item.theses['président du jury'].length]) }}</h2>
+            <div v-for="these in item.theses['président du jury']" :key="`president-${these.id}`" class="card-wrapper">
               <result-card :titre="these.titre"
-                           :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB'):new Date(these.date_soutenance).toLocaleDateString('en-GB')"
                            :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
                            :etab="these.etablissement_soutenance.nom"
-                           :id="these.nnt" :status="these.status">
+                           :id="these.id" :status="these.status">
               </result-card>
             </div>
           </div>
 
           <div v-if="item.theses['membre du jury'] && item.theses['membre du jury'].length > 0">
             <hr/>
-            <h2>{{ $t("personnes.personneView.roles.membre",[item.theses['membre du jury'].length]) }}</h2>
-            <div v-for="these in item.theses['membre du jury']" :key="`membre-${these.nnt}`" class="card-wrapper">
+            <h2>{{ $t("personnes.personneView.roles.membre", [item.theses['membre du jury'].length]) }}</h2>
+            <div v-for="these in item.theses['membre du jury']" :key="`membre-${these.id}`" class="card-wrapper">
               <result-card :titre="these.titre"
-                           :date="new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB'):new Date(these.date_soutenance).toLocaleDateString('en-GB')"
                            :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
                            :etab="these.etablissement_soutenance.nom"
-                           :id="these.nnt" :status="these.status">
+                           :id="these.id" :status="these.status">
               </result-card>
             </div>
           </div>
@@ -135,7 +137,9 @@
       </div>
     </div>
   </div>
-  <scroll-to-top-button v-show="hasScrolled" class="scroll-to-top-wrapper" :nb-result=1 />
+  <div class="scroll-to-top-container">
+    <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1></scroll-to-top-button>
+  </div>
 </template>
 
 <script setup>
@@ -198,7 +202,7 @@ onBeforeMount(() => {
 
 onUpdated(() => {
   if (currentRoute.hash) {
-    document.getElementById(currentRoute.hash.substring(1))?.scrollIntoView({ behavior: "smooth"});
+    document.getElementById(currentRoute.hash.substring(1))?.scrollIntoView({behavior: "smooth"});
   }
 })
 
@@ -427,5 +431,37 @@ function displayError(message, opt) {
 
 .result-components-wrapper {
   display: grid;
+}
+
+.scroll-to-top-container {
+  position: absolute;
+  left: 95.5%;
+  top: 30%;
+  width: 5%;
+  bottom: 260px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'xl-and-up')} {
+    left: 96%;
+  }
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    left: 95%;
+    bottom: 730px;
+  }
+
+  @media #{ map-get(settings.$display-breakpoints, 'xs')} {
+    left: 90%;
+    bottom: 800px;
+  }
+}
+
+.scroll-to-top-wrapper {
+  margin-left: 25px;
+  margin-bottom: 0;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    margin: 0 0;
+    height: 60px;
+    top: 90vh !important;
+  }
 }
 </style>

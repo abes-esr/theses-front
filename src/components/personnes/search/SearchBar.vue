@@ -14,8 +14,8 @@
         </v-btn>
       </template>
       <template v-slot:prepend-item v-if="suggestions.length > 0">
-        <h3>Personnes</h3>
-        <h3>Thématiques</h3>
+        <h3>{{ $t('personnes.searchBar.title-personnes') }}</h3>
+        <h3>{{ $t('personnes.searchBar.title-thematiques') }}</h3>
       </template>
       <template v-slot:item="{ item, props, index }">
         <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.personne==null" @click="selectSuggestion(item.raw.personne)">
