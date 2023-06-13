@@ -97,7 +97,9 @@
   "personnes": {
     "searchBar": {
       "loading": "Recherche en cours...",
-      "noData": "Pas de données"
+      "noData": "Pas de données",
+      "title-personnes": "Personnes",
+      "title-thematiques": "Thématiques"
     },
     "resultView": {
       "resultats": " résultats de personnes pour ",
