@@ -2,7 +2,7 @@
   <div class="key-words-title-wrapper">
     <v-icon color="primary">mdi-list-box</v-icon>
     <h1>{{ $t('theseView.motcle') }}</h1>
-    <template v-for="[lang] in Object.entries(motsCles)" :key="lang">
+    <template v-for="[lang] in Object.entries(motsCles).sort((a,b) => a[0]=='fr' || b[0]=='fr')" :key="lang">
       <v-btn @click="changeLanguage(lang)" flat text>
         <span :class='{ "selectedLang": selectedLang == lang }'>{{ lang }}</span>
       </v-btn>

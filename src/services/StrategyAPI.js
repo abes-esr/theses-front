@@ -487,12 +487,12 @@ function getData(id) {
   });
 }
 
-function getSuggestion() {
+function getSuggestion(candidate) {
   return new Promise ((resolve) => {
     if(domaine.value === "theses")
       resolve(suggestionTheses(query.value));
     if(domaine.value === "personnes")
-      resolve(suggestionPersonne(query.value));
+      resolve(suggestionPersonne(candidate));
   });
 }
 

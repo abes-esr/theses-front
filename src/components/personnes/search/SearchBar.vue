@@ -1,7 +1,7 @@
 <template>
   <div class="searchbar">
     <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-                :items="suggestions" variant="outlined" append-inner-icon :hide-no-data="!suggestionActive" no-filter :no-data-text="isLoading?$t('personnes.searchBar.loading'):$t('personnes.searchBar.noData')"
+                :items="suggestions" variant="outlined" append-inner-icon :hide-no-data="!suggestionActive || (!isLoading && suggestions.length == 0)" no-filter :no-data-text="isLoading?$t('personnes.searchBar.loading'):$t('personnes.searchBar.noData')"
                 @keydown.enter="search"
                 :loading="isLoading" :menu="suggestionActive" :menu-props="menuProps">
       <template v-slot:append-inner>
@@ -81,7 +81,7 @@ onMounted(
         setQuery(request.value);
         // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
         // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
-        //watcherActive = false;
+        watcherActive = false;
       }
       setDomaine(currentRoute.query.domaine);
     }
@@ -141,9 +141,8 @@ watch(disableCompletion, (newDisableCompletion) => {
 async function getSuggestionPersonne(candidate) {
   isLoading.value = true;
   try {
-    setQuery(candidate);
     suggestions.value = [];
-    const candidates = await getSuggestion();
+    const candidates = await getSuggestion(candidate);
     for (let index=0;index<Math.max(candidates.personnes.length,candidates.thematiques.length);index++) {
       suggestions.value[index] = {
         personne:candidates.personnes[index]?candidates.personnes[index]:null,
@@ -282,14 +281,11 @@ defineExpose({
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
+  margin-left:1rem;
 
   /* Permet de rendre l'autocompletion + dense */
   .v-list-item {
-    min-height: 140px !important;
-
-    @media only screen and (min-width: 600px) {
-      min-height: 60px !important;
-    }
+    min-height: 40px !important;
 
     @media only screen and (min-width: 900px) {
       min-height: 20px !important;
