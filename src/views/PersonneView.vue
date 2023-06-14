@@ -1,12 +1,21 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
-  <nav>
-    <v-dialog v-if="mobile" :model-value="openMenu" eager location-strategy="static" persistent no-click-animation fullscreen
-            :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <template v-slot:activator="{ props }">
-        <v-icon v-bind="props" size="40px" @click="openMenu = !openMenu">mdi-menu
-        </v-icon>
-      </template>
+  <nav v-if="mobile" class="mobile-nav-bar">
+    <button @click="openMenu = true" class="filter-mobile-nav-bar">
+      <v-icon v-bind="props" size="40px">mdi-menu
+      </v-icon>
+    </button>
+    <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+            :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+    </v-icon>
+  </nav>
+  <div v-if="mobile" class="logo-menu-wrapper">
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
+      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+    </RouterLink>
+    <!--    Menu recherche/selecteur these/personnes-->
+    <v-dialog v-model="openMenu" eager location-strategy="static" persistent no-click-animation fullscreen
+              :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
       <div class="statistique__title">
         <v-icon size="40px">mdi-account</v-icon>
         <v-btn size=40px icon="mdi-close-box" color="red" variant="text" @click="openMenu = !openMenu"></v-btn>
@@ -15,20 +24,27 @@
         <statistique-card-personne :stats="item.roles"></statistique-card-personne>
       </div>
     </v-dialog>
-  </nav>
-  <RouterLink class="logo" :to="{ name: 'home' }" v-if="mobile">
-    <img alt="logo" id="logoIMG" src="@/assets/icone-theses.svg"/>
-  </RouterLink>
+    <v-expand-transition>
+      <div v-show="showSearchBar" class="expanded-search-bar-container">
+        <div class="expanded-search-bar">
+          <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+                      @onError="displayError" />
+        </div>
+      </div>
+    </v-expand-transition>
+  </div>
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
-      <RouterLink :to="{ name: 'home' }">
-        <img class="logo" alt="logo" id="logoIMG" src="@/assets/icone-theses.svg"/>
+      <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
       </RouterLink>
       <h1>{{ $t("slogan") }}</h1>
     </div>
     <div class="sub_header__action">
-      <domain-selector compact></domain-selector>
-      <search-bar @search="loading = true" :loading="loading" @onError="displayError"/>
+      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+                  @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="search-filter">
@@ -37,6 +53,7 @@
     </div>
     <action-bar-personnes></action-bar-personnes>
   </div>
+
   <div class="main-wrapper">
     <div class="left-side nav-bar statistique__content" v-if="!mobile">
       <statistique-card-personne :stats="item.roles"></statistique-card-personne>
@@ -164,6 +181,7 @@ const MessageBox = defineAsyncComponent(() => import('@/components/common/Messag
 const {getPersonne} = personnesAPIService();
 const currentRoute = useRoute();
 
+const showSearchBar = ref(false);
 const loading = ref(false);
 const dataReady = ref(false);
 const openMenu = ref(false);

@@ -9,31 +9,33 @@
     </button>
     <!--    Bouton menu recherche/selecteur these/personnes-->
     <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-      :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+            :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav>
   <!--    Menu filtres-->
   <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
-      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_home">
+      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
     </RouterLink>
     <!--    Menu recherche/selecteur these/personnes-->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
-      :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+              :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
       <facets-header @closeOverlay="closeOverlay"
-        @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+                     @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
       <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-        :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
-        :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+                   :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
+                   :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+                   :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
+                   :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted"
+                   class="left-side"></facets-list>
     </v-dialog>
     <v-expand-transition>
       <div v-show="showSearchBar" class="expanded-search-bar-container">
         <div class="expanded-search-bar">
           <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-            @onError="displayError" />
+          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"
+                      :loading="loading"
+                      @onError="displayError"/>
         </div>
       </div>
     </v-expand-transition>
@@ -41,48 +43,62 @@
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
       <RouterLink :to="{ name: 'home' }" title="Accueil du site">
-        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
       </RouterLink>
       <h1>{{ $t("slogan") }}</h1>
     </div>
     <div class="sub_header__action">
       <domain-selector @changeDomain="changeDomain" compact></domain-selector>
       <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-        @onError="displayError" />
+                  @onError="displayError"/>
     </div>
   </div>
 
   <div class="result-main-wrapper">
     <div v-if="!mobile" class="nav-bar">
       <facets-header @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
-        class="left-side"></facets-list>
+      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
+                   :facets="facets"
+                   :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+                   :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
+                   :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted"
+                   :loading="!dataFacetsReady"
+                   class="left-side"></facets-list>
     </div>
     <div class="result-components">
       <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
-        :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange"
-        :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
+                         :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
+                         :domain-name-change="domainNameChange"
+                         :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
       </result-components>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineAsyncComponent, onMounted, ref, watch } from "vue";
-import { useRoute } from 'vue-router';
-import { APIService } from "@/services/StrategyAPI";
-import { useDisplay } from 'vuetify';
+import {defineAsyncComponent, onMounted, ref, watch} from "vue";
+import {useRoute} from 'vue-router';
+import {APIService} from "@/services/StrategyAPI";
+import {useDisplay} from 'vuetify';
 import FacetsList from '@/components/common/results/FacetsList.vue';
 import SearchBar from '@/components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 
-const { mobile } = useDisplay();
-const { setQuery, getQuery, queryAPI, getFacets, setDomaine, setPageNumber, setShowingNumber, setCheckedFilters, getURLParameters, setWorkingFacetName } = APIService();
+const {mobile} = useDisplay();
+const {
+  setQuery,
+  getQuery,
+  queryAPI,
+  getFacets,
+  setDomaine,
+  setPageNumber,
+  setShowingNumber,
+  setCheckedFilters,
+  getURLParameters,
+  setWorkingFacetName
+} = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
@@ -279,42 +295,6 @@ watch(() => currentRoute.query.domaine, () => {
   border-right: solid rgb(var(--v-theme-primary)) 3px;
 }
 
-.logo-menu-wrapper {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
-  grid-template-rows: 33% 33% 33%;
-}
-
-.logo {
-  grid-column-start: 2;
-  justify-self: center;
-  grid-row-start: 1;
-  align-self: start;
-}
-
-.magnify-logo-active {
-  color: rgb(var(--v-theme-orange-abes));
-}
-
-.expanded-search-bar-container {
-  width: 100%;
-  grid-column: 1 / 5;
-  justify-self: center;
-  grid-row-start: 1;
-  align-self: start;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgb(var(--v-theme-gris-clair));
-  border-bottom: 1px solid #bbb;
-  border-top: 1px solid #bbb;
-}
-
-.expanded-search-bar {
-  width: 80%;
-}
-
 .left-side {
   display: flex;
   justify-content: center;
@@ -380,29 +360,6 @@ watch(() => currentRoute.query.domaine, () => {
   background-color: rgb(var(--v-theme-background));
 }
 
-.nav-bar {
-  height: 100%;
-  width: 100%;
-  max-width: 20vw;
-  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
-}
-
-.mobile-nav-bar {
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  padding: 0 10px;
-}
-
-.filter-mobile-nav-bar {
-  display: flex;
-  align-content: center;
-
-  span {
-    padding: 10% 0;
-  }
-}
-
 .result-main-wrapper {
   display: grid;
   grid-template-columns: 20vw auto;
@@ -423,7 +380,5 @@ watch(() => currentRoute.query.domaine, () => {
   }
 }
 
-.logo-menu-wrapper > .expanded-search-bar-container {
-  margin-bottom: 40px;
-}
+
 </style>
