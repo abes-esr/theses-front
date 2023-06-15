@@ -61,6 +61,5 @@ function deleteFilter(facet) {
     font-family: Roboto-Regular, sans-serif;
     font-weight: 400;
     color: rgb(var(--v-theme-primary));
-    text-transform: capitalize;
   }
 </style>
