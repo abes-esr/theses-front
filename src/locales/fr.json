@@ -73,7 +73,9 @@
     "showMoreKeywords": "Afficher tous les mots-clés",
     "showLessKeywords": "Afficher moins de mots-clés",
     "showMoreAbstract": "Afficher la suite du résumé",
-    "showLessAbstract": "Afficher un extrait du résumé"
+    "showLessAbstract": "Afficher un extrait du résumé",
+    "projet": "Projet de thèse",
+    "doctorat": "Thèse de doctorat"
   },
   "results": {
     "facetsHeader": "Filtres",
