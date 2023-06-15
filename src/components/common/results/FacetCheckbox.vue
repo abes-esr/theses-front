@@ -152,7 +152,6 @@ function arrayContainsFilter() {
   font-size: 15px !important;
   font-family: Roboto-Medium, sans-serif;
   font-weight: 500;
-  text-transform: capitalize;
 }
 
 :deep(.v-selection-control__wrapper) {
