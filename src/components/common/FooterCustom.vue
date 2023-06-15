@@ -3,7 +3,8 @@
     <div class="footerTop">
       <div>
         <h4>Theses.fr</h4>
-        <span>{{ $t("footer.texte") }}</span>
+        <span>{{ $t("footer.texte") }}</span>&nbsp;<a href="/apropos">{{ $t("footer.plus")
+        }}</a>
       </div>
       <div>
         <h3>
@@ -55,18 +56,21 @@
             {{ $t("apropos") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider>
-          <v-btn plain color="transparent" size="small" href="/donnees" @click="$router.push({ name: 'donnees' })">
+          <v-btn plain color="transparent" size="small" target="_blank"
+            href="https://abes.fr/pages-donnees-personnelles/thesesfr.html">
             {{ $t("donnees") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider>
-          <v-btn color="transparent" size="small" @click="$router.push({ name: 'cgu' })">{{ $t("CGU") }}
+          <v-btn color="transparent" size="small" target="_blank"
+            href="https://abes.fr/pages-cgu/conditions-generales-utilisation-sites-abes.html">{{ $t("CGU") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider>
-          <v-btn color="transparent" size="small" @click="$router.push({ name: 'mentions' })">
+          <v-btn color="transparent" size="small" href="https://abes.fr/pages-mentions-legales/theses.html"
+            target="_blank">
             {{ $t("mentions") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider>
-          <v-btn color="transparent" size="small" @click="$router.push({ name: 'accessibilite' })">
+          <v-btn color="transparent" size="small" target="_blank" href="https://abes.fr/pages-accessibilite/theses.html">
             {{ $t("accessibilite") }}
           </v-btn>
         </v-col>

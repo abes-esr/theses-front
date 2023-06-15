@@ -69,17 +69,21 @@
       </v-card-text>
       <div v-if="dataReady">
         <div class="info">
+          <v-icon size="45px">$personne</v-icon>
+          <div class="sep">
+            <v-divider vertical v-if="item.has_idref"></v-divider>
+          </div>
+          <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
+            <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png"/>
+          </a>
           <div class="nom-card">
-            <v-icon size="45px">$personne</v-icon>
+
             <div class="nomprenom">
               <span class="prenom">{{ item.prenom }}</span>
               <span class="nom">{{ item.nom }}</span>
             </div>
           </div>
-          <v-divider vertical></v-divider>
-          <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-            <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png"/>
-          </a>
+
         </div>
         <personne-motcles :motsCles="item.mots_cles"/>
         <div class="theses">
@@ -383,15 +387,41 @@ function displayError(message, opt) {
         width: calc(30% - 2rem);
       }
 
+      .v-icon {
+        margin-right: 1rem;
+      }
+
+      .sep {
+        height: 40px;
+        margin-right: 1rem;
+
+        hr {
+          border-color: rgb(var(--v-theme-primary));
+          opacity: 1;
+          border-width: 0 1.5px 0 0;
+        }
+      }
+
+      a {
+        img {
+          max-height: 30px;
+        }
+      }
+
       .nom-card {
+        flex: 1 0 100%;
         display: flex;
         align-items: center;
+        margin-left: 1rem;
 
-        .v-icon {
-          margin-right: 1rem;
+        @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+          flex: 1 0 60%;
+          margin-left: 2rem;
         }
 
         .nomprenom {
+          display: flex;
+          flex-direction: column;
           text-decoration: none;
           color: rgb(var(--v-theme-orange-abes));
           font-size: 23.5px;
@@ -405,23 +435,11 @@ function displayError(message, opt) {
           }
 
           .nom {
-            margin-left: 0.5rem;
             font-weight: 700;
           }
         }
       }
 
-      hr {
-        border-color: rgb(var(--v-theme-primary));
-        opacity: 1;
-        border-width: 0 1.5px 0 0;
-      }
-
-      a {
-        img {
-          max-height: 30px;
-        }
-      }
     }
 
     .theses {

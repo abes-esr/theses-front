@@ -141,7 +141,8 @@
     "doc": "Documentation",
     "assistance": "Guichet d'assistance",
     "logoAbesAlt": "Accéder au site de l’Agence Bibliographique de l’Enseignement Supérieur",
-    "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche"
+    "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche",
+    "plus": "En savoir plus"
   },
   "header": {
     "doc": "Accéder à la documentation de theses.fr ",

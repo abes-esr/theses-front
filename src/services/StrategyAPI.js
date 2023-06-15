@@ -198,10 +198,10 @@ function disableOrFilters() {
 function queryAPI() {
   query.value = (typeof query.value === 'undefined') ? '*' : query.value;
 
-  if(domaine.value === "theses")
-    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
   if(domaine.value === "personnes")
     return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
+  else
+    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
 }
 
 /**
