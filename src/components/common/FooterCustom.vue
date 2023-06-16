@@ -52,9 +52,6 @@
           </div>
         </v-col>
         <v-col cols="12" md="9" class="text-center text-md-right pa-0">
-          <v-btn plain color="transparent" size="small" @click="$router.push({ name: 'apropos' })">
-            {{ $t("apropos") }}
-          </v-btn>
           <v-divider vertical class="my-1"></v-divider>
           <v-btn plain color="transparent" size="small" target="_blank"
             href="https://abes.fr/pages-donnees-personnelles/thesesfr.html">
