@@ -255,10 +255,6 @@ function displayError(message, opt) {
 
 .logo {
   margin-top: -55px;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
-    margin-top: -110px;
-  }
 }
 
 .v-menu ::v-deep(.v-overlay__content) {
