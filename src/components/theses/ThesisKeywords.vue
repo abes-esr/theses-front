@@ -40,7 +40,8 @@ const props = defineProps({
     required: true
   },
   selectedLanguage: {
-    type: String
+    type: String,
+    default: "fr"
   },
   dataReady: {
     type: Boolean
@@ -55,8 +56,7 @@ const { mobile } = useDisplay();
 const keyWordPerLine = mobile.value ? ref(6) : ref(5);
 const forceRenderKey = ref(0);
 
-const keywordsFR = ref([]);
-const keywordsEN = ref([]);
+const keywords = ref([]);
 const readMore = ref(false);
 
 onBeforeUpdate(() => {
@@ -74,38 +74,59 @@ onBeforeUpdate(() => {
  * @returns {UnwrapRefSimple<*>[]}
  */
 function selectKeyWords(numberOfWords, offset) {
-  return keywordsFR.value.filter((word, index) => { return index < numberOfWords + offset && index >= offset; });
+  return keywords.value[props.selectedLanguage].filter((word, index) => { return index < numberOfWords + offset && index >= offset; });
 }
 
 function setKeywords() {
-  const sujetsFR = [];
-  const sujetsRameau = [];
+  const sujets = {};
 
-  if (typeof props.these.sujetsFR !== 'undefined') {
-    props.these.sujetsFR.forEach((keyWord) => {
-      sujetsFR.push(
-        {
-          'keyword': keyWord,
-          'type': 'sujetsFR'
-        }
-      );
-    });
+  for (let i = 0; i < props.these.sujets.length; i++) {
+    const item = props.these.sujets[i];
+    const langue = item.langue;
+    const libelle = item.libelle;
+
+    if (sujets[langue]) {
+      sujets[langue].push({
+        'keyword': libelle,
+        'type': 'sujet'
+
+      });
+    } else {
+      sujets[langue] = [{
+        'keyword': libelle,
+        'type': 'sujet'
+
+      }];
+    }
   }
+
 
   if (typeof props.these.sujetsRameau !== 'undefined') {
     props.these.sujetsRameau.forEach((keyWord) => {
-      sujetsRameau.push(
-        {
-          'keyword': keyWord.libelle,
-          'query': `"${keyWord.libelle}" ET "${keyWord.ppn}"`,
-          'type': 'sujetsRameau'
-        }
-      );
+      //On ajoute directement dans [fr] car les sujetsRameaux sont FR uniquement, et unshift pour que les Rameaux soient au début
+      if (sujets["fr"]) {
+        sujets["fr"].unshift(
+          {
+            'keyword': keyWord.libelle,
+            'query': `"${keyWord.libelle}" ET "${keyWord.ppn}"`,
+            'type': 'sujetsRameau'
+          }
+        );
+      } else {
+        sujets["fr"] = [(
+          {
+            'keyword': keyWord.libelle,
+            'query': `"${keyWord.libelle}" ET "${keyWord.ppn}"`,
+            'type': 'sujetsRameau'
+          }
+        )];
+      }
+
+
     });
   }
 
-  keywordsFR.value = (typeof props.these.sujetsFR === 'undefined') ? sujetsRameau : sujetsRameau.concat(sujetsFR);
-  keywordsEN.value = props.these.sujetsEN;
+  keywords.value = sujets;
 }
 
 /**
@@ -179,6 +200,10 @@ h1 {
   font-weight: 600;
   font-size: 16px;
   color: rgb(var(--v-theme-primary));
+}
+
+.v-chip--disabled {
+  background-color: rgb(var(--v-theme-gris-clair));
 }
 
 .key-word-label {
