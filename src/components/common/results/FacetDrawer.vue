@@ -24,16 +24,16 @@
           <div v-if="date" class="date-container">
             <span class="date-item">
               <p>{{ $t("results.drawer.from") }}</p>
-              <VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply
-                :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
-                placeholder="AAAA" :max-date="dateFromMax" :teleport-center="teleportCenter">
+              <VueDatePicker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA"
+                :max-date="dateFromMax" :teleport-center="teleportCenter">
               </VueDatePicker>
             </span>
             <span class="date-item">
               <p>{{ $t("results.drawer.to") }}</p>
-              <VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply
-                :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
-                placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin" :teleport-center="teleportCenter">
+              <VueDatePicker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA"
+                :max-date="dateToMax" :min-date="dateToMin" :teleport-center="teleportCenter">
               </VueDatePicker>
             </span>
           </div>
@@ -129,8 +129,8 @@ fillDateDrawerFields();
 
 function searchIntoFacet() {
   facetItems.value.forEach(function (facetItem) {
-    const filterLowerCase = facetItem.label;
-    const searchTextLowerCase = filterSearchText.value;
+    const filterLowerCase = facetItem.label.toLowerCase();
+    const searchTextLowerCase = filterSearchText.value.toLowerCase();
     facetItem.selected = filterLowerCase.includes(searchTextLowerCase);
   });
 }
@@ -336,7 +336,7 @@ watch(() => props.parametersLoaded,
   display: none !important;
 }
 
-.v-field__field > .v-label {
+.v-field__field>.v-label {
   font-size: 17px !important;
   font-family: Roboto-Medium, sans-serif;
   font-weight: 500;

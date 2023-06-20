@@ -4,7 +4,7 @@
     <div class="buttons-header">
       <div class="header-container no-wrap-text">
         <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
-        <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
+        <span class="buttons-title-header"><span v-if="soutenue">{{ $t("theseView.valide") }}</span></span>
         <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
           <div class="close-overlay-icon-wrapper">
             <div class="circle"></div>
@@ -13,8 +13,8 @@
         </button>
       </div>
     </div>
-    <div class="listButtons no-wrap-text">
-      <v-btn color="primary" append-icon="mdi-arrow-right-circle" class="" flat v-for="b in listButtons" :key="b"
+    <div class="listButtons no-wrap-text" v-if="soutenue">
+      <v-btn color="primary" append-icon="mdi-arrow-right-circle" flat v-for="b in listButtons" :key="b"
         :href="baseURL + b.url" target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
           b.libelle }}</v-btn>
       <v-skeleton-loader v-if="loading" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineAsyncComponent } from "vue";
+import { ref, watch, defineAsyncComponent } from "vue";
 import { thesesAPIService } from '@/services/ThesesAPI';
 import { useDisplay } from "vuetify";
 
@@ -40,28 +40,36 @@ const props = defineProps({
   nnt: {
     type: String,
     default: ""
+  },
+  soutenue: {
+    type: Boolean,
   }
 });
 
 const emit = defineEmits('closeOverlay');
 
 const { getButtons } = thesesAPIService();
-const loading = ref(true);
+const loading = ref(false);
 const listButtons = ref([]);
 const baseURL = import.meta.env.VITE_APP_API;
 
-onMounted(() => {
-  getButtons(props.nnt).then((res) => {
-    listButtons.value = res.data.buttons;
-  })
-    .catch((err) => {
-      displayError("Accès en ligne : " + err.message);
-    })
-    .finally(() => {
-      loading.value = false;
-    });
+watch(
+  () => props.soutenue,
+  () => {
+    if (props.soutenue) {
+      getButtons(props.nnt).then((res) => {
+        listButtons.value = res.data.buttons;
+      })
+        .catch((err) => {
+          displayError("Accès en ligne : " + err.message);
+        })
+        .finally(() => {
+          loading.value = false;
+        });
+    }
+  }
+);
 
-});
 
 /**
  * Fonctions
@@ -180,5 +188,4 @@ function closeOverlay() {
   grid-column-end: 4;
   justify-self: end;
 }
-
 </style>
