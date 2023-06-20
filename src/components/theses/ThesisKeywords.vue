@@ -3,7 +3,7 @@
     <div class="key-words-title-wrapper">
       <v-icon color="primary">mdi-list-box</v-icon>
       <h1>{{ $t('theseView.motcle') }}</h1>
-      <!--    language selector-->
+      <language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
     </div>
     <v-chip-group id="first-chip-line">
       <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord.keyword + forceRenderKey"
@@ -32,17 +32,14 @@
 </template>
 
 <script setup>
-import { onBeforeUpdate, ref, watch } from "vue";
+import { onBeforeUpdate, ref, watch, computed } from "vue";
 import { useDisplay } from "vuetify";
+import LanguageSelector from "../common/LanguageSelector.vue";
 
 const props = defineProps({
   these: {
     type: Object,
     required: true
-  },
-  selectedLanguage: {
-    type: String,
-    default: "fr"
   },
   dataReady: {
     type: Boolean
@@ -59,9 +56,18 @@ const forceRenderKey = ref(0);
 
 const keywords = ref([]);
 const readMore = ref(false);
+const selectedLanguage = ref("fr");
 
 onBeforeUpdate(() => {
   setKeywords();
+});
+
+/**
+ * Computed Properties
+ */
+
+const langList = computed(() => {
+  return Object.keys(keywords.value);
 });
 
 /**
@@ -75,7 +81,7 @@ onBeforeUpdate(() => {
  * @returns {UnwrapRefSimple<*>[]}
  */
 function selectKeyWords(numberOfWords, offset) {
-  return keywords.value[props.selectedLanguage].filter((word, index) => { return index < numberOfWords + offset && index >= offset; });
+  return keywords.value[selectedLanguage.value].filter((word, index) => { return index < numberOfWords + offset && index >= offset; });
 }
 
 function setKeywords() {
@@ -128,6 +134,10 @@ function setKeywords() {
   }
 
   keywords.value = sujets;
+}
+
+function onUpdateLangue(langue) {
+  selectedLanguage.value = langue;
 }
 
 /**

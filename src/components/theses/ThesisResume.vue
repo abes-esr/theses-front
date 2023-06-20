@@ -3,7 +3,7 @@
     <div class="resume-title-wrapper">
       <v-icon color="primary">mdi-file-document-arrow-right</v-icon>
       <h1>{{ $t('theseView.resume') }}</h1>
-      <!--    language selector-->
+      <language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
     </div>
     <div id="resume-text">
       <p>
@@ -14,15 +14,12 @@
 </template>
 
 <script setup>
-import { onBeforeUpdate, ref, watch } from "vue";
+import { onBeforeUpdate, ref, computed } from "vue";
+import LanguageSelector from "../common/LanguageSelector.vue";
 
 const props = defineProps({
   these: {
     type: Object
-  },
-  selectedLanguage: {
-    type: String,
-    default: 'fr'
   },
   resumeIsSet: {
     type: Boolean
@@ -30,22 +27,31 @@ const props = defineProps({
 });
 
 const resume = ref("");
+const selectedLanguage = ref("fr");
 
 onBeforeUpdate(() => {
-  if (typeof props.these.resumes !== 'undefined' && typeof props.these.resumes[props.selectedLanguage] !== 'undefined') {
-    resume.value = props.these.resumes[props.selectedLanguage];
+  if (typeof props.these.resumes !== 'undefined' && typeof props.these.resumes[selectedLanguage.value] !== 'undefined') {
+    resume.value = props.these.resumes[selectedLanguage.value];
   }
+});
+
+/** 
+ * Computed
+ */
+const langList = computed(() => {
+  return Object.keys(props.these.resumes);
 });
 
 /**
- * Watchers
+ * Functions
  */
-watch(() => props.selectedLanguage, async (newSelected) => {
-  for (const [key, value] of Object.entries(props.these.value.resumes)) {
-    if (key === newSelected)
-      resume.value = value;
-  }
-});
+function onUpdateLangue(langue) {
+  selectedLanguage.value = langue;
+  resume.value = props.these.resumes[selectedLanguage.value];
+}
+
+
+
 
 </script>
 
