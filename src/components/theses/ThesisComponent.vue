@@ -1,17 +1,30 @@
 <template>
+  <thesis-toolbar />
   <div v-if="dataReady && these !== {}">
-    <thesis-toolbar />
     <thesis-title :data-ready="dataReady" :status="these.status" :titles="these.titres" id="top-of-thesis-component" />
     <thesis-table class="thesis-component" :these="these" />
     <v-divider v-if="keywordsAreSet" :thickness="1" class="divider border-opacity-50" length="90%" />
     <thesis-keywords class="thesis-component" :keywords-are-set="keywordsAreSet" :data-ready="dataReady" :these="these"
-                     :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
+      :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
     <v-divider v-if="resumeIsSet" :thickness="1" class="divider border-opacity-50" length="90%" />
     <thesis-resume class="thesis-component" :resume-is-set="resumeIsSet" :data-ready="dataReady" :these="these"
-                   :selected-language="selectedLanguage" />
+      :selected-language="selectedLanguage" />
     <div class="scroll-to-top-container">
       <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1 />
     </div>
+  </div>
+  <div v-if="!keywordsAreSet || !resumeIsSet">
+    <v-skeleton-loader type="heading"></v-skeleton-loader>
+    <v-skeleton-loader type="paragraph"></v-skeleton-loader>
+    <v-skeleton-loader type="paragraph"></v-skeleton-loader>
+    <v-divider :thickness="1" class="divider border-opacity-50" length="90%" />
+    <v-skeleton-loader type="subtitle"></v-skeleton-loader>
+    <v-skeleton-loader type="chip, chip, chip, chip, chip, chip"></v-skeleton-loader>
+    <v-divider :thickness="1" class="divider border-opacity-50" length="90%" />
+    <v-skeleton-loader type="heading"></v-skeleton-loader>
+    <v-skeleton-loader type="paragraph"></v-skeleton-loader>
+    <v-skeleton-loader type="paragraph"></v-skeleton-loader>
+    <v-skeleton-loader type="paragraph"></v-skeleton-loader>
   </div>
 </template>
 
@@ -45,7 +58,7 @@ const keywordsAreSet = ref(false);
 
 onBeforeUpdate(() => {
   keywordsAreSet.value = (typeof props.these.sujetsRameau !== 'undefined' && props.these.sujetsRameau.length > 0)
-    || (typeof props.these.sujets !== 'undefined' &&  Object.entries(props.these.sujets).length > 0 );
+    || (typeof props.these.sujets !== 'undefined' && Object.entries(props.these.sujets).length > 0);
   resumeIsSet.value = typeof props.these.resumes !== 'undefined' && Object.entries(props.these.resumes).length > 0;
 });
 
@@ -65,48 +78,59 @@ watchEffect(() => {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-  .thesis-component {
-    width: 92%;
-    margin: 0 auto 20px;
+.thesis-component {
+  width: 92%;
+  margin: 0 auto 20px;
+}
+
+.v-skeleton-loader {
+  width: 92%;
+  margin: 0 auto 20px;
+  background-color: transparent !important;
+}
+
+:deep(.v-skeleton-loader__chip) {
+  max-width: 200px;
+}
+
+.divider {
+  margin: 10px auto 15px;
+}
+
+.scroll-to-top-container {
+  position: absolute;
+  left: 95.5%;
+  top: 30%;
+  width: 5%;
+  bottom: 300px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'xl-and-up')} {
+    left: 96%;
   }
 
-  .divider {
-    margin: 10px auto 15px;
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    left: 95%;
+    bottom: 730px;
   }
 
-  .scroll-to-top-container {
-    position: absolute;
-    left: 95.5%;
-    top: 30%;
-    width: 5%;
-    bottom: 300px;
-
-    @media #{ map-get(settings.$display-breakpoints, 'xl-and-up')} {
-      left: 96%;
-    }
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-      left: 95%;
-      bottom: 730px;
-    }
-
-    @media #{ map-get(settings.$display-breakpoints, 'xs')} {
-      left: 90%;
-      bottom: 800px;
-    }
+  @media #{ map-get(settings.$display-breakpoints, 'xs')} {
+    left: 90%;
+    bottom: 800px;
   }
+}
 
-  .scroll-to-top-wrapper {
-    margin-left: 25px;
-    margin-bottom: 0;
+.scroll-to-top-wrapper {
+  margin-left: 25px;
+  margin-bottom: 0;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-        margin: 0 0;
-        height: 60px;
-        top: 90vh !important;
-      }
-    }
-
-  #top-of-thesis-component {
-    hyphens: auto;
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    margin: 0 0;
+    height: 60px;
+    top: 90vh !important;
   }
+}
+
+#top-of-thesis-component {
+  hyphens: auto;
+}
 </style>

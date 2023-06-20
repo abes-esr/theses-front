@@ -1,5 +1,5 @@
 <template>
-  <table class="table">
+  <table class="table" v-if="these.auteurs">
     <tbody class="table-body">
       <!-- Auteur -->
       <tr v-if="these.auteurs && these.auteurs.length > 0" class="table-rows">
