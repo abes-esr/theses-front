@@ -4,19 +4,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, watch } from "vue";
 import { useRoute } from 'vue-router';
 import TheseView from './TheseView.vue';
 import PersonneView from './PersonneView.vue';
 
 const route = useRoute();
-let id = "";
+const id = ref("");
 const type = ref("");
 
-onMounted(() => {
-    id = route.params.id;
-    type.value = checkId(id);
-});
+id.value = route.params.id;
+type.value = checkId(id.value);
+
+watch(
+    () => route.params.id,
+    async newId => {
+        id.value = newId;
+        type.value = checkId(id.value);
+    }
+);
 
 function checkId(id) {
     var regexNNT = /^[a-zA-Z0-9]{12}$/;
