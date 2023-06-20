@@ -7,18 +7,16 @@
           <v-divider vertical v-if="item.has_idref"></v-divider>
         </div>
         <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-          <img alt="logo"
-               id="logoIMG" src="@/assets/idref-icone.png"/>
+          <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png" />
         </a>
         <div class="nom-card">
           <RouterLink class="nomprenom"
-                      :to="{ name: 'personne', params: { id: item.id }, query:{ 'domaine': currentRoute.query.domaine }}"
-                      v-if="item.has_idref">
+            :to="{ name: 'detail', params: { id: item.id }, query: { 'domaine': currentRoute.query.domaine } }"
+            v-if="item.has_idref">
             <span class="prenom">{{ item.prenom }}</span>
             <span class="nom">{{ item.nom }}</span>
           </RouterLink>
-          <RouterLink v-else-if="item.these.id" class="nomprenom"
-                      :to="{ name: 'these', params: { id: item.these.id } }">
+          <RouterLink v-else-if="item.these.id" class="nomprenom" :to="{ name: 'detail', params: { id: item.these.id } }">
             <span class="prenom">{{ item.prenom }}</span>
             <span class="nom">{{ item.nom }}</span>
           </RouterLink>
@@ -30,18 +28,17 @@
       </div>
       <div class="action">
         <v-btn :disabled="!item.roles['auteur'] || !item.these.id" color="primary" append-icon="mdi-arrow-right-circle"
-               @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }}
+          @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }}
           ({{ item.roles["auteur"] ? item.roles["auteur"] : 0 }})
         </v-btn>
         <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these.id" color="primary"
-               append-icon="mdi-arrow-right-circle"
-               @click="goToPersonne('#Directeurs')">{{ $t('personnes.resultView.personnesCard.directeur') }}
+          append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Directeurs')">{{
+            $t('personnes.resultView.personnesCard.directeur') }}
           ({{ item.roles["directeur de thèse"] ? item.roles["directeur de thèse"] : 0 }})
         </v-btn>
         <v-btn :disabled="!item.roles['rapporteur'] || !item.these.id" color="primary"
-               append-icon="mdi-arrow-right-circle"
-
-               @click="goToPersonne('#Rapporteurs')">{{ $t('personnes.resultView.personnesCard.rapporteur') }}
+          append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Rapporteurs')">{{
+            $t('personnes.resultView.personnesCard.rapporteur') }}
           ({{ item.roles["rapporteur"] ? item.roles["rapporteur"] : 0 }})
         </v-btn>
       </div>
@@ -68,7 +65,7 @@ export default {
 };
 </script>
 <script setup>
-import {useRoute, useRouter} from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
 const currentRoute = useRoute();
@@ -78,21 +75,21 @@ const props = defineProps({
     type: Object,
     required: true
   }
-})
+});
 
 function goToPersonne(hash) {
   if (props.item.has_idref) {
     router.push({
-      name: 'personne',
-      query: {'domaine': currentRoute.query.domaine},
-      params: {"id": props.item.id},
+      name: 'detail',
+      query: { 'domaine': currentRoute.query.domaine },
+      params: { "id": props.item.id },
       hash: hash ? hash : ''
-    })
+    });
   } else {
     router.push({
-      name: 'these',
-      params: {"id": props.item.these.id}
-    })
+      name: 'detail',
+      params: { "id": props.item.these.id }
+    });
   }
 }
 </script>
@@ -243,7 +240,8 @@ function goToPersonne(hash) {
     }
   }
 
-  .disciplines, .etablissements {
+  .disciplines,
+  .etablissements {
     flex: 0 0 45%;
 
     .separator:last-of-type {

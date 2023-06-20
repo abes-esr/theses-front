@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineAsyncComponent } from "vue";
+import { ref, watch, defineAsyncComponent } from "vue";
 import { thesesAPIService } from '@/services/ThesesAPI';
 import { useDisplay } from "vuetify";
 
@@ -43,30 +43,33 @@ const props = defineProps({
   },
   soutenue: {
     type: Boolean,
-    default: true
   }
 });
 
 const emit = defineEmits('closeOverlay');
 
 const { getButtons } = thesesAPIService();
-const loading = ref(true);
+const loading = ref(false);
 const listButtons = ref([]);
 const baseURL = import.meta.env.VITE_APP_API;
 
-onMounted(() => {
-  if (props.soutenue) {
-    getButtons(props.nnt).then((res) => {
-      listButtons.value = res.data.buttons;
-    })
-      .catch((err) => {
-        displayError("Accès en ligne : " + err.message);
+watch(
+  () => props.soutenue,
+  () => {
+    if (props.soutenue) {
+      getButtons(props.nnt).then((res) => {
+        listButtons.value = res.data.buttons;
       })
-      .finally(() => {
-        loading.value = false;
-      });
+        .catch((err) => {
+          displayError("Accès en ligne : " + err.message);
+        })
+        .finally(() => {
+          loading.value = false;
+        });
+    }
   }
-});
+);
+
 
 /**
  * Fonctions
