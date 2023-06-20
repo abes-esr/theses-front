@@ -1,7 +1,7 @@
 <template>
   <div class="searchbar">
     <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-                :items="suggestions" variant="outlined" append-inner-icon :hide-no-data="!suggestionActive || (!isLoading && suggestions.length == 0)" no-filter :no-data-text="isLoading?$t('personnes.searchBar.loading'):$t('personnes.searchBar.noData')"
+                :items="suggestions" variant="outlined" append-inner-icon :hide-no-data="!suggestionActive" no-filter :no-data-text="isLoading?$t('personnes.searchBar.loading'):$t('personnes.searchBar.noData')"
                 @keydown.enter="search"
                 :loading="isLoading" :menu="suggestionActive" :menu-props="menuProps">
       <template v-slot:append-inner>
@@ -154,7 +154,12 @@ async function getSuggestionPersonne(candidate) {
     emit('onError', "Autocomplétion : " + error.message);
   } finally {
     isLoading.value = false;
-    suggestionActive.value = true;
+
+    if (suggestions.value.length > 0) {
+      suggestionActive.value = true;
+    } else {
+      suggestionActive.value = false;
+    }
   }
 }
 
