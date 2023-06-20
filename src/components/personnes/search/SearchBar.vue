@@ -290,7 +290,7 @@ defineExpose({
   h3 {
     margin-left: 1rem;
   }
-  
+
   .v-list {
     display: grid;
     grid-template-columns: 1fr 1fr;

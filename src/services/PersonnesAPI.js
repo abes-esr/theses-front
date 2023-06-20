@@ -61,8 +61,8 @@ async function suggestionPersonne(query) {
  * @param query
  * @returns {Promise<AxiosResponse<any>>}
  */
-function getFacetsPersonnes(query) {
-    return apiPersonnes.get("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query)));
+function getFacetsPersonnes(query, facetsRequest) {
+    return apiPersonnes.get("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);
 }
 
 /**
