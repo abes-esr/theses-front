@@ -1,7 +1,8 @@
 <template>
   <div class="searchbar">
     <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-                :items="suggestions" variant="outlined" append-inner-icon :hide-no-data="!suggestionActive || (!isLoading && suggestions.length == 0)" no-filter :no-data-text="isLoading?$t('personnes.searchBar.loading'):$t('personnes.searchBar.noData')"
+                :items="suggestions" variant="outlined" append-inner-icon :hide-no-data="!suggestionActive" no-filter
+                :no-data-text="isLoading?$t('personnes.searchBar.loading'):$t('personnes.searchBar.noData')"
                 @keydown.enter="search"
                 :loading="isLoading" :menu="suggestionActive" :menu-props="menuProps">
       <template v-slot:append-inner>
@@ -18,17 +19,19 @@
         <h3>{{ $t('personnes.searchBar.title-thematiques') }}</h3>
       </template>
       <template v-slot:item="{ item, props, index }">
-        <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.personne==null" @click="selectSuggestion(item.raw.personne)">
+        <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.personne==null"
+                     @click="selectSuggestion(item.raw.personne)">
           <span v-if=" item.raw.personne != null">{{
               item.raw.personne.suggestion
             }}</span>
-          <span v-else ></span>
+          <span v-else></span>
         </v-list-item>
-        <v-list-item  v-bind="props" :key="index" :title="false" :disabled="item.raw.thematique==null" @click="selectSuggestion(item.raw.thematique)">
+        <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.thematique==null"
+                     @click="selectSuggestion(item.raw.thematique)">
           <span v-if=" item.raw.thematique != null">{{
               item.raw.thematique.suggestion
             }}</span>
-          <span v-else ></span>
+          <span v-else></span>
         </v-list-item>
       </template>
     </v-combobox>
@@ -46,14 +49,14 @@ export default {
 };
 </script>
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { APIService } from "@/services/StrategyAPI";
+import {ref, onMounted, watch, computed} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
+import {APIService} from "@/services/StrategyAPI";
 
 const router = useRouter();
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery, setDomaine } = APIService();
+const {getSuggestion, setQuery, setDomaine} = APIService();
 
 defineProps({
   loading: {
@@ -102,7 +105,7 @@ async function search() {
   } else {
     router.push({
       name: 'resultats',
-      query: { 'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine) }
+      query: {'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine)}
     });
   }
 }
@@ -143,10 +146,10 @@ async function getSuggestionPersonne(candidate) {
   try {
     suggestions.value = [];
     const candidates = await getSuggestion(candidate);
-    for (let index=0;index<Math.max(candidates.personnes.length,candidates.thematiques.length);index++) {
+    for (let index = 0; index < Math.max(candidates.personnes.length, candidates.thematiques.length); index++) {
       suggestions.value[index] = {
-        personne:candidates.personnes[index]?candidates.personnes[index]:null,
-        thematique:candidates.thematiques[index]?candidates.thematiques[index]:null,
+        personne: candidates.personnes[index] ? candidates.personnes[index] : null,
+        thematique: candidates.thematiques[index] ? candidates.thematiques[index] : null,
       }
     }
   } catch (error) {
@@ -154,7 +157,12 @@ async function getSuggestionPersonne(candidate) {
     emit('onError', "Autocomplétion : " + error.message);
   } finally {
     isLoading.value = false;
-    suggestionActive.value = true;
+
+    if (suggestions.value.length > 0) {
+      suggestionActive.value = true;
+    } else {
+      suggestionActive.value = false;
+    }
   }
 }
 
@@ -277,18 +285,25 @@ defineExpose({
 <style lang="scss">
 @use 'vuetify/settings';
 
-.autocompl .v-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 100%;
-  margin-left:1rem;
+.autocompl {
 
-  /* Permet de rendre l'autocompletion + dense */
-  .v-list-item {
-    min-height: 40px !important;
+  h3 {
+    margin-left: 1rem;
+  }
+  
+  .v-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    margin-left: 1rem;
 
-    @media only screen and (min-width: 900px) {
-      min-height: 20px !important;
+    /* Permet de rendre l'autocompletion + dense */
+    .v-list-item {
+      min-height: 40px !important;
+
+      @media only screen and (min-width: 900px) {
+        min-height: 20px !important;
+      }
     }
   }
 }
