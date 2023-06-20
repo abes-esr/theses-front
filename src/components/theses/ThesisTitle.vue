@@ -1,5 +1,5 @@
 <template>
-  <div class="title-wrapper line-clamp">
+  <div v-if="currentTitle !== ''" class="title-wrapper line-clamp">
     <div class="thesis-icon">
       <thesis-icon :status="status"></thesis-icon>
     </div>
