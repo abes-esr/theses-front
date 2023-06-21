@@ -1,6 +1,6 @@
 <template>
   <v-lazy :min-height="10" :options="{ threshold: 1.0 }">
-    <v-checkbox v-model="checkboxState" @click="updateCheckbox(checkboxState)" :class="`checkboxes ms-${props.marginOffset}`"
+    <v-checkbox v-model="checkboxState" @click="updateCheckbox" :class="`checkboxes ms-${props.marginOffset}`"
       :label="`${replaceFacetsText(facetItem.label)} (${facetItem.value})`" density="compact" inline hide-details>
     </v-checkbox>
   </v-lazy>
@@ -81,11 +81,11 @@ watch(props.facetsArray,
   }
 );
 
-function updateCheckbox(newValue) {
+function updateCheckbox() {
   // Faire remonter le nom du filtre
   const filterData = {
     filterName: props.facetItem.name,
-    value: checkboxState.value,
+    value: !checkboxState.value,
     label: props.facetItem.label
   };
 
