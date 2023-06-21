@@ -71,6 +71,7 @@ watch(() => props.parentCheckboxState,
   async (newValue) => {
     if (newValue === false) {
       checkboxState.value = false;
+      updateCheckbox(false);
     }
   });
 
