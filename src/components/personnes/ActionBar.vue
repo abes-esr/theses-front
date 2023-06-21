@@ -1,6 +1,6 @@
 <template>
   <div class="result-pagination">
-    Barre d'action pour les personnes
+
   </div>
 </template>
 <script>

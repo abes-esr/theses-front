@@ -14,7 +14,7 @@
   </nav>
   <!--    Menu filtres-->
   <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_home">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
     <!--    Menu recherche/selecteur these/personnes-->
@@ -82,7 +82,18 @@ import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 
 const { mobile } = useDisplay();
-const { setQuery, getQuery, queryAPI, getFacets, setDomaine, setPageNumber, setShowingNumber, setCheckedFilters, getURLParameters, setWorkingFacetName } = APIService();
+const {
+  setQuery,
+  getQuery,
+  queryAPI,
+  getFacets,
+  setDomaine,
+  setPageNumber,
+  setShowingNumber,
+  setCheckedFilters,
+  getURLParameters,
+  setWorkingFacetName
+} = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
@@ -128,57 +139,25 @@ async function search(firstLoad = false) {
 
   updateFacets(firstLoad);
 
-  // eslint-disable-next-line no-async-promise-executor
-  return new Promise(async (resolve, reject) => {
-    if (currentRoute.query.domaine === "theses") {
-      queryAPI().then(response => {
-        result.value = response.theses;
-        nbResult.value = response.totalHits;
-        domainNameChange.value = currentRoute.query.domaine;
-      }).catch(error => {
-        displayError(error.message);
-        result.value = [];
-        nbResult.value = 0;
-        reject(error);
-      }).finally(() => {
-        loading.value = false;
-        dataReady.value = true;
-        resolve();
-      });
-    } else if (currentRoute.query.domaine === "personnes") {
-      try {
-        result.value = await queryAPI();
-        nbResult.value = result.value.length;
-        domainNameChange.value = currentRoute.query.domaine;
-      } catch (error) {
-        displayError(error.message);
-        result.value = [];
-        nbResult.value = 0;
-        reject(error);
-      } finally {
-        loading.value = false;
-        dataReady.value = true;
-        resolve();
-      }
-    }
-  });
-
   /**
-   * #TODO Version généralisée à implémenter après normalisation de l'api
+   * Chargement des donnees
    */
-  // eslint-disable-next-line no-async-promise-executor
-  // return queryAPI().then(async () => {
-  //       result.value = await queryAPI();
-  //       nbResult.value = result.value.length;
-  //       domainNameChange.value = currentRoute.query.domaine;
-  //     }).catch(error => {
-  //       displayError(error.message);
-  //         result.value = [];
-  //         nbResult.value = 0;
-  //     }).finally(() => {
-  //       loading.value = false;
-  //       dataReady.value = true;
-  //     });
+  return queryAPI().then((response) => {
+    if (!["theses", "personnes"].includes(currentRoute.query.domaine)) {
+      throw new Error("Erreur de nom de paramètres");
+    }
+
+    result.value = response[currentRoute.query.domaine];
+    nbResult.value = response.totalHits;
+    domainNameChange.value = currentRoute.query.domaine;
+  }).catch(error => {
+    displayError(error.message);
+    result.value = [];
+    nbResult.value = 0;
+  }).finally(() => {
+    loading.value = false;
+    dataReady.value = true;
+  });
 }
 
 function update(facetsArray) {
@@ -214,7 +193,10 @@ function updateFacets(firstLoad) {
     }
   }).catch(error => {
     facets.value = {};
-    displayError(error.message);
+    if (typeof error !== 'undefined' && typeof error.message !== 'undefined') {
+      displayError(error.message);
+    }
+    console.error(error);
   });
 }
 
@@ -308,42 +290,6 @@ watch(() => currentRoute.query.domaine, () => {
   border-right: solid rgb(var(--v-theme-primary)) 3px;
 }
 
-.logo-menu-wrapper {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
-  grid-template-rows: 33% 33% 33%;
-}
-
-.logo {
-  grid-column-start: 2;
-  justify-self: center;
-  grid-row-start: 1;
-  align-self: start;
-}
-
-.magnify-logo-active {
-  color: rgb(var(--v-theme-orange-abes));
-}
-
-.expanded-search-bar-container {
-  width: 100%;
-  grid-column: 1 / 5;
-  justify-self: center;
-  grid-row-start: 1;
-  align-self: start;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgb(var(--v-theme-gris-clair));
-  border-bottom: 1px solid #bbb;
-  border-top: 1px solid #bbb;
-}
-
-.expanded-search-bar {
-  width: 80%;
-}
-
 .left-side {
   display: flex;
   justify-content: center;
@@ -409,29 +355,6 @@ watch(() => currentRoute.query.domaine, () => {
   background-color: rgb(var(--v-theme-background));
 }
 
-.nav-bar {
-  height: 100%;
-  width: 100%;
-  max-width: 20vw;
-  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
-}
-
-.mobile-nav-bar {
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  padding: 0 10px;
-}
-
-.filter-mobile-nav-bar {
-  display: flex;
-  align-content: center;
-
-  span {
-    padding: 10% 0;
-  }
-}
-
 .result-main-wrapper {
   display: grid;
   grid-template-columns: 20vw auto;
@@ -450,9 +373,5 @@ watch(() => currentRoute.query.domaine, () => {
     display: flex;
     flex-direction: column;
   }
-}
-
-.logo-menu-wrapper > .expanded-search-bar-container {
-  margin-bottom: 40px;
 }
 </style>

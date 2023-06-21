@@ -5,11 +5,11 @@
             <v-badge v-if="badge" class="badge" :icon="badge" :color="badgecolor" />
         </div>
         <v-card-title class="d-flex justify-center pb-1">
-            <h3> {{ titre }} </h3>
+            <h1 v-if="titre !== 0"> {{ titre.toLocaleString() }} </h1>
+            <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
         </v-card-title>
         <v-card-subtitle class="d-flex justify-center">{{ description }}</v-card-subtitle>
-        <v-card-text class="d-flex justify-center pt-2 pb-3">{{ date }}</v-card-text>
-        <a href="#" style="text-decoration: none;">
+        <a :href="url" style="text-decoration: none;">
             <v-row class="pa-0 pb-5 ma-0 d-flex justify-center">
                 <h4>{{ $t("explorer") }}</h4>
                 <v-icon color="orange-abes" class="pl-2">mdi-arrow-right-circle</v-icon>
@@ -29,10 +29,6 @@ defineProps({
         type: String,
         default: ''
     },
-    date: {
-        type: String,
-        default: ''
-    },
     icon: {
         type: String,
         default: 'mdi-school'
@@ -42,6 +38,10 @@ defineProps({
     },
     badge: {
         type: String
+    },
+    url: {
+        type: String,
+        default: "#"
     }
 });
 </script>
@@ -49,8 +49,15 @@ defineProps({
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-h3 {
+h1 {
     color: rgb(var(--v-theme-secondary-darken-2));
+    font-size: 35px;
+    font-weight: 900;
+}
+
+h4 {
+    font-size: 19px;
+    font-weight: 700;
 }
 
 .v-card {
@@ -69,15 +76,17 @@ h3 {
 }
 
 .v-card-subtitle {
+    padding-top: 10px;
+    padding-bottom: 15px;
+    padding-right: 5px;
+    padding-left: 5px;
     color: rgb(var(--v-theme-primary));
     opacity: 1;
-    font-size: 1.2rem;
-    font-weight: 400;
-}
-
-.v-card-text {
-    color: rgb(var(--v-theme-primary));
-    font-style: italic;
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: normal;
+    white-space: break-spaces;
+    text-align: center;
 }
 
 .icon {

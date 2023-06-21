@@ -1,22 +1,27 @@
 <template>
   <v-container>
-    <RouterLink class="logo" :to="{ name: 'home' }">
-      <img alt="Logo du site theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
+    <div v-if="mobile" class="logo-menu-wrapper">
+      <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_home">
+        <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
+      </RouterLink>
+    </div>
+    <RouterLink v-else class="logo logo_home" :to="{ name: 'home' }">
+      <img alt="Logo du site theses.fr" id="logoIMG" src="@/assets/icone-theses.svg"/>
     </RouterLink>
     <div class="main-wrapper">
       <Message-box ref="messageBox"></Message-box>
-      <v-row class="justify-center">
+      <v-row class="justify-center max-height-200">
         <h1 class="pb-8 text-center">{{ $t("slogan") }}</h1>
       </v-row>
       <domain-selector></domain-selector>
-      <search-bar @search="loading = true" :loading="loading" @onError="displayError" />
+      <search-bar @search="loading = true" :loading="loading" @onError="displayError"/>
       <div class="stats">
-        <Stats-card titre="546 000" :description="$t('referencés')" date="au 03/06/2022" badge="mdi-check"
-          badgecolor="green"></Stats-card>
-        <Stats-card titre="79 000" :description="$t('preparation')" date="au 03/06/2022" badge="mdi-progress-clock"
-          badgecolor="orange"></Stats-card>
-        <Stats-card titre="805 000" :description="$t('personnesRef')" date="au 03/06/2022"
-          icon="mdi-account"></Stats-card>
+        <Stats-card :titre=nbTheses :description="$t('referencés')" badge="mdi-check" badgecolor="green"
+                    url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
+        <Stats-card :titre=nbSujets :description="$t('preparation')" badge="mdi-progress-clock" badgecolor="orange"
+                    url="/resultats?filtres=%255BStatut%253D%2522enCours%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
+        <Stats-card :titre=nbPersonnes :description="$t('personnesRef')" icon="mdi-account"
+                    url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></Stats-card>
       </div>
       <p>Le PoC fédé est accessible ici : <a href="/poc-fede/">poc-fede</a></p>
     </div>
@@ -27,19 +32,37 @@
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import StatsCard from '../components/home/StatsCard.vue';
 import DomainSelector from '../components/common/DomainSelector.vue';
-import { defineAsyncComponent, onMounted, ref } from "vue";
-import { APIService } from "@/services/StrategyAPI";
+import {defineAsyncComponent, onMounted, ref} from "vue";
+import {APIService} from "@/services/StrategyAPI";
+import {thesesAPIService} from "@/services/ThesesAPI";
+import {personnesAPIService} from "@/services/PersonnesAPI";
+import {useDisplay} from "vuetify";
+
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const { reinitializeResultData } = APIService();
+const {reinitializeResultData} = APIService();
+const {getStatsTheses, getStatsSujets} = thesesAPIService();
+const {getStatsPersonnes} = personnesAPIService();
+const {mobile} = useDisplay();
 
 let loading = ref(false);
 
 const messageBox = ref(null);
 
+const nbPersonnes = ref(0), nbTheses = ref(0), nbSujets = ref(0);
+
 onMounted(() => {
   // réinitialiser les éléments liés à la recherche au retour à la page d'accueil
   reinitializeResultData();
+  getStatsTheses().then(result => {
+    nbTheses.value = result.data;
+  });
+  getStatsSujets().then(result => {
+    nbSujets.value = result.data;
+  });
+  getStatsPersonnes().then(result => {
+    nbPersonnes.value = result.data;
+  });
 });
 
 function displayError(message) {
@@ -57,6 +80,7 @@ function displayError(message) {
 .v-container {
   padding: 0;
   max-width: none;
+  height: 100% !important;
   display: flex !important;
   justify-content: center;
   align-items: center;
@@ -111,10 +135,10 @@ function displayError(message) {
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: 100%;
     padding-top: 40px;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+      max-height: 500px;
       flex-direction: row;
     }
 
@@ -136,6 +160,10 @@ function displayError(message) {
     align-items: center;
     height: 60px;
     margin-bottom: 2rem;
+  }
+
+  .max-height-200 {
+    max-height: 200px;
   }
 }
 </style>

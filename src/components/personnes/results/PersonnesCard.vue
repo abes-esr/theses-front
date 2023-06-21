@@ -2,14 +2,21 @@
   <v-card flat>
     <div class="firstHalf">
       <div class="info">
+        <v-icon size="40px">$personne</v-icon>
+        <div class="sep">
+          <v-divider vertical v-if="item.has_idref"></v-divider>
+        </div>
+        <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
+          <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png" />
+        </a>
         <div class="nom-card">
-          <v-icon size="40px">$personne</v-icon>
-          <RouterLink class="nomprenom" :to="{ name: 'personne', params: { id: item.id }, query:{ 'domaine': currentRoute.query.domaine }}"
-                      v-if="item.has_idref">
+          <RouterLink class="nomprenom"
+            :to="{ name: 'detail', params: { id: item.id }, query: { 'domaine': currentRoute.query.domaine } }"
+            v-if="item.has_idref">
             <span class="prenom">{{ item.prenom }}</span>
             <span class="nom">{{ item.nom }}</span>
           </RouterLink>
-          <RouterLink v-else-if="item.theses[0].nnt" class="nomprenom" :to="{ name: 'these', params: { id: item.theses[0].nnt } }">
+          <RouterLink v-else-if="item.these.id" class="nomprenom" :to="{ name: 'detail', params: { id: item.these.id } }">
             <span class="prenom">{{ item.prenom }}</span>
             <span class="nom">{{ item.nom }}</span>
           </RouterLink>
@@ -18,23 +25,37 @@
             <span class="nom">{{ item.nom }}</span>
           </div>
         </div>
-        <v-divider vertical></v-divider>
-        <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-          <img alt="logo"
-               id="logoIMG" src="@/assets/idref-icone.png"/>
-        </a>
       </div>
       <div class="action">
-        <v-btn color="primary" append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }} ({{ stats.auteur }})
+        <v-btn :disabled="!item.roles['auteur'] || !item.these.id" color="primary" append-icon="mdi-arrow-right-circle"
+          @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }}
+          ({{ item.roles["auteur"] ? item.roles["auteur"] : 0 }})
         </v-btn>
-        <v-btn color="primary" append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Directeurs')">{{ $t('personnes.resultView.personnesCard.directeur') }} ({{ stats.directeur }})
+        <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these.id" color="primary"
+          append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Directeurs')">{{
+            $t('personnes.resultView.personnesCard.directeur') }}
+          ({{ item.roles["directeur de thèse"] ? item.roles["directeur de thèse"] : 0 }})
         </v-btn>
-        <v-btn color="primary" append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Rapporteurs')">{{ $t('personnes.resultView.personnesCard.rapporteur') }} ({{ stats.rapporteur }})
+        <v-btn :disabled="!item.roles['rapporteur'] || !item.these.id" color="primary"
+          append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Rapporteurs')">{{
+            $t('personnes.resultView.personnesCard.rapporteur') }}
+          ({{ item.roles["rapporteur"] ? item.roles["rapporteur"] : 0 }})
         </v-btn>
       </div>
     </div>
     <div class="vertical-spacer"></div>
     <div class="secondHalf">
+      <div class="disciplines">
+        <template v-for="name in item.disciplines" :key="name">
+          {{ name }}<span class="separator">; </span>
+        </template>
+      </div>
+      <v-divider vertical></v-divider>
+      <div class="etablissements">
+        <template v-for="name in item.etablissements " :key="name">
+          {{ name }}<span class="separator">; </span>
+        </template>
+      </div>
     </div>
   </v-card>
 </template>
@@ -44,8 +65,8 @@ export default {
 };
 </script>
 <script setup>
-import {onBeforeMount} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+
 const router = useRouter();
 const currentRoute = useRoute();
 
@@ -54,40 +75,22 @@ const props = defineProps({
     type: Object,
     required: true
   }
-})
-
-const stats = {
-  auteur: 0,
-  directeur: 0,
-  president: 0,
-  rapporteur: 0,
-  jury: 0
-}
-
-onBeforeMount(() => {
-
-  props.item.theses.forEach(these => {
-    if (these.role === "auteur") {
-      stats.auteur += 1;
-    } else if (these.role === "directeur de thèse") {
-      stats.directeur += 1;
-    } else if (these.role === "président du jury") {
-      stats.president += 1;
-    } else if (these.role === "rapporteur") {
-      stats.rapporteur += 1;
-    } else if (these.role === "membre du jury") {
-      stats.jury += 1;
-    }
-  })
-})
+});
 
 function goToPersonne(hash) {
+  if (props.item.has_idref) {
     router.push({
-      name: 'personne',
+      name: 'detail',
       query: { 'domaine': currentRoute.query.domaine },
-      params : { "id": props.item.id },
-      hash: hash?hash:''
-    })
+      params: { "id": props.item.id },
+      hash: hash ? hash : ''
+    });
+  } else {
+    router.push({
+      name: 'detail',
+      params: { "id": props.item.these.id }
+    });
+  }
 }
 </script>
 
@@ -109,13 +112,12 @@ function goToPersonne(hash) {
 }
 
 
-
 .firstHalf {
   display: flex;
-  padding:1rem;
+  padding: 1rem;
   justify-content: space-between;
   align-items: center;
-  height: 170px;
+  height: calc(100% + 180px);
   width: 100%;
   flex-direction: column;
 
@@ -129,24 +131,49 @@ function goToPersonne(hash) {
     width: 100%;
     flex: 0 0 10%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-
+    flex-wrap: wrap;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 1 0 30%;
       max-width: 35%;
     }
 
+    .v-icon {
+      margin-right: 1rem;
+      flex: 0 0 10%;
+    }
+
+    .sep {
+      height: 40px;
+      margin-right: 1rem;
+
+      hr {
+        border-color: rgb(var(--v-theme-primary));
+        opacity: 1;
+        border-width: 0 1.5px 0 0;
+      }
+    }
+
+    a {
+      img {
+        max-height: 45px;
+      }
+    }
+
     .nom-card {
+      flex: 1 0 100%;
       display: flex;
       align-items: center;
 
-      .v-icon {
-        margin-right: 1rem;
+      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+        flex: 1 0 60%;
+        margin-left: 1rem;
       }
 
       .nomprenom {
+        display: flex;
+        flex-direction: column;
         text-decoration: none;
         color: rgb(var(--v-theme-primary));
         font-size: 23.5px;
@@ -160,21 +187,8 @@ function goToPersonne(hash) {
         }
 
         .nom {
-          margin-left: 0.5rem;
           font-weight: 700;
         }
-      }
-    }
-
-    hr {
-      border-color: rgb(var(--v-theme-primary));
-      opacity: 1;
-      border-width: 0 1.5px 0 0;
-    }
-
-    a {
-      img {
-        max-height: 30px;
       }
     }
   }
@@ -184,12 +198,11 @@ function goToPersonne(hash) {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: 100px;
     flex-wrap: wrap;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 0 1 40%;
-      align-items: flex-start;
     }
 
     .v-btn {
@@ -206,8 +219,35 @@ function goToPersonne(hash) {
 }
 
 .secondHalf {
+
+  justify-content: space-between;
+  align-items: center;
   background-color: rgb(var(--v-theme-gris-clair)) !important;
-  height: 40px;
+  height: 100%;
+  padding: 0.5rem;
+  font-weight: bold;
+  color: rgb(var(--v-theme-primary));
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    display: flex;
+    padding: 0.5rem 5rem 0.5rem 5rem;
+
+    hr {
+      height: 40px;
+      border-color: rgb(var(--v-theme-primary)) !important;
+      opacity: 1;
+      border-width: 0 1.5px 0 0;
+    }
+  }
+
+  .disciplines,
+  .etablissements {
+    flex: 0 0 45%;
+
+    .separator:last-of-type {
+      display: none;
+    }
+  }
 
 }
 

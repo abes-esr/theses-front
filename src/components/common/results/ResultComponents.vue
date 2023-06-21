@@ -1,7 +1,7 @@
 <template>
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'top'" :current-showing-number="currentShowingNumber"
-    :current-page-number="currentPageNumber" @updateShowingNumber="updateShowingNumber"
-    @updatePage="updatePage" @search="search">
+    :current-page-number="currentPageNumber" @updateShowingNumber="updateShowingNumber" @updatePage="updatePage"
+    @search="search">
   </result-pagination>
 
   <div class="result-components-wrapper">
@@ -12,18 +12,18 @@
     </div>
     <Transition mode="out-in">
       <h2 class="returned-results-statement" v-if="dataReady">
-        <span>{{ $t("results.searched") }}{{'\xa0'}}</span>
-        <span class="orange-text">"{{ query }}"{{'\xa0'}}</span>
-        <span>{{ $t("results.returned") }}{{'\xa0'}}</span>
-        <span class="orange-text">{{ nbResult }}{{'\xa0'}}</span>
+        <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
+        <span class="orange-text">"{{ query }}"{{ '\xa0' }}</span>
+        <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
+        <span class="orange-text">{{ nbResult }}{{ '\xa0' }}</span>
         <span>{{ $t("results.results") }}</span>
       </h2>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
     <facets-chips :facets="facets" @deleteFilter="deleteFilter" />
     <div v-if="mobile || dataReady" class="colonnes-resultats">
-        <result-list :result="result" :domain-name-change="domainNameChange">
-        </result-list>
+      <result-list :result="result" :domain-name-change="domainNameChange">
+      </result-list>
       <ScrollToTopButton v-if="!mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
     </div>
     <div v-else>
@@ -35,7 +35,7 @@
       </div>
     </div>
     <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
-                       @addTenResultsToList="addTenResultsToList" @search="search" />
+      @addTenResultsToList="addTenResultsToList" @search="search" />
     <ScrollToTopButton v-if="mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
   </div>
 
@@ -51,7 +51,7 @@ import ResultPagination from "@/components/common/results/ResultPagination.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 import { useDisplay } from "vuetify";
-import { onMounted, ref, watch } from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import { useRoute } from "vue-router";
 import { APIService } from "@/services/StrategyAPI";
 import ResultList from "@/components/common/results/ResultList.vue";
@@ -92,14 +92,12 @@ const props = defineProps({
   }
 });
 
-const query = ref("");
+const query = computed(() => {
+  return getQuery();
+})
 
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
-
-onMounted(() => {
-  query.value = getQuery();
-});
 
 /**
  * Emits
@@ -159,7 +157,7 @@ watch(() => props.resetShowingNumber, () => {
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use 'vuetify/settings';
 
 .colonnes-resultats {
@@ -170,23 +168,6 @@ watch(() => props.resetShowingNumber, () => {
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: none;
     margin-right: 1rem;
-  }
-}
-
-.scroll-to-top-wrapper {
-  position: sticky;
-  top: 90vh;
-  margin-bottom: 3rem;
-  margin-left: 10%;
-  width: 30px;
-  height: 30px;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    margin: 0 0;
-    height: 60px;
-    left: 90vw;
-    top: unset;
-    bottom: 5vh;
   }
 }
 

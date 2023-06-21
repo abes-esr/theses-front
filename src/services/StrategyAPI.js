@@ -198,10 +198,10 @@ function disableOrFilters() {
 function queryAPI() {
   query.value = (typeof query.value === 'undefined') ? '*' : query.value;
 
-  if(domaine.value === "theses")
-    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
   if(domaine.value === "personnes")
     return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
+  else
+    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
 }
 
 /**
@@ -440,9 +440,9 @@ async function getFacets() {
     }
 
     if (domaine.value === "personnes") {
-      await getFacetsPersonnes(query.value)
+      await getFacetsPersonnes(query.value, getFacetsRequest())
         .then(response => {
-          rawFacets.value = response.data;
+          rawFacets.value = replaceWorkingFacet(response.data, currentWorkingFacet);
         }).catch((err) => {
           reject(err);
         });
@@ -487,12 +487,12 @@ function getData(id) {
   });
 }
 
-function getSuggestion() {
+function getSuggestion(candidate) {
   return new Promise ((resolve) => {
     if(domaine.value === "theses")
       resolve(suggestionTheses(query.value));
     if(domaine.value === "personnes")
-      resolve(suggestionPersonne(query.value));
+      resolve(suggestionPersonne(candidate));
   });
 }
 

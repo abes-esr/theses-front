@@ -5,7 +5,7 @@
   <v-app>
     <header-custom></header-custom>
     <v-main>
-      <router-view />
+      <router-view/>
     </v-main>
     <footer-custom></footer-custom>
   </v-app>
@@ -14,8 +14,8 @@
 <script>
 import HeaderCustom from "@/components/common/HeaderCustom.vue";
 import FooterCustom from "./components/common/FooterCustom.vue";
-import { useMeta } from 'vue-meta';
-import { useI18n } from "vue-i18n";
+import {useMeta} from 'vue-meta';
+import {useI18n} from "vue-i18n";
 
 
 export default {
@@ -25,7 +25,7 @@ export default {
   },
   name: 'App',
   setup() {
-    const { t } = useI18n();
+    const {t} = useI18n();
     useMeta({
       title: t("meta.titre"),
       description: t("meta.desc")
@@ -46,8 +46,6 @@ export default {
 }
 
 main {
-
-
   display: flex !important;
   justify-content: center;
   align-items: center;
@@ -62,15 +60,37 @@ main {
     width: 100vw;
   }
 
-  .logo {
+  .nav-bar {
     height: 100%;
-    margin-top: -35px;
+    width: 100%;
+    max-width: 20vw;
+    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
+  }
+
+  .mobile-nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 0 10px;
+  }
+
+  .filter-mobile-nav-bar {
+    display: flex;
+    align-content: center;
+
+    span {
+      padding: 10% 0;
+    }
+  }
+
+  .logo {
     position: relative;
     z-index: 2000;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      margin-top: -75px;
-    }
+    grid-column-start: 2;
+    justify-self: center;
+    grid-row-start: 1;
+    align-self: start;
 
     img {
       height: 70px;
@@ -79,6 +99,48 @@ main {
         height: 150px;
       }
     }
+  }
+
+  .logo_home {
+    margin-top: -35px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      margin-top: -75px;
+      align-self: center;
+    }
+  }
+
+  .logo-menu-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 33% 33% 33%;
+  }
+
+  .logo-menu-wrapper > .expanded-search-bar-container {
+    margin-bottom: 40px;
+  }
+
+  .magnify-logo-active {
+    color: rgb(var(--v-theme-orange-abes));
+  }
+
+  .expanded-search-bar-container {
+    width: 100%;
+    grid-column: 1 / 5;
+    justify-self: center;
+    grid-row-start: 1;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(var(--v-theme-gris-clair));
+    border-bottom: 1px solid #bbb;
+    border-top: 1px solid #bbb;
+  }
+
+  .expanded-search-bar {
+    width: 80%;
   }
 
   .main-wrapper {
@@ -137,6 +199,23 @@ h4 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.scroll-to-top-wrapper {
+  position: sticky;
+  top: 90vh;
+  margin-bottom: 3rem;
+  margin-left: 10%;
+  width: 30px;
+  height: 30px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    margin: 0 0;
+    height: 60px;
+    left: 90vw;
+    top: unset;
+    bottom: 5vh;
+  }
 }
 </style>
 <style scoped lang="scss">
