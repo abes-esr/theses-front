@@ -1,6 +1,6 @@
 <template>
   <v-lazy :min-height="10" :options="{ threshold: 1.0 }">
-    <v-checkbox v-model="checkboxState" :class="`checkboxes ms-${props.marginOffset}`"
+    <v-checkbox v-model="checkboxState" @click="updateCheckbox(checkboxState)" :class="`checkboxes ms-${props.marginOffset}`"
       :label="`${replaceFacetsText(facetItem.label)} (${facetItem.value})`" density="compact" inline hide-details>
     </v-checkbox>
   </v-lazy>
@@ -81,26 +81,26 @@ watch(props.facetsArray,
   }
 );
 
-watch(checkboxState, async (newValue) => {
+function updateCheckbox(newValue) {
   // Faire remonter le nom du filtre
   const filterData = {
     filterName: props.facetItem.name,
-    value: newValue,
-    label: props.facetItem.label,
+    value: checkboxState.value,
+    label: props.facetItem.label
   };
 
   if (props.marginOffset === 0) {
     // Niveau 1 de récursion → sortir
     emit("updateFilterData", filterData);
   } else {
-    emit('updateFilterDataRecursive', filterData);
+    emit("updateFilterDataRecursive", filterData);
   }
 
   // cocher les éléments parents si la case est cochée
-  if (newValue === true) {
+  if (checkboxState.value === true) {
     emit("updateParentCheckbox", true);
   }
-});
+}
 
 /**
  * Functions
