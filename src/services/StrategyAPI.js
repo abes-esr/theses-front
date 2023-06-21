@@ -440,9 +440,9 @@ async function getFacets() {
     }
 
     if (domaine.value === "personnes") {
-      await getFacetsPersonnes(query.value)
+      await getFacetsPersonnes(query.value, getFacetsRequest())
         .then(response => {
-          rawFacets.value = response.data;
+          rawFacets.value = replaceWorkingFacet(response.data, currentWorkingFacet);
         }).catch((err) => {
           reject(err);
         });
