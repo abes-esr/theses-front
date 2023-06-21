@@ -201,7 +201,8 @@ function goToPersonne(hash) {
     height: 100px;
     flex-wrap: wrap;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+      justify-content: flex-end;
       flex: 0 1 40%;
     }
 
@@ -210,6 +211,10 @@ function goToPersonne(hash) {
       font-weight: 500;
       text-transform: none;
       padding: 0 8px;
+
+      @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+        margin-left: 1rem;
+      }
     }
   }
 }
