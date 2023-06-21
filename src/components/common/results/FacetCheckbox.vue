@@ -81,34 +81,39 @@ watch(props.facetsArray,
   }
 );
 
-function updateCheckbox() {
+/**
+ * Functions
+ */
+function updateCheckbox(payload) {
+  const receivedEmitFromChild = typeof payload !== 'object';
+  const newValue = receivedEmitFromChild ? payload : !checkboxState.value;
+
   // Faire remonter le nom du filtre
   const filterData = {
     filterName: props.facetItem.name,
-    value: !checkboxState.value,
+    value: newValue,
     label: props.facetItem.label
   };
-
+console.log(filterData)
   if (props.marginOffset === 0) {
     // Niveau 1 de récursion → sortir
     emit("updateFilterData", filterData);
   } else {
     emit("updateFilterDataRecursive", filterData);
-  }
 
-  // cocher les éléments parents si la case est cochée
-  if (checkboxState.value === true) {
-    emit("updateParentCheckbox", true);
+    // cocher les éléments parents si la case est cochée
+    if (newValue === true) {
+      emit("updateParentCheckbox", true);
+    }
   }
 }
 
-/**
- * Functions
- */
 function updateSelfCheckbox(payload) {
-  checkboxState.value = payload;
+  if (payload === true && checkboxState.value === false) {
+    updateCheckbox(payload);
+    checkboxState.value = payload;
+  }
 }
-
 function updateFilterDataRecursive(filterData) {
   // Faire remonter le nom du filtre à travers les composants parents
   if (props.marginOffset === 0) {
