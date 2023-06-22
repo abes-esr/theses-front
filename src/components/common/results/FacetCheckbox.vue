@@ -95,7 +95,7 @@ function updateCheckbox(payload) {
     value: newValue,
     label: props.facetItem.label
   };
-console.log(filterData)
+
   if (props.marginOffset === 0) {
     // Niveau 1 de récursion → sortir
     emit("updateFilterData", filterData);
