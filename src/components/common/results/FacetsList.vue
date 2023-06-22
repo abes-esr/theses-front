@@ -307,9 +307,6 @@ watch(() => props.filterToBeDeleted,
   (newValue) => {
     updateFilterData(newValue.filter);
     setCheckedFilters(facetsArray.value)
-      .then(() => {
-        emit('searchAndReinitialize');
-      });
   });
 
 /**
