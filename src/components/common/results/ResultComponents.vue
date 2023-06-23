@@ -24,7 +24,7 @@
     <div v-if="mobile || dataReady" class="colonnes-resultats">
       <result-list :result="result" :domain-name-change="domainNameChange">
       </result-list>
-      <ScrollToTopButton v-if="!mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
+<!--      <ScrollToTopButton v-if="!mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />-->
     </div>
     <div v-else>
       <div v-for="i in currentShowingNumber" :key="i" class="skeleton">
@@ -161,13 +161,8 @@ watch(() => props.resetShowingNumber, () => {
 @use 'vuetify/settings';
 
 .colonnes-resultats {
-  padding: 0;
-  display: grid;
-  grid-template-columns: 95% auto;
-
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: none;
-    margin-right: 1rem;
   }
 }
 
@@ -177,7 +172,7 @@ watch(() => props.resetShowingNumber, () => {
 }
 
 .result-components-wrapper {
-  padding: 1rem 0 2rem 1rem;
+  padding: 1rem 0 2rem 0;
   flex: 1;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
@@ -193,9 +188,7 @@ watch(() => props.resetShowingNumber, () => {
 
 .v-card {
   margin-bottom: 1rem;
-  border: solid 1px rgb(var(--v-theme-gris-fonce));
   min-height: 190px;
-
 }
 
 .skeleton {
@@ -216,6 +209,7 @@ watch(() => props.resetShowingNumber, () => {
 }
 
 .returned-results-statement {
+  margin: 0 1rem;
   display: inline-block;
   font-family: Roboto-Medium, sans-serif;
   font-weight: 500;

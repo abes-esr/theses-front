@@ -7,12 +7,13 @@
   </div>
   <!--  Thèses-->
   <div v-else-if="domainNameChange === 'theses'">
-    <div v-for="item in result" :key="item" class="card-wrapper">
+    <div v-for="(item, index) in result" :key="item" class="card-wrapper">
       <result-card :titre="item.titrePrincipal"
         :date="item.status === 'enCours' ? item.datePremiereInscriptionDoctorat : item.dateSoutenance"
         :auteur="item.auteurs" :directeurs="item.directeurs" :discipline="item.discipline" :etab="item.etabSoutenanceN"
         :id="item.id" :status="item.status">
       </result-card>
+      <hr class="result-dividers" v-if="index < result.length - 1" />
     </div>
   </div>
 </template>
@@ -35,5 +36,10 @@ const props = defineProps({
 <style lang="scss">
 .card-wrapper {
   margin-bottom: 1rem;
+}
+
+.result-dividers {
+  border: 1px solid rgb(var(--v-theme-gris-clair));
+  margin:0 1rem;
 }
 </style>

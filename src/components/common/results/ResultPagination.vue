@@ -1,7 +1,6 @@
 <template>
   <div class="result-pagination">
       <div v-if="type === 'top'" class="first-bar-element">
-          <span class="show-span no-wrap-text">{{ $t('results.show') }}</span>
           <v-select :items="['10', '25', '50']" v-model="currentShowingNumber" density="compact" variant="solo"
                      class="left-select" menu-icon="mdi-chevron-down">
             <template v-slot:menu-icon>
@@ -129,7 +128,6 @@ watch(() => props.currentShowingNumber, () => {
 @use '../../../../node_modules/vuetify/settings';
 
 .result-pagination {
-  background-color: rgb(var(--v-theme-gris-clair));
   max-height: 4rem;
   display: flex;
   flex-wrap: nowrap;
@@ -150,7 +148,6 @@ watch(() => props.currentShowingNumber, () => {
 .show-span{
   padding-top: 22px;
 }
-
 
 .left-select {
   max-width: 50px;

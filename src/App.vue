@@ -56,15 +56,12 @@ main {
   color: rgb(var(--v-theme-text-dark-blue)) !important;
 
   nav {
-    background-color: rgb(var(--v-theme-gris-clair));
     width: 100vw;
   }
 
   .nav-bar {
-    height: 100%;
-    width: 100%;
-    max-width: 20vw;
-    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
+    grid-column-start: 2;
+    background-color: rgb(var(--v-theme-surface));
   }
 
   .mobile-nav-bar {

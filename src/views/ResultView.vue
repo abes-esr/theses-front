@@ -315,7 +315,7 @@ watch(() => currentRoute.query.domaine, () => {
   width: 100%;
 
   .sub_header__logo {
-    background-color: rgb(var(--v-theme-surface));
+    background-color: rgb(var(--v-theme-background));
     z-index: 2;
 
     h1 {
@@ -360,19 +360,22 @@ watch(() => currentRoute.query.domaine, () => {
 }
 
 .result-main-wrapper {
+  padding: 30px 0;
+
   display: grid;
-  grid-template-columns: 20vw auto;
+  grid-template-columns: 10fr 20fr 3fr 60fr 10fr;
   align-items: start;
   margin-top: 0;
   width: 100%;
-  height: 100%;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: 100%;
   }
 
   .result-components {
-    height: 100%;
+    grid-column-start: 4;
+    background-color: rgb(var(--v-theme-surface));
+
     width: 100%;
     display: flex;
     flex-direction: column;

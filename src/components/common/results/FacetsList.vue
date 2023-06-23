@@ -1,13 +1,13 @@
 <template>
   <div class="facets">
     <facet-drawer v-if="domaine === 'theses' && Object.keys(facets).length > 0" date key="facet-date"
-                  :facet="{ 'name': 'Date' }" class="my-2" :facets-array="facetsArray" :parameters-loaded="parametersLoaded"
+                  :facet="{ 'name': 'Date' }" :facets-array="facetsArray" :parameters-loaded="parametersLoaded"
                   :reinitialize-date-fields-trigger="reinitializeDateFieldsTrigger"
                   :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
                   :reinitialize-date-to-trigger="reinitializeDateToTrigger" @updateFilterDateOnly="updateFilterDateOnly($event)"
                   @reinitializeCheckboxes="reinitializeDates">
     </facet-drawer>
-    <facet-drawer v-for="facet in facets" class="my-2" :key="`facet-${facet.name}`" :facet="facet"
+    <facet-drawer v-for="facet in facets" :key="`facet-${facet.name}`" :facet="facet"
                   :facets-array="facetsArray" @updateFilterData="updateFilterData" @reinitializeCheckboxes="reinitializeCheckboxes">
     </facet-drawer>
     <v-btn v-if="mobile" class="filters-btn" @click="update">Appliquer les filtres</v-btn>
@@ -353,11 +353,6 @@ watch(() => props.parametersLoaded, () => {
 .facets {
   display: flex;
   flex-direction: column;
-  padding: 1em 0;
-
-  .v-expansion-panels {
-    width: 85%;
-  }
 
   .skeleton {
     height: 48px !important;
