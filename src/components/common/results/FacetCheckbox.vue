@@ -1,6 +1,6 @@
 <template>
   <v-lazy :min-height="10" :options="{ threshold: 1.0 }">
-    <v-checkbox v-model="checkboxState" :class="`checkboxes ms-${props.marginOffset}`"
+    <v-checkbox v-model="checkboxState" @click="updateCheckbox" :class="`checkboxes ms-${props.marginOffset}`"
       :label="`${replaceFacetsText(facetItem.label)} (${facetItem.value})`" density="compact" inline hide-details>
     </v-checkbox>
   </v-lazy>
@@ -71,6 +71,7 @@ watch(() => props.parentCheckboxState,
   async (newValue) => {
     if (newValue === false) {
       checkboxState.value = false;
+      updateCheckbox(false);
     }
   });
 
@@ -81,34 +82,39 @@ watch(props.facetsArray,
   }
 );
 
-watch(checkboxState, async (newValue) => {
+/**
+ * Functions
+ */
+function updateCheckbox(payload) {
+  const receivedEmitFromChild = typeof payload !== 'object';
+  const newValue = receivedEmitFromChild ? payload : !checkboxState.value;
+
   // Faire remonter le nom du filtre
   const filterData = {
     filterName: props.facetItem.name,
     value: newValue,
-    label: props.facetItem.label,
+    label: props.facetItem.label
   };
 
   if (props.marginOffset === 0) {
     // Niveau 1 de récursion → sortir
     emit("updateFilterData", filterData);
   } else {
-    emit('updateFilterDataRecursive', filterData);
-  }
+    emit("updateFilterDataRecursive", filterData);
 
-  // cocher les éléments parents si la case est cochée
-  if (newValue === true) {
-    emit("updateParentCheckbox", true);
+    // cocher les éléments parents si la case est cochée
+    if (newValue === true) {
+      emit("updateParentCheckbox", true);
+    }
   }
-});
-
-/**
- * Functions
- */
-function updateSelfCheckbox(payload) {
-  checkboxState.value = payload;
 }
 
+function updateSelfCheckbox(payload) {
+  if (payload === true && checkboxState.value === false) {
+    updateCheckbox(payload);
+    checkboxState.value = payload;
+  }
+}
 function updateFilterDataRecursive(filterData) {
   // Faire remonter le nom du filtre à travers les composants parents
   if (props.marginOffset === 0) {
