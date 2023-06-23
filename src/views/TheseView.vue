@@ -1,12 +1,12 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
-   <nav v-if="mobile" class="mobile-nav-bar">
-  <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
+  <nav v-if="mobile" class="mobile-nav-bar">
+    <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
       <v-icon v-bind="props" size="40px">mdi-menu
       </v-icon>
     </button>
-<!--      Bouton menu recherche/selecteur these/personnes-->
-  <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+    <!--      Bouton menu recherche/selecteur these/personnes-->
+    <v-icon @click="showSearchBar = !showSearchBar" size="40px"
       :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav>
@@ -15,21 +15,21 @@
     <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
-<!--    Menu boutons-liens-->
+    <!--    Menu boutons-liens-->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
-        :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+      :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
       <buttons-list :nnt="route.params.id" @closeOverlay="closeOverlay"></buttons-list>
     </v-dialog>
-  <!--    Menu recherche/selecteur these/personnes-->
-      <v-expand-transition>
-        <div v-show="showSearchBar" class="expanded-search-bar-container">
-          <div class="expanded-search-bar">
-            <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-            <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-              @onError="displayError" />
-          </div>
+    <!--    Menu recherche/selecteur these/personnes-->
+    <v-expand-transition>
+      <div v-show="showSearchBar" class="expanded-search-bar-container">
+        <div class="expanded-search-bar">
+          <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+            @onError="displayError" />
         </div>
-      </v-expand-transition>
+      </div>
+    </v-expand-transition>
   </div>
 
   <!-- Bare latérale Desktop -->
@@ -50,7 +50,7 @@
   <div class="thesis-main-wrapper">
     <div v-if="!mobile" class="nav-bar">
       <!-- Futur composant boutons (barre de gauche)-->
-      <buttons-list :nnt="route.params.id"></buttons-list>
+      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'"></buttons-list>
     </div>
     <div class="thesis-components">
       <thesis-component :these="these" :data-ready="true"></thesis-component>
@@ -66,7 +66,7 @@ import SearchBar from "@/components/personnes/search/SearchBar.vue";
 import ButtonsList from "@/components/theses/ButtonsList.vue";
 import ThesisComponent from "@/components/theses/ThesisComponent.vue";
 
-import { APIService } from '@/services/StrategyAPI';
+import { thesesAPIService } from '@/services/ThesesAPI';
 import { useDisplay } from "vuetify";
 import router from "@/router";
 
@@ -74,7 +74,7 @@ const MessageBox = defineAsyncComponent(() => import('@/components/common/Messag
 
 const route = useRoute();
 const { mobile } = useDisplay();
-const { getData } = APIService();
+const { getThese } = thesesAPIService();
 const dialogVisible = ref(false);
 const showSearchBar = ref(false);
 const dataReady = ref(false);
@@ -84,22 +84,22 @@ const resume = ref("");
 const hasScrolled = ref(false);
 
 
-  dataReady.value = false;
-  window.addEventListener('scroll', () => { hasScrolled.value = true; });
-  getData(route.params.id).then(result => {
-    /** Redirection */
-    if(typeof result.data === 'undefined' || result.data === "") {
-      router.push({
-        name: 'home'
-      })
-    }
+dataReady.value = false;
+window.addEventListener('scroll', () => { hasScrolled.value = true; });
+getThese(route.params.id).then(result => {
+  /** Redirection */
+  if (typeof result.data === 'undefined' || result.data === "") {
+    router.push({
+      name: 'home'
+    });
+  }
 
-    these.value = result.data;
-    resume.value = these.value.resumes.fr;
-    dataReady.value = true;
-  }).catch(error => {
-    displayError(error.message);
-  });
+  these.value = result.data;
+  resume.value = these.value.resumes.fr;
+  dataReady.value = true;
+}).catch(error => {
+  displayError(error.message);
+});
 
 
 
@@ -203,7 +203,7 @@ function closeOverlay() {
   align-self: start;
 }
 
-.logo-menu-wrapper > .expanded-search-bar-container {
+.logo-menu-wrapper>.expanded-search-bar-container {
   margin-bottom: 40px;
 }
 

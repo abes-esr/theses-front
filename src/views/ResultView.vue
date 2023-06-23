@@ -14,7 +14,7 @@
   </nav>
   <!--    Menu filtres-->
   <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_home">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
     <!--    Menu recherche/selecteur these/personnes-->
@@ -82,7 +82,18 @@ import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 
 const { mobile } = useDisplay();
-const { setQuery, getQuery, queryAPI, getFacets, setDomaine, setPageNumber, setShowingNumber, setCheckedFilters, getURLParameters, setWorkingFacetName } = APIService();
+const {
+  setQuery,
+  getQuery,
+  queryAPI,
+  getFacets,
+  setDomaine,
+  setPageNumber,
+  setShowingNumber,
+  setCheckedFilters,
+  getURLParameters,
+  setWorkingFacetName
+} = APIService();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
@@ -185,7 +196,7 @@ function updateFacets(firstLoad) {
     if (typeof error !== 'undefined' && typeof error.message !== 'undefined') {
       displayError(error.message);
     }
-    console.error(error)
+    console.error(error);
   });
 }
 
@@ -283,42 +294,6 @@ watch(() => currentRoute.query.domaine, () => {
   border-right: solid rgb(var(--v-theme-primary)) 3px;
 }
 
-.logo-menu-wrapper {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
-  grid-template-rows: 33% 33% 33%;
-}
-
-.logo {
-  grid-column-start: 2;
-  justify-self: center;
-  grid-row-start: 1;
-  align-self: start;
-}
-
-.magnify-logo-active {
-  color: rgb(var(--v-theme-orange-abes));
-}
-
-.expanded-search-bar-container {
-  width: 100%;
-  grid-column: 1 / 5;
-  justify-self: center;
-  grid-row-start: 1;
-  align-self: start;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgb(var(--v-theme-gris-clair));
-  border-bottom: 1px solid #bbb;
-  border-top: 1px solid #bbb;
-}
-
-.expanded-search-bar {
-  width: 80%;
-}
-
 .left-side {
   display: flex;
   justify-content: center;
@@ -384,29 +359,6 @@ watch(() => currentRoute.query.domaine, () => {
   background-color: rgb(var(--v-theme-background));
 }
 
-.nav-bar {
-  height: 100%;
-  width: 100%;
-  max-width: 20vw;
-  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
-}
-
-.mobile-nav-bar {
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  padding: 0 10px;
-}
-
-.filter-mobile-nav-bar {
-  display: flex;
-  align-content: center;
-
-  span {
-    padding: 10% 0;
-  }
-}
-
 .result-main-wrapper {
   display: grid;
   grid-template-columns: 20vw auto;
@@ -425,9 +377,5 @@ watch(() => currentRoute.query.domaine, () => {
     display: flex;
     flex-direction: column;
   }
-}
-
-.logo-menu-wrapper > .expanded-search-bar-container {
-  margin-bottom: 40px;
 }
 </style>

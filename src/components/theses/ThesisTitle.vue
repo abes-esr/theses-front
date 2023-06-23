@@ -1,33 +1,30 @@
 <template>
-  <div class="title-wrapper line-clamp">
+  <div v-if="currentTitle !== ''" class="title-wrapper line-clamp">
     <div class="thesis-icon">
       <thesis-icon :status="status"></thesis-icon>
     </div>
     <div class="title-flexbox"> <!-- #TODO v-if anglais/francais -->
       <span>
         {{ currentTitle }}
-        <!--        selecteur langue-->
-      </span>
+      </span><language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onBeforeUpdate, ref } from "vue";
+import { onBeforeUpdate, ref, computed } from "vue";
 import ThesisIcon from "@/components/theses/results/ThesisIcon.vue";
+import LanguageSelector from "../common/LanguageSelector.vue";
 
 const props = defineProps({
   titles: {
-    type: String,
-    required: true
+    type: Object,
+    required: true,
+    default: new Object
   },
   status: {
     type: String,
     required: true
-  },
-  selectedLanguage: {
-    type: String,
-    default: 'fr'
   },
   dataReady: {
     type: Boolean
@@ -35,10 +32,29 @@ const props = defineProps({
 });
 
 const currentTitle = ref("");
+const selectedLanguage = ref("fr");
 
 onBeforeUpdate(() => {
-  currentTitle.value = props.titles.fr;
+  currentTitle.value = props.titles[selectedLanguage.value];
 });
+
+/**
+ * Computed Properties
+ */
+
+const langList = computed(() => {
+  return Object.keys(props.titles);
+});
+
+/**
+ * Functions
+ *  */
+function onUpdateLangue(langue) {
+  selectedLanguage.value = langue;
+  currentTitle.value = props.titles[selectedLanguage.value];
+}
+
+
 
 </script>
 
@@ -57,6 +73,9 @@ onBeforeUpdate(() => {
 }
 
 .title-flexbox {
+  display: flex;
+  flex-flow: row wrap;
+
   span {
     font-family: Roboto-Medium, sans-serif;
     font-size: 25.5px;

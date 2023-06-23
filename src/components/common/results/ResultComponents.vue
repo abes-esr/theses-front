@@ -51,7 +51,7 @@ import ResultPagination from "@/components/common/results/ResultPagination.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 import { useDisplay } from "vuetify";
-import { onMounted, ref, watch } from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import { useRoute } from "vue-router";
 import { APIService } from "@/services/StrategyAPI";
 import ResultList from "@/components/common/results/ResultList.vue";
@@ -92,14 +92,12 @@ const props = defineProps({
   }
 });
 
-const query = ref("");
+const query = computed(() => {
+  return getQuery();
+})
 
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
-
-onMounted(() => {
-  query.value = getQuery();
-});
 
 /**
  * Emits

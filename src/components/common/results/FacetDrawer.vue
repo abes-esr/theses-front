@@ -129,8 +129,8 @@ fillDateDrawerFields();
 
 function searchIntoFacet() {
   facetItems.value.forEach(function (facetItem) {
-    const filterLowerCase = facetItem.label;
-    const searchTextLowerCase = filterSearchText.value;
+    const filterLowerCase = facetItem.label.toLowerCase();
+    const searchTextLowerCase = filterSearchText.value.toLowerCase();
     facetItem.selected = filterLowerCase.includes(searchTextLowerCase);
   });
 }
@@ -332,7 +332,7 @@ watch(() => props.parametersLoaded,
   display: none !important;
 }
 
-.v-field__field > .v-label {
+.v-field__field>.v-label {
   font-size: 17px !important;
   font-family: Roboto-Medium, sans-serif;
   font-weight: 500;

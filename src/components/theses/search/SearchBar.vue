@@ -35,7 +35,7 @@ import { APIService } from "@/services/StrategyAPI";
 
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery, setDomaine } = APIService();
+const { getSuggestion, setQuery, setDomaine, setSorting } = APIService();
 
 defineProps({
   loading: {
@@ -114,9 +114,10 @@ async function search() {
     emit('searchAndReinitializeAllFacets', request.value);
   } else {
     setDomaine(currentRoute.query.domaine);
+    if (request.value === "") setSorting('dateDesc');
     router.push({
       name: 'resultats',
-      query: { 'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine) }
+      query: { 'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine), 'tri': request.value === "" ? "dateDesc" : "" }
     });
   }
 }

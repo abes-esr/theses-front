@@ -63,7 +63,7 @@
     "rapporteurs": "Rapporteurs :",
     "cadre": " dans le cadre de ",
     "cotutelle": " en cotutelle avec ",
-    "motcle": "Mot clés",
+    "motcle": "Mots clés",
     "valide": "Validé par le jury",
     "retour": "Retour aux résultats",
     "thesePrecedente": "Thèse précédente",
@@ -73,7 +73,9 @@
     "showMoreKeywords": "Afficher tous les mots-clés",
     "showLessKeywords": "Afficher moins de mots-clés",
     "showMoreAbstract": "Afficher la suite du résumé",
-    "showLessAbstract": "Afficher un extrait du résumé"
+    "showLessAbstract": "Afficher un extrait du résumé",
+    "projet": "Projet de thèse",
+    "doctorat": "Thèse de doctorat"
   },
   "results": {
     "facetsHeader": "Filtres",
@@ -95,6 +97,12 @@
     "results": "résultat(s)"
   },
   "personnes": {
+    "searchBar": {
+      "loading": "Recherche en cours...",
+      "noData": "Pas de données",
+      "title-personnes": "Personnes",
+      "title-thematiques": "Thématiques"
+    },
     "resultView": {
       "resultats": " résultats de personnes pour ",
       "personnesCard": {
@@ -116,6 +124,13 @@
       "motsCles": {
         "readMore": "Lire la suite",
         "readLess": "Refermer"
+      },
+      "roles": {
+        "auteur": "Auteur de {0} thèse(s)",
+        "directeur": "Directeur de {0} thèse(s)",
+        "rapporteur": "Rapporteur pour {0} thèse(s)",
+        "president": "Président de jury pour {0} thèse(s)",
+        "membre": "Membre du jury pour {0} thèse(s)"
       }
     }
   },
@@ -128,7 +143,8 @@
     "doc": "Documentation",
     "assistance": "Guichet d'assistance",
     "logoAbesAlt": "Accéder au site de l’Agence Bibliographique de l’Enseignement Supérieur",
-    "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche" 
+    "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche",
+    "plus": "En savoir plus"
   },
   "header": {
     "doc": "Accéder à la documentation de theses.fr ",
