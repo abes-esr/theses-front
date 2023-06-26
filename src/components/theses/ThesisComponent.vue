@@ -1,6 +1,6 @@
 <template>
   <thesis-toolbar />
-  <div v-if="dataReady && these !== {}">
+  <div>
     <thesis-title :data-ready="dataReady" :status="these.status" :titles="these.titres" id="top-of-thesis-component" />
     <thesis-table class="thesis-component" :these="these" />
     <v-divider v-if="keywordsAreSet" :thickness="1" class="divider border-opacity-50" length="90%" />
@@ -13,7 +13,7 @@
       <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1 />
     </div>
   </div>
-  <div v-if="!keywordsAreSet || !resumeIsSet">
+  <div v-if="!titleIsSet">
     <v-skeleton-loader type="heading"></v-skeleton-loader>
     <v-skeleton-loader type="paragraph"></v-skeleton-loader>
     <v-skeleton-loader type="paragraph"></v-skeleton-loader>
@@ -54,12 +54,14 @@ const props = defineProps({
 });
 
 const resumeIsSet = ref(false);
+const titleIsSet = ref(false);
 const keywordsAreSet = ref(false);
 
 onBeforeUpdate(() => {
   keywordsAreSet.value = (typeof props.these.sujetsRameau !== 'undefined' && props.these.sujetsRameau.length > 0)
     || (typeof props.these.sujets !== 'undefined' && Object.entries(props.these.sujets).length > 0);
   resumeIsSet.value = typeof props.these.resumes !== 'undefined' && Object.entries(props.these.resumes).length > 0;
+  titleIsSet.value = typeof props.these.titrePrincipal !== 'undefined' && Object.entries(props.these.titrePrincipal).length > 0;
 });
 
 function changeLanguage(newValue) {
