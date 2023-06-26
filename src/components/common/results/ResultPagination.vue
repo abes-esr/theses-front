@@ -2,7 +2,7 @@
   <div class="result-pagination">
       <div v-if="type === 'top'" class="first-bar-element">
           <v-select :items="['10', '25', '50']" v-model="currentShowingNumber" density="compact" variant="solo"
-                     class="left-select" menu-icon="mdi-chevron-down">
+                     class="left-select v-selects" menu-icon="mdi-chevron-down">
             <template v-slot:menu-icon>
               <v-icon>
                 mdi-chevron-down
@@ -20,7 +20,7 @@
       </v-pagination>
     <div v-if="type === 'top'" class="last-bar-element">
       <span class="sort-by-span no-wrap-text">{{ $t('results.sortBy') }}</span>
-      <sorting-select class="right-select" @updatePageNumberFromSortingSelect="updatePageNumberFromSortingSelect" @search="search">
+      <sorting-select class="right-select v-selects" @updatePageNumberFromSortingSelect="updatePageNumberFromSortingSelect" @search="search">
       </sorting-select>
     </div>
   </div>
@@ -154,6 +154,10 @@ watch(() => props.currentShowingNumber, () => {
   margin: 10px 8px 0;
   padding-top: 6px;
 
+  :deep(.v-field) {
+    max-width: 50px;
+  }
+
   :deep(.v-field--appended) {
     padding-inline-end: 0 !important;
   }
@@ -161,14 +165,7 @@ watch(() => props.currentShowingNumber, () => {
   :deep(.v-field--variant-solo) {
     box-shadow: unset;
     outline: solid 1px rgb(var(--v-theme-gris-fonce));
-    height: 30px;
   }
-
-  :deep(.v-field__input) {
-    padding-top: 5px;
-    padding-inline-start: 7px;
-  }
-
   :deep(.v-field__append-inner) {
     padding-top: 5px;
 
@@ -179,6 +176,22 @@ watch(() => props.currentShowingNumber, () => {
     }
   }
 }
+
+.v-selects {
+  :deep(.v-field) {
+    height: 22px;
+    margin-top: 8px;
+  }
+
+  :deep(.v-field__input) {
+    padding: 0 8px;
+  }
+
+  :deep(.v-field__append-inner) {
+    padding: unset;
+  }
+}
+
 
 .no-wrap-text {
   overflow: hidden;
@@ -194,6 +207,15 @@ watch(() => props.currentShowingNumber, () => {
 .middle-bar-element {
   flex: 1;
   margin-top: 5px;
+
+  :deep(.v-btn) {
+    height: 23px;
+    width: 23px;
+  }
+
+  :deep(.v-btn-content) {
+    height: 10px;
+  }
 }
 
 .last-bar-element {

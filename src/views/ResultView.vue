@@ -375,6 +375,8 @@ watch(() => currentRoute.query.domaine, () => {
   .result-components {
     grid-column-start: 4;
     background-color: rgb(var(--v-theme-surface));
+    border: solid 1px rgb(var(--v-theme-gris-clair));
+
 
     width: 100%;
     display: flex;

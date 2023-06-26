@@ -62,6 +62,7 @@ main {
   .nav-bar {
     grid-column-start: 2;
     background-color: rgb(var(--v-theme-surface));
+    border: solid 1px rgb(var(--v-theme-gris-clair));
   }
 
   .mobile-nav-bar {

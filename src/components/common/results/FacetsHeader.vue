@@ -129,6 +129,7 @@ function closeOverlay() {
   height: unset;
   align-self: flex-start;
   margin-top: 12px;
+  font-weight: 400;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 10px;
