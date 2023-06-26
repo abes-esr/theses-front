@@ -295,7 +295,6 @@ defineExpose({
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
-    margin-left: 1rem;
 
     /* Permet de rendre l'autocompletion + dense */
     .v-list-item {
