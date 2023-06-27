@@ -195,7 +195,7 @@ function goToPersonne(hash) {
 
   .action {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     height: 100px;
@@ -211,9 +211,12 @@ function goToPersonne(hash) {
       font-weight: 500;
       text-transform: none;
       padding: 0 8px;
+      margin-left: 0rem;
+      margin-right: 1rem;
 
       @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
         margin-left: 1rem;
+        margin-right: 0rem;
       }
     }
   }
