@@ -34,8 +34,10 @@
         </span>
 
         <span v-for="(item, index) in auteur" :key="item.ppn">
-          <span class="card-text">{{ item.prenom }}{{ '\xa0' }}</span>
-          <span class="card-text-bold">{{ item.nom }}{{ '\xa0' }}</span>
+          <span :class="item.ppn ? 'clickable lightblue' : ''" @click="linkTo(item.ppn)">
+            <span class="card-text">{{ item.prenom }}{{ '\xa0' }}</span>
+            <span class="card-text">{{ item.nom }}</span>
+          </span>{{ '\xa0' }}
           <span v-if="index < auteur.length - 2">
             ,{{ '\xa0' }}
           </span>
@@ -49,11 +51,13 @@
         </span>
 
         <span v-for="(item, index) in directeurs" :key="item.ppn">
-          <span class="card-text">
-            {{ item.prenom }}{{ '\xa0' }}
-          </span>
-          <span class="card-text-bold">
-            {{ item.nom }}
+          <span :class="item.ppn ? 'clickable lightblue' : ''" @click="linkTo(item.ppn)">
+            <span class="card-text">
+              {{ item.prenom }}{{ '\xa0' }}
+            </span>
+            <span class="card-text">
+              {{ item.nom }}
+            </span>
           </span>
           <span v-if="index < directeurs.length - 2">
             ,{{ '\xa0' }}
@@ -76,10 +80,11 @@ export default {
 </script>
 <script setup>
 import ThesisIcon from "@/components/theses/results/ThesisIcon.vue";
+import { useRouter } from 'vue-router';
 import { useDisplay } from "vuetify";
 const { mobile } = useDisplay();
 
-const props = defineProps({
+defineProps({
   titre: {
     type: String,
     default: ''
@@ -111,6 +116,11 @@ const props = defineProps({
   }
 
 });
+
+const router = useRouter();
+function linkTo(id) {
+  if (id) router.push("/" + id);
+}
 </script>
 
 <style scoped lang="scss">
@@ -207,8 +217,7 @@ const props = defineProps({
   font-weight: 400;
 }
 
-.card-title,
-.card-text-bold {
+.card-title {
   color: rgb(var(--v-theme-primary));
 }
 
@@ -218,9 +227,7 @@ const props = defineProps({
 }
 
 .card-text {
-  color: rgb(var(--v-theme-text-dark-blue));
   font-family: Roboto-Regular, sans-serif;
-  font-weight: 500;
 }
 
 .card-text-bold {
@@ -230,5 +237,14 @@ const props = defineProps({
 
 .card-text-wrapper {
   display: inline-block;
+}
+
+.clickable {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.lightblue {
+  color: rgb(var(--v-theme-secondary-darken-2)) !important;
 }
 </style>

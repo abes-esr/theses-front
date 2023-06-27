@@ -74,7 +74,7 @@
         </span>
         <span>
           <template v-for="(ecole, index) in these.partenairesRecherche" :key="ecole.ppn">
-            {{ ecole.nom }}
+            {{ ecole.nom }} {{ '\xa0' }} ({{ ecole.type }})
             <template v-if="index < these.partenairesRecherche.length - 1">,{{ '\xa0' }}</template>
           </template>
         </span>

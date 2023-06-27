@@ -6,7 +6,7 @@
       </v-icon>
     </button>
     <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-            :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+      :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav>
   <div v-if="mobile" class="logo-menu-wrapper">
@@ -15,7 +15,7 @@
     </RouterLink>
     <!--    Menu recherche/selecteur these/personnes-->
     <v-dialog v-model="openMenu" eager location-strategy="static" persistent no-click-animation fullscreen
-              :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+      :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
       <div class="statistique__title">
         <v-icon size="40px">mdi-account</v-icon>
         <v-btn size=40px icon="mdi-close-box" color="red" variant="text" @click="openMenu = !openMenu"></v-btn>
@@ -29,7 +29,7 @@
         <div class="expanded-search-bar">
           <domain-selector @changeDomain="changeDomain" compact></domain-selector>
           <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-                      @onError="displayError" />
+            @onError="displayError" />
         </div>
       </div>
     </v-expand-transition>
@@ -44,7 +44,7 @@
     <div class="sub_header__action">
       <domain-selector @changeDomain="changeDomain" compact></domain-selector>
       <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-                  @onError="displayError" />
+        @onError="displayError" />
     </div>
   </div>
   <div v-if="!mobile" class="search-filter">
@@ -74,7 +74,7 @@
             <v-divider vertical v-if="item.has_idref"></v-divider>
           </div>
           <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-            <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png"/>
+            <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png" />
           </a>
           <div class="nom-card">
 
@@ -85,72 +85,67 @@
           </div>
 
         </div>
-        <personne-motcles :motsCles="item.mots_cles"/>
+        <personne-motcles :motsCles="item.mots_cles" />
         <div class="theses">
           <div v-if="item.theses['auteur'] && item.theses['auteur'].length > 0">
-            <hr/>
+            <hr />
             <h2 id="Auteurs">{{ $t("personnes.personneView.roles.auteur", [item.theses['auteur'].length]) }}</h2>
             <div v-for="these in item.theses['auteur']" :key="`auteur-${these.id}`" class="card-wrapper">
 
               <result-card :titre="these.titre"
-                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB'):new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                           :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                           :etab="these.etablissement_soutenance.nom"
-                           :id="these.id" :status="these.status">
+                :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
               </result-card>
             </div>
           </div>
 
           <div v-if="item.theses['directeur de thèse'] && item.theses['directeur de thèse'].length > 0">
-            <hr/>
+            <hr />
             <h2 id="Directeurs">
               {{ $t("personnes.personneView.roles.directeur", [item.theses['directeur de thèse'].length]) }}</h2>
             <div v-for="these in item.theses['directeur de thèse']" :key="`directeur-${these.id}`" class="card-wrapper">
               <result-card :titre="these.titre"
-                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB'):new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                           :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                           :etab="these.etablissement_soutenance.nom"
-                           :id="these.id" :status="these.status">
+                :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
               </result-card>
             </div>
           </div>
 
           <div v-if="item.theses['rapporteur'] && item.theses['rapporteur'].length > 0">
-            <hr/>
+            <hr />
             <h2 id="Rapporteurs">{{
-                $t("personnes.personneView.roles.rapporteur", [item.theses['rapporteur'].length]) }}</h2>
+              $t("personnes.personneView.roles.rapporteur", [item.theses['rapporteur'].length]) }}</h2>
             <div v-for="these in item.theses['rapporteur']" :key="`rapporteur-${these.id}`" class="card-wrapper">
               <result-card :titre="these.titre"
-                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB'):new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                           :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                           :etab="these.etablissement_soutenance.nom"
-                           :id="these.id" :status="these.status">
+                :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
               </result-card>
             </div>
           </div>
 
           <div v-if="item.theses['président du jury'] && item.theses['président du jury'].length > 0">
-            <hr/>
+            <hr />
             <h2>{{ $t("personnes.personneView.roles.president", [item.theses['président du jury'].length]) }}</h2>
             <div v-for="these in item.theses['président du jury']" :key="`president-${these.id}`" class="card-wrapper">
               <result-card :titre="these.titre"
-                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB'):new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                           :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                           :etab="these.etablissement_soutenance.nom"
-                           :id="these.id" :status="these.status">
+                :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
               </result-card>
             </div>
           </div>
 
           <div v-if="item.theses['membre du jury'] && item.theses['membre du jury'].length > 0">
-            <hr/>
+            <hr />
             <h2>{{ $t("personnes.personneView.roles.membre", [item.theses['membre du jury'].length]) }}</h2>
             <div v-for="these in item.theses['membre du jury']" :key="`membre-${these.id}`" class="card-wrapper">
               <result-card :titre="these.titre"
-                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB'):new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                           :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                           :etab="these.etablissement_soutenance.nom"
-                           :id="these.id" :status="these.status">
+                :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
               </result-card>
             </div>
           </div>
@@ -164,25 +159,25 @@
 </template>
 
 <script setup>
-import {useMeta} from 'vue-meta';
-import {useI18n} from "vue-i18n";
+import { useMeta } from 'vue-meta';
+import { useI18n } from "vue-i18n";
 
-import {defineAsyncComponent, onBeforeMount, onUpdated, ref, watchEffect} from 'vue';
+import { defineAsyncComponent, onBeforeMount, onUpdated, ref, watchEffect } from 'vue';
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 
-import {personnesAPIService} from "@/services/PersonnesAPI";
-import {useDisplay} from "vuetify";
+import { personnesAPIService } from "@/services/PersonnesAPI";
+import { useDisplay } from "vuetify";
 import ActionBarPersonnes from "@/components/personnes/ActionBar.vue";
 import StatistiqueCardPersonne from "@/components/personnes/StatistiqueCard.vue";
 import ResultCard from "@/components/theses/results/ResultCard.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import PersonneMotcles from "@/components/personnes/MotsCles.vue";
-import {useRoute} from "vue-router";
+import { useRoute } from "vue-router";
 
-const {mobile} = useDisplay();
+const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const {getPersonne} = personnesAPIService();
+const { getPersonne } = personnesAPIService();
 const currentRoute = useRoute();
 
 const showSearchBar = ref(false);
@@ -191,11 +186,11 @@ const dataReady = ref(false);
 const openMenu = ref(false);
 const item = ref({});
 
-const {t} = useI18n();
-const {meta} = useMeta({});
+const { t } = useI18n();
+const { meta } = useMeta({});
 
 watchEffect(() => {
-  const titlePersonne = item.value.prenom ? item.value.prenom + item.value.nom : "";
+  const titlePersonne = item.value.prenom ? item.value.prenom + " " + item.value.nom : "";
   meta.title = titlePersonne;
   meta.description = t("meta.descPersonne") + titlePersonne;
 });
@@ -214,7 +209,7 @@ onBeforeMount(() => {
     dataReady.value = true;
   }).catch(error => {
     if (error.response) {
-      displayError(error.response.data.message, {isSticky: true});
+      displayError(error.response.data.message, { isSticky: true });
     } else {
       displayError(error.message);
     }
@@ -223,9 +218,9 @@ onBeforeMount(() => {
 
 onUpdated(() => {
   if (currentRoute.hash) {
-    document.getElementById(currentRoute.hash.substring(1))?.scrollIntoView({behavior: "smooth"});
+    document.getElementById(currentRoute.hash.substring(1))?.scrollIntoView({ behavior: "smooth" });
   }
-})
+});
 
 const messageBox = ref(null);
 
@@ -474,6 +469,7 @@ function displayError(message, opt) {
   @media #{ map-get(settings.$display-breakpoints, 'xl-and-up')} {
     left: 96%;
   }
+
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     left: 95%;
     bottom: 730px;
