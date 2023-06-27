@@ -294,16 +294,8 @@ defineExpose({
   .v-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-auto-rows: min-content;
     width: 100%;
-
-    /* Permet de rendre l'autocompletion + dense */
-    .v-list-item {
-      min-height: 40px !important;
-
-      @media only screen and (min-width: 900px) {
-        min-height: 20px !important;
-      }
-    }
   }
 }
 </style>
