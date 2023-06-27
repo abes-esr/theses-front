@@ -169,8 +169,6 @@ watch(() => props.currentShowingNumber, () => {
   :deep(.v-field__append-inner) {
     padding-top: 5px;
 
-    color: rgb(var(--v-theme-orange-abes));
-
     i {
       opacity: 1 !important;
     }
@@ -200,13 +198,13 @@ watch(() => props.currentShowingNumber, () => {
 }
 
 .results-number-span {
-  padding-top: 22px;
+  padding-top: 24px;
   height: 50px;
 }
 
 .middle-bar-element {
   flex: 1;
-  margin-top: 5px;
+  margin-top: 15px;
 
   :deep(.v-btn) {
     height: 23px;
@@ -222,6 +220,7 @@ watch(() => props.currentShowingNumber, () => {
   margin-top: 17px;
   margin-right: 20px;
   width: 220px;
+  font-size: 15px;
 
   display: inline-flex;
   flex-wrap: nowrap;
@@ -229,7 +228,7 @@ watch(() => props.currentShowingNumber, () => {
 }
 
 .sort-by-span {
-  padding-top: 4px;
+  padding-top: 8px;
 }
 
 .right-select {
