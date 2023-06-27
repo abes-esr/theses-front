@@ -63,8 +63,8 @@
     </div>
     <div class="result-components">
       <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
-        :reset-page="resetPage" :reset-showing-number="resetShowingNumber" :domain-name-change="domainNameChange"
-        :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
+        :persistentQuery="request" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
+        :domain-name-change="domainNameChange" :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
       </result-components>
     </div>
   </div>
