@@ -16,7 +16,7 @@
             <span class="prenom">{{ item.prenom }}</span>
             <span class="nom">{{ item.nom }}</span>
           </RouterLink>
-          <RouterLink v-else-if="item.these.id" class="nomprenom" :to="{ name: 'detail', params: { id: item.these.id } }">
+          <RouterLink v-else-if="item.these" class="nomprenom" :to="{ name: 'detail', params: { id: item.these } }">
             <span class="prenom">{{ item.prenom }}</span>
             <span class="nom">{{ item.nom }}</span>
           </RouterLink>
@@ -27,16 +27,16 @@
         </div>
       </div>
       <div class="action">
-        <v-btn :disabled="!item.roles['auteur'] || !item.these.id" color="primary" append-icon="mdi-arrow-right-circle"
+        <v-btn :disabled="!item.roles['auteur'] || !item.these" color="primary" append-icon="mdi-arrow-right-circle"
           @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }}
           ({{ item.roles["auteur"] ? item.roles["auteur"] : 0 }})
         </v-btn>
-        <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these.id" color="primary"
+        <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these" color="primary"
           append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Directeurs')">{{
             $t('personnes.resultView.personnesCard.directeur') }}
           ({{ item.roles["directeur de thèse"] ? item.roles["directeur de thèse"] : 0 }})
         </v-btn>
-        <v-btn :disabled="!item.roles['rapporteur'] || !item.these.id" color="primary"
+        <v-btn :disabled="!item.roles['rapporteur'] || !item.these" color="primary"
           append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Rapporteurs')">{{
             $t('personnes.resultView.personnesCard.rapporteur') }}
           ({{ item.roles["rapporteur"] ? item.roles["rapporteur"] : 0 }})
