@@ -3,9 +3,43 @@
     <template v-slot:title="{ content }">{{ content }} | Theses.fr</template>
   </metainfo>
   <v-app>
+    <!-- DEBUT BLOC BETA-->
+    <v-alert width="100%" outlined color="primary"
+      style="padding-top: 30px; padding-bottom: 30px;"><strong>Avertissement</strong> : vous êtes
+      sur la version beta de
+      Theses.fr. Cette
+      version bêta est incomplète. <a href="https://theses.fr/"><strong style="color: white;">Cliquez ici pour retourner à
+          la version actuelle.
+        </strong></a><v-btn class="float-right" tonal color="secondary" @click="dialog = true">Plus
+        d'informations</v-btn></v-alert>
+    <!-- FIN BLOC BETA-->
     <header-custom></header-custom>
     <v-main>
-      <router-view/>
+      <!-- DEBUT BLOC BETA-->
+      <v-dialog v-model="dialog" width="auto">
+        <v-card>
+          <v-card-text style="font-size: 1.2rem; letter-spacing: normal;">
+            <strong>Avertissement :</strong><br /><br />
+            Une nouvelle version de theses.fr est en cours de développement. Nous vous proposons ici la version bêta de ce
+            nouveau moteur de recherche. Cette version bêta est incomplète. Toutes les fonctionnalités n’ont pas encore
+            été développées, le design est appelé à évoluer et tous les bugs ne sont pas encore corrigés. Cette version
+            bêta évoluera au fil des nouvelles livraisons, jusqu’au passage en production officiel du nouveau theses.fr,
+            prévu pour janvier 2024.<br /><br />
+            Les données qui figurent sur ce theses.fr bêta sont les mêmes que celles qui figurent sur theses.fr v1, avec
+            néanmoins un temps de mise à jour plus long, la réindexation automatique des données n’étant pas encore mise
+            en place sur la version bêta. Toutes les demandes relatives à ces données (ajouts, corrections, suppressions)
+            doivent nous être adressées à partir du site officiel, theses.fr v1, et non à partir de la version bêta.
+            <br /><br />
+            <strong>Cliquez ici pour retourner à la version actuelle : </strong><a
+              href="https://theses.fr/">https://theses.fr/</a>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" block flat @click="dialog = false">Fermer</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <!-- FIN BLOC BETA-->
+      <router-view />
     </v-main>
     <footer-custom></footer-custom>
   </v-app>
@@ -14,8 +48,9 @@
 <script>
 import HeaderCustom from "@/components/common/HeaderCustom.vue";
 import FooterCustom from "./components/common/FooterCustom.vue";
-import {useMeta} from 'vue-meta';
-import {useI18n} from "vue-i18n";
+import { useMeta } from 'vue-meta';
+import { ref } from 'vue';
+import { useI18n } from "vue-i18n";
 
 
 export default {
@@ -25,11 +60,15 @@ export default {
   },
   name: 'App',
   setup() {
-    const {t} = useI18n();
+    const { t } = useI18n();
     useMeta({
       title: t("meta.titre"),
       description: t("meta.desc")
     });
+    const dialog = ref(true);
+    return {
+      dialog
+    };
   },
   data: () => ({
     //
@@ -117,7 +156,7 @@ main {
     grid-template-rows: 33% 33% 33%;
   }
 
-  .logo-menu-wrapper > .expanded-search-bar-container {
+  .logo-menu-wrapper>.expanded-search-bar-container {
     margin-bottom: 40px;
   }
 
