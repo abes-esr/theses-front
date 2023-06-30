@@ -65,7 +65,10 @@ export default {
       title: t("meta.titre"),
       description: t("meta.desc")
     });
-    const dialog = ref(true);
+
+    const dialog = ref(false);
+    if (window.location.href.includes("beta")) dialog.value = true;
+
     return {
       dialog
     };
