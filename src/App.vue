@@ -34,7 +34,7 @@
               href="https://theses.fr/">https://theses.fr/</a>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" block flat @click="dialog = false">Fermer</v-btn>
+            <v-btn color="primary" block flat @click="setDialogSeen">Fermer</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -66,11 +66,21 @@ export default {
       description: t("meta.desc")
     });
 
+
+
+    // DEBUT BETA
     const dialog = ref(false);
-    if (window.location.href.includes("beta")) dialog.value = true;
+    if (!localStorage.getItem('hasSeenWarning')) dialog.value = true;
+
+    function setDialogSeen() {
+      dialog.value = false;
+      localStorage.setItem('hasSeenWarning', true);
+    }
+    // FIN BETA
 
     return {
-      dialog
+      dialog,
+      setDialogSeen
     };
   },
   data: () => ({
