@@ -109,7 +109,7 @@ h1 {
   justify-content: start;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    justify-content: space-between;
+    justify-content: space-around;
   }
 }
 
