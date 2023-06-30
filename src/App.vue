@@ -24,7 +24,7 @@
             nouveau moteur de recherche. Cette version bêta est incomplète. Toutes les fonctionnalités n’ont pas encore
             été développées, le design est appelé à évoluer et tous les bugs ne sont pas encore corrigés. Cette version
             bêta évoluera au fil des nouvelles livraisons, jusqu’au passage en production officiel du nouveau theses.fr,
-            prévu pour janvier 2024.<br /><br />
+            prévu pour 2024.<br /><br />
             Les données qui figurent sur ce theses.fr bêta sont les mêmes que celles qui figurent sur theses.fr v1, avec
             néanmoins un temps de mise à jour plus long, la réindexation automatique des données n’étant pas encore mise
             en place sur la version bêta. Toutes les demandes relatives à ces données (ajouts, corrections, suppressions)
