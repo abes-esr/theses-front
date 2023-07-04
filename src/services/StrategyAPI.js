@@ -5,6 +5,7 @@ import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import { referentielsAPIService } from "@/services/ReferentielsAPI";
 import { replaceAndEscape } from "@/services/Common";
+import {useRoute} from "vue-router";
 
 // import fonctions
 const { fetchCodeLangues, createLabels, getLabelFromCode } = referentielsAPIService();
@@ -157,13 +158,10 @@ function setParameters() {
 }
 
 function updateURL() {
-  if(router.currentRoute._value.name === 'resultats') {
-    const routerParams = setParameters();
-    router.replace({
-      name: 'resultats',
-      query: routerParams
-    });
-  }
+  const routerParams = setParameters();
+  router.replace({
+    query: routerParams
+  });
 }
 
 /**
