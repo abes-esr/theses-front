@@ -69,7 +69,9 @@ const items = ref([]);
 const suggestionActive = ref(false);
 
 const menuProps = {
-  'scrollStrategy': 'close'
+  'scrollStrategy': 'close',
+  'open-on-focus': false,
+  'content-class': 'autocomplete',
 };
 
 watch(requestSearch, (newRequestSearch) => {
@@ -230,5 +232,28 @@ defineExpose({
 
 .no-background-hover::before {
   background-color: transparent !important;
+}
+</style>
+
+<style lang="scss">
+@use 'vuetify/settings';
+
+.autocomplete {
+
+  h3 {
+    margin-left: 1rem;
+  }
+
+  .v-list {
+
+    /* Permet de rendre l'autocompletion + dense */
+    .v-list-item {
+      min-height: 40px !important;
+
+      @media only screen and (min-width: 900px) {
+        min-height: 20px !important;
+      }
+    }
+  }
 }
 </style>

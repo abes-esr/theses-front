@@ -13,7 +13,7 @@
     <Transition mode="out-in">
       <h2 class="returned-results-statement" v-if="dataReady">
         <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
-        <span class="orange-text">"{{ query }}"{{ '\xa0' }}</span>
+        <span class="orange-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
         <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
         <span class="orange-text">{{ nbResult }}{{ '\xa0' }}</span>
         <span>{{ $t("results.results") }}</span>
@@ -50,19 +50,17 @@
 import ResultPagination from "@/components/common/results/ResultPagination.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
-import { useDisplay } from "vuetify";
-import {computed, onMounted, ref, watch} from "vue";
-import { useRoute } from "vue-router";
-import { APIService } from "@/services/StrategyAPI";
+import {useDisplay} from "vuetify";
+import {ref, watch} from "vue";
+import {useRoute} from "vue-router";
+import {APIService} from "@/services/StrategyAPI";
 import ResultList from "@/components/common/results/ResultList.vue";
 import FacetsChips from "@/components/common/results/FacetsChips.vue";
 import SortingSelect from "@/components/common/results/SortingSelect.vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
-const { getQuery, setShowingNumber } = APIService();
-
-const domainName = currentRoute.query.domaine ? ref(currentRoute.query.domaine) : ref('theses');
+const { setShowingNumber } = APIService();
 
 const props = defineProps({
   result: {
@@ -74,6 +72,10 @@ const props = defineProps({
   },
   nbResult: {
     type: Number
+  },
+  persistentQuery: {
+    type: String,
+    default: ""
   },
   loading: {
     type: Boolean
@@ -91,10 +93,6 @@ const props = defineProps({
     type: Array
   }
 });
-
-const query = computed(() => {
-  return getQuery();
-})
 
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
@@ -140,7 +138,6 @@ function updatePageNumberFromSortingSelect(pageNumber) {
 }
 
 function search() {
-  query.value = getQuery();
   emit('search');
 }
 
@@ -149,7 +146,6 @@ function search() {
  */
 watch(() => props.resetPage, () => {
   currentPageNumber.value = 1;
-  query.value = getQuery();
 });
 
 watch(() => props.resetShowingNumber, () => {
