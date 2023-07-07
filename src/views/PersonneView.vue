@@ -217,6 +217,7 @@ onBeforeMount(() => {
 });
 
 onUpdated(() => {
+  console.log(currentRoute.hash)
   if (currentRoute.hash) {
     document.getElementById(currentRoute.hash.substring(1))?.scrollIntoView({ behavior: "smooth" });
   }
