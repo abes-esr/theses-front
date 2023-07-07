@@ -12,9 +12,11 @@ import PersonneView from './PersonneView.vue';
 const route = useRoute();
 const id = ref("");
 const type = ref("");
+const hash = ref("");
 
 id.value = route.params.id;
 type.value = checkId(id.value);
+hash.value = route.hash;
 
 watch(
     () => route.params.id,

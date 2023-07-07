@@ -23,7 +23,6 @@
         <Stats-card :titre=nbPersonnes :description="$t('personnesRef')" icon="mdi-account"
           url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></Stats-card>
       </div>
-      <p>Le PoC fédé est accessible ici : <a href="/poc-fede/">poc-fede</a></p>
     </div>
   </v-container>
 </template>
