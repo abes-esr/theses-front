@@ -23,6 +23,7 @@
         <Stats-card :titre=nbPersonnes :description="$t('personnesRef')" icon="mdi-account"
           url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></Stats-card>
       </div>
+      <br />
     </div>
   </v-container>
 </template>
