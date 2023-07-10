@@ -158,10 +158,13 @@ function setParameters() {
 }
 
 function updateURL() {
-  const routerParams = setParameters();
-  router.replace({
-    query: routerParams
-  });
+  if(router.currentRoute._value.name === 'resultats') {
+    const routerParams = setParameters();
+    router.replace({
+      name: 'resultats',
+      query: routerParams
+    });
+  }
 }
 
 /**
