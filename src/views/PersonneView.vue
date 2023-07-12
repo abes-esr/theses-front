@@ -6,16 +6,16 @@
       </v-icon>
     </button>
     <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-      :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+            :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav>
   <div v-if="mobile" class="logo-menu-wrapper">
     <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
-      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
     </RouterLink>
     <!--    Menu recherche/selecteur these/personnes-->
     <v-dialog v-model="openMenu" eager location-strategy="static" persistent no-click-animation fullscreen
-      :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+              :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
       <div class="statistique__title">
         <v-icon size="40px">mdi-account</v-icon>
         <v-btn size=40px icon="mdi-close-box" color="red" variant="text" @click="openMenu = !openMenu"></v-btn>
@@ -28,8 +28,9 @@
       <div v-show="showSearchBar" class="expanded-search-bar-container">
         <div class="expanded-search-bar">
           <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-            @onError="displayError" />
+          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"
+                      :loading="loading"
+                      @onError="displayError"/>
         </div>
       </div>
     </v-expand-transition>
@@ -37,14 +38,14 @@
   <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
       <RouterLink :to="{ name: 'home' }" title="Accueil du site">
-        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
       </RouterLink>
       <h1>{{ $t("slogan") }}</h1>
     </div>
     <div class="sub_header__action">
       <domain-selector @changeDomain="changeDomain" compact></domain-selector>
       <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-        @onError="displayError" />
+                  @onError="displayError"/>
     </div>
   </div>
   <div v-if="!mobile" class="search-filter">
@@ -74,7 +75,7 @@
             <v-divider vertical v-if="item.has_idref"></v-divider>
           </div>
           <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-            <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png" />
+            <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png"/>
           </a>
           <div class="nom-card">
 
@@ -85,70 +86,23 @@
           </div>
 
         </div>
-        <personne-motcles :motsCles="item.mots_cles" />
+        <personne-motcles :motsCles="item.mots_cles"/>
         <div class="theses">
-          <div v-if="item.theses['auteur'] && item.theses['auteur'].length > 0">
-            <hr />
-            <h2 id="Auteurs">{{ $t("personnes.personneView.roles.auteur", [item.theses['auteur'].length]) }}</h2>
-            <div v-for="these in item.theses['auteur']" :key="`auteur-${these.id}`" class="card-wrapper">
-
-              <result-card :titre="these.titre"
-                :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
-              </result-card>
+          <template v-for="key in ['auteur','directeur de thèse','rapporteur','président du jury','membre du jury']"
+                    :key="key">
+            <div v-if="item.theses[key] && item.theses[key].length > 0">
+              <hr/>
+              <h2 :id="anchorValueFromKey(key)">
+                {{ $t("personnes.personneView.roles." + i18nValueFromKey(key), [item.theses[key].length]) }}</h2>
+              <div v-for="these in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
+                <result-card :titre="these.titre"
+                             :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                             :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                             :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
+                </result-card>
+              </div>
             </div>
-          </div>
-
-          <div v-if="item.theses['directeur de thèse'] && item.theses['directeur de thèse'].length > 0">
-            <hr />
-            <h2 id="Directeurs">
-              {{ $t("personnes.personneView.roles.directeur", [item.theses['directeur de thèse'].length]) }}</h2>
-            <div v-for="these in item.theses['directeur de thèse']" :key="`directeur-${these.id}`" class="card-wrapper">
-              <result-card :titre="these.titre"
-                :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
-              </result-card>
-            </div>
-          </div>
-
-          <div v-if="item.theses['rapporteur'] && item.theses['rapporteur'].length > 0">
-            <hr />
-            <h2 id="Rapporteurs">{{
-              $t("personnes.personneView.roles.rapporteur", [item.theses['rapporteur'].length]) }}</h2>
-            <div v-for="these in item.theses['rapporteur']" :key="`rapporteur-${these.id}`" class="card-wrapper">
-              <result-card :titre="these.titre"
-                :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
-              </result-card>
-            </div>
-          </div>
-
-          <div v-if="item.theses['président du jury'] && item.theses['président du jury'].length > 0">
-            <hr />
-            <h2>{{ $t("personnes.personneView.roles.president", [item.theses['président du jury'].length]) }}</h2>
-            <div v-for="these in item.theses['président du jury']" :key="`president-${these.id}`" class="card-wrapper">
-              <result-card :titre="these.titre"
-                :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
-              </result-card>
-            </div>
-          </div>
-
-          <div v-if="item.theses['membre du jury'] && item.theses['membre du jury'].length > 0">
-            <hr />
-            <h2>{{ $t("personnes.personneView.roles.membre", [item.theses['membre du jury'].length]) }}</h2>
-            <div v-for="these in item.theses['membre du jury']" :key="`membre-${these.id}`" class="card-wrapper">
-              <result-card :titre="these.titre"
-                :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
-              </result-card>
-            </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>
@@ -159,25 +113,25 @@
 </template>
 
 <script setup>
-import { useMeta } from 'vue-meta';
-import { useI18n } from "vue-i18n";
+import {useMeta} from 'vue-meta';
+import {useI18n} from "vue-i18n";
 
-import { defineAsyncComponent, onBeforeMount, onUpdated, ref, watchEffect } from 'vue';
+import {defineAsyncComponent, onBeforeMount, onUpdated, ref, watchEffect} from 'vue';
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 
-import { personnesAPIService } from "@/services/PersonnesAPI";
-import { useDisplay } from "vuetify";
+import {personnesAPIService} from "@/services/PersonnesAPI";
+import {useDisplay} from "vuetify";
 import ActionBarPersonnes from "@/components/personnes/ActionBar.vue";
 import StatistiqueCardPersonne from "@/components/personnes/StatistiqueCard.vue";
 import ResultCard from "@/components/theses/results/ResultCard.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import PersonneMotcles from "@/components/personnes/MotsCles.vue";
-import { useRoute } from "vue-router";
+import {useRoute} from "vue-router";
 
-const { mobile } = useDisplay();
+const {mobile} = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
-const { getPersonne } = personnesAPIService();
+const {getPersonne} = personnesAPIService();
 const currentRoute = useRoute();
 
 const showSearchBar = ref(false);
@@ -186,8 +140,8 @@ const dataReady = ref(false);
 const openMenu = ref(false);
 const item = ref({});
 
-const { t } = useI18n();
-const { meta } = useMeta({});
+const {t} = useI18n();
+const {meta} = useMeta({});
 
 watchEffect(() => {
   const titlePersonne = item.value.prenom ? item.value.prenom + " " + item.value.nom : "";
@@ -209,7 +163,7 @@ onBeforeMount(() => {
     dataReady.value = true;
   }).catch(error => {
     if (error.response) {
-      displayError(error.response.data.message, { isSticky: true });
+      displayError(error.response.data.message, {isSticky: true});
     } else {
       displayError(error.message);
     }
@@ -218,11 +172,64 @@ onBeforeMount(() => {
 
 onUpdated(() => {
   if (currentRoute.hash) {
-    document.getElementById(currentRoute.hash.substring(1))?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(currentRoute.hash.substring(1))?.scrollIntoView({behavior: "smooth"});
   }
 });
 
 const messageBox = ref(null);
+
+/**
+ * Retourne le nom de l'ancre HTML en fonction de la clé du rôle
+ * @param key
+ * @returns {string}
+ */
+function anchorValueFromKey(key) {
+  switch (key) {
+    case 'auteur':
+      return "Auteurs";
+    case 'directeur de thèse':
+      return "Directeurs";
+
+    case 'rapporteur':
+      return "Rapporteurs";
+
+    case 'président du jury':
+      return "Presidents";
+
+    case 'membre du jury':
+      return "Membres";
+
+    default:
+      return "";
+  }
+}
+
+/**
+ * Retourne le nom de la clé i18n en fonction de la clé du rôle
+ * @param key
+ * @returns {string}
+ */
+function i18nValueFromKey(key) {
+  switch (key) {
+    case 'auteur':
+      return "auteur";
+
+    case 'directeur de thèse':
+      return "directeur";
+
+    case 'rapporteur':
+      return "rapporteur";
+
+    case 'président du jury':
+      return "president";
+
+    case 'membre du jury':
+      return "membre";
+
+    default:
+      return "";
+  }
+}
 
 function displayError(message, opt) {
   messageBox.value?.open(message, {
