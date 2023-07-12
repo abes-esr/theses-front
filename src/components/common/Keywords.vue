@@ -34,7 +34,7 @@
 <script setup>
 import { onBeforeUpdate, ref, watch, computed } from "vue";
 import { useDisplay } from "vuetify";
-import LanguageSelector from "../common/LanguageSelector.vue";
+import LanguageSelector from "./LanguageSelector.vue";
 
 const props = defineProps({
   these: {
@@ -151,7 +151,7 @@ watch(mobile, (newValue) => {
 </script>
 
 <style scoped lang="scss">
-@use 'vuetify/settings';
+@use '../../../node_modules/vuetify/settings';
 
 #second-chip-line :deep(.v-chip--disabled),
 #first-chip-line :deep(.v-chip--disabled) {

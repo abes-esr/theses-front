@@ -32,7 +32,7 @@
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import ThesisToolbar from "@/components/theses/ThesisToolbar.vue";
 import ThesisTable from "@/components/theses/ThesisTable.vue";
-import ThesisKeywords from "@/components/theses/ThesisKeywords.vue";
+import ThesisKeywords from "@/components/common/Keywords.vue";
 import { onBeforeUpdate, ref, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 import { useMeta } from "vue-meta";
