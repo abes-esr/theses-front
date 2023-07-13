@@ -60,7 +60,7 @@ import SortingSelect from "@/components/common/results/SortingSelect.vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
-const { setShowingNumber } = APIService();
+const { setShowingNumber, setShowingNumberMobile } = APIService();
 
 const props = defineProps({
   result: {
@@ -125,7 +125,7 @@ function updateShowingNumber(newValue) {
 
 function addTenResultsToList() {
   currentShowingNumber.value += 10;
-  setShowingNumber(currentShowingNumber.value);
+  setShowingNumberMobile(currentShowingNumber.value);
 }
 
 function updatePage(newPage) {

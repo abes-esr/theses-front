@@ -5,7 +5,6 @@ import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import { referentielsAPIService } from "@/services/ReferentielsAPI";
 import { replaceAndEscape } from "@/services/Common";
-import {useRoute} from "vue-router";
 
 // import fonctions
 const { fetchCodeLangues, createLabels, getLabelFromCode } = referentielsAPIService();
@@ -51,6 +50,10 @@ function setShowingNumber(value) {
   updateURL();
 }
 
+function setShowingNumberMobile(value) {
+  currentShowingNumber.value = parseInt(value);
+}
+
 function getCurrentShowingNumber() {
   if(typeof currentShowingNumber.value !== 'undefined') {
     return parseInt(currentShowingNumber.value);
@@ -81,7 +84,6 @@ function getCurrentSorting() {
 
 function setQuery(newQuery) {
   query.value = (typeof newQuery !== 'undefined' && newQuery !== '') ? newQuery : '*';
-  updateURL();
 }
 
 function setCheckedFilters(objectsArray) {
@@ -196,8 +198,12 @@ function disableOrFilters() {
 /**
  * Routes
  */
-function queryAPI() {
+function queryAPI(mobile) {
   query.value = (typeof query.value === 'undefined') ? '*' : query.value;
+
+  if (!mobile._object.mobile) {
+    updateURL();
+  }
 
   if(domaine.value === "personnes")
     return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
@@ -542,6 +548,7 @@ export function APIService() {
     setWorkingFacetName,
     addToFiltersLabelsMap,
     getTriMap,
-    reinitializeResultData
+    reinitializeResultData,
+    setShowingNumberMobile
   };
 }
