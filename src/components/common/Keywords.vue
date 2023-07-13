@@ -84,56 +84,18 @@ function selectKeyWords(numberOfWords, offset) {
   return keywords.value[selectedLanguage.value].filter((word, index) => { return index < numberOfWords + offset && index >= offset; });
 }
 
+/*
+* Format attendu : 
+sujets["langue"] = [
+  {
+  keyword: libelle,
+  type: sujetRameau | sujet
+  query: requête rebond ES
+  }
+]
+*/
 function setKeywords() {
-  const sujets = {};
-
-  for (let i = 0; i < props.these.sujets.length; i++) {
-    const item = props.these.sujets[i];
-    const langue = item.langue;
-    const libelle = item.libelle;
-
-    if (sujets[langue]) {
-      sujets[langue].push({
-        'keyword': libelle,
-        'type': 'sujet'
-
-      });
-    } else {
-      sujets[langue] = [{
-        'keyword': libelle,
-        'type': 'sujet'
-
-      }];
-    }
-  }
-
-
-  if (typeof props.these.sujetsRameau !== 'undefined') {
-    props.these.sujetsRameau.forEach((keyWord) => {
-      //On ajoute directement dans [fr] car les sujetsRameaux sont FR uniquement, et unshift pour que les Rameaux soient au début
-      if (sujets["fr"]) {
-        sujets["fr"].unshift(
-          {
-            'keyword': keyWord.libelle,
-            'query': `"${keyWord.libelle}" ET "${keyWord.ppn}"`,
-            'type': 'sujetsRameau'
-          }
-        );
-      } else {
-        sujets["fr"] = [(
-          {
-            'keyword': keyWord.libelle,
-            'query': `"${keyWord.libelle}" ET "${keyWord.ppn}"`,
-            'type': 'sujetsRameau'
-          }
-        )];
-      }
-
-
-    });
-  }
-
-  keywords.value = sujets;
+  keywords.value = props.these.mapSujets;
 }
 
 function onUpdateLangue(langue) {
