@@ -106,9 +106,9 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="scroll-to-top-container">
-    <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1></scroll-to-top-button>
+    <div class="scroll-to-top-container">
+      <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1></scroll-to-top-button>
+    </div>
   </div>
 </template>
 
@@ -387,7 +387,7 @@ function displayError(message, opt) {
   width: 100%;
 
   .result-components {
-    width: 100%;
+    width: calc(80% - 2rem);
     margin-right: 1rem;
     margin-left: 1rem;
     margin-bottom: 2rem;
@@ -425,14 +425,11 @@ function displayError(message, opt) {
       }
 
       .nom-card {
-        flex: 1 0 100%;
         display: flex;
         align-items: center;
         margin-left: 1rem;
-        max-width: 50vw;
 
         @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-          flex: 1 0 60%;
           margin-left: 2rem;
         }
 
@@ -474,6 +471,10 @@ function displayError(message, opt) {
       }
     }
 
+    .thesis-component {
+      margin: 0 auto 20px;
+    }
+
   }
 }
 
@@ -487,22 +488,22 @@ function displayError(message, opt) {
 
 .scroll-to-top-container {
   position: absolute;
-  left: 95.5%;
+  left: 90vw;
   top: 30%;
   width: 5%;
   bottom: 260px;
 
   @media #{ map-get(settings.$display-breakpoints, 'xl-and-up')} {
-    left: 96%;
+    left: 90vw;
   }
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    left: 95%;
+    left: 90vw;
     bottom: 730px;
   }
 
   @media #{ map-get(settings.$display-breakpoints, 'xs')} {
-    left: 90%;
+    left: 90vw;
     bottom: 800px;
   }
 }
