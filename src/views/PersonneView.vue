@@ -387,20 +387,23 @@ function displayError(message, opt) {
   width: 100%;
 
   .result-components {
-    width: calc(80% - 2rem);
+    width: calc(95% - 2rem);
     margin-right: 1rem;
     margin-left: 1rem;
     margin-bottom: 2rem;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      width: calc(80% - 2rem);
+    }
 
     .info {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin: 1rem;
-      width: calc(100% - 2rem);
 
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-        width: calc(30% - 2rem);
+      @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+        justify-content: flex-start;
       }
 
       .v-icon {
@@ -457,7 +460,6 @@ function displayError(message, opt) {
     }
 
     .theses {
-
       h2 {
         margin-bottom: 1rem;
       }
@@ -487,24 +489,22 @@ function displayError(message, opt) {
 }
 
 .scroll-to-top-container {
-  position: absolute;
+  position: fixed;
   left: 90vw;
-  top: 30%;
+  bottom:1vh;
   width: 5%;
-  bottom: 260px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+    left: 95.5vw;
+  }
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    left: 94vw;
+  }
 
   @media #{ map-get(settings.$display-breakpoints, 'xl-and-up')} {
-    left: 90vw;
-  }
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    left: 90vw;
-    bottom: 730px;
-  }
-
-  @media #{ map-get(settings.$display-breakpoints, 'xs')} {
-    left: 90vw;
-    bottom: 800px;
+    left: 97vw;
+    bottom:8vh;
   }
 }
 
