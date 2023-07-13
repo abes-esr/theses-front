@@ -86,7 +86,7 @@
           </div>
 
         </div>
-        <personne-motcles :motsCles="item.mots_cles"/>
+        <thesis-keywords class="thesis-component" :data-ready="true" :keywordsAreSet="true" :these="conversionMotClesFormatTheses(item.mots_cles)" />
         <div class="theses">
           <template v-for="key in ['auteur','directeur de thèse','rapporteur','président du jury','membre du jury']"
                     :key="key">
@@ -126,7 +126,7 @@ import ActionBarPersonnes from "@/components/personnes/ActionBar.vue";
 import StatistiqueCardPersonne from "@/components/personnes/StatistiqueCard.vue";
 import ResultCard from "@/components/theses/results/ResultCard.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
-import PersonneMotcles from "@/components/personnes/MotsCles.vue";
+import ThesisKeywords from "@/components/common/Keywords.vue";
 import {useRoute} from "vue-router";
 
 const {mobile} = useDisplay();
@@ -229,6 +229,24 @@ function i18nValueFromKey(key) {
     default:
       return "";
   }
+}
+
+/**
+ * Cette fonction permet de convertir les mot-clés au format du composant mot-clés des thèses
+ * @param motsCles
+ * @returns {{mapSujets: { codeLangue : { keyword, type, query}}}}
+ */
+function conversionMotClesFormatTheses(motsCles) {
+  const keyword = {};
+  for (const [key, value] of Object.entries(motsCles)) {
+    keyword[key] = value.map(elem => (
+        {
+          keyword: elem,
+          type: "sujet",
+          query: ""
+        }))
+  }
+  return { mapSujets : keyword };
 }
 
 function displayError(message, opt) {
