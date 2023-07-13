@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { onBeforeUpdate, ref, watch, computed } from "vue";
+import {onBeforeUpdate, ref, watch, computed, onBeforeUnmount, onBeforeMount} from "vue";
 import { useDisplay } from "vuetify";
 import LanguageSelector from "./LanguageSelector.vue";
 
@@ -59,6 +59,10 @@ const readMore = ref(false);
 const selectedLanguage = ref("fr");
 
 onBeforeUpdate(() => {
+  setKeywords();
+});
+
+onBeforeMount(() => {
   setKeywords();
 });
 
