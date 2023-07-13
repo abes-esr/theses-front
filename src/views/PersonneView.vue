@@ -429,6 +429,7 @@ function displayError(message, opt) {
         display: flex;
         align-items: center;
         margin-left: 1rem;
+        max-width: 50vw;
 
         @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
           flex: 1 0 60%;
