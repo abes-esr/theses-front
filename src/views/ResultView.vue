@@ -142,7 +142,7 @@ async function search(firstLoad = false) {
   /**
    * Chargement des donnees
    */
-  return queryAPI().then((response) => {
+  return queryAPI(mobile).then((response) => {
     if (!["theses", "personnes"].includes(currentRoute.query.domaine)) {
       throw new Error("Erreur de nom de paramètres");
     }
