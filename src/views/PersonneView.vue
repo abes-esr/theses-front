@@ -106,9 +106,9 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="scroll-to-top-container">
-    <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1></scroll-to-top-button>
+    <div class="scroll-to-top-container">
+      <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1></scroll-to-top-button>
+    </div>
   </div>
 </template>
 
@@ -387,20 +387,23 @@ function displayError(message, opt) {
   width: 100%;
 
   .result-components {
-    width: 100%;
+    width: calc(95% - 2rem);
     margin-right: 1rem;
     margin-left: 1rem;
     margin-bottom: 2rem;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      width: calc(80% - 2rem);
+    }
 
     .info {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin: 1rem;
-      width: calc(100% - 2rem);
 
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-        width: calc(30% - 2rem);
+      @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+        justify-content: flex-start;
       }
 
       .v-icon {
@@ -425,13 +428,11 @@ function displayError(message, opt) {
       }
 
       .nom-card {
-        flex: 1 0 100%;
         display: flex;
         align-items: center;
         margin-left: 1rem;
 
         @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-          flex: 1 0 60%;
           margin-left: 2rem;
         }
 
@@ -459,7 +460,6 @@ function displayError(message, opt) {
     }
 
     .theses {
-
       h2 {
         margin-bottom: 1rem;
       }
@@ -471,6 +471,10 @@ function displayError(message, opt) {
       .card-wrapper {
         margin-bottom: 1rem;
       }
+    }
+
+    .thesis-component {
+      margin: 0 auto 20px;
     }
 
   }
@@ -485,24 +489,22 @@ function displayError(message, opt) {
 }
 
 .scroll-to-top-container {
-  position: absolute;
-  left: 95.5%;
-  top: 30%;
+  position: fixed;
+  left: 90vw;
+  bottom:1vh;
   width: 5%;
-  bottom: 260px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+    left: 95.5vw;
+  }
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    left: 94vw;
+  }
 
   @media #{ map-get(settings.$display-breakpoints, 'xl-and-up')} {
-    left: 96%;
-  }
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    left: 95%;
-    bottom: 730px;
-  }
-
-  @media #{ map-get(settings.$display-breakpoints, 'xs')} {
-    left: 90%;
-    bottom: 800px;
+    left: 97vw;
+    bottom:8vh;
   }
 }
 
