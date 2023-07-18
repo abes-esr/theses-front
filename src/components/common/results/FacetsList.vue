@@ -126,6 +126,17 @@ function getFacetItemsIndexes(facetName) {
   return selectedFiltersIndexes;
 }
 
+function getFacetChipsItemsIndexes(facetName) {
+  let selectedFiltersIndexes = [];
+
+  facetsChipsArray.value.forEach(function (facetFilter, index) {
+    if (facetFilter.filter.facetName === facetName) {
+      selectedFiltersIndexes.push(index);
+    }
+  });
+  return selectedFiltersIndexes;
+}
+
 function clearDates() {
   //Supprime les dates précedentes
   facetsArray.value = facetsArray.value.filter(objet => {
@@ -265,9 +276,14 @@ function updateFilterDateOnly(datesArray) {
 
 function reinitializeCheckboxes(facetName) {
   let selectedFiltersIndexes = getFacetItemsIndexes(facetName);
-
+  // Facettes
   selectedFiltersIndexes.reverse().forEach(function (key) {
     facetsArray.value.splice(key, 1);
+  });
+
+  // Chips
+  selectedFiltersIndexes = getFacetChipsItemsIndexes(facetName);
+  selectedFiltersIndexes.reverse().forEach(function (key) {
     deleteFromChips(key);
   });
 
@@ -307,9 +323,6 @@ watch(() => props.filterToBeDeleted,
   (newValue) => {
     updateFilterData(newValue.filter);
     setCheckedFilters(facetsArray.value)
-      .then(() => {
-        emit('searchAndReinitialize');
-      });
   });
 
 /**

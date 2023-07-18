@@ -50,6 +50,10 @@ function setShowingNumber(value) {
   updateURL();
 }
 
+function setShowingNumberMobile(value) {
+  currentShowingNumber.value = parseInt(value);
+}
+
 function getCurrentShowingNumber() {
   if(typeof currentShowingNumber.value !== 'undefined') {
     return parseInt(currentShowingNumber.value);
@@ -80,7 +84,6 @@ function getCurrentSorting() {
 
 function setQuery(newQuery) {
   query.value = (typeof newQuery !== 'undefined' && newQuery !== '') ? newQuery : '*';
-  updateURL();
 }
 
 function setCheckedFilters(objectsArray) {
@@ -195,13 +198,17 @@ function disableOrFilters() {
 /**
  * Routes
  */
-function queryAPI() {
+function queryAPI(mobile) {
   query.value = (typeof query.value === 'undefined') ? '*' : query.value;
 
-  if(domaine.value === "theses")
-    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
+  if (!mobile._object.mobile) {
+    updateURL();
+  }
+
   if(domaine.value === "personnes")
     return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
+  else
+    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
 }
 
 /**
@@ -313,7 +320,7 @@ function getFacetsLabels(facetsArray) {
   facetsArray.forEach((facet) => {
     facet.filterName = Object.values(facet)[0];
     facet.facetName = Object.keys(facet)[0];
-    
+
     if (Object.keys(facet)[0] === 'langues') {
       facet.label = getLabelFromCode(facet.filterName);
     } else if (Object.keys(facet)[0].startsWith('date')) {
@@ -440,9 +447,9 @@ async function getFacets() {
     }
 
     if (domaine.value === "personnes") {
-      await getFacetsPersonnes(query.value)
+      await getFacetsPersonnes(query.value, getFacetsRequest())
         .then(response => {
-          rawFacets.value = response.data;
+          rawFacets.value = replaceWorkingFacet(response.data, currentWorkingFacet);
         }).catch((err) => {
           reject(err);
         });
@@ -487,12 +494,12 @@ function getData(id) {
   });
 }
 
-function getSuggestion() {
+function getSuggestion(candidate) {
   return new Promise ((resolve) => {
     if(domaine.value === "theses")
       resolve(suggestionTheses(query.value));
     if(domaine.value === "personnes")
-      resolve(suggestionPersonne(query.value));
+      resolve(suggestionPersonne(candidate));
   });
 }
 
@@ -541,6 +548,7 @@ export function APIService() {
     setWorkingFacetName,
     addToFiltersLabelsMap,
     getTriMap,
-    reinitializeResultData
+    reinitializeResultData,
+    setShowingNumberMobile
   };
 }

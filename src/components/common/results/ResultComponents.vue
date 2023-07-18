@@ -13,7 +13,7 @@
     <Transition mode="out-in">
       <h2 class="returned-results-statement" v-if="dataReady">
         <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
-        <span class="orange-text">"{{ query }}"{{ '\xa0' }}</span>
+        <span class="orange-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
         <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
         <span class="orange-text">{{ nbResult }}{{ '\xa0' }}</span>
         <span>{{ $t("results.results") }}</span>
@@ -50,19 +50,17 @@
 import ResultPagination from "@/components/common/results/ResultPagination.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
-import { useDisplay } from "vuetify";
-import { onMounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
-import { APIService } from "@/services/StrategyAPI";
+import {useDisplay} from "vuetify";
+import {ref, watch} from "vue";
+import {useRoute} from "vue-router";
+import {APIService} from "@/services/StrategyAPI";
 import ResultList from "@/components/common/results/ResultList.vue";
 import FacetsChips from "@/components/common/results/FacetsChips.vue";
 import SortingSelect from "@/components/common/results/SortingSelect.vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
-const { getQuery, setShowingNumber } = APIService();
-
-const domainName = currentRoute.query.domaine ? ref(currentRoute.query.domaine) : ref('theses');
+const { setShowingNumber, setShowingNumberMobile } = APIService();
 
 const props = defineProps({
   result: {
@@ -74,6 +72,10 @@ const props = defineProps({
   },
   nbResult: {
     type: Number
+  },
+  persistentQuery: {
+    type: String,
+    default: ""
   },
   loading: {
     type: Boolean
@@ -92,14 +94,8 @@ const props = defineProps({
   }
 });
 
-const query = ref("");
-
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
-
-onMounted(() => {
-  query.value = getQuery();
-});
 
 /**
  * Emits
@@ -129,7 +125,7 @@ function updateShowingNumber(newValue) {
 
 function addTenResultsToList() {
   currentShowingNumber.value += 10;
-  setShowingNumber(currentShowingNumber.value);
+  setShowingNumberMobile(currentShowingNumber.value);
 }
 
 function updatePage(newPage) {
@@ -142,7 +138,6 @@ function updatePageNumberFromSortingSelect(pageNumber) {
 }
 
 function search() {
-  query.value = getQuery();
   emit('search');
 }
 
@@ -151,7 +146,6 @@ function search() {
  */
 watch(() => props.resetPage, () => {
   currentPageNumber.value = 1;
-  query.value = getQuery();
 });
 
 watch(() => props.resetShowingNumber, () => {
@@ -170,23 +164,6 @@ watch(() => props.resetShowingNumber, () => {
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: none;
     margin-right: 1rem;
-  }
-}
-
-.scroll-to-top-wrapper {
-  position: sticky;
-  top: 90vh;
-  margin-bottom: 3rem;
-  margin-left: 10%;
-  width: 30px;
-  height: 30px;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    margin: 0 0;
-    height: 60px;
-    left: 90vw;
-    top: unset;
-    bottom: 5vh;
   }
 }
 

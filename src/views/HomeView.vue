@@ -1,7 +1,12 @@
 <template>
   <v-container>
-    <RouterLink class="logo" :to="{ name: 'home' }">
-      <img alt="Logo du site theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
+    <div v-if="mobile" class="logo-menu-wrapper">
+      <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_home">
+        <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses-beta.svg" />
+      </RouterLink>
+    </div>
+    <RouterLink v-else class="logo logo_home" :to="{ name: 'home' }">
+      <img alt="Logo du site theses.fr" id="logoIMG" src="@/assets/icone-theses-beta.svg" />
     </RouterLink>
     <div class="main-wrapper">
       <Message-box ref="messageBox"></Message-box>
@@ -18,7 +23,7 @@
         <Stats-card :titre=nbPersonnes :description="$t('personnesRef')" icon="mdi-account"
           url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></Stats-card>
       </div>
-      <p>Le PoC fédé est accessible ici : <a href="/poc-fede/">poc-fede</a></p>
+      <br />
     </div>
   </v-container>
 </template>
@@ -31,12 +36,14 @@ import { defineAsyncComponent, onMounted, ref } from "vue";
 import { APIService } from "@/services/StrategyAPI";
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
+import { useDisplay } from "vuetify";
 
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { reinitializeResultData } = APIService();
 const { getStatsTheses, getStatsSujets } = thesesAPIService();
 const { getStatsPersonnes } = personnesAPIService();
+const { mobile } = useDisplay();
 
 let loading = ref(false);
 

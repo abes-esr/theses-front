@@ -1,14 +1,20 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
   <div class="buttons">
-    <div class="search-filter">
-      <div class="filter-meta no-wrap-text">
+    <div class="buttons-header">
+      <div class="header-container no-wrap-text">
         <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
-        <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
+        <span class="buttons-title-header"><span v-if="soutenue">{{ $t("theseView.valide") }}</span></span>
+        <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
+          <div class="close-overlay-icon-wrapper">
+            <div class="circle"></div>
+            <div><v-icon size="35">mdi-close-box</v-icon></div>
+          </div>
+        </button>
       </div>
     </div>
-    <div class="listButtons no-wrap-text">
-      <v-btn color="primary" append-icon="mdi-arrow-right-circle" class="" flat v-for="b in listButtons" :key="b"
+    <div class="listButtons no-wrap-text" v-if="soutenue">
+      <v-btn color="primary" append-icon="mdi-arrow-right-circle" flat v-for="b in listButtons" :key="b"
         :href="baseURL + b.url" target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
           b.libelle }}</v-btn>
       <v-skeleton-loader v-if="loading" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
@@ -17,8 +23,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineAsyncComponent } from "vue";
+import { ref, watch, defineAsyncComponent } from "vue";
 import { thesesAPIService } from '@/services/ThesesAPI';
+import { useDisplay } from "vuetify";
+
+const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const messageBox = ref(null);
 function displayError(message) {
@@ -31,34 +40,49 @@ const props = defineProps({
   nnt: {
     type: String,
     default: ""
+  },
+  soutenue: {
+    type: Boolean,
   }
 });
 
+const emit = defineEmits('closeOverlay');
+
 const { getButtons } = thesesAPIService();
-const loading = ref(true);
+const loading = ref(false);
 const listButtons = ref([]);
 const baseURL = import.meta.env.VITE_APP_API;
 
-onMounted(() => {
-  getButtons(props.nnt).then((res) => {
-    listButtons.value = res.data.buttons;
-  })
-    .catch((err) => {
-      displayError("Accès en ligne : " + err.message);
-    })
-    .finally(() => {
-      loading.value = false;
-    });
+watch(
+  () => props.soutenue,
+  () => {
+    if (props.soutenue) {
+      getButtons(props.nnt).then((res) => {
+        listButtons.value = res.data.buttons;
+      })
+        .catch((err) => {
+          displayError("Accès en ligne : " + err.message);
+        })
+        .finally(() => {
+          loading.value = false;
+        });
+    }
+  }
+);
 
-});
 
-
+/**
+ * Fonctions
+ */
+function closeOverlay() {
+  emit('closeOverlay');
+}
 </script>
 
 <style scoped lang="scss">
 @use "vuetify/settings";
 
-.search-filter {
+.buttons-header {
   overflow: hidden;
   padding: 4px 20px;
   width: 100%;
@@ -70,24 +94,35 @@ onMounted(() => {
   align-items: center;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    padding: 0 7%;
+    padding: unset;
     font-size: 16px;
   }
 
   margin-bottom: 1em;
 }
 
-.filter-meta {
+.header-container {
   height: 2rem;
   display: inline-grid;
   grid-template-columns: 2fr 1fr 10fr;
   grid-template-rows: 20% 60% 20%;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    width: 100%;
+    grid-template-columns: 1fr 10fr 3fr;
+    font-size: 16px;
+    padding: 0 10px;
+  }
 }
 
 .menu-icon {
   height: 100%;
   grid-column-start: 1;
   grid-row-start: 2;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    grid-column-start: unset;
+  }
 }
 
 .v-icon--size-default {
@@ -106,6 +141,10 @@ onMounted(() => {
   font-weight: 500;
   font-family: Roboto-Regular, sans-serif;
   color: rgb(var(--v-text-dark-blue));
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    grid-column-start: unset;
+  }
 }
 
 .listButtons {
@@ -142,5 +181,11 @@ onMounted(() => {
   .filters-btn {
     margin-top: 15px;
   }
+}
+
+.close-icon {
+  color: rgb(var(--v-theme-orange-abes));
+  grid-column-end: 4;
+  justify-self: end;
 }
 </style>

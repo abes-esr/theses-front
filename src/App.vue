@@ -3,8 +3,42 @@
     <template v-slot:title="{ content }">{{ content }} | Theses.fr</template>
   </metainfo>
   <v-app>
+    <!-- DEBUT BLOC BETA-->
+    <v-alert width="100%" outlined color="primary"
+      style="padding-top: 30px; padding-bottom: 30px;"><strong>Avertissement</strong> : vous êtes
+      sur la version beta de
+      Theses.fr. Cette
+      version bêta est incomplète. <a href="https://theses.fr/"><strong style="color: white;">Cliquez ici pour retourner à
+          la version actuelle.
+        </strong></a><v-btn class="float-right" tonal color="secondary" @click="dialog = true">Plus
+        d'informations</v-btn></v-alert>
+    <!-- FIN BLOC BETA-->
     <header-custom></header-custom>
     <v-main>
+      <!-- DEBUT BLOC BETA-->
+      <v-dialog v-model="dialog" width="auto">
+        <v-card>
+          <v-card-text style="font-size: 1.2rem; letter-spacing: normal;">
+            <strong>Avertissement :</strong><br /><br />
+            Une nouvelle version de theses.fr est en cours de développement. Nous vous proposons ici la version bêta de ce
+            nouveau moteur de recherche. Cette version bêta est incomplète. Toutes les fonctionnalités n’ont pas encore
+            été développées, le design est appelé à évoluer et tous les bugs ne sont pas encore corrigés. Cette version
+            bêta évoluera au fil des nouvelles livraisons, jusqu’au passage en production officiel du nouveau theses.fr,
+            prévu pour 2024.<br /><br />
+            Les données qui figurent sur ce theses.fr bêta sont les mêmes que celles qui figurent sur theses.fr v1, avec
+            néanmoins un temps de mise à jour plus long, la réindexation automatique des données n’étant pas encore mise
+            en place sur la version bêta. Toutes les demandes relatives à ces données (ajouts, corrections, suppressions)
+            doivent nous être adressées à partir du site officiel, theses.fr v1, et non à partir de la version bêta.
+            <br /><br />
+            <strong>Cliquez ici pour retourner à la version actuelle : </strong><a
+              href="https://theses.fr/">https://theses.fr/</a>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" block flat @click="setDialogSeen">Fermer</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <!-- FIN BLOC BETA-->
       <router-view />
     </v-main>
     <footer-custom></footer-custom>
@@ -15,6 +49,7 @@
 import HeaderCustom from "@/components/common/HeaderCustom.vue";
 import FooterCustom from "./components/common/FooterCustom.vue";
 import { useMeta } from 'vue-meta';
+import { ref } from 'vue';
 import { useI18n } from "vue-i18n";
 
 
@@ -30,6 +65,23 @@ export default {
       title: t("meta.titre"),
       description: t("meta.desc")
     });
+
+
+
+    // DEBUT BETA
+    const dialog = ref(false);
+    if (!localStorage.getItem('hasSeenWarning')) dialog.value = true;
+
+    function setDialogSeen() {
+      dialog.value = false;
+      localStorage.setItem('hasSeenWarning', true);
+    }
+    // FIN BETA
+
+    return {
+      dialog,
+      setDialogSeen
+    };
   },
   data: () => ({
     //
@@ -46,8 +98,6 @@ export default {
 }
 
 main {
-
-
   display: flex !important;
   justify-content: center;
   align-items: center;
@@ -62,14 +112,37 @@ main {
     width: 100vw;
   }
 
+  .nav-bar {
+    height: 100%;
+    width: 100%;
+    max-width: 20vw;
+    border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
+  }
+
+  .mobile-nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 0 10px;
+  }
+
+  .filter-mobile-nav-bar {
+    display: flex;
+    align-content: center;
+
+    span {
+      padding: 10% 0;
+    }
+  }
+
   .logo {
-    margin-top: -35px;
     position: relative;
     z-index: 2000;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      margin-top: -75px;
-    }
+    grid-column-start: 2;
+    justify-self: center;
+    grid-row-start: 1;
+    align-self: start;
 
     img {
       height: 70px;
@@ -78,6 +151,48 @@ main {
         height: 150px;
       }
     }
+  }
+
+  .logo_home {
+    margin-top: -35px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      margin-top: -75px;
+      align-self: center;
+    }
+  }
+
+  .logo-menu-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 33% 33% 33%;
+  }
+
+  .logo-menu-wrapper>.expanded-search-bar-container {
+    margin-bottom: 40px;
+  }
+
+  .magnify-logo-active {
+    color: rgb(var(--v-theme-orange-abes));
+  }
+
+  .expanded-search-bar-container {
+    width: 100%;
+    grid-column: 1 / 5;
+    justify-self: center;
+    grid-row-start: 1;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(var(--v-theme-gris-clair));
+    border-bottom: 1px solid #bbb;
+    border-top: 1px solid #bbb;
+  }
+
+  .expanded-search-bar {
+    width: 80%;
   }
 
   .main-wrapper {
@@ -136,6 +251,23 @@ h4 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.scroll-to-top-wrapper {
+  position: sticky;
+  top: 90vh;
+  margin-bottom: 3rem;
+  margin-left: 10%;
+  width: 30px;
+  height: 30px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    margin: 0 0;
+    height: 60px;
+    left: 90vw;
+    top: unset;
+    bottom: 5vh;
+  }
 }
 </style>
 <style scoped lang="scss">

@@ -1,22 +1,45 @@
 <template>
   <div class="searchbar">
     <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-                :items="personnes" variant="outlined" cache-items hide-no-data hide-selected hide-details no-filter append-inner-icon
-                @keydown.enter="search" @update:modelValue="selectSuggestion" item-title="suggestion" item-value="suggestion"
-                :loading="isLoading" :menu="suggestionActive" :menu-props="menuProps">
+                :items="suggestions" variant="outlined" append-inner-icon
+                :hide-no-data="!isSuggestionActive || suggestions.length == 0" no-filter hide-details
+                hide-selected
+                :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
+                @keydown.enter="search" :loading="isSuggestionLoading"
+                :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps">
       <template v-slot:append-inner>
         <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :title='$t("clear")' :ripple="false">
         </v-btn>
       </template>
       <template v-slot:append>
         <v-btn color="primary" icon="mdi-magnify" text @click="search" :title='$t("searchButton")' :loading="loading"
-          class="pa-0 ma-0">
+               class="pa-0 ma-0">
         </v-btn>
+      </template>
+      <template v-slot:prepend-item v-if="suggestions.length > 0">
+        <h3>{{ $t('personnes.searchBar.title-personnes') }}</h3>
+        <h3>{{ $t('personnes.searchBar.title-thematiques') }}</h3>
+      </template>
+      <template v-slot:item="{ item, props, index }">
+        <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.personne == null"
+                     @click="selectSuggestion(item.raw.personne)">
+          <span v-if="item.raw.personne != null">{{
+              item.raw.personne.suggestion
+            }}</span>
+          <span v-else></span>
+        </v-list-item>
+        <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.thematique == null"
+                     @click="selectSuggestion(item.raw.thematique)">
+          <span v-if="item.raw.thematique != null">{{
+              item.raw.thematique.suggestion
+            }}</span>
+          <span v-else></span>
+        </v-list-item>
       </template>
     </v-combobox>
     <div class="searchbar__action">
-      <v-checkbox label="Désactiver l'autocomplétion" v-model="disableCompletion"
-        :title='$t("disableSuggestion")'></v-checkbox>
+      <v-checkbox label="Désactiver l'autocomplétion" v-model="isSuggestionDisabledCheckbox"
+                  :title='$t("disableSuggestion")'></v-checkbox>
       <v-btn color="primary" append-icon="mdi-magnify" @click="search" :title='$t("avancee")'>{{ $t("avancee") }}
       </v-btn>
     </div>
@@ -28,14 +51,15 @@ export default {
 };
 </script>
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { APIService } from "@/services/StrategyAPI";
+import {ref, onMounted, watch, computed} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
+import {APIService} from "@/services/StrategyAPI";
 
 const router = useRouter();
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery, setDomaine } = APIService();
+const query = computed(() => decodeURI(currentRoute.query.q));
+const {getSuggestion, setQuery, setDomaine} = APIService();
 
 defineProps({
   loading: {
@@ -47,43 +71,53 @@ const request = ref('');
 const requestSearch = ref("");
 const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
 
-let watcherActive = true;
-const disableCompletion = ref(false);
-
 const menuProps = {
-  'scrollStrategy': 'close'
+  'scroll-strategy': 'close',
+  'open-on-focus': false,
+  'content-class': 'autocompl',
 };
 
 onMounted(
-  () => {
-    if (currentRoute.query && currentRoute.query.q) {
-      request.value = decodeURI(currentRoute.query.q);
-      setQuery(request.value);
-      // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
-      // si on récupère la request depuis l'URL (ce qui normalement déclenche le watcher même sans input clavier)
-      watcherActive = false;
+    () => {
+      if (currentRoute.query && currentRoute.query.q) {
+        // Il y a une précédente recherche dans l'URL
+        request.value = decodeURI(currentRoute.query.q);
+        requestSearch.value = decodeURI(currentRoute.query.q);
+        search()
+      } else {
+        isSuggestionActive.value = true;
+      }
+      setDomaine(currentRoute.query.domaine);
     }
-    setDomaine(currentRoute.query.domaine);
-  }
 );
 
 /**
- * Fonction pour rechercher
+ * Fonction pour vider le champs de recherche
  * @returns {Promise<void>}
  */
 function clearSearch() {
   request.value = "";
 }
 
+/**
+ * Fonction pour rechercher
+ */
 async function search() {
-  if (routeName.value === "resultats") {
-    setQuery(request.value);
-    emit('searchAndReinitializeAllFacets', request.value);
-  } else {
+  isSuggestionActive.value = false;
+  suggestions.value = [];
+
+  await setQuery(request.value);
+  emit('searchAndReinitializeAllFacets');
+
+  if (routeName.value != "resultats") {
     router.push({
       name: 'resultats',
-      query: { 'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine) }
+      query: {'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine)}
     });
+  }
+
+  if (!isSuggestionDisabledCheckbox.value) {
+    isSuggestionActive.value = true;
   }
 }
 
@@ -91,27 +125,32 @@ async function search() {
 /* Auto-complétion  */
 /* ---------------- */
 
-const personnes = ref([]);
-const thematiques = ref([]);
-const isLoading = ref(false);
-const suggestionActive = ref(false);
+const isSuggestionDisabledCheckbox = ref(false);
+const isSuggestionActive = ref(false);
+const isSuggestionLoading = ref(false);
+const suggestions = ref([]);
 
-watch(requestSearch, (candidate) => {
-  if (candidate != null && candidate.length > 2 && watcherActive && !disableCompletion.value) {
-    getSuggestionPersonne(candidate);
+/**
+ * Watcher pour compléter la saisie dans la barre de recherche
+ */
+watch(requestSearch, async (candidate) => {
+
+  if (candidate != null && candidate.value != query.value && candidate != "[object Object]" && candidate.length > 2 && isSuggestionActive.value) {
+    await getSuggestionPersonne(candidate);
   } else {
-    personnes.value = [];
-    thematiques.value = [];
-    suggestionActive.value = false;
+    suggestions.value = [];
   }
-  watcherActive = true;
 });
 
-watch(disableCompletion, (newDisableCompletion) => {
+/**
+ * Watcher pour surveiller l'état de la checkbox d'autocomplétion
+ */
+watch(isSuggestionDisabledCheckbox, (newDisableCompletion) => {
   if (newDisableCompletion) {
-    suggestionActive.value = false;
-    personnes.value = [];
-    thematiques.value = [];
+    isSuggestionActive.value = false;
+    suggestions.value = [];
+  } else {
+    isSuggestionActive.value = true;
   }
 });
 
@@ -121,18 +160,21 @@ watch(disableCompletion, (newDisableCompletion) => {
  * @returns {Promise<void>}
  */
 async function getSuggestionPersonne(candidate) {
-  isLoading.value = true;
+  isSuggestionLoading.value = true;
   try {
-    setQuery(candidate);
-    const suggestions = await getSuggestion();
-    personnes.value = suggestions.personnes;
-    thematiques.value = suggestions.thematiques;
+    suggestions.value = [];
+    const candidates = await getSuggestion(candidate);
+    for (let index = 0; index < Math.max(candidates.personnes.length, candidates.thematiques.length); index++) {
+      suggestions.value[index] = {
+        personne: candidates.personnes[index] ? candidates.personnes[index] : null,
+        thematique: candidates.thematiques[index] ? candidates.thematiques[index] : null,
+      };
+    }
   } catch (error) {
     request.value = candidate;
     emit('onError', "Autocomplétion : " + error.message);
   } finally {
-    isLoading.value = false;
-    suggestionActive.value = true;
+    isSuggestionLoading.value = false;
   }
 }
 
@@ -140,10 +182,9 @@ async function getSuggestionPersonne(candidate) {
  * Fonction lorsqu'on sélectionne une suggestion
  * @param value
  */
-function selectSuggestion(value) {
-  if (value != null && typeof (value) == "object") {
-    request.value = value.suggestion;
-  }
+async function selectSuggestion(value) {
+  request.value = value.suggestion;
+  await search();
 }
 
 defineExpose({
@@ -151,7 +192,6 @@ defineExpose({
 });
 
 </script>
-
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
@@ -248,12 +288,24 @@ defineExpose({
   }
 }
 
-/* Permet de rendre l'autocompletion + dense */
-:deep(.v-overlay-container) .v-list-item--density-default.v-list-item--one-line {
-  min-height: 20px !important;
-}
-
 .no-background-hover::before {
   background-color: transparent !important;
+}
+</style>
+<style lang="scss">
+@use 'vuetify/settings';
+
+.autocompl {
+
+  h3 {
+    margin-left: 1rem;
+  }
+
+  .v-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: min-content;
+    width: 100%;
+  }
 }
 </style>

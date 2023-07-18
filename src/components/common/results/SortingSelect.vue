@@ -1,6 +1,6 @@
 <template>
-  <v-select class="select-box" v-model="tri" return-object :items=items item-title="nom" item-value="cle" density="compact"
-            flat single-line variant="solo" menu-icon="mdi-chevron-down">
+  <v-select class="select-box" v-model="tri" return-object :items=items item-title="nom" item-value="cle"
+    density="compact" flat single-line variant="solo" menu-icon="mdi-chevron-down">
     <template v-slot:menu-icon>
       <v-icon>
         mdi-chevron-down
@@ -16,7 +16,7 @@ import { APIService } from "@/services/StrategyAPI";
 
 const currentRoute = useRoute();
 
-const emit = defineEmits(['updatePageNumberFromSortingSelect', 'search'])
+const emit = defineEmits(['updatePageNumberFromSortingSelect', 'search']);
 const { setSorting, getItemsTri, getCurrentSorting, getTriMap } = APIService();
 
 const items = ref();
@@ -47,7 +47,7 @@ function getCurrentSortName() {
  */
 
 watch(tri, async (newSortingArray, previousSortingArray) => {
-  if(typeof previousSortingArray !== 'undefined') { // Pas de mise à jour de la page à la première initialisation
+  if (typeof previousSortingArray !== 'undefined') { // Pas de mise à jour de la page à la première initialisation
     setSorting(newSortingArray.cle);
     emit("updatePageNumberFromSortingSelect", 1);
     emit("search");
@@ -94,6 +94,4 @@ watch(() => currentRoute.query.domaine, () => {
     }
   }
 }
-
-
 </style>

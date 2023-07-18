@@ -35,7 +35,7 @@ import { APIService } from "@/services/StrategyAPI";
 
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery, setDomaine } = APIService();
+const { getSuggestion, setQuery, setDomaine, setSorting } = APIService();
 
 defineProps({
   loading: {
@@ -69,7 +69,9 @@ const items = ref([]);
 const suggestionActive = ref(false);
 
 const menuProps = {
-  'scrollStrategy': 'close'
+  'scrollStrategy': 'close',
+  'open-on-focus': false,
+  'content-class': 'autocomplete',
 };
 
 watch(requestSearch, (newRequestSearch) => {
@@ -114,9 +116,10 @@ async function search() {
     emit('searchAndReinitializeAllFacets', request.value);
   } else {
     setDomaine(currentRoute.query.domaine);
+    if (request.value === "") setSorting('dateDesc');
     router.push({
       name: 'resultats',
-      query: { 'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine) }
+      query: { 'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine), 'tri': request.value === "" ? "dateDesc" : "" }
     });
   }
 }
@@ -229,5 +232,28 @@ defineExpose({
 
 .no-background-hover::before {
   background-color: transparent !important;
+}
+</style>
+
+<style lang="scss">
+@use 'vuetify/settings';
+
+.autocomplete {
+
+  h3 {
+    margin-left: 1rem;
+  }
+
+  .v-list {
+
+    /* Permet de rendre l'autocompletion + dense */
+    .v-list-item {
+      min-height: 40px !important;
+
+      @media only screen and (min-width: 900px) {
+        min-height: 20px !important;
+      }
+    }
+  }
 }
 </style>

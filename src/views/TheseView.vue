@@ -1,34 +1,26 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
-  <!-- <nav v-if="mobile" class="mobile-nav-bar"> -->
-  <!--    Bouton filtres-->
-  <!-- <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
-      <v-icon v-bind="props" size="40px">mdi-filter-variant
+  <nav v-if="mobile" class="mobile-nav-bar">
+    <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
+      <v-icon v-bind="props" size="40px">mdi-menu
       </v-icon>
-      <span v-bind="props">Filtrer</span>
-    </button> -->
-  <!--    Bouton menu recherche/selecteur these/personnes-->
-  <!-- <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+    </button>
+    <!--      Bouton menu recherche/selecteur these/personnes-->
+    <v-icon @click="showSearchBar = !showSearchBar" size="40px"
       :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
-  </nav> -->
-  <!--    Menu filtres-->
-  <!-- <div v-if="mobile" class="logo-menu-wrapper">
+  </nav>
+  <!-- Icone retour accueil -->
+  <div v-if="mobile" class="logo-menu-wrapper">
     <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
-      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-thesi
-    s.svg" />
-    </RouterLink> -->
-  <!--    Menu recherche/selecteur these/personnes-->
-  <!-- <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+    </RouterLink>
+    <!--    Menu boutons-liens-->
+    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
       :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <facets-header @closeOverlay="closeOverlay"
-        @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-        :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
-        :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+      <buttons-list :nnt="route.params.id" @closeOverlay="closeOverlay"></buttons-list>
     </v-dialog>
+    <!--    Menu recherche/selecteur these/personnes-->
     <v-expand-transition>
       <div v-show="showSearchBar" class="expanded-search-bar-container">
         <div class="expanded-search-bar">
@@ -38,11 +30,10 @@
         </div>
       </div>
     </v-expand-transition>
-  </div> -->
+  </div>
 
-  <!-- Bare laterale Desktop -->
-  <!-- <div v-else class="sub-header"> -->
-  <div class="sub-header">
+  <!-- Bare latérale Desktop -->
+  <div v-else class="sub-header">
     <div class="left-side sub_header__logo">
       <RouterLink :to="{ name: 'home' }" title="Accueil du site">
         <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
@@ -58,93 +49,77 @@
 
   <div class="thesis-main-wrapper">
     <div v-if="!mobile" class="nav-bar">
-      <buttons-list :nnt="route.params.id"></buttons-list>
-      <!--
-        Futur composent boutons (bare de gauche)
-      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize" :facets="facets"
-        :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
-        class="left-side"></facets-list> -->
+      <!-- Futur composant boutons (barre de gauche)-->
+      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'"></buttons-list>
     </div>
     <div class="thesis-components">
-      <thesis-component :data-ready="true"></thesis-component>
+      <thesis-component :these="these" :data-ready="true"></thesis-component>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onBeforeMount, watch, defineAsyncComponent, watchEffect } from 'vue';
+import { ref, defineAsyncComponent } from "vue";
 import { useRoute } from 'vue-router';
-import { useMeta } from 'vue-meta';
-import { useI18n } from "vue-i18n";
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import SearchBar from "@/components/personnes/search/SearchBar.vue";
 import ButtonsList from "@/components/theses/ButtonsList.vue";
 import ThesisComponent from "@/components/theses/ThesisComponent.vue";
 
-import { APIService } from '@/services/StrategyAPI';
+import { thesesAPIService } from '@/services/ThesesAPI';
 import { useDisplay } from "vuetify";
+import router from "@/router";
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 
 const route = useRoute();
 const { mobile } = useDisplay();
-const { getData } = APIService();
-const { t } = useI18n();
-const { meta } = useMeta({});
+const { getThese } = thesesAPIService();
+const dialogVisible = ref(false);
+const showSearchBar = ref(false);
+const dataReady = ref(false);
+const these = ref({});
+const resume = ref("");
 
-let selected = ref('fr');
-let dataReady = ref(false);
-let these = ref({});
-let resume = ref("");
-let keywordsFR = [];
-let keywordsEN = [];
+const hasScrolled = ref(false);
 
 
-watchEffect(() => {
-  const titleThese = these.value.titrePrincipal ? these.value.titrePrincipal : "";
-  meta.title = titleThese;
-  meta.description = t("meta.descThese") + titleThese;
+dataReady.value = false;
+window.addEventListener('scroll', () => { hasScrolled.value = true; });
+getThese(route.params.id).then(result => {
+  /** Redirection */
+  if (typeof result.data === 'undefined' || result.data === "") {
+    router.push({
+      name: 'home'
+    });
+  }
+
+  these.value = result.data;
+  resume.value = these.value.resumes.fr;
+  dataReady.value = true;
+}).catch(error => {
+  displayError(error.message);
 });
 
-let hasScrolled = ref(false);
 
-onBeforeMount(() => {
-  dataReady.value = false;
-  window.addEventListener('scroll', () => { hasScrolled.value = true; });
-  getData(route.params.id).then(result => {
-    these.value = result.data;
-    resume.value = these.value.resumes.fr;
-    dataReady.value = true;
-    setKeywords();
-  }).catch(error => {
-    displayError(error.message);
-  });
-});
-
-function setKeywords() {
-  keywordsFR = these.value.sujetsRameau.concat(these.value.sujetsFR);
-  keywordsEN = these.value.sujetsEN;
-}
 
 function select(selection) {
   selected.value = selection;
 }
 
-watch(selected, async (newSelected) => {
-  for (const [key, value] of Object.entries(these.value.resumes)) {
-    if (key === newSelected)
-      resume.value = value;
-  }
-});
-
 const messageBox = ref(null);
 
+/**
+ * Fonctions
+ */
 function displayError(message) {
   messageBox.value?.open(message, {
     type: "error"
   });
+}
+
+function closeOverlay() {
+  dialogVisible.value = false;
 }
 
 </script>
@@ -195,6 +170,64 @@ function displayError(message) {
       }
     }
   }
+}
+
+
+.mobile-nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 0 10px;
+}
+
+.filter-mobile-nav-bar {
+  display: flex;
+  align-content: center;
+
+  span {
+    padding: 10% 0;
+  }
+}
+
+.logo-menu-wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-template-rows: 33% 33% 33%;
+}
+
+.logo {
+  grid-column-start: 2;
+  justify-self: center;
+  grid-row-start: 1;
+  align-self: start;
+}
+
+.logo-menu-wrapper>.expanded-search-bar-container {
+  margin-bottom: 40px;
+}
+
+.magnify-logo-active {
+  color: rgb(var(--v-theme-orange-abes));
+}
+
+.expanded-search-bar-container {
+  width: 100%;
+  grid-column: 1 / 5;
+  justify-self: center;
+  grid-row-start: 1;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(var(--v-theme-gris-clair));
+  border-bottom: 1px solid #bbb;
+  border-top: 1px solid #bbb;
+}
+
+
+.expanded-search-bar {
+  width: 80%;
 }
 
 .left-side {

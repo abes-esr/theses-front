@@ -1,116 +1,126 @@
 <template>
-    <v-card flat class="card-container">
-        <div class="firstHalf" @click="$router.push({ name: 'these', params: { id: id } })">
-            <v-card-title>
-              <div class="card-title-wrapper line-clamp">
-                <div v-if="!mobile" class="thesis-icon" >
-                  <thesis-icon :status="status"></thesis-icon>
-                </div>
-                <div v-if="mobile" class="card-title">
-                    <thesis-icon :status="status" :titre="titre"></thesis-icon>
-                </div>
-                <div v-else class="card-title">
-                  {{ titre }}
-                </div>
-                <div class="card-title-date">
-                  <span class="card-text-bold card-date-text" v-if="date">
-                    <p v-if="status !== 'soutenue'">{{ $t('resultCard.since') }}</p>
-                    <p v-if="!mobile">{{'\xa0'}}</p>
-                    <p>{{ date.slice(-4) }}</p>
-                    <p class="date-spacer"></p>
-                  </span>
-                  <span v-else>
-                    {{'\xa0'}}
-                  </span>
-                </div>
-              </div>
-            </v-card-title>
+  <v-card flat class="card-container">
+    <div class="firstHalf" @click="$router.push({ name: 'detail', params: { id: id } })">
+      <v-card-title>
+        <div class="card-title-wrapper line-clamp">
+          <div v-if="!mobile" class="thesis-icon">
+            <thesis-icon :status="status"></thesis-icon>
+          </div>
+          <div v-if="mobile" class="card-title">
+            <thesis-icon :status="status" :titre="titre"></thesis-icon>
+          </div>
+          <div v-else class="card-title">
+            {{ titre }}
+          </div>
+          <div class="card-title-date">
+            <span class="card-text-bold card-date-text" v-if="date">
+              <p v-if="status !== 'soutenue'">{{ $t('resultCard.since') }}</p>
+              <p v-if="!mobile">{{ '\xa0' }}</p>
+              <p>{{ date.slice(-4) }}</p>
+              <p class="date-spacer"></p>
+            </span>
+            <span v-else>
+              {{ '\xa0' }}
+            </span>
+          </div>
         </div>
-        <div class="vertical-spacer"></div>
-        <div class="secondHalf">
-            <v-card-text class="py-2 card-text-wrapper">
-              <span class="card-text">
-                {{ $t('resultCard.par') }}{{'\xa0'}}
-              </span>
+      </v-card-title>
+    </div>
+    <div class="vertical-spacer"></div>
+    <div class="secondHalf">
+      <v-card-text class="py-2 card-text-wrapper">
+        <span class="card-text">
+          {{ $t('resultCard.par') }}{{ '\xa0' }}
+        </span>
 
-              <span v-for="(item, index) in auteur" :key="item.ppn">
-                <span class="card-text">{{ item.prenom }}{{'\xa0'}}</span>
-                <span class="card-text-bold">{{ item.nom }}{{'\xa0'}}</span>
-                <span v-if="index < auteur.length - 2">
-                  ,{{'\xa0'}}
-                </span>
-                <span v-else-if="index === auteur.length - 2" class="card-text">
-                  {{ $t('theseView.et') }}
-                </span>
-              </span>
+        <span v-for="(item, index) in auteur" :key="item.ppn">
+          <span :class="item.ppn ? 'clickable lightblue' : ''" @click="linkTo(item.ppn)">
+            <span class="card-text">{{ item.prenom }}{{ '\xa0' }}</span>
+            <span class="card-text">{{ item.nom }}</span>
+          </span>{{ '\xa0' }}
+          <span v-if="index < auteur.length - 2">
+            ,{{ '\xa0' }}
+          </span>
+          <span v-else-if="index === auteur.length - 2" class="card-text">
+            {{ $t('theseView.et') }}
+          </span>
+        </span>
 
-              <span class="card-text">
-                {{ $t('resultCard.dir') }}{{'\xa0'}}
-              </span>
+        <span class="card-text">
+          {{ $t('resultCard.dir') }}{{ '\xa0' }}
+        </span>
 
-              <span v-for="(item, index) in directeurs" :key="item.ppn">
-                <span class="card-text">
-                  {{ item.prenom }}{{'\xa0'}}
-                </span>
-                <span class="card-text-bold">
-                  {{ item.nom }}
-                </span>
-                <span v-if="index < directeurs.length - 2">
-                  ,{{'\xa0'}}
-                </span>
-                <span v-else-if="index === directeurs.length - 2" class="card-text">
-                  {{ $t('theseView.et') }}
-                </span>
-              </span>
-              <span class="card-text-bold">
-              - {{ discipline }} - {{ etab }}
-              </span>
-            </v-card-text>
-        </div>
-    </v-card>
+        <span v-for="(item, index) in directeurs" :key="item.ppn">
+          <span :class="item.ppn ? 'clickable lightblue' : ''" @click="linkTo(item.ppn)">
+            <span class="card-text">
+              {{ item.prenom }}{{ '\xa0' }}
+            </span>
+            <span class="card-text">
+              {{ item.nom }}
+            </span>
+          </span>
+          <span v-if="index < directeurs.length - 2">
+            ,{{ '\xa0' }}
+          </span>
+          <span v-else-if="index === directeurs.length - 2" class="card-text">
+            {{ $t('theseView.et') }}
+          </span>
+        </span>
+        <span class="card-text-bold">
+          - {{ discipline }} - {{ etab }}
+        </span>
+      </v-card-text>
+    </div>
+  </v-card>
 </template>
 <script>
 export default {
-    name: "result-card",
+  name: "result-card",
 };
 </script>
 <script setup>
 import ThesisIcon from "@/components/theses/results/ThesisIcon.vue";
+import { useRouter } from 'vue-router';
 import { useDisplay } from "vuetify";
 const { mobile } = useDisplay();
 
-const props = defineProps({
-    titre: {
-        type: String,
-        default: ''
-    },
-    date: {
-        type: String,
-        default: '01/01/2000'
-    },
-    auteur: {
-        type: Array
-    },
-    directeurs: {
-        type: Array
-    },
-    discipline: {
-        type: String,
-        default: 'Discipline'
-    },
-    etab: {
-        type: String,
-        default: 'Université'
-    },
-    id: {
-        type: String
-    },
-    status: {
-        type: String,
-        default: 'soutenue'
-    }
+defineProps({
+  titre: {
+    type: String,
+    default: ''
+  },
+  date: {
+    type: String,
+    default: '01/01/2000'
+  },
+  auteur: {
+    type: Array
+  },
+  directeurs: {
+    type: Array
+  },
+  discipline: {
+    type: String,
+    default: 'Discipline'
+  },
+  etab: {
+    type: String,
+    default: 'Université'
+  },
+  id: {
+    type: String
+  },
+  status: {
+    type: String,
+    default: 'soutenue'
+  }
 
-})
+});
+
+const router = useRouter();
+function linkTo(id) {
+  if (id) router.push("/" + id);
+}
 </script>
 
 <style scoped lang="scss">
@@ -127,15 +137,15 @@ const props = defineProps({
 }
 
 .line-clamp {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .thesis-icon {
   grid-column-start: 1;
-    grid-row-start: 1;
+  grid-row-start: 1;
 }
 
 .card-title {
@@ -207,7 +217,7 @@ const props = defineProps({
   font-weight: 400;
 }
 
-.card-title, .card-text-bold {
+.card-title {
   color: rgb(var(--v-theme-primary));
 }
 
@@ -217,9 +227,7 @@ const props = defineProps({
 }
 
 .card-text {
-  color: rgb(var(--v-theme-text-dark-blue));
   font-family: Roboto-Regular, sans-serif;
-  font-weight: 500;
 }
 
 .card-text-bold {
@@ -229,5 +237,14 @@ const props = defineProps({
 
 .card-text-wrapper {
   display: inline-block;
+}
+
+.clickable {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.lightblue {
+  color: rgb(var(--v-theme-secondary-darken-2)) !important;
 }
 </style>

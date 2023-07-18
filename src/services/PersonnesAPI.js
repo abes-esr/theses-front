@@ -61,8 +61,8 @@ async function suggestionPersonne(query) {
  * @param query
  * @returns {Promise<AxiosResponse<any>>}
  */
-function getFacetsPersonnes(query) {
-    return apiPersonnes.get("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query)));
+function getFacetsPersonnes(query, facetsRequest) {
+    return apiPersonnes.get("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);
 }
 
 /**
@@ -73,33 +73,7 @@ function getFacetsPersonnes(query) {
 async function getPersonne(id) {
     return new Promise((resolve, reject) => {
         apiPersonnes.get("/personnes/personne/" + id).then((response) => {
-            const item = response.data;
-
-            const stats = {
-                auteur: 0,
-                directeur: 0,
-                president: 0,
-                rapporteur: 0,
-                jury: 0
-            }
-
-            item.theses.forEach(these => {
-                if (these.role === "auteur") {
-                    stats.auteur += 1;
-                } else if (these.role === "directeur de thèse") {
-                    stats.directeur += 1;
-                } else if (these.role === "président du jury") {
-                    stats.president += 1;
-                } else if (these.role === "rapporteur") {
-                    stats.rapporteur += 1;
-                } else if (these.role === "membre du jury") {
-                    stats.jury += 1;
-                }
-            })
-            resolve({
-                ...item,
-                statistiques: stats
-            });
+            resolve(response.data);
         }).catch((err) => {
             reject(err);
         });
