@@ -1,23 +1,8 @@
 <template>
-  <v-snackbar
-      outlined
-      :color="colors()"
-      v-model="display"
-      :timeout=-1
-      :multi-line="options.multiline"
-      location="top"
-  >
-      <span
-          class="errorLine"
-          v-for="m in message.split('\n')"
-          v-bind:key="m"
-          v-html="m"
-      ></span>
+  <v-snackbar outlined :color="colors()" v-model="display" :timeout=-1 :multi-line="options.multiline" location="top">
+    <span class="errorLine" v-for="m in message.split('\n')" v-bind:key="m" v-html="m"></span>
     <template v-slot:actions>
-      <v-btn
-          text
-          @click="close"
-      >
+      <v-btn text @click="close">
         <v-icon color="primary">mdi-close</v-icon>
       </v-btn>
     </template>
@@ -26,7 +11,7 @@
 
 <script setup>
 
-import {reactive, ref} from "vue";
+import { reactive, ref } from "vue";
 
 const message = ref("");
 const display = ref(false);
@@ -35,7 +20,7 @@ let reject; // Fonctio pour rejetter la promesse
 const options = reactive({
   type: "info",
   isSticky: false,
-  timeout: 2000,
+  timeout: 10000,
   multiline: false
 });
 
@@ -94,8 +79,7 @@ function colors() {
   }
 }
 
-defineExpose({open})
+defineExpose({ open })
 
 </script>
-<style scoped>
-</style>
+<style scoped></style>

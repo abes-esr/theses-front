@@ -140,11 +140,14 @@
     "mail": "Adresse mail *",
     "objet": "Objet *",
     "question": "Question *",
+    "domaine": "Domaine *",
     "envoyer": "Envoyer",
+    "annuler": "Annuler",
     "requis": "Ce champ est obligatoire",
     "mailInvalide": "Adresse mail invalide",
     "info" : "Les données que vous voyez dans theses.fr sont de la responsabilité des établissements de soutenance. Vous pouvez contacter les personnels des établissements de soutenance via le formulaire suivant. ",
-    "info2": "Faites part de vos remarques concernant la page : "
+    "info2": "Faites part de vos remarques concernant la page : ",
+    "msg": "Votre message a bien été transmis."
   },
   "footer": {
     "texte": "Theses.fr est un moteur de recherche qui recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française. La base de données est en constante évolution.",

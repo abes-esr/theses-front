@@ -53,7 +53,7 @@
       <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'"></buttons-list>
     </div>
     <div class="thesis-components">
-      <thesis-component :these="these" :data-ready="true"></thesis-component>
+      <thesis-component :nnt="route.params.id" :these="these" :data-ready="true"></thesis-component>
     </div>
   </div>
 </template>
