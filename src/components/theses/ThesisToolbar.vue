@@ -76,7 +76,7 @@ function displayMessage(message) {
 
 const { mobile } = useDisplay();
 
-const dialog = ref(true);
+const dialog = ref(false);
 
 const props = defineProps({
   nnt: {
