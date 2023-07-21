@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <p>{{ $t('reportErrorView.info') }} <br /> {{ $t('reportErrorView.info2') }}<a target="_blank" :href="href">{{ href
+        <p>{{ $t('reportErrorView.info') }}<a target="_blank" :href="href">{{ href
         }}</a>
         </p>
         <v-form id="form" ref="form" v-model="isValid">
@@ -172,6 +172,7 @@ p {
 .form-row {
     display: flex;
     flex-wrap: wrap;
+    padding-bottom: 10px;
 }
 
 .item {

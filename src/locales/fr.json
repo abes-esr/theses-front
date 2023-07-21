@@ -145,8 +145,7 @@
     "annuler": "Annuler",
     "requis": "Ce champ est obligatoire",
     "mailInvalide": "Adresse mail invalide",
-    "info" : "Les données que vous voyez dans theses.fr sont de la responsabilité des établissements de soutenance. Vous pouvez contacter les personnels des établissements de soutenance via le formulaire suivant. ",
-    "info2": "Faites part de vos remarques concernant la page : ",
+    "info" : "Les données que vous voyez dans theses.fr sont placées sous la responsabilité des établissements habilités à délivrer le doctorat. Ce formulaire vous permet de contacter directement le service compétent au sein de l'établissement dont dépend la thèse : ",
     "msg": "Votre message a bien été transmis."
   },
   "footer": {
