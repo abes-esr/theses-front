@@ -42,6 +42,7 @@ function deleteFilter(facet) {
 
 <style scoped lang="scss">
   .chips-list {
+    margin: 0 1rem;
     display: flex;
     flex-wrap: wrap;
     padding: 6px 0 18px;

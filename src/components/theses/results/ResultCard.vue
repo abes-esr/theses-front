@@ -27,7 +27,7 @@
       </v-card-title>
     </div>
     <div class="vertical-spacer"></div>
-    <div class="secondHalf">
+    <div class="second-half">
       <v-card-text class="py-2 card-text-wrapper">
         <span class="card-text">
           {{ $t('resultCard.par') }}{{ '\xa0' }}
@@ -153,7 +153,8 @@ function linkTo(id) {
   padding: 0 10px 0;
   font-size: 18px;
   font-family: Roboto-Regular, sans-serif;
-  font-weight: 600;
+  font-weight: 500;
+  line-height: 1.4rem !important;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-column-start: 1;
@@ -192,11 +193,6 @@ function linkTo(id) {
   }
 }
 
-.v-card {
-  border: solid 1px rgb(var(--v-theme-gris-fonce)) !important;
-  min-height: 150px !important;
-}
-
 :deep(.v-card-title) {
   white-space: pre-line !important;
   cursor: pointer;
@@ -204,12 +200,6 @@ function linkTo(id) {
 
 .vertical-spacer {
   flex: 1;
-}
-
-.secondHalf {
-  background-color: rgb(var(--v-theme-gris-clair)) !important;
-  padding-top: 6px;
-  width: 100%;
 }
 
 .subtitle {

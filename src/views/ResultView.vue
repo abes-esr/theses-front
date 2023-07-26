@@ -28,6 +28,7 @@
         :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
         :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </v-dialog>
+
     <v-expand-transition>
       <div v-show="showSearchBar" class="expanded-search-bar-container">
         <div class="expanded-search-bar">
@@ -38,17 +39,20 @@
       </div>
     </v-expand-transition>
   </div>
+<!--  Desktop-->
   <div v-else class="sub-header">
-    <div class="left-side sub_header__logo">
-      <RouterLink :to="{ name: 'home' }" title="Accueil du site">
-        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-      </RouterLink>
-      <h1>{{ $t("slogan") }}</h1>
-    </div>
-    <div class="sub_header__action">
-      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-        @onError="displayError" />
+    <div id="search-bar-container" class="white-containers">
+      <div class="sub_header__logo">
+        <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+          <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+        </RouterLink>
+        <h1>{{ $t("slogan") }}</h1>
+      </div>
+      <div class="sub_header__action">
+        <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+        <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+          @onError="displayError" />
+      </div>
     </div>
   </div>
 
@@ -61,7 +65,7 @@
         :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
         class="left-side"></facets-list>
     </div>
-    <div class="result-components">
+    <div class="result-components white-containers">
       <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
         :persistentQuery="request" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
         :domain-name-change="domainNameChange" :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
@@ -300,7 +304,6 @@ watch(() => currentRoute.query.domaine, () => {
   align-items: center;
   flex-direction: column;
   flex: 1 0 100%;
-  max-width: 20vw;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     max-width: 100%;
@@ -310,46 +313,60 @@ watch(() => currentRoute.query.domaine, () => {
 }
 
 .sub-header {
+  display: grid;
+  grid-template-columns: 10fr 103fr 10fr;
+}
+
+#search-bar-container {
+  grid-column-start: 2;
+  margin-top: 50px;
+
+  display: grid;
+  grid-template-columns: 20fr 3fr 80fr;
+}
+
+.sub_header__logo {
+  grid-column-start: 1;
+
   display: flex;
-  flex-direction: row;
-  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  .sub_header__logo {
-    background-color: rgb(var(--v-theme-surface));
-    z-index: 2;
-
-    h1 {
-      text-align: center;
-      width: 80%;
-      font-weight: 300;
-      font-size: 16px;
-    }
-
-    .logo {
-      margin-top: 0;
-    }
+  h1 {
+    text-align: center;
+    width: 80%;
+    font-weight: 300;
+    font-size: 14px;
   }
 
-  .sub_header__action {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 1 0 auto;
+  .logo {
+    margin-top: 0;
+    height: 115px;
+  }
+}
 
-    .domain-selector,
-    .searchbar {
-      width: 70%;
+.sub_header__action {
+  grid-column-start: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 auto;
+
+  .domain-selector,
+  .searchbar {
+    width: 90%;
+  }
+
+  .domain-selector {
+    :deep(.v-btn__content) {
+      flex-direction: row;
+      opacity: 0.6;
     }
 
-    .domain-selector {
-      :deep(.v-btn__content) {
-        flex-direction: row;
-      }
-
-      :deep(.v-icon) {
-        margin-right: 1rem;
-      }
+    :deep(.v-icon) {
+      margin-right: 1rem;
     }
   }
 }
@@ -360,22 +377,30 @@ watch(() => currentRoute.query.domaine, () => {
 }
 
 .result-main-wrapper {
+  padding: 30px 0;
+
   display: grid;
-  grid-template-columns: 20vw auto;
+  grid-template-columns: 10fr 20fr 3fr 80fr 10fr;
   align-items: start;
   margin-top: 0;
   width: 100%;
-  height: 100%;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: 100%;
   }
 
   .result-components {
-    height: 100%;
+    grid-column-start: 4;
+
     width: 100%;
     display: flex;
     flex-direction: column;
+    padding-bottom: 5px;
   }
+}
+
+.white-containers {
+  background-color: rgb(var(--v-theme-surface));
+  border: solid 1px rgb(var(--v-theme-gris-clair));
 }
 </style>

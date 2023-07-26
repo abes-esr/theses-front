@@ -5,7 +5,7 @@
       <span class="facet-title-header">{{ $t('results.facetsHeader') }}</span>
     </div>
     <v-btn v-if="!mobile" @click.stop="" @click="searchAndReinitializeAllFacets" size="small" depressed elevation="0"
-      color="primary" class="desktop-reinitialize-button">
+      color="surface" class="desktop-reinitialize-button">
       Réinitialiser
     </v-btn>
     <button v-else @click="closeOverlay" class="close-overlay-button" elevation="0" color="transparent">
@@ -47,14 +47,15 @@ function closeOverlay() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10%;
+  padding-left: 10%;
+  padding-right: 2%;
   width: 100%;
   min-height: 4rem;
-  background-color: rgb(var(--v-theme-gris-clair));
   font-size: 22px;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    padding: 0 7%;
+    padding-left: 7%;
+    padding-right: 2%;
     font-size: 16px;
   }
 }
@@ -125,7 +126,10 @@ function closeOverlay() {
 }
 
 .desktop-reinitialize-button {
-  padding: 0 12px;
+  height: unset;
+  align-self: flex-start;
+  margin-top: 12px;
+  font-weight: 400;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 10px;

@@ -10,7 +10,7 @@
           {{ facet.name }}
         </h3>
         <v-btn @click.stop="" @click="reinitializeCheckboxes" class="reinitialize-button" size="small" depressed
-          elevation="0" color="primary">
+          elevation="0" color="surface">
           <v-icon>mdi-reload</v-icon>
         </v-btn>
       </v-expansion-panel-title>
@@ -21,6 +21,7 @@
             class="facet-search-bar"></v-text-field>
         </div>
         <div class="panel-text" ref="`facet-${facet.name}`">
+<!--          Facette date-->
           <div v-if="date" class="date-container">
             <span class="date-item">
               <p>{{ $t("results.drawer.from") }}</p>
@@ -37,12 +38,15 @@
               </vue-date-picker>
             </span>
           </div>
+<!--          Fin Facette date-->
+<!--          Facettes texte-->
           <div v-else v-for="(facetItem, index) in facetItems" :key="`facet-${facetItem.name}`">
             <facet-checkbox v-if="facetItem.selected" :key="`${facet.name}-value-${index}`" :facets-array="facetsArray"
               :facet-name="facet.name" :facet-item="facetItem" @updateFilterData="updateFilterData"
               :margin-offset="marginOffset" />
           </div>
         </div>
+<!--          Fin Facettes texte-->
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -224,11 +228,26 @@ watch(() => props.parametersLoaded,
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
+.v-expansion-panel {
+  border-radius: 0;
+}
+
 .v-expansion-panel-title {
   gap: 10px;
   flex-wrap: nowrap;
   padding: 0 10px;
   overflow: hidden;
+  border-radius: unset;
+}
+
+.v-expansion-panel--active > .v-expansion-panel-title {
+  min-height: 48px;
+}
+
+// #TODO hover : pas de changement de couleur -> trouver le bon selecteur
+.v-expansion-panel-title:hover > .v-expansion-panel-title__overlay {
+  opacity: 1 !important;
+  background-color: rgb(var(--v-theme-surface));
 }
 
 .v-expansion-panel :deep(.v-expansion-panel__shadow) {
@@ -237,7 +256,7 @@ watch(() => props.parametersLoaded,
 
 .v-expansion-panel-title :deep(.v-expansion-panel-title__icon) {
   order: 1;
-  color: rgb(var(--v-theme-orange-abes));
+  color: rgb(var(--v-theme-primary));
 }
 
 .reinitialize-button {
@@ -248,13 +267,16 @@ watch(() => props.parametersLoaded,
 
 .facet-title {
   text-align: start;
-  text-transform: uppercase;
   overflow: hidden;
   flex-grow: 2;
   order: 2;
   background-color: transparent;
   padding-top: 5px;
   padding-bottom: 5px;
+  font-family: Roboto-Medium, sans-serif;
+  font-weight: 600;
+  color: rgba(var(--v-theme-primary));
+  opacity: 0.8;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 15px;
@@ -281,10 +303,6 @@ watch(() => props.parametersLoaded,
 
 .facet-sub-menu:empty {
   padding: 0;
-}
-
-.facet-title-panel {
-  background-color: rgb(var(--v-theme-gris-clair));
 }
 
 .date-container {

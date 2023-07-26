@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="vertical-spacer"></div>
-    <div class="secondHalf">
+    <div class="second-half">
       <div class="disciplines">
         <template v-for="name in item.disciplines" :key="name">
           {{ name }}<span class="separator">; </span>
@@ -226,7 +226,7 @@ function goToPersonne(hash) {
   flex: 1;
 }
 
-.secondHalf {
+.second-half {
 
   justify-content: space-between;
   align-items: center;
