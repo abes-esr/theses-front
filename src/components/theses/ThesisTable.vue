@@ -155,7 +155,6 @@ function linkTo(id) {
   margin: auto;
 
   border-left: 3px solid rgb(var(--v-theme-text-dark-blue));
-  ;
 }
 
 .table-body {

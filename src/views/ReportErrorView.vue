@@ -27,7 +27,7 @@
             </div>
             <div class="form-row submit">
                 <v-btn flat size="large" @click="emit('close')">{{ $t('reportErrorView.annuler') }}</v-btn>
-                <v-btn flat size="large" @click="validate">{{ $t('reportErrorView.envoyer') }}</v-btn>
+                <v-btn flat size="large" :loading="loading" @click="validate">{{ $t('reportErrorView.envoyer') }}</v-btn>
 
             </div>
             <v-alert v-if="errMsg !== ''" variant="outlined" type="error" density="compact">
@@ -132,8 +132,8 @@ function validate() {
     form.value.validate().then((v) => {
         if (v.valid) {
             grecaptcha.ready(function () {
+                loading.value = true;
                 grecaptcha.execute('6LchRDMnAAAAAFSPyM8p7mvowBkOiQC6WYahnsV-', { action: 'submit' }).then(function (token) {
-                    loading.value = true;
                     postSignalerErreur(buildJSONToPost(token)).then(() => {
                         emit('done');
                     }).catch((err) => {
