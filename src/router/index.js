@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 const HomeView = () => import("../views/HomeView.vue")
 const ResultView = () => import("../views/ResultView.vue")
+const ReportErrorView = () => import("../views/ReportErrorView.vue")
 const DetailView = () => import("../views/DetailView.vue")
 const APropos = () => import("../components/footer-pages/APropos.vue")
 const AccessibilitePage = () => import("../components/footer-pages/AccessibilitePage.vue")
@@ -52,6 +53,12 @@ export const router = createRouter({
       path: "/mentions",
       name: "mentions",
       component: MentionsPage
+    }
+    ,
+    {
+      path: "/test",
+      name: "test",
+      component: ReportErrorView
     }
   ],
   scrollBehavior() {

@@ -267,6 +267,8 @@ h4 {
     bottom: 5vh;
   }
 }
+
+.grecaptcha-badge { visibility: hidden; }
 </style>
 <style scoped lang="scss">
 @use 'vuetify/settings';

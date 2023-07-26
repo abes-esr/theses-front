@@ -1,8 +1,7 @@
 <template>
+  <MessageBox ref="messageBox"></MessageBox>
   <div v-if="!mobile" class="thesis-toolbar no-wrap-text">
-    <v-btn flat prepend-icon="mdi-arrow-left-circle"
-           @click="previousPage"
-    >
+    <v-btn flat prepend-icon="mdi-arrow-left-circle" @click="previousPage">
       <template v-slot:prepend-icon>
         <v-icon>
           mdi-arrow-left-circle
@@ -31,7 +30,7 @@
     </div>
     <span></span>
     <div class="no-wrap-text">
-      <v-btn flat append-icon="mdi-alert">
+      <v-btn flat append-icon="mdi-alert" @click="dialog = true">
         <template v-slot:append-icon>
           <v-icon>
             mdi-alert
@@ -49,20 +48,61 @@
       </v-btn>
     </div>
   </div>
+
+  <!-- Modal signaler une erreur-->
+
+  <v-dialog v-model="dialog" persistent :fullscreen="mobile" :width="mobile ? '100%' : '70%'">
+    <v-card style="padding: 2rem 2rem;">
+      <report-error-view @close="dialog = false" @done="mailSent" :source="props.source" :nnt="props.nnt"
+        :etab-ppn="props.etabPpn"></report-error-view></v-card>
+  </v-dialog>
 </template>
 
 <script setup>
+import { ref, defineAsyncComponent } from 'vue';
 import { useDisplay } from "vuetify";
+import ReportErrorView from '../../views/ReportErrorView.vue';
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+
+const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
+const messageBox = ref(null);
+function displayMessage(message) {
+  messageBox.value?.open(message, {
+    type: "success"
+  });
+}
 
 const { mobile } = useDisplay();
 
+const dialog = ref(false);
 
+const props = defineProps({
+  nnt: {
+    type: String,
+    default: ""
+  },
+  source: {
+    type: String,
+    default: "Star"
+  },
+  etabPpn: {
+    type: String,
+    default: ""
+  }
+});
 
 /**
  * Fonctions
  */
 function previousPage() {
   window.history.back();
+}
+
+function mailSent() {
+  displayMessage(t('reportErrorView.msg'));
+  dialog.value = false;
 }
 </script>
 

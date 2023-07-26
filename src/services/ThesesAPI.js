@@ -100,6 +100,10 @@ function getStatsSujets() {
   return apiTheses.get("/theses/statsSujets");
 }
 
+function postSignalerErreur(jsonData) {
+  return apiTheses.post("/theses/these/signaler/", jsonData)
+}
+
 /**
  * Service lié aux thèses
  * @returns {{rechercherPersonne: ((function(*): Promise<AxiosResponse<*>>)|*), listePersonnes: Ref<UnwrapRef<{}>>, selectedDomain: Ref<UnwrapRef<string>>, modifierDomaine: modifierDomaine}}
@@ -115,6 +119,7 @@ export function thesesAPIService() {
     getItemsTriTheses,
     disableOrFiltersTheses,
     getItemsTriMapTheses,
-    getButtons
+    getButtons,
+    postSignalerErreur
   };
 }

@@ -1,5 +1,6 @@
 <template>
-  <thesis-toolbar />
+  <thesis-toolbar :source="these.source" :nnt="props.nnt"
+    :etab-ppn="these.etabSoutenance ? these.etabSoutenance.ppn : ''" />
   <div>
     <thesis-title :data-ready="dataReady" :status="these.status" :titles="these.titres" id="top-of-thesis-component" />
     <thesis-table class="thesis-component" :these="these" />
@@ -43,6 +44,7 @@ const { t } = useI18n();
 const { meta } = useMeta({});
 const selectedLanguage = ref('fr');
 
+
 const props = defineProps({
   dataReady: {
     type: Boolean,
@@ -50,6 +52,9 @@ const props = defineProps({
   },
   these: {
     type: Object
+  },
+  nnt: {
+    type: String
   }
 });
 
