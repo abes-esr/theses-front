@@ -5,9 +5,9 @@
         </p>
         <v-form id="form" ref="form" v-model="isValid">
             <div class="form-row shortened"><v-text-field :label="$t('reportErrorView.nom')" v-model="nom"
-                    :rules=requiredRule variant="outlined" density="compact" class="item pr-4"></v-text-field>
+                    :rules=requiredRule variant="outlined" density="compact" class="item first-item"></v-text-field>
                 <v-text-field :label="$t('reportErrorView.prenom')" v-model="prenom" :rules=requiredRule variant="outlined"
-                    density="compact" class="item pl-4"></v-text-field>
+                    density="compact" class="item"></v-text-field>
             </div>
             <div class="form-row shortened">
                 <v-text-field :label="$t('reportErrorView.mail')" v-model="mail" :rules="mailRule" variant="outlined"
@@ -26,8 +26,10 @@
                     variant="outlined" density="compact" required></v-textarea>
             </div>
             <div class="form-row submit">
-                <v-btn flat size="large" @click="emit('close')">{{ $t('reportErrorView.annuler') }}</v-btn>
-                <v-btn flat size="large" :loading="loading" @click="validate">{{ $t('reportErrorView.envoyer') }}</v-btn>
+                <v-btn flat variant="outlined" size="large" @click="emit('close')">{{ $t('reportErrorView.annuler')
+                }}</v-btn>
+                <v-btn flat variant="outlined" size="large" :loading="loading" @click="validate">{{
+                    $t('reportErrorView.envoyer') }}</v-btn>
 
             </div>
             <v-alert v-if="errMsg !== ''" variant="outlined" type="error" density="compact">
@@ -173,6 +175,12 @@ p {
     display: flex;
     flex-wrap: wrap;
     padding-bottom: 10px;
+}
+
+.first-item {
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+        padding-right: 2rem !important;
+    }
 }
 
 .item {
