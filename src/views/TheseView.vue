@@ -50,7 +50,8 @@
   <div class="thesis-main-wrapper">
     <div v-if="!mobile" class="nav-bar">
       <!-- Futur composant boutons (barre de gauche)-->
-      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'"></buttons-list>
+      <buttons-list :nnt="route.params.id"
+        :soutenue="these.status === 'soutenue' && these.source !== 'step'"></buttons-list>
     </div>
     <div class="thesis-components">
       <thesis-component :nnt="route.params.id" :these="these" :data-ready="true"></thesis-component>

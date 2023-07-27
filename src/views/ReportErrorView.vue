@@ -13,7 +13,7 @@
                 <v-text-field :label="$t('reportErrorView.mail')" v-model="mail" :rules="mailRule" variant="outlined"
                     density="compact" required></v-text-field>
             </div>
-            <div class="form-row half">
+            <div class="form-row shortened">
                 <v-select :label="$t('reportErrorView.domaine')" v-model="domaine" :rules=requiredRule :items="domainItems"
                     variant="outlined" density="compact" required></v-select>
             </div>

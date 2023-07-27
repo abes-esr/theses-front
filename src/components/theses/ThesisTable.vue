@@ -6,7 +6,7 @@
         <span><strong>{{ $t('theseView.auteur') }}{{ '\xa0' }}</strong></span>
         <span>
           <template v-for="(auteur, index) in these.auteurs" :key="auteur.ppn">
-            <span :class="auteur.ppn ? 'clickable orange' : ''" @click="linkTo(auteur.ppn)">
+            <span :class="auteur.ppn ? 'clickable lightblue' : ''" @click="linkTo(auteur.ppn)">
               {{ auteur.prenom }} {{ auteur.nom }}
             </span>
             <template v-if="index < these.auteurs.length - 1">,{{ '\xa0' }}</template>
@@ -142,10 +142,6 @@ function linkTo(id) {
 <style lang="scss" scoped>
 @use 'vuetify/settings';
 
-.orange {
-  color: rgb(var(--v-theme-orange-abes));
-}
-
 .lightblue {
   color: rgb(var(--v-theme-secondary-darken-2));
 }
@@ -186,6 +182,5 @@ function linkTo(id) {
 .clickable {
   cursor: pointer;
   font-weight: bold;
-  text-decoration: underline;
 }
 </style>

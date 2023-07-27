@@ -75,7 +75,9 @@
     "showMoreAbstract": "Afficher la suite du résumé",
     "showLessAbstract": "Afficher un extrait du résumé",
     "projet": "Projet de thèse",
-    "doctorat": "Thèse de doctorat"
+    "doctorat": "Thèse de doctorat",
+    "embargo": "Cette thèse est sous embargo jusqu’au ",
+    "confidentialite": "Cette thèse est confidentielle jusqu’au "
   },
   "results": {
     "facetsHeader": "Filtres",
