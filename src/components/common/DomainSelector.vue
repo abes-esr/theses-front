@@ -68,8 +68,6 @@ async function select(selection) {
   background-color: transparent;
   margin: 1.5rem 0 1rem 0;
 
-  max-height: 50px;
-
   .v-btn {
     flex: 0 1 48%;
     display: flex;

@@ -203,6 +203,7 @@ defineExpose({
     min-width: unset;
     width: 36px;
     justify-content: center;
+    background-color: transparent;
 
     .v-btn--density-default {
       height: unset;
