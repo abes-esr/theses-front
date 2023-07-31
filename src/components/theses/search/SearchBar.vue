@@ -43,10 +43,14 @@
         </v-btn>
       </template>
     </v-combobox>
+
     <div class="searchbar__action">
       <v-checkbox label="Désactiver l'autocomplétion" v-model="disableCompletion"
         :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn color="primary" density="compact" variant="outlined" :title='$t("avancee")' @click="search">{{ $t("avancee") }}
+      <v-btn color="primary"
+             density="compact"
+             variant="outlined"
+             :title='$t("avancee")' @click="search">{{ $t("avancee") }}
       </v-btn>
     </div>
   </div>
@@ -157,7 +161,6 @@ defineExpose({
   search,
 });
 </script>
-
 
 <style scoped lang="scss">
 @use 'vuetify/settings';
@@ -280,7 +283,6 @@ defineExpose({
   }
 
   .v-list {
-
     /* Permet de rendre l'autocompletion + dense */
     .v-list-item {
       min-height: 40px !important;
