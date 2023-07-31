@@ -1,9 +1,25 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" v-model="request" v-model:search="requestSearch"
-                :items="items" variant="outlined" cache-items hide-details hide-no-data hide-selected no-filter
-                density="compact"
-                @keydown.enter="search" :active="true" return-object type="text" :menu="suggestionActive" :menu-props="menuProps">
+    <v-combobox
+      class="searchbar__input"
+      :items="items"
+      :menu="suggestionActive"
+      :menu-props="menuProps"
+      :active="true"
+      v-model="request"
+      v-model:search="requestSearch"
+      variant="outlined"
+      cache-items
+      hide-details
+      hide-no-data
+      hide-selected
+      no-filter
+      density="compact"
+      return-object
+      type="text"
+      menu-icon=""
+      @keydown.enter="search"
+    >
 <!--      Bouton rechercher-->
       <template v-slot:prepend-inner>
         <v-btn @click="search" :title='$t("searchButton")' :loading="loading"
