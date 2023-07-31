@@ -89,6 +89,7 @@ function closeOverlay() {
 .v-btn--elevated :deep(.v-btn__content) {
   text-transform: capitalize;
   letter-spacing: 0.5px;
+  color: rgb(var(--v-theme-secondary-darken-2));
 }
 
 .close-overlay-button {
@@ -126,7 +127,7 @@ function closeOverlay() {
 }
 
 .desktop-reinitialize-button {
-  height: unset;
+  height: 2em;
   align-self: flex-start;
   margin-top: 12px;
   font-weight: 400;

@@ -155,10 +155,6 @@ defineExpose({
         padding-bottom: 10px;
       }
     }
-
-    :deep(.v-field__append-inner) {
-      margin-right: 10px;
-    }
   }
 
   .searchbar__action {
@@ -206,7 +202,6 @@ defineExpose({
     padding: 0;
     min-width: unset;
     width: 36px;
-    margin-left: 10px;
     justify-content: center;
 
     .v-btn--density-default {
@@ -237,6 +232,10 @@ defineExpose({
   color: rgb(var(--v-theme-primary)) !important;
   font-size: 25px;
   font-weight: 200;
+}
+
+#clean-button {
+  left: -3px;
 }
 
 .v-input {

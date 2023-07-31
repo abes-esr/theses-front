@@ -71,6 +71,7 @@
         :domain-name-change="domainNameChange" :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
       </result-components>
     </div>
+    <scroll-to-top-button  v-if="moreThanXResults(5)"  class="scroll-to-top-wrapper" :nb-result=nbResult />
   </div>
 </template>
 
@@ -84,6 +85,7 @@ import SearchBar from '@/components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
+import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 
 const { mobile } = useDisplay();
 const {
@@ -204,6 +206,10 @@ function updateFacets(firstLoad) {
   });
 }
 
+function moreThanXResults(x) {
+  return (result.value.length >= x);
+}
+
 // Si on passe de desktop à mobile ou inversement, réinitialisation des variables de pagination
 watch(mobile, () => {
   reinitializeCurrentRequest();
@@ -313,6 +319,8 @@ watch(() => currentRoute.query.domaine, () => {
 }
 
 .sub-header {
+  width: 100%;
+
   display: grid;
   grid-template-columns: 10fr 103fr 10fr;
 }
@@ -362,7 +370,6 @@ watch(() => currentRoute.query.domaine, () => {
   .domain-selector {
     :deep(.v-btn__content) {
       flex-direction: row;
-      opacity: 0.6;
     }
 
     :deep(.v-icon) {

@@ -24,7 +24,6 @@
     <div v-if="mobile || dataReady" class="colonnes-resultats">
       <result-list :result="result" :domain-name-change="domainNameChange">
       </result-list>
-      <ScrollToTopButton v-if="!mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
     </div>
     <div v-else>
       <div v-for="i in currentShowingNumber" :key="i" class="skeleton">
@@ -36,7 +35,6 @@
     </div>
     <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
       @addTenResultsToList="addTenResultsToList" @search="search" />
-    <ScrollToTopButton v-if="mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
   </div>
 
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'bottom'" :current-showing-number="currentShowingNumber"
@@ -48,7 +46,6 @@
 
 <script setup>
 import ResultPagination from "@/components/common/results/ResultPagination.vue";
-import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 import {useDisplay} from "vuetify";
 import {ref, watch} from "vue";
@@ -60,7 +57,7 @@ import SortingSelect from "@/components/common/results/SortingSelect.vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
-const { setShowingNumber, setShowingNumberMobile } = APIService();
+const { setShowingNumber } = APIService();
 
 const props = defineProps({
   result: {
