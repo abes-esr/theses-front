@@ -36,6 +36,7 @@
       </div>
     </v-expand-transition>
   </div>
+
 <!--  Desktop-->
   <div v-else class="sub-header">
     <div class="search-bar-container white-containers">
@@ -55,6 +56,7 @@
 
   <div class="main-wrapper">
     <div class="result-components white-containers">
+<!--   #TODO   Skeletton-->
       <v-card-text v-if="!dataReady">
         <v-container fluid fill-height>
           <v-layout justify-center align-center>
@@ -63,7 +65,8 @@
           </v-layout>
         </v-container>
       </v-card-text>
-      <div v-if="dataReady">
+<!--      End skeletton-->
+      <div class="info-wrapper" v-if="dataReady">
         <div class="info">
           <v-icon size="45px">$personne</v-icon>
           <div class="nom-card">
@@ -75,9 +78,15 @@
               </a>
             </div>
           </div>
-
         </div>
-        <thesis-keywords class="thesis-component" :data-ready="true" :keywordsAreSet="true" :these="conversionMotClesFormatTheses(item.mots_cles)" />
+
+        <thesis-keywords
+          class="thesis-component"
+          :data-ready="true"
+          :keywordsAreSet="true"
+          :these="conversionMotClesFormatTheses(item.mots_cles)"
+        />
+
         <div class="theses">
           <template v-for="key in ['auteur','directeur de thèse','rapporteur','président du jury','membre du jury']"
                     :key="key">
@@ -367,15 +376,19 @@ function displayError(message, opt) {
         }
       }
 
-      a {
-        img {
-          max-height: 30px;
-        }
-      }
 
       .nom-card {
         .nomprenom {
           color: rgb(var(--v-theme-orange-abes));
+
+          a {
+            display: flex;
+            align-items: center;
+
+            img {
+              margin-left: 0.5em !important;
+            }
+          }
         }
       }
 
@@ -388,6 +401,7 @@ function displayError(message, opt) {
 
       hr {
         margin: 1rem 0 2rem 0;
+        color: rgb(var(--v-theme-gris-fonce));
       }
 
       .card-wrapper {
@@ -396,10 +410,14 @@ function displayError(message, opt) {
     }
 
     .thesis-component {
-      margin: 0 auto 20px;
+      margin: 2em auto 20px;
     }
 
   }
+}
+
+.info-wrapper {
+  padding-top: 1em;
 }
 
 .colonnes-resultats {

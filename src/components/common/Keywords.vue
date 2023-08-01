@@ -7,7 +7,8 @@
     </div>
     <v-chip-group id="first-chip-line">
       <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord.keyword + forceRenderKey"
-        :title="keyWord.keyword" :disabled="keyWord.type === 'sujetsRameau' ? false : true"
+        :title="keyWord.keyword" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
+        :disabled="keyWord.type === 'sujetsRameau' ? false : true"
         @click="if (keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
         <span class="key-word-label">{{ keyWord.keyword }}</span>
       </v-chip>
@@ -16,13 +17,14 @@
       <!--      readmore button effect-->
       <v-chip v-show="readMore" label v-for="keyWord in selectKeyWords(Infinity, keyWordPerLine)"
         :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword"
+        :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
         :disabled="keyWord.type === 'sujetsRameau' ? false : true"
-        @click="if (keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
+        @click="if(keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
         <span class="key-word-label">{{ keyWord.keyword }}</span>
       </v-chip>
     </v-chip-group>
     <div id="key-words-button-wrapper" v-if="selectKeyWords(Infinity, keyWordPerLine).length > 0">
-      <v-btn id="read-more-button" @click="readMore = !readMore" flat>
+      <v-btn id="read-more-button" variant="outlined" @click="readMore = !readMore" flat>
         <span></span>
         <span>{{ readMore ? $t('theseView.showLessKeywords') : $t('theseView.showMoreKeywords') }}</span>
         <v-icon class="toggle-up-down" :class='{ "rotate": readMore }'>mdi-arrow-down-circle-outline</v-icon>
@@ -32,7 +34,7 @@
 </template>
 
 <script setup>
-import {onBeforeUpdate, ref, watch, computed, onBeforeUnmount, onBeforeMount} from "vue";
+import {onBeforeUpdate, ref, watch, computed, onBeforeMount} from "vue";
 import { useDisplay } from "vuetify";
 import LanguageSelector from "./LanguageSelector.vue";
 
@@ -128,7 +130,7 @@ watch(mobile, (newValue) => {
 .key-words-title-wrapper {
   display: inline-flex;
   align-items: center;
-  margin-left: 5px;
+  margin: 0.4em 0 0.8em 0;
 }
 
 h1 {
@@ -147,7 +149,7 @@ h1 {
 }
 
 .v-chip-group {
-  margin: 0 10px;
+  margin-top: 0.5em;
   padding: 0;
   justify-content: start;
   flex-wrap: nowrap;
@@ -156,6 +158,14 @@ h1 {
     flex-wrap: wrap;
     justify-content: space-between;
   }
+
+  .free-chip {
+    background-color: rgb(var(--v-theme-secondary-darken-2));
+  }
+
+  .rameau-chip {
+    background-color: rgb(var(--v-theme-orange-abes));
+  }
 }
 
 #second-chip-line {
@@ -163,7 +173,6 @@ h1 {
 }
 
 .v-chip {
-  background-color: rgb(var(--v-theme-fond-chip-blue));
   justify-content: center;
   width: 19%;
 
@@ -176,7 +185,7 @@ h1 {
   font-family: Roboto Black, sans-serif;
   font-weight: 600;
   font-size: 16px;
-  color: rgb(var(--v-theme-primary));
+  color: rgb(var(--v-theme-surface));
 }
 
 .v-chip--disabled {
@@ -201,9 +210,7 @@ h1 {
 
 #read-more-button {
   margin-top: 7px;
-  background-color: rgb(var(--v-theme-primary));
   text-transform: none;
-  color: white;
   width: 220px;
   display: inline-flex;
   padding: 0 7px;
