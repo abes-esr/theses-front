@@ -1,6 +1,6 @@
 <template>
   <v-card flat class="card-container">
-    <div class="firstHalf" @click="$router.push({ name: 'detail', params: { id: id } })">
+    <div class="first-half" @click="$router.push({ name: 'detail', params: { id: id } })">
       <v-card-title>
         <div class="card-title-wrapper line-clamp">
           <div v-if="!mobile" class="thesis-icon">
