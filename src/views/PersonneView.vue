@@ -87,28 +87,39 @@
           :these="conversionMotClesFormatTheses(item.mots_cles)"
         />
 
+<!--        Tiroirs thèses par rôles-->
         <div class="theses">
-          <template v-for="key in ['auteur','directeur de thèse','rapporteur','président du jury','membre du jury']"
-                    :key="key">
-            <div v-if="item.theses[key] && item.theses[key].length > 0">
-              <hr/>
-              <h2 :id="anchorValueFromKey(key)">
-                {{ $t("personnes.personneView.roles." + i18nValueFromKey(key), [item.theses[key].length]) }}</h2>
-              <div v-for="these in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
-                <result-card :titre="these.titre"
-                             :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                             :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                             :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
-                </result-card>
+          <v-expansion-panels multiple v-model="panel" class="role-expansion-panel-wrapper">
+            <template v-for="key in ['auteur','directeur de thèse','rapporteur','président du jury','membre du jury']"
+                      :key="key">
+              <div v-if="item.theses[key] && item.theses[key].length > 0" class="role-expansion-panel">
+                <v-expansion-panel>
+                  <v-expansion-panel-title>
+                    <template v-slot:actions="{ expanded }">
+                      <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
+                      </v-icon>
+                    </template>
+                    <h2 :id="anchorValueFromKey(key)">
+                      {{ $t("personnes.personneView.roles." + i18nValueFromKey(key), [item.theses[key].length]) }}
+                    </h2>
+                  </v-expansion-panel-title>
+                  <v-expansion-panel-text>
+                    <div v-for="these in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
+                      <result-card :titre="these.titre"
+                                   :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                                   :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                                   :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
+                      </result-card>
+                    </div>
+                  </v-expansion-panel-text>
+                </v-expansion-panel>
               </div>
-            </div>
-          </template>
+            </template>
+          </v-expansion-panels>
         </div>
       </div>
     </div>
-    <div class="scroll-to-top-container">
-      <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1></scroll-to-top-button>
-    </div>
+    <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1></scroll-to-top-button>
   </div>
 </template>
 
@@ -122,7 +133,6 @@ import DomainSelector from '@/components/common/DomainSelector.vue';
 
 import {personnesAPIService} from "@/services/PersonnesAPI";
 import {useDisplay} from "vuetify";
-import ActionBarPersonnes from "@/components/personnes/ActionBar.vue";
 import StatistiqueCardPersonne from "@/components/personnes/StatistiqueCard.vue";
 import ResultCard from "@/components/theses/results/ResultCard.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
@@ -139,6 +149,7 @@ const loading = ref(false);
 const dataReady = ref(false);
 const openMenu = ref(false);
 const item = ref({});
+const panel = ref([]);
 
 const {t} = useI18n();
 const {meta} = useMeta({});
@@ -156,7 +167,10 @@ const props = defineProps({
   }
 });
 
+
 onBeforeMount(() => {
+  panel.value = [0];
+
   dataReady.value = false;
   getPersonne(props.id).then(result => {
     item.value = result;
@@ -395,13 +409,28 @@ function displayError(message, opt) {
     }
 
     .theses {
-      h2 {
-        margin-bottom: 1rem;
+      padding-top: 1em;
+
+      .role-expansion-panel-wrapper {
+        display: flex;
+        flex-direction: column;
       }
 
-      hr {
-        margin: 1rem 0 2rem 0;
-        color: rgb(var(--v-theme-gris-fonce));
+      .role-expansion-panel {
+        border-top: 2px solid rgb(var(--v-theme-gris-fonce));
+
+        h2 {
+          padding: 0.5em 0 0.5em;
+          font-size: 26px;
+        }
+      }
+
+      .v-expansion-panel :deep(.v-expansion-panel__shadow) {
+        box-shadow: none;
+      }
+
+      .v-expansion-panel-title--active :deep(.v-expansion-panel-title__overlay) {
+        opacity: 0;
       }
 
       .card-wrapper {
@@ -422,41 +451,6 @@ function displayError(message, opt) {
 
 .colonnes-resultats {
   padding: 0;
-}
-
-.result-components-wrapper {
-  display: grid;
-}
-
-.scroll-to-top-container {
-  position: fixed;
-  left: 90vw;
-  bottom:1vh;
-  width: 5%;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
-    left: 95.5vw;
-  }
-
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-    left: 94vw;
-  }
-
-  @media #{ map-get(settings.$display-breakpoints, 'xl-and-up')} {
-    left: 97vw;
-    bottom:8vh;
-  }
-}
-
-.scroll-to-top-wrapper {
-  margin-left: 25px;
-  margin-bottom: 0;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    margin: 0 0;
-    height: 60px;
-    top: 90vh !important;
-  }
 }
 
 .domain-selector {

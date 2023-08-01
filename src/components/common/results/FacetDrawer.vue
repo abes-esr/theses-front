@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panels v-if="date || Object.keys(facet.checkboxes).length > 0">
-    <v-expansion-panel class="elevation-0">
+    <v-expansion-panel>
       <v-expansion-panel-title class="facet-title-panel">
         <template v-slot:actions="{ expanded }">
           <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
