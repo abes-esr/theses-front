@@ -39,17 +39,13 @@
     </div>
     <div class="vertical-spacer"></div>
     <div class="second-half">
-      <div class="disciplines">
-        <template v-for="name in item.disciplines" :key="name">
-          {{ name }}<span class="separator"> ; </span>
+        <template v-for="(name, index) in item.disciplines" :key="name">
+          {{ name }}<span v-if="index !== item.disciplines.length - 1">{{ "\xa0" }};{{ "\xa0" }}</span>
         </template>
-      </div>
-      <span>-</span>
-      <div class="etablissements">
-        <template v-for="name in item.etablissements " :key="name">
-          {{ name }}<span class="separator"> ; </span>
+        <span>{{ "\xa0"+ "|" + "\xa0" }}</span>
+        <template v-for="(name, index) in item.etablissements " :key="name">
+          {{ name }}<span v-if="index !== item.etablissements.length - 1">{{ "\xa0" }};{{ "\xa0" }}</span>
         </template>
-      </div>
     </div>
   </v-card>
 </template>
@@ -170,6 +166,7 @@ function goToPersonne(hash) {
       .nomprenom {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         text-decoration: none;
         color: rgb(var(--v-theme-primary));
         font-size: 23.5px;
@@ -192,10 +189,10 @@ function goToPersonne(hash) {
   .action {
     display: flex;
     justify-content: flex-start;
+    flex-wrap: nowrap;
     align-items: center;
     width: 100%;
     height: 100px;
-    flex-wrap: wrap;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
       justify-content: flex-end;
@@ -229,6 +226,7 @@ function goToPersonne(hash) {
 
 .second-half {
   display: flex;
+  flex-wrap: wrap;
   height: 100%;
   padding: 0.5rem;
   font-weight: bold;
@@ -247,18 +245,6 @@ function goToPersonne(hash) {
 
   .disciplines {
     margin-right: 0.5em;
-  }
-
-
-  .etablissements {
-    margin: 0 0.5em;
-  }
-
-  .disciplines,
-  .etablissements {
-    .separator:last-of-type {
-      display: none;
-    }
   }
 }
 

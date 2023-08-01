@@ -365,4 +365,8 @@ watch(() => props.parametersLoaded, () => {
     margin-top: 15px;
   }
 }
+
+:deep(.v-expansion-panel-title--active:hover > .v-expansion-panel-title__overlay) {
+  opacity: 0.04;
+}
 </style>
