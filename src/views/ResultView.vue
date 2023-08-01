@@ -41,7 +41,7 @@
   </div>
 <!--  Desktop-->
   <div v-else class="sub-header">
-    <div id="search-bar-container" class="white-containers">
+    <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
         <RouterLink :to="{ name: 'home' }" title="Accueil du site">
           <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
@@ -318,74 +318,8 @@ watch(() => currentRoute.query.domaine, () => {
   }
 }
 
-.sub-header {
-  width: 100%;
-
-  display: grid;
-  grid-template-columns: 10fr 103fr 10fr;
-}
-
-#search-bar-container {
-  grid-column-start: 2;
-  margin-top: 50px;
-
-  display: grid;
-  grid-template-columns: 20fr 3fr 80fr;
-}
-
-.sub_header__logo {
-  grid-column-start: 1;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  h1 {
-    text-align: center;
-    width: 80%;
-    font-weight: 300;
-    font-size: 14px;
-  }
-
-  .logo {
-    margin-top: 0;
-    height: 115px;
-  }
-}
-
-.sub_header__action {
-  grid-column-start: 3;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex: 1 0 auto;
-
-  .domain-selector,
-  .searchbar {
-    width: 90%;
-  }
-
-  .domain-selector {
-    :deep(.v-btn__content) {
-      flex-direction: row;
-    }
-
-    :deep(.v-icon) {
-      margin-right: 1rem;
-    }
-  }
-}
-
-.v-overlay :deep(.v-overlay__content) {
-  padding: 0 0;
-  background-color: rgb(var(--v-theme-background));
-}
-
 .result-main-wrapper {
   padding: 30px 0;
-
   display: grid;
   grid-template-columns: 10fr 20fr 3fr 80fr 10fr;
   align-items: start;
@@ -406,8 +340,13 @@ watch(() => currentRoute.query.domaine, () => {
   }
 }
 
-.white-containers {
-  background-color: rgb(var(--v-theme-surface));
-  border: solid 1px rgb(var(--v-theme-gris-clair));
-}
+  .domain-selector {
+    :deep(.v-btn__content) {
+      flex-direction: row !important;
+    }
+
+    :deep(.v-icon) {
+      margin-right: 1rem !important;
+    }
+  }
 </style>

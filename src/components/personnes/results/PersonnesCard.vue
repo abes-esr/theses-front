@@ -152,38 +152,6 @@ function goToPersonne(hash) {
         max-height: 45px;
       }
     }
-
-    .nom-card {
-      flex: 1 0 100%;
-      display: flex;
-      align-items: center;
-
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-        flex: 1 0 60%;
-        margin-left: 0.5em;
-      }
-
-      .nomprenom {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        text-decoration: none;
-        color: rgb(var(--v-theme-primary));
-        font-size: 23.5px;
-
-        @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-          font-size: 29.5px;
-        }
-
-        .prenom {
-          font-weight: 400;
-        }
-
-        .nom {
-          font-weight: 700;
-        }
-      }
-    }
   }
 
   .action {
@@ -213,11 +181,6 @@ function goToPersonne(hash) {
       }
     }
   }
-}
-
-#logoIdref {
-  margin-left: 1em;
-  height: 1em;
 }
 
 .vertical-spacer {

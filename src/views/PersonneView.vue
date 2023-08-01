@@ -9,6 +9,7 @@
             :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
     </v-icon>
   </nav>
+<!--  Mobile-->
   <div v-if="mobile" class="logo-menu-wrapper">
     <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
@@ -35,31 +36,25 @@
       </div>
     </v-expand-transition>
   </div>
+<!--  Desktop-->
   <div v-else class="sub-header">
-    <div class="left-side sub_header__logo">
-      <RouterLink :to="{ name: 'home' }" title="Accueil du site">
-        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
-      </RouterLink>
-      <h1>{{ $t("slogan") }}</h1>
+    <div class="search-bar-container white-containers">
+      <div class="sub_header__logo">
+        <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+          <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
+        </RouterLink>
+        <h1>{{ $t("slogan") }}</h1>
+      </div>
+      <div class="sub_header__action">
+        <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+        <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+                    @onError="displayError"/>
+      </div>
     </div>
-    <div class="sub_header__action">
-      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-                  @onError="displayError"/>
-    </div>
-  </div>
-  <div v-if="!mobile" class="search-filter">
-    <div class="left-side statistique__title">
-      <v-icon size="40px">mdi-account</v-icon>
-    </div>
-    <action-bar-personnes></action-bar-personnes>
   </div>
 
   <div class="main-wrapper">
-    <div class="left-side nav-bar statistique__content" v-if="!mobile">
-      <statistique-card-personne :stats="item.roles"></statistique-card-personne>
-    </div>
-    <div class="result-components">
+    <div class="result-components white-containers">
       <v-card-text v-if="!dataReady">
         <v-container fluid fill-height>
           <v-layout justify-center align-center>
@@ -71,17 +66,13 @@
       <div v-if="dataReady">
         <div class="info">
           <v-icon size="45px">$personne</v-icon>
-          <div class="sep">
-            <v-divider vertical v-if="item.has_idref"></v-divider>
-          </div>
-          <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-            <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png"/>
-          </a>
           <div class="nom-card">
-
             <div class="nomprenom">
-              <span class="prenom">{{ item.prenom }}</span>
+              <span class="prenom">{{ item.prenom + "\xa0"}}</span>
               <span class="nom">{{ item.nom }}</span>
+              <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
+                <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png"/>
+              </a>
             </div>
           </div>
 
@@ -299,51 +290,6 @@ function displayError(message, opt) {
   }
 }
 
-.sub-header {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-
-  .sub_header__logo {
-    background-color: rgb(var(--v-theme-surface));
-    z-index: 2;
-
-    h1 {
-      text-align: center;
-      width: 80%;
-      font-weight: 300;
-      font-size: 16px;
-    }
-
-    .logo {
-      margin-top: 0;
-    }
-  }
-
-  .sub_header__action {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 1 0 auto;
-
-    .domain-selector,
-    .searchbar {
-      width: 70%;
-    }
-
-    .domain-selector {
-      :deep(.v-btn__content) {
-        flex-direction: row;
-      }
-
-      :deep(.v-icon) {
-        margin-right: 1rem;
-      }
-    }
-  }
-}
-
 .statistique__title {
   align-items: flex-start;
   background-color: rgb(var(--v-theme-gris-clair));
@@ -379,22 +325,22 @@ function displayError(message, opt) {
   }
 }
 
-
 .main-wrapper {
-  flex-direction: row;
-  align-items: flex-start;
+  padding: 30px 0;
+  display: grid;
+  grid-template-columns: 10fr 103fr 10fr;
+  align-items: start;
   margin-top: 0;
   width: 100%;
 
-  .result-components {
-    width: calc(95% - 2rem);
-    margin-right: 1rem;
-    margin-left: 1rem;
-    margin-bottom: 2rem;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      width: calc(80% - 2rem);
-    }
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    grid-template-columns: 100%;
+  }
+
+  .result-components {
+    grid-column-start: 2;
+    padding: 0 2em;
 
     .info {
       display: flex;
@@ -428,32 +374,8 @@ function displayError(message, opt) {
       }
 
       .nom-card {
-        display: flex;
-        align-items: center;
-        margin-left: 1rem;
-
-        @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-          margin-left: 2rem;
-        }
-
         .nomprenom {
-          display: flex;
-          flex-direction: column;
-          text-decoration: none;
           color: rgb(var(--v-theme-orange-abes));
-          font-size: 23.5px;
-
-          @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-            font-size: 29.5px;
-          }
-
-          .prenom {
-            font-weight: 400;
-          }
-
-          .nom {
-            font-weight: 700;
-          }
         }
       }
 
@@ -516,6 +438,16 @@ function displayError(message, opt) {
     margin: 0 0;
     height: 60px;
     top: 90vh !important;
+  }
+}
+
+.domain-selector {
+  :deep(.v-btn__content) {
+    flex-direction: row !important;
+  }
+
+  :deep(.v-icon) {
+    margin-right: 1rem !important;
   }
 }
 </style>

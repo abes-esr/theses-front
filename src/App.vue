@@ -267,6 +267,102 @@ h4 {
   }
 }
 
+.search-bar-container {
+  grid-column-start: 2;
+  margin-top: 50px;
+
+  display: grid;
+  grid-template-columns: 20fr 3fr 80fr;
+}
+
+.sub-header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 10fr 103fr 10fr;
+
+  .sub_header__logo {
+    grid-column-start: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+      text-align: center;
+      width: 80%;
+      font-weight: 300;
+      font-size: 14px;
+    }
+
+    .logo {
+      margin-top: 0;
+      height: 115px;
+    }
+  }
+
+  .sub_header__action {
+    grid-column-start: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 auto;
+
+    .domain-selector,
+    .searchbar {
+      width: 90%;
+    }
+  }
+}
+
+.v-overlay :deep(.v-overlay__content) {
+  padding: 0 0;
+  background-color: rgb(var(--v-theme-background));
+}
+
+.white-containers {
+  background-color: rgb(var(--v-theme-surface));
+  border: solid 1px rgb(var(--v-theme-gris-clair));
+}
+
+.nom-card {
+  flex: 1 0 100%;
+  display: flex;
+  align-items: center;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    flex: 1 0 60%;
+    margin-left: 0.5em;
+  }
+
+  .nomprenom {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-decoration: none;
+    color: rgb(var(--v-theme-primary));
+    font-size: 23.5px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      font-size: 29.5px;
+    }
+
+    .prenom {
+      font-weight: 400;
+    }
+
+    .nom {
+      font-weight: 700;
+    }
+  }
+
+  #logoIdref {
+    margin-left: 1em;
+    height: 1em;
+  }
+}
+
 .grecaptcha-badge { visibility: hidden; }
 </style>
 <style scoped lang="scss">
