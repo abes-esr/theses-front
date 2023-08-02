@@ -416,6 +416,14 @@ function displayError(message, opt) {
         flex-direction: column;
       }
 
+      :deep(.v-expansion-panel-title--active) {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: rgb(var(--v-theme-surface));
+        border-bottom: 1px solid rgb(var(--v-theme-orange-abes));
+      }
+
       .role-expansion-panel {
         border-top: 2px solid rgb(var(--v-theme-gris-fonce));
 

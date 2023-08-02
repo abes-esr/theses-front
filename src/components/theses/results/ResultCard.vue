@@ -150,7 +150,7 @@ function linkTo(id) {
 
 .card-title {
   grid-column-start: 2;
-  padding: 0 10px 0;
+  padding: 10px 10px 0;
   font-size: 18px;
   font-family: Roboto-Regular, sans-serif;
   font-weight: 500;
