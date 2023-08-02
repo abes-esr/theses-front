@@ -38,9 +38,4 @@ const props = defineProps({
 .card-wrapper {
   margin-bottom: 1rem;
 }
-
-.result-dividers {
-  border: 1px solid rgb(var(--v-theme-gris-clair));
-  margin:0 1rem;
-}
 </style>

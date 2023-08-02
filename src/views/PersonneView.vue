@@ -104,12 +104,13 @@
                     </h2>
                   </v-expansion-panel-title>
                   <v-expansion-panel-text>
-                    <div v-for="these in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
+                    <div v-for="(these, index) in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
                       <result-card :titre="these.titre"
                                    :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
                                    :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
                                    :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
                       </result-card>
+                      <hr class="result-dividers" v-if="index < item.theses[key].length - 1" />
                     </div>
                   </v-expansion-panel-text>
                 </v-expansion-panel>
@@ -409,7 +410,7 @@ function displayError(message, opt) {
     }
 
     .theses {
-      padding-top: 1em;
+      padding: 1em 0;
 
       .role-expansion-panel-wrapper {
         display: flex;
