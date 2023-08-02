@@ -32,28 +32,27 @@
     </v-expand-transition>
   </div>
 
-  <!-- Bare latérale Desktop -->
+<!--Desktop-->
   <div v-else class="sub-header">
-    <div class="left-side sub_header__logo">
-      <RouterLink :to="{ name: 'home' }" title="Accueil du site">
-        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-      </RouterLink>
-      <h1>{{ $t("slogan") }}</h1>
-    </div>
-    <div class="sub_header__action">
-      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-        @onError="displayError" />
+    <div class="search-bar-container white-containers">
+      <div class="sub_header__logo">
+        <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+          <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+        </RouterLink>
+        <h1>{{ $t("slogan") }}</h1>
+      </div>
+      <div class="sub_header__action">
+        <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+        <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+          @onError="displayError" />
+      </div>
     </div>
   </div>
 
   <div class="thesis-main-wrapper">
-    <div v-if="!mobile" class="nav-bar">
-      <!-- Futur composant boutons (barre de gauche)-->
-      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'"></buttons-list>
-    </div>
-    <div class="thesis-components">
-      <thesis-component :nnt="route.params.id" :these="these" :data-ready="true"></thesis-component>
+    <!-- Infos these -->
+    <div class="thesis-components white-containers">
+      <thesis-component :nnt="route.params.id" :these="these" :data-ready="true" :soutenue="these.status === 'soutenue'"></thesis-component>
     </div>
   </div>
 </template>
@@ -127,52 +126,6 @@ function closeOverlay() {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-.sub-header {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-
-  .sub_header__logo {
-    background-color: rgb(var(--v-theme-surface));
-    z-index: 2;
-
-    h1 {
-      text-align: center;
-      width: 80%;
-      font-weight: 300;
-      font-size: 16px;
-    }
-
-    .logo {
-      margin-top: 0;
-    }
-  }
-
-  .sub_header__action {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 1 0 auto;
-
-    .domain-selector,
-    .searchbar {
-      width: 70%;
-    }
-
-    .domain-selector {
-      :deep(.v-btn__content) {
-        flex-direction: row;
-      }
-
-      :deep(.v-icon) {
-        margin-right: 1rem;
-      }
-    }
-  }
-}
-
-
 .mobile-nav-bar {
   display: flex;
   justify-content: space-between;
@@ -230,46 +183,26 @@ function closeOverlay() {
   width: 80%;
 }
 
-.left-side {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  flex: 1 0 100%;
-  max-width: 20vw;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    max-width: 100%;
-    flex: 0 1 auto;
-    padding: 0;
-  }
-}
-
 .thesis-main-wrapper {
+  padding: 30px 0;
   display: grid;
-  grid-template-columns: 20vw auto;
+  grid-template-columns: 10fr 103fr 10fr;
   align-items: start;
   margin-top: 0;
   width: 100%;
-  height: 100%;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: 100%;
   }
 
   .thesis-components {
-    height: 100%;
+    grid-column-start: 2;
+
     width: 100%;
     display: flex;
     flex-direction: column;
+    padding-bottom: 5px;
   }
-}
-
-.nav-bar {
-  height: 100%;
-  width: 100%;
-  max-width: 20vw;
-  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
 }
 
 .clickable {

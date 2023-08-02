@@ -6,7 +6,8 @@
     <div class="title-flexbox"> <!-- #TODO v-if anglais/francais -->
       <span>
         {{ currentTitle }}
-      </span><language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
+      </span>
+      <language-selector class="language-selector" :languages="langList" @update-langue="onUpdateLangue"></language-selector>
     </div>
   </div>
 </template>
@@ -62,9 +63,7 @@ function onUpdateLangue(langue) {
 @use 'vuetify/settings';
 
 .title-wrapper {
-  padding: 20px 20px 10px 10px;
-  display: grid !important;
-  grid-template-columns: 2fr 20fr;
+  padding: 1.2em 1.2em 1em 1em;
 }
 
 .thesis-icon {
@@ -75,13 +74,20 @@ function onUpdateLangue(langue) {
 .title-flexbox {
   display: flex;
   flex-flow: row wrap;
+  grid-column-start: 2;
 
   span {
+    padding-top: 16px;
     font-family: Roboto-Medium, sans-serif;
     font-size: 25.5px;
     font-weight: 600;
+    color: rgb(var(--v-theme-text-dark-blue));
     letter-spacing: -0.5px;
     line-height: 1.2;
   }
+}
+
+.language-selector {
+    padding-top: 16px;
 }
 </style>

@@ -2,6 +2,9 @@
   <MessageBox ref="messageBox"></MessageBox>
   <div class="buttons">
     <div class="buttons-header">
+      <span>{{ $t("theseView.access") }}</span>
+    </div>
+    <div class="buttons-sub-header">
       <div class="header-container no-wrap-text">
         <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
         <span class="buttons-title-header"><span v-if="soutenue">{{ $t("theseView.valide") }}</span></span>
@@ -13,8 +16,8 @@
         </button>
       </div>
     </div>
-    <div class="listButtons no-wrap-text" v-if="soutenue">
-      <v-btn color="primary" append-icon="mdi-arrow-right-circle" flat v-for="b in listButtons" :key="b"
+    <div class="list-buttons no-wrap-text" v-if="soutenue">
+      <v-btn color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat v-for="b in listButtons" :key="b"
         :href="baseURL + b.url" target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
           b.libelle }}</v-btn>
       <v-skeleton-loader v-if="loading" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
@@ -84,10 +87,18 @@ function closeOverlay() {
 
 .buttons-header {
   overflow: hidden;
-  padding: 4px 20px;
-  width: 100%;
-  background-color: rgb(var(--v-theme-gris-clair));
+  padding: 0.4em 0.8em 0;
+
   font-size: 22px;
+  font-weight: 600;
+  font-family: Roboto-Bold, sans-serif;
+}
+
+.buttons-sub-header {
+  overflow: hidden;
+  padding: 0 1.4em;
+  width: 100%;
+  font-size: 18px;
   height: 42px;
 
   display: inline-flex;
@@ -97,14 +108,13 @@ function closeOverlay() {
     padding: unset;
     font-size: 16px;
   }
-
-  margin-bottom: 1em;
+  margin-bottom: 0.6em;
 }
 
 .header-container {
   height: 2rem;
-  display: inline-grid;
-  grid-template-columns: 2fr 1fr 10fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr 100fr;
   grid-template-rows: 20% 60% 20%;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
@@ -147,7 +157,7 @@ function closeOverlay() {
   }
 }
 
-.listButtons {
+.list-buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,13 +169,13 @@ function closeOverlay() {
     justify-content: space-between;
     text-transform: none;
     margin-bottom: 1em;
-
   }
 }
 
 .buttons {
   display: flex;
   flex-direction: column;
+  border-right: 2px solid rgb(var(--v-theme-gris-clair));
 
   .buttons-list {
     width: 85%;

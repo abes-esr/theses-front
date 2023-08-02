@@ -1,15 +1,22 @@
 <template>
   <thesis-toolbar :source="these.source" :nnt="props.nnt"
     :etab-ppn="these.etabSoutenance ? these.etabSoutenance.ppn : ''" />
-  <div>
-    <thesis-title :data-ready="dataReady" :status="these.status" :titles="these.titres" id="top-of-thesis-component" />
-    <thesis-table class="thesis-component" :these="these" />
-    <v-divider v-if="keywordsAreSet" :thickness="1" class="divider border-opacity-50" length="90%" />
-    <thesis-keywords class="thesis-component" :keywords-are-set="keywordsAreSet" :data-ready="dataReady" :these="these"
-      :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
-    <v-divider v-if="resumeIsSet" :thickness="1" class="divider border-opacity-50" length="90%" />
-    <thesis-resume class="thesis-component" :resume-is-set="resumeIsSet" :data-ready="dataReady" :these="these"
-      :selected-language="selectedLanguage" />
+  <div class="thesis-info-access-wrapper">
+    <thesis-title class="thesis-title" :data-ready="dataReady" :status="these.status" :titles="these.titres" />
+    <!-- Bare latérale Desktop -->
+    <div v-if="!mobile" class="access-buttons">
+      <!-- Menu boutons-liens desktop-->
+      <buttons-list :nnt="nnt" :soutenue="soutenue"></buttons-list>
+    </div>
+    <div class="thesis-info-wrapper">
+      <thesis-table class="thesis-component" :these="these" />
+      <v-divider v-if="keywordsAreSet" :thickness="1" class="divider border-opacity-50" length="90%" />
+      <thesis-keywords class="thesis-component" :keywords-are-set="keywordsAreSet" :data-ready="dataReady" :these="these"
+        :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
+      <v-divider v-if="resumeIsSet" :thickness="1" class="divider border-opacity-50" length="90%" />
+      <thesis-resume class="thesis-component" :resume-is-set="resumeIsSet" :data-ready="dataReady" :these="these"
+        :selected-language="selectedLanguage" />
+    </div>
     <div class="scroll-to-top-container">
       <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1 />
     </div>
@@ -39,6 +46,7 @@ import { useI18n } from "vue-i18n";
 import { useMeta } from "vue-meta";
 import ThesisTitle from "@/components/theses/ThesisTitle.vue";
 import ThesisResume from "@/components/theses/ThesisResume.vue";
+import ButtonsList from "@/components/theses/ButtonsList.vue";
 
 const { t } = useI18n();
 const { meta } = useMeta({});
@@ -55,6 +63,9 @@ const props = defineProps({
   },
   nnt: {
     type: String
+  },
+  soutenue: {
+    type: Boolean
   }
 });
 
@@ -83,6 +94,30 @@ watchEffect(() => {
 
 <style scoped lang="scss">
 @use 'vuetify/settings';
+
+.thesis-info-access-wrapper {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 25fr 2fr 75fr;
+}
+
+.thesis-title {
+  hyphens: auto;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 1;
+}
+
+.access-buttons {
+  grid-column-start: 1;
+  grid-row-start: 2;
+
+}
+
+.thesis-info-wrapper{
+  grid-column-start: 3;
+  grid-row-start: 2;
+}
 
 .thesis-component {
   width: 92%;
@@ -134,9 +169,5 @@ watchEffect(() => {
     height: 60px;
     top: 90vh !important;
   }
-}
-
-#top-of-thesis-component {
-  hyphens: auto;
 }
 </style>

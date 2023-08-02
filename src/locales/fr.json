@@ -75,7 +75,8 @@
     "showMoreAbstract": "Afficher la suite du résumé",
     "showLessAbstract": "Afficher un extrait du résumé",
     "projet": "Projet de thèse",
-    "doctorat": "Thèse de doctorat"
+    "doctorat": "Thèse de doctorat",
+    "access": "Accès à la thèse"
   },
   "results": {
     "facetsHeader": "Filtres",
