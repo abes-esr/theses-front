@@ -56,17 +56,17 @@
 
   <div class="main-wrapper">
     <div class="result-components white-containers">
-<!--   #TODO   Skeletton-->
-      <v-card-text v-if="!dataReady">
-        <v-container fluid fill-height>
-          <v-layout justify-center align-center>
-            <v-progress-circular indeterminate color="rgb(var(--v-theme-primary))">
-            </v-progress-circular>
-          </v-layout>
-        </v-container>
-      </v-card-text>
+<!--   Skeletton-->
+      <div v-if="!dataReady"  class="skeleton-wrapper">
+        <v-skeleton-loader type="list-item-avatar-two-line" class="skeleton"></v-skeleton-loader>
+        <v-skeleton-loader type="divider" class="skeleton"></v-skeleton-loader>
+        <v-skeleton-loader type="table-row"></v-skeleton-loader>
+        <v-skeleton-loader type="button" class="skeleton"></v-skeleton-loader>
+        <v-skeleton-loader type="divider" class="skeleton"></v-skeleton-loader>
+        <v-skeleton-loader v-for="i in 4" :key="i" type="paragraph" class="skeleton-cards"></v-skeleton-loader>
+      </div>
 <!--      End skeletton-->
-      <div class="info-wrapper" v-if="dataReady">
+      <div class="info-wrapper" v-else>
         <div class="info">
           <v-icon size="45px">$personne</v-icon>
           <div class="nom-card">
@@ -104,14 +104,16 @@
                     </h2>
                   </v-expansion-panel-title>
                   <v-expansion-panel-text>
-                    <div v-for="(these, index) in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
-                      <result-card :titre="these.titre"
-                                   :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                                   :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                                   :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
-                      </result-card>
-                      <hr class="result-dividers" v-if="index < item.theses[key].length - 1" />
-                    </div>
+                      <div v-for="(these, index) in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
+                        <v-lazy :options="{ threshold: 1.0 }">
+                          <result-card :titre="these.titre"
+                                       :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                                       :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                                       :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
+                          </result-card>
+                        </v-lazy>
+                        <hr class="result-dividers" v-if="index < item.theses[key].length - 1" />
+                      </div>
                   </v-expansion-panel-text>
                 </v-expansion-panel>
               </div>
@@ -470,5 +472,19 @@ function displayError(message, opt) {
   :deep(.v-icon) {
     margin-right: 1rem !important;
   }
+}
+
+.skeleton-cards {
+  height: 150px !important;
+  background-color: rgb(var(--v-theme-gris-clair));
+  margin: 1em 0;
+}
+
+.skeleton {
+  margin-bottom: 3em;
+}
+
+.skeleton-wrapper {
+  padding: 2em 0;
 }
 </style>
