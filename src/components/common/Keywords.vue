@@ -2,9 +2,22 @@
   <div>
     <div v-if="keywordsAreSet && dataReady">
       <div class="key-words-title-wrapper">
-        <v-icon color="primary">mdi-list-box</v-icon>
-        <h1>{{ $t('theseView.motcle') }}</h1>
-        <language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
+        <div class="title">
+          <v-icon color="primary">mdi-list-box</v-icon>
+          <h1>{{ $t('theseView.motcle') }}</h1>
+          <language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
+        </div>
+        <v-btn class="info-button" flat icon="mdi-information-outline">
+        </v-btn>
+        <v-overlay activator=".info-button" location-strategy="connected" scroll-strategy="close">
+          <v-card class="legend-tooltip">
+            <h1>Légende</h1>
+            <v-chip-group>
+              <v-chip label class="rameau-chip"><span class="key-word-label">mot-clé contrôlé</span></v-chip>
+              <v-chip label class="free-chip">mot-clé libre</v-chip>
+            </v-chip-group>
+          </v-card>
+        </v-overlay>
       </div>
       <v-chip-group id="first-chip-line">
         <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord.keyword + forceRenderKey"
@@ -136,9 +149,16 @@ watch(mobile, (newValue) => {
 }
 
 .key-words-title-wrapper {
+  width: 100%;
   display: inline-flex;
   align-items: center;
+  justify-content: space-between;
   margin: 0.4em 0 0.8em 0;
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
 }
 
 h1 {
@@ -168,11 +188,11 @@ h1 {
   }
 
   .free-chip {
-    background-color: rgb(var(--v-theme-secondary-darken-2));
+    background-color: rgb(var(--v-theme-secondary-darken-2)) !important;
   }
 
   .rameau-chip {
-    background-color: rgb(var(--v-theme-orange-abes));
+    background-color: rgb(var(--v-theme-orange-abes)) !important;
   }
 }
 
@@ -241,5 +261,15 @@ h1 {
 :deep(.v-skeleton-loader__button) {
   max-width: unset !important;
   justify-self: end;
+}
+
+.legend-tooltip {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+
+  :deep(.v-chip) {
+    width: fit-content;
+  }
 }
 </style>
