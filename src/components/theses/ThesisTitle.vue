@@ -1,5 +1,5 @@
 <template>
-  <div v-if="currentTitle !== ''" class="title-wrapper line-clamp">
+  <div v-if="currentTitle !== '' && dataReady" class="title-wrapper line-clamp">
     <div class="thesis-icon">
       <thesis-icon :status="status"></thesis-icon>
     </div>
@@ -9,6 +9,9 @@
       </span>
       <language-selector class="language-selector" :languages="langList" @update-langue="onUpdateLangue"></language-selector>
     </div>
+  </div>
+  <div v-if="!dataReady" class="title-wrapper line-clamp">
+    <v-skeleton-loader type="list-item-avatar" class="w-100"></v-skeleton-loader>
   </div>
 </template>
 
@@ -64,6 +67,8 @@ function onUpdateLangue(langue) {
 
 .title-wrapper {
   padding: 1.2em 1.2em 1em 1em;
+  grid-column-start: 1;
+  grid-column-end: 4;
 }
 
 .thesis-icon {

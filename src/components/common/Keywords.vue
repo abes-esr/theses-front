@@ -1,36 +1,42 @@
 <template>
-  <div v-if="keywordsAreSet">
-    <div class="key-words-title-wrapper">
-      <v-icon color="primary">mdi-list-box</v-icon>
-      <h1>{{ $t('theseView.motcle') }}</h1>
-      <language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
-    </div>
-    <v-chip-group id="first-chip-line">
-      <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord.keyword + forceRenderKey"
-        :title="keyWord.keyword" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
-        :disabled="keyWord.type === 'sujetsRameau' ? false : true"
-        @click="if (keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
-        <span class="key-word-label">{{ keyWord.keyword }}</span>
-      </v-chip>
-    </v-chip-group>
-    <v-fade-transition>
-      <v-chip-group v-show="readMore" id="second-chip-line">
-        <!--      readmore button effect-->
-        <v-chip v-show="readMore" label v-for="keyWord in selectKeyWords(Infinity, keyWordPerLine)"
-          :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword"
-          :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
+  <div>
+    <div v-if="keywordsAreSet && dataReady">
+      <div class="key-words-title-wrapper">
+        <v-icon color="primary">mdi-list-box</v-icon>
+        <h1>{{ $t('theseView.motcle') }}</h1>
+        <language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
+      </div>
+      <v-chip-group id="first-chip-line">
+        <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord.keyword + forceRenderKey"
+          :title="keyWord.keyword" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
           :disabled="keyWord.type === 'sujetsRameau' ? false : true"
-          @click="if(keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
+          @click="if (keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
           <span class="key-word-label">{{ keyWord.keyword }}</span>
         </v-chip>
       </v-chip-group>
-    </v-fade-transition>
-    <div id="key-words-button-wrapper" v-if="selectKeyWords(Infinity, keyWordPerLine).length > 0">
-      <v-btn id="read-more-button" variant="outlined" @click="readMore = !readMore" flat>
-        <span></span>
-        <span>{{ readMore ? $t('theseView.showLessKeywords') : $t('theseView.showMoreKeywords') }}</span>
-        <v-icon class="toggle-up-down" :class='{ "rotate": readMore }'>mdi-arrow-down-circle-outline</v-icon>
-      </v-btn>
+      <v-fade-transition>
+        <v-chip-group v-show="readMore" id="second-chip-line">
+          <!--      readmore button effect-->
+          <v-chip v-show="readMore" label v-for="keyWord in selectKeyWords(Infinity, keyWordPerLine)"
+            :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword"
+            :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
+            :disabled="keyWord.type === 'sujetsRameau' ? false : true"
+            @click="if(keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
+            <span class="key-word-label">{{ keyWord.keyword }}</span>
+          </v-chip>
+        </v-chip-group>
+      </v-fade-transition>
+      <div id="key-words-button-wrapper" v-if="selectKeyWords(Infinity, keyWordPerLine).length > 0">
+        <v-btn id="read-more-button" variant="outlined" @click="readMore = !readMore" flat>
+          <span></span>
+          <span>{{ readMore ? $t('theseView.showLessKeywords') : $t('theseView.showMoreKeywords') }}</span>
+          <v-icon class="toggle-up-down" :class='{ "rotate": readMore }'>mdi-arrow-down-circle-outline</v-icon>
+        </v-btn>
+      </div>
+    </div>
+    <div v-if="!dataReady">
+      <v-skeleton-loader type="table-row" class="px-4"></v-skeleton-loader>
+      <v-skeleton-loader type="button" class="d-flex flex-row-reverse pe-7 w-25"></v-skeleton-loader>
     </div>
   </div>
 </template>
@@ -230,5 +236,10 @@ h1 {
 
 .toggle-up-down.rotate {
   transform: rotate(180deg);
+}
+
+:deep(.v-skeleton-loader__button) {
+  max-width: unset !important;
+  justify-self: end;
 }
 </style>

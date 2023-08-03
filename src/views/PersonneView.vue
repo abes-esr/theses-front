@@ -487,4 +487,9 @@ function displayError(message, opt) {
 .skeleton-wrapper {
   padding: 2em 0;
 }
+
+:deep(.v-skeleton-loader__button) {
+  max-width: unset !important;
+  width: 250px;
+}
 </style>

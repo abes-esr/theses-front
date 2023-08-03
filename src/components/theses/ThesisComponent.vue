@@ -6,10 +6,10 @@
     <!-- Bare latérale Desktop -->
     <div v-if="!mobile" class="access-buttons">
       <!-- Menu boutons-liens desktop-->
-      <buttons-list :nnt="nnt" :soutenue="soutenue"></buttons-list>
+      <buttons-list :nnt="nnt" :soutenue="soutenue" :data-ready="dataReady"></buttons-list>
     </div>
     <div class="thesis-info-wrapper">
-      <thesis-table class="thesis-component" :these="these" />
+      <thesis-table class="thesis-component" :these="these" :data-ready="dataReady" />
       <v-divider v-if="keywordsAreSet" :thickness="1" class="divider border-opacity-50" length="90%" />
       <thesis-keywords class="thesis-component" :keywords-are-set="keywordsAreSet" :data-ready="dataReady" :these="these"
         :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
@@ -20,19 +20,6 @@
     <div class="scroll-to-top-container">
       <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1 />
     </div>
-  </div>
-  <div v-if="!titleIsSet">
-    <v-skeleton-loader type="heading"></v-skeleton-loader>
-    <v-skeleton-loader type="paragraph"></v-skeleton-loader>
-    <v-skeleton-loader type="paragraph"></v-skeleton-loader>
-    <v-divider :thickness="1" class="divider border-opacity-50" length="90%" />
-    <v-skeleton-loader type="subtitle"></v-skeleton-loader>
-    <v-skeleton-loader type="chip, chip, chip, chip, chip, chip"></v-skeleton-loader>
-    <v-divider :thickness="1" class="divider border-opacity-50" length="90%" />
-    <v-skeleton-loader type="heading"></v-skeleton-loader>
-    <v-skeleton-loader type="paragraph"></v-skeleton-loader>
-    <v-skeleton-loader type="paragraph"></v-skeleton-loader>
-    <v-skeleton-loader type="paragraph"></v-skeleton-loader>
   </div>
 </template>
 
@@ -54,10 +41,6 @@ const selectedLanguage = ref('fr');
 
 
 const props = defineProps({
-  dataReady: {
-    type: Boolean,
-    default: false
-  },
   these: {
     type: Object
   },
@@ -66,7 +49,11 @@ const props = defineProps({
   },
   soutenue: {
     type: Boolean
-  }
+  },
+  dataReady: {
+    type: Boolean,
+    default: false
+  },
 });
 
 const resumeIsSet = ref(false);

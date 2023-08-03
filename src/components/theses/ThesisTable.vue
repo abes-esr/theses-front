@@ -1,5 +1,5 @@
 <template>
-  <table class="table" v-if="these.auteurs">
+  <table class="table" v-if="these.auteurs && dataReady">
     <tbody class="table-body">
       <!-- Auteur -->
       <tr v-if="these.auteurs && these.auteurs.length > 0" class="table-rows">
@@ -120,6 +120,14 @@
       </tr>
     </tbody>
   </table>
+  <div v-if="!dataReady">
+    <v-skeleton-loader type="table-heading"></v-skeleton-loader>
+    <v-skeleton-loader type="table-row"></v-skeleton-loader>
+    <v-skeleton-loader type="table-row"></v-skeleton-loader>
+    <v-skeleton-loader type="table-row"></v-skeleton-loader>
+    <v-skeleton-loader type="table-row"></v-skeleton-loader>
+    <v-skeleton-loader type="table-row"></v-skeleton-loader>
+  </div>
 </template>
 
 <script setup>
@@ -129,6 +137,9 @@ defineProps({
   these: {
     type: Object,
     required: true
+  },
+  dataReady: {
+    type: Boolean
   }
 });
 

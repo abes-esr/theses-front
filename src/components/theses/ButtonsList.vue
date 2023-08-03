@@ -1,6 +1,6 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
-  <div class="buttons">
+  <div class="buttons" v-if="dataReady">
     <div class="buttons-header">
       <span>{{ $t("theseView.access") }}</span>
     </div>
@@ -22,6 +22,11 @@
           b.libelle }}</v-btn>
       <v-skeleton-loader v-if="loading" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
     </div>
+  </div>
+  <div class="skeleton-loader-wrapper" v-else>
+    <v-skeleton-loader type="list-item-two-line"></v-skeleton-loader>
+    <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
+    <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
   </div>
 </template>
 
@@ -46,7 +51,10 @@ const props = defineProps({
   },
   soutenue: {
     type: Boolean,
-  }
+  },
+  dataReady: {
+    type: Boolean,
+  },
 });
 
 const emit = defineEmits('closeOverlay');
@@ -172,7 +180,7 @@ function closeOverlay() {
   }
 }
 
-.buttons {
+.buttons, .skeleton-loader-wrapper {
   display: flex;
   flex-direction: column;
   border-right: 2px solid rgb(var(--v-theme-gris-clair));
@@ -197,5 +205,9 @@ function closeOverlay() {
   color: rgb(var(--v-theme-orange-abes));
   grid-column-end: 4;
   justify-self: end;
+}
+
+:deep(.v-skeleton-loader__button) {
+  max-width: unset !important;
 }
 </style>
