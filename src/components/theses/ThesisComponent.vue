@@ -121,7 +121,7 @@ watchEffect(() => {
 
 .thesis-component {
   width: 92%;
-  margin: 0 auto 20px;
+  margin: 2em auto;
 }
 
 .v-skeleton-loader {

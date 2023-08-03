@@ -153,8 +153,6 @@ function linkTo(id) {
 .table {
   width: 92%;
   margin: auto;
-
-  border-left: 3px solid rgb(var(--v-theme-text-dark-blue));
 }
 
 .table-body {
@@ -166,15 +164,13 @@ function linkTo(id) {
   padding: 0 10px 0;
   display: inline-grid;
   grid-template-columns: 2fr 7fr;
+  border-bottom: 1px solid rgb(var(--v-theme-gris-fonce));
+  color: rgb(var(--v-theme-text-dark-blue));
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     display: block;
     hyphens: auto;
   }
-}
-
-.table tbody tr:nth-of-type(odd) {
-  background-color: rgb(var(--v-theme-gris-clair));
 }
 
 #president {
@@ -186,6 +182,6 @@ function linkTo(id) {
 .clickable {
   cursor: pointer;
   font-weight: bold;
-  text-decoration: underline;
+  color: rgb(var(--v-theme-secondary-darken-1));
 }
 </style>
