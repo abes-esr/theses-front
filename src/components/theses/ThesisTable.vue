@@ -182,6 +182,6 @@ function linkTo(id) {
 .clickable {
   cursor: pointer;
   font-weight: bold;
-  color: rgb(var(--v-theme-secondary-darken-1));
+  color: rgb(var(--v-theme-secondary-darken-2));
 }
 </style>

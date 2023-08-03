@@ -13,16 +13,18 @@
         <span class="key-word-label">{{ keyWord.keyword }}</span>
       </v-chip>
     </v-chip-group>
-    <v-chip-group id="second-chip-line">
-      <!--      readmore button effect-->
-      <v-chip v-show="readMore" label v-for="keyWord in selectKeyWords(Infinity, keyWordPerLine)"
-        :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword"
-        :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
-        :disabled="keyWord.type === 'sujetsRameau' ? false : true"
-        @click="if(keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
-        <span class="key-word-label">{{ keyWord.keyword }}</span>
-      </v-chip>
-    </v-chip-group>
+    <v-fade-transition>
+      <v-chip-group v-show="readMore" id="second-chip-line">
+        <!--      readmore button effect-->
+        <v-chip v-show="readMore" label v-for="keyWord in selectKeyWords(Infinity, keyWordPerLine)"
+          :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword"
+          :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
+          :disabled="keyWord.type === 'sujetsRameau' ? false : true"
+          @click="if(keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
+          <span class="key-word-label">{{ keyWord.keyword }}</span>
+        </v-chip>
+      </v-chip-group>
+    </v-fade-transition>
     <div id="key-words-button-wrapper" v-if="selectKeyWords(Infinity, keyWordPerLine).length > 0">
       <v-btn id="read-more-button" variant="outlined" @click="readMore = !readMore" flat>
         <span></span>
