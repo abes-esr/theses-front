@@ -77,8 +77,8 @@ function onUpdateLangue(langue) {
 }
 
 .title-flexbox {
-  display: flex;
-  flex-flow: row wrap;
+  display: grid;
+  grid-template-columns: 9fr 1fr;
   grid-column-start: 2;
 
   span {
@@ -94,5 +94,6 @@ function onUpdateLangue(langue) {
 
 .language-selector {
     padding-top: 16px;
+  justify-content: center;
 }
 </style>

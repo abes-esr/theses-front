@@ -149,7 +149,7 @@ watch(mobile, (newValue) => {
 }
 
 #first-chip-line {
-    flex-wrap: wrap !important;
+  flex-wrap: wrap !important;
 }
 
 .key-words-title-wrapper {
@@ -183,7 +183,7 @@ h1 {
 .v-chip-group {
   margin-top: 0.5em;
   padding: 0;
-  justify-content: start;
+  justify-content: space-between;
   flex-wrap: nowrap;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
@@ -206,7 +206,7 @@ h1 {
 
 .v-chip {
   justify-content: center;
-  width: 19%;
+  width: 18.5%;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     width: 46%;
