@@ -148,6 +148,10 @@ watch(mobile, (newValue) => {
   pointer-events: unset;
 }
 
+#first-chip-line {
+    flex-wrap: wrap !important;
+}
+
 .key-words-title-wrapper {
   width: 100%;
   display: inline-flex;
