@@ -369,6 +369,9 @@ function displayError(message, opt) {
     padding: 0 2em;
 
     .info {
+      display: flex;
+      align-content: center;
+
       @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
         justify-content: flex-start;
       }
@@ -390,6 +393,7 @@ function displayError(message, opt) {
 
 
       .nom-card {
+        display: inline-flex;
         .nomprenom {
           color: rgb(var(--v-theme-orange-abes));
 
