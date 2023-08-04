@@ -369,11 +369,6 @@ function displayError(message, opt) {
     padding: 0 2em;
 
     .info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 1rem;
-
       @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
         justify-content: flex-start;
       }

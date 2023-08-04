@@ -105,13 +105,13 @@ function goToPersonne(hash) {
 }
 
 .first-half {
-  display: flex;
+  display: grid;
+  grid-template-columns: 4fr 6fr;
   padding: 0 2rem 0 1rem;
   justify-content: space-between;
   align-items: center;
   height: calc(100% + 180px);
   width: 100%;
-  flex-direction: column;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
     height: 100%;
@@ -124,16 +124,16 @@ function goToPersonne(hash) {
     flex: 0 0 10%;
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 1 0 30%;
-      max-width: 35%;
     }
 
     .v-icon {
       margin-right: 1rem;
       flex: 0 0 10%;
+      align-self: start;
     }
 
     .sep {
@@ -156,8 +156,7 @@ function goToPersonne(hash) {
 
   .action {
     display: flex;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
     width: 100%;
     height: 100px;
