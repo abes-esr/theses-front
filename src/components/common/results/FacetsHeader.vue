@@ -18,7 +18,7 @@
   </div>
   <div v-if="mobile" class="reinitialize-button-mobile">
     <v-btn @click.stop="" @click="searchAndReinitializeAllFacets" class="reinitialize-button-mobile" size="small"
-      depressed elevation="0" color="primary">
+      depressed elevation="0">
       Réinitialiser
     </v-btn>
   </div>
@@ -117,12 +117,8 @@ function closeOverlay() {
 
 .reinitialize-button-mobile {
   margin-top: 5px;
+  margin-right: 0.3em;
   display: grid;
-  grid-template-columns: 7.5% 85% 7.5%;
-}
-
-.reinitialize-button-mobile {
-  grid-column-end: 3;
   justify-self: end;
 }
 

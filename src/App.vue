@@ -186,7 +186,6 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(var(--v-theme-gris-clair));
     border-bottom: 1px solid #bbb;
     border-top: 1px solid #bbb;
   }

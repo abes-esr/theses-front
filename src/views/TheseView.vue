@@ -22,7 +22,7 @@
     </v-dialog>
     <!--    Menu recherche/selecteur these/personnes-->
     <v-expand-transition>
-      <div v-show="showSearchBar" class="expanded-search-bar-container">
+      <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
         <div class="expanded-search-bar">
           <domain-selector @changeDomain="changeDomain" compact></domain-selector>
           <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
