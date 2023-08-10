@@ -123,6 +123,7 @@ main {
     justify-content: space-between;
     align-content: center;
     padding: 0 10px;
+    margin: -10px 0 30px;
   }
 
   .filter-mobile-nav-bar {
@@ -153,7 +154,7 @@ main {
   }
 
   .logo_home {
-    margin-top: -35px;
+    margin-top: -45px;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       margin-top: -75px;

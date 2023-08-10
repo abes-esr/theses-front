@@ -33,9 +33,10 @@
         </v-card>
       </div>
     </div>
-    <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
-      @addTenResultsToList="addTenResultsToList" @search="search" />
   </div>
+
+  <more-results-button class="more-result-button" v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
+      @addTenResultsToList="addTenResultsToList" @search="search" />
 
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'bottom'" :current-showing-number="currentShowingNumber"
     :current-page-number="currentPageNumber" class="pagination-bottom" @updateShowingNumber="updateShowingNumber"
@@ -57,7 +58,7 @@ import SortingSelect from "@/components/common/results/SortingSelect.vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
-const { setShowingNumber } = APIService();
+const { setShowingNumber, setShowingNumberMobile } = APIService();
 
 const props = defineProps({
   result: {
@@ -122,7 +123,7 @@ function updateShowingNumber(newValue) {
 
 function addTenResultsToList() {
   currentShowingNumber.value += 10;
-  setShowingNumber(currentShowingNumber.value);
+  setShowingNumberMobile(currentShowingNumber.value);
 }
 
 function updatePage(newPage) {
@@ -223,7 +224,7 @@ watch(() => props.resetShowingNumber, () => {
 }
 
 .sort-select-wrapper {
-  margin: -50px 0 20px;
+  margin: -85px 0 20px;
   display: grid;
   grid-template-columns: 5fr 4fr 10px;
   grid-template-rows: 30px 30px;
@@ -250,5 +251,10 @@ watch(() => props.resetShowingNumber, () => {
     font-family: Roboto-Medium, sans-serif;
     font-weight: 500;
   }
+}
+
+.more-result-button {
+  position: relative;
+  top: 80px;
 }
 </style>

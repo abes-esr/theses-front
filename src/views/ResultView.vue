@@ -14,7 +14,7 @@
   </nav>
   <!--    Menu filtres-->
   <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_home">
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_home logo_resultview">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
     <!--    Menu recherche/selecteur these/personnes-->
@@ -292,6 +292,10 @@ watch(() => currentRoute.query.domaine, () => {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
+.logo_resultview {
+  margin-top: -100px;
+}
+
 .greyBar {
   background-color: rgb(var(--v-theme-gris-clair)) !important;
 }
@@ -331,12 +335,15 @@ watch(() => currentRoute.query.domaine, () => {
   }
 
   .result-components {
-    grid-column-start: 4;
 
     width: 100%;
     display: flex;
     flex-direction: column;
     padding-bottom: 5px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      grid-column-start: 1;
+    }
   }
 }
 
