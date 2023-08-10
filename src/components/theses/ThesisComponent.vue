@@ -6,7 +6,7 @@
     <!-- Bare latérale Desktop -->
     <div v-if="!mobile" class="access-buttons">
       <!-- Menu boutons-liens desktop-->
-      <buttons-list :nnt="nnt" :soutenue="soutenue" :data-ready="dataReady"></buttons-list>
+      <buttons-list v-if="!mobile" :nnt="nnt" :soutenue="soutenue" :data-ready="dataReady"></buttons-list>
     </div>
     <div class="thesis-info-wrapper">
       <thesis-table class="thesis-component" :these="these" :data-ready="dataReady" />
@@ -34,7 +34,9 @@ import { useMeta } from "vue-meta";
 import ThesisTitle from "@/components/theses/ThesisTitle.vue";
 import ThesisResume from "@/components/theses/ThesisResume.vue";
 import ButtonsList from "@/components/theses/ButtonsList.vue";
+import { useDisplay } from "vuetify";
 
+const { mobile } = useDisplay();
 const { t } = useI18n();
 const { meta } = useMeta({});
 const selectedLanguage = ref('fr');
@@ -86,6 +88,11 @@ watchEffect(() => {
   display: grid;
   grid-template-rows: 1fr auto;
   grid-template-columns: 25fr 2fr 75fr;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .thesis-title {

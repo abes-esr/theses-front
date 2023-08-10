@@ -162,6 +162,10 @@ main {
     }
   }
 
+  .logo_resultview {
+    margin-top: -100px;
+  }
+
   .logo-menu-wrapper {
     width: 100%;
     display: grid;

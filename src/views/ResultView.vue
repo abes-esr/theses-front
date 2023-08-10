@@ -292,10 +292,6 @@ watch(() => currentRoute.query.domaine, () => {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-.logo_resultview {
-  margin-top: -100px;
-}
-
 .greyBar {
   background-color: rgb(var(--v-theme-gris-clair)) !important;
 }
@@ -335,7 +331,7 @@ watch(() => currentRoute.query.domaine, () => {
   }
 
   .result-components {
-
+    grid-column-start: 4;
     width: 100%;
     display: flex;
     flex-direction: column;

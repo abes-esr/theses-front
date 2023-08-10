@@ -12,13 +12,13 @@
   </nav>
   <!-- Icone retour accueil -->
   <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_resultview">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
     <!--    Menu boutons-liens-->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
       :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <buttons-list :nnt="route.params.id" @closeOverlay="closeOverlay"></buttons-list>
+      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'" :these="these" :data-ready="true" @closeOverlay="closeOverlay"></buttons-list>
     </v-dialog>
     <!--    Menu recherche/selecteur these/personnes-->
     <v-expand-transition>
@@ -126,13 +126,6 @@ function closeOverlay() {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-.mobile-nav-bar {
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  padding: 0 10px;
-}
-
 .filter-mobile-nav-bar {
   display: flex;
   align-content: center;
@@ -164,21 +157,6 @@ function closeOverlay() {
   color: rgb(var(--v-theme-orange-abes));
 }
 
-.expanded-search-bar-container {
-  width: 100%;
-  grid-column: 1 / 5;
-  justify-self: center;
-  grid-row-start: 1;
-  align-self: start;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgb(var(--v-theme-gris-clair));
-  border-bottom: 1px solid #bbb;
-  border-top: 1px solid #bbb;
-}
-
-
 .expanded-search-bar {
   width: 80%;
 }
@@ -202,6 +180,12 @@ function closeOverlay() {
     display: flex;
     flex-direction: column;
     padding-bottom: 5px;
+
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
   }
 }
 
