@@ -4,29 +4,30 @@
     <button @click="openMenu = true" class="filter-mobile-nav-bar">
       <v-icon v-bind="props" size="40px">mdi-menu
       </v-icon>
+      <v-tooltip activator="parent">{{ $t('menu') }}</v-tooltip>
     </button>
-    <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-            :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
-    </v-icon>
+    <div>
+      <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+              :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+      </v-icon>
+      <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
+    </div>
   </nav>
 <!--  Mobile-->
   <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_resultview">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
     </RouterLink>
-    <!--    Menu recherche/selecteur these/personnes-->
+    <!--    Menu header -->
     <v-dialog v-model="openMenu" eager location-strategy="static" persistent no-click-animation fullscreen
               :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
       <div class="statistique__title">
-        <v-icon size="40px">mdi-account</v-icon>
+        <div></div>
         <v-btn size=40px icon="mdi-close-box" color="red" variant="text" @click="openMenu = !openMenu"></v-btn>
-      </div>
-      <div class="statistique__content">
-        <statistique-card-personne :stats="item.roles"></statistique-card-personne>
       </div>
     </v-dialog>
     <v-expand-transition>
-      <div v-show="showSearchBar" class="expanded-search-bar-container">
+      <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
         <div class="expanded-search-bar">
           <domain-selector @changeDomain="changeDomain" compact></domain-selector>
           <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"
@@ -290,30 +291,15 @@ function displayError(message, opt) {
   border-right: solid rgb(var(--v-theme-primary)) 3px;
 }
 
-.logo {
-  margin-top: -55px;
-}
-
 .v-menu ::v-deep(.v-overlay__content) {
   border-radius: 0;
   margin: 0;
   background-color: rgb(var(--v-theme-background));
 }
 
-.left-side {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  flex: 1 0 100%;
-  max-width: 20vw;
-  height: 100%;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    max-width: 100%;
-    flex: 0 1 auto;
-    padding: 0;
-  }
+.mobile-nav-bar {
+  margin: 10px 0 30px;
 }
 
 .statistique__title {
@@ -359,9 +345,8 @@ function displayError(message, opt) {
   margin-top: 0;
   width: 100%;
 
-
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    grid-template-columns: 100%;
+    display: flex;
   }
 
   .result-components {

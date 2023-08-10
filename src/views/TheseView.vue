@@ -1,14 +1,19 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav v-if="mobile" class="mobile-nav-bar">
-    <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
-      <v-icon v-bind="props" size="40px">mdi-menu
+    <button v-if="soutenue" @click="dialogVisible = true" class="filter-mobile-nav-bar">
+      <v-icon v-bind="props" size="40px">mdi-book-arrow-down-outline
       </v-icon>
+      <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
     </button>
+    <div v-else></div>
     <!--      Bouton menu recherche/selecteur these/personnes-->
-    <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-      :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
-    </v-icon>
+    <div>
+      <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+        :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+      </v-icon>
+      <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
+    </div>
   </nav>
   <!-- Icone retour accueil -->
   <div v-if="mobile" class="logo-menu-wrapper">

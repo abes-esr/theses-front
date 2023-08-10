@@ -257,6 +257,7 @@ h4 {
 }
 
 .scroll-to-top-wrapper {
+  z-index: 1000;
   position: sticky;
   top: 90vh;
   margin-left: 10%;
