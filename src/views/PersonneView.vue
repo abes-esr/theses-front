@@ -137,7 +137,6 @@ import DomainSelector from '@/components/common/DomainSelector.vue';
 
 import {personnesAPIService} from "@/services/PersonnesAPI";
 import {useDisplay} from "vuetify";
-import StatistiqueCardPersonne from "@/components/personnes/StatistiqueCard.vue";
 import ResultCard from "@/components/theses/results/ResultCard.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import ThesisKeywords from "@/components/common/Keywords.vue";
@@ -352,6 +351,10 @@ function displayError(message, opt) {
   .result-components {
     grid-column-start: 2;
     padding: 0 2em;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      width: 100%;
+    }
 
     .info {
       display: flex;

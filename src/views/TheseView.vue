@@ -1,7 +1,7 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav v-if="mobile" class="mobile-nav-bar">
-    <button v-if="soutenue" @click="dialogVisible = true" class="filter-mobile-nav-bar">
+    <button v-if="these.status === 'soutenue'" @click="dialogVisible = true" class="filter-mobile-nav-bar">
       <v-icon v-bind="props" size="40px">mdi-book-arrow-down-outline
       </v-icon>
       <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
@@ -23,7 +23,7 @@
     <!--    Menu boutons-liens-->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
       :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'" :these="these" :data-ready="true" @closeOverlay="closeOverlay"></buttons-list>
+      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'" :data-ready="dataReady" @closeOverlay="closeOverlay"></buttons-list>
     </v-dialog>
     <!--    Menu recherche/selecteur these/personnes-->
     <v-expand-transition>

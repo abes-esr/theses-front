@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent, onMounted } from "vue";
+import { ref, defineAsyncComponent, onMounted, watch } from "vue";
 import { thesesAPIService } from '@/services/ThesesAPI';
 import { useDisplay } from "vuetify";
 
@@ -72,20 +72,30 @@ const baseURL = import.meta.env.VITE_APP_API;
 
 onMounted (
   () => {
-    if (props.soutenue) {
-      getButtons(props.nnt).then((res) => {
-        listButtons.value = res.data.buttons;
-      })
-        .catch((err) => {
-          displayError("Accès en ligne : " + err.message);
-        })
-        .finally(() => {
-          loading.value = false;
-        });
-    }
+    loadButtons();
   }
 );
 
+watch (
+  () => props.dataReady,
+  () => {
+    loadButtons();
+  }
+);
+
+function loadButtons() {
+  if (props.soutenue) {
+    getButtons(props.nnt).then((res) => {
+      listButtons.value = res.data.buttons;
+    })
+      .catch((err) => {
+        displayError("Accès en ligne : " + err.message);
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  }
+}
 
 /**
  * Fonctions
@@ -177,7 +187,6 @@ function closeOverlay() {
 
   .v-btn {
     width: 85%;
-    margin-bottom: 10px;
     display: inline-flex;
     justify-content: space-between;
     text-transform: none;
