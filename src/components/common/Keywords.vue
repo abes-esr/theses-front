@@ -23,7 +23,7 @@
         <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord.keyword + forceRenderKey"
           :title="keyWord.keyword" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
           :disabled="keyWord.type === 'sujetsRameau' ? false : true"
-          @click="if (keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
+          @click="if(keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
           <span class="key-word-label">{{ keyWord.keyword }}</span>
         </v-chip>
       </v-chip-group>
@@ -148,6 +148,10 @@ watch(mobile, (newValue) => {
   pointer-events: unset;
 }
 
+.v-chip-group {
+  margin-top: unset !important;
+}
+
 #first-chip-line {
   flex-wrap: wrap !important;
 }
@@ -183,7 +187,7 @@ h1 {
 .v-chip-group {
   margin-top: 0.5em;
   padding: 0;
-  justify-content: space-between;
+  justify-content: start;
   flex-wrap: nowrap;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {

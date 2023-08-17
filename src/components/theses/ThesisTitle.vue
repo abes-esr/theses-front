@@ -69,6 +69,9 @@ function onUpdateLangue(langue) {
   padding: 1.2em 1.2em 1em 1em;
   grid-column-start: 1;
   grid-column-end: 4;
+
+  display: flex;
+  align-content: end;
 }
 
 .thesis-icon {
@@ -82,18 +85,18 @@ function onUpdateLangue(langue) {
   grid-column-start: 2;
 
   span {
-    padding-top: 16px;
     font-family: Roboto-Medium, sans-serif;
     font-size: 25.5px;
     font-weight: 600;
     color: rgb(var(--v-theme-text-dark-blue));
     letter-spacing: -0.5px;
     line-height: 1.2;
+    align-self: end;
   }
 }
 
 .language-selector {
-    padding-top: 16px;
   justify-content: center;
+  align-self: end;
 }
 </style>

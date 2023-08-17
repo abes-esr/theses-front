@@ -244,7 +244,6 @@ watch(() => props.parametersLoaded,
   min-height: 48px;
 }
 
-// #TODO hover : pas de changement de couleur -> trouver le bon selecteur
 .v-expansion-panel-title:hover > .v-expansion-panel-title__overlay {
   opacity: 1 !important;
   background-color: rgb(var(--v-theme-surface));
