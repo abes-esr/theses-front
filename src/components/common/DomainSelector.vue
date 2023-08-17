@@ -66,7 +66,7 @@ async function select(selection) {
   align-items: center;
   width: 100%;
   background-color: transparent;
-  margin-top: 1rem;
+  margin: 1.5rem 0 1rem 0;
 
   .v-btn {
     flex: 0 1 48%;

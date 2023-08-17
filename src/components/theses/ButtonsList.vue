@@ -1,7 +1,10 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
-  <div class="buttons">
+  <div class="buttons" v-if="dataReady">
     <div class="buttons-header">
+      <span>{{ $t("theseView.access") }}</span>
+    </div>
+    <div class="buttons-sub-header">
       <div class="header-container no-wrap-text">
         <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
         <span class="buttons-title-header"><span v-if="soutenue">{{ $t("theseView.valide") }}</span></span>
@@ -14,22 +17,27 @@
       </div>
     </div>
     <div v-if="soutenue">
-      <div class="listButtons no-wrap-text" v-for="b in listButtons" :key="b">
-        <v-btn v-if="b.url" color="primary" append-icon="mdi-arrow-right-circle" flat :href="baseURL + b.url"
-          target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+      <div class="list-buttons no-wrap-text" v-for="b in listButtons" :key="b">
+        <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
+               :href="baseURL + b.url"
+               target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
             b.libelle }}</v-btn>
         <span v-else>
           <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
           <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
         </span>
       </div>
-      <v-skeleton-loader v-if="loading" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
+    </div>
+    <div class="skeleton-loader-wrapper" v-else>
+      <v-skeleton-loader type="list-item-two-line"></v-skeleton-loader>
+      <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
+      <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch, defineAsyncComponent } from "vue";
+import { ref, defineAsyncComponent, onMounted, watch } from "vue";
 import { thesesAPIService } from '@/services/ThesesAPI';
 import { useDisplay } from "vuetify";
 
@@ -49,7 +57,10 @@ const props = defineProps({
   },
   soutenue: {
     type: Boolean,
-  }
+  },
+  dataReady: {
+    type: Boolean,
+  },
 });
 
 const emit = defineEmits('closeOverlay');
@@ -59,23 +70,32 @@ const loading = ref(false);
 const listButtons = ref([]);
 const baseURL = import.meta.env.VITE_APP_API;
 
-watch(
-  () => props.soutenue,
+onMounted (
   () => {
-    if (props.soutenue) {
-      getButtons(props.nnt).then((res) => {
-        listButtons.value = res.data.buttons;
-      })
-        .catch((err) => {
-          displayError("Accès en ligne : " + err.message);
-        })
-        .finally(() => {
-          loading.value = false;
-        });
-    }
+    loadButtons();
   }
 );
 
+watch (
+  () => props.dataReady,
+  () => {
+    loadButtons();
+  }
+);
+
+function loadButtons() {
+  if (props.soutenue) {
+    getButtons(props.nnt).then((res) => {
+      listButtons.value = res.data.buttons;
+    })
+      .catch((err) => {
+        displayError("Accès en ligne : " + err.message);
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  }
+}
 
 /**
  * Fonctions
@@ -90,10 +110,18 @@ function closeOverlay() {
 
 .buttons-header {
   overflow: hidden;
-  padding: 4px 20px;
-  width: 100%;
-  background-color: rgb(var(--v-theme-gris-clair));
+  padding: 0.4em 0.8em 0;
+
   font-size: 22px;
+  font-weight: 600;
+  font-family: Roboto-Bold, sans-serif;
+}
+
+.buttons-sub-header {
+  overflow: hidden;
+  padding: 0 1.4em;
+  width: 100%;
+  font-size: 18px;
   height: 42px;
 
   display: inline-flex;
@@ -103,14 +131,13 @@ function closeOverlay() {
     padding: unset;
     font-size: 16px;
   }
-
-  margin-bottom: 1em;
+  margin-bottom: 0.6em;
 }
 
 .header-container {
   height: 2rem;
-  display: inline-grid;
-  grid-template-columns: 2fr 1fr 10fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr 100fr;
   grid-template-rows: 20% 60% 20%;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
@@ -153,25 +180,24 @@ function closeOverlay() {
   }
 }
 
-.listButtons {
+.list-buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
 
   .v-btn {
     width: 85%;
-    margin-bottom: 10px;
     display: inline-flex;
     justify-content: space-between;
     text-transform: none;
     margin-bottom: 1em;
-
   }
 }
 
-.buttons {
+.buttons, .skeleton-loader-wrapper {
   display: flex;
   flex-direction: column;
+  border-right: 2px solid rgb(var(--v-theme-gris-clair));
 
   .buttons-list {
     width: 85%;
@@ -193,5 +219,9 @@ function closeOverlay() {
   color: rgb(var(--v-theme-orange-abes));
   grid-column-end: 4;
   justify-self: end;
+}
+
+:deep(.v-skeleton-loader__button) {
+  max-width: unset !important;
 }
 </style>

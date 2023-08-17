@@ -1,9 +1,8 @@
 <template>
   <div class="result-pagination">
       <div v-if="type === 'top'" class="first-bar-element">
-          <span class="show-span no-wrap-text">{{ $t('results.show') }}</span>
           <v-select :items="['10', '25', '50']" v-model="currentShowingNumber" density="compact" variant="solo"
-                     class="left-select" menu-icon="mdi-chevron-down">
+                     class="left-select v-selects" menu-icon="mdi-chevron-down">
             <template v-slot:menu-icon>
               <v-icon>
                 mdi-chevron-down
@@ -21,7 +20,7 @@
       </v-pagination>
     <div v-if="type === 'top'" class="last-bar-element">
       <span class="sort-by-span no-wrap-text">{{ $t('results.sortBy') }}</span>
-      <sorting-select class="right-select" @updatePageNumberFromSortingSelect="updatePageNumberFromSortingSelect" @search="search">
+      <sorting-select class="right-select v-selects" @updatePageNumberFromSortingSelect="updatePageNumberFromSortingSelect" @search="search">
       </sorting-select>
     </div>
   </div>
@@ -129,7 +128,6 @@ watch(() => props.currentShowingNumber, () => {
 @use '../../../../node_modules/vuetify/settings';
 
 .result-pagination {
-  background-color: rgb(var(--v-theme-gris-clair));
   max-height: 4rem;
   display: flex;
   flex-wrap: nowrap;
@@ -151,11 +149,14 @@ watch(() => props.currentShowingNumber, () => {
   padding-top: 22px;
 }
 
-
 .left-select {
   max-width: 50px;
   margin: 10px 8px 0;
   padding-top: 6px;
+
+  :deep(.v-field) {
+    max-width: 50px;
+  }
 
   :deep(.v-field--appended) {
     padding-inline-end: 0 !important;
@@ -164,24 +165,31 @@ watch(() => props.currentShowingNumber, () => {
   :deep(.v-field--variant-solo) {
     box-shadow: unset;
     outline: solid 1px rgb(var(--v-theme-gris-fonce));
-    height: 30px;
   }
-
-  :deep(.v-field__input) {
-    padding-top: 5px;
-    padding-inline-start: 7px;
-  }
-
   :deep(.v-field__append-inner) {
     padding-top: 5px;
-
-    color: rgb(var(--v-theme-orange-abes));
 
     i {
       opacity: 1 !important;
     }
   }
 }
+
+.v-selects {
+  :deep(.v-field) {
+    height: 22px;
+    margin-top: 8px;
+  }
+
+  :deep(.v-field__input) {
+    padding: 0 8px;
+  }
+
+  :deep(.v-field__append-inner) {
+    padding: unset;
+  }
+}
+
 
 .no-wrap-text {
   overflow: hidden;
@@ -190,19 +198,29 @@ watch(() => props.currentShowingNumber, () => {
 }
 
 .results-number-span {
-  padding-top: 22px;
+  padding-top: 24px;
   height: 50px;
 }
 
 .middle-bar-element {
   flex: 1;
-  margin-top: 5px;
+  margin-top: 15px;
+
+  :deep(.v-btn) {
+    height: 23px;
+    width: 23px;
+  }
+
+  :deep(.v-btn-content) {
+    height: 10px;
+  }
 }
 
 .last-bar-element {
   margin-top: 17px;
   margin-right: 20px;
   width: 220px;
+  font-size: 15px;
 
   display: inline-flex;
   flex-wrap: nowrap;
@@ -210,7 +228,7 @@ watch(() => props.currentShowingNumber, () => {
 }
 
 .sort-by-span {
-  padding-top: 4px;
+  padding-top: 8px;
 }
 
 .right-select {

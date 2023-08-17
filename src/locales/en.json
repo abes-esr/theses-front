@@ -65,7 +65,8 @@
         "showMoreKeywords": "Show more keywords",
         "showLessKeywords": "Show less keywords",
         "showMoreAbstract": "Afficher la suite du résumé",
-        "showLessAbstract": "Afficher un extrait du résumé"
+        "showLessAbstract": "Afficher un extrait du résumé",
+        "access": "Thesis access"
     },
     "results": {
         "facetsHeader": "Filters",

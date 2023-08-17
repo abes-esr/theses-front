@@ -1,18 +1,20 @@
 <template>
   <!--  Personnes-->
   <div v-if="domainNameChange === 'personnes'">
-    <div v-for="item in result" :key="item.id" class="card-wrapper">
+    <div v-for="(item, index) in result" :key="item.id" class="card-wrapper">
       <personnes-card :item="item" />
+      <hr class="result-dividers" v-if="index < result.length - 1" />
     </div>
   </div>
   <!--  Thèses-->
   <div v-else-if="domainNameChange === 'theses'">
-    <div v-for="item in result" :key="item" class="card-wrapper">
+    <div v-for="(item, index) in result" :key="item" class="card-wrapper">
       <result-card :titre="item.titrePrincipal"
         :date="item.status === 'enCours' ? item.datePremiereInscriptionDoctorat : item.dateSoutenance"
         :auteur="item.auteurs" :directeurs="item.directeurs" :discipline="item.discipline" :etab="item.etabSoutenanceN"
         :id="item.id" :status="item.status">
       </result-card>
+      <hr class="result-dividers" v-if="index < result.length - 1" />
     </div>
   </div>
 </template>

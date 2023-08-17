@@ -1,14 +1,19 @@
 <template>
-  <div v-if="resumeIsSet">
-    <div class="resume-title-wrapper">
-      <v-icon color="primary">mdi-file-document-arrow-right</v-icon>
-      <h1>{{ $t('theseView.resume') }}</h1>
-      <language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
+  <div>
+    <div v-if="resumeIsSet && dataReady">
+      <div class="resume-title-wrapper">
+        <v-icon color="primary">mdi-file-document-arrow-right</v-icon>
+        <h1>{{ $t('theseView.resume') }}</h1>
+        <language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
+      </div>
+      <div id="resume-text">
+        <p>
+          {{ resume }}
+        </p>
+      </div>
     </div>
-    <div id="resume-text">
-      <p>
-        {{ resume }}
-      </p>
+    <div v-if="!dataReady">
+      <v-skeleton-loader type="article"></v-skeleton-loader>
     </div>
   </div>
 </template>
@@ -23,7 +28,11 @@ const props = defineProps({
   },
   resumeIsSet: {
     type: Boolean
-  }
+  },
+  dataReady: {
+    type: Boolean,
+    default: false
+  },
 });
 
 const resume = ref("");
@@ -49,10 +58,6 @@ function onUpdateLangue(langue) {
   selectedLanguage.value = langue;
   resume.value = props.these.resumes[selectedLanguage.value];
 }
-
-
-
-
 </script>
 
 <style scoped lang="scss">

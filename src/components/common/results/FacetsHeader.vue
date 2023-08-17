@@ -5,7 +5,7 @@
       <span class="facet-title-header">{{ $t('results.facetsHeader') }}</span>
     </div>
     <v-btn v-if="!mobile" @click.stop="" @click="searchAndReinitializeAllFacets" size="small" depressed elevation="0"
-      color="primary" class="desktop-reinitialize-button">
+      color="surface" class="desktop-reinitialize-button">
       Réinitialiser
     </v-btn>
     <button v-else @click="closeOverlay" class="close-overlay-button" elevation="0" color="transparent">
@@ -18,7 +18,7 @@
   </div>
   <div v-if="mobile" class="reinitialize-button-mobile">
     <v-btn @click.stop="" @click="searchAndReinitializeAllFacets" class="reinitialize-button-mobile" size="small"
-      depressed elevation="0" color="primary">
+      depressed elevation="0">
       Réinitialiser
     </v-btn>
   </div>
@@ -47,14 +47,15 @@ function closeOverlay() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10%;
+  padding-left: 10%;
+  padding-right: 2%;
   width: 100%;
   min-height: 4rem;
-  background-color: rgb(var(--v-theme-gris-clair));
   font-size: 22px;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    padding: 0 7%;
+    padding-left: 7%;
+    padding-right: 2%;
     font-size: 16px;
   }
 }
@@ -88,6 +89,7 @@ function closeOverlay() {
 .v-btn--elevated :deep(.v-btn__content) {
   text-transform: capitalize;
   letter-spacing: 0.5px;
+  color: rgb(var(--v-theme-secondary-darken-2));
 }
 
 .close-overlay-button {
@@ -115,17 +117,17 @@ function closeOverlay() {
 
 .reinitialize-button-mobile {
   margin-top: 5px;
+  margin-right: 0.3em;
   display: grid;
-  grid-template-columns: 7.5% 85% 7.5%;
-}
-
-.reinitialize-button-mobile {
-  grid-column-end: 3;
   justify-self: end;
 }
 
 .desktop-reinitialize-button {
-  padding: 0 12px;
+  height: 2em;
+  align-self: flex-start;
+  margin-top: 12px;
+  font-weight: 400;
+  background-color: transparent !important;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 10px;

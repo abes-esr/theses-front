@@ -11,33 +11,25 @@
     </v-btn>
     <span></span>
     <div class="no-wrap-text">
-      <v-btn flat prepend-icon="mdi-arrow-left-circle">
-        <template v-slot:prepend-icon>
-          <v-icon>
+      <v-btn class="arrow-buttons" flat icon="mdi-chevron-left">
+        <template v-slot:icon>
+          <v-icon size="x-large">
             mdi-arrow-left-circle
           </v-icon>
         </template>
-        <p>{{ $t("theseView.thesePrecedente") }}</p>
+<!--        <p>{{ $t("theseView.thesePrecedente") }}</p>-->
       </v-btn>
-      <v-btn flat append-icon="mdi-arrow-right-circle">
-        <template v-slot:append-icon>
-          <v-icon>
+      <v-btn class="arrow-buttons" flat icon="mdi-chevron-right">
+        <template v-slot:icon>
+          <v-icon size="x-large">
             mdi-arrow-right-circle
           </v-icon>
         </template>
-        <p>{{ $t("theseView.theseSuivante") }}</p>
+<!--        <p>{{ $t("theseView.theseSuivante") }}</p>-->
       </v-btn>
     </div>
     <span></span>
     <div class="no-wrap-text">
-      <v-btn flat append-icon="mdi-alert" @click="dialog = true">
-        <template v-slot:append-icon>
-          <v-icon>
-            mdi-alert
-          </v-icon>
-        </template>
-        <p>{{ $t("theseView.alert") }}</p>
-      </v-btn>
       <v-btn flat append-icon="mdi-file-export-outline">
         <template v-slot:append-icon>
           <v-icon>
@@ -45,6 +37,14 @@
           </v-icon>
         </template>
         <p>{{ $t("theseView.exporter") }}</p>
+      </v-btn>
+      <v-btn flat append-icon="mdi-alert" @click="dialog = true">
+        <template v-slot:append-icon>
+          <v-icon>
+            mdi-alert
+          </v-icon>
+        </template>
+        <p>{{ $t("theseView.alert") }}</p>
       </v-btn>
     </div>
   </div>
@@ -119,7 +119,7 @@ function mailSent() {
   height: 42px;
   width: 100%;
   padding: 0 10px;
-  background-color: rgb(var(--v-theme-gris-clair));
+  margin: 0.6em 0;
 
   display: inline-flex;
   justify-content: space-between;
@@ -133,8 +133,6 @@ function mailSent() {
   }
 
   :deep(.v-icon--size-default) {
-    color: rgb(var(--v-theme-orange-abes));
-
     i {
       opacity: 1 !important;
     }
@@ -148,8 +146,19 @@ function mailSent() {
     text-indent: unset;
 
     margin: 0 8px;
-    border: solid 1px rgb(var(--v-theme-gris-fonce));
+    border: solid 1px rgb(var(--v-theme-primary));
   }
 
+  .arrow-buttons {
+    border: unset;
+    height: 2.4em;
+    width: 2.4em;
+
+      :deep(.v-btn__content ) {
+        i {
+          --v-icon-size-multiplier: 1.4;
+        }
+      }
+  }
 }
 </style>

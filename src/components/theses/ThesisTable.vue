@@ -1,12 +1,12 @@
 <template>
-  <table class="table" v-if="these.auteurs">
+  <table class="table" v-if="these.auteurs && dataReady">
     <tbody class="table-body">
       <!-- Auteur -->
       <tr v-if="these.auteurs && these.auteurs.length > 0" class="table-rows">
         <span><strong>{{ $t('theseView.auteur') }}{{ '\xa0' }}</strong></span>
         <span>
           <template v-for="(auteur, index) in these.auteurs" :key="auteur.ppn">
-            <span :class="auteur.ppn ? 'clickable lightblue' : ''" @click="linkTo(auteur.ppn)">
+            <span :class="auteur.ppn ? 'clickable orange' : ''" @click="linkTo(auteur.ppn)">
               {{ auteur.prenom }} {{ auteur.nom }}
             </span>
             <template v-if="index < these.auteurs.length - 1">,{{ '\xa0' }}</template>
@@ -120,6 +120,14 @@
       </tr>
     </tbody>
   </table>
+  <div v-if="!dataReady">
+    <v-skeleton-loader type="table-heading"></v-skeleton-loader>
+    <v-skeleton-loader type="table-row"></v-skeleton-loader>
+    <v-skeleton-loader type="table-row"></v-skeleton-loader>
+    <v-skeleton-loader type="table-row"></v-skeleton-loader>
+    <v-skeleton-loader type="table-row"></v-skeleton-loader>
+    <v-skeleton-loader type="table-row"></v-skeleton-loader>
+  </div>
 </template>
 
 <script setup>
@@ -129,6 +137,9 @@ defineProps({
   these: {
     type: Object,
     required: true
+  },
+  dataReady: {
+    type: Boolean
   }
 });
 
@@ -142,6 +153,10 @@ function linkTo(id) {
 <style lang="scss" scoped>
 @use 'vuetify/settings';
 
+.orange {
+  color: rgb(var(--v-theme-orange-abes));
+}
+
 .lightblue {
   color: rgb(var(--v-theme-secondary-darken-2));
 }
@@ -149,8 +164,6 @@ function linkTo(id) {
 .table {
   width: 92%;
   margin: auto;
-
-  border-left: 3px solid rgb(var(--v-theme-text-dark-blue));
 }
 
 .table-body {
@@ -162,15 +175,13 @@ function linkTo(id) {
   padding: 0 10px 0;
   display: inline-grid;
   grid-template-columns: 2fr 7fr;
+  border-bottom: 1px solid rgb(var(--v-theme-gris-fonce));
+  color: rgb(var(--v-theme-text-dark-blue));
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     display: block;
     hyphens: auto;
   }
-}
-
-.table tbody tr:nth-of-type(odd) {
-  background-color: rgb(var(--v-theme-gris-clair));
 }
 
 #president {
@@ -182,5 +193,6 @@ function linkTo(id) {
 .clickable {
   cursor: pointer;
   font-weight: bold;
+  color: rgb(var(--v-theme-secondary-darken-2));
 }
 </style>

@@ -87,7 +87,6 @@ watch(() => currentRoute.query.domaine, () => {
 
   :deep(.v-field__append-inner) {
     padding-top: 5px;
-    color: rgb(var(--v-theme-orange-abes));
 
     i {
       opacity: 1 !important;
