@@ -4,9 +4,9 @@
   <div class="thesis-info-access-wrapper">
     <thesis-title class="thesis-title" :data-ready="dataReady" :status="these.status" :titles="these.titres" />
     <!-- Bare latérale Desktop -->
-    <div v-if="!mobile" class="access-buttons">
+    <div v-if="!mobile && soutenue" class="access-buttons">
       <!-- Menu boutons-liens desktop-->
-      <buttons-list v-if="!mobile" :nnt="nnt" :soutenue="soutenue" :data-ready="dataReady"></buttons-list>
+      <buttons-list v-if="!mobile " :nnt="nnt" :soutenue="soutenue" :data-ready="dataReady"></buttons-list>
     </div>
     <div class="thesis-info-wrapper">
       <thesis-table class="thesis-component" :these="these" :data-ready="dataReady" />

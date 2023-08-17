@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, watch, defineAsyncComponent } from "vue";
+import { ref, defineAsyncComponent, onMounted } from "vue";
 import { thesesAPIService } from '@/services/ThesesAPI';
 import { useDisplay } from "vuetify";
 
@@ -64,8 +64,7 @@ const loading = ref(false);
 const listButtons = ref([]);
 const baseURL = import.meta.env.VITE_APP_API;
 
-watch(
-  () => props.soutenue,
+onMounted (
   () => {
     if (props.soutenue) {
       getButtons(props.nnt).then((res) => {
