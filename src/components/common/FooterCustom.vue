@@ -18,8 +18,6 @@
               href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{ $t("footer.tef")
               }}</a>
           </li>
-        </ul>
-        <ul class="list-2">
           <li><span class="orange-link"> > </span><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
           }}</a>
           </li>
@@ -37,10 +35,10 @@
         }}</a>
       </div>
       <div class="logos-container">
-        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
-          <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' style="height: 60px;" class="pr-4 "></a>
         <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
-          <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")' style="height: 80px;"></a>
+          <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")'></a>
+        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
+          <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' class="pr-4 "></a>
       </div>
     </div>
     <v-divider></v-divider>
@@ -95,7 +93,7 @@
 
   .footerTop {
     display: grid;
-    grid-template-columns: 30fr 2fr 40fr 2fr 15fr;
+    grid-template-columns: 30fr 0.5fr 30fr 0.5fr 30fr;
 
     width: 90%;
     padding-top: 1em;
@@ -147,21 +145,10 @@
     grid-row-start: 1;
 
     display: grid;
-    grid-template-columns: 20fr 2fr 20fr;
-    grid-template-rows: 2fr 8fr;
-
-    h3 {
-      align-self: center;
-    }
+    grid-template-rows: 1fr 8fr;
 
     .list-1 {
-      grid-column-start: 1;
-      grid-row-start: 2;
-    }
 
-    .list-2 {
-      grid-column-start: 3;
-      grid-row-start: 2;
     }
   }
 
@@ -176,8 +163,16 @@
   .logos-container {
     grid-column-start: 5;
     display: flex;
-    align-self: end;
+    flex-direction: column;
+    align-items: center;
     justify-content: end;
+
+    a {
+
+      img {
+        height: 6em;
+      }
+    }
   }
 
   .footerBottom {
@@ -204,6 +199,7 @@
 
 h3 {
   color: rgb(var(--v-theme-primary));
+  margin-left: 1rem;
 }
 
 .orange-link {
