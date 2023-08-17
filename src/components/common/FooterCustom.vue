@@ -1,7 +1,7 @@
 <template>
   <v-footer class="pa-0">
-    <div class="footerTop">
-      <div class="links-container">
+    <div class="footer-top">
+      <div class="links-container footer-content">
         <h3>
           <v-icon>mdi-arrow-top-right</v-icon>
           {{ $t("accesDirect") }}
@@ -29,12 +29,12 @@
           </li>
         </ul>
       </div>
-      <div class="theses-description">
+      <div class="theses-description footer-content">
         <h4>Theses.fr</h4>
         <span>{{ $t("footer.texte") }}</span>&nbsp;<a href="/apropos">{{ $t("footer.plus")
         }}</a>
       </div>
-      <div class="logos-container">
+      <div class="logos-container footer-content">
         <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
           <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")'></a>
         <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
@@ -91,9 +91,14 @@
     max-height: 300px;
   }
 
-  .footerTop {
+  .footer-top {
     display: grid;
     grid-template-columns: 30fr 0.5fr 30fr 0.5fr 30fr;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      display: flex;
+      flex-direction: column;
+    }
 
     width: 90%;
     padding-top: 1em;
@@ -118,7 +123,6 @@
       }
 
       ul {
-        margin-left: 1rem;
         list-style: none;
         text-align: left;
 
@@ -147,13 +151,12 @@
     display: grid;
     grid-template-rows: 1fr 8fr;
 
-    .list-1 {
-
-    }
+    order: 2;
   }
 
   .theses-description {
     grid-column-start: 1;
+    order: 1;
 
     span {
       opacity: 0.6;
@@ -161,11 +164,13 @@
   }
 
   .logos-container {
+    order: 3;
     grid-column-start: 5;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: end;
+    flex-direction: row;
+    justify-content: space-around;
+
 
     a {
 
@@ -199,7 +204,6 @@
 
 h3 {
   color: rgb(var(--v-theme-primary));
-  margin-left: 1rem;
 }
 
 .orange-link {
@@ -215,5 +219,9 @@ footer {
   padding-top: 0;
   background-color: rgb(var(--v-theme-surface));
   border-top: 1px solid rgb(var(--v-theme-gris-clair));
+}
+
+.footer-content {
+  margin-top: 1em;
 }
 </style>
