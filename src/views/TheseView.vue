@@ -57,7 +57,7 @@
   <div class="thesis-main-wrapper">
     <!-- Infos these -->
     <div class="thesis-components white-containers">
-      <thesis-component :nnt="route.params.id" :these="these" :data-ready="true" :soutenue="these.status === 'soutenue'"></thesis-component>
+      <thesis-component :nnt="route.params.id" :these="these" :data-ready="dataReady" :soutenue="these.status === 'soutenue'"></thesis-component>
     </div>
   </div>
 </template>
