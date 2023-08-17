@@ -144,6 +144,7 @@
   }
 
   .links-container {
+    order: 2;
     width: 100%;
     grid-column-start: 3;
     grid-row-start: 1;
@@ -151,7 +152,7 @@
     display: grid;
     grid-template-rows: 1fr 8fr;
 
-    order: 2;
+    justify-content: center;
   }
 
   .theses-description {
@@ -170,7 +171,6 @@
     align-items: center;
     flex-direction: row;
     justify-content: space-around;
-
 
     a {
 
