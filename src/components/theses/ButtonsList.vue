@@ -16,17 +16,23 @@
         </button>
       </div>
     </div>
-    <div class="list-buttons no-wrap-text" v-if="soutenue">
-      <v-btn color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat v-for="b in listButtons" :key="b"
-        :href="baseURL + b.url" target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
-          b.libelle }}</v-btn>
-      <v-skeleton-loader v-if="loading" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
+    <div v-if="soutenue">
+      <div class="list-buttons no-wrap-text" v-for="b in listButtons" :key="b">
+        <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
+               :href="baseURL + b.url"
+               target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+            b.libelle }}</v-btn>
+        <span v-else>
+          <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
+          <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
+        </span>
+      </div>
     </div>
-  </div>
-  <div class="skeleton-loader-wrapper" v-else>
-    <v-skeleton-loader type="list-item-two-line"></v-skeleton-loader>
-    <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
-    <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
+    <div class="skeleton-loader-wrapper" v-else>
+      <v-skeleton-loader type="list-item-two-line"></v-skeleton-loader>
+      <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
+      <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
+    </div>
   </div>
 </template>
 

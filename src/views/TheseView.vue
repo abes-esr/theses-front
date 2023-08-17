@@ -105,12 +105,6 @@ getThese(route.params.id).then(result => {
   displayError(error.message);
 });
 
-
-
-function select(selection) {
-  selected.value = selection;
-}
-
 const messageBox = ref(null);
 
 /**
