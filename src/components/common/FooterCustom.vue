@@ -1,7 +1,7 @@
 <template>
   <v-footer class="pa-0">
-    <div class="footerTop">
-      <div class="links-container">
+    <div class="footer-top">
+      <div class="links-container footer-content">
         <h3>
           <v-icon>mdi-arrow-top-right</v-icon>
           {{ $t("accesDirect") }}
@@ -18,8 +18,6 @@
               href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{ $t("footer.tef")
               }}</a>
           </li>
-        </ul>
-        <ul class="list-2">
           <li><span class="orange-link"> > </span><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
           }}</a>
           </li>
@@ -31,16 +29,16 @@
           </li>
         </ul>
       </div>
-      <div class="theses-description">
+      <div class="theses-description footer-content">
         <h4>Theses.fr</h4>
         <span>{{ $t("footer.texte") }}</span>&nbsp;<a href="/apropos">{{ $t("footer.plus")
         }}</a>
       </div>
-      <div class="logos-container">
-        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
-          <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' style="height: 60px;" class="pr-4 "></a>
+      <div class="logos-container footer-content">
         <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
-          <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")' style="height: 80px;"></a>
+          <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")'></a>
+        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
+          <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' class="pr-4 "></a>
       </div>
     </div>
     <v-divider></v-divider>
@@ -93,9 +91,14 @@
     max-height: 300px;
   }
 
-  .footerTop {
+  .footer-top {
     display: grid;
-    grid-template-columns: 30fr 2fr 40fr 2fr 15fr;
+    grid-template-columns: 30fr 0.5fr 30fr 0.5fr 30fr;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      display: flex;
+      flex-direction: column;
+    }
 
     width: 90%;
     padding-top: 1em;
@@ -120,7 +123,6 @@
       }
 
       ul {
-        margin-left: 1rem;
         list-style: none;
         text-align: left;
 
@@ -142,31 +144,20 @@
   }
 
   .links-container {
+    order: 2;
     width: 100%;
     grid-column-start: 3;
     grid-row-start: 1;
 
     display: grid;
-    grid-template-columns: 20fr 2fr 20fr;
-    grid-template-rows: 2fr 8fr;
+    grid-template-rows: 1fr 8fr;
 
-    h3 {
-      align-self: center;
-    }
-
-    .list-1 {
-      grid-column-start: 1;
-      grid-row-start: 2;
-    }
-
-    .list-2 {
-      grid-column-start: 3;
-      grid-row-start: 2;
-    }
+    justify-content: center;
   }
 
   .theses-description {
     grid-column-start: 1;
+    order: 1;
 
     span {
       opacity: 0.6;
@@ -174,10 +165,19 @@
   }
 
   .logos-container {
+    order: 3;
     grid-column-start: 5;
     display: flex;
-    align-self: end;
-    justify-content: end;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+
+    a {
+
+      img {
+        height: 6em;
+      }
+    }
   }
 
   .footerBottom {
@@ -219,5 +219,9 @@ footer {
   padding-top: 0;
   background-color: rgb(var(--v-theme-surface));
   border-top: 1px solid rgb(var(--v-theme-gris-clair));
+}
+
+.footer-content {
+  margin-top: 1em;
 }
 </style>
