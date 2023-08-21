@@ -1,21 +1,49 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" :label='$t("rechercher")' v-model="request" v-model:search="requestSearch"
-                :items="suggestions" variant="outlined" append-inner-icon
-                :hide-no-data="!isSuggestionActive || suggestions.length == 0" no-filter hide-details
-                hide-selected
-                :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
-                @keydown.enter="search" :loading="isSuggestionLoading"
-                :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps">
+    <v-combobox
+      class="searchbar__input"
+      :items="suggestions"
+      :menu="isSuggestionActive && suggestions.length != 0"
+      :menu-props="menuProps"
+      :active="true"
+      :hide-no-data="!isSuggestionActive || suggestions.length == 0"
+      :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
+      v-model="request"
+      v-model:search="requestSearch"
+      variant="outlined"
+      cache-items
+      hide-details
+      hide-selected
+      no-filter
+      density="compact"
+      return-object
+      type="text"
+      menu-icon=""
+      @keydown.enter="search" :loading="isSuggestionLoading"
+    >
+<!--      Bouton rechercher-->
+      <template v-slot:prepend-inner>
+        <v-btn @click="search" :title='$t("searchButton")' :loading="loading"
+          class="elevation-0 appended-buttons">
+          <template v-slot:append>
+            <v-icon class="search-bar-icons" id="magnifying-glass">
+              mdi-magnify
+            </v-icon>
+          </template>
+        </v-btn>
+      </template>
+<!--      Bouton effacer texte-->
       <template v-slot:append-inner>
-        <v-btn flat rounded="0" icon="mdi-backspace-outline" @click="clearSearch" :title='$t("clear")' :ripple="false">
+        <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")'
+               :ripple="false">
+          <template v-slot:append>
+            <v-icon class="search-bar-icons" id="clean-button">
+              mdi-close
+            </v-icon>
+          </template>
         </v-btn>
       </template>
-      <template v-slot:append>
-        <v-btn color="primary" icon="mdi-magnify" text @click="search" :title='$t("searchButton")' :loading="loading"
-               class="pa-0 ma-0">
-        </v-btn>
-      </template>
+<!-- Liste auto-complétion -->
       <template v-slot:prepend-item v-if="suggestions.length > 0">
         <h3>{{ $t('personnes.searchBar.title-personnes') }}</h3>
         <h3>{{ $t('personnes.searchBar.title-thematiques') }}</h3>
@@ -37,10 +65,16 @@
         </v-list-item>
       </template>
     </v-combobox>
+
     <div class="searchbar__action">
-      <v-checkbox label="Désactiver l'autocomplétion" v-model="isSuggestionDisabledCheckbox"
-                  :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn color="primary" append-icon="mdi-magnify" @click="search" :title='$t("avancee")'>{{ $t("avancee") }}
+      <v-checkbox
+        label="Désactiver l'autocomplétion"
+        v-model="isSuggestionDisabledCheckbox"
+        :title='$t("disableSuggestion")'></v-checkbox>
+      <v-btn color="primary"
+             density="compact"
+             variant="outlined"
+             :title='$t("avancee")' @click="search">{{ $t("avancee") }}
       </v-btn>
     </div>
   </div>
@@ -192,106 +226,123 @@ defineExpose({
 });
 
 </script>
+
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-.searchbar {
 
+.searchbar {
   flex: 0 0 auto;
   margin-top: 1rem;
 
   :deep(.searchbar__input) {
-
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       padding-bottom: 10px;
     }
+  }
+}
 
-    .v-field__field {
-      background-color: rgb(var(--v-theme-surface));
-    }
+.searchbar__action {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1 0 100%;
+  margin-bottom: 1rem;
 
-    .v-field--variant-outlined {
-      background-color: rgb(var(--v-theme-surface));
-
-      .v-field__outline__start {
-        border-top-left-radius: 2rem;
-        border-bottom-left-radius: 2rem;
-      }
-
-      .v-field__outline__end {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        border-right: 0;
-      }
-    }
-
-    .v-input__append {
-      padding: 0 !important;
-      margin: 0 !important;
-      height: 100% !important;
-
-      .v-btn {
-        height: 100%;
-        width: 70px;
-        border-radius: 0 0.7rem 0.7rem 0;
-
-        .v-icon {
-          font-size: 50px;
-        }
-      }
-
-    }
-
-    .v-field__append-inner {
-      padding-top: 0;
-      justify-content: center;
-      align-items: center;
-      background-color: rgb(var(--v-theme-surface));
-
-      .v-btn {
-        background-color: transparent;
-        height: 100%;
-
-        .v-icon {
-          font-size: 40px;
-          color: rgb(var(--v-theme-text-dark-blue));
-        }
-      }
-    }
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    justify-content: space-between;
   }
 
-  .searchbar__action {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex: 1 0 100%;
-    margin-bottom: 1rem;
+  .v-input {
+    display: none;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      justify-content: space-between;
-    }
-
-    :deep(.v-label) {
-      color: rgb(var(--v-theme-primary));
-      opacity: 1;
-      font-size: 0.95rem;
-    }
-
-    .v-input {
-      display: none;
-
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-        display: flex;
-        flex: 0 0 auto;
-      }
+      display: flex;
+      flex: 0 0 auto;
     }
   }
+
+  :deep(.v-label) {
+    color: rgb(var(--v-theme-primary));
+    opacity: 1;
+    font-size: 0.95rem;
+  }
+
+  :deep(.v-btn) {
+    margin-right: 15px;
+  }
+}
+
+:deep(.v-field__prepend-inner) {
+  padding: 0;
+  align-self: center;
+}
+
+:deep(.v-field__append-inner) {
+  padding: 0;
+  align-self: center;
+}
+
+:deep(.appended-buttons) {
+  padding: 0;
+  min-width: unset;
+  width: 36px;
+  justify-content: center;
+  background-color: transparent;
+
+  .v-btn--density-default {
+    height: unset;
+  }
+
+  .v-btn__append {
+    margin-inline-start: unset;
+  }
+
+  :deep(.v-btn__append) {
+    justify-content: center;
+  }
+}
+
+
+
+/* Permet de rendre l'auto-complétion + dense */
+:deep(.v-overlay-container) .v-list-item--density-default.v-list-item--one-line {
+  min-height: 20px !important;
+}
+
+.no-background-hover::before {
+  background-color: transparent !important;
+}
+
+.search-bar-icons {
+  color: rgb(var(--v-theme-primary)) !important;
+  font-size: 25px;
+  font-weight: 200;
+}
+
+#clean-button {
+  left: -3px;
+}
+
+.v-input {
+  :deep(.v-btn--variant-outlined) {
+    color: rgb(var(--v-theme-gris-fonce)) !important;
+  }
+}
+
+:deep(.v-field--prepended) {
+  padding-inline-start: 0 !important;
+}
+
+:deep(.v-field--appended) {
+  padding-inline-end: 0 !important;
 }
 
 .no-background-hover::before {
   background-color: transparent !important;
 }
 </style>
+
 <style lang="scss">
 @use 'vuetify/settings';
 
@@ -306,6 +357,15 @@ defineExpose({
     grid-template-columns: 1fr 1fr;
     grid-auto-rows: min-content;
     width: 100%;
+
+    /* Permet de rendre l'autocompletion + dense */
+    .v-list-item {
+      min-height: 40px !important;
+
+      @media only screen and (min-width: 900px) {
+        min-height: 20px !important;
+      }
+    }
   }
 }
 </style>

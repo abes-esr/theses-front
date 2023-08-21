@@ -135,7 +135,7 @@ function displayError(message) {
     align-items: center;
     flex-direction: column;
     width: 100%;
-    padding-top: 40px;
+    padding: 40px 0;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
       max-height: 500px;

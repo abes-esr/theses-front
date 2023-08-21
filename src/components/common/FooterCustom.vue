@@ -1,17 +1,12 @@
 <template>
   <v-footer class="pa-0">
-    <div class="footerTop">
-      <div>
-        <h4>Theses.fr</h4>
-        <span>{{ $t("footer.texte") }}</span>&nbsp;<a href="/apropos">{{ $t("footer.plus")
-        }}</a>
-      </div>
-      <div>
+    <div class="footer-top">
+      <div class="links-container footer-content">
         <h3>
           <v-icon>mdi-arrow-top-right</v-icon>
           {{ $t("accesDirect") }}
         </h3>
-        <ul>
+        <ul class="list-1">
           <li><span class="orange-link"> > </span><a
               href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank">{{
                 $t("footer.opendata") }}</a>
@@ -34,16 +29,21 @@
           </li>
         </ul>
       </div>
-      <div>
-        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
-          <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' style="height: 60px;" class="pr-4 "></a>
+      <div class="theses-description footer-content">
+        <h4>Theses.fr</h4>
+        <span>{{ $t("footer.texte") }}</span>&nbsp;<a href="/apropos">{{ $t("footer.plus")
+        }}</a>
+      </div>
+      <div class="logos-container footer-content">
         <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
-          <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")' style="height: 80px;"></a>
+          <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")'></a>
+        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
+          <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' class="pr-4 "></a>
       </div>
     </div>
     <v-divider></v-divider>
     <v-card-text class="footerBottom">
-      <v-row class="px-6">
+      <v-row>
         <v-col cols="12" md="3" class="text-center text-md-left pa-0">
           {{ new Date().getFullYear() }} —
           <strong>Theses.fr</strong>
@@ -83,7 +83,7 @@
 .v-footer {
   flex-direction: column;
   width: 100vw;
-  background-color: rgb(var(--v-theme-gris-clair));
+  background-color: rgb(var(--v-theme-surface));
   color: rgb(var(--v-theme-fond-noir));
   flex-basis: 1%;
 
@@ -91,11 +91,15 @@
     max-height: 300px;
   }
 
-  .footerTop {
-    flex: 1 0 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  .footer-top {
+    display: grid;
+    grid-template-columns: 30fr 0.5fr 30fr 0.5fr 30fr;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      display: flex;
+      flex-direction: column;
+    }
+
     width: 90%;
     padding-top: 1em;
     padding-bottom: 1em;
@@ -108,24 +112,17 @@
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       div:nth-of-type(1) {
-        flex: 1 0 25%;
-        max-width: 30%;
+
       }
     }
 
-    div:nth-of-type(2) {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
+    div {
 
       @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-        flex: 1 0 30%;
-        max-width: 30%;
+
       }
 
       ul {
-        margin-left: 1rem;
         list-style: none;
         text-align: left;
 
@@ -144,14 +141,43 @@
         }
       }
     }
+  }
 
-    div:nth-of-type(3) {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
+  .links-container {
+    order: 2;
+    width: 100%;
+    grid-column-start: 3;
+    grid-row-start: 1;
 
+    display: grid;
+    grid-template-rows: 1fr 8fr;
+
+    justify-content: center;
+  }
+
+  .theses-description {
+    grid-column-start: 1;
+    order: 1;
+
+    span {
+      opacity: 0.6;
     }
+  }
 
+  .logos-container {
+    order: 3;
+    grid-column-start: 5;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+
+    a {
+
+      img {
+        height: 6em;
+      }
+    }
   }
 
   .footerBottom {
@@ -171,7 +197,7 @@
   }
 
   .v-divider {
-    background-color: rgb(var(--v-theme-background));
+    background-color: rgb(var(--v-theme-gris-clair));
   }
 
 }
@@ -191,7 +217,11 @@ h3 {
 
 footer {
   padding-top: 0;
-  background-color: rgb(var(--v-theme-gris-clair));
-  border-top: 2px solid rgb(var(--v-theme-gris-fonce));
+  background-color: rgb(var(--v-theme-surface));
+  border-top: 1px solid rgb(var(--v-theme-gris-clair));
+}
+
+.footer-content {
+  margin-top: 1em;
 }
 </style>

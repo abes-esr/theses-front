@@ -1,28 +1,33 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav v-if="mobile" class="mobile-nav-bar">
-    <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
-      <v-icon v-bind="props" size="40px">mdi-menu
+    <button v-if="these.status === 'soutenue'" @click="dialogVisible = true" class="filter-mobile-nav-bar">
+      <v-icon v-bind="props" size="40px">mdi-book-arrow-down-outline
       </v-icon>
+      <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
     </button>
+    <div v-else></div>
     <!--      Bouton menu recherche/selecteur these/personnes-->
-    <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-      :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
-    </v-icon>
+    <div>
+      <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+        :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+      </v-icon>
+      <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
+    </div>
   </nav>
   <!-- Icone retour accueil -->
   <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_resultview">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
     <!--    Menu boutons-liens-->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
       :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <buttons-list :nnt="route.params.id" @closeOverlay="closeOverlay"></buttons-list>
+      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'" :data-ready="dataReady" @closeOverlay="closeOverlay"></buttons-list>
     </v-dialog>
     <!--    Menu recherche/selecteur these/personnes-->
     <v-expand-transition>
-      <div v-show="showSearchBar" class="expanded-search-bar-container">
+      <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
         <div class="expanded-search-bar">
           <domain-selector @changeDomain="changeDomain" compact></domain-selector>
           <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
@@ -32,29 +37,27 @@
     </v-expand-transition>
   </div>
 
-  <!-- Bare latérale Desktop -->
+<!--Desktop-->
   <div v-else class="sub-header">
-    <div class="left-side sub_header__logo">
-      <RouterLink :to="{ name: 'home' }" title="Accueil du site">
-        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-      </RouterLink>
-      <h1>{{ $t("slogan") }}</h1>
-    </div>
-    <div class="sub_header__action">
-      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-        @onError="displayError" />
+    <div class="search-bar-container white-containers">
+      <div class="sub_header__logo">
+        <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+          <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+        </RouterLink>
+        <h1>{{ $t("slogan") }}</h1>
+      </div>
+      <div class="sub_header__action">
+        <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+        <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+          @onError="displayError" />
+      </div>
     </div>
   </div>
 
   <div class="thesis-main-wrapper">
-    <div v-if="!mobile" class="nav-bar">
-      <!-- Futur composant boutons (barre de gauche)-->
-      <buttons-list :nnt="route.params.id"
-        :soutenue="these.status === 'soutenue' && these.source !== 'step'"></buttons-list>
-    </div>
-    <div class="thesis-components">
-      <thesis-component :nnt="route.params.id" :these="these" :data-ready="true"></thesis-component>
+    <!-- Infos these -->
+    <div class="thesis-components white-containers">
+      <thesis-component :nnt="route.params.id" :these="these" :data-ready="dataReady" :soutenue="these.status === 'soutenue'"></thesis-component>
     </div>
   </div>
 </template>
@@ -102,12 +105,6 @@ getThese(route.params.id).then(result => {
   displayError(error.message);
 });
 
-
-
-function select(selection) {
-  selected.value = selection;
-}
-
 const messageBox = ref(null);
 
 /**
@@ -127,59 +124,6 @@ function closeOverlay() {
 
 <style scoped lang="scss">
 @use 'vuetify/settings';
-
-.sub-header {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-
-  .sub_header__logo {
-    background-color: rgb(var(--v-theme-surface));
-    z-index: 2;
-
-    h1 {
-      text-align: center;
-      width: 80%;
-      font-weight: 300;
-      font-size: 16px;
-    }
-
-    .logo {
-      margin-top: 0;
-    }
-  }
-
-  .sub_header__action {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 1 0 auto;
-
-    .domain-selector,
-    .searchbar {
-      width: 70%;
-    }
-
-    .domain-selector {
-      :deep(.v-btn__content) {
-        flex-direction: row;
-      }
-
-      :deep(.v-icon) {
-        margin-right: 1rem;
-      }
-    }
-  }
-}
-
-
-.mobile-nav-bar {
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  padding: 0 10px;
-}
 
 .filter-mobile-nav-bar {
   display: flex;
@@ -212,65 +156,36 @@ function closeOverlay() {
   color: rgb(var(--v-theme-orange-abes));
 }
 
-.expanded-search-bar-container {
-  width: 100%;
-  grid-column: 1 / 5;
-  justify-self: center;
-  grid-row-start: 1;
-  align-self: start;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgb(var(--v-theme-gris-clair));
-  border-bottom: 1px solid #bbb;
-  border-top: 1px solid #bbb;
-}
-
-
 .expanded-search-bar {
   width: 80%;
 }
 
-.left-side {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  flex: 1 0 100%;
-  max-width: 20vw;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    max-width: 100%;
-    flex: 0 1 auto;
-    padding: 0;
-  }
-}
-
 .thesis-main-wrapper {
+  padding: 30px 0;
   display: grid;
-  grid-template-columns: 20vw auto;
+  grid-template-columns: 10fr 103fr 10fr;
   align-items: start;
   margin-top: 0;
   width: 100%;
-  height: 100%;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: 100%;
   }
 
   .thesis-components {
-    height: 100%;
+    grid-column-start: 2;
+
     width: 100%;
     display: flex;
     flex-direction: column;
-  }
-}
+    padding-bottom: 5px;
 
-.nav-bar {
-  height: 100%;
-  width: 100%;
-  max-width: 20vw;
-  border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+  }
 }
 
 .clickable {

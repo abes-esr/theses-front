@@ -12,11 +12,11 @@
     </div>
     <Transition mode="out-in">
       <h2 class="returned-results-statement" v-if="dataReady">
-        <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
-        <span class="orange-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
-        <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
-        <span class="orange-text">{{ nbResult }}{{ '\xa0' }}</span>
-        <span>{{ $t("results.results") }}</span>
+        <span class="lighter-text">{{ $t("results.searched") }}{{ '\xa0' }}</span>
+        <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
+        <span class="lighter-text">{{ $t("results.returned") }}{{ '\xa0' }}</span>
+        <span class="darker-text">{{ nbResult }}{{ '\xa0' }}</span>
+        <span class="lighter-text">{{ $t("results.results") }}</span>
       </h2>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
@@ -24,7 +24,6 @@
     <div v-if="mobile || dataReady" class="colonnes-resultats">
       <result-list :result="result" :domain-name-change="domainNameChange">
       </result-list>
-      <ScrollToTopButton v-if="!mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
     </div>
     <div v-else>
       <div v-for="i in currentShowingNumber" :key="i" class="skeleton">
@@ -34,10 +33,10 @@
         </v-card>
       </div>
     </div>
-    <MoreResultsButton v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
-      @addTenResultsToList="addTenResultsToList" @search="search" />
-    <ScrollToTopButton v-if="mobile && moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
   </div>
+
+  <more-results-button class="more-result-button" v-if="mobile && !allResultsWereLoaded()" :loading=loading :nb-result=nbResult
+      @addTenResultsToList="addTenResultsToList" @search="search" />
 
   <result-pagination v-if="!mobile" :nb-results=nbResult :type="'bottom'" :current-showing-number="currentShowingNumber"
     :current-page-number="currentPageNumber" class="pagination-bottom" @updateShowingNumber="updateShowingNumber"
@@ -48,7 +47,6 @@
 
 <script setup>
 import ResultPagination from "@/components/common/results/ResultPagination.vue";
-import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import MoreResultsButton from "@/components/common/results/MoreResultsButton.vue";
 import {useDisplay} from "vuetify";
 import {ref, watch} from "vue";
@@ -157,13 +155,8 @@ watch(() => props.resetShowingNumber, () => {
 @use 'vuetify/settings';
 
 .colonnes-resultats {
-  padding: 0;
-  display: grid;
-  grid-template-columns: 95% auto;
-
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: none;
-    margin-right: 1rem;
   }
 }
 
@@ -189,9 +182,7 @@ watch(() => props.resetShowingNumber, () => {
 
 .v-card {
   margin-bottom: 1rem;
-  border: solid 1px rgb(var(--v-theme-gris-fonce));
   min-height: 190px;
-
 }
 
 .skeleton {
@@ -212,24 +203,28 @@ watch(() => props.resetShowingNumber, () => {
 }
 
 .returned-results-statement {
+  margin: 0 1rem;
   display: inline-block;
   font-family: Roboto-Medium, sans-serif;
-  font-weight: 500;
-  font-size: 26.5px;
+  font-weight: 400;
+  font-size: 24.5px;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    font-size: 24.5px;
+    font-size: 22.5px;
   }
 }
 
-.orange-text {
-  color: rgb(var(--v-theme-orange-abes));
+.darker-text {
   font-family: Roboto-Bold, sans-serif;
-  font-weight: 700;
+  font-weight: 500;
+}
+
+.lighter-text {
+  opacity: 0.6;
 }
 
 .sort-select-wrapper {
-  margin: -50px 0 20px;
+  margin: -85px 0 20px;
   display: grid;
   grid-template-columns: 5fr 4fr 10px;
   grid-template-rows: 30px 30px;
@@ -256,5 +251,10 @@ watch(() => props.resetShowingNumber, () => {
     font-family: Roboto-Medium, sans-serif;
     font-weight: 500;
   }
+}
+
+.more-result-button {
+  position: relative;
+  top: 80px;
 }
 </style>

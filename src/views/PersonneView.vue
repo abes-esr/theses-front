@@ -4,28 +4,30 @@
     <button @click="openMenu = true" class="filter-mobile-nav-bar">
       <v-icon v-bind="props" size="40px">mdi-menu
       </v-icon>
+      <v-tooltip activator="parent">{{ $t('menu') }}</v-tooltip>
     </button>
-    <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-            :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
-    </v-icon>
+    <div>
+      <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+              :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+      </v-icon>
+      <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
+    </div>
   </nav>
+<!--  Mobile-->
   <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo">
+    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_resultview">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
     </RouterLink>
-    <!--    Menu recherche/selecteur these/personnes-->
+    <!--    Menu header -->
     <v-dialog v-model="openMenu" eager location-strategy="static" persistent no-click-animation fullscreen
               :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
       <div class="statistique__title">
-        <v-icon size="40px">mdi-account</v-icon>
+        <div></div>
         <v-btn size=40px icon="mdi-close-box" color="red" variant="text" @click="openMenu = !openMenu"></v-btn>
-      </div>
-      <div class="statistique__content">
-        <statistique-card-personne :stats="item.roles"></statistique-card-personne>
       </div>
     </v-dialog>
     <v-expand-transition>
-      <div v-show="showSearchBar" class="expanded-search-bar-container">
+      <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
         <div class="expanded-search-bar">
           <domain-selector @changeDomain="changeDomain" compact></domain-selector>
           <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"
@@ -35,80 +37,93 @@
       </div>
     </v-expand-transition>
   </div>
+
+<!--  Desktop-->
   <div v-else class="sub-header">
-    <div class="left-side sub_header__logo">
-      <RouterLink :to="{ name: 'home' }" title="Accueil du site">
-        <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
-      </RouterLink>
-      <h1>{{ $t("slogan") }}</h1>
+    <div class="search-bar-container white-containers">
+      <div class="sub_header__logo">
+        <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+          <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
+        </RouterLink>
+        <h1>{{ $t("slogan") }}</h1>
+      </div>
+      <div class="sub_header__action">
+        <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+        <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+                    @onError="displayError"/>
+      </div>
     </div>
-    <div class="sub_header__action">
-      <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-      <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-                  @onError="displayError"/>
-    </div>
-  </div>
-  <div v-if="!mobile" class="search-filter">
-    <div class="left-side statistique__title">
-      <v-icon size="40px">mdi-account</v-icon>
-    </div>
-    <action-bar-personnes></action-bar-personnes>
   </div>
 
   <div class="main-wrapper">
-    <div class="left-side nav-bar statistique__content" v-if="!mobile">
-      <statistique-card-personne :stats="item.roles"></statistique-card-personne>
-    </div>
-    <div class="result-components">
-      <v-card-text v-if="!dataReady">
-        <v-container fluid fill-height>
-          <v-layout justify-center align-center>
-            <v-progress-circular indeterminate color="rgb(var(--v-theme-primary))">
-            </v-progress-circular>
-          </v-layout>
-        </v-container>
-      </v-card-text>
-      <div v-if="dataReady">
+    <div class="result-components white-containers">
+<!--   Skeletton-->
+      <div v-if="!dataReady"  class="skeleton-wrapper">
+        <v-skeleton-loader type="list-item-avatar-two-line" class="skeleton"></v-skeleton-loader>
+        <v-skeleton-loader type="divider" class="skeleton"></v-skeleton-loader>
+        <v-skeleton-loader type="table-row"></v-skeleton-loader>
+        <v-skeleton-loader type="button" class="skeleton"></v-skeleton-loader>
+        <v-skeleton-loader type="divider" class="skeleton"></v-skeleton-loader>
+        <v-skeleton-loader v-for="i in 4" :key="i" type="paragraph" class="skeleton-cards"></v-skeleton-loader>
+      </div>
+<!--      End skeletton-->
+      <div class="info-wrapper" v-else>
         <div class="info">
           <v-icon size="45px">$personne</v-icon>
-          <div class="sep">
-            <v-divider vertical v-if="item.has_idref"></v-divider>
-          </div>
-          <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-            <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png"/>
-          </a>
           <div class="nom-card">
-
             <div class="nomprenom">
-              <span class="prenom">{{ item.prenom }}</span>
+              <span class="prenom">{{ item.prenom + "\xa0"}}</span>
               <span class="nom">{{ item.nom }}</span>
+              <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
+                <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png"/>
+              </a>
             </div>
           </div>
-
         </div>
-        <thesis-keywords class="thesis-component" :data-ready="true" :keywordsAreSet="true" :these="conversionMotClesFormatTheses(item.mots_cles)" />
+
+        <thesis-keywords
+          class="thesis-component"
+          :data-ready="true"
+          :keywordsAreSet="true"
+          :these="conversionMotClesFormatTheses(item.mots_cles)"
+        />
+
+<!--        Tiroirs thèses par rôles-->
         <div class="theses">
-          <template v-for="key in ['auteur','directeur de thèse','rapporteur','président du jury','membre du jury']"
-                    :key="key">
-            <div v-if="item.theses[key] && item.theses[key].length > 0">
-              <hr/>
-              <h2 :id="anchorValueFromKey(key)">
-                {{ $t("personnes.personneView.roles." + i18nValueFromKey(key), [item.theses[key].length]) }}</h2>
-              <div v-for="these in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
-                <result-card :titre="these.titre"
-                             :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
-                             :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                             :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
-                </result-card>
+          <v-expansion-panels multiple v-model="panel" class="role-expansion-panel-wrapper">
+            <template v-for="key in ['auteur','directeur de thèse','rapporteur','président du jury','membre du jury']"
+                      :key="key">
+              <div v-if="item.theses[key] && item.theses[key].length > 0" class="role-expansion-panel">
+                <v-expansion-panel>
+                  <v-expansion-panel-title>
+                    <template v-slot:actions="{ expanded }">
+                      <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
+                      </v-icon>
+                    </template>
+                    <h2 :id="anchorValueFromKey(key)">
+                      {{ $t("personnes.personneView.roles." + i18nValueFromKey(key), [item.theses[key].length]) }}
+                    </h2>
+                  </v-expansion-panel-title>
+                  <v-expansion-panel-text>
+                      <div v-for="(these, index) in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
+                        <v-lazy :options="{ threshold: 1.0 }">
+                          <result-card :titre="these.titre"
+                                       :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
+                                       :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
+                                       :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
+                          </result-card>
+                        </v-lazy>
+                        <hr class="result-dividers" v-if="index < item.theses[key].length - 1" />
+                      </div>
+                  </v-expansion-panel-text>
+                </v-expansion-panel>
               </div>
-            </div>
-          </template>
+            </template>
+          </v-expansion-panels>
         </div>
       </div>
     </div>
-    <div class="scroll-to-top-container">
-      <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1></scroll-to-top-button>
-    </div>
+    <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1></scroll-to-top-button>
   </div>
 </template>
 
@@ -122,8 +137,6 @@ import DomainSelector from '@/components/common/DomainSelector.vue';
 
 import {personnesAPIService} from "@/services/PersonnesAPI";
 import {useDisplay} from "vuetify";
-import ActionBarPersonnes from "@/components/personnes/ActionBar.vue";
-import StatistiqueCardPersonne from "@/components/personnes/StatistiqueCard.vue";
 import ResultCard from "@/components/theses/results/ResultCard.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import ThesisKeywords from "@/components/common/Keywords.vue";
@@ -139,6 +152,7 @@ const loading = ref(false);
 const dataReady = ref(false);
 const openMenu = ref(false);
 const item = ref({});
+const panel = ref([]);
 
 const {t} = useI18n();
 const {meta} = useMeta({});
@@ -156,7 +170,10 @@ const props = defineProps({
   }
 });
 
+
 onBeforeMount(() => {
+  panel.value = [0];
+
   dataReady.value = false;
   getPersonne(props.id).then(result => {
     item.value = result;
@@ -273,75 +290,15 @@ function displayError(message, opt) {
   border-right: solid rgb(var(--v-theme-primary)) 3px;
 }
 
-.logo {
-  margin-top: -55px;
-}
-
 .v-menu ::v-deep(.v-overlay__content) {
   border-radius: 0;
   margin: 0;
   background-color: rgb(var(--v-theme-background));
 }
 
-.left-side {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  flex: 1 0 100%;
-  max-width: 20vw;
-  height: 100%;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    max-width: 100%;
-    flex: 0 1 auto;
-    padding: 0;
-  }
-}
-
-.sub-header {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-
-  .sub_header__logo {
-    background-color: rgb(var(--v-theme-surface));
-    z-index: 2;
-
-    h1 {
-      text-align: center;
-      width: 80%;
-      font-weight: 300;
-      font-size: 16px;
-    }
-
-    .logo {
-      margin-top: 0;
-    }
-  }
-
-  .sub_header__action {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 1 0 auto;
-
-    .domain-selector,
-    .searchbar {
-      width: 70%;
-    }
-
-    .domain-selector {
-      :deep(.v-btn__content) {
-        flex-direction: row;
-      }
-
-      :deep(.v-icon) {
-        margin-right: 1rem;
-      }
-    }
-  }
+.mobile-nav-bar {
+  margin: 10px 0 30px;
 }
 
 .statistique__title {
@@ -379,28 +336,29 @@ function displayError(message, opt) {
   }
 }
 
-
 .main-wrapper {
-  flex-direction: row;
-  align-items: flex-start;
+  padding: 30px 0;
+  display: grid;
+  grid-template-columns: 10fr 103fr 10fr;
+  align-items: start;
   margin-top: 0;
   width: 100%;
 
-  .result-components {
-    width: calc(95% - 2rem);
-    margin-right: 1rem;
-    margin-left: 1rem;
-    margin-bottom: 2rem;
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    display: flex;
+  }
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      width: calc(80% - 2rem);
+  .result-components {
+    grid-column-start: 2;
+    padding: 0 2em;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      width: 100%;
     }
 
     .info {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 1rem;
+      align-content: center;
 
       @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
         justify-content: flex-start;
@@ -421,38 +379,19 @@ function displayError(message, opt) {
         }
       }
 
-      a {
-        img {
-          max-height: 30px;
-        }
-      }
 
       .nom-card {
-        display: flex;
-        align-items: center;
-        margin-left: 1rem;
-
-        @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-          margin-left: 2rem;
-        }
-
+        display: inline-flex;
         .nomprenom {
-          display: flex;
-          flex-direction: column;
-          text-decoration: none;
           color: rgb(var(--v-theme-orange-abes));
-          font-size: 23.5px;
 
-          @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-            font-size: 29.5px;
-          }
+          a {
+            display: flex;
+            align-items: center;
 
-          .prenom {
-            font-weight: 400;
-          }
-
-          .nom {
-            font-weight: 700;
+            img {
+              margin-left: 0.5em !important;
+            }
           }
         }
       }
@@ -460,12 +399,36 @@ function displayError(message, opt) {
     }
 
     .theses {
-      h2 {
-        margin-bottom: 1rem;
+      padding: 1em 0;
+
+      .role-expansion-panel-wrapper {
+        display: flex;
+        flex-direction: column;
       }
 
-      hr {
-        margin: 1rem 0 2rem 0;
+      :deep(.v-expansion-panel-title--active) {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: rgb(var(--v-theme-surface));
+        border-bottom: 1px solid rgb(var(--v-theme-orange-abes));
+      }
+
+      .role-expansion-panel {
+        border-top: 2px solid rgb(var(--v-theme-gris-fonce));
+
+        h2 {
+          padding: 0.5em 0 0.5em;
+          font-size: 26px;
+        }
+      }
+
+      .v-expansion-panel :deep(.v-expansion-panel__shadow) {
+        box-shadow: none;
+      }
+
+      .v-expansion-panel-title--active :deep(.v-expansion-panel-title__overlay) {
+        opacity: 0;
       }
 
       .card-wrapper {
@@ -474,48 +437,46 @@ function displayError(message, opt) {
     }
 
     .thesis-component {
-      margin: 0 auto 20px;
+      margin: 2em auto 20px;
     }
 
   }
+}
+
+.info-wrapper {
+  padding-top: 1em;
 }
 
 .colonnes-resultats {
   padding: 0;
 }
 
-.result-components-wrapper {
-  display: grid;
-}
-
-.scroll-to-top-container {
-  position: fixed;
-  left: 90vw;
-  bottom:1vh;
-  width: 5%;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
-    left: 95.5vw;
+.domain-selector {
+  :deep(.v-btn__content) {
+    flex-direction: row !important;
   }
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-    left: 94vw;
-  }
-
-  @media #{ map-get(settings.$display-breakpoints, 'xl-and-up')} {
-    left: 97vw;
-    bottom:8vh;
+  :deep(.v-icon) {
+    margin-right: 1rem !important;
   }
 }
 
-.scroll-to-top-wrapper {
-  margin-left: 25px;
-  margin-bottom: 0;
+.skeleton-cards {
+  height: 150px !important;
+  background-color: rgb(var(--v-theme-gris-clair));
+  margin: 1em 0;
+}
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    margin: 0 0;
-    height: 60px;
-    top: 90vh !important;
-  }
+.skeleton {
+  margin-bottom: 3em;
+}
+
+.skeleton-wrapper {
+  padding: 2em 0;
+}
+
+:deep(.v-skeleton-loader__button) {
+  max-width: unset !important;
+  width: 250px;
 }
 </style>

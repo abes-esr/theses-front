@@ -1,42 +1,36 @@
 <template>
-  <v-card flat>
-    <div class="firstHalf">
+  <v-card flat class="card-container">
+    <div class="first-half">
       <div class="info">
         <v-icon size="40px">$personne</v-icon>
-        <div class="sep">
-          <v-divider vertical v-if="item.has_idref"></v-divider>
-        </div>
-        <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-          <img alt="logo" id="logoIMG" src="@/assets/idref-icone.png" />
-        </a>
         <div class="nom-card">
           <RouterLink class="nomprenom"
             :to="{ name: 'detail', params: { id: item.id }, query: { 'domaine': currentRoute.query.domaine } }"
             v-if="item.has_idref">
-            <span class="prenom">{{ item.prenom }}</span>
-            <span class="nom">{{ item.nom }}</span>
+            <span class="prenom">{{ item.prenom + "\xa0" }}</span><span class="nom">{{ item.nom }}</span>
           </RouterLink>
           <RouterLink v-else-if="item.these" class="nomprenom" :to="{ name: 'detail', params: { id: item.these } }">
-            <span class="prenom">{{ item.prenom }}</span>
-            <span class="nom">{{ item.nom }}</span>
+            <span class="prenom">{{ item.prenom + "\xa0" }}</span><span class="nom">{{ item.nom }}</span>
           </RouterLink>
           <div v-else class="nomprenom">
-            <span class="prenom">{{ item.prenom }}</span>
-            <span class="nom">{{ item.nom }}</span>
+            <span class="prenom">{{ item.prenom + "\xa0" }}</span><span class="nom">{{ item.nom }}</span>
           </div>
+          <a class="nomprenom" v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
+            <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png" />
+          </a>
         </div>
       </div>
       <div class="action">
-        <v-btn :disabled="!item.roles['auteur'] || !item.these" color="primary" append-icon="mdi-arrow-right-circle"
+        <v-btn :disabled="!item.roles['auteur'] || !item.these" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
           @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }}
           ({{ item.roles["auteur"] ? item.roles["auteur"] : 0 }})
         </v-btn>
-        <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these" color="primary"
+        <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these" color="secondary-darken-2"
           append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Directeurs')">{{
             $t('personnes.resultView.personnesCard.directeur') }}
           ({{ item.roles["directeur de thèse"] ? item.roles["directeur de thèse"] : 0 }})
         </v-btn>
-        <v-btn :disabled="!item.roles['rapporteur'] || !item.these" color="primary"
+        <v-btn :disabled="!item.roles['rapporteur'] || !item.these" color="secondary-darken-2"
           append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Rapporteurs')">{{
             $t('personnes.resultView.personnesCard.rapporteur') }}
           ({{ item.roles["rapporteur"] ? item.roles["rapporteur"] : 0 }})
@@ -44,18 +38,14 @@
       </div>
     </div>
     <div class="vertical-spacer"></div>
-    <div class="secondHalf">
-      <div class="disciplines">
-        <template v-for="name in item.disciplines" :key="name">
-          {{ name }}<span class="separator">; </span>
+    <div class="second-half">
+        <template v-for="(name, index) in item.disciplines" :key="name">
+          {{ name }}<span v-if="index !== item.disciplines.length - 1">{{ "\xa0" }};{{ "\xa0" }}</span>
         </template>
-      </div>
-      <v-divider vertical></v-divider>
-      <div class="etablissements">
-        <template v-for="name in item.etablissements " :key="name">
-          {{ name }}<span class="separator">; </span>
+        <span>{{ "\xa0"+ "|" + "\xa0" }}</span>
+        <template v-for="(name, index) in item.etablissements " :key="name">
+          {{ name }}<span v-if="index !== item.etablissements.length - 1">{{ "\xa0" }};{{ "\xa0" }}</span>
         </template>
-      </div>
     </div>
   </v-card>
 </template>
@@ -97,6 +87,16 @@ function goToPersonne(hash) {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
+.card-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title-wrapper {
+  display: grid !important;
+  grid-template-columns: 1fr 20fr 3fr;
+}
+
 .line-clamp {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -104,22 +104,14 @@ function goToPersonne(hash) {
   overflow: hidden;
 }
 
-.v-card {
-  border: solid 1px rgb(var(--v-theme-gris-fonce));
-  max-width: 100vw;
-  display: flex;
-  flex-direction: column;
-}
-
-
-.firstHalf {
-  display: flex;
-  padding: 1rem;
+.first-half {
+  display: grid;
+  grid-template-columns: 4fr 6fr;
+  padding: 0 2rem 0 1rem;
   justify-content: space-between;
   align-items: center;
   height: calc(100% + 180px);
   width: 100%;
-  flex-direction: column;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
     height: 100%;
@@ -132,16 +124,16 @@ function goToPersonne(hash) {
     flex: 0 0 10%;
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 1 0 30%;
-      max-width: 35%;
     }
 
     .v-icon {
       margin-right: 1rem;
       flex: 0 0 10%;
+      align-self: start;
     }
 
     .sep {
@@ -160,46 +152,14 @@ function goToPersonne(hash) {
         max-height: 45px;
       }
     }
-
-    .nom-card {
-      flex: 1 0 100%;
-      display: flex;
-      align-items: center;
-
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-        flex: 1 0 60%;
-        margin-left: 1rem;
-      }
-
-      .nomprenom {
-        display: flex;
-        flex-direction: column;
-        text-decoration: none;
-        color: rgb(var(--v-theme-primary));
-        font-size: 23.5px;
-
-        @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-          font-size: 29.5px;
-        }
-
-        .prenom {
-          font-weight: 400;
-        }
-
-        .nom {
-          font-weight: 700;
-        }
-      }
-    }
   }
 
   .action {
     display: flex;
-    justify-content: flex-start;
+    flex-wrap: wrap;
     align-items: center;
     width: 100%;
     height: 100px;
-    flex-wrap: wrap;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
       justify-content: flex-end;
@@ -226,41 +186,63 @@ function goToPersonne(hash) {
   flex: 1;
 }
 
-.secondHalf {
-
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgb(var(--v-theme-gris-clair)) !important;
+.second-half {
+  display: flex;
+  flex-wrap: wrap;
   height: 100%;
   padding: 0.5rem;
   font-weight: bold;
   color: rgb(var(--v-theme-primary));
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-    display: flex;
-    padding: 0.5rem 5rem 0.5rem 5rem;
+    padding: 0rem 1rem 0.5rem;
 
     hr {
-      height: 40px;
+      height: 20px;
       border-color: rgb(var(--v-theme-primary)) !important;
       opacity: 1;
       border-width: 0 1.5px 0 0;
     }
   }
 
-  .disciplines,
-  .etablissements {
-    flex: 0 0 45%;
-
-    .separator:last-of-type {
-      display: none;
-    }
+  .disciplines {
+    margin-right: 0.5em;
   }
-
 }
 
 .subtitle {
   font-size: 0.9rem;
   font-weight: 400;
+}
+
+.card-title {
+  color: rgb(var(--v-theme-primary));
+}
+
+.card-text .card-text-bold {
+  white-space: unset !important;
+  font-size: 15px;
+}
+
+.card-text {
+  font-family: Roboto-Regular, sans-serif;
+}
+
+.card-text-bold {
+  font-family: Roboto-Bold, sans-serif;
+  font-weight: 700
+}
+
+.card-text-wrapper {
+  display: inline-block;
+}
+
+.clickable {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.lightblue {
+  color: rgb(var(--v-theme-secondary-darken-2)) !important;
 }
 </style>

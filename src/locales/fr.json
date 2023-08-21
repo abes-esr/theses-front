@@ -27,6 +27,7 @@
   "avancee":"Recherche Avancée",
   "disableSuggestion": "Désactiver l'autocomplétion",
   "top": "Haut de la page",
+  "menu": "Menu",
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
   },
@@ -77,7 +78,8 @@
     "projet": "Projet de thèse",
     "doctorat": "Thèse de doctorat",
     "embargo": "Cette thèse est sous embargo jusqu’au ",
-    "confidentialite": "Cette thèse est confidentielle jusqu’au "
+    "confidentialite": "Cette thèse est confidentielle jusqu’au ",
+    "access": "Accès à la thèse"
   },
   "results": {
     "facetsHeader": "Filtres",
