@@ -168,6 +168,10 @@ function linkTo(id) {
 
 .table-body {
   width: 100%;
+
+  tr:last-child {
+    border-bottom: unset;
+  }
 }
 
 .table-rows {
