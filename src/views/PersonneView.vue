@@ -172,12 +172,16 @@ const props = defineProps({
 
 
 onBeforeMount(() => {
-  panel.value = [0];
 
   dataReady.value = false;
   getPersonne(props.id).then(result => {
     item.value = result;
     dataReady.value = true;
+
+    if( typeof item.value.theses['auteur'] !== 'undefined' ) {
+      // Laisser le panneau 'auteurs' ouvert
+      panel.value = [0];
+    }
   }).catch(error => {
     if (error.response) {
       displayError(error.response.data.message, {isSticky: true});
