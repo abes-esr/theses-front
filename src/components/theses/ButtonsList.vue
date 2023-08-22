@@ -1,6 +1,6 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
-  <div class="buttons" v-if="dataReady">
+  <div class="buttons" v-if="dataReady && showData">
     <div class="buttons-header">
       <span>{{ $t("theseView.access") }}</span>
     </div>
@@ -69,6 +69,7 @@ const { getButtons } = thesesAPIService();
 const loading = ref(false);
 const listButtons = ref([]);
 const baseURL = import.meta.env.VITE_APP_API;
+const showData = ref(false);
 
 onMounted (
   () => {
@@ -87,6 +88,7 @@ function loadButtons() {
   if (props.soutenue) {
     getButtons(props.nnt).then((res) => {
       listButtons.value = res.data.buttons;
+      showData.value = true;
     })
       .catch((err) => {
         displayError("Accès en ligne : " + err.message);
