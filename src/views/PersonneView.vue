@@ -72,11 +72,11 @@
           <v-icon size="45px">$personne</v-icon>
           <div class="nom-card">
             <div class="nomprenom">
-              <span class="prenom">{{ item.prenom + "\xa0"}}</span>
-              <span class="nom">{{ item.nom }}</span>
               <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
                 <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png"/>
               </a>
+              <span class="prenom">{{ item.prenom + "\xa0"}}</span>
+              <span class="nom">{{ item.nom }}</span>
             </div>
           </div>
         </div>
@@ -368,10 +368,6 @@ function displayError(message, opt) {
         justify-content: flex-start;
       }
 
-      .v-icon {
-        margin-right: 1rem;
-      }
-
       .sep {
         height: 40px;
         margin-right: 1rem;
@@ -394,7 +390,7 @@ function displayError(message, opt) {
             align-items: center;
 
             img {
-              margin-left: 0.5em !important;
+              margin: 0 0.3em !important;
             }
           }
         }
