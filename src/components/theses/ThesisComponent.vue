@@ -65,7 +65,7 @@ const titleIsSet = ref(false);
 const keywordsAreSet = ref(false);
 
 onBeforeUpdate(() => {
-  keywordsAreSet.value = (typeof props.these.mapSujets !== 'undefined' && props.these.mapSujets.fr.length > 0)
+  keywordsAreSet.value = (typeof props.these.mapSujets !== 'undefined' && typeof props.these.mapSujets.fr !== 'undefined' && props.these.mapSujets.fr.length > 0)
   resumeIsSet.value = typeof props.these.resumes !== 'undefined' && Object.entries(props.these.resumes).length > 0;
   titleIsSet.value = typeof props.these.titrePrincipal !== 'undefined' && Object.entries(props.these.titrePrincipal).length > 0;
 });

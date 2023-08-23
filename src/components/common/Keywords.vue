@@ -28,12 +28,14 @@
           </v-chip>
         </v-chip-group>
       <div id="key-words-button-wrapper">
-        <v-btn v-if="numberOfKeywords > 5" class="read-more-less-button" variant="outlined" @click="narrowDownKeywords" flat>
+        <v-btn v-if="numberOfKeywords > numberOfKeywordsPerLine && keywords[selectedLanguage].length > numberOfKeywordsPerLine"
+               class="read-more-less-button" variant="outlined" @click="narrowDownKeywords" flat>
           <span></span>
           <span>{{ $t('theseView.showLessKeywords') }}</span>
           <v-icon class="toggle-up-down" :class='{ "rotate": readMore }'>mdi-arrow-down-circle-outline</v-icon>
         </v-btn>
-        <v-btn class="read-more-less-button" variant="outlined" @click="addTenKeywords" flat>
+        <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length"
+               class="read-more-less-button" variant="outlined" @click="addTenKeywords" flat>
           <span></span>
           <span>{{ $t('theseView.showMoreKeywords') }}</span>
           <v-icon class="toggle-up-down" :class='{ "rotate": readMore }'>mdi-arrow-down-circle-outline</v-icon>
