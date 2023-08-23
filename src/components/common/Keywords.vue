@@ -247,14 +247,17 @@ h1 {
 .read-more-less-button {
   margin: 1em 1em 0 0;
   text-transform: none;
-  width: 220px;
   display: inline-flex;
-  padding: 0 7px;
-  letter-spacing: 0px;
+  padding: 0 1em;
+  letter-spacing: 0.5px;
 
   :deep(.v-btn__content) {
     width: 100%;
     justify-content: space-between;
+
+    i {
+      margin-left: 0.3em;
+    }
   }
 }
 
