@@ -19,31 +19,26 @@
           </v-card>
         </v-overlay>
       </div>
-      <v-chip-group id="first-chip-line">
-        <v-chip label v-for="keyWord in selectKeyWords(keyWordPerLine, 0)" :key="keyWord.keyword + forceRenderKey"
-          :title="keyWord.keyword" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
-          :disabled="keyWord.type === 'sujetsRameau' ? false : true"
-          @click="if(keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
-          <span class="key-word-label">{{ keyWord.keyword }}</span>
-        </v-chip>
-      </v-chip-group>
-      <v-fade-transition>
-        <v-chip-group v-show="readMore" id="second-chip-line">
-          <!--      readmore button effect-->
-          <v-chip v-show="readMore" label v-for="keyWord in selectKeyWords(Infinity, keyWordPerLine)"
-            :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword"
-            :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
+        <v-chip-group class="chip-lines">
+          <v-chip label v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey"
+            :title="keyWord.keyword" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
             :disabled="keyWord.type === 'sujetsRameau' ? false : true"
             @click="if(keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
             <span class="key-word-label">{{ keyWord.keyword }}</span>
           </v-chip>
         </v-chip-group>
-      </v-fade-transition>
-      <div id="key-words-button-wrapper" v-if="selectKeyWords(Infinity, keyWordPerLine).length > 0">
-        <v-btn id="read-more-button" variant="outlined" @click="readMore = !readMore" flat>
+      <div id="key-words-button-wrapper">
+        <v-btn v-if="numberOfKeywords > numberOfKeywordsPerLine && keywords[selectedLanguage].length > numberOfKeywordsPerLine"
+               class="read-more-less-button" variant="outlined" @click="narrowDownKeywords" flat>
           <span></span>
-          <span>{{ readMore ? $t('theseView.showLessKeywords') : $t('theseView.showMoreKeywords') }}</span>
-          <v-icon class="toggle-up-down" :class='{ "rotate": readMore }'>mdi-arrow-down-circle-outline</v-icon>
+          <span>{{ $t('theseView.showLessKeywords') }}</span>
+          <v-icon class="toggle-up-down rotate">mdi-arrow-down-circle-outline</v-icon>
+        </v-btn>
+        <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length"
+               class="read-more-less-button" variant="outlined" @click="addTenKeywords" flat>
+          <span></span>
+          <span>{{ $t('theseView.showMoreKeywords') }}</span>
+          <v-icon class="toggle-up-down">mdi-arrow-down-circle-outline</v-icon>
         </v-btn>
       </div>
     </div>
@@ -74,11 +69,12 @@ const props = defineProps({
 
 const { mobile } = useDisplay();
 
-const keyWordPerLine = mobile.value ? ref(6) : ref(5);
+const numberOfKeywordsPerLine = mobile.value ? ref(6) : ref(5);
+const numberOfKeywords = mobile.value ? ref(6) : ref(5);
 const forceRenderKey = ref(0);
 
 const keywords = ref([]);
-const readMore = ref(false);
+const increment = ref(10);
 const selectedLanguage = ref("fr");
 
 onBeforeUpdate(() => {
@@ -102,13 +98,11 @@ const langList = computed(() => {
  */
 
 /**
- * définit les lignes de mots clés à afficher (première ligne et seconde)
- * @param numberOfWords
- * @param offset
+ * Renvoie un sous-ensemble du tableau de mot-clés selon la valeur de numberOfKeywords
  * @returns {UnwrapRefSimple<*>[]}
  */
-function selectKeyWords(numberOfWords, offset) {
-  return keywords.value[selectedLanguage.value].filter((word, index) => { return index < numberOfWords + offset && index >= offset; });
+function selectKeyWords() {
+  return keywords.value[selectedLanguage.value].filter((word, index) => { return index < numberOfKeywords.value && index >= 0; });
 }
 
 /*
@@ -129,11 +123,19 @@ function onUpdateLangue(langue) {
   selectedLanguage.value = langue;
 }
 
+function addTenKeywords() {
+  numberOfKeywords.value += increment.value;
+}
+
+function narrowDownKeywords() {
+  numberOfKeywords.value = numberOfKeywordsPerLine.value;
+}
 /**
  * Watchers
  */
 watch(mobile, (newValue) => {
-  keyWordPerLine.value = newValue ? 6 : 5;
+  numberOfKeywordsPerLine.value = newValue ? 6 : 5;
+  numberOfKeywords.value = newValue ? 6 : 5;
 
   forceRenderKey.value++;
 });
@@ -142,8 +144,7 @@ watch(mobile, (newValue) => {
 <style scoped lang="scss">
 @use '../../../node_modules/vuetify/settings';
 
-#second-chip-line :deep(.v-chip--disabled),
-#first-chip-line :deep(.v-chip--disabled) {
+.chip-lines :deep(.v-chip--disabled) {
   opacity: unset;
   pointer-events: unset;
 }
@@ -152,7 +153,7 @@ watch(mobile, (newValue) => {
   margin-top: unset !important;
 }
 
-#first-chip-line {
+.chip-lines {
   flex-wrap: wrap !important;
 }
 
@@ -244,17 +245,20 @@ h1 {
   justify-content: end;
 }
 
-#read-more-button {
-  margin-top: 7px;
+.read-more-less-button {
+  margin: 1em 1em 0 0;
   text-transform: none;
-  width: 220px;
   display: inline-flex;
-  padding: 0 7px;
-  letter-spacing: 0px;
+  padding: 0 1em;
+  letter-spacing: 0.5px;
 
   :deep(.v-btn__content) {
     width: 100%;
     justify-content: space-between;
+
+    i {
+      margin-left: 0.3em;
+    }
   }
 }
 
