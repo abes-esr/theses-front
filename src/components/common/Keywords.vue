@@ -98,9 +98,7 @@ const langList = computed(() => {
  */
 
 /**
- * définit les lignes de mots clés à afficher (première ligne et seconde)
- * @param numberOfWords
- * @param offset
+ * Renvoie un sous-ensemble du tableau de mot-clés selon la valeur de numberOfKeywords
  * @returns {UnwrapRefSimple<*>[]}
  */
 function selectKeyWords() {
