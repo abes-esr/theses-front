@@ -32,13 +32,13 @@
                class="read-more-less-button" variant="outlined" @click="narrowDownKeywords" flat>
           <span></span>
           <span>{{ $t('theseView.showLessKeywords') }}</span>
-          <v-icon class="toggle-up-down" :class='{ "rotate": readMore }'>mdi-arrow-down-circle-outline</v-icon>
+          <v-icon class="toggle-up-down rotate">mdi-arrow-down-circle-outline</v-icon>
         </v-btn>
         <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length"
                class="read-more-less-button" variant="outlined" @click="addTenKeywords" flat>
           <span></span>
           <span>{{ $t('theseView.showMoreKeywords') }}</span>
-          <v-icon class="toggle-up-down" :class='{ "rotate": readMore }'>mdi-arrow-down-circle-outline</v-icon>
+          <v-icon class="toggle-up-down">mdi-arrow-down-circle-outline</v-icon>
         </v-btn>
       </div>
     </div>
@@ -137,6 +137,7 @@ function narrowDownKeywords() {
  */
 watch(mobile, (newValue) => {
   numberOfKeywordsPerLine.value = newValue ? 6 : 5;
+  numberOfKeywords.value = newValue ? 6 : 5;
 
   forceRenderKey.value++;
 });
