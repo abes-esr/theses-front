@@ -240,6 +240,10 @@ defineExpose({
       padding-bottom: 10px;
     }
   }
+
+  :deep(.v-combobox__selection) {
+    overflow: hidden !important;
+  }
 }
 
 .searchbar__action {
