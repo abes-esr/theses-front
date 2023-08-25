@@ -243,6 +243,11 @@ h1 {
 #key-words-button-wrapper {
   display: flex;
   justify-content: end;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    flex-direction: column;
+    align-items: end;
+  }
 }
 
 .read-more-less-button {
@@ -251,6 +256,7 @@ h1 {
   display: inline-flex;
   padding: 0 1em;
   letter-spacing: 0.5px;
+  max-width: 314px;
 
   :deep(.v-btn__content) {
     width: 100%;
