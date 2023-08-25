@@ -11,13 +11,13 @@
       </sorting-select>
     </div>
     <Transition mode="out-in">
-      <h2 class="returned-results-statement" v-if="dataReady">
+      <div class="returned-results-statement" v-if="dataReady">
         <span class="lighter-text">{{ $t("results.searched") }}{{ '\xa0' }}</span>
         <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
         <span class="lighter-text">{{ $t("results.returned") }}{{ '\xa0' }}</span>
         <span class="darker-text">{{ nbResult }}{{ '\xa0' }}</span>
         <span class="lighter-text">{{ $t("results.results") }}</span>
-      </h2>
+      </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
     <facets-chips :facets="facets" @deleteFilter="deleteFilter" />
@@ -204,10 +204,10 @@ watch(() => props.resetShowingNumber, () => {
 
 .returned-results-statement {
   margin: 0 1rem;
-  display: inline-block;
   font-family: Roboto-Medium, sans-serif;
   font-weight: 400;
   font-size: 24.5px;
+  word-break: break-all;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 22.5px;
