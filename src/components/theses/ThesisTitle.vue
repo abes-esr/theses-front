@@ -3,7 +3,7 @@
     <div class="thesis-icon">
       <thesis-icon :status="status"></thesis-icon>
     </div>
-    <div class="title-flexbox"> <!-- #TODO v-if anglais/francais -->
+    <div class="title-flexbox">
       <span>
         {{ currentTitle }}
       </span>
@@ -80,9 +80,12 @@ function onUpdateLangue(langue) {
 }
 
 .title-flexbox {
-  display: grid;
-  grid-template-columns: 9fr 1fr;
+  display: flex;
   grid-column-start: 2;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    flex-direction: column;
+  }
 
   span {
     font-family: Roboto-Medium, sans-serif;
