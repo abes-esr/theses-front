@@ -12,11 +12,11 @@
     </div>
     <Transition mode="out-in">
       <div class="returned-results-statement" v-if="dataReady">
-        <span class="lighter-text">{{ $t("results.searched") }}{{ '\xa0' }}</span>
+        <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
         <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
-        <span class="lighter-text">{{ $t("results.returned") }}{{ '\xa0' }}</span>
+        <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
         <span class="darker-text">{{ nbResult }}{{ '\xa0' }}</span>
-        <span class="lighter-text">{{ $t("results.results") }}</span>
+        <span>{{ $t("results.results") }}</span>
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
@@ -215,12 +215,9 @@ watch(() => props.resetShowingNumber, () => {
 }
 
 .darker-text {
+  color: rgb(var(--v-theme-secondary-darken-2));
   font-family: Roboto-Bold, sans-serif;
   font-weight: 500;
-}
-
-.lighter-text {
-  opacity: 0.6;
 }
 
 .sort-select-wrapper {
