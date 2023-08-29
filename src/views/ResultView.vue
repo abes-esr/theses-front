@@ -14,7 +14,7 @@
   </nav>
   <!--    Menu filtres-->
   <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_home logo_resultview">
+    <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_home logo_resultview">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
     <!--    Menu recherche/selecteur these/personnes-->
@@ -43,7 +43,7 @@
   <div v-else class="sub-header">
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
-        <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+        <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site">
           <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
         </RouterLink>
         <h1>{{ $t("slogan") }}</h1>

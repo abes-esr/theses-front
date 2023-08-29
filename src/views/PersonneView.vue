@@ -15,7 +15,7 @@
   </nav>
 <!--  Mobile-->
   <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_resultview">
+    <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_resultview">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
     </RouterLink>
     <!--    Menu header -->
@@ -42,7 +42,7 @@
   <div v-else class="sub-header">
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
-        <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+        <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site">
           <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
         </RouterLink>
         <h1>{{ $t("slogan") }}</h1>
@@ -72,11 +72,11 @@
           <v-icon size="45px">$personne</v-icon>
           <div class="nom-card">
             <div class="nomprenom">
-              <span class="prenom">{{ item.prenom + "\xa0"}}</span>
-              <span class="nom">{{ item.nom }}</span>
               <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
                 <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png"/>
               </a>
+              <span class="prenom">{{ item.prenom + "\xa0"}}</span>
+              <span class="nom">{{ item.nom }}</span>
             </div>
           </div>
         </div>
@@ -172,12 +172,16 @@ const props = defineProps({
 
 
 onBeforeMount(() => {
-  panel.value = [0];
 
   dataReady.value = false;
   getPersonne(props.id).then(result => {
     item.value = result;
     dataReady.value = true;
+
+    if( typeof item.value.theses['auteur'] !== 'undefined' ) {
+      // Laisser le panneau 'auteurs' ouvert
+      panel.value = [0];
+    }
   }).catch(error => {
     if (error.response) {
       displayError(error.response.data.message, {isSticky: true});
@@ -364,10 +368,6 @@ function displayError(message, opt) {
         justify-content: flex-start;
       }
 
-      .v-icon {
-        margin-right: 1rem;
-      }
-
       .sep {
         height: 40px;
         margin-right: 1rem;
@@ -390,7 +390,7 @@ function displayError(message, opt) {
             align-items: center;
 
             img {
-              margin-left: 0.5em !important;
+              margin: 0 0.3em !important;
             }
           }
         }

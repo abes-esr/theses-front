@@ -6,7 +6,7 @@
     <!-- Bare latérale Desktop -->
     <div v-if="!mobile && soutenue" class="access-buttons">
       <!-- Menu boutons-liens desktop-->
-      <buttons-list v-if="!mobile " :nnt="nnt" :soutenue="soutenue" :data-ready="dataReady"></buttons-list>
+      <buttons-list v-if="!mobile" :data-ready="dataReady" :list-buttons="listButtons" :soutenue="soutenue"></buttons-list>
     </div>
     <div class="thesis-info-wrapper">
       <thesis-table class="thesis-component" :these="these" :data-ready="dataReady" />
@@ -41,7 +41,6 @@ const { t } = useI18n();
 const { meta } = useMeta({});
 const selectedLanguage = ref('fr');
 
-
 const props = defineProps({
   these: {
     type: Object
@@ -56,6 +55,9 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  listButtons: {
+    type: Object,
+  }
 });
 
 const resumeIsSet = ref(false);
@@ -63,7 +65,7 @@ const titleIsSet = ref(false);
 const keywordsAreSet = ref(false);
 
 onBeforeUpdate(() => {
-  keywordsAreSet.value = (typeof props.these.mapSujets !== 'undefined' && props.these.mapSujets.fr.length > 0)
+  keywordsAreSet.value = (typeof props.these.mapSujets !== 'undefined' && typeof props.these.mapSujets.fr !== 'undefined' && props.these.mapSujets.fr.length > 0)
   resumeIsSet.value = typeof props.these.resumes !== 'undefined' && Object.entries(props.these.resumes).length > 0;
   titleIsSet.value = typeof props.these.titrePrincipal !== 'undefined' && Object.entries(props.these.titrePrincipal).length > 0;
 });
@@ -77,8 +79,6 @@ watchEffect(() => {
   meta.title = titleThese;
   meta.description = t("meta.descThese") + titleThese;
 });
-
-
 </script>
 
 <style scoped lang="scss">

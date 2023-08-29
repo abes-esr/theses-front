@@ -1,7 +1,7 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <nav v-if="mobile" class="mobile-nav-bar">
-    <button v-if="these.status === 'soutenue'" @click="dialogVisible = true" class="filter-mobile-nav-bar">
+    <button v-if="these.status === 'soutenue' && showButtons" @click="dialogVisible = true" class="filter-mobile-nav-bar">
       <v-icon v-bind="props" size="40px">mdi-book-arrow-down-outline
       </v-icon>
       <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
@@ -17,7 +17,7 @@
   </nav>
   <!-- Icone retour accueil -->
   <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_resultview">
+    <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_resultview">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
     <!--    Menu boutons-liens-->
@@ -41,7 +41,7 @@
   <div v-else class="sub-header">
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
-        <RouterLink :to="{ name: 'home' }" title="Accueil du site">
+        <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site">
           <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
         </RouterLink>
         <h1>{{ $t("slogan") }}</h1>
@@ -57,7 +57,7 @@
   <div class="thesis-main-wrapper">
     <!-- Infos these -->
     <div class="thesis-components white-containers">
-      <thesis-component :nnt="route.params.id" :these="these" :data-ready="dataReady" :soutenue="these.status === 'soutenue'"></thesis-component>
+      <thesis-component :soutenue="these.status === 'soutenue'" :nnt="route.params.id" :these="these" :data-ready="dataReady" :list-buttons="listButtons"></thesis-component>
     </div>
   </div>
 </template>
@@ -78,15 +78,16 @@ const MessageBox = defineAsyncComponent(() => import('@/components/common/Messag
 
 const route = useRoute();
 const { mobile } = useDisplay();
-const { getThese } = thesesAPIService();
+const { getThese, getButtons } = thesesAPIService();
 const dialogVisible = ref(false);
 const showSearchBar = ref(false);
 const dataReady = ref(false);
 const these = ref({});
 const resume = ref("");
+const listButtons = ref([]);
 
 const hasScrolled = ref(false);
-
+const showButtons = ref(false);
 
 dataReady.value = false;
 window.addEventListener('scroll', () => { hasScrolled.value = true; });
@@ -100,6 +101,8 @@ getThese(route.params.id).then(result => {
 
   these.value = result.data;
   resume.value = these.value.resumes.fr;
+  loadButtons(these.value);
+
   dataReady.value = true;
 }).catch(error => {
   displayError(error.message);
@@ -120,6 +123,16 @@ function closeOverlay() {
   dialogVisible.value = false;
 }
 
+function loadButtons(these) {
+  if (these.status === 'soutenue') {
+    getButtons(these.nnt).then((res) => {
+      listButtons.value = res.data.buttons;
+    })
+      .catch((err) => {
+        displayError("Accès en ligne : " + err.message);
+      })
+  }
+}
 </script>
 
 <style scoped lang="scss">

@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <div v-if="mobile" class="logo-menu-wrapper">
-      <RouterLink :to="{ name: 'home' }" title="Accueil du site" class="logo logo_home">
+      <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_home">
         <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses-beta.svg" />
       </RouterLink>
     </div>
-    <RouterLink v-else class="logo logo_home" :to="{ name: 'home' }">
+    <RouterLink v-else class="logo logo_home" :to="{ name: 'home', query: { domaine: 'theses' } }">
       <img alt="Logo du site theses.fr" id="logoIMG" src="@/assets/icone-theses-beta.svg" />
     </RouterLink>
     <div class="main-wrapper">
