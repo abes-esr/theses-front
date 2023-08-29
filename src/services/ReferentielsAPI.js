@@ -60,6 +60,7 @@ function createLabels(facetsData) {
   facetsData.forEach((facet) => {
     if (facet.name === 'Langues') {
       facet.checkboxes.forEach((checkbox) => { checkbox.label = getLabelFromCode(checkbox.name) });
+      facet = sortByLanguageName(facet);
     }
   });
 
@@ -73,6 +74,15 @@ function getLabelFromCode(code) {
   } else {
     return code;
   }
+}
+
+// Trier par ordre alphabétique
+function sortByLanguageName(data) {
+  data.checkboxes.sort((a, b) => {
+    return a.label > b.label;
+  });
+
+  return data;
 }
 
 export function referentielsAPIService() {
