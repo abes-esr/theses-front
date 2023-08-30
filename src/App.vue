@@ -124,6 +124,10 @@ main {
     align-content: center;
     padding: 0 10px;
     margin: -10px 0 30px;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      margin: -20px 0 30px;
+    }
   }
 
   .filter-mobile-nav-bar {
@@ -182,6 +186,7 @@ main {
   }
 
   .expanded-search-bar-container {
+    margin-top: -30px;
     width: 100%;
     grid-column: 1 / 5;
     justify-self: center;
@@ -205,6 +210,24 @@ main {
     align-items: center;
     margin-top: 2rem;
     height: 100%;
+  }
+}
+
+.menu-burger-header {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  padding-left: 10%;
+  padding-right: 2%;
+  width: 100%;
+  min-height: 4rem;
+  font-size: 22px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    padding-left: 7%;
+    padding-right: 2%;
+    font-size: 16px;
   }
 }
 
@@ -375,6 +398,30 @@ h4 {
 }
 
 .grecaptcha-badge { visibility: hidden; }
+
+.close-overlay-button {
+  width: 35px;
+  height: 35px;
+  position: relative;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background: rgb(var(--v-theme-surface));
+}
+
+.close-icon {
+  color: rgb(var(--v-theme-orange-abes));
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 </style>
 <style scoped lang="scss">
 @use 'vuetify/settings';

@@ -1,23 +1,49 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
-  <nav v-if="mobile" class="mobile-nav-bar">
-    <!--    Bouton filtres-->
-    <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
-      <v-icon v-bind="props" size="40px">mdi-filter-variant
-      </v-icon>
-      <span v-bind="props">Filtrer</span>
-    </button>
-    <!--    Bouton menu recherche/selecteur these/personnes-->
-    <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-      :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
-    </v-icon>
-  </nav>
-  <!--    Menu filtres-->
+    <nav class="mobile-nav-bar" v-if="mobile">
+      <div class="left-side-buttons">
+        <!--    Bouton menu burger -->
+        <button @click="openMenu = true" class="filter-mobile-nav-bar">
+          <v-icon v-bind="props" color="primary" size="35px">mdi-menu
+          </v-icon>
+        </button>
+        <div class="language-accessibility-button">
+          <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
+        </div>
+      </div>
+      <div class="right-side-buttons">
+        <!--    Bouton filtres-->
+        <button @click="dialogVisible = true" color="primary" class="filter-mobile-nav-bar">
+          <v-icon v-bind="props" size="35px">mdi-filter-menu-outline
+          </v-icon>
+        </button>
+        <!--    Bouton menu recherche/selecteur these/personnes-->
+        <v-icon @click="showSearchBar = !showSearchBar" size="35px"
+          :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+        </v-icon>
+      </div>
+    </nav>
+  <!--    Logo -->
   <div v-if="mobile" class="logo-menu-wrapper">
     <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_home logo_resultview">
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
-    <!--    Menu recherche/selecteur these/personnes-->
+    <!-- Menu burger mobile -->
+    <v-dialog v-model="openMenu" eager location-strategy="static" persistent no-click-animation fullscreen
+              :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+        <div class="menu-burger-header">
+          <button @click="openMenu = false" class="close-overlay-button" elevation="0" color="transparent">
+            <div class="close-overlay-icon-wrapper">
+              <div class="circle"></div>
+              <div class="close-icon"><v-icon size="35">mdi-close-box</v-icon></div>
+            </div>
+          </button>
+        </div>
+      <nav>
+
+      </nav>
+    </v-dialog>
+    <!--    Menu filtres  -->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
       :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
       <facets-header @closeOverlay="closeOverlay"
@@ -28,7 +54,7 @@
         :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
         :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
     </v-dialog>
-
+    <!--    Menu recherche/selecteur these/personnes-->
     <v-expand-transition>
       <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
         <div class="expanded-search-bar">
@@ -117,6 +143,7 @@ const resetPage = ref(0);
 const resetShowingNumber = ref(0);
 const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
+const openMenu = ref(false);
 const showSearchBar = ref(false);
 const selectedFacets = ref([]);
 const filterToBeDeleted = ref([]);
@@ -352,4 +379,37 @@ watch(() => currentRoute.query.domaine, () => {
       margin-right: 1rem !important;
     }
   }
+
+  .mobile-nav-bar {
+    background-color: rgb(var(--v-theme-surface));
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+
+    .left-side-buttons, .right-side-buttons {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .left-side-buttons {
+      .language-accessibility-button {
+        padding-left: 0.7em;
+
+        img {
+          height: 28px;
+        }
+      }
+    }
+
+    .right-side-buttons {
+      button {
+        padding-right: 0.7em;
+      }
+    }
+  }
+
+#logoIMG {
+  margin-top: 30px;
+}
 </style>
