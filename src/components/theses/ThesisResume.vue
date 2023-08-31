@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="resumeIsSet && dataReady">
+    <div v-if="resumeIsSet && dataReady" :class="isRtl ? 'rtl-text' : ''">
       <div class="resume-title-wrapper">
         <v-icon color="primary">mdi-file-document-arrow-right</v-icon>
         <h1>{{ $t('theseView.resume') }}</h1>
@@ -21,6 +21,7 @@
 <script setup>
 import { onBeforeUpdate, ref, computed } from "vue";
 import LanguageSelector from "../common/LanguageSelector.vue";
+import { LanguesRTL } from "@/services/Common";
 
 const props = defineProps({
   these: {
@@ -54,9 +55,12 @@ const langList = computed(() => {
 /**
  * Functions
  */
+const isRtl = ref(false);
+
 function onUpdateLangue(langue) {
   selectedLanguage.value = langue;
   resume.value = props.these.resumes[selectedLanguage.value];
+  LanguesRTL.includes(selectedLanguage.value.toLowerCase()) ? isRtl.value = true : isRtl.value = false;
 }
 </script>
 
