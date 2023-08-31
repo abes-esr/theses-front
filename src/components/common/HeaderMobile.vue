@@ -2,11 +2,15 @@
   <nav class="mobile-nav-bar">
     <div class="left-side-buttons">
       <!--    Bouton menu burger -->
-      <v-icon @click="activateMenu" size="35px"
-              :class="{ 'logo-active': showMenu }">mdi-menu
-      </v-icon>
+      <div>
+        <v-icon @click="activateMenu" size="35px"
+                :class="{ 'logo-active': showMenu }">mdi-menu
+        </v-icon>
+        <v-tooltip activator="parent">{{ $t('menu') }}</v-tooltip>
+      </div>
       <div class="language-accessibility-button">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
+        <v-tooltip activator="parent">{{ $t('accessibility') }}</v-tooltip>
       </div>
     </div>
     <div class="right-side-buttons">
@@ -14,11 +18,15 @@
       <button @click="activateFilterMenu" color="primary" class="filter-mobile-nav-bar">
         <v-icon v-bind="props" size="35px">mdi-filter-menu-outline
         </v-icon>
+        <v-tooltip activator="parent" location="start">{{ $t('filtres') }}</v-tooltip>
       </button>
       <!--    Bouton menu recherche/selecteur these/personnes-->
-      <v-icon @click="activateSearchBar" size="35px"
-              :class="{ 'logo-active': showSearchBar }">mdi-magnify
-      </v-icon>
+      <div>
+        <v-icon @click="activateSearchBar" size="35px"
+                :class="{ 'logo-active': showSearchBar }">mdi-magnify
+        </v-icon>
+        <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
+      </div>
     </div>
   </nav>
   <!--    Logo -->
