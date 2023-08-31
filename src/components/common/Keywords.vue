@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="keywordsAreSet && dataReady" :class="isRtl ? 'rtl-text' : ''">
+    <div v-if="keywordsAreSet && dataReady">
       <div class="key-words-title-wrapper">
         <div class="title">
           <v-icon color="primary">mdi-list-box</v-icon>
@@ -19,7 +19,7 @@
           </v-card>
         </v-overlay>
       </div>
-      <v-chip-group class="chip-lines">
+      <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
         <v-chip label v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword"
           :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
           :disabled="keyWord.type === 'sujetsRameau' ? false : true"
