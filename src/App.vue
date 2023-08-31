@@ -124,6 +124,7 @@ main {
     align-content: center;
     padding: 0 10px;
     margin: -10px 0 30px;
+    border-bottom: solid 1px rgb(var(--v-theme-gris-clair));
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       margin: -20px 0 30px;
