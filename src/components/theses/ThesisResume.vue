@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div v-if="resumeIsSet && dataReady" :class="isRtl ? 'rtl-text' : ''">
+    <div v-if="resumeIsSet && dataReady">
       <div class="resume-title-wrapper">
         <v-icon color="primary">mdi-file-document-arrow-right</v-icon>
         <h1>{{ $t('theseView.resume') }}</h1>
         <language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
       </div>
-      <div id="resume-text">
+      <div id="resume-text" :class="isRtl ? 'rtl-text' : ''">
         <p>
           {{ resume }}
         </p>

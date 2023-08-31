@@ -37,9 +37,26 @@
         <span>{{ these.discipline }}</span>
       </tr>
       <!-- Date soutenance -->
-      <tr v-if="these.dateSoutenance" class="table-rows">
+      <tr v-if="these.dateSoutenance || these.datePremiereInscriptionDoctorat" class="table-rows">
         <span><strong>{{ $t('theseView.dateSoutenance') }}&nbsp;:{{ '\xa0' }}</strong></span>
-        <span>{{ these.dateSoutenance }}</span>
+        <span v-if="these.source !== 'step'">
+          <span v-if="these.status === 'soutenue' && these.source === 'star'"> {{ $t('theseView.soutenue') }}</span>
+          <span v-if="these.status === 'soutenue' && these.source === 'sudoc'">{{ $t('theseView.soutenueEn') }}</span>
+          {{ these.dateSoutenance }}
+        </span>
+        <span v-else>
+          <span v-if="these.status === 'soutenue'">
+            {{ $t('theseView.inscription') }}
+            {{ these.datePremiereInscriptionDoctorat }} <br />
+            <span v-if="these.source === 'step'"> {{ $t('theseView.soutenue') }}</span>
+            <span v-if="these.source === 'sudoc'">{{ $t('theseView.soutenueEn') }}</span>
+            {{ these.dateSoutenance }}
+          </span>
+          <span v-else>
+            {{ $t('theseView.inscription') }}
+            {{ these.datePremiereInscriptionDoctorat }}
+          </span>
+        </span>
       </tr>
       <!-- Etablissement de soutenance et cotutelle-->
       <tr v-if="these.etabSoutenance && these.etabSoutenance.nom" class="table-rows">

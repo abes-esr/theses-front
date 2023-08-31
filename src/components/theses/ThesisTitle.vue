@@ -1,10 +1,10 @@
 <template>
-  <div v-if="currentTitle !== '' && dataReady" class="title-wrapper line-clamp" :class="isRtl ? 'rtl-text' : ''">
+  <div v-if="currentTitle !== '' && dataReady" class="title-wrapper line-clamp">
     <div class="thesis-icon">
       <thesis-icon :status="status"></thesis-icon>
     </div>
     <div class="title-flexbox">
-      <span :class="isRtl ? 'px-4' : ''">
+      <span :class="isRtl ? 'rtl-text' : ''">
         {{ currentTitle }}
       </span>
       <language-selector class="language-selector" :languages="langList"
