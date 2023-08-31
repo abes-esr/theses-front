@@ -1,6 +1,6 @@
 <template>
-  <v-expansion-panels v-if="date || Object.keys(facet.checkboxes).length > 0">
-    <v-expansion-panel>
+  <v-expansion-panels v-if="date || Object.keys(facet.checkboxes).length > 0" v-model="panel">
+    <v-expansion-panel :value="facet.name">
       <v-expansion-panel-title class="facet-title-panel">
         <template v-slot:actions="{ expanded }">
           <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
@@ -21,32 +21,33 @@
             class="facet-search-bar"></v-text-field>
         </div>
         <div class="panel-text" ref="`facet-${facet.name}`">
-<!--          Facette date-->
+          <!--          Facette date-->
           <div v-if="date" class="date-container">
             <span class="date-item">
               <p>{{ $t("results.drawer.from") }}</p>
-              <vue-date-picker v-model="dateFrom" @update:model-value="updateFilterDateOnly" :teleport="true" locale="fr" auto-apply
-                :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
-                placeholder="AAAA" :max-date="dateFromMax" :teleport-center="teleportCenter">
+              <vue-date-picker v-model="dateFrom" @update:model-value="updateFilterDateOnly" :teleport="true" locale="fr"
+                auto-apply :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false"
+                text-input placeholder="AAAA" :max-date="dateFromMax" :teleport-center="teleportCenter">
               </vue-date-picker>
             </span>
             <span class="date-item">
               <p>{{ $t("results.drawer.to") }}</p>
-              <vue-date-picker v-model="dateTo" @update:model-value="updateFilterDateOnly" :teleport="true" locale="fr" auto-apply
-                :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
-                placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin" :teleport-center="teleportCenter">
+              <vue-date-picker v-model="dateTo" @update:model-value="updateFilterDateOnly" :teleport="true" locale="fr"
+                auto-apply :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false"
+                text-input placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin"
+                :teleport-center="teleportCenter">
               </vue-date-picker>
             </span>
           </div>
-<!--          Fin Facette date-->
-<!--          Facettes texte-->
+          <!--          Fin Facette date-->
+          <!--          Facettes texte-->
           <div v-else v-for="(facetItem, index) in facetItems" :key="`facet-${facetItem.name}`">
             <facet-checkbox v-if="facetItem.selected" :key="`${facet.name}-value-${index}`" :facets-array="facetsArray"
               :facet-name="facet.name" :facet-item="facetItem" @updateFilterData="updateFilterData"
               :margin-offset="marginOffset" />
           </div>
         </div>
-<!--          Fin Facettes texte-->
+        <!--          Fin Facettes texte-->
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -114,6 +115,9 @@ const teleportCenter = ref(mobile);
  * Initialisation
  */
 
+//Pour avoir le panel "Statut" ouvert par défaut
+const panel = ref(["Statut"])
+
 let facetItems = computed(() => {
   if (props.date)
     return "";
@@ -164,7 +168,7 @@ function reinitializeDateFields() {
 }
 
 function reinitializeCheckboxes() {
-  if(props.date) {
+  if (props.date) {
     reinitializeDateFields();
     updateFilterDateOnly();
   } else {
@@ -240,11 +244,11 @@ watch(() => props.parametersLoaded,
   border-radius: unset;
 }
 
-.v-expansion-panel--active > .v-expansion-panel-title {
+.v-expansion-panel--active>.v-expansion-panel-title {
   min-height: 48px;
 }
 
-.v-expansion-panel-title:hover > .v-expansion-panel-title__overlay {
+.v-expansion-panel-title:hover>.v-expansion-panel-title__overlay {
   opacity: 1 !important;
   background-color: rgb(var(--v-theme-surface));
 }
