@@ -144,15 +144,27 @@ function displayError(message) {
 
     .v-card {
       width: 100%;
+      height: 160px !important;
+      margin-top: 55px;
     }
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
       .v-card {
         flex: 1 0 30%;
         max-width: 30%;
+        margin-top: 0px;
       }
     }
+
+    :deep(.v-card-subtitle) {
+      height: 3.5rem !important;
+      align-items: center;
+    }
+
+
   }
+
+
 
   p {
     display: flex;
