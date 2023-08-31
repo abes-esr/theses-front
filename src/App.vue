@@ -371,10 +371,16 @@ h4 {
 
 .result-dividers {
   border: 1px solid rgb(var(--v-theme-gris-clair));
-  margin:0 1rem;
+  margin: 0 1rem;
 }
 
-.grecaptcha-badge { visibility: hidden; }
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+.rtl-text {
+  direction: rtl !important;
+}
 </style>
 <style scoped lang="scss">
 @use 'vuetify/settings';

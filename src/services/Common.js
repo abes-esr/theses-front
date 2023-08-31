@@ -75,3 +75,4 @@ export function replaceFacetsText(text) {
   }
 }
 
+export const LanguesRTL = ["ar", "az", "dv", "ff", "he", "ku", "fa", "ur"]
