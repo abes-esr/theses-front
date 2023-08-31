@@ -111,16 +111,12 @@
     }
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      div:nth-of-type(1) {
-
-      }
+      div:nth-of-type(1) {}
     }
 
     div {
 
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-
-      }
+      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {}
 
       ul {
         list-style: none;
@@ -192,6 +188,11 @@
         font-size: 0.9rem;
         height: 3rem;
       }
+    }
+
+    .v-row {
+      margin-left: 0px !important;
+      margin-right: 0px !important;
     }
 
   }
