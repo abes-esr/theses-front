@@ -10,7 +10,7 @@
     <!--      Bouton menu recherche/selecteur these/personnes-->
     <div>
       <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-        :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+        :class="{ 'logo-active': showSearchBar }">mdi-magnify
       </v-icon>
       <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
     </div>
@@ -165,7 +165,7 @@ function loadButtons(these) {
   margin-bottom: 40px;
 }
 
-.magnify-logo-active {
+.logo-active {
   color: rgb(var(--v-theme-orange-abes));
 }
 

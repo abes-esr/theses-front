@@ -8,7 +8,7 @@
     </button>
     <div>
       <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-              :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+              :class="{ 'logo-active': showSearchBar }">mdi-magnify
       </v-icon>
       <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
     </div>

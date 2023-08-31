@@ -181,7 +181,7 @@ main {
     margin-bottom: 40px;
   }
 
-  .magnify-logo-active {
+  .logo-active {
     color: rgb(var(--v-theme-orange-abes));
   }
 
@@ -217,7 +217,7 @@ main {
   overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
   padding-left: 10%;
   padding-right: 2%;
   width: 100%;
@@ -227,7 +227,34 @@ main {
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     padding-left: 7%;
     padding-right: 2%;
-    font-size: 16px;
+    font-size: 20px;
+  }
+
+  .menu-meta {
+    display: flex;
+    justify-content: space-between;
+    min-width: 4.5em;
+  }
+}
+
+.expanded-burger-menu {
+  padding: 30px 0 15px 0;
+
+  .nav-bar-list-burger {
+    padding: 0 2em;
+    display: flex;
+    flex-direction: column;
+
+    .menu-text-element {
+      color: rgb(var(--v-theme-primary));
+      font-size: 20px;
+      font-family: "Roboto-Bold", sans-serif;
+      font-weight: 500;
+
+      a {
+        text-decoration: none;
+      }
+    }
   }
 }
 

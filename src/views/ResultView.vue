@@ -3,10 +3,9 @@
     <nav class="mobile-nav-bar" v-if="mobile">
       <div class="left-side-buttons">
         <!--    Bouton menu burger -->
-        <button @click="openMenu = true" class="filter-mobile-nav-bar">
-          <v-icon v-bind="props" color="primary" size="35px">mdi-menu
-          </v-icon>
-        </button>
+        <v-icon @click="showSearchBar = false; sleep(300).then(() => {showMenu = !showMenu;})" size="35px"
+                :class="{ 'logo-active': showMenu }">mdi-menu
+        </v-icon>
         <div class="language-accessibility-button">
           <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
         </div>
@@ -18,8 +17,8 @@
           </v-icon>
         </button>
         <!--    Bouton menu recherche/selecteur these/personnes-->
-        <v-icon @click="showSearchBar = !showSearchBar" size="35px"
-          :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+        <v-icon @click="showMenu = false; sleep(300).then(() => { showSearchBar = !showSearchBar;})" size="35px"
+          :class="{ 'logo-active': showSearchBar }">mdi-magnify
         </v-icon>
       </div>
     </nav>
@@ -29,20 +28,38 @@
       <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
     </RouterLink>
     <!-- Menu burger mobile -->
-    <v-dialog v-model="openMenu" eager location-strategy="static" persistent no-click-animation fullscreen
-              :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-        <div class="menu-burger-header">
-          <button @click="openMenu = false" class="close-overlay-button" elevation="0" color="transparent">
-            <div class="close-overlay-icon-wrapper">
-              <div class="circle"></div>
-              <div class="close-icon"><v-icon size="35">mdi-close-box</v-icon></div>
+    <v-expand-transition>
+      <div v-show="showMenu" class="expanded-search-bar-container white-containers">
+        <div class="expanded-burger-menu">
+          <div class="nav-bar-list-burger">
+            <div class="menu-text-element">
+              <a>
+                <v-btn icon="$reseau" title="Réseau" size="large" variant="text"></v-btn>
+                <span>{{ $t('reseau') }}</span>
+              </a>
             </div>
-          </button>
+            <div class="menu-text-element">
+              <a>
+                <v-btn icon="$rss" title="Flux RSS" size="large" variant="text"></v-btn>
+                <span>{{ $t('rss') }}</span>
+              </a>
+            </div>
+            <div class="menu-text-element">
+              <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
+                icon="$assistance" :title='$t("header.assistance")' size="large" variant="text"></v-btn>
+                <span>{{ $t('assistance') }}</span>
+              </a>
+            </div>
+            <div class="menu-text-element">
+              <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
+                icon="$documentation" :title='$t("header.doc")' size="large" variant="text"></v-btn>
+                <span>{{ $t('documentation') }}</span>
+              </a>
+            </div>
+          </div>
         </div>
-      <nav>
-
-      </nav>
-    </v-dialog>
+      </div>
+    </v-expand-transition>
     <!--    Menu filtres  -->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
       :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
@@ -143,7 +160,7 @@ const resetPage = ref(0);
 const resetShowingNumber = ref(0);
 const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
-const openMenu = ref(false);
+const showMenu = ref(false);
 const showSearchBar = ref(false);
 const selectedFacets = ref([]);
 const filterToBeDeleted = ref([]);
@@ -307,6 +324,9 @@ function deleteFilter(filter) {
   };
 }
 
+function sleep (ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
 /**
  * Watchers
  */
@@ -411,5 +431,12 @@ watch(() => currentRoute.query.domaine, () => {
 
 #logoIMG {
   margin-top: 30px;
+}
+
+.nav-bar-list-burger {
+  :deep(.v-icon) {
+    height: 40px !important;
+    width: 40px !important;
+  }
 }
 </style>
