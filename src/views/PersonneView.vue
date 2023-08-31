@@ -282,15 +282,15 @@ function displayError(message, opt) {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-.greyBar {
+.grey-bar {
   background-color: rgb(var(--v-theme-gris-clair)) !important;
 }
 
-.darkGreyBar {
+.dark-grey-bar {
   background-color: rgb(var(--v-theme-gris-fonce)) !important;
 }
 
-.blueBorder {
+.blue-border {
   border-right: solid rgb(var(--v-theme-primary)) 3px;
 }
 

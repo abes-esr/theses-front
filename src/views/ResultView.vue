@@ -1,89 +1,24 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
-    <nav class="mobile-nav-bar" v-if="mobile">
-      <div class="left-side-buttons">
-        <!--    Bouton menu burger -->
-        <v-icon @click="showSearchBar = false; sleep(300).then(() => {showMenu = !showMenu;})" size="35px"
-                :class="{ 'logo-active': showMenu }">mdi-menu
-        </v-icon>
-        <div class="language-accessibility-button">
-          <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
-        </div>
-      </div>
-      <div class="right-side-buttons">
-        <!--    Bouton filtres-->
-        <button @click="dialogVisible = true" color="primary" class="filter-mobile-nav-bar">
-          <v-icon v-bind="props" size="35px">mdi-filter-menu-outline
-          </v-icon>
-        </button>
-        <!--    Bouton menu recherche/selecteur these/personnes-->
-        <v-icon @click="showMenu = false; sleep(300).then(() => { showSearchBar = !showSearchBar;})" size="35px"
-          :class="{ 'logo-active': showSearchBar }">mdi-magnify
-        </v-icon>
-      </div>
-    </nav>
-  <!--    Logo -->
-  <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_home logo_resultview">
-      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-    </RouterLink>
-    <!-- Menu burger mobile -->
-    <v-expand-transition>
-      <div v-show="showMenu" class="expanded-search-bar-container white-containers">
-        <div class="expanded-burger-menu">
-          <div class="nav-bar-list-burger">
-            <div class="menu-text-element">
-              <a>
-                <v-btn icon="$reseau" title="Réseau" size="large" variant="text"></v-btn>
-                <span>{{ $t('reseau') }}</span>
-              </a>
-            </div>
-            <div class="menu-text-element">
-              <a>
-                <v-btn icon="$rss" title="Flux RSS" size="large" variant="text"></v-btn>
-                <span>{{ $t('rss') }}</span>
-              </a>
-            </div>
-            <div class="menu-text-element">
-              <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
-                icon="$assistance" :title='$t("header.assistance")' size="large" variant="text"></v-btn>
-                <span>{{ $t('assistance') }}</span>
-              </a>
-            </div>
-            <div class="menu-text-element">
-              <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
-                icon="$documentation" :title='$t("header.doc")' size="large" variant="text"></v-btn>
-                <span>{{ $t('documentation') }}</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </v-expand-transition>
-    <!--    Menu filtres  -->
-    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
-      :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <facets-header @closeOverlay="closeOverlay"
-        @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-        :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
-        :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
-    </v-dialog>
-    <!--    Menu recherche/selecteur these/personnes-->
-    <v-expand-transition>
-      <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
-        <div class="expanded-search-bar">
-          <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-            @onError="displayError" />
-        </div>
-      </div>
-    </v-expand-transition>
-  </div>
+<!--  Mobile-->
+  <header-mobile v-if="mobile" @changeDomain="changeDomain" @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
+                  @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
+                 :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"
+  ></header-mobile>
+  <!--    Menu filtres  -->
+  <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+            :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+    <facets-header @closeOverlay="closeOverlay"
+                   @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+    <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
+                 :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
+                 :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+                 :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
+                 :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+  </v-dialog>
+<!--  Fin Mobile-->
 <!--  Desktop-->
-  <div v-else class="sub-header">
+  <div v-if="!mobile" class="sub-header">
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
         <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site">
@@ -108,6 +43,7 @@
         :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
         class="left-side"></facets-list>
     </div>
+<!--    Mobile & desktop-->
     <div class="result-components white-containers">
       <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
         :persistentQuery="request" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
@@ -129,6 +65,7 @@ import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
+import HeaderMobile from "@/components/common/HeaderMobile.vue";
 
 const { mobile } = useDisplay();
 const {
@@ -150,7 +87,6 @@ const request = ref("");
 const result = ref([]);
 const dataReady = ref(false);
 const dataFacetsReady = ref(false);
-// const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
 const resetFacets = ref(0);
 const loading = ref(false);
@@ -324,7 +260,28 @@ function deleteFilter(filter) {
   };
 }
 
-function sleep (ms) {
+/**
+ * Fonctionnement du header mobile
+ */
+function activateMenu() {
+  showSearchBar.value = false;
+  sleep(250).then(() => {
+    showMenu.value = !showMenu.value;
+  });
+}
+
+function activateSearchBar() {
+  showMenu.value = false;
+  sleep(250).then(() => {
+    showSearchBar.value = !showSearchBar.value;
+  });
+}
+
+function activateFilterMenu() {
+  dialogVisible.value = true;
+}
+
+function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 /**
@@ -339,16 +296,12 @@ watch(() => currentRoute.query.domaine, () => {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-.greyBar {
+.grey-bar {
   background-color: rgb(var(--v-theme-gris-clair)) !important;
 }
 
-.darkGreyBar {
+.dark-grey-bar {
   background-color: rgb(var(--v-theme-gris-fonce)) !important;
-}
-
-.blueBorder {
-  border-right: solid rgb(var(--v-theme-primary)) 3px;
 }
 
 .left-side {
@@ -399,44 +352,4 @@ watch(() => currentRoute.query.domaine, () => {
       margin-right: 1rem !important;
     }
   }
-
-  .mobile-nav-bar {
-    background-color: rgb(var(--v-theme-surface));
-    height: 45px;
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-
-    .left-side-buttons, .right-side-buttons {
-      display: flex;
-      flex-direction: row;
-    }
-
-    .left-side-buttons {
-      .language-accessibility-button {
-        padding-left: 0.7em;
-
-        img {
-          height: 28px;
-        }
-      }
-    }
-
-    .right-side-buttons {
-      button {
-        padding-right: 0.7em;
-      }
-    }
-  }
-
-#logoIMG {
-  margin-top: 30px;
-}
-
-.nav-bar-list-burger {
-  :deep(.v-icon) {
-    height: 40px !important;
-    width: 40px !important;
-  }
-}
 </style>
