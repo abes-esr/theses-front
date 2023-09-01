@@ -4,17 +4,16 @@
       <div v-if="listButtons.length > 0">
         <div class="buttons-header">
           <span>{{ $t("theseView.access") }}</span>
+          <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
+            <div class="close-overlay-icon-wrapper">
+              <div><v-icon size="35">mdi-close-box</v-icon></div>
+            </div>
+          </button>
         </div>
         <div class="buttons-sub-header">
           <div class="header-container no-wrap-text">
             <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
             <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
-            <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
-              <div class="close-overlay-icon-wrapper">
-                <div class="circle"></div>
-                <div><v-icon size="35">mdi-close-box</v-icon></div>
-              </div>
-            </button>
           </div>
         </div>
         <div v-if="soutenue">
@@ -80,6 +79,9 @@ function closeOverlay() {
   font-size: 22px;
   font-weight: 600;
   font-family: Roboto-Bold, sans-serif;
+
+  display: flex;
+  justify-content: space-between;
 }
 
 .buttons-sub-header {
@@ -182,8 +184,7 @@ function closeOverlay() {
 
 .close-icon {
   color: rgb(var(--v-theme-orange-abes));
-  grid-column-end: 4;
-  justify-self: end;
+  position: unset;
 }
 
 :deep(.v-skeleton-loader__button) {

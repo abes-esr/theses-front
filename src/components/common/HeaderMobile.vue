@@ -20,6 +20,12 @@
         </v-icon>
         <v-tooltip activator="parent" location="start">{{ $t('filtres') }}</v-tooltip>
       </button>
+      <!-- Bouton accès theses -->
+      <button v-if="type === 'these' && theseSoutenue" @click="activateThesisAccess" class="filter-mobile-nav-bar">
+        <v-icon v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
+        </v-icon>
+        <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
+      </button>
       <!--    Bouton menu recherche/selecteur these/personnes-->
       <div>
         <v-icon @click="activateSearchBar" size="35px"
@@ -88,10 +94,6 @@ const props = defineProps({
   theseStatut: {
     type: Boolean
   },
-  showButtons: {
-    type: Boolean,
-    default: true
-  },
   showSearchBar: {
     type: Boolean,
     default: false
@@ -107,10 +109,13 @@ const props = defineProps({
   type: {
     type: String
   },
-
+  theseSoutenue: {
+    type: Boolean,
+    default: false
+  },
 });
 
-const emit = defineEmits(['search', 'changeDomain', 'displayError', 'searchAndReinitializeAllFacets', 'activateMenu', 'activateSearchBar', 'activateFilterMenu',]);
+const emit = defineEmits(['search', 'changeDomain', 'displayError', 'searchAndReinitializeAllFacets', 'activateMenu', 'activateSearchBar', 'activateFilterMenu', 'activateThesisAccess']);
 
 /**
  * Fonctions
@@ -123,6 +128,9 @@ function activateSearchBar() {
 }
 function activateFilterMenu() {
   emit('activateFilterMenu');
+}
+function activateThesisAccess() {
+  emit('activateThesisAccess');
 }
 function changeDomain() {
   emit('changeDomain');

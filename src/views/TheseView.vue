@@ -1,44 +1,18 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
-  <nav v-if="mobile" class="mobile-nav-bar">
-    <button v-if="these.status === 'soutenue' && showButtons" @click="dialogVisible = true" class="filter-mobile-nav-bar">
-      <v-icon v-bind="props" size="40px">mdi-book-arrow-down-outline
-      </v-icon>
-      <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
-    </button>
-    <div v-else></div>
-    <!--      Bouton menu recherche/selecteur these/personnes-->
-    <div>
-      <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-        :class="{ 'logo-active': showSearchBar }">mdi-magnify
-      </v-icon>
-      <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
-    </div>
-  </nav>
-  <!-- Icone retour accueil -->
-  <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_resultview">
-      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-    </RouterLink>
-    <!--    Menu boutons-liens-->
+    <!--  Mobile-->
+    <header-mobile v-if="mobile" type="these" @changeDomain="changeDomain" @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
+                   @activate-menu="activateMenu" @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
+                   :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar" :these-soutenue="these.status === 'soutenue'"
+    ></header-mobile>
+    <!--    Menu accès these boutons-liens-->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
       :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'" :data-ready="dataReady" @closeOverlay="closeOverlay"></buttons-list>
+      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'" :data-ready="dataReady" :list-buttons="listButtons" @closeOverlay="closeOverlay"></buttons-list>
     </v-dialog>
-    <!--    Menu recherche/selecteur these/personnes-->
-    <v-expand-transition>
-      <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
-        <div class="expanded-search-bar">
-          <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-            @onError="displayError" />
-        </div>
-      </div>
-    </v-expand-transition>
-  </div>
-
+<!--  Fin Mobile-->
 <!--Desktop-->
-  <div v-else class="sub-header">
+  <div v-if="!mobile" class="sub-header">
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
         <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site">
@@ -69,6 +43,7 @@ import DomainSelector from '@/components/common/DomainSelector.vue';
 import SearchBar from "@/components/personnes/search/SearchBar.vue";
 import ButtonsList from "@/components/theses/ButtonsList.vue";
 import ThesisComponent from "@/components/theses/ThesisComponent.vue";
+import HeaderMobile from "@/components/common/HeaderMobile.vue";
 
 import { thesesAPIService } from '@/services/ThesesAPI';
 import { useDisplay } from "vuetify";
@@ -80,14 +55,13 @@ const route = useRoute();
 const { mobile } = useDisplay();
 const { getThese, getButtons } = thesesAPIService();
 const dialogVisible = ref(false);
+const showMenu = ref(false);
 const showSearchBar = ref(false);
 const dataReady = ref(false);
 const these = ref({});
 const resume = ref("");
 const listButtons = ref([]);
-
 const hasScrolled = ref(false);
-const showButtons = ref(false);
 
 dataReady.value = false;
 window.addEventListener('scroll', () => { hasScrolled.value = true; });
@@ -132,6 +106,31 @@ function loadButtons(these) {
         displayError("Accès en ligne : " + err.message);
       })
   }
+}
+
+/**
+ * Fonctionnement du header mobile
+ */
+function activateMenu() {
+  showSearchBar.value = false;
+  sleep(250).then(() => {
+    showMenu.value = !showMenu.value;
+  });
+}
+
+function activateSearchBar() {
+  showMenu.value = false;
+  sleep(250).then(() => {
+    showSearchBar.value = !showSearchBar.value;
+  });
+}
+
+function activateThesisAccess() {
+  dialogVisible.value = true;
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
 }
 </script>
 
@@ -183,6 +182,7 @@ function loadButtons(these) {
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: 100%;
+    padding: 8px 0;
   }
 
   .thesis-components {
