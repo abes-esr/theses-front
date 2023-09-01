@@ -1,43 +1,13 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
-  <nav v-if="mobile" class="mobile-nav-bar">
-    <button @click="openMenu = true" class="filter-mobile-nav-bar">
-      <v-icon v-bind="props" size="40px">mdi-menu
-      </v-icon>
-      <v-tooltip activator="parent">{{ $t('menu') }}</v-tooltip>
-    </button>
-    <div>
-      <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-              :class="{ 'logo-active': showSearchBar }">mdi-magnify
-      </v-icon>
-      <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
-    </div>
-  </nav>
-<!--  Mobile-->
-  <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_resultview">
-      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg"/>
-    </RouterLink>
-    <!--    Menu header -->
-    <v-dialog v-model="openMenu" eager location-strategy="static" persistent no-click-animation fullscreen
-              :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <div class="statistique__title">
-        <div></div>
-        <v-btn size=40px icon="mdi-close-box" color="red" variant="text" @click="openMenu = !openMenu"></v-btn>
-      </div>
-    </v-dialog>
-    <v-expand-transition>
-      <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
-        <div class="expanded-search-bar">
-          <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"
-                      :loading="loading"
-                      @onError="displayError"/>
-        </div>
-      </div>
-    </v-expand-transition>
+  <!--  Mobile-->
+  <div class="mobile-header-wrapper" v-if="mobile">
+    <header-mobile class="header-mobile" @changeDomain="changeDomain" @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
+                   @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
+                   :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"
+    ></header-mobile>
   </div>
-
+  <!--  Fin Mobile-->
 <!--  Desktop-->
   <div v-else class="sub-header">
     <div class="search-bar-container white-containers">
@@ -141,6 +111,7 @@ import ResultCard from "@/components/theses/results/ResultCard.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
 import ThesisKeywords from "@/components/common/Keywords.vue";
 import {useRoute} from "vue-router";
+import HeaderMobile from "@/components/common/HeaderMobile.vue";
 
 const {mobile} = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
@@ -153,6 +124,7 @@ const dataReady = ref(false);
 const openMenu = ref(false);
 const item = ref({});
 const panel = ref([]);
+const showMenu = ref(false);
 
 const {t} = useI18n();
 const {meta} = useMeta({});
@@ -277,6 +249,26 @@ function displayError(message, opt) {
   });
 }
 
+/**
+ * Fonctionnement du header mobile
+ */
+function activateMenu() {
+  showSearchBar.value = false;
+  sleep(250).then(() => {
+    showMenu.value = !showMenu.value;
+  });
+}
+
+function activateSearchBar() {
+  showMenu.value = false;
+  sleep(250).then(() => {
+    showSearchBar.value = !showSearchBar.value;
+  });
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
 </script>
 
 <style scoped lang="scss">
@@ -298,11 +290,6 @@ function displayError(message, opt) {
   border-radius: 0;
   margin: 0;
   background-color: rgb(var(--v-theme-background));
-}
-
-
-.mobile-nav-bar {
-  margin: 10px 0 30px;
 }
 
 .statistique__title {
@@ -350,6 +337,7 @@ function displayError(message, opt) {
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     display: flex;
+    padding: unset;
   }
 
   .result-components {
@@ -358,6 +346,7 @@ function displayError(message, opt) {
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       width: 100%;
+      margin-top: -20px;
     }
 
     .info {
@@ -478,5 +467,9 @@ function displayError(message, opt) {
 :deep(.v-skeleton-loader__button) {
   max-width: unset !important;
   width: 250px;
+}
+
+.mobile-header-wrapper {
+    padding-top: 30px;
 }
 </style>

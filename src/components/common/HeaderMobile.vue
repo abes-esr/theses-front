@@ -15,7 +15,7 @@
     </div>
     <div class="right-side-buttons">
       <!--    Bouton filtres-->
-      <button @click="activateFilterMenu" color="primary" class="filter-mobile-nav-bar">
+      <button v-if="type === 'resultats'" @click="activateFilterMenu" color="primary" class="filter-mobile-nav-bar">
         <v-icon v-bind="props" size="35px">mdi-filter-menu-outline
         </v-icon>
         <v-tooltip activator="parent" location="start">{{ $t('filtres') }}</v-tooltip>
@@ -103,6 +103,9 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  type: {
+    type: String
   },
 
 });

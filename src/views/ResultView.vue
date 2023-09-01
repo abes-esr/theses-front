@@ -1,7 +1,7 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
 <!--  Mobile-->
-  <header-mobile v-if="mobile" @changeDomain="changeDomain" @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
+  <header-mobile v-if="mobile" type="resultats" @changeDomain="changeDomain" @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
                   @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
                  :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"
   ></header-mobile>
