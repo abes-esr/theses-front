@@ -1,41 +1,61 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
-    <div class="buttons" v-if="dataReady">
-      <div v-if="listButtons.length > 0">
-        <div class="buttons-header">
-          <span>{{ $t("theseView.access") }}</span>
+  <div class="buttons" v-if="dataReady">
+    <div v-if="listButtons.length > 0">
+      <div class="buttons-header">
+        <span>{{ $t("theseView.access") }}</span>
+      </div>
+      <div class="buttons-sub-header">
+        <div class="header-container no-wrap-text">
+          <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
+          <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
+          <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
+            <div class="close-overlay-icon-wrapper">
+              <div class="circle"></div>
+              <div><v-icon size="35">mdi-close-box</v-icon></div>
+            </div>
+          </button>
         </div>
-        <div class="buttons-sub-header">
-          <div class="header-container no-wrap-text">
-            <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
-            <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
-            <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
-              <div class="close-overlay-icon-wrapper">
-                <div class="circle"></div>
-                <div><v-icon size="35">mdi-close-box</v-icon></div>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div v-if="soutenue">
-          <div class="list-buttons no-wrap-text" v-for="b in listButtons" :key="b">
-            <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
-                   :href="baseURL + b.url"
-                   target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+      </div>
+      <div v-if="soutenue">
+        <div class="list-buttons no-wrap-text" v-for="b in listButtons" :key="b">
+          <span v-if="b.url" style="width: 90%;">
+            <v-btn v-if="b.libelle === 'Accès ESR'" color="secondary-darken-2" flat block
+              append-icon="mdi-arrow-right-circle" :title="b.libelle" :aria-label="b.libelle"
+              @click="dialog = true; dialogUrl = baseURL + b.url; checkboxModal = false;">{{
                 b.libelle }}</v-btn>
-            <span v-else>
-              <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
-              <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
-            </span>
-          </div>
+            <v-btn v-else color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat block
+              :href="baseURL + b.url" target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+                b.libelle }}</v-btn>
+          </span>
+          <span v-else>
+            <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
+            <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
+          </span>
         </div>
       </div>
     </div>
-    <div class="skeleton-loader-wrapper" v-else>
-      <v-skeleton-loader type="list-item-two-line"></v-skeleton-loader>
-      <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
-      <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
-    </div>
+  </div>
+  <div class="skeleton-loader-wrapper" v-else>
+    <v-skeleton-loader type="list-item-two-line"></v-skeleton-loader>
+    <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
+    <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
+  </div>
+
+  <!-- Modal Accès ESR -->
+  <v-dialog v-model="dialog" :fullscreen="mobile" :width="mobile ? '100%' : '70%'">
+    <v-card style="padding: 2rem 2rem; display: flex;">
+      <span v-html='$t("theseView.modalContent")'></span>
+      <br />
+      <v-checkbox v-model="checkboxModal" :label='$t("theseView.modalAgree")' />
+      <div class="submit">
+        <v-btn flat variant="outlined" size="large" @click="dialog = false">{{ $t('theseView.modalCancel')
+        }}</v-btn>
+        <v-btn flat variant="outlined" size="large" :disabled="!checkboxModal" target="_blank" :href="dialogUrl">{{
+          $t('theseView.modalOk') }}</v-btn>
+      </div>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
@@ -62,12 +82,17 @@ const emit = defineEmits('closeOverlay');
 
 const baseURL = import.meta.env.VITE_APP_API;
 
+const dialog = ref(false);
+const checkboxModal = ref(false);
+const dialogUrl = ref("");
+
 /**
  * Fonctions
  */
 function closeOverlay() {
   emit('closeOverlay');
 }
+
 </script>
 
 <style scoped lang="scss">
@@ -96,6 +121,7 @@ function closeOverlay() {
     padding: unset;
     font-size: 16px;
   }
+
   margin-bottom: 0.6em;
 }
 
@@ -159,7 +185,8 @@ function closeOverlay() {
   }
 }
 
-.buttons, .skeleton-loader-wrapper {
+.buttons,
+.skeleton-loader-wrapper {
   display: flex;
   flex-direction: column;
   border-right: 2px solid rgb(var(--v-theme-gris-clair));
@@ -188,5 +215,24 @@ function closeOverlay() {
 
 :deep(.v-skeleton-loader__button) {
   max-width: unset !important;
+}
+
+// Style modal Acces ESR
+:deep(li) {
+  margin-left: 3rem !important;
+}
+
+:deep(.v-label--clickable) {
+  opacity: 1 !important;
+}
+
+.submit {
+  display: flex;
+  justify-content: end;
+  margin-right: 10px;
+
+  .v-btn {
+    margin-left: 10px;
+  }
 }
 </style>
