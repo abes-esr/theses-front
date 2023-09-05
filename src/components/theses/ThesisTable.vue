@@ -40,9 +40,10 @@
       <tr v-if="these.dateSoutenance || these.datePremiereInscriptionDoctorat" class="table-rows">
         <span><strong>{{ $t('theseView.dateSoutenance') }}&nbsp;:{{ '\xa0' }}</strong></span>
         <span v-if="these.source !== 'step'">
-          <span v-if="these.status === 'soutenue' && these.source === 'star'"> {{ $t('theseView.soutenue') }}</span>
-          <span v-if="these.status === 'soutenue' && these.source === 'sudoc'">{{ $t('theseView.soutenueEn') }}</span>
-          {{ these.dateSoutenance }}
+          <span v-if="these.status === 'soutenue' && these.source === 'star'"> {{ $t('theseView.soutenue') }} {{
+            these.dateSoutenance }}</span>
+          <span v-if="these.status === 'soutenue' && these.source === 'sudoc'">{{ $t('theseView.soutenueEn') }} {{
+            these.dateSoutenance.slice(-4) }}</span>
         </span>
         <span v-else>
           <span v-if="these.status === 'soutenue'">

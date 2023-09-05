@@ -23,6 +23,15 @@
           </template>
         </v-btn>
       </template>
+      <template v-slot:item="{ item, props, index }">
+        <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw == null"
+          @click="selectSuggestion(item.raw)">
+          <span v-if="item.raw != null">{{
+            item.raw
+          }}</span>
+          <span v-else></span>
+        </v-list-item>
+      </template>
     </v-combobox>
 
     <div class="searchbar__action">
@@ -135,6 +144,15 @@ async function search() {
       query: { 'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine), 'tri': request.value === "" ? "dateDesc" : "" }
     });
   }
+}
+
+/**
+ * Fonction lorsqu'on sélectionne une suggestion
+ * @param value
+ */
+async function selectSuggestion(value) {
+  request.value = value;
+  await search();
 }
 
 defineExpose({
