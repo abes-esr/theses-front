@@ -98,8 +98,7 @@
     }
 
     width: 90%;
-    padding-top: 1em;
-    padding-bottom: 1em;
+    padding-bottom: 0.6em;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 0 0 70%;
@@ -143,7 +142,7 @@
     grid-row-start: 1;
 
     display: grid;
-    grid-template-rows: 1fr 8fr;
+    grid-template-rows: 1fr 7fr;
 
     justify-content: center;
   }
