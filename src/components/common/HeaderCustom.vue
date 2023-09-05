@@ -1,7 +1,10 @@
 <template>
   <v-app-bar flat color="white" id="appBar">
     <div class="text-center text-md-left language-accessibility-toolbar">
-      <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
+      <div id="accessconfig" data-accessconfig-buttonname=" "
+        data-accessconfig-params='{ "Prefix" : "a42-ac", "ContainerClass" : "","ModalCloseButton" : "","ModalTitle" : "","FormFieldset" : "","FormFieldsetLegend" : "","FormRadio" : "", "ImageReplacement" : false}'>
+        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg">
+      </div>
       <div class="languages-btn">
         <v-btn flat @click="$i18n.locale = 'fr';" title="Langue française">FR</v-btn>
         |
@@ -18,7 +21,6 @@
     </div>
   </v-app-bar>
 </template>
-
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
@@ -87,7 +89,8 @@ header {
   grid-column-start: 1;
   height: 30px;
   justify-self: center;
-  align-self: center;;
+  align-self: center;
+  ;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: 1;
@@ -95,5 +98,4 @@ header {
   }
 
 }
-
 </style>

@@ -203,7 +203,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
+    margin-top: 1rem;
     height: 100%;
   }
 }
@@ -275,7 +275,7 @@ h4 {
 
 .search-bar-container {
   grid-column-start: 2;
-  margin-top: 50px;
+  margin-top: 30px;
 
   display: grid;
   grid-template-columns: 20fr 3fr 80fr;

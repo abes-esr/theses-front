@@ -47,9 +47,6 @@
         <v-col cols="12" md="3" class="text-center text-md-left pa-0">
           {{ new Date().getFullYear() }} —
           <strong>Theses.fr</strong>
-          <div id="accessconfig" data-accessconfig-buttonname="Paramètres d’accessibilité"
-            data-accessconfig-params='{ "Prefix" : "a42-ac", "ContainerClass" : "","ModalCloseButton" : "","ModalTitle" : "","FormFieldset" : "","FormFieldsetLegend" : "","FormRadio" : "", "ImageReplacement" : false}'>
-          </div>
         </v-col>
         <v-col cols="12" md="9" class="text-center text-md-right pa-0">
           <v-divider vertical class="my-1"></v-divider>
@@ -180,6 +177,12 @@
     width: 100%;
     background-color: rgb(var(--v-theme-fond-noir));
     color: rgb(var(--v-theme-background));
+
+
+    .v-btn {
+      text-transform: none !important;
+      font-size: 0.75rem;
+    }
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       .v-btn {

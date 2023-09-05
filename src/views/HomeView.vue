@@ -10,9 +10,9 @@
     </RouterLink>
     <div class="main-wrapper">
       <Message-box ref="messageBox"></Message-box>
-      <v-row class="justify-center max-height-200">
-        <h1 class="pb-8 text-center">{{ $t("slogan") }}</h1>
-      </v-row>
+      <div class="justify-center max-height-200">
+        <h1 class="text-center">{{ $t("slogan") }}</h1>
+      </div>
       <domain-selector></domain-selector>
       <search-bar @search="loading = true" :loading="loading" @onError="displayError" />
       <div class="stats">
@@ -118,10 +118,12 @@ function displayError(message) {
     font-weight: 300;
     font-size: 24px;
     line-height: 28px;
+    margin-top: -20px;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      font-size: 43px;
-      line-height: 50px;
+      font-size: 38px;
+      line-height: 40px;
+      margin-top: -10px;
     }
   }
 
@@ -135,7 +137,7 @@ function displayError(message) {
     align-items: center;
     flex-direction: column;
     width: 100%;
-    padding: 40px 0;
+    padding: 40px 0 10px;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
       max-height: 500px;
