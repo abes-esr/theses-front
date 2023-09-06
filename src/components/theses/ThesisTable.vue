@@ -39,23 +39,22 @@
       <!-- Date soutenance -->
       <tr v-if="these.dateSoutenance || these.datePremiereInscriptionDoctorat" class="table-rows">
         <span><strong>{{ $t('theseView.dateSoutenance') }}&nbsp;:{{ '\xa0' }}</strong></span>
-        <span v-if="these.source !== 'step'">
-          <span v-if="these.status === 'soutenue' && these.source === 'star'"> {{ $t('theseView.soutenue') }} {{
-            these.dateSoutenance }}</span>
-          <span v-if="these.status === 'soutenue' && these.source === 'sudoc'">{{ $t('theseView.soutenueEn') }} {{
-            these.dateSoutenance.slice(-4) }}</span>
-        </span>
-        <span v-else>
-          <span v-if="these.status === 'soutenue'">
-            {{ $t('theseView.inscription') }}
-            {{ these.datePremiereInscriptionDoctorat }} <br />
-            <span v-if="these.source === 'step'"> {{ $t('theseView.soutenue') }}</span>
-            <span v-if="these.source === 'sudoc'">{{ $t('theseView.soutenueEn') }}</span>
-            {{ these.dateSoutenance }}
-          </span>
-          <span v-else>
+        <!-- Cas STAR : date de soutenance complete -->
+        <span v-if="these.source === 'star'"> {{ $t('theseView.soutenue') }} {{
+          these.dateSoutenance }}</span>
+        <!-- Cas SUDOC : uniquement annee de soutenance -->
+        <span v-if="these.source === 'sudoc'">{{ $t('theseView.soutenueEn') }} {{
+          these.dateSoutenance.slice(-4) }}</span>
+        <!-- Cas STEP : date d'inscription + si renseignee date de soutenance -->
+        <span v-if="these.source === 'step'">
+          <span>
             {{ $t('theseView.inscription') }}
             {{ these.datePremiereInscriptionDoctorat }}
+          </span>
+          <span v-if="these.isSoutenue">
+            <br />
+            <span> {{ $t('theseView.soutenue') }}</span>
+            {{ these.dateSoutenance }}
           </span>
         </span>
       </tr>
