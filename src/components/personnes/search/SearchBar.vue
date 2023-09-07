@@ -87,6 +87,7 @@ const menuProps = {
   'scroll-strategy': 'close',
   'open-on-focus': false,
   'content-class': 'autocompl',
+  'max-height': '600px'
 };
 
 onMounted(

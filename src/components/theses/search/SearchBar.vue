@@ -94,6 +94,7 @@ const menuProps = {
   'scrollStrategy': 'close',
   'open-on-focus': false,
   'content-class': 'autocomplete',
+  'max-height': '600px'
 };
 
 watch(requestSearch, (newRequestSearch) => {
