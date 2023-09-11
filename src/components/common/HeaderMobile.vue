@@ -27,7 +27,7 @@
         <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
       </button>
       <!--    Bouton menu recherche/selecteur these/personnes-->
-      <div>
+      <div v-if="type !== 'home'">
         <v-icon @click="activateSearchBar" size="35px"
                 :class="{ 'logo-active': showSearchBar }">mdi-magnify
         </v-icon>
@@ -75,7 +75,7 @@
     </v-expand-transition>
     <!--    Menu recherche/selecteur these/personnes-->
     <v-expand-transition>
-      <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
+      <div v-if="type !== 'home'" v-show="showSearchBar" class="expanded-search-bar-container white-containers">
         <div class="expanded-search-bar">
           <domain-selector @changeDomain="changeDomain" compact></domain-selector>
           <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
@@ -92,7 +92,8 @@ import SearchBar from "@/components/generic/GenericSearchBar.vue";
 
 const props = defineProps({
   theseStatut: {
-    type: Boolean
+    type: Boolean,
+    default: false
   },
   showSearchBar: {
     type: Boolean,
@@ -117,8 +118,6 @@ const props = defineProps({
     type: Array
   }
 });
-
-console.info('error :' + props.error )
 
 const emit = defineEmits(['search', 'changeDomain', 'displayError', 'searchAndReinitializeAllFacets', 'activateMenu', 'activateSearchBar', 'activateFilterMenu', 'activateThesisAccess']);
 

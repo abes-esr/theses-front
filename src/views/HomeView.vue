@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <!--  Mobile-->
+    <header-mobile v-if="mobile" type="home" @displayError="displayError"
+                   @activate-menu="activateMenu"
+                   :loading="loading" :show-menu="showMenu"
+    ></header-mobile>
     <div v-if="mobile" class="logo-menu-wrapper">
       <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_home">
         <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses-beta.svg" />
@@ -37,6 +42,7 @@ import { APIService } from "@/services/StrategyAPI";
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import { useDisplay } from "vuetify";
+import HeaderMobile from "@/components/common/HeaderMobile.vue";
 
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
@@ -165,5 +171,9 @@ function displayError(message) {
   .max-height-200 {
     max-height: 200px;
   }
+}
+
+.mobile-nav-bar {
+  margin-top: 50px !important;
 }
 </style>
