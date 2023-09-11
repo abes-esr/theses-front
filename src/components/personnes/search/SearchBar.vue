@@ -49,7 +49,7 @@
     </v-combobox>
 
     <div class="searchbar__action">
-      <v-checkbox label="Désactiver l'autocomplétion" v-model="isSuggestionDisabledCheckbox"
+      <v-checkbox :label="$t('disableSuggestion')" v-model="isSuggestionDisabledCheckbox"
         :title='$t("disableSuggestion")'></v-checkbox>
       <v-btn color="primary" density="compact" variant="outlined" :title='$t("avancee")' @click="search">{{ $t("avancee")
       }}
