@@ -181,8 +181,8 @@ function displayError() {
 
 .nav-bar-list-burger {
   :deep(.v-icon) {
-    height: 40px !important;
-    width: 40px !important;
+    height: 34px !important;
+    width: 34px !important;
   }
 }
 
