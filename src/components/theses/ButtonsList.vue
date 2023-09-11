@@ -1,7 +1,7 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
     <div class="buttons" v-if="dataReady">
-      <div v-if="listButtons.length > 0">
+      <div v-if="buttonsList.length > 0">
         <div class="buttons-header">
           <span>{{ $t("theseView.access") }}</span>
           <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
@@ -17,7 +17,7 @@
           </div>
         </div>
         <div v-if="soutenue">
-          <div class="list-buttons no-wrap-text" v-for="b in listButtons" :key="b">
+          <div class="buttons-list no-wrap-text" v-for="b in buttonsList" :key="b">
             <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
                    :href="baseURL + b.url"
                    target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
@@ -49,7 +49,7 @@ defineProps({
   dataReady: {
     type: Boolean,
   },
-  listButtons: {
+  buttonsList: {
     type: Object,
   },
   soutenue: {
@@ -147,7 +147,7 @@ function closeOverlay() {
   }
 }
 
-.list-buttons {
+.buttons-list {
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -6,7 +6,7 @@
     <!-- Bare latérale Desktop -->
     <div v-if="!mobile && soutenue" class="access-buttons">
       <!-- Menu boutons-liens desktop-->
-      <buttons-list v-if="!mobile" :data-ready="dataReady" :list-buttons="listButtons" :soutenue="soutenue"></buttons-list>
+      <buttons-list v-if="!mobile" :data-ready="dataReady" :buttons-list="buttonsList" :soutenue="soutenue"></buttons-list>
     </div>
     <div class="thesis-info-wrapper">
       <thesis-table class="thesis-component" :these="these" :data-ready="dataReady" />
@@ -55,7 +55,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  listButtons: {
+  buttonsList: {
     type: Object,
   }
 });

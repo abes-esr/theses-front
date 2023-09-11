@@ -3,12 +3,12 @@
     <!--  Mobile-->
     <header-mobile v-if="mobile" type="these" @changeDomain="changeDomain" @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
                    @activate-menu="activateMenu" @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
-                   :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar" :these-soutenue="these.status === 'soutenue'"
+                   :loading="loading" :buttons-list="buttonsList" :show-menu="showMenu" :show-search-bar="showSearchBar" :these-soutenue="these.status === 'soutenue'"
     ></header-mobile>
     <!--    Menu accès these boutons-liens-->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
       :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'" :data-ready="dataReady" :list-buttons="listButtons" @closeOverlay="closeOverlay"></buttons-list>
+      <buttons-list :nnt="route.params.id" :soutenue="these.status === 'soutenue'" :data-ready="dataReady" :buttons-list="buttonsList" @closeOverlay="closeOverlay"></buttons-list>
     </v-dialog>
 <!--  Fin Mobile-->
 <!--Desktop-->
@@ -31,7 +31,7 @@
   <div class="thesis-main-wrapper">
     <!-- Infos these -->
     <div class="thesis-components white-containers">
-      <thesis-component :soutenue="these.status === 'soutenue'" :nnt="route.params.id" :these="these" :data-ready="dataReady" :list-buttons="listButtons"></thesis-component>
+      <thesis-component :soutenue="these.status === 'soutenue'" :nnt="route.params.id" :these="these" :data-ready="dataReady" :buttons-list="buttonsList"></thesis-component>
     </div>
   </div>
 </template>
@@ -60,10 +60,9 @@ const showSearchBar = ref(false);
 const dataReady = ref(false);
 const these = ref({});
 const resume = ref("");
-const listButtons = ref([]);
+const buttonsList = ref([]);
 const hasScrolled = ref(false);
 
-dataReady.value = false;
 window.addEventListener('scroll', () => { hasScrolled.value = true; });
 getThese(route.params.id).then(result => {
   /** Redirection */
@@ -100,7 +99,7 @@ function closeOverlay() {
 function loadButtons(these) {
   if (these.status === 'soutenue') {
     getButtons(these.nnt).then((res) => {
-      listButtons.value = res.data.buttons;
+      buttonsList.value = res.data.buttons;
     })
       .catch((err) => {
         displayError("Accès en ligne : " + err.message);

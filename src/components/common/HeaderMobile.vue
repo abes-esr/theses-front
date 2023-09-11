@@ -21,7 +21,7 @@
         <v-tooltip activator="parent" location="start">{{ $t('filtres') }}</v-tooltip>
       </button>
       <!-- Bouton accès theses -->
-      <button v-if="type === 'these' && theseSoutenue" @click="activateThesisAccess" class="filter-mobile-nav-bar">
+      <button v-if="type === 'these' && theseSoutenue && buttonsList.length > 0" @click="activateThesisAccess" class="filter-mobile-nav-bar">
         <v-icon v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
         </v-icon>
         <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
@@ -113,7 +113,12 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  buttonsList: {
+    type: Array
+  }
 });
+
+console.info('error :' + props.error )
 
 const emit = defineEmits(['search', 'changeDomain', 'displayError', 'searchAndReinitializeAllFacets', 'activateMenu', 'activateSearchBar', 'activateFilterMenu', 'activateThesisAccess']);
 
