@@ -38,7 +38,7 @@
   <!--    Logo -->
   <div class="logo-menu-wrapper">
     <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_home logo_resultview">
-      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses-beta.svg" />
     </RouterLink>
 <!-- Menu burger mobile -->
     <v-expand-transition>
@@ -156,10 +156,11 @@ function displayError() {
 
 .mobile-nav-bar {
   background-color: rgb(var(--v-theme-surface));
-  height: 45px;
+  height: 50px;
   display: flex;
   justify-content: space-between;
   align-content: center;
+  padding-top: 10px;
 
   .left-side-buttons, .right-side-buttons {
     display: flex;

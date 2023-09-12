@@ -10,7 +10,7 @@
       Theses.fr. Cette
       version bêta est incomplète. <a href="https://theses.fr/"><strong style="color: white;">Cliquez ici pour retourner à
           la version actuelle.
-        </strong></a><v-btn class="float-right" tonal color="secondary" @click="dialog = true">Plus
+        </strong></a><v-btn style="margin-top: 10px;" class="float-right" density="compact" tonal color="secondary" @click="dialog = true">Plus
         d'informations</v-btn></v-alert>
     <!-- FIN BLOC BETA-->
     <header-custom></header-custom>
@@ -123,7 +123,7 @@ main {
     justify-content: space-between;
     align-content: center;
     padding: 0 10px;
-    margin: -10px 0 30px;
+    margin: 0 0 30px;
     border-bottom: solid 1px rgb(var(--v-theme-gris-clair));
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {

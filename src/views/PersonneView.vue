@@ -1,12 +1,10 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <!--  Mobile-->
-  <div class="mobile-header-wrapper" v-if="mobile">
-    <header-mobile class="header-mobile" @changeDomain="changeDomain" @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
+  <header-mobile v-if="mobile" class="header-mobile" @changeDomain="changeDomain" @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
                    @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
                    :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"
-    ></header-mobile>
-  </div>
+  ></header-mobile>
   <!--  Fin Mobile-->
 <!--  Desktop-->
   <div v-else class="sub-header">
@@ -121,7 +119,6 @@ const currentRoute = useRoute();
 const showSearchBar = ref(false);
 const loading = ref(false);
 const dataReady = ref(false);
-const openMenu = ref(false);
 const item = ref({});
 const panel = ref([]);
 const showMenu = ref(false);
@@ -274,6 +271,10 @@ function sleep(ms) {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
+.mobile-nav-bar {
+  margin: 0 0 30px !important;
+}
+
 .grey-bar {
   background-color: rgb(var(--v-theme-gris-clair)) !important;
 }
@@ -328,6 +329,7 @@ function sleep(ms) {
 }
 
 .main-wrapper {
+  margin-top: 30px !important;
   padding: 30px 0;
   display: grid;
   grid-template-columns: 10fr 103fr 10fr;
@@ -467,9 +469,5 @@ function sleep(ms) {
 :deep(.v-skeleton-loader__button) {
   max-width: unset !important;
   width: 250px;
-}
-
-.mobile-header-wrapper {
-    padding-top: 30px;
 }
 </style>
