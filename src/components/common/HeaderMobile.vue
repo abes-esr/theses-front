@@ -43,6 +43,13 @@
 <!-- Menu burger mobile -->
     <v-expand-transition>
       <div v-show="showMenu" class="expanded-search-bar-container white-containers">
+        <div class="languages-btn-container">
+          <div class="languages-btn">
+            <v-btn flat @click="$i18n.locale = 'fr';" title="Langue française">FR</v-btn>
+            |
+            <v-btn flat @click="$i18n.locale = 'en';" title="English Language">EN</v-btn>
+          </div>
+        </div>
         <div class="expanded-burger-menu">
           <div class="nav-bar-list-burger">
             <div class="menu-text-element">
@@ -200,4 +207,10 @@ function displayError() {
   align-items: center;
 }
 
+.languages-btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  padding-top: 10px;
+}
 </style>

@@ -2,7 +2,7 @@
   <v-app-bar flat color="white" id="appBar" v-if="!mobile">
     <div class="text-center text-md-left language-accessibility-toolbar">
       <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
-         <div class="languages-btn">
+      <div class="languages-btn">
         <v-btn flat @click="$i18n.locale = 'fr';" title="Langue française">FR</v-btn>
         |
         <v-btn flat @click="$i18n.locale = 'en';" title="English Language">EN</v-btn>

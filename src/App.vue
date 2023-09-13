@@ -239,7 +239,7 @@ main {
 }
 
 .expanded-burger-menu {
-  padding: 30px 0 15px 0;
+  padding-bottom: 15px;
 
   .nav-bar-list-burger {
     padding: 0 2em;
