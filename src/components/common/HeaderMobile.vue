@@ -2,32 +2,32 @@
   <nav class="mobile-nav-bar">
     <div class="left-side-buttons">
       <!--    Bouton menu burger -->
-      <div>
+      <div class="buttons">
         <v-icon @click="activateMenu" size="35px"
                 :class="{ 'logo-active': showMenu }">mdi-menu
         </v-icon>
         <v-tooltip activator="parent">{{ $t('menu') }}</v-tooltip>
       </div>
-      <div class="language-accessibility-button">
+      <div class="buttons language-accessibility-button">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
         <v-tooltip activator="parent">{{ $t('accessibility') }}</v-tooltip>
       </div>
     </div>
     <div class="right-side-buttons">
       <!--    Bouton filtres-->
-      <button v-if="type === 'resultats'" @click="activateFilterMenu" color="primary" class="filter-mobile-nav-bar">
+      <button v-if="type === 'resultats'" @click="activateFilterMenu" color="primary" class="filter-mobile-nav-bar buttons">
         <v-icon v-bind="props" size="35px">mdi-filter-menu-outline
         </v-icon>
         <v-tooltip activator="parent" location="start">{{ $t('filtres') }}</v-tooltip>
       </button>
       <!-- Bouton accès theses -->
-      <button v-if="type === 'these' && theseSoutenue && buttonsList.length > 0" @click="activateThesisAccess" class="filter-mobile-nav-bar">
+      <button v-if="type === 'these' && theseSoutenue && buttonsList.length > 0" @click="activateThesisAccess" class="filter-mobile-nav-bar buttons">
         <v-icon v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
         </v-icon>
         <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
       </button>
       <!--    Bouton menu recherche/selecteur these/personnes-->
-      <div v-if="type !== 'home'">
+      <div v-if="type !== 'home'" class="buttons">
         <v-icon @click="activateSearchBar" size="35px"
                 :class="{ 'logo-active': showSearchBar }">mdi-magnify
         </v-icon>
@@ -160,7 +160,7 @@ function displayError() {
   display: flex;
   justify-content: space-between;
   align-content: center;
-  padding-top: 10px;
+  padding: 10px;
 
   .left-side-buttons, .right-side-buttons {
     display: flex;
@@ -194,4 +194,10 @@ function displayError() {
 #logoIMG {
   margin-top: 30px;
 }
+
+.buttons {
+  display: flex;
+  align-items: center;
+}
+
 </style>
