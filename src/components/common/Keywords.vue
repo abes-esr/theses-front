@@ -19,23 +19,24 @@
           </v-card>
         </v-overlay>
       </div>
-        <v-chip-group class="chip-lines">
-          <v-chip label v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey"
-            :title="keyWord.keyword" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
-            :disabled="keyWord.type === 'sujetsRameau' ? false : true"
-            @click="if(keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
-            <span class="key-word-label">{{ keyWord.keyword }}</span>
-          </v-chip>
-        </v-chip-group>
+      <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
+        <v-chip label v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword"
+          :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
+          :disabled="keyWord.type === 'sujetsRameau' ? false : true"
+          @click="if (keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
+          <span class="key-word-label">{{ keyWord.keyword }}</span>
+        </v-chip>
+      </v-chip-group>
       <div id="key-words-button-wrapper">
-        <v-btn v-if="numberOfKeywords > numberOfKeywordsPerLine && keywords[selectedLanguage].length > numberOfKeywordsPerLine"
-               class="read-more-less-button" variant="outlined" @click="narrowDownKeywords" flat>
+        <v-btn
+          v-if="numberOfKeywords > numberOfKeywordsPerLine && keywords[selectedLanguage].length > numberOfKeywordsPerLine"
+          class="read-more-less-button" variant="outlined" @click="narrowDownKeywords" flat>
           <span></span>
           <span>{{ $t('theseView.showLessKeywords') }}</span>
           <v-icon class="toggle-up-down rotate">mdi-arrow-down-circle-outline</v-icon>
         </v-btn>
-        <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length"
-               class="read-more-less-button" variant="outlined" @click="addTenKeywords" flat>
+        <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length" class="read-more-less-button"
+          variant="outlined" @click="addTenKeywords" flat>
           <span></span>
           <span>{{ $t('theseView.showMoreKeywords') }}</span>
           <v-icon class="toggle-up-down">mdi-arrow-down-circle-outline</v-icon>
@@ -50,9 +51,10 @@
 </template>
 
 <script setup>
-import {onBeforeUpdate, ref, watch, computed, onBeforeMount} from "vue";
+import { onBeforeUpdate, ref, watch, computed, onBeforeMount } from "vue";
 import { useDisplay } from "vuetify";
 import LanguageSelector from "./LanguageSelector.vue";
+import { LanguesRTL } from "@/services/Common";
 
 const props = defineProps({
   these: {
@@ -119,8 +121,11 @@ function setKeywords() {
   keywords.value = props.these.mapSujets;
 }
 
+const isRtl = ref(false);
+
 function onUpdateLangue(langue) {
   selectedLanguage.value = langue;
+  LanguesRTL.includes(selectedLanguage.value.toLowerCase()) ? isRtl.value = true : isRtl.value = false;
 }
 
 function addTenKeywords() {

@@ -1,9 +1,9 @@
 <template>
     <metainfo>
-        <template v-slot:title="">A Propos | Theses.fr</template>
+        <template v-slot:title="">A propos | Theses.fr</template>
     </metainfo>
     <div v-if="mobile" class="logo-menu-wrapper">
-        <RouterLink :to="{  name: 'home', query: { domaine: 'theses' }  }" title="Accueil du site" class="logo logo_home">
+        <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_home">
             <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
         </RouterLink>
     </div>
@@ -12,7 +12,7 @@
     </RouterLink>
     <article>
         <a href="https://theses.fr/">Retour à l'accueil</a>
-        <h1>A Propos</h1>
+        <h1>A propos</h1>
         <span>
             <p>Moteur de recherche des th&egrave;ses de doctorat fran&ccedil;aises, le site <a
                     href="https://theses.fr/">theses.fr</a> a pour objet de r&eacute;f&eacute;rencer :</p>
@@ -190,7 +190,7 @@ article {
 }
 
 li {
-    margin-left: 20px;
+    margin-left: 40px;
 }
 
 p {

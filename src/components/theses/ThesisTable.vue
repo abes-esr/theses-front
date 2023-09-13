@@ -3,7 +3,7 @@
     <tbody class="table-body">
       <!-- Auteur -->
       <tr v-if="these.auteurs && these.auteurs.length > 0" class="table-rows">
-        <span><strong>{{ $t('theseView.auteur') }}{{ '\xa0' }}</strong></span>
+        <span><strong>{{ $t('theseView.auteur') }}&nbsp;:{{ '\xa0' }}</strong></span>
         <span>
           <template v-for="(auteur, index) in these.auteurs" :key="auteur.ppn">
             <span :class="auteur.ppn ? 'clickable orange' : ''" @click="linkTo(auteur.ppn)">
@@ -15,7 +15,7 @@
       </tr>
       <!-- Direction -->
       <tr v-if="these.directeurs && these.directeurs.length > 0" class="table-rows">
-        <span><strong>{{ $t('theseView.direction') }}{{ '\xa0' }}</strong></span>
+        <span><strong>{{ $t('theseView.direction') }}&nbsp;:{{ '\xa0' }}</strong></span>
         <span>
           <template v-for="(directeur, index) in these.directeurs" :key="directeur.ppn">
             <span :class="directeur.ppn ? 'clickable lightblue' : ''" @click="linkTo(directeur.ppn)">{{ directeur.prenom
@@ -26,25 +26,42 @@
       </tr>
       <!-- Type -->
       <tr class="table-rows">
-        <span><strong>{{ $t('theseView.type') }}{{ '\xa0' }}</strong></span>
+        <span><strong>{{ $t('theseView.type') }}&nbsp;:{{ '\xa0' }}</strong></span>
         <span>
           <span>{{ these.status === "enCours" ? $t('theseView.projet') : $t('theseView.doctorat') }}</span>
         </span>
       </tr>
       <!-- Discipline -->
       <tr v-if="these.discipline" class="table-rows">
-        <span><strong>{{ $t('theseView.disciplines') }}{{ '\xa0' }}</strong></span>
+        <span><strong>{{ $t('theseView.disciplines') }}&nbsp;:{{ '\xa0' }}</strong></span>
         <span>{{ these.discipline }}</span>
       </tr>
       <!-- Date soutenance -->
-      <tr v-if="these.dateSoutenance" class="table-rows">
-        <span><strong>{{ $t('theseView.dateSoutenance') }}{{ '\xa0' }}</strong></span>
-        <span>{{ these.dateSoutenance }}</span>
+      <tr v-if="these.dateSoutenance || these.datePremiereInscriptionDoctorat" class="table-rows">
+        <span><strong>{{ $t('theseView.dateSoutenance') }}&nbsp;:{{ '\xa0' }}</strong></span>
+        <!-- Cas STAR : date de soutenance complete -->
+        <span v-if="these.source === 'star'"> {{ $t('theseView.soutenue') }} {{
+          these.dateSoutenance }}</span>
+        <!-- Cas SUDOC : uniquement annee de soutenance -->
+        <span v-if="these.source === 'sudoc'">{{ $t('theseView.soutenueEn') }} {{
+          these.dateSoutenance.slice(-4) }}</span>
+        <!-- Cas STEP : date d'inscription + si renseignee date de soutenance -->
+        <span v-if="these.source === 'step'">
+          <span>
+            {{ $t('theseView.inscription') }}
+            {{ these.datePremiereInscriptionDoctorat }}
+          </span>
+          <span v-if="these.isSoutenue">
+            <br />
+            <span> {{ $t('theseView.soutenue') }}</span>
+            {{ these.dateSoutenance }}
+          </span>
+        </span>
       </tr>
       <!-- Etablissement de soutenance et cotutelle-->
       <tr v-if="these.etabSoutenance && these.etabSoutenance.nom" class="table-rows">
         <span>
-          <strong>{{ $t('theseView.etablissements') }}{{ '\xa0' }}</strong>
+          <strong>{{ $t('theseView.etablissements') }}&nbsp;:{{ '\xa0' }}</strong>
         </span>
         <span>
           <strong> {{ these.etabSoutenance.nom }} </strong>
@@ -59,7 +76,7 @@
       </tr>
       <!-- Ecoles doctorales -->
       <tr v-if="these.ecolesDoctorales && these.ecolesDoctorales.length > 0" class="table-rows">
-        <span><strong>{{ $t('theseView.ecoles') }}{{ '\xa0' }}</strong></span>
+        <span><strong>{{ $t('theseView.ecoles') }}&nbsp;:{{ '\xa0' }}</strong></span>
         <span>
           <template v-for="(ecole, index) in these.ecolesDoctorales" :key="ecole.ppn">
             <strong>{{ ecole.nom }}</strong>
@@ -70,7 +87,7 @@
       <!-- Partenariat -->
       <tr v-if="these.partenairesRecherche && these.partenairesRecherche.length > 0" class="table-rows">
         <span>
-          <strong>{{ $t('theseView.partenariat') }}{{ '\xa0' }}</strong>
+          <strong>{{ $t('theseView.partenariat') }}&nbsp;:{{ '\xa0' }}</strong>
         </span>
         <span>
           <template v-for="(ecole, index) in these.partenairesRecherche" :key="ecole.ppn">
@@ -85,7 +102,7 @@
         v-if="(these.presidentJury && these.presidentJury.nom) || (these.membresJury && these.membresJury.length > 0) || (these.rapporteurs && these.rapporteurs.length > 0)"
         class="table-rows">
         <span>
-          <strong>{{ $t('theseView.jury') }}{{ '\xa0' }}</strong>
+          <strong>{{ $t('theseView.jury') }}&nbsp;:{{ '\xa0' }}</strong>
         </span>
         <span v-if="these.presidentJury && these.presidentJury.nom" id="president">
           <strong>{{ $t('theseView.president') }}{{ '\xa0' }}</strong>

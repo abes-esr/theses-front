@@ -6,7 +6,7 @@
         <h1>{{ $t('theseView.resume') }}</h1>
         <language-selector :languages="langList" @update-langue="onUpdateLangue"></language-selector>
       </div>
-      <div id="resume-text">
+      <div id="resume-text" :class="isRtl ? 'rtl-text' : ''">
         <p>
           {{ resume }}
         </p>
@@ -21,6 +21,7 @@
 <script setup>
 import { onBeforeUpdate, ref, computed } from "vue";
 import LanguageSelector from "../common/LanguageSelector.vue";
+import { LanguesRTL } from "@/services/Common";
 
 const props = defineProps({
   these: {
@@ -54,9 +55,12 @@ const langList = computed(() => {
 /**
  * Functions
  */
+const isRtl = ref(false);
+
 function onUpdateLangue(langue) {
   selectedLanguage.value = langue;
   resume.value = props.these.resumes[selectedLanguage.value];
+  LanguesRTL.includes(selectedLanguage.value.toLowerCase()) ? isRtl.value = true : isRtl.value = false;
 }
 </script>
 

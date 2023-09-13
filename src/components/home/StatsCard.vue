@@ -61,7 +61,8 @@ h4 {
 }
 
 .v-card {
-    border: solid 1px rgb(var(--v-theme-gris-clair));
+    border-radius: 0;
+    border: solid 1px rgba(0, 0, 0, 0.2);
     overflow: visible;
     padding-top: 20px;
     margin-top: 40px;

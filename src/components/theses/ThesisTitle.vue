@@ -4,10 +4,11 @@
       <thesis-icon :status="status"></thesis-icon>
     </div>
     <div class="title-flexbox">
-      <span>
+      <span :class="isRtl ? 'rtl-text' : ''">
         {{ currentTitle }}
       </span>
-      <language-selector class="language-selector" :languages="langList" @update-langue="onUpdateLangue"></language-selector>
+      <language-selector class="language-selector" :languages="langList"
+        @update-langue="onUpdateLangue"></language-selector>
     </div>
   </div>
   <div v-if="!dataReady" class="title-wrapper line-clamp">
@@ -19,6 +20,7 @@
 import { onBeforeUpdate, ref, computed } from "vue";
 import ThesisIcon from "@/components/theses/results/ThesisIcon.vue";
 import LanguageSelector from "../common/LanguageSelector.vue";
+import { LanguesRTL } from "@/services/Common";
 
 const props = defineProps({
   titles: {
@@ -37,6 +39,7 @@ const props = defineProps({
 
 const currentTitle = ref("");
 const selectedLanguage = ref("fr");
+const isRtl = ref(false);
 
 onBeforeUpdate(() => {
   currentTitle.value = props.titles[selectedLanguage.value];
@@ -50,12 +53,15 @@ const langList = computed(() => {
   return Object.keys(props.titles);
 });
 
+
+
 /**
  * Functions
  *  */
 function onUpdateLangue(langue) {
   selectedLanguage.value = langue;
   currentTitle.value = props.titles[selectedLanguage.value];
+  LanguesRTL.includes(selectedLanguage.value.toLowerCase()) ? isRtl.value = true : isRtl.value = false;
 }
 
 

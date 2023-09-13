@@ -1,29 +1,11 @@
 <template>
   <div class="searchbar">
-    <v-combobox
-      class="searchbar__input"
-      :items="items"
-      :menu="suggestionActive"
-      :menu-props="menuProps"
-      :active="true"
-      v-model="request"
-      v-model:search="requestSearch"
-      variant="outlined"
-      cache-items
-      hide-details
-      hide-no-data
-      hide-selected
-      no-filter
-      density="compact"
-      return-object
-      type="text"
-      menu-icon=""
-      @keydown.enter="search"
-    >
-<!--      Bouton rechercher-->
+    <v-combobox class="searchbar__input" :items="items" :menu="suggestionActive" :menu-props="menuProps" :active="true"
+      v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-no-data
+      hide-selected no-filter density="compact" return-object type="text" menu-icon="" @keydown.enter="search">
+      <!--      Bouton rechercher-->
       <template v-slot:prepend-inner>
-        <v-btn @click="search" :title='$t("searchButton")' :loading="loading"
-          class="elevation-0 appended-buttons">
+        <v-btn @click="search" :title='$t("searchButton")' :loading="loading" class="elevation-0 appended-buttons">
           <template v-slot:append>
             <v-icon class="search-bar-icons" id="magnifying-glass">
               mdi-magnify
@@ -31,10 +13,9 @@
           </template>
         </v-btn>
       </template>
-<!--      Bouton effacer texte-->
+      <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
-        <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")'
-          :ripple="false">
+        <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")' :ripple="false">
           <template v-slot:append>
             <v-icon class="search-bar-icons" id="clean-button">
               mdi-close
@@ -42,15 +23,23 @@
           </template>
         </v-btn>
       </template>
+      <template v-slot:item="{ item, props, index }">
+        <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw == null"
+          @click="selectSuggestion(item.raw)">
+          <span v-if="item.raw != null">{{
+            item.raw
+          }}</span>
+          <span v-else></span>
+        </v-list-item>
+      </template>
     </v-combobox>
 
     <div class="searchbar__action">
-      <v-checkbox label="Désactiver l'autocomplétion" v-model="disableCompletion"
+      <v-checkbox :label="$t('disableSuggestion')" v-model="disableCompletion"
         :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn color="primary"
-             density="compact"
-             variant="outlined"
-             :title='$t("avancee")' @click="search">{{ $t("avancee") }}
+      <v-btn color="primary" density="compact" variant="outlined" :title='$t("avancee")' @click="search">{{
+        $t("avancee")
+      }}
       </v-btn>
     </div>
   </div>
@@ -105,6 +94,7 @@ const menuProps = {
   'scrollStrategy': 'close',
   'open-on-focus': false,
   'content-class': 'autocomplete',
+  'max-height': '600px'
 };
 
 watch(requestSearch, (newRequestSearch) => {
@@ -157,6 +147,15 @@ async function search() {
   }
 }
 
+/**
+ * Fonction lorsqu'on sélectionne une suggestion
+ * @param value
+ */
+async function selectSuggestion(value) {
+  request.value = value;
+  await search();
+}
+
 defineExpose({
   search,
 });
@@ -165,81 +164,80 @@ defineExpose({
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-  .searchbar {
-    flex: 0 0 auto;
-    margin-top: 1rem;
+.searchbar {
+  flex: 0 0 auto;
 
-    :deep(.searchbar__input) {
-      @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-        padding-bottom: 10px;
-      }
-    }
-
-    :deep(.v-combobox__selection) {
-      overflow: hidden !important;
+  :deep(.searchbar__input) {
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      padding-bottom: 10px;
     }
   }
 
-  .searchbar__action {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex: 1 0 100%;
-    margin-bottom: 1rem;
+  :deep(.v-combobox__selection) {
+    overflow: hidden !important;
+  }
+}
+
+.searchbar__action {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1 0 100%;
+  margin-bottom: 1rem;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    justify-content: space-between;
+  }
+
+  .v-input {
+    display: none;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      justify-content: space-between;
-    }
-
-    .v-input {
-      display: none;
-
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-        display: flex;
-        flex: 0 0 auto;
-      }
-    }
-
-    :deep(.v-label) {
-      color: rgb(var(--v-theme-primary));
-      opacity: 1;
-      font-size: 0.95rem;
-    }
-
-    :deep(.v-btn) {
-      margin-right: 15px;
+      display: flex;
+      flex: 0 0 auto;
     }
   }
 
-  :deep(.v-field__prepend-inner) {
-    padding: 0;
-    align-self: center;
+  :deep(.v-label) {
+    color: rgb(var(--v-theme-primary));
+    opacity: 1;
+    font-size: 0.95rem;
   }
 
-  :deep(.v-field__append-inner) {
-    padding: 0;
-    align-self: center;
+  :deep(.v-btn) {
+    margin-right: 15px;
+  }
+}
+
+:deep(.v-field__prepend-inner) {
+  padding: 0;
+  align-self: center;
+}
+
+:deep(.v-field__append-inner) {
+  padding: 0;
+  align-self: center;
+}
+
+:deep(.appended-buttons) {
+  padding: 0;
+  min-width: unset;
+  width: 36px;
+  justify-content: center;
+  background-color: transparent;
+
+  .v-btn--density-default {
+    height: unset;
   }
 
-  :deep(.appended-buttons) {
-    padding: 0;
-    min-width: unset;
-    width: 36px;
+  .v-btn__append {
+    margin-inline-start: unset;
+  }
+
+  :deep(.v-btn__append) {
     justify-content: center;
-    background-color: transparent;
-
-    .v-btn--density-default {
-      height: unset;
-    }
-
-    .v-btn__append {
-      margin-inline-start: unset;
-    }
-
-    :deep(.v-btn__append) {
-      justify-content: center;
-    }
   }
+}
 
 
 
@@ -287,6 +285,7 @@ defineExpose({
   }
 
   .v-list {
+
     /* Permet de rendre l'autocompletion + dense */
     .v-list-item {
       min-height: 40px !important;

@@ -1,30 +1,13 @@
 <template>
   <div class="searchbar">
-    <v-combobox
-      class="searchbar__input"
-      :items="suggestions"
-      :menu="isSuggestionActive && suggestions.length != 0"
-      :menu-props="menuProps"
-      :active="true"
-      :hide-no-data="!isSuggestionActive || suggestions.length == 0"
+    <v-combobox class="searchbar__input" :items="suggestions" :menu="isSuggestionActive && suggestions.length != 0"
+      :menu-props="menuProps" :active="true" :hide-no-data="!isSuggestionActive || suggestions.length == 0"
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
-      v-model="request"
-      v-model:search="requestSearch"
-      variant="outlined"
-      cache-items
-      hide-details
-      hide-selected
-      no-filter
-      density="compact"
-      return-object
-      type="text"
-      menu-icon=""
-      @keydown.enter="search" :loading="isSuggestionLoading"
-    >
-<!--      Bouton rechercher-->
+      v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected no-filter
+      density="compact" return-object type="text" menu-icon="" @keydown.enter="search" :loading="isSuggestionLoading">
+      <!--      Bouton rechercher-->
       <template v-slot:prepend-inner>
-        <v-btn @click="search" :title='$t("searchButton")' :loading="loading"
-          class="elevation-0 appended-buttons">
+        <v-btn @click="search" :title='$t("searchButton")' :loading="loading" class="elevation-0 appended-buttons">
           <template v-slot:append>
             <v-icon class="search-bar-icons" id="magnifying-glass">
               mdi-magnify
@@ -32,10 +15,9 @@
           </template>
         </v-btn>
       </template>
-<!--      Bouton effacer texte-->
+      <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
-        <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")'
-               :ripple="false">
+        <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")' :ripple="false">
           <template v-slot:append>
             <v-icon class="search-bar-icons" id="clean-button">
               mdi-close
@@ -43,38 +25,34 @@
           </template>
         </v-btn>
       </template>
-<!-- Liste auto-complétion -->
+      <!-- Liste auto-complétion -->
       <template v-slot:prepend-item v-if="suggestions.length > 0">
         <h3>{{ $t('personnes.searchBar.title-personnes') }}</h3>
         <h3>{{ $t('personnes.searchBar.title-thematiques') }}</h3>
       </template>
       <template v-slot:item="{ item, props, index }">
         <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.personne == null"
-                     @click="selectSuggestion(item.raw.personne)">
+          @click="selectSuggestion(item.raw.personne)">
           <span v-if="item.raw.personne != null">{{
-              item.raw.personne.suggestion
-            }}</span>
+            item.raw.personne.suggestion
+          }}</span>
           <span v-else></span>
         </v-list-item>
         <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.thematique == null"
-                     @click="selectSuggestion(item.raw.thematique)">
+          @click="selectSuggestion(item.raw.thematique)">
           <span v-if="item.raw.thematique != null">{{
-              item.raw.thematique.suggestion
-            }}</span>
+            item.raw.thematique.suggestion
+          }}</span>
           <span v-else></span>
         </v-list-item>
       </template>
     </v-combobox>
 
     <div class="searchbar__action">
-      <v-checkbox
-        label="Désactiver l'autocomplétion"
-        v-model="isSuggestionDisabledCheckbox"
+      <v-checkbox :label="$t('disableSuggestion')" v-model="isSuggestionDisabledCheckbox"
         :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn color="primary"
-             density="compact"
-             variant="outlined"
-             :title='$t("avancee")' @click="search">{{ $t("avancee") }}
+      <v-btn color="primary" density="compact" variant="outlined" :title='$t("avancee")' @click="search">{{ $t("avancee")
+      }}
       </v-btn>
     </div>
   </div>
@@ -85,15 +63,15 @@ export default {
 };
 </script>
 <script setup>
-import {ref, onMounted, watch, computed} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
-import {APIService} from "@/services/StrategyAPI";
+import { ref, onMounted, watch, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { APIService } from "@/services/StrategyAPI";
 
 const router = useRouter();
 const currentRoute = useRoute();
 const routeName = computed(() => currentRoute.name);
 const query = computed(() => decodeURI(currentRoute.query.q));
-const {getSuggestion, setQuery, setDomaine} = APIService();
+const { getSuggestion, setQuery, setDomaine } = APIService();
 
 defineProps({
   loading: {
@@ -109,20 +87,21 @@ const menuProps = {
   'scroll-strategy': 'close',
   'open-on-focus': false,
   'content-class': 'autocompl',
+  'max-height': '600px'
 };
 
 onMounted(
-    () => {
-      if (currentRoute.query && currentRoute.query.q) {
-        // Il y a une précédente recherche dans l'URL
-        request.value = decodeURI(currentRoute.query.q);
-        requestSearch.value = decodeURI(currentRoute.query.q);
-        search()
-      } else {
-        isSuggestionActive.value = true;
-      }
-      setDomaine(currentRoute.query.domaine);
+  () => {
+    if (currentRoute.query && currentRoute.query.q) {
+      // Il y a une précédente recherche dans l'URL
+      request.value = decodeURI(currentRoute.query.q);
+      requestSearch.value = decodeURI(currentRoute.query.q);
+      search()
+    } else {
+      isSuggestionActive.value = true;
     }
+    setDomaine(currentRoute.query.domaine);
+  }
 );
 
 /**
@@ -146,7 +125,7 @@ async function search() {
   if (routeName.value != "resultats") {
     router.push({
       name: 'resultats',
-      query: {'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine)}
+      query: { 'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine) }
     });
   }
 
@@ -233,7 +212,6 @@ defineExpose({
 
 .searchbar {
   flex: 0 0 auto;
-  margin-top: 1rem;
 
   :deep(.searchbar__input) {
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {

@@ -209,7 +209,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
+    margin-top: 1rem;
     height: 100%;
   }
 }
@@ -326,7 +326,7 @@ h4 {
 
 .search-bar-container {
   grid-column-start: 2;
-  margin-top: 50px;
+  margin-top: 30px;
 
   display: grid;
   grid-template-columns: 20fr 3fr 80fr;
@@ -422,9 +422,16 @@ h4 {
 
 .result-dividers {
   border: 1px solid rgb(var(--v-theme-gris-clair));
-  margin:0 1rem;
+  margin: 0 1rem;
 }
 
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+.rtl-text {
+  direction: rtl !important;
+}
 .grecaptcha-badge { visibility: hidden; }
 
 .close-overlay-button {

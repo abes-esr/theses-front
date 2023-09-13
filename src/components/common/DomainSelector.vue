@@ -78,10 +78,11 @@ async function select(selection) {
     ::v-deep(.v-btn__content) {
       display: flex;
       flex-direction: column;
+      letter-spacing: 0.07em;
 
       h2 {
         font-weight: 500;
-        font-size: 10px;
+        font-size: 14px;
         line-height: 48px;
 
         @media #{ map-get(settings.$display-breakpoints, 'lg-and-up')} {

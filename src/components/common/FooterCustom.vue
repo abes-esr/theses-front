@@ -47,9 +47,6 @@
         <v-col cols="12" md="3" class="text-center text-md-left pa-0">
           {{ new Date().getFullYear() }} —
           <strong>Theses.fr</strong>
-          <div id="accessconfig" data-accessconfig-buttonname="Paramètres d’accessibilité"
-            data-accessconfig-params='{ "Prefix" : "a42-ac", "ContainerClass" : "","ModalCloseButton" : "","ModalTitle" : "","FormFieldset" : "","FormFieldsetLegend" : "","FormRadio" : "", "ImageReplacement" : false}'>
-          </div>
         </v-col>
         <v-col cols="12" md="9" class="text-center text-md-right pa-0">
           <v-divider vertical class="my-1"></v-divider>
@@ -101,8 +98,7 @@
     }
 
     width: 90%;
-    padding-top: 1em;
-    padding-bottom: 1em;
+    padding-bottom: 0.6em;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 0 0 70%;
@@ -111,16 +107,12 @@
     }
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      div:nth-of-type(1) {
-
-      }
+      div:nth-of-type(1) {}
     }
 
     div {
 
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-
-      }
+      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {}
 
       ul {
         list-style: none;
@@ -150,7 +142,7 @@
     grid-row-start: 1;
 
     display: grid;
-    grid-template-rows: 1fr 8fr;
+    grid-template-rows: 1fr 7fr;
 
     justify-content: center;
   }
@@ -185,6 +177,12 @@
     background-color: rgb(var(--v-theme-fond-noir));
     color: rgb(var(--v-theme-background));
 
+
+    .v-btn {
+      text-transform: none !important;
+      font-size: 0.75rem;
+    }
+
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       .v-btn {
         width: 100%;
@@ -192,6 +190,11 @@
         font-size: 0.9rem;
         height: 3rem;
       }
+    }
+
+    .v-row {
+      margin-left: 0px !important;
+      margin-right: 0px !important;
     }
 
   }

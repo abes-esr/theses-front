@@ -4,6 +4,12 @@
       <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
          <div class="languages-btn">
         <v-btn flat @click="$i18n.locale = 'fr';" title="Langue française">FR</v-btn>
+      <div id="accessconfig" data-accessconfig-buttonname=" "
+        data-accessconfig-params='{ "Prefix" : "a42-ac", "ContainerClass" : "","ModalCloseButton" : "","ModalTitle" : "","FormFieldset" : "","FormFieldsetLegend" : "","FormRadio" : "", "ImageReplacement" : false}'>
+        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg">
+      </div>
+      <div class="languages-btn">
+        <v-btn flat @click="setLanguage('fr')" title="Langue française">FR</v-btn>
         |
         <v-btn flat @click="$i18n.locale = 'en';" title="English Language">EN</v-btn>
       </div>
@@ -100,5 +106,4 @@ header {
   }
 
 }
-
 </style>
