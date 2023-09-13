@@ -1,28 +1,37 @@
 <template>
     <TheseView v-if="type === 'these' || type === 'sujet'" :id="id"></TheseView>
-    <PersonneView v-if="type === 'personne'" :id="id"></PersonneView>
+    <PersonneView v-else-if="type === 'personne'" :id="id"></PersonneView>
+    <OrganismeView v-else-if="type === 'organisme'" :id="id"></OrganismeView>
+    <div v-else class="skeleton-wrapper">
+        <v-skeleton-loader type="list-item" class="skeleton"></v-skeleton-loader>
+        <v-skeleton-loader type="divider" class="skeleton"></v-skeleton-loader>
+        <v-skeleton-loader v-for="i in 4" :key="i" type="paragraph" class="skeleton-cards"></v-skeleton-loader>
+    </div>
 </template>
 
 <script setup>
 import { ref, watch } from "vue";
 import { useRoute } from 'vue-router';
+import { organismeAPIService } from "../services/organismeAPI";
 import TheseView from './TheseView.vue';
+import OrganismeView from "./OrganismeView.vue";
 import PersonneView from './PersonneView.vue';
 
 const route = useRoute();
+const { getName } = organismeAPIService();
 const id = ref("");
 const type = ref("");
 const hash = ref("");
 
 id.value = route.params.id;
-type.value = checkId(id.value);
+checkId(id.value);
 hash.value = route.hash;
 
 watch(
     () => route.params.id,
     async newId => {
         id.value = newId;
-        type.value = checkId(id.value);
+        checkId(id.value);
     }
 );
 
@@ -31,9 +40,23 @@ function checkId(id) {
     var regexPPN = /^[a-zA-Z0-9]{9}$/;
     var regexSujet = /^s\d+$/;
 
-    if (regexNNT.test(id)) return "these";
-    else if (regexPPN.test(id)) return "personne";
-    else if (regexSujet.test(id)) return "sujet";
+    if (regexNNT.test(id)) type.value = "these";
+    else if (regexPPN.test(id)) {
+        getName(id)
+            .then((res) => {
+                if (res.data !== "") type.value = "organisme";
+                else type.value = "personne"
+            }).catch(() => { return "personne" })
+    }
+    else if (regexSujet.test(id)) type.value = "sujet";
 }
 
 </script>
+
+<style>
+.skeleton-wrapper {
+    display: grid;
+    grid-template-columns: 10fr 145fr 10fr;
+    padding: 30px;
+}
+</style>
