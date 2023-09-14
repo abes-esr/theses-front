@@ -16,7 +16,7 @@
             <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
           </div>
         </div>
-        <div v-if="soutenue">
+        <div class="buttons-list-wrapper" v-if="soutenue">
           <div class="buttons-list no-wrap-text" v-for="b in buttonsList" :key="b">
             <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
                    :href="baseURL + b.url"
@@ -166,6 +166,11 @@ function closeOverlay() {
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: unset;
   }
+}
+
+.buttons-list-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .buttons-list {
