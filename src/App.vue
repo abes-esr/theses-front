@@ -5,12 +5,12 @@
   <v-app>
     <!-- DEBUT BLOC BETA-->
     <v-alert width="100%" outlined color="primary"
-      style="padding-top: 30px; padding-bottom: 30px;"><strong>Avertissement</strong> : vous êtes
+             style="padding-top: 30px; padding-bottom: 30px;"><strong>Avertissement</strong> : vous êtes
       sur la version beta de
       Theses.fr. Cette
       version bêta est incomplète. <a href="https://theses.fr/"><strong style="color: white;">Cliquez ici pour retourner à
-          la version actuelle.
-        </strong></a><v-btn style="margin-top: 10px;" class="float-right" density="compact" tonal color="secondary" @click="dialog = true">Plus
+        la version actuelle.
+      </strong></a><v-btn style="margin-top: 10px;" class="float-right" density="compact" tonal color="secondary" @click="dialog = true">Plus
         d'informations</v-btn></v-alert>
     <!-- FIN BLOC BETA-->
     <header-custom></header-custom>
@@ -99,7 +99,6 @@ export default {
 
 main {
   display: flex !important;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100vw;
@@ -127,7 +126,7 @@ main {
     border-bottom: solid 1px rgb(var(--v-theme-gris-clair));
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-      margin: -20px 0 30px;
+      margin: 0 0 30px;
     }
   }
 

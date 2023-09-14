@@ -17,11 +17,11 @@
       <search-bar @search="loading = true" :loading="loading" @onError="displayError" />
       <div class="stats">
         <Stats-card :titre=nbTheses :description="$t('referencés')" badge="mdi-check" badgecolor="green"
-          url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
+                    url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
         <Stats-card :titre=nbSujets :description="$t('preparation')" badge="mdi-progress-clock" badgecolor="orange"
-          url="/resultats?filtres=%255BStatut%253D%2522enCours%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
+                    url="/resultats?filtres=%255BStatut%253D%2522enCours%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
         <Stats-card :titre=nbPersonnes :description="$t('personnesRef')" icon="mdi-account"
-          url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></Stats-card>
+                    url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></Stats-card>
       </div>
       <br />
     </div>
@@ -29,9 +29,9 @@
 </template>
 
 <script setup>
-import SearchBar from '../components/generic/GenericSearchBar.vue';
-import StatsCard from '../components/home/StatsCard.vue';
-import DomainSelector from '../components/common/DomainSelector.vue';
+import SearchBar from "../components/generic/GenericSearchBar.vue";
+import StatsCard from "../components/home/StatsCard.vue";
+import DomainSelector from "../components/common/DomainSelector.vue";
 import { defineAsyncComponent, onMounted, ref } from "vue";
 import { APIService } from "@/services/StrategyAPI";
 import { thesesAPIService } from "@/services/ThesesAPI";
@@ -40,7 +40,7 @@ import { useDisplay } from "vuetify";
 import HeaderMobile from "@/components/common/HeaderMobile.vue";
 
 
-const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
+const MessageBox = defineAsyncComponent(() => import("@/components/common/MessageBox.vue"));
 const { reinitializeResultData } = APIService();
 const { getStatsTheses, getStatsSujets } = thesesAPIService();
 const { getStatsPersonnes } = personnesAPIService();
@@ -178,7 +178,9 @@ function sleep(ms) {
 
   }
 
-
+  :deep(.v-divider) {
+    margin-top: 0 !important;
+  }
 
   p {
     display: flex;
