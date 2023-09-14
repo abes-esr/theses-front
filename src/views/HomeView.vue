@@ -46,10 +46,9 @@ const { getStatsTheses, getStatsSujets } = thesesAPIService();
 const { getStatsPersonnes } = personnesAPIService();
 const { mobile } = useDisplay();
 
-let loading = ref(false);
-
+const loading = ref(false);
+const showMenu = ref(false);
 const messageBox = ref(null);
-
 const nbPersonnes = ref(0), nbTheses = ref(0), nbSujets = ref(0);
 
 onMounted(() => {
@@ -72,6 +71,18 @@ function displayError(message) {
   });
 }
 
+/**
+ * Fonctionnement du header mobile
+ */
+function activateMenu() {
+  sleep(250).then(() => {
+    showMenu.value = !showMenu.value;
+  });
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
 </script>
 
 <style scoped lang="scss">
