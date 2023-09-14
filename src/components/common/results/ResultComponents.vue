@@ -207,7 +207,7 @@ watch(() => props.resetShowingNumber, () => {
   font-family: Roboto-Medium, sans-serif;
   font-weight: 400;
   font-size: 24.5px;
-  word-break: break-all;
+  word-break: break-word;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 22.5px;

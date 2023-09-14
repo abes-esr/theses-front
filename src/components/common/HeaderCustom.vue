@@ -1,16 +1,11 @@
 <template>
-  <v-app-bar flat color="white" id="appBar">
+  <v-app-bar flat color="white" id="appBar" v-if="!mobile">
     <div class="text-center text-md-left language-accessibility-toolbar">
-      <div id="accessconfig" data-accessconfig-buttonname=" "
-        data-accessconfig-params='{ "Prefix" : "a42-ac", "ContainerClass" : "","ModalCloseButton" : "","ModalTitle" : "","FormFieldset" : "","FormFieldsetLegend" : "","FormRadio" : "", "ImageReplacement" : false}'>
-        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg">
-      </div>
+      <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
       <div class="languages-btn">
-        <v-btn flat @click="setLanguage('fr')" title="Langue française">FR</v-btn>
+        <v-btn flat @click="$i18n.locale = 'fr';" title="Langue française">FR</v-btn>
         |
-        <v-btn flat @click="setLanguage('en')" title="English Language">EN</v-btn>
-        |
-        <v-btn flat @click="setLanguage('es')" title="English Language">ES</v-btn>
+        <v-btn flat @click="$i18n.locale = 'en';" title="English Language">EN</v-btn>
       </div>
     </div>
     <div class="text-center text-md-right">
@@ -25,22 +20,8 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-import { useI18n } from "vue-i18n";
-
-const { locale } = useI18n();
-
-onMounted(() => {
-  if (localStorage.getItem('language')) {
-    locale.value = localStorage.getItem('language');
-  }
-})
-
-function setLanguage(lang) {
-  localStorage.setItem('language', lang);
-  locale.value = lang;
-}
-
+  import { useDisplay } from 'vuetify';
+  const { mobile } = useDisplay();
 </script>
 
 <style scoped lang="scss">
@@ -111,8 +92,7 @@ header {
   grid-column-start: 1;
   height: 30px;
   justify-self: center;
-  align-self: center;
-  ;
+  align-self: center;;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: 1;

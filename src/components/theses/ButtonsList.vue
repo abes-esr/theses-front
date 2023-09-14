@@ -1,33 +1,27 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
-  <div class="buttons" v-if="dataReady">
-    <div v-if="listButtons.length > 0">
-      <div class="buttons-header">
-        <span>{{ $t("theseView.access") }}</span>
-      </div>
-      <div class="buttons-sub-header">
-        <div class="header-container no-wrap-text">
-          <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
-          <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
+    <div class="buttons" v-if="dataReady">
+      <div v-if="buttonsList.length > 0">
+        <div class="buttons-header">
+          <span>{{ $t("theseView.access") }}</span>
           <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
             <div class="close-overlay-icon-wrapper">
-              <div class="circle"></div>
               <div><v-icon size="35">mdi-close-box</v-icon></div>
             </div>
           </button>
         </div>
-      </div>
-      <div v-if="soutenue">
-        <div class="list-buttons no-wrap-text" v-for="b in listButtons" :key="b">
-          <span v-if="b.url" style="width: 90%;">
-            <v-btn v-if="b.libelle === 'Accès ESR'" color="secondary-darken-2" flat block
-              append-icon="mdi-arrow-right-circle" :title="b.libelle" :aria-label="b.libelle"
-              @click="dialog = true; dialogUrl = baseURL + b.url; checkboxModal = false;">{{
+        <div class="buttons-sub-header">
+          <div class="header-container no-wrap-text">
+            <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
+            <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
+          </div>
+        </div>
+        <div class="buttons-list-wrapper" v-if="soutenue">
+          <div class="buttons-list no-wrap-text" v-for="b in buttonsList" :key="b">
+            <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
+                   :href="baseURL + b.url"
+                   target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
                 b.libelle }}</v-btn>
-            <v-btn v-else color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat block
-              :href="baseURL + b.url" target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
-                b.libelle }}</v-btn>
-          </span>
           <span v-else>
             <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
             <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
@@ -70,7 +64,7 @@ defineProps({
   dataReady: {
     type: Boolean,
   },
-  listButtons: {
+  buttonsList: {
     type: Object,
   },
   soutenue: {
@@ -105,6 +99,9 @@ function closeOverlay() {
   font-size: 22px;
   font-weight: 600;
   font-family: Roboto-Bold, sans-serif;
+
+  display: flex;
+  justify-content: space-between;
 }
 
 .buttons-sub-header {
@@ -171,7 +168,12 @@ function closeOverlay() {
   }
 }
 
-.list-buttons {
+.buttons-list-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.buttons-list {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -209,8 +211,7 @@ function closeOverlay() {
 
 .close-icon {
   color: rgb(var(--v-theme-orange-abes));
-  grid-column-end: 4;
-  justify-self: end;
+  position: unset;
 }
 
 :deep(.v-skeleton-loader__button) {

@@ -97,6 +97,10 @@ async function select(selection) {
     color: #0b2134;
     border-width: 0 2px 0 0;
     margin: 0 2rem 0 2rem;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+      margin-top: 1em;
+    }
   }
 }
 

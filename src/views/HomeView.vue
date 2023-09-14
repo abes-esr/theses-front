@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <div v-if="mobile" class="logo-menu-wrapper">
-      <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_home">
-        <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses-beta.svg" />
-      </RouterLink>
-    </div>
-    <RouterLink v-else class="logo logo_home" :to="{ name: 'home', query: { domaine: 'theses' } }">
+    <!--  Mobile-->
+    <header-mobile v-if="mobile" type="home" @displayError="displayError"
+                   @activate-menu="activateMenu"
+                   :loading="loading" :show-menu="showMenu"
+    ></header-mobile>
+    <RouterLink v-if="!mobile" class="logo logo_home" :to="{ name: 'home', query: { domaine: 'theses' } }">
       <img alt="Logo du site theses.fr" id="logoIMG" src="@/assets/icone-theses-beta.svg" />
     </RouterLink>
     <div class="main-wrapper">
@@ -17,11 +17,11 @@
       <search-bar @search="loading = true" :loading="loading" @onError="displayError" />
       <div class="stats">
         <Stats-card :titre=nbTheses :description="$t('referencés')" badge="mdi-check" badgecolor="green"
-          url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
+                    url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
         <Stats-card :titre=nbSujets :description="$t('preparation')" badge="mdi-progress-clock" badgecolor="orange"
-          url="/resultats?filtres=%255BStatut%253D%2522enCours%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
+                    url="/resultats?filtres=%255BStatut%253D%2522enCours%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses"></Stats-card>
         <Stats-card :titre=nbPersonnes :description="$t('personnesRef')" icon="mdi-account"
-          url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></Stats-card>
+                    url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></Stats-card>
       </div>
       <br />
     </div>
@@ -29,26 +29,26 @@
 </template>
 
 <script setup>
-import SearchBar from '../components/generic/GenericSearchBar.vue';
-import StatsCard from '../components/home/StatsCard.vue';
-import DomainSelector from '../components/common/DomainSelector.vue';
+import SearchBar from "../components/generic/GenericSearchBar.vue";
+import StatsCard from "../components/home/StatsCard.vue";
+import DomainSelector from "../components/common/DomainSelector.vue";
 import { defineAsyncComponent, onMounted, ref } from "vue";
 import { APIService } from "@/services/StrategyAPI";
 import { thesesAPIService } from "@/services/ThesesAPI";
 import { personnesAPIService } from "@/services/PersonnesAPI";
 import { useDisplay } from "vuetify";
+import HeaderMobile from "@/components/common/HeaderMobile.vue";
 
 
-const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
+const MessageBox = defineAsyncComponent(() => import("@/components/common/MessageBox.vue"));
 const { reinitializeResultData } = APIService();
 const { getStatsTheses, getStatsSujets } = thesesAPIService();
 const { getStatsPersonnes } = personnesAPIService();
 const { mobile } = useDisplay();
 
-let loading = ref(false);
-
+const loading = ref(false);
+const showMenu = ref(false);
 const messageBox = ref(null);
-
 const nbPersonnes = ref(0), nbTheses = ref(0), nbSujets = ref(0);
 
 onMounted(() => {
@@ -71,6 +71,18 @@ function displayError(message) {
   });
 }
 
+/**
+ * Fonctionnement du header mobile
+ */
+function activateMenu() {
+  sleep(250).then(() => {
+    showMenu.value = !showMenu.value;
+  });
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
 </script>
 
 <style scoped lang="scss">
@@ -166,7 +178,9 @@ function displayError(message) {
 
   }
 
-
+  :deep(.v-divider) {
+    margin-top: 0 !important;
+  }
 
   p {
     display: flex;
@@ -179,5 +193,9 @@ function displayError(message) {
   .max-height-200 {
     max-height: 200px;
   }
+}
+
+.mobile-nav-bar {
+  margin-top: 50px !important;
 }
 </style>

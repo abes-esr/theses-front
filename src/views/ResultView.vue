@@ -1,46 +1,24 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
-  <nav v-if="mobile" class="mobile-nav-bar">
-    <!--    Bouton filtres-->
-    <button @click="dialogVisible = true" class="filter-mobile-nav-bar">
-      <v-icon v-bind="props" size="40px">mdi-filter-variant
-      </v-icon>
-      <span v-bind="props">Filtrer</span>
-    </button>
-    <!--    Bouton menu recherche/selecteur these/personnes-->
-    <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-      :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
-    </v-icon>
-  </nav>
-  <!--    Menu filtres-->
-  <div v-if="mobile" class="logo-menu-wrapper">
-    <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_home logo_resultview">
-      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-    </RouterLink>
-    <!--    Menu recherche/selecteur these/personnes-->
-    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
-      :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-      <facets-header @closeOverlay="closeOverlay"
-        @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
-      <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-        :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
-        :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
-    </v-dialog>
-
-    <v-expand-transition>
-      <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
-        <div class="expanded-search-bar">
-          <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-          <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-            @onError="displayError" />
-        </div>
-      </div>
-    </v-expand-transition>
-  </div>
+<!--  Mobile-->
+  <header-mobile v-if="mobile" type="resultats" @changeDomain="changeDomain" @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
+                  @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
+                 :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"
+  ></header-mobile>
+  <!--    Menu filtres  -->
+  <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+            :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+    <facets-header @closeOverlay="closeOverlay"
+                   @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></facets-header>
+    <facets-list @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
+                 :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
+                 :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+                 :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
+                 :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side"></facets-list>
+  </v-dialog>
+<!--  Fin Mobile-->
 <!--  Desktop-->
-  <div v-else class="sub-header">
+  <div v-if="!mobile" class="sub-header">
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
         <RouterLink :to="{ name: 'home', query: { domaine: 'theses' } }" title="Accueil du site">
@@ -65,6 +43,7 @@
         :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
         class="left-side"></facets-list>
     </div>
+<!--    Mobile & desktop-->
     <div class="result-components white-containers">
       <result-components :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
         :persistentQuery="request" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
@@ -86,6 +65,7 @@ import DomainSelector from '@/components/common/DomainSelector.vue';
 import ResultComponents from "@/components/common/results/ResultComponents.vue";
 import FacetsHeader from "@/components/common/results/FacetsHeader.vue";
 import ScrollToTopButton from "@/components/common/ScrollToTopButton.vue";
+import HeaderMobile from "@/components/common/HeaderMobile.vue";
 
 const { mobile } = useDisplay();
 const {
@@ -107,7 +87,6 @@ const request = ref("");
 const result = ref([]);
 const dataReady = ref(false);
 const dataFacetsReady = ref(false);
-// const isBurgerMenuOpen = ref(false);
 const messageBox = ref(null);
 const resetFacets = ref(0);
 const loading = ref(false);
@@ -117,6 +96,7 @@ const resetPage = ref(0);
 const resetShowingNumber = ref(0);
 const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
+const showMenu = ref(false);
 const showSearchBar = ref(false);
 const selectedFacets = ref([]);
 const filterToBeDeleted = ref([]);
@@ -281,6 +261,30 @@ function deleteFilter(filter) {
 }
 
 /**
+ * Fonctionnement du header mobile
+ */
+function activateMenu() {
+  showSearchBar.value = false;
+  sleep(250).then(() => {
+    showMenu.value = !showMenu.value;
+  });
+}
+
+function activateSearchBar() {
+  showMenu.value = false;
+  sleep(250).then(() => {
+    showSearchBar.value = !showSearchBar.value;
+  });
+}
+
+function activateFilterMenu() {
+  dialogVisible.value = true;
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+/**
  * Watchers
  */
 
@@ -292,16 +296,12 @@ watch(() => currentRoute.query.domaine, () => {
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-.greyBar {
+.grey-bar {
   background-color: rgb(var(--v-theme-gris-clair)) !important;
 }
 
-.darkGreyBar {
+.dark-grey-bar {
   background-color: rgb(var(--v-theme-gris-fonce)) !important;
-}
-
-.blueBorder {
-  border-right: solid rgb(var(--v-theme-primary)) 3px;
 }
 
 .left-side {

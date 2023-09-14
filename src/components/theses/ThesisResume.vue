@@ -94,7 +94,7 @@ p {
 
 #resume-text {
   margin: 0 10px;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .mdi-file-document-arrow-right.v-icon--size-default {

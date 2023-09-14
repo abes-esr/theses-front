@@ -5,12 +5,12 @@
   <v-app>
     <!-- DEBUT BLOC BETA-->
     <v-alert width="100%" outlined color="primary"
-      style="padding-top: 30px; padding-bottom: 30px;"><strong>Avertissement</strong> : vous êtes
+             style="padding-top: 30px; padding-bottom: 30px;"><strong>Avertissement</strong> : vous êtes
       sur la version beta de
       Theses.fr. Cette
       version bêta est incomplète. <a href="https://theses.fr/"><strong style="color: white;">Cliquez ici pour retourner à
-          la version actuelle.
-        </strong></a><v-btn class="float-right" tonal color="secondary" @click="dialog = true">Plus
+        la version actuelle.
+      </strong></a><v-btn style="margin-top: 10px;" class="float-right" density="compact" tonal color="secondary" @click="dialog = true">Plus
         d'informations</v-btn></v-alert>
     <!-- FIN BLOC BETA-->
     <header-custom></header-custom>
@@ -99,7 +99,6 @@ export default {
 
 main {
   display: flex !important;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100vw;
@@ -123,7 +122,12 @@ main {
     justify-content: space-between;
     align-content: center;
     padding: 0 10px;
-    margin: -10px 0 30px;
+    margin: 0 0 30px;
+    border-bottom: solid 1px rgb(var(--v-theme-gris-clair));
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      margin: 0 0 30px;
+    }
   }
 
   .filter-mobile-nav-bar {
@@ -177,11 +181,12 @@ main {
     margin-bottom: 40px;
   }
 
-  .magnify-logo-active {
+  .logo-active {
     color: rgb(var(--v-theme-orange-abes));
   }
 
   .expanded-search-bar-container {
+    margin-top: -30px;
     width: 100%;
     grid-column: 1 / 5;
     justify-self: center;
@@ -205,6 +210,51 @@ main {
     align-items: center;
     margin-top: 1rem;
     height: 100%;
+  }
+}
+
+.menu-burger-header {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10%;
+  padding-right: 2%;
+  width: 100%;
+  min-height: 4rem;
+  font-size: 22px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    padding-left: 7%;
+    padding-right: 2%;
+    font-size: 20px;
+  }
+
+  .menu-meta {
+    display: flex;
+    justify-content: space-between;
+    min-width: 4.5em;
+  }
+}
+
+.expanded-burger-menu {
+  padding-bottom: 15px;
+
+  .nav-bar-list-burger {
+    padding: 0 2em;
+    display: flex;
+    flex-direction: column;
+
+    .menu-text-element {
+      color: rgb(var(--v-theme-primary));
+      font-size: 20px;
+      font-family: "Roboto-Bold", sans-serif;
+      font-weight: 500;
+
+      a {
+        text-decoration: none;
+      }
+    }
   }
 }
 
@@ -381,6 +431,31 @@ h4 {
 .rtl-text {
   direction: rtl !important;
 }
+.grecaptcha-badge { visibility: hidden; }
+
+.close-overlay-button {
+  width: 35px;
+  height: 35px;
+  position: relative;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background: rgb(var(--v-theme-surface));
+}
+
+.close-icon {
+  color: rgb(var(--v-theme-orange-abes));
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 </style>
 <style scoped lang="scss">
 @use 'vuetify/settings';

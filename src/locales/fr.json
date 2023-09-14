@@ -28,6 +28,10 @@
   "disableSuggestion": "Désactiver l'autocomplétion",
   "top": "Haut de la page",
   "menu": "Menu",
+  "reseau": "Réseau",
+  "rss": "Flux RSS",
+  "filtres": "Filtres",
+  "assistanceAbes": "Guichet d'assistance de l'ABES",
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
   },

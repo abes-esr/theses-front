@@ -14,7 +14,6 @@
         <div class="close-icon"><v-icon size="35">mdi-close-box</v-icon></div>
       </div>
     </button>
-
   </div>
   <div v-if="mobile" class="reinitialize-button-mobile">
     <v-btn @click.stop="" @click="searchAndReinitializeAllFacets" class="reinitialize-button-mobile" size="small"
@@ -90,29 +89,6 @@ function closeOverlay() {
   text-transform: capitalize;
   letter-spacing: 0.5px;
   color: rgb(var(--v-theme-secondary-darken-2));
-}
-
-.close-overlay-button {
-  width: 35px;
-  height: 35px;
-  position: relative;
-}
-
-.circle {
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  background: rgb(var(--v-theme-surface));
-}
-
-.close-icon {
-  color: rgb(var(--v-theme-orange-abes));
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .reinitialize-button-mobile {
