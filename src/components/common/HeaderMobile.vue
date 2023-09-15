@@ -45,9 +45,11 @@
       <div v-show="showMenu" class="expanded-search-bar-container white-containers">
         <div class="languages-btn-container">
           <div class="languages-btn">
-            <v-btn flat @click="$i18n.locale = 'fr';" title="Langue française">FR</v-btn>
-            |
-            <v-btn flat @click="$i18n.locale = 'en';" title="English Language">EN</v-btn>
+            <button flat @click="setLanguage('fr')" title="Langue française">FR</button>
+            <p>|</p>
+            <button flat @click="setLanguage('en')" title="English Language">EN</button>
+            <p>|</p>
+            <button flat @click="setLanguage('es')" title="English Language">ES</button>
           </div>
         </div>
         <div class="expanded-burger-menu">
@@ -96,6 +98,10 @@
 <script setup>
 import DomainSelector from "@/components/common/DomainSelector.vue";
 import SearchBar from "@/components/generic/GenericSearchBar.vue";
+import { onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n();
 
 const props = defineProps({
   theseStatut: {
@@ -156,6 +162,19 @@ function displayError() {
   emit('displayError');
 }
 
+/**
+ * Fonction selecteur langage
+ */
+onMounted(() => {
+  if (localStorage.getItem("language")) {
+    locale.value = localStorage.getItem("language");
+  }
+});
+
+function setLanguage(lang) {
+  localStorage.setItem("language", lang);
+  locale.value = lang;
+}
 </script>
 
 <style scoped lang="scss">
@@ -208,9 +227,27 @@ function displayError() {
 }
 
 .languages-btn-container {
-  width: 100%;
-  display: flex;
-  justify-content: end;
   padding-top: 10px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+}
+
+.languages-btn {
+  grid-column-end: 3;
+  max-width: 150px;
+  display: inline-grid;
+  grid-template-columns: 1fr 0.1fr 1fr  0.1fr 1fr;
+
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+
+  button p {
+    grid-row-start: 1;
+  }
+
+  p {
+    width: 2px;
+  }
 }
 </style>
