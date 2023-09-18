@@ -15,26 +15,30 @@
           <div v-else class="nomprenom">
             <span class="prenom">{{ item.prenom + "\xa0" }}</span><span class="nom">{{ item.nom }}</span>
           </div>
+        </div>
+      </div>
+      <div class="action">
+        <div class="idref-container">
           <a class="nomprenom" v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
             <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png" />
           </a>
         </div>
-      </div>
-      <div class="action">
-        <v-btn :disabled="!item.roles['auteur'] || !item.these" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
-          @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }}
-          ({{ item.roles["auteur"] ? item.roles["auteur"] : 0 }})
-        </v-btn>
-        <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these" color="secondary-darken-2"
-          append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Directeurs')">{{
-            $t('personnes.resultView.personnesCard.directeur') }}
-          ({{ item.roles["directeur de thèse"] ? item.roles["directeur de thèse"] : 0 }})
-        </v-btn>
-        <v-btn :disabled="!item.roles['rapporteur'] || !item.these" color="secondary-darken-2"
-          append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Rapporteurs')">{{
-            $t('personnes.resultView.personnesCard.rapporteur') }}
-          ({{ item.roles["rapporteur"] ? item.roles["rapporteur"] : 0 }})
-        </v-btn>
+        <div class="action-buttons-container">
+          <v-btn :disabled="!item.roles['auteur'] || !item.these" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
+            @click="goToPersonne('#Auteurs')">{{ $t('personnes.resultView.personnesCard.auteur') }}
+            ({{ item.roles["auteur"] ? item.roles["auteur"] : 0 }})
+          </v-btn>
+          <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these" color="secondary-darken-2"
+            append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Directeurs')">{{
+              $t('personnes.resultView.personnesCard.directeur') }}
+            ({{ item.roles["directeur de thèse"] ? item.roles["directeur de thèse"] : 0 }})
+          </v-btn>
+          <v-btn :disabled="!item.roles['rapporteur'] || !item.these" color="secondary-darken-2"
+            append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Rapporteurs')">{{
+              $t('personnes.resultView.personnesCard.rapporteur') }}
+            ({{ item.roles["rapporteur"] ? item.roles["rapporteur"] : 0 }})
+          </v-btn>
+        </div>
       </div>
     </div>
     <div class="vertical-spacer"></div>
@@ -156,34 +160,60 @@ function goToPersonne(hash) {
 
   .action {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    align-content: center;
     justify-content: end;
-    width: 100%;
-    height: 100px;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
-      justify-content: flex-end;
-      align-content: center;
-      flex: 0 1 40%;
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      grid-row-start: 2;
+      grid-column-start: 1;
+      margin-top: 1em;
+      justify-content: center;
     }
 
-    .v-btn {
-      max-height: 30px;
-      min-width: 166px;
-      font-weight: 500;
-      text-transform: none;
-      padding: 0 8px;
-      margin-left: 0rem;
-      margin-bottom: 0.3rem;
-      margin-right: 1rem;
+    .idref-container {
+      display: flex;
+      align-items: center;
 
-      @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
-        margin-left: 1rem;
-        margin-right: 0rem;
+      img {
+        max-height: 45px;
+      }
+
+      @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+        order: 2;
+        width: 50%;
+        justify-content: center;
+        margin-left: 1em;
       }
     }
+
+    .action-buttons-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      align-content: center;
+      justify-content: start;
+      height: 100px;
+
+      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+        justify-content: flex-end;
+      }
+
+      .v-btn {
+        max-height: 30px;
+        min-width: 166px;
+        font-weight: 500;
+        text-transform: none;
+        padding: 0 8px;
+        margin-left: 0;
+        margin-bottom: 0.3rem;
+        margin-right: 1rem;
+
+        @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+          margin-left: 1rem;
+          margin-right: 0rem;
+        }
+      }
+    }
+
   }
 }
 
