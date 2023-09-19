@@ -186,7 +186,6 @@
     justify-content: space-around;
 
     a {
-
       img {
         height: 6em;
       }

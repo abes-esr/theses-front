@@ -187,6 +187,8 @@ function updateFacets(firstLoad) {
 }
 
 function moreThanXResults(x) {
+  if (typeof result.value.length === 'undefined' )
+    return false;
   return (result.value.length >= x);
 }
 

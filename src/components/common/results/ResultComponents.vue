@@ -109,6 +109,8 @@ function deleteFilter(facet) {
  * Fonctions
  */
 function moreThanXResults(x) {
+  if (typeof props.result.length === 'undefined' )
+    return false;
   return (props.result.length >= x);
 }
 
