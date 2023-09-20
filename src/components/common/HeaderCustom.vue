@@ -3,9 +3,11 @@
     <div class="text-center text-md-left language-accessibility-toolbar">
       <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
       <div class="languages-btn">
-        <v-btn flat @click="$i18n.locale = 'fr';" title="Langue française">FR</v-btn>
+        <v-btn flat @click="setLanguage('fr')" title="Langue française">FR</v-btn>
         |
-        <v-btn flat @click="$i18n.locale = 'en';" title="English Language">EN</v-btn>
+        <v-btn flat @click="setLanguage('en')" title="English Language">EN</v-btn>
+        |
+        <v-btn flat @click="setLanguage('es')" title="English Language">ES</v-btn>
       </div>
     </div>
     <div class="text-center text-md-right">
@@ -20,8 +22,23 @@
 </template>
 
 <script setup>
-  import { useDisplay } from 'vuetify';
-  const { mobile } = useDisplay();
+import { onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+import { useDisplay } from "vuetify";
+
+const { locale } = useI18n();
+const { mobile } = useDisplay();
+
+onMounted(() => {
+  if (localStorage.getItem("language")) {
+    locale.value = localStorage.getItem("language");
+  }
+});
+
+function setLanguage(lang) {
+  localStorage.setItem("language", lang);
+  locale.value = lang;
+}
 </script>
 
 <style scoped lang="scss">
