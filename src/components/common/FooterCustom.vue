@@ -6,28 +6,41 @@
           <v-icon>mdi-arrow-top-right</v-icon>
           {{ $t("accesDirect") }}
         </h3>
-        <ul class="list-1">
-          <li><span class="orange-link"> > </span><a
-              href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank">{{
-                $t("footer.opendata") }}</a>
-          </li>
-          <li><span class="orange-link"> > </span><a href="http://www.sudoc.abes.fr/cbs/" target="_blank">{{
-            $t("footer.catalogue") }}</a>
-          </li>
-          <li><span class="orange-link"> > </span><a
-              href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{ $t("footer.tef")
-              }}</a>
-          </li>
-          <li><span class="orange-link"> > </span><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
-          }}</a>
-          </li>
-          <li><span class="orange-link"> > </span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
-              target="_blank">{{ $t("footer.doc") }}</a>
-          </li>
-          <li><span class="orange-link"> > </span><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{
-            $t("footer.assistance") }}</a>
-          </li>
-        </ul>
+        <table class="list-1">
+          <tbody>
+            <tr>
+              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank">
+              {{ $t("footer.opendata") }}</a></td>
+            </tr>
+            <tr>
+              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td><a href="http://www.sudoc.abes.fr/cbs/" target="_blank">{{
+              $t("footer.catalogue") }}</a></td>
+            </tr>
+            <tr>
+              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td><a
+                href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{ $t("footer.tef")
+            }}</a></td>
+            </tr>
+            <tr>
+              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
+            }}</a></td>
+            </tr>
+            <tr>
+              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
+                                                                  target="_blank">{{ $t("footer.doc") }}</a></td>
+            </tr>
+            <tr>
+              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{
+              $t("footer.assistance") }}</a></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="theses-description footer-content">
         <h4>Theses.fr</h4>
@@ -145,6 +158,14 @@
     grid-template-rows: 1fr 7fr;
 
     justify-content: center;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      justify-content: start;
+    }
+  }
+
+  .first-column-bullet {
+    vertical-align: top;
   }
 
   .theses-description {
@@ -165,7 +186,6 @@
     justify-content: space-around;
 
     a {
-
       img {
         height: 6em;
       }
