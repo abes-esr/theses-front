@@ -69,7 +69,10 @@ function setSorting(value) {
 }
 
 function setDomaine(newDomain) {
-  domaine.value = newDomain;
+  if (newDomain !== 'undefined')
+    domaine.value = newDomain;
+  else
+    domaine.value = 'theses';
   updateURL();
 }
 
