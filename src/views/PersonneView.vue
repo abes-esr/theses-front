@@ -473,11 +473,12 @@ function sleep(ms) {
 }
 
 .skeleton {
-  margin-bottom: 3em;
+  margin-bottom: 1em;
+  display: flex;
 }
 
 .skeleton-wrapper {
-  padding: 2em 0;
+  display: unset;
 }
 
 :deep(.v-skeleton-loader__button) {
