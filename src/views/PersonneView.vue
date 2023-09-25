@@ -1,7 +1,7 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
   <!--  Mobile-->
-  <header-mobile v-if="mobile" class="header-mobile" @changeDomain="changeDomain" @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
+  <header-mobile v-if="mobile" class="header-mobile" @displayError="displayError"
                    @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
                    :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"
   ></header-mobile>
@@ -16,7 +16,7 @@
         <h1>{{ $t("slogan") }}</h1>
       </div>
       <div class="sub_header__action">
-        <domain-selector @changeDomain="changeDomain" compact></domain-selector>
+        <domain-selector compact></domain-selector>
         <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
                     @onError="displayError"/>
       </div>
@@ -99,7 +99,7 @@
 import {useMeta} from 'vue-meta';
 import {useI18n} from "vue-i18n";
 
-import {defineAsyncComponent, onBeforeMount, onUpdated, ref, watchEffect} from 'vue';
+import { defineAsyncComponent, onBeforeMount, onUpdated, ref, watch, watchEffect } from "vue";
 import SearchBar from '../components/generic/GenericSearchBar.vue';
 import DomainSelector from '@/components/common/DomainSelector.vue';
 
@@ -126,11 +126,6 @@ const showMenu = ref(false);
 const {t} = useI18n();
 const {meta} = useMeta({});
 
-watchEffect(() => {
-  const titlePersonne = item.value.prenom ? item.value.prenom + " " + item.value.nom : "";
-  meta.title = titlePersonne;
-  meta.description = t("meta.descPersonne") + titlePersonne;
-});
 
 const props = defineProps({
   id: {
@@ -141,7 +136,34 @@ const props = defineProps({
 
 
 onBeforeMount(() => {
+  loadData();
+});
 
+onUpdated(() => {
+  if (currentRoute.hash) {
+    document.getElementById(currentRoute.hash.substring(1))?.scrollIntoView({behavior: "smooth"});
+  }
+});
+
+const messageBox = ref(null);
+
+/**
+ * Watchers
+ */
+watchEffect(() => {
+  const titlePersonne = item.value.prenom ? item.value.prenom + " " + item.value.nom : "";
+  meta.title = titlePersonne;
+  meta.description = t("meta.descPersonne") + titlePersonne;
+});
+
+watch(() => props.id, () => {
+  loadData();
+});
+
+/**
+ * Fonctions
+ */
+function loadData() {
   dataReady.value = false;
   getPersonne(props.id).then(result => {
     item.value = result;
@@ -158,15 +180,7 @@ onBeforeMount(() => {
       displayError(error.message);
     }
   });
-});
-
-onUpdated(() => {
-  if (currentRoute.hash) {
-    document.getElementById(currentRoute.hash.substring(1))?.scrollIntoView({behavior: "smooth"});
-  }
-});
-
-const messageBox = ref(null);
+}
 
 /**
  * Retourne le nom de l'ancre HTML en fonction de la clé du rôle
