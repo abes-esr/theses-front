@@ -1,9 +1,9 @@
 <template>
   <Message-box ref="messageBox"></Message-box>
     <!--  Mobile-->
-    <header-mobile v-if="mobile" type="these" @changeDomain="changeDomain" @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
+    <header-mobile v-if="mobile" type="these"  @displayError="displayError"
                    @activate-menu="activateMenu" @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
-                   :loading="loading" :buttons-list="buttonsList" :show-menu="showMenu" :show-search-bar="showSearchBar" :these-soutenue="these.status === 'soutenue'"
+                   :buttons-list="buttonsList" :show-menu="showMenu" :show-search-bar="showSearchBar" :these-soutenue="these.status === 'soutenue'"
     ></header-mobile>
     <!--    Menu accès these boutons-liens-->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
@@ -21,9 +21,8 @@
         <h1>{{ $t("slogan") }}</h1>
       </div>
       <div class="sub_header__action">
-        <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-        <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-          @onError="displayError" />
+        <domain-selector compact></domain-selector>
+        <search-bar @onError="displayError" />
       </div>
     </div>
   </div>
