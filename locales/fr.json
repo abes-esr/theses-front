@@ -1,0 +1,199 @@
+{
+  "errors": {
+    "parameters": "Erreur dans le nom du paramètre"
+  },
+  "slogan": "Le moteur de recherche des thèses françaises",
+  "toutesTheses": "Les thèses",
+  "toutesPersonnes": "Les personnes",
+  "au": "au ",
+  "explorer": "EXPLORER",
+  "rechercher": "Rechercher",
+  "accesDirect": "Accès Direct",
+  "apropos": "A Propos",
+  "donnees": "Données Personnelles",
+  "CGU": "CGU",
+  "mentions": "Mentions Légales",
+  "accessibilite": "Accessibilité",
+  "referencés": "thèses soutenues",
+  "preparation": "thèses en préparation",
+  "personnesRef": "personnes",
+  "assistance": "Assistance",
+  "partager": "Partager",
+  "documentation": "Documentation",
+  "resultats": " résultats de thèses pour ",
+  "scroll": "Haut de la page",
+  "clear": "Effacer",
+  "searchButton": "Rechercher",
+  "avancee":"Recherche Avancée",
+  "disableSuggestion": "Désactiver l'autocomplétion",
+  "top": "Haut de la page",
+  "menu": "Menu",
+  "reseau": "Réseau",
+  "rss": "Flux RSS",
+  "filtres": "Filtres",
+  "assistanceAbes": "Guichet d'assistance de l'ABES",
+  "resultatsView": {
+    "plusDeResultats": "Plus de résultats"
+  },
+  "resultCard": {
+    "par": "Par",
+    "dir": "sous la direction de",
+    "defended": "Thèse soutenue",
+    "ongoing": "Thèse en cours",
+    "since": "Depuis"
+  },
+  "theseView": {
+    "par": "par",
+    "theseDe": "Thèse de doctorat en",
+    "descFR": "Description en français",
+    "descEN": "Description en anglais",
+    "resume": "Résumé",
+    "direction": "Sous la direction de ",
+    "et": " et de ",
+    "soutenueChip": "Soutenue",
+    "soutenue": "Soutenance le ",
+    "soutenueEn": "Soutenance en ",
+    "inscription": "Inscription en doctorat le ",
+    "a": " à ",
+    "auteur": "Auteur",
+    "direction": "Direction",
+    "type": "Type",
+    "disciplines": "Discipline(s)",
+    "dateSoutenance": "Date",
+    "ecoles" : "Ecole(s) doctorale(s)",
+    "etablissements" : "Etablissement(s)",
+    "partenariat": "Partenaire(s) de recherche",
+    "jury": "Jury",
+    "president": "Président :",
+    "composition": "Examinateurs :",
+    "rapporteurs": "Rapporteurs :",
+    "cadre": " dans le cadre de ",
+    "cotutelle": " en cotutelle avec ",
+    "motcle": "Mots clés",
+    "valide": "Validé par le jury",
+    "retour": "Retour aux résultats",
+    "thesePrecedente": "Thèse précédente",
+    "theseSuivante": "Thèse suivante",
+    "alert": "Signaler une erreur",
+    "exporter": "Exporter",
+    "showMoreKeywords": "Afficher plus de mots-clés",
+    "showLessKeywords": "Réduire la liste la liste des mots-clés",
+    "showMoreAbstract": "Afficher la suite du résumé",
+    "showLessAbstract": "Afficher un extrait du résumé",
+    "projet": "Projet de thèse",
+    "doctorat": "Thèse de doctorat",
+    "embargo": "Cette thèse est sous embargo jusqu’au ",
+    "confidentialite": "Cette thèse est confidentielle jusqu’au ",
+    "access": "Accès à la thèse",
+    "modalContent": "<h1>Avertissement</h1><br />L’auteur de la thèse n’a pas autorisé sa diffusion libre sur internet.<br /><br />Conformément à la réglementation nationale en vigueur, définie, <ul><li>entre le 1er septembre 2006 et le 1er septembre 2016, par les arrêtés du 7 août 2006 <a href='https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000267752' target='_blank'>relatif à la formation doctorale</a> et <a href='https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000635069' target='_blank'>relatif aux modalités de dépôt, de signalement, de reproduction, de diffusion et de conservation des thèses ou des travaux présentés en soutenance en vue du doctorat</a>, </li><li>à compter du 1er septembre 2016, par <a href='https://www.legifrance.gouv.fr/loda/id/LEGIARTI000032588123' target='_blank'>l’arrêté du 25 mai 2016 fixant le cadre national de la formation et les modalités conduisant à la délivrance du diplôme national de doctorat</a>, mis à jour le 26 août 2022,</li></ul><br /><u><strong>La thèse est diffusable uniquement au sein de la communauté universitaire française.</strong></u> Si vous êtes membres de ladite communauté universitaire (étudiants, enseignants, chercheurs, personnels), vous pouvez accéder au document en vous authentifiant avec le login et le mot de passe que vous utilisez habituellement au sein de votre établissement de rattachement.<br /><br />Cette thèse étant une œuvre de l’esprit, elle est protégée par le Code de la Propriété Intellectuelle. Le ou les fichiers que vous allez télécharger en votre qualité de membre de la communauté universitaire française <strong>ne peuvent être utilisés en dehors du cadre fixé par le droit à la copie privée </strong><a href='https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000044365551' target='_blank'>(article L122-5, 2°, du CPI)</a>. Tout plagiat ou contrefaçon, ainsi que toute reproduction illicite ou diffusion effectuée en dehors du cadre privé sans autorisation préalable de l’auteur, est strictement interdit et vous expose à des sanctions pénales allant jusqu’à 3 ans d’emprisonnement et 300 000€ d’amende.",
+    "modalAgree": "J’ai pris connaissance de la réglementation nationale et des conditions d’utilisation de la thèse.",
+    "modalOk": "Valider",
+    "modalCancel": "Annuler"
+  },
+  "organismeView": {
+    "etabSoutenance": "{0} thèse(s) soutenue(s) dans cet établissement",
+    "etabSoutenanceEnCours": "{0} thèse(s) en cours de préparation dans cet établissement",
+    "partenaireRecherche": "{0} thèse(s) soutenue(s) en partenariat avec cet établissement",
+    "partenaireRechercheEnCours": "{0} thèse(s) en préparation en partenariat avec cet établissement",
+    "etabCotutelle": "{0} thèse(s) soutenue(s) en cotutelle avec cet établissement",
+    "etabCotutelleEnCours": "{0} thèse(s) en préparation en cotutelle avec cet établissement",
+    "ecoleDoctorale": "{0} thèse(s) soutenue(s) dans le cadre de cet établissement",
+    "ecoleDoctoraleEnCours": "{0} thèse(s) en péparation dans le cadre de cet établissement"
+  },
+  "results": {
+    "facetsHeader": "Filtres",
+    "searching": "Recherche...",
+    "chips": {
+      "from": "à partir de",
+      "to": "jusqu'à"
+    },
+    "drawer": {
+      "from": "de",
+      "to": "à"
+    },
+    "show": "Afficher",
+    "resultsPerPage": "résultats par page",
+    "sort": "Trier",
+    "sortBy": "Trier par",
+    "searched": "La recherche sur",
+    "returned": "a retourné",
+    "results": "résultat(s)"
+  },
+  "personnes": {
+    "searchBar": {
+      "loading": "Recherche en cours...",
+      "noData": "Pas de données",
+      "title-personnes": "Personnes",
+      "title-thematiques": "Thématiques"
+    },
+    "resultView": {
+      "resultats": " résultats de personnes pour ",
+      "personnesCard": {
+        "auteur": "Auteur",
+        "directeur": "Directeur",
+        "rapporteur": "Rapporteur"
+      }
+    },
+    "personneView": {
+      "statistiques": {
+        "auteur": "Auteur",
+        "directeur de thèse": "Directeur",
+        "président du jury": "Président du jury",
+        "rapporteur": "Rapporteur",
+        "membre du jury": "Membre du jury",
+        "theses": "thèse(s)",
+        "theses2": "thèse(s)"
+      },
+      "motsCles": {
+        "readMore": "Lire la suite",
+        "readLess": "Refermer"
+      },
+      "roles": {
+        "auteur": "Auteur de {0} thèse(s)",
+        "directeur": "Directeur de {0} thèse(s)",
+        "rapporteur": "Rapporteur pour {0} thèse(s)",
+        "president": "Président de jury pour {0} thèse(s)",
+        "membre": "Membre du jury pour {0} thèse(s)"
+      }
+    }
+  },
+  "reportErrorView": {
+    "nom": "Nom *",
+    "prenom": "Prenom *",
+    "mail": "Adresse mail *",
+    "objet": "Objet *",
+    "question": "Question *",
+    "domaine": "Domaine *",
+    "envoyer": "Envoyer",
+    "annuler": "Annuler",
+    "requis": "Ce champ est obligatoire",
+    "mailInvalide": "Adresse mail invalide",
+    "info" : "Les données que vous voyez dans theses.fr sont placées sous la responsabilité des établissements habilités à délivrer le doctorat. Ce formulaire vous permet de contacter directement le service compétent au sein de l'établissement dont dépend la thèse : ",
+    "msg": "Votre message a bien été transmis."
+  },
+  "footer": {
+    "texte": "Theses.fr est un moteur de recherche qui recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française. La base de données est en constante évolution.",
+    "opendata": "Theses.fr en Open Data",
+    "catalogue": "Catalogue collectif Sudoc",
+    "idRref": "IdRef Identifiants et référentiels",
+    "tef": "Format TEF (Thèses Electroniques Françaises)",
+    "doc": "Documentation",
+    "assistance": "Guichet d'assistance",
+    "logoAbesAlt": "Accéder au site de l’Agence Bibliographique de l’Enseignement Supérieur",
+    "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche",
+    "plus": "En savoir plus"
+  },
+  "header": {
+    "doc": "Accéder à la documentation de theses.fr ",
+    "assistance": "Accéder au guichet d’assistance de l'Abes",
+    "accessibility": "Outils d'accessibilité"
+  },
+  "meta": {
+    "desc": "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation.",
+    "titre": "Theses.fr, moteur de recherche des thèses françaises",
+    "titreResult": "Explorer les thèses pour ",
+    "descResult": "Résultat du moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation. Grâce à son moteur de recherche et sa navigation par facette, l’interface donne accès aux données des thèses : titre, docteur, disciplines,  directeurs, établissements de soutenance, écoles doctorales, partenaires de recherche et date de soutenance.",
+    "descThese": "Page détaillée de la thèse ",
+    "descPersonne": "Page détaillée de la personne "
+  }
+}
