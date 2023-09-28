@@ -180,6 +180,10 @@
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
+
+definePageMeta({
+    title: 'A Propos | Theses.fr'
+})
 </script>
 
 <style lang="scss">

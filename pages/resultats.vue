@@ -100,6 +100,13 @@ const parametersLoaded = ref(0);
 const reinitializeDateFromTrigger = ref(0);
 const reinitializeDateToTrigger = ref(0);
 
+
+//Titre statique
+definePageMeta({
+    title: 'Résultats | Theses.fr'
+})
+
+
 onMounted(async () => {
     getURLParameters().then(() => {
         setDomaine(currentRoute.query.domaine);
@@ -107,6 +114,11 @@ onMounted(async () => {
         request.value = decodeURI(currentRoute.query.q);
         setQuery(request.value);
         search(true);
+        //Titre surchargé lors de l'hydratation
+        useHead({
+            meta: [{ property: 'title', content: `Résultats pour ${request.value} | Theses.fr` }],
+            title: `Résultats pour ${request.value} | Theses.fr `
+        })
     });
 });
 

@@ -12,7 +12,7 @@
         </p>
       </div>
     </div>
-    <div v-if="!dataReady">
+    <div v-if="!dataReady && !server">
       <v-skeleton-loader type="article"></v-skeleton-loader>
     </div>
   </div>
@@ -36,6 +36,11 @@ const props = defineProps({
   },
 });
 
+const server = ref(false);
+if (process.server) {
+  server.value = true;
+}
+
 const resume = ref("");
 const selectedLanguage = ref("fr");
 
@@ -49,7 +54,9 @@ onBeforeUpdate(() => {
  * Computed
  */
 const langList = computed(() => {
-  return Object.keys(props.these.resumes);
+  if (props.these.resumes)
+    return Object.keys(props.these.resumes);
+  else return [];
 });
 
 /**

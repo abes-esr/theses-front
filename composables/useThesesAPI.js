@@ -59,7 +59,7 @@ function getFacetsTheses(query, facetsRequest) {
  */
 // #TODO gérer les erreurs
 function getThese(nnt) {
-  return apiTheses.get("/theses/these/" + nnt);
+  return useFetch( "https://v2-test.theses.fr/api/v1/" + "/theses/these/" + nnt);
 }
 
 function getButtons(nnt) {

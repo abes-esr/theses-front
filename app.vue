@@ -49,7 +49,6 @@
 <script setup>
 import { ref } from 'vue';
 
-
 // DEBUT BETA
 const dialog = ref(false);
 if (process.client) {
@@ -67,9 +66,6 @@ useHead({
   viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   charset: "utf-8",
   meta: [{ name: "description", content: "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation." }],
-  bodyAttrs: {
-    class: "test",
-  },
   script: [
     {
       async: true,

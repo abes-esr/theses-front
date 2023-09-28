@@ -67,11 +67,15 @@ function changeLanguage(newValue) {
   selectedLanguage.value = newValue;
 }
 
-/*watchEffect(() => {
+watchEffect(() => {
   const titleThese = props.these.titrePrincipal ? props.these.titrePrincipal : "";
-  meta.title = titleThese;
-  meta.description = t("meta.descThese") + titleThese;
-});*/
+
+  // Titre détaillé 
+  useHead({
+    meta: [{ property: 'title', content: `${titleThese} | Theses.fr` }, { property: 'description', content: t("meta.descThese") + titleThese }],
+    title: `${titleThese} | Theses.fr `
+  })
+});
 </script>
 
 <style scoped lang="scss">
