@@ -398,11 +398,7 @@ h4 {
     flex-wrap: wrap;
     text-decoration: none;
     color: rgb(var(--v-theme-primary));
-    font-size: 20px;
-
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      font-size: 29.5px;
-    }
+    font-size: 18px;
 
     .prenom {
       font-weight: 400;

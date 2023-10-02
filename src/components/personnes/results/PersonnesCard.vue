@@ -39,6 +39,7 @@
             ({{ item.roles["rapporteur"] ? item.roles["rapporteur"] : 0 }})
           </v-btn>
         </div>
+        <div v-if="mobile" class="flex-grow-spacer"></div>
       </div>
     </div>
     <div class="vertical-spacer"></div>
@@ -60,9 +61,11 @@ export default {
 </script>
 <script setup>
 import { useRoute, useRouter } from "vue-router";
+import { useDisplay } from "vuetify";
 
 const router = useRouter();
 const currentRoute = useRoute();
+const { mobile } = useDisplay();
 
 const props = defineProps({
   item: {
@@ -172,6 +175,7 @@ function goToPersonne(hash) {
     .idref-container {
       display: flex;
       align-items: center;
+      flex-shrink: 5;
 
       img {
         max-height: 45px;
@@ -192,14 +196,11 @@ function goToPersonne(hash) {
       align-content: center;
       justify-content: start;
       height: 100px;
-
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-        justify-content: flex-end;
-      }
+      flex-shrink: 5;
 
       .v-btn {
         max-height: 30px;
-        min-width: 166px;
+        width: 166px;
         font-weight: 500;
         text-transform: none;
         padding: 0 8px;
@@ -214,6 +215,11 @@ function goToPersonne(hash) {
       }
     }
 
+    .flex-grow-spacer {
+      width: 100%;
+      flex-grow: 5;
+      order: 3;
+    }
   }
 }
 
