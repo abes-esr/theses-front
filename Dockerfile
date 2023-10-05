@@ -1,27 +1,33 @@
-# use node 16 alpine image
-FROM node:16-alpine
+# syntax = docker/dockerfile:1
 
-# create work directory in app folder
-WORKDIR /app
+ARG NODE_VERSION=18.14.2
 
-# install required packages for node image
-RUN apk --no-cache add openssh g++ make python3 git
+FROM node:${NODE_VERSION}-slim as base
 
-# copy over package.json files
-COPY package.json /app/
-COPY package-lock.json /app/
+ARG PORT=3000
 
-# install all depencies
-RUN npm ci && npm cache clean --force
+ENV NODE_ENV=production
 
-# copy over all files to the work directory
-ADD . /app
+WORKDIR /src
 
-# build the project
+# Build
+FROM base as build
+
+COPY --link package.json package-lock.json .
+RUN npm install --production=false
+
+COPY --link . .
+
 RUN npm run build
+RUN npm prune
 
-# expose the host and port 3000 to the server
-EXPOSE 3000
+# Run
+FROM base
 
-# run the build project with node
-ENTRYPOINT ["node", ".output/server/index.mjs"]
+ENV PORT=$PORT
+
+COPY --from=build /src/.output /src/.output
+# Optional, only needed if you rely on unbundled dependencies
+# COPY --from=build /src/node_modules /src/node_modules
+
+CMD [ "node", ".output/server/index.mjs" ]
