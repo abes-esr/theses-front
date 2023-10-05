@@ -67,6 +67,8 @@ export default defineNuxtConfig({
      '/resultats': { ssr: false },
   },
   nitro: {
-    compressPublicAssets: true,
+    vite: {
+      plugins: [viteCompression({ algorithm: 'brotliCompress' })],
+    }
   },
 })
