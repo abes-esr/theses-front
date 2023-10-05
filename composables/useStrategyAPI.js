@@ -26,7 +26,6 @@ const checkedFilters = ref([]);
 const currentWorkingFacetName = ref("");
 const labelMap = ref(new Map());
 
-
 fetchCodeLangues();
 
 /**
@@ -443,7 +442,7 @@ async function getFacets() {
     if (domaine.value === "theses") {
       await getFacetsTheses(query.value, getFacetsRequest())
         .then(response => {
-          rawFacets.value = replaceWorkingFacet(response.data, currentWorkingFacet);
+          rawFacets.value = replaceWorkingFacet(response.data.value, currentWorkingFacet);
         }).catch((err) => {
           reject(err);
         });
@@ -452,7 +451,7 @@ async function getFacets() {
     if (domaine.value === "personnes") {
       await getFacetsPersonnes(query.value, getFacetsRequest())
         .then(response => {
-          rawFacets.value = replaceWorkingFacet(response.data, currentWorkingFacet);
+          rawFacets.value = replaceWorkingFacet(response.data.value, currentWorkingFacet);
         }).catch((err) => {
           reject(err);
         });

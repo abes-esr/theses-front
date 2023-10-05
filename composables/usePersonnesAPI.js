@@ -1,14 +1,5 @@
-import axios from 'axios'
-import { replaceAndEscape } from "@/services/Common";
-
-export default function () {
-const apiPersonnes = axios.create({
-    baseURL: "https://v2-test.theses.fr/api/v1/",
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-    }
-});
+import { replaceAndEscape } from "../services/Common";
+import { useAPIFetch } from "./useAPIFetch";
 
 /**
  * Fonction pour rechercher des personnes à partir d'un mot.
@@ -24,9 +15,9 @@ async function queryPersonnesAPI(query, facetsRequest, currentPageNumber, curren
     const url = "/personnes/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPageNumber - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentSorting + facetsRequest;
 
     return new Promise((resolve, reject) => {
-        apiPersonnes.get(url)
+        useAPIFetch(url)
           .then((response) => {
-            resolve(response.data); // #TODO à rectifier après normalisation
+            resolve(response.data.value); // #TODO à rectifier après normalisation
         }).catch((err) => {
             reject(err);
         });
@@ -49,8 +40,8 @@ function disableOrFiltersPersonnes(facets) {
  */
 async function suggestionPersonne(query) {
     return new Promise((resolve, reject) => {
-        apiPersonnes.get("/personnes/completion", {params: {"q": encodeURI(query)}}).then((response) => {
-            resolve(response.data);
+        useAPIFetch("/personnes/completion", {params: {"q": encodeURI(query)}}).then((response) => {
+            resolve(response.data.value);
         }).catch((err) => {
             reject(err);
         });
@@ -63,7 +54,7 @@ async function suggestionPersonne(query) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function getFacetsPersonnes(query, facetsRequest) {
-    return apiPersonnes.get("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);
+    return useAPIFetch("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);
 }
 
 /**
@@ -73,8 +64,8 @@ function getFacetsPersonnes(query, facetsRequest) {
  */
 async function getPersonne(id) {
     return new Promise((resolve, reject) => {
-        apiPersonnes.get("/personnes/personne/" + id).then((response) => {
-            resolve(response.data);
+        useAPIFetch("/personnes/personne/" + id).then((response) => {
+            resolve(response.data.value);
         }).catch((err) => {
             reject(err);
         });
@@ -99,13 +90,14 @@ function getItemsTriMapPersonnes() {
 }
 
 function getStatsPersonnes() {
-    return apiPersonnes.get("/personnes/stats")
+    return useAPIFetch("/personnes/stats")
 }
 
 
 /**
  * Service lié aux personnes
  */
+export default function () {
     return {
         queryPersonnesAPI,
         suggestionPersonne,

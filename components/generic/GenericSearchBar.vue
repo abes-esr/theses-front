@@ -7,11 +7,13 @@ export default {
 };
 </script>
 <script setup>
-import { watch, shallowRef, onBeforeMount } from "vue";
+import { watch, shallowRef } from "vue";
 import SearchBarTheses from "../theses/search/SearchBar.vue";
 import SearchBarPersonnes from "../personnes/search/SearchBar.vue";
 
 const activeComponent = shallowRef(SearchBarTheses);
+activeComponent.value = SearchBarTheses;
+
 const currentRoute = useRoute();
 
 async function updateComponent(domaine) {
@@ -23,10 +25,6 @@ async function updateComponent(domaine) {
     activeComponent.value = SearchBarTheses
   }
 }
-
-onBeforeMount(() => {
-  updateComponent(currentRoute.query.domaine)
-});
 
 watch(() => currentRoute.query.domaine, () => {
   updateComponent(currentRoute.query.domaine)

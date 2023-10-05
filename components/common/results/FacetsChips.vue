@@ -26,7 +26,7 @@ defineProps({
   }
 });
 
-const emit = defineEmits('deleteFilter');
+const emit = defineEmits(['deleteFilter']);
 
 function deleteFilter(facet) {
   setWorkingFacetName('');

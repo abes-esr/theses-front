@@ -1,16 +1,7 @@
-import axios from "axios";
 import { replaceAndEscape } from "../services/Common";
-
-const apiTheses = axios.create({
-  baseURL: "https://v2-test.theses.fr/api/v1/",
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json"
-  }
-});
+import { useAPIFetch } from "./useAPIFetch";
 
 /// #TODO Passer les routes en variables/paramètres?
-
 /**
  * Les statuts "soutenue" et "en cours" s'annulent
  * @param facets
@@ -27,9 +18,9 @@ function queryThesesAPI(query, facetsRequest, currentPageNumber, currentShowingN
   const url = "/theses/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPageNumber - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentSorting + facetsRequest;
 
   return new Promise((resolve, reject) => {
-    apiTheses.get(url)
+    useAPIFetch(url)
       .then((response) => {
-      resolve(response.data);
+      resolve(response.data.value);
     }).catch((err) => {
       reject(err);
     });
@@ -39,7 +30,7 @@ function queryThesesAPI(query, facetsRequest, currentPageNumber, currentShowingN
 //Autcomplétion recherche simple
 // #TODO gérer les erreurs
 function suggestionTheses(query) {
-  return apiTheses.get("/theses/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
+  return useAPIFetch("/theses/completion/?q=" + encodeURIComponent(replaceAndEscape(query)));
 }
 
 /**
@@ -49,7 +40,7 @@ function suggestionTheses(query) {
  */
 // #TODO gérer les erreurs
 function getFacetsTheses(query, facetsRequest) {
-  return apiTheses.get("/theses/facets/?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);
+  return useAPIFetch("/theses/facets/?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);
 }
 
 /**
@@ -59,11 +50,11 @@ function getFacetsTheses(query, facetsRequest) {
  */
 // #TODO gérer les erreurs
 function getThese(nnt) {
-  return useFetch( "https://v2-test.theses.fr/api/v1/" + "/theses/these/" + nnt);
+  return useAPIFetch( "theses/these/" + nnt);
 }
 
 function getButtons(nnt) {
-  return apiTheses.get("/button/" + nnt);
+  return useAPIFetch("/button/" + nnt);
 }
 
 function getItemsTriTheses() {
@@ -93,15 +84,18 @@ function getItemsTriMapTheses() {
 }
 
 function getStatsTheses() {
-  return apiTheses.get("/theses/statsTheses");
+  return useAPIFetch("theses/statsTheses");
 }
 
 function getStatsSujets() {
-  return apiTheses.get("/theses/statsSujets");
+  return useAPIFetch("theses/statsSujets");
 }
 
 function postSignalerErreur(jsonData) {
-  return apiTheses.post("/theses/these/signaler/", jsonData)
+  return useAPIFetch("/theses/these/signaler/", {
+        method: 'post',
+        body: jsonData
+    })
 }
 
 /**

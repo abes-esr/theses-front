@@ -17,7 +17,7 @@
     <div v-if="type === 'top'" class="last-bar-element">
       <span class="sort-by-span no-wrap-text">{{ $t('results.sortBy') }}</span>
       <CommonResultsSortingSelect class="right-select v-selects"
-        @updatePageNumberFromSortingSelect="updatePageNumberFromSortingSelect" @search="search">
+        @updatePageNumberFromSortingSelect="updatePageNumberFromSortingSelect">
       </CommonResultsSortingSelect>
     </div>
   </div>

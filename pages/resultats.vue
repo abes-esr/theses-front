@@ -1,10 +1,12 @@
 <template>
-    <!-- <Message-box ref="messageBox"></Message-box> -->
+    <ClientOnly><Message-box ref="messageBox"></Message-box></ClientOnly>
     <!--  Mobile-->
-    <CommonHeaderMobile v-if="mobile" type="resultats" @changeDomain="changeDomain" @search="search"
-        @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
-        @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
-        :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"></CommonHeaderMobile>
+    <ClientOnly>
+        <CommonHeaderMobile v-if="mobile" type="resultats" @changeDomain="changeDomain" @search="search"
+            @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
+            @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
+            :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"></CommonHeaderMobile>
+    </ClientOnly>
     <!--    Menu filtres  -->
     <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
         :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
@@ -75,7 +77,7 @@ const {
     setWorkingFacetName
 } = useStrategyAPI();
 
-//const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
+const MessageBox = defineAsyncComponent(() => import('/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
 const request = ref("");

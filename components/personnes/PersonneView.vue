@@ -1,11 +1,13 @@
 <template>
-  <Message-box ref="messageBox"></Message-box>
+  <ClientOnly><Message-box ref="messageBox"></Message-box></ClientOnly>
   <!--  Mobile-->
-  <CommonHeaderMobile v-if="mobile" class="header-mobile" @displayError="displayError" @activateMenu="activateMenu"
-    @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu" :loading="loading"
-    :show-menu="showMenu" :show-search-bar="showSearchBar"></CommonHeaderMobile> <!--  Fin Mobile-->
+  <ClientOnly>
+    <CommonHeaderMobile v-if="mobile" @displayError="displayError" @activateMenu="activateMenu"
+      @activateSearchBar="activateSearchBar" :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar">
+    </CommonHeaderMobile> <!--  Fin Mobile-->
+  </ClientOnly>
   <!--  Desktop-->
-  <div v-else class="sub-header">
+  <div v-if="!mobile" class="sub-header">
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
         <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
@@ -14,7 +16,7 @@
         <h1>{{ $t("slogan") }}</h1>
       </div>
       <div class="sub_header__action">
-        <CommonDomainSelector @changeDomain="changeDomain" compact></CommonDomainSelector>
+        <CommonDomainSelector compact></CommonDomainSelector>
         <GenericSearchBar searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
           @onError="displayError" />
       </div>
@@ -24,16 +26,18 @@
   <div class="main-wrapper">
     <div class="result-components white-containers">
       <!--   Skeletton-->
-      <div v-if="!dataReady" class="skeleton-wrapper">
-        <v-skeleton-loader type="list-item-avatar-two-line" class="skeleton"></v-skeleton-loader>
-        <v-skeleton-loader type="divider" class="skeleton"></v-skeleton-loader>
-        <v-skeleton-loader type="table-row"></v-skeleton-loader>
-        <v-skeleton-loader type="button" class="skeleton"></v-skeleton-loader>
-        <v-skeleton-loader type="divider" class="skeleton"></v-skeleton-loader>
-        <v-skeleton-loader v-for="i in 4" :key="i" type="paragraph" class="skeleton-cards"></v-skeleton-loader>
-      </div>
+      <ClientOnly>
+        <div v-if="!dataReady" class="skeleton-wrapper">
+          <v-skeleton-loader type="list-item-avatar-two-line" class="skeleton"></v-skeleton-loader>
+          <v-skeleton-loader type="divider" class="skeleton"></v-skeleton-loader>
+          <v-skeleton-loader type="table-row"></v-skeleton-loader>
+          <v-skeleton-loader type="button" class="skeleton"></v-skeleton-loader>
+          <v-skeleton-loader type="divider" class="skeleton"></v-skeleton-loader>
+          <v-skeleton-loader v-for="i in 4" :key="i" type="paragraph" class="skeleton-cards"></v-skeleton-loader>
+        </div>
+      </ClientOnly>
       <!--      End skeletton-->
-      <div class="info-wrapper" v-else>
+      <div class="info-wrapper" v-if="dataReady">
         <div class="info">
           <!--<v-icon size="45px">$personne</v-icon>-->
           <div class="nom-card">
@@ -85,7 +89,9 @@
         </div>
       </div>
     </div>
-    <CommonScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1></CommonScrollToTopButton>
+    <ClientOnly>
+      <CommonScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1></CommonScrollToTopButton>
+    </ClientOnly>
   </div>
 </template>
 
@@ -109,13 +115,6 @@ const panel = ref([]);
 const showMenu = ref(false);
 
 const { t } = useI18n();
-//const { meta } = useMeta({});
-
-watchEffect(() => {
-  /*const titlePersonne = item.value.prenom ? item.value.prenom + " " + item.value.nom : "";
-  meta.title = titlePersonne;
-  meta.description = t("meta.descPersonne") + titlePersonne;*/
-});
 
 const props = defineProps({
   id: {
@@ -124,25 +123,21 @@ const props = defineProps({
   }
 });
 
+dataReady.value = false;
+getPersonne(props.id).then(result => {
+  item.value = result;
+  dataReady.value = true;
 
-onBeforeMount(() => {
-
-  dataReady.value = false;
-  getPersonne(props.id).then(result => {
-    item.value = result;
-    dataReady.value = true;
-
-    if (typeof item.value.theses['auteur'] !== 'undefined') {
-      // Laisser le panneau 'auteurs' ouvert
-      panel.value = [0];
-    }
-  }).catch(error => {
-    if (error.response) {
-      displayError(error.response.data.message, { isSticky: true });
-    } else {
-      displayError(error.message);
-    }
-  });
+  if (typeof item.value.theses['auteur'] !== 'undefined') {
+    // Laisser le panneau 'auteurs' ouvert
+    panel.value = [0];
+  }
+}).catch(error => {
+  if (error.response) {
+    displayError(error.response.data.message, { isSticky: true });
+  } else {
+    displayError(error.message);
+  }
 });
 
 onUpdated(() => {

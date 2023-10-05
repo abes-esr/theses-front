@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
 defineProps({
   compact: {
@@ -28,15 +28,13 @@ defineProps({
 const selected = ref('theses');
 const router = useRouter();
 const currentRoute = useRoute();
-const emit = defineEmits('changeDomain');
+const emit = defineEmits(['changeDomain']);
 
-onMounted(() => {
-  if (currentRoute.query.domaine) {
-    selected.value = currentRoute.query.domaine;
-  } else {
-    select("theses");
-  }
-});
+if (currentRoute.query.domaine) {
+  selected.value = currentRoute.query.domaine;
+} else {
+  select("theses");
+}
 
 async function select(selection) {
   selected.value = selection;

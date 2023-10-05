@@ -1,19 +1,14 @@
 import axios from "axios";
+import { useAPIFetch } from "./useAPIFetch";
 
-const apiOrg = axios.create({
-  baseURL: "https://v2-test.theses.fr/api/v1/",
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json"
-  }
-});
+
 
 function getName(ppn) {
-    return apiOrg.get("/theses/getorganismename/" + ppn);
+    return useAPIFetch("/theses/getorganismename/" + ppn);
 }
 
 function getOrganisme(ppn) {
-    return apiOrg.get("/theses/organisme/" + ppn);
+    return useAPIFetch("/theses/organisme/" + ppn);
 }
 
 export default function () {

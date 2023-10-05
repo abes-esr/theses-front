@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="resumeIsSet && dataReady">
+    <div>
       <div class="resume-title-wrapper">
         <v-icon color="primary">mdi-file-document-arrow-right</v-icon>
         <h1>{{ $t('theseView.resume') }}</h1>
@@ -12,28 +12,17 @@
         </p>
       </div>
     </div>
-    <div v-if="!dataReady && !server">
-      <v-skeleton-loader type="article"></v-skeleton-loader>
-    </div>
   </div>
 </template>
 
 <script setup>
-import { onBeforeUpdate, ref, computed } from "vue";
+import { ref, computed } from "vue";
 import { LanguesRTL } from "../../services/Common";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 const props = defineProps({
   these: {
     type: Object
-  },
-  resumeIsSet: {
-    type: Boolean
-  },
-  dataReady: {
-    type: Boolean,
-    default: false
-  },
+  }
 });
 
 const server = ref(false);
@@ -44,11 +33,9 @@ if (process.server) {
 const resume = ref("");
 const selectedLanguage = ref("fr");
 
-onBeforeUpdate(() => {
-  if (typeof props.these.resumes !== 'undefined' && typeof props.these.resumes[selectedLanguage.value] !== 'undefined') {
-    resume.value = props.these.resumes[selectedLanguage.value];
-  }
-});
+if (typeof props.these.resumes !== 'undefined' && typeof props.these.resumes[selectedLanguage.value] !== 'undefined') {
+  resume.value = props.these.resumes[selectedLanguage.value];
+}
 
 /** 
  * Computed

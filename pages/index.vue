@@ -1,13 +1,15 @@
 <template>
     <v-container>
         <!-- Mobile -->
-        <CommonHeaderMobile v-if="mobile" type="home" @displayError="displayError" @activate-menu="activateMenu"
-            :loading="loading" :show-menu="showMenu"></CommonHeaderMobile>
+        <ClientOnly>
+            <CommonHeaderMobile v-if="mobile" type="home" @displayError="displayError" @activate-menu="activateMenu"
+                :loading="loading" :show-menu="showMenu"></CommonHeaderMobile>
+        </ClientOnly>
         <NuxtLink v-if="!mobile" class="logo logo_home" :to="{ name: 'index', query: { domaine: 'theses' } }">
             <img alt="Logo du site theses.fr" id="logoIMG" src="@/assets/icone-theses-beta.svg" />
         </NuxtLink>
         <div class="main-wrapper">
-            <!-- <Message-box ref="messageBox"></Message-box>-->
+            <ClientOnly><Message-box ref="messageBox"></Message-box></ClientOnly>
             <div class="justify-center max-height-200">
                 <h1 class="text-center">{{ $t("slogan") }}</h1>
             </div>
@@ -34,7 +36,7 @@ import { defineAsyncComponent, onMounted, ref } from "vue";
 import { useDisplay } from "vuetify";
 
 
-//const MessageBox = defineAsyncComponent(() => import("@/components/common/MessageBox.vue"));
+const MessageBox = defineAsyncComponent(() => import("@/components/common/MessageBox.vue"));
 const { reinitializeResultData } = useStrategyAPI();
 const { getStatsTheses, getStatsSujets } = useThesesAPI();
 const { getStatsPersonnes } = usePersonnesAPI();
@@ -43,20 +45,14 @@ const { mobile } = useDisplay();
 const loading = ref(false);
 const showMenu = ref(false);
 const messageBox = ref(null);
-const nbPersonnes = ref(0), nbTheses = ref(0), nbSujets = ref(0);
+
+const { data: nbSujets } = await getStatsSujets();
+const { data: nbTheses } = await getStatsTheses();
+const { data: nbPersonnes } = await getStatsPersonnes();
 
 onMounted(() => {
     // réinitialiser les éléments liés à la recherche au retour à la page d'accueil
     reinitializeResultData();
-    getStatsTheses().then(result => {
-        nbTheses.value = result.data;
-    });
-    getStatsSujets().then(result => {
-        nbSujets.value = result.data;
-    });
-    getStatsPersonnes().then(result => {
-        nbPersonnes.value = result.data;
-    });
 });
 
 function displayError(message) {

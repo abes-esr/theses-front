@@ -1,5 +1,7 @@
 <template>
-  <MessageBox ref="messageBox"></MessageBox>
+  <ClientOnly>
+    <MessageBox ref="messageBox"></MessageBox>
+  </ClientOnly>
   <div v-if="!mobile" class="thesis-toolbar no-wrap-text">
     <v-btn flat prepend-icon="mdi-arrow-left-circle" @click="previousPage">
       <template v-slot:prepend-icon>
@@ -49,14 +51,14 @@
     </div>
   </div>
 
-  <!-- Modal signaler une erreur -->
-
-  <v-dialog v-model="dialog" persistent :fullscreen="mobile" :width="mobile ? '100%' : '70%'">
-    <v-card style="padding: 2rem 2rem;">
-      <LazyThesesReportErrorView @close="dialog = false" @done="mailSent" :source="props.source" :nnt="props.nnt"
-        :etab-ppn="props.etabPpn"></LazyThesesReportErrorView>
-    </v-card>
-  </v-dialog>
+  <ClientOnly>
+    <v-dialog v-model="dialog" persistent :fullscreen="mobile" :width="mobile ? '100%' : '70%'">
+      <v-card style="padding: 2rem 2rem;">
+        <LazyThesesReportErrorView @close="dialog = false" @done="mailSent" :source="props.source" :nnt="props.nnt"
+          :etab-ppn="props.etabPpn"></LazyThesesReportErrorView>
+      </v-card>
+    </v-dialog>
+  </ClientOnly>
 </template>
 
 <script setup>

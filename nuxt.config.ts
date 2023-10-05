@@ -38,7 +38,8 @@ export default defineNuxtConfig({
         }
       }, display: {
         mobileBreakpoint: 'md'
-      }
+      },
+      ssr: true
     },
 
     moduleOptions: {
@@ -56,9 +57,9 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      api: process.env.NUXT_APP_API,
-      apiRef: process.env.NUXT_APP_APIREF,
-      captcha: process.env.NUXT_APP_RECAPTCHA,
+      API: process.env.NUXT_APP_API,
+      API_REF: process.env.NUXT_APP_APIREF,
+      CAPTCHA: process.env.NUXT_APP_RECAPTCHA,
     }
   },
   routeRules: {

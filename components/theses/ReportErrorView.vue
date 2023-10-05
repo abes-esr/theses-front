@@ -50,7 +50,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from "vue-i18n";
 
-const emit = defineEmits('close', 'done');
+const emit = defineEmits(['close', 'done']);
 
 const { t } = useI18n();
 

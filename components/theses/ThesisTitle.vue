@@ -1,5 +1,5 @@
 <template>
-  <div v-if="currentTitle !== '' && dataReady" class="title-wrapper line-clamp">
+  <div v-if="currentTitle !== ''" class="title-wrapper line-clamp">
     <div class="thesis-icon">
       <ThesesResultsThesisIcon :status="status"></ThesesResultsThesisIcon>
     </div>
@@ -11,15 +11,11 @@
       </CommonLanguageSelector>
     </div>
   </div>
-  <div v-if="!dataReady" class="title-wrapper line-clamp">
-    <v-skeleton-loader type="list-item-avatar" class="w-100"></v-skeleton-loader>
-  </div>
 </template>
 
 <script setup>
-import { onBeforeUpdate, ref, computed } from "vue";
+import { ref, computed } from "vue";
 import { LanguesRTL } from "../../services/Common";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 const props = defineProps({
   titles: {
@@ -30,9 +26,6 @@ const props = defineProps({
   status: {
     type: String,
     required: true
-  },
-  dataReady: {
-    type: Boolean
   }
 });
 
@@ -40,9 +33,7 @@ const currentTitle = ref("");
 const selectedLanguage = ref("fr");
 const isRtl = ref(false);
 
-onBeforeUpdate(() => {
-  currentTitle.value = props.titles[selectedLanguage.value];
-});
+currentTitle.value = props.titles[selectedLanguage.value];
 
 /**
  * Computed Properties

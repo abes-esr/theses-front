@@ -100,7 +100,7 @@ watch(requestSearch, (newRequestSearch) => {
     setQuery(newRequestSearch);
     getSuggestion()
       .then((res) => {
-        items.value = res.data;
+        items.value = res.data.value;
         if (items.value.length > 0) {
           suggestionActive.value = true;
         }

@@ -40,7 +40,7 @@ function checkId(id) {
     else if (regexPPN.test(id)) {
         getName(id)
             .then((res) => {
-                if (res.data !== "") type.value = "organisme";
+                if (res.data.value !== "") type.value = "organisme";
                 else type.value = "personne"
             }).catch(() => { return "personne" })
     }

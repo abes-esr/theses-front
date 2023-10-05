@@ -9,7 +9,7 @@
       </div>
       <div class="buttons language-accessibility-button">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
-        <v-tooltip activator="parent">{{ $t('accessibility') }}</v-tooltip>
+        <v-tooltip activator="parent">{{ $t('header.accessibility') }}</v-tooltip>
       </div>
     </div>
     <div class="right-side-buttons">

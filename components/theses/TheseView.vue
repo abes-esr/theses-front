@@ -1,40 +1,51 @@
 <template>
-  <Message-box ref="messageBox"></Message-box>
-  <!--  Mobile-->
-  <CommonHeaderMobile v-if="mobile" type="these" @changeDomain="changeDomain" @search="search"
-    @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
-    @activate-menu="activateMenu" @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
-    :loading="loading" :buttons-list="buttonsList" :show-menu="showMenu" :show-search-bar="showSearchBar"
-    :these-soutenue="these.status === 'soutenue'"></CommonHeaderMobile>
-  <!--    Menu accès these boutons-liens-->
-  <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
-    :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-    <LazyThesesButtonsList :nnt="route.params.id" :soutenue="these.status === 'soutenue'" :data-ready="dataReady"
-      :buttons-list="buttonsList" @closeOverlay="closeOverlay"></LazyThesesButtonsList>
-  </v-dialog>
-  <!--  Fin Mobile-->
-  <!--Desktop-->
-  <div v-if="!mobile" class="sub-header">
-    <div class="search-bar-container white-containers">
-      <div class="sub_header__logo">
-        <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
-          <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-        </NuxtLink>
-        <h1>{{ $t("slogan") }}</h1>
-      </div>
-      <div class="sub_header__action">
-        <CommonDomainSelector @changeDomain="changeDomain" compact></CommonDomainSelector>
-        <GenericSearchBar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-          @onError="displayError" />
+  <div>
+    <ClientOnly>
+      <Message-box ref="messageBox"></Message-box>
+    </ClientOnly>
+    <!--  Mobile -->
+    <ClientOnly>
+      <CommonHeaderMobile v-if="mobile" type="these" @displayError="displayError" @activate-menu="activateMenu"
+        @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
+        :buttons-list="buttonsList" :show-menu="showMenu" :show-search-bar="showSearchBar"
+        :these-soutenue="these.status === 'soutenue'">
+      </CommonHeaderMobile>
+    </ClientOnly>
+    <!--    Menu accès these boutons-liens -->
+    <ClientOnly>
+      <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+        :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+        <LazyThesesButtonsList v-if="buttonsReady" :soutenue="these.status === 'soutenue'" :buttons-list="buttonsList"
+          @closeOverlay="closeOverlay"></LazyThesesButtonsList>
+      </v-dialog>
+    </ClientOnly>
+    <!--  Fin Mobile-->
+    <!--Desktop-->
+    <div v-if="!mobile" class="sub-header">
+      <div class="search-bar-container white-containers">
+        <div class="sub_header__logo">
+          <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
+            <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+          </NuxtLink>
+          <h1>{{ $t("slogan") }}</h1>
+        </div>
+        <div class="sub_header__action">
+          <CommonDomainSelector compact></CommonDomainSelector>
+          <GenericSearchBar @onError="displayError" />
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="thesis-main-wrapper">
-    <!-- Infos these -->
-    <div class="thesis-components white-containers">
-      <ThesesThesisComponent :soutenue="these.status === 'soutenue'" :nnt="route.params.id" :these="these"
-        :data-ready="dataReady" :buttons-list="buttonsList"></ThesesThesisComponent>
+    <div class="thesis-main-wrapper">
+      <!-- Infos these -->
+      <div class="thesis-components white-containers">
+        <!-- TODO: Semble générer un bug lors de l'hydratation-->
+        <ThesesThesisComponent v-if="dataReady" :soutenue="these.status === 'soutenue'" :nnt="props.id" :these="these"
+          :buttons-list="buttonsList"></ThesesThesisComponent>
+        <ClientOnly>
+          <ThesesThesisSkeleton v-if="!dataReady"></ThesesThesisSkeleton>
+        </ClientOnly>
+      </div>
     </div>
   </div>
 </template>
@@ -52,27 +63,30 @@ const dialogVisible = ref(false);
 const showMenu = ref(false);
 const showSearchBar = ref(false);
 const dataReady = ref(false);
+const buttonsReady = ref(false);
 const these = ref({});
 const resume = ref("");
 const buttonsList = ref([]);
 const hasScrolled = ref(false);
+let isServer = false;
+if (process.server) isServer = true;
 
-if (process.client) {
+const props = defineProps({
+  id: {
+    type: String
+  }
+});
+
+if (!isServer) {
   window.addEventListener('scroll', () => { hasScrolled.value = true; });
 }
-getThese(route.params.id).then(result => {
-  /** Redirection */
-  if (typeof result.data === 'undefined' || result.data === "") {
-    router.push({
-      name: 'index'
-    });
-  }
 
-  these.value = result.data;
+getThese(props.id).then(result => {
+  these.value = result.data.value;
   resume.value = these.value.resumes.fr;
   loadButtons(these.value);
 
-  dataReady.value = true;
+  dataReady.value = !result.pending.value;
 }).catch(error => {
   displayError(error.message);
 });
@@ -95,7 +109,8 @@ function closeOverlay() {
 function loadButtons(these) {
   if (these.status === 'soutenue') {
     getButtons(these.nnt).then((res) => {
-      buttonsList.value = res.data.buttons;
+      buttonsList.value = res.data.value.buttons;
+      buttonsReady.value = !res.pending.value;
     })
       .catch((err) => {
         displayError("Accès en ligne : " + err.message);

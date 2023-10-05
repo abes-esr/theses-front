@@ -126,7 +126,7 @@ const name = ref("");
 onBeforeMount(() => {
     dataReady.value = false;
     getOrganisme(props.id).then(result => {
-        item.value = result.data;
+        item.value = result.data.value;
         dataReady.value = true;
     }).catch(error => {
         if (error.response) {
@@ -137,7 +137,7 @@ onBeforeMount(() => {
     });
 
     getName(props.id).then(result => {
-        name.value = result.data;
+        name.value = result.data.value;
     }).catch(error => {
         if (error.response) {
             displayError(error.response.data.message, { isSticky: true });

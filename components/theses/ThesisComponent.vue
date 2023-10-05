@@ -1,37 +1,41 @@
 <template>
-  <ThesesThesisToolbar :source="these.source" :nnt="props.nnt"
-    :etab-ppn="these.etabSoutenance ? these.etabSoutenance.ppn : ''" />
-  <div class="thesis-info-access-wrapper">
-    <ThesesThesisTitle class="thesis-title" :data-ready="dataReady" :status="these.status" :titles="these.titres" />
-    <!-- Bare latérale Desktop -->
-    <div v-if="!mobile && soutenue" class="access-buttons">
-      <!-- Menu boutons-liens desktop-->
-      <ThesesButtonsList v-if="!mobile" :data-ready="dataReady" :buttons-list="buttonsList" :soutenue="soutenue">
-      </ThesesButtonsList>
-    </div>
-    <div class="thesis-info-wrapper">
-      <ThesesThesisTable class="thesis-component" :these="these" :data-ready="dataReady" />
-      <v-divider v-if="keywordsAreSet" :thickness="1" class="divider border-opacity-50" length="90%" />
-      <CommonKeywords class="thesis-component" :keywords-are-set="keywordsAreSet" :data-ready="dataReady" :these="these"
-        :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
-      <v-divider v-if="resumeIsSet" :thickness="1" class="divider border-opacity-50" length="90%" />
-      <ThesesThesisResume class="thesis-component" :resume-is-set="resumeIsSet" :data-ready="dataReady" :these="these"
-        :selected-language="selectedLanguage" />
-    </div>
-    <div class="scroll-to-top-container">
-      <CommonScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1 />
+  <div>
+    <ThesesThesisToolbar :source="these.source" :nnt="props.nnt"
+      :etab-ppn="these.etabSoutenance ? these.etabSoutenance.ppn : ''" />
+    <div class="thesis-info-access-wrapper">
+      <ThesesThesisTitle :status="these.status" :titles="these.titres" />
+      <!-- Bare latérale Desktop -->
+      <div v-if="!mobile && soutenue" class="access-buttons">
+        <!-- Menu boutons-liens desktop-->
+        <ThesesButtonsList v-if="!mobile" :buttons-list="buttonsList" :soutenue="soutenue">
+        </ThesesButtonsList>
+      </div>
+
+      <div class="thesis-info-wrapper">
+        <ThesesThesisTable class="thesis-component" :these="these" />
+        <v-divider v-if="keywordsAreSet" :thickness="1" class="divider border-opacity-50" length="90%" />
+        <CommonKeywords v-if="keywordsAreSet" class="thesis-component" :keywords-are-set="keywordsAreSet" :these="these"
+          :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
+        <v-divider v-if="resumeIsSet" :thickness="1" class="divider border-opacity-50" length="90%" />
+        <ThesesThesisResume v-if="resumeIsSet" class="thesis-component" :resume-is-set="resumeIsSet" :these="these"
+          :selected-language="selectedLanguage" />
+      </div>
+      <ClientOnly>
+        <div class="scroll-to-top-container">
+          <LazyCommonScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1 />
+        </div>
+      </ClientOnly>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onBeforeUpdate, ref, watchEffect } from "vue";
+import { ref, watchEffect, onBeforeUpdate } from "vue";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
 const { t } = useI18n();
-//const { meta } = useMeta({});
 const selectedLanguage = ref('fr');
 
 const props = defineProps({
@@ -44,24 +48,24 @@ const props = defineProps({
   soutenue: {
     type: Boolean
   },
-  dataReady: {
-    type: Boolean,
-    default: false
-  },
   buttonsList: {
     type: Object,
   }
 });
 
 const resumeIsSet = ref(false);
-const titleIsSet = ref(false);
 const keywordsAreSet = ref(false);
+checkIfSet();
 
 onBeforeUpdate(() => {
+  checkIfSet();
+});
+
+function checkIfSet() {
   keywordsAreSet.value = (typeof props.these.mapSujets !== 'undefined' && typeof props.these.mapSujets.fr !== 'undefined' && props.these.mapSujets.fr.length > 0)
   resumeIsSet.value = typeof props.these.resumes !== 'undefined' && Object.entries(props.these.resumes).length > 0;
-  titleIsSet.value = typeof props.these.titrePrincipal !== 'undefined' && Object.entries(props.these.titrePrincipal).length > 0;
-});
+}
+
 
 function changeLanguage(newValue) {
   selectedLanguage.value = newValue;

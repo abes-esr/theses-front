@@ -1,6 +1,6 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
-  <div class="buttons" v-if="dataReady">
+  <div class="buttons">
     <div v-if="buttonsList.length > 0">
       <div class="buttons-header">
         <span>{{ $t("theseView.access") }}</span>
@@ -29,11 +29,6 @@
       </div>
     </div>
   </div>
-  <div class="skeleton-loader-wrapper" v-else>
-    <v-skeleton-loader type="list-item-two-line"></v-skeleton-loader>
-    <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
-    <v-skeleton-loader type="button" class="d-flex justify-center w-75 mx-15"></v-skeleton-loader>
-  </div>
 
   <!-- Modal Accès ESR -->
   <v-dialog v-model="dialog" :fullscreen="mobile" :width="mobile ? '100%' : '70%'">
@@ -54,16 +49,12 @@
 <script setup>
 import { ref, defineAsyncComponent } from "vue";
 import { useDisplay } from "vuetify";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const messageBox = ref(null);
 
 defineProps({
-  dataReady: {
-    type: Boolean,
-  },
   buttonsList: {
     type: Object,
   },
@@ -72,7 +63,7 @@ defineProps({
   }
 });
 
-const emit = defineEmits('closeOverlay');
+defineEmits(['closeOverlay']);
 
 const baseURL = import.meta.env.VITE_APP_API;
 

@@ -1,13 +1,5 @@
-import axios from "axios";
 import { ref } from "vue";
-
-const apiRef = axios.create({
-  baseURL: "https://apicom.sudoc.fr/wsReferentiels/v1/",
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json"
-  }
-});
+import { useReferentielFetch } from "./useReferentielFetch";
 
 const codesLangue = ref({});
 
@@ -16,9 +8,9 @@ const codesLangue = ref({});
  * @returns {Promise<AxiosResponse<any>>}
  */
 function fetchCodeLangues() {
-  if(Object.keys(codesLangue.value).length === 0) {
-    return apiRef.get("iso639-2B.json").then((res) => {
-        codesLangue.value = res.data;
+  if(codesLangue || Object.keys(codesLangue.value).length === 0) {
+    return useReferentielFetch("iso639-2B.json").then((res) => {
+        codesLangue.value = res.data.value;
     });
   }
 }

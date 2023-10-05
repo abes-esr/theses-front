@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="keywordsAreSet && dataReady">
+    <div>
       <div class="key-words-title-wrapper">
         <div class="title">
           <v-icon color="primary">mdi-list-box</v-icon>
@@ -43,10 +43,6 @@
         </v-btn>
       </div>
     </div>
-    <div v-if="!dataReady">
-      <v-skeleton-loader type="table-row" class="px-4"></v-skeleton-loader>
-      <v-skeleton-loader type="button" class="d-flex flex-row-reverse pe-7 w-25"></v-skeleton-loader>
-    </div>
   </div>
 </template>
 
@@ -54,18 +50,11 @@
 import { onBeforeUpdate, ref, watch, computed, onBeforeMount } from "vue";
 import { useDisplay } from "vuetify";
 import { LanguesRTL } from "@/services/Common";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 const props = defineProps({
   these: {
     type: Object,
     required: true
-  },
-  dataReady: {
-    type: Boolean
-  },
-  keywordsAreSet: {
-    type: Boolean
   }
 });
 
@@ -79,13 +68,12 @@ const keywords = ref([]);
 const increment = ref(10);
 const selectedLanguage = ref("fr");
 
+setKeywords();
+
 onBeforeUpdate(() => {
   setKeywords();
 });
 
-onBeforeMount(() => {
-  setKeywords();
-});
 
 /**
  * Computed Properties

@@ -1,7 +1,4 @@
 <template>
-    <metainfo>
-        <template v-slot:title="">A propos | Theses.fr</template>
-    </metainfo>
     <div v-if="mobile" class="logo-menu-wrapper">
         <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_home">
             <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
