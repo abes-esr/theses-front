@@ -63,7 +63,6 @@ export default defineNuxtConfig({
     }
   },
   routeRules: {
-     '/': { prerender: true },
      '/resultats/**': { ssr: false },
      '/resultats': { ssr: false },
   }
