@@ -17,7 +17,3 @@ sed -i \
 sed -i \
   "s#THESES_FRONT_VITE_APP_APIREF_PLACEHOLDER#${THESES_FRONT_VITE_APP_APIREF}#g" \
   /usr/share/nginx/html/assets/*
-
-
-# execute nginx (cf CMD dans Dockerfile)
-exec "$@"
