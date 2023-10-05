@@ -1,20 +1,28 @@
-ARG NODE_VERSION=18.18.0
+# use node 16 alpine image
+FROM node:16-alpine
 
-FROM node:${NODE_VERSION}-slim as base
+# create work directory in app folder
+WORKDIR /app
 
-ARG PORT=3000
+# install required packages for node image
+RUN apk --no-cache add openssh g++ make python3 git
 
-ENV NODE_ENV=production
+# copy over package.json files
+COPY package.json /app/
+COPY package-lock.json /app/
 
-WORKDIR /src
+# install all depencies
+RUN npm ci && npm cache clean --force
 
-# Build
-FROM base as build
+# copy over all files to the work directory
+ADD . /app
 
-COPY --link package.json package-lock.json .
-RUN npm install
-
-COPY --link . .
-
+# build the project
 RUN npm run build
-RUN npm prune
+
+# expose the host and port 3000 to the server
+ENV HOST 0.0.0.0
+EXPOSE 3000
+
+# run the build project with node
+ENTRYPOINT ["node", ".output/server/index.mjs"]
