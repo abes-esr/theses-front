@@ -2,7 +2,7 @@
   <ClientOnly><Message-box ref="messageBox"></Message-box></ClientOnly>
   <!--  Mobile-->
   <ClientOnly>
-    <CommonHeaderMobile v-if="mobile" @displayError="displayError" @activateMenu="activateMenu"
+    <CommonHeaderMobile class="test" v-if="mobile" @displayError="displayError" @activateMenu="activateMenu"
       @activateSearchBar="activateSearchBar" :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar">
     </CommonHeaderMobile> <!--  Fin Mobile-->
   </ClientOnly>
