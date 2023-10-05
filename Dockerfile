@@ -13,7 +13,7 @@ WORKDIR /src
 # Build
 FROM base as build
 
-COPY ./docker/vuejs_env_placeholder .env
+COPY ./docker/nuxt_env_placeholder .env
 
 COPY --link package.json package-lock.json .
 RUN npm install --production=false
