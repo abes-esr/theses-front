@@ -8,8 +8,6 @@ ARG PORT=3000
 
 ENV NODE_ENV=production
 
-WORKDIR /src
-
 # Build
 FROM base as build
 
@@ -28,7 +26,7 @@ FROM base
 
 ENV PORT=$PORT
 
-COPY --from=build /src/.output /src/.output
+COPY --from=build /.output /.output
 # Optional, only needed if you rely on unbundled dependencies
 # COPY --from=build /src/node_modules /src/node_modules
 COPY ./docker/docker-entrypoint.sh /docker-entrypoint.sh
