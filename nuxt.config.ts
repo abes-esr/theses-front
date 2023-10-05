@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     '@invictus.codes/nuxt-vuetify',
     '@nuxtjs/i18n',
   ],
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   vuetify: {
     /* vuetify options */
     vuetifyOptions: {
@@ -65,5 +65,8 @@ export default defineNuxtConfig({
   routeRules: {
      '/resultats/**': { ssr: false },
      '/resultats': { ssr: false },
-  }
+  },
+  nitro: {
+    compressPublicAssets: true,
+  },
 })
