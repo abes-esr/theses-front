@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     '@invictus.codes/nuxt-vuetify',
     '@nuxtjs/i18n',
   ],
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   vuetify: {
     /* vuetify options */
     vuetifyOptions: {

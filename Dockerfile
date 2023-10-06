@@ -20,8 +20,5 @@ FROM node:${NODE_VERSION}-slim as theses-front-image-run
 ENV PORT=$PORT
 WORKDIR /src/
 COPY --from=theses-front-image-build /src/.output/ /src/.output/
-COPY ./docker/docker-entrypoint.sh /src/docker-entrypoint.sh
-RUN ["chmod", "+x", "/src/docker-entrypoint.sh"]
-ENTRYPOINT ["docker-entrypoint.sh"]
 CMD [ "node", "/src/.output/server/index.mjs" ]
 EXPOSE $PORT
