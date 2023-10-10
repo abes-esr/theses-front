@@ -57,25 +57,33 @@
           <div class="nav-bar-list-burger">
             <div class="menu-text-element">
               <a>
-                <v-btn title="Réseau" size="large" variant="text"></v-btn>
+                <v-btn title="Réseau" size="large" variant="text" icon>
+                  <IconsIconReseau />
+                </v-btn>
                 <span>{{ $t('reseau') }}</span>
               </a>
             </div>
             <div class="menu-text-element">
               <a>
-                <v-btn title="Flux RSS" size="large" variant="text"></v-btn>
+                <v-btn title="Flux RSS" size="large" variant="text" icon>
+                  <IconsIconRss />
+                </v-btn>
                 <span>{{ $t('rss') }}</span>
               </a>
             </div>
             <div class="menu-text-element">
               <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
-                  :title='$t("header.assistance")' size="large" variant="text"></v-btn>
+                  :title='$t("header.assistance")' size="large" variant="text" icon>
+                  <IconsIconAssistance />
+                </v-btn>
                 <span>{{ $t('assistance') }}</span>
               </a>
             </div>
             <div class="menu-text-element">
               <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")'
-                target="_blank"><v-btn :title='$t("header.doc")' size="large" variant="text"></v-btn>
+                target="_blank"><v-btn :title='$t("header.doc")' size="large" variant="text" icon>
+                  <IconsIconDocumentation />
+                </v-btn>
                 <span>{{ $t('documentation') }}</span>
               </a>
             </div>
@@ -211,7 +219,7 @@ function setLanguage(lang) {
 }
 
 .nav-bar-list-burger {
-  :deep(.v-icon) {
+  :deep(svg) {
     height: 34px !important;
     width: 34px !important;
   }

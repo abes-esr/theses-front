@@ -2,7 +2,9 @@
   <v-card flat class="card-container">
     <div class="first-half">
       <div class="info">
-        <!-- <v-icon size="40px">$personne</v-icon>-->
+        <div class="icon">
+          <IconsIconPersonne></IconsIconPersonne>
+        </div>
         <div class="nom-card">
           <NuxtLink class="nomprenom"
             :to="{ name: 'id', params: { id: item.id }, query: { 'domaine': currentRoute.query.domaine } }"
@@ -129,7 +131,7 @@ function goToPersonne(hash) {
       flex: 1 0 30%;
     }
 
-    .v-icon {
+    .icon {
       margin-right: 1rem;
       flex: 0 0 10%;
       align-self: start;

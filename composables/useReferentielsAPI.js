@@ -5,7 +5,7 @@ const codesLangue = ref({});
 
 /**
  * Peuplement liste langues - un seul appel par instance
- * @returns {Promise<AxiosResponse<any>>}
+ * @returns {Promise<>}
  */
 function fetchCodeLangues() {
   if(codesLangue || Object.keys(codesLangue.value).length === 0) {

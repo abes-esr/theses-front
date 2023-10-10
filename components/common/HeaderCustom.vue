@@ -11,12 +11,20 @@
       </div>
     </div>
     <div class="text-center text-md-right">
-      <v-btn title="Réseau" size="x-large"></v-btn>
-      <v-btn title="Flux RSS" size="x-large"></v-btn>
+      <v-btn title="Réseau" size="x-large" icon>
+        <div class="icons"><icons-icon-reseau></icons-icon-reseau></div>
+      </v-btn>
+      <v-btn title="Flux RSS" size="x-large" icon>
+        <div class="icons"><icons-icon-rss></icons-icon-rss></div>
+      </v-btn>
       <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
-          :title='$t("header.assistance")' size="x-large"></v-btn></a>
+          :title='$t("header.assistance")' size="x-large" icon>
+          <div class="icons"><icons-icon-assistance></icons-icon-assistance></div>
+        </v-btn></a>
       <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
-          :title='$t("header.doc")' size="x-large"></v-btn></a>
+          :title='$t("header.doc")' size="x-large" icon>
+          <div class="icons"><icons-icon-documentation></icons-icon-documentation></div>
+        </v-btn></a>
     </div>
   </v-app-bar>
 </template>
@@ -71,12 +79,9 @@ header {
       margin-top: 0;
     }
 
-    .v-icon {
-      font-size: 25px;
-
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-        font-size: 40px;
-      }
+    .icons svg {
+      width: 40px;
+      height: 40px;
     }
   }
 }

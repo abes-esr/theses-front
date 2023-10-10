@@ -36,7 +36,7 @@ function suggestionTheses(query) {
 /**
  * Récupération des facettes pour une requête donnée
  * @param query
- * @returns {Promise<AxiosResponse<any>>}
+ * @returns {Promise<>}
  */
 // #TODO gérer les erreurs
 function getFacetsTheses(query, facetsRequest) {
@@ -46,7 +46,7 @@ function getFacetsTheses(query, facetsRequest) {
 /**
  * Récupération des infos détaillées d'une theses
  * @param nnt
- * @returns {Promise<AxiosResponse<any>>}
+ * @returns {Promise<>}
  */
 // #TODO gérer les erreurs
 function getThese(nnt) {
@@ -100,7 +100,7 @@ function postSignalerErreur(jsonData) {
 
 /**
  * Service lié aux thèses
- * @returns {{rechercherPersonne: ((function(*): Promise<AxiosResponse<*>>)|*), listePersonnes: Ref<UnwrapRef<{}>>, selectedDomain: Ref<UnwrapRef<string>>, modifierDomaine: modifierDomaine}}
+ * @returns {{rechercherPersonne: ((function(*): Promise<Response<*>>)|*), listePersonnes: Ref<UnwrapRef<{}>>, selectedDomain: Ref<UnwrapRef<string>>, modifierDomaine: modifierDomaine}}
  */
 export default function () {
   return {

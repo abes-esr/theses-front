@@ -51,7 +51,7 @@ async function suggestionPersonne(query) {
 /**
  * Récupération des facettes pour une requête donnée  #TODO implémenter route /personne/facets Fabien Théo ajouter le nom de la route
  * @param query
- * @returns {Promise<AxiosResponse<any>>}
+ * @returns {Promise<Response<any>>}
  */
 function getFacetsPersonnes(query, facetsRequest) {
     return useAPIFetch("/personnes/facets?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);

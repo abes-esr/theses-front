@@ -39,7 +39,7 @@
       <!--      End skeletton-->
       <div class="info-wrapper" v-if="dataReady">
         <div class="info">
-          <!--<v-icon size="45px">$personne</v-icon>-->
+          <IconsIconPersonne></IconsIconPersonne>
           <div class="nom-card">
             <div class="nomprenom">
               <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">

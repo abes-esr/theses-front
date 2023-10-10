@@ -18,7 +18,6 @@
     "sass": "^1.68.0"
   },
   "dependencies": {
-    "@vuepic/vue-datepicker": "^6.1.0",
-    "axios": "^1.5.1"
+    "@vuepic/vue-datepicker": "^6.1.0"
   }
 }
