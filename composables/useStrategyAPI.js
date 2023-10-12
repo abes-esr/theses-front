@@ -2,19 +2,9 @@ import { ref } from "vue";
 import { useDisplay } from "vuetify";
 import { replaceAndEscape } from "../services/Common";
 
-
-export default function () {
-// import fonctions
-const { fetchCodeLangues, createLabels, getLabelFromCode } = useReferentielsAPI();
-const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTriTheses, disableOrFiltersTheses, getItemsTriMapTheses } = useThesesAPI();
-const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes, disableOrFiltersPersonnes, getItemsTriMapPersonnes } = usePersonnesAPI();
-
-
 /**
  * Initialisation
  */
-const router = useRouter();
-
 const domaine = ref("theses");
 const currentPageNumber = ref();
 const currentShowingNumber = ref();
@@ -25,6 +15,15 @@ const rawFacets = ref([]);
 const checkedFilters = ref([]);
 const currentWorkingFacetName = ref("");
 const labelMap = ref(new Map());
+
+export default function () {
+// import fonctions
+const { fetchCodeLangues, createLabels, getLabelFromCode } = useReferentielsAPI();
+const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTriTheses, disableOrFiltersTheses, getItemsTriMapTheses } = useThesesAPI();
+const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes, disableOrFiltersPersonnes, getItemsTriMapPersonnes } = usePersonnesAPI();
+
+
+const router = useRouter();
 
 fetchCodeLangues();
 
