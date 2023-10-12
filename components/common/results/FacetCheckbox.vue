@@ -75,10 +75,10 @@ watch(() => props.parentCheckboxState,
   });
 
 // Mise à jour de facetsArray depuis les composants parents
-watch(props.facetsArray,
+watch(props,
   () => {
     checkboxState.value = arrayContainsFilter();
-  }
+  }, { immediate: true }
 );
 
 /**

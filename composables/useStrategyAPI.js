@@ -242,8 +242,7 @@ function getFacetsArrayFromURLString() {
     .slice(currentFacets.value.indexOf("[") + 1, currentFacets.value.indexOf("]")).toString()
     .split("&");
 
-
-  if(stringifiedFacetsArray > 0 && stringifiedFacetsArray[0] !== ""){
+  if(stringifiedFacetsArray.length > 0 && stringifiedFacetsArray[0] !== ""){
     stringifiedFacetsArray.forEach((facet) => {
         let line = facet.split("=");
         facetsArray.splice(
@@ -262,6 +261,7 @@ function getFacetsArrayFromURLString() {
  * @returns {*|*[]}
  */
 function getFacetsArrayFromURL() {
+
   if (!currentFacets.value) return [];
 
   let facetsArray = getFacetsArrayFromURLString();
