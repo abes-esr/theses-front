@@ -65,7 +65,8 @@ defineProps({
 
 defineEmits(['closeOverlay']);
 
-const baseURL = import.meta.env.VITE_APP_API;
+const config = useRuntimeConfig();
+const baseURL = config.public.API;
 
 const dialog = ref(false);
 const checkboxModal = ref(false);
