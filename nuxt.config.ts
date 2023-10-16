@@ -21,6 +21,8 @@ const myCustomLightTheme = {
   }
 }
 
+import { defineNuxtConfig } from 'nuxt/config'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -29,9 +31,12 @@ export default defineNuxtConfig({
   ],
   devtools: { enabled: true },
   vuetify: {
-    /* vuetify options */
+    moduleOptions: {
+      /* module specific options */
+    },
     vuetifyOptions: {
-        theme: {
+      /* vuetify options */
+       theme: {
       defaultTheme: 'myCustomLightTheme',
       themes: {
         myCustomLightTheme,
@@ -39,17 +44,6 @@ export default defineNuxtConfig({
       }, display: {
         mobileBreakpoint: 'md'
       },
-      ssr: true
-    },
-
-    moduleOptions: {
-      /* nuxt-vuetify module options */
-      treeshaking: true,
-      useIconCDN: true,
-
-      /* vite-plugin-vuetify options */
-      autoImport: true,
-      useVuetifyLabs: true, 
     }
   },
   i18n: {
@@ -69,4 +63,9 @@ export default defineNuxtConfig({
   nitro: {
     compressPublicAssets: true,
   },
+  app: {
+    head: {
+      link: [{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' }]
+    }
+  }
 })

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!-- DEBUT BLOC BETA-->
-    <v-alert width="100%" outlined color="primary"
+    <v-alert class="beta-alert" width="100%" outlined color="primary"
       style="padding-top: 30px; padding-bottom: 30px;"><strong>Avertissement</strong> : vous êtes
       sur la version beta de
       Theses.fr. Cette
@@ -78,6 +78,15 @@ useHead({
 
 <style lang="scss">
 @use 'vuetify/settings';
+
+//TODO : A SUPPRIMER APRES BETA
+.beta-alert {
+  max-height: 80px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    max-height: 500px;
+  }
+}
 
 .v-application__wrap {
   justify-content: center;
