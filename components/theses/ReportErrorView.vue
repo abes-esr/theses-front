@@ -135,8 +135,11 @@ function validate() {
             grecaptcha.ready(function () {
                 loading.value = true;
                 grecaptcha.execute('6LchRDMnAAAAAFSPyM8p7mvowBkOiQC6WYahnsV-', { action: 'submit' }).then(function (token) {
-                    postSignalerErreur(buildJSONToPost(token)).then(() => {
-                        emit('done');
+                    postSignalerErreur(buildJSONToPost(token)).then((res) => {
+                        const error = res.error.value;
+                        if (error) {
+                            errMsg.value = "Erreur : " + error.data.message;
+                        }
                     }).catch((err) => {
                         errMsg.value = "Erreur : " + err.response.data.message;
                     }).finally(() => { loading.value = false; });
