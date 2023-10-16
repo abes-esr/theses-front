@@ -179,10 +179,14 @@ watch(() => props.currentShowingNumber, () => {
 
   :deep(.v-field__input) {
     padding: 0 8px;
+    align-content: flex-start;
+    margin-top: -2px;
   }
 
   :deep(.v-field__append-inner) {
     padding: unset;
+    align-content: flex-start;
+    flex-wrap: wrap;
   }
 }
 

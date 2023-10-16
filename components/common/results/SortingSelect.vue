@@ -79,12 +79,15 @@ watch(() => currentRoute.query.domaine, () => {
   }
 
   :deep(.v-field__input) {
-    padding-top: 5px;
+    padding-top: 1px;
     padding-inline-start: 7px;
+    align-content: flex-start;
   }
 
   :deep(.v-field__append-inner) {
     padding-top: 5px;
+    align-content: flex-start;
+    flex-wrap: wrap;
 
     i {
       opacity: 1 !important;
