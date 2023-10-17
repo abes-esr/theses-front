@@ -8,7 +8,7 @@ const codesLangue = ref({});
  * @returns {Promise<>}
  */
 function fetchCodeLangues() {
-  if(codesLangue || Object.keys(codesLangue.value).length === 0) {
+  if(!codesLangue.value || Object.keys(codesLangue.value).length === 0) {
     return useReferentielFetch("iso639-2B.json").then((res) => {
         codesLangue.value = res.data.value;
     });

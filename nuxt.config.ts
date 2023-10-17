@@ -22,30 +22,20 @@ const myCustomLightTheme = {
 }
 
 import { defineNuxtConfig } from 'nuxt/config'
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
-    '@invictus.codes/nuxt-vuetify',
     '@nuxtjs/i18n',
+    (_options, nuxt) => {
+      nuxt.hooks.hook('vite:extendConfig', (config) => {
+        // @ts-expect-error
+        config.plugins.push(vuetify({ autoImport: true }))
+      })
+    }
   ],
   devtools: { enabled: true },
-  vuetify: {
-    moduleOptions: {
-      /* module specific options */
-    },
-    vuetifyOptions: {
-      /* vuetify options */
-       theme: {
-      defaultTheme: 'myCustomLightTheme',
-      themes: {
-        myCustomLightTheme,
-        }
-      }, display: {
-        mobileBreakpoint: 'md'
-      },
-    }
-  },
   i18n: {
     vueI18n: './i18n.config.ts' // if you are using custom path, default 
   },
@@ -67,5 +57,15 @@ export default defineNuxtConfig({
     head: {
       link: [{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' }]
     }
-  }
+  },
+  build: {
+    transpile: ['vuetify'],
+  },
+  vite: {
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
+  },
 })
