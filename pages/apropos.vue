@@ -178,8 +178,11 @@ import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
 
-definePageMeta({
-    title: 'A Propos | Theses.fr'
+useSeoMeta({
+    title: `A Propos | Theses.fr`,
+    ogTitle: `A Propos | Theses.fr`,
+    description: "Page A Propos de Theses.fr",
+    ogDescription: "Page A Propos de Theses.fr"
 })
 </script>
 
