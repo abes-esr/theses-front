@@ -1,45 +1,49 @@
 <template>
   <v-app>
-    <!-- DEBUT BLOC BETA-->
-    <v-alert class="beta-alert" width="100%" outlined color="primary"
-      style="padding-top: 30px; padding-bottom: 30px;"><strong>Avertissement</strong> : vous êtes
-      sur la version beta de
-      Theses.fr. Cette
-      version bêta est incomplète. <a href="https://theses.fr/"><strong style="color: white;">Cliquez ici pour retourner
-          à
-          la version actuelle.
-        </strong></a><v-btn style="margin-top: 10px;" class="float-right" density="compact" tonal color="secondary"
-        @click="dialog = true">Plus
-        d'informations</v-btn></v-alert>
-    <!-- FIN BLOC BETA-->
+    <ClientOnly>
+      <!-- DEBUT BLOC BETA-->
+      <v-alert class="beta-alert" width="100%" outlined color="primary"
+        style="padding-top: 30px; padding-bottom: 30px;"><strong>Avertissement</strong> : vous êtes
+        sur la version beta de
+        Theses.fr. Cette
+        version bêta est incomplète. <a href="https://theses.fr/"><strong style="color: white;">Cliquez ici pour retourner
+            à
+            la version actuelle.
+          </strong></a><v-btn style="margin-top: 10px;" class="float-right" density="compact" tonal color="secondary"
+          @click="dialog = true">Plus
+          d'informations</v-btn></v-alert>
+      <!-- FIN BLOC BETA-->
+    </ClientOnly>
     <CommonHeaderCustom></CommonHeaderCustom>
     <v-main>
-      <!-- DEBUT BLOC BETA-->
-      <v-dialog v-model="dialog" width="auto">
-        <v-card>
-          <v-card-text style="font-size: 1.2rem; letter-spacing: normal;">
-            <strong>Avertissement :</strong><br /><br />
-            Une nouvelle version de theses.fr est en cours de développement. Nous vous proposons ici la version bêta de
-            ce
-            nouveau moteur de recherche. Cette version bêta est incomplète. Toutes les fonctionnalités n’ont pas encore
-            été développées, le design est appelé à évoluer et tous les bugs ne sont pas encore corrigés. Cette version
-            bêta évoluera au fil des nouvelles livraisons, jusqu’au passage en production officiel du nouveau theses.fr,
-            prévu pour 2024.<br /><br />
-            Les données qui figurent sur ce theses.fr bêta sont les mêmes que celles qui figurent sur theses.fr v1, avec
-            néanmoins un temps de mise à jour plus long, la réindexation automatique des données n’étant pas encore mise
-            en place sur la version bêta. Toutes les demandes relatives à ces données (ajouts, corrections,
-            suppressions)
-            doivent nous être adressées à partir du site officiel, theses.fr v1, et non à partir de la version bêta.
-            <br /><br />
-            <strong>Cliquez ici pour retourner à la version actuelle : </strong><a
-              href="https://theses.fr/">https://theses.fr/</a>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="primary" block flat @click="setDialogSeen">Fermer</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <!-- FIN BLOC BETA-->
+      <ClientOnly>
+        <!-- DEBUT BLOC BETA-->
+        <v-dialog v-model="dialog" width="auto">
+          <v-card>
+            <v-card-text style="font-size: 1.2rem; letter-spacing: normal;">
+              <strong>Avertissement :</strong><br /><br />
+              Une nouvelle version de theses.fr est en cours de développement. Nous vous proposons ici la version bêta de
+              ce
+              nouveau moteur de recherche. Cette version bêta est incomplète. Toutes les fonctionnalités n’ont pas encore
+              été développées, le design est appelé à évoluer et tous les bugs ne sont pas encore corrigés. Cette version
+              bêta évoluera au fil des nouvelles livraisons, jusqu’au passage en production officiel du nouveau theses.fr,
+              prévu pour 2024.<br /><br />
+              Les données qui figurent sur ce theses.fr bêta sont les mêmes que celles qui figurent sur theses.fr v1, avec
+              néanmoins un temps de mise à jour plus long, la réindexation automatique des données n’étant pas encore mise
+              en place sur la version bêta. Toutes les demandes relatives à ces données (ajouts, corrections,
+              suppressions)
+              doivent nous être adressées à partir du site officiel, theses.fr v1, et non à partir de la version bêta.
+              <br /><br />
+              <strong>Cliquez ici pour retourner à la version actuelle : </strong><a
+                href="https://theses.fr/">https://theses.fr/</a>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn color="primary" block flat @click="setDialogSeen">Fermer</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <!-- FIN BLOC BETA-->
+      </ClientOnly>
       <NuxtPage></NuxtPage>
     </v-main>
     <CommonFooterCustom></CommonFooterCustom>

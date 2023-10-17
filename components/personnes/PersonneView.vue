@@ -132,6 +132,15 @@ getPersonne(props.id).then(result => {
     // Laisser le panneau 'auteurs' ouvert
     panel.value = [0];
   }
+
+  // Titre détaillé 
+  useSeoMeta({
+    title: `${item.value.prenom} ${item.value.nom} | Theses.fr`,
+    ogTitle: `${item.value.prenom} ${item.value.nom} | Theses.fr`,
+    description: t("meta.descPersonne") + item.value.prenom + " " + item.value.nom,
+    ogDescription: t("meta.descPersonne") + item.prenom + " " + item.nom
+  })
+
 }).catch(error => {
   if (error.response) {
     displayError(error.response.data.message, { isSticky: true });
@@ -145,6 +154,9 @@ onUpdated(() => {
     document.getElementById(currentRoute.hash.substring(1))?.scrollIntoView({ behavior: "smooth" });
   }
 });
+
+
+
 
 const messageBox = ref(null);
 

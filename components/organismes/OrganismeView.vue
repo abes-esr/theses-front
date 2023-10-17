@@ -1,34 +1,36 @@
 <template>
-    <Message-box ref="messageBox"></Message-box>
+    <ClientOnly>
+        <Message-box ref="messageBox"></Message-box>
 
-    <nav v-if="mobile" class="mobile-nav-bar">
-        <div>
-            <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-                :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
-            </v-icon>
-            <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
-        </div>
-    </nav>
-
-    <!--  Mobile-->
-    <div v-if="mobile" class="logo-menu-wrapper">
-        <NuxtLink :to="{ name: 'index', query: { domaine: 'theses' } }" title="Accueil du site"
-            class="logo logo_resultview">
-            <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-        </NuxtLink>
-        <v-expand-transition>
-            <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
-                <div class="expanded-search-bar">
-                    <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-                    <search-bar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"
-                        :loading="loading" @onError="displayError" />
-                </div>
+        <nav v-if="mobile" class="mobile-nav-bar">
+            <div>
+                <v-icon @click="showSearchBar = !showSearchBar" size="40px"
+                    :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
+                </v-icon>
+                <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
             </div>
-        </v-expand-transition>
-    </div>
+        </nav>
+
+        <!--  Mobile-->
+
+        <div v-if="mobile" class="logo-menu-wrapper">
+            <NuxtLink :to="{ name: 'index', query: { domaine: 'theses' } }" title="Accueil du site"
+                class="logo logo_resultview">
+                <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+            </NuxtLink>
+            <v-expand-transition>
+                <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
+                    <div class="expanded-search-bar">
+                        <CommonDomainSelector></CommonDomainSelector>
+                        <GenericSearchBar />
+                    </div>
+                </div>
+            </v-expand-transition>
+        </div>
+    </ClientOnly>
 
     <!--  Desktop-->
-    <div v-else class="sub-header">
+    <div v-if="!mobile" class="sub-header">
         <div class="search-bar-container white-containers">
             <div class="sub_header__logo">
                 <NuxtLink :to="{ name: 'index', query: { domaine: 'theses' } }" title="Accueil du site">
@@ -37,9 +39,8 @@
                 <h1>{{ $t("slogan") }}</h1>
             </div>
             <div class="sub_header__action">
-                <domain-selector @changeDomain="changeDomain" compact></domain-selector>
-                <search-bar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-                    @onError="displayError" />
+                <CommonDomainSelector compact></CommonDomainSelector>
+                <GenericSearchBar />
             </div>
         </div>
     </div>
@@ -83,12 +84,12 @@
                                         <div v-for="(these, index) in item[key]" :key="these" class="card-wrapper">
                                             <v-lazy :options="{ threshold: 1.0 }">
 
-                                                <result-card :titre="these.titrePrincipal"
+                                                <ResultCard :titre="these.titrePrincipal"
                                                     :date="these.status === 'enCours' ? these.datePremiereInscriptionDoctorat : these.dateSoutenance"
                                                     :auteur="these.auteurs" :directeurs="these.directeurs"
                                                     :discipline="these.discipline" :etab="these.etabSoutenanceN"
                                                     :id="these.id" :status="these.status">
-                                                </result-card>
+                                                </ResultCard>
                                             </v-lazy>
                                             <hr class="result-dividers" v-if="index < item[key].length - 1" />
                                         </div>
@@ -100,14 +101,22 @@
                 </div>
             </div>
         </div>
-        <scroll-to-top-button class="scroll-to-top-wrapper" :nb-result=1></scroll-to-top-button>
+        <ClientOnly>
+            <ScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1></ScrollToTopButton>
+        </ClientOnly>
     </div>
 </template>
 
 <script setup>
 import { useI18n } from "vue-i18n";
-import { onBeforeMount, ref, defineAsyncComponent } from "vue";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
+import { ref, defineAsyncComponent } from "vue";
+import { useDisplay } from "vuetify";
+import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader';
+import ResultCard from "../theses/results/ResultCard.vue";
+import ScrollToTopButton from "../common/ScrollToTopButton.vue";
+
+const { mobile } = useDisplay();
+const { t } = useI18n();
 
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { getName, getOrganisme } = useOrganismeAPI();
@@ -122,29 +131,35 @@ const props = defineProps({
 const dataReady = ref(false);
 const item = ref({});
 const name = ref("");
+const showSearchBar = ref(false);
 
-onBeforeMount(() => {
-    dataReady.value = false;
-    getOrganisme(props.id).then(result => {
-        item.value = result.data.value;
-        dataReady.value = true;
-    }).catch(error => {
-        if (error.response) {
-            displayError(error.response.data.message, { isSticky: true });
-        } else {
-            displayError(error.message);
-        }
-    });
+dataReady.value = false;
+getOrganisme(props.id).then(result => {
+    item.value = result.data.value;
+    dataReady.value = true;
+}).catch(error => {
+    if (error.response) {
+        displayError(error.response.data.message, { isSticky: true });
+    } else {
+        displayError(error.message);
+    }
+});
 
-    getName(props.id).then(result => {
-        name.value = result.data.value;
-    }).catch(error => {
-        if (error.response) {
-            displayError(error.response.data.message, { isSticky: true });
-        } else {
-            displayError(error.message);
-        }
-    });
+getName(props.id).then(result => {
+    name.value = result.data.value;
+    // Titre détaillé 
+    useSeoMeta({
+        title: `${name.value} | Theses.fr`,
+        ogTitle: `${name.value} | Theses.fr`,
+        description: t("meta.descPersonne") + name.value,
+        ogDescription: t("meta.descPersonne") + name.value
+    })
+}).catch(error => {
+    if (error.response) {
+        displayError(error.response.data.message, { isSticky: true });
+    } else {
+        displayError(error.message);
+    }
 });
 
 

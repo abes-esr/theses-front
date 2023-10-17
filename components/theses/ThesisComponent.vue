@@ -75,9 +75,11 @@ watchEffect(() => {
   const titleThese = props.these.titrePrincipal ? props.these.titrePrincipal : "";
 
   // Titre détaillé 
-  useHead({
-    meta: [{ property: 'title', content: `${titleThese} | Theses.fr` }, { property: 'description', content: t("meta.descThese") + titleThese }],
-    title: `${titleThese} | Theses.fr `
+  useSeoMeta({
+    title: `${titleThese} | Theses.fr`,
+    ogTitle: `${titleThese} | Theses.fr`,
+    description: t("meta.descThese") + titleThese,
+    ogDescription: t("meta.descThese") + titleThese
   })
 });
 </script>
