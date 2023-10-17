@@ -55,7 +55,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      link: [{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' }]
+      link: [{ rel: 'stylesheet', media: 'print', onload:"this.onload=null;this.removeAttribute('media')", href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' }, {rel:"preload", href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' }, {rel:'preconnect', href:'https://fonts.gstatic.com'}]
     }
   },
   build: {
