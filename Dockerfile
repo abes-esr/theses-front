@@ -1,5 +1,5 @@
 ARG NODE_VERSION=18.14.2
-ARG PORT=80
+ARG PORT=3000
 
 # Build
 FROM node:${NODE_VERSION}-slim as theses-front-image-build
