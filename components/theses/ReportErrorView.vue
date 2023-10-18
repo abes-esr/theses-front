@@ -54,8 +54,6 @@ const emit = defineEmits(['close', 'done']);
 
 const { t } = useI18n();
 
-
-
 //Chargement de recaptcha sur ce composant, puis suppression lorsque le composant n'est plus utilisé
 var script = document.createElement('script');
 onMounted(() => {
@@ -139,6 +137,8 @@ function validate() {
                         const error = res.error.value;
                         if (error) {
                             errMsg.value = "Erreur : " + error.data.message;
+                        } else {
+                            emit('done');
                         }
                     }).catch((err) => {
                         errMsg.value = "Erreur : " + err.response.data.message;

@@ -69,7 +69,8 @@
           <span v-if="these.etabCotutelle.length > 0">
             {{ $t('theseView.cotutelle') }}
             <span v-for="(item, index) in these.etabCotutelle" :key="item.ppn"><strong>
-                <a class='clickable lightblue' :href='"/" + item.ppn'> {{ item.nom }} </a> </strong>
+                <span :class='item.ppn ? "clickable lightblue" : ""' @click="linkTo(item.ppn)"> {{ item.nom }} </span>
+              </strong>
               <span v-if="index < these.etabCotutelle.length - 1">, </span>
             </span>
           </span>
@@ -80,7 +81,8 @@
         <td><strong>{{ $t('theseView.ecoles') }}&nbsp;:{{ '\xa0' }}</strong></td>
         <td>
           <span v-for="(ecole, index) in these.ecolesDoctorales" :key="ecole.ppn">
-            <strong><a class='clickable lightblue' :href='"/" + ecole.ppn'> {{ ecole.nom }}</a></strong>
+            <strong><span :class='ecole.ppn ? "clickable lightblue" : ""' @click="linkTo(ecole.ppn)"> {{ ecole.nom
+            }}</span></strong>
             <span v-if="index < these.ecolesDoctorales.length - 1">,{{ "\xa0" }}</span>
           </span>
         </td>
@@ -92,7 +94,8 @@
         </td>
         <td>
           <span v-for="(ecole, index) in these.partenairesRecherche" :key="ecole.ppn">
-            <a class='clickable lightblue' :href='"/" + ecole.ppn'> {{ ecole.nom }} </a> {{ '\xa0' }} ({{ ecole.type }})
+            <span :class='ecole.ppn ? "clickable lightblue" : ""' @click="lintoTo(ecole.ppn)"> {{ ecole.nom }} </span> {{
+              '\xa0' }} ({{ ecole.type }})
             <span v-if="index < these.partenairesRecherche.length - 1">,{{ '\xa0' }}</span>
           </span>
         </td>

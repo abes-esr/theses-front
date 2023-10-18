@@ -16,7 +16,7 @@ const handleError = () => clearError({ redirect: '/' })
                     Indisponible</div>
             </h1>
             <p v-if="error.statusCode.toString().startsWith('5')"><strong>Merci d'essayer à nouveau dans quelques instants.
-                    Si le problème persiste vous
+                    Si le problème persiste, vous
                     pouvez contacter le guichet
                     d'assistance de l'Abes : <a href="https://stp.abes.fr/node/3?origine=thesesFr"
                         target="_blank">https://stp.abes.fr/node/3?origine=thesesFr</a>.</strong>
