@@ -50,12 +50,6 @@ const { data: nbSujets } = await getStatsSujets();
 const { data: nbTheses } = await getStatsTheses();
 const { data: nbPersonnes } = await getStatsPersonnes();
 
-useSeoMeta({
-    title: `Theses.fr`,
-    ogTitle: `Theses.fr`,
-    description: "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation.",
-    ogDescription: "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation."
-})
 onMounted(() => {
     // réinitialiser les éléments liés à la recherche au retour à la page d'accueil
     reinitializeResultData();

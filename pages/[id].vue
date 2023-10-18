@@ -45,6 +45,9 @@ function checkId(id) {
             }).catch(() => { return "personne" })
     }
     else if (regexSujet.test(id)) type.value = "sujet";
+    else {
+        throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+    }
 }
 
 </script>
