@@ -122,7 +122,7 @@ onMounted(async () => {
             ogTitle: () => `${titleThese} | Theses.fr`,
             description: () => `Résultats pour ${request.value} | Theses.fr`,
             ogDescription: () => `Résultats pour ${request.value} | Theses.fr`,
-            ogImage: "https://beta.theses.fr/_nuxt/icone-theses-beta.svg",
+            ogImage: "https://beta.theses.fr/icone-theses-beta.svg",
             ogImageAlt: 'Logo Theses.fr',
             twitterCard: 'summary_large_image',
         })
