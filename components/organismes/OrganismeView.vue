@@ -155,8 +155,17 @@ getName(props.id).then(result => {
         ogDescription: () => t("meta.descPersonne") + name.value,
         ogImage: "https://beta.theses.fr/logo-theses-beta.png",
         ogImageAlt: 'Logo Theses.fr',
-        twitterCard: 'summary_large_image',
-    })
+        twitterCard: 'summary',
+        ogType: 'website',
+    });
+
+    useHead({
+        meta: [
+            { name: 'DC.title', content: `${name.value} | Theses.fr` },
+            { name: 'DC.description.abstract', content: `${name.value} | Theses.fr` },
+            { name: 'DC.source', content: `theses.fr` }
+        ]
+    });
 }).catch(error => {
     if (error.response) {
         displayError(error.response.data.message, { isSticky: true });

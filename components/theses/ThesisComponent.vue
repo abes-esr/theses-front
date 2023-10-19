@@ -82,8 +82,36 @@ watchEffect(() => {
     ogDescription: () => props.these.resumes.fr,
     ogImage: "https://beta.theses.fr/logo-theses-beta.png",
     ogImageAlt: 'Logo Theses.fr',
-    twitterCard: 'summary_large_image',
-  })
+    twitterCard: 'summary',
+    ogType: 'website',
+    author: () => props.these.auteurs[0].prenom + " " + props.these.auteurs[0].nom,
+    creator: () => props.these.auteurs[0].prenom + " " + props.these.auteurs[0].nom
+  });
+
+  let listeSujetsFR = "";
+  props.these.mapSujets.fr.forEach(element => {
+    listeSujetsFR += element.keyword + ", ";
+  });
+
+  useHead({
+    meta: [
+      { name: 'DC.type', content: 'thesis' },
+      { name: 'citation_dissertation_name', content: 'thesis' },
+      { name: 'DC.title', content: `${titleThese} | Theses.fr` },
+      { name: 'citation_title', content: `${titleThese} | Theses.fr` },
+      { name: 'DC.description.abstract', content: props.these.resumes.fr },
+      { name: 'citation_abstract', content: props.these.resumes.fr },
+      { name: 'DC.subject', content: listeSujetsFR },
+      { name: 'citation_keywords', content: listeSujetsFR },
+      { name: 'DC.creator', content: props.these.auteurs[0].prenom + " " + props.these.auteurs[0].nom },
+      { name: 'citation_author', content: props.these.auteurs[0].prenom + " " + props.these.auteurs[0].nom },
+      { name: 'DC.contributor', content: props.these.directeurs[0].prenom + " " + props.these.directeurs[0].nom },
+      { name: 'DC.publisher', content: props.these.etabSoutenance.nom },
+      { name: 'citation_dissertation_institution', content: props.these.etabSoutenance.nom },
+      { name: 'DC.date', content: props.these.dateSoutenance },
+      { name: 'citation_publication_date', content: props.these.dateSoutenance }
+    ]
+  });
 });
 </script>
 

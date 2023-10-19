@@ -124,7 +124,7 @@ onMounted(async () => {
             ogDescription: () => `Résultats pour ${request.value} | Theses.fr`,
             ogImage: "https://beta.theses.fr/logo-theses-beta.png",
             ogImageAlt: 'Logo Theses.fr',
-            twitterCard: 'summary_large_image',
+            twitterCard: 'summary',
         })
     });
 });
