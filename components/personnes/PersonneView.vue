@@ -139,7 +139,7 @@ getPersonne(props.id).then(result => {
     ogTitle: () => `${item.value.prenom} ${item.value.nom} | Theses.fr`,
     description: () => t("meta.descPersonne") + item.value.prenom + " " + item.value.nom,
     ogDescription: () => t("meta.descPersonne") + item.prenom + " " + item.nom,
-    ogImage: "https://beta.theses.fr/icone-theses-beta.svg",
+    ogImage: "https://beta.theses.fr/logo-theses-beta.png",
     ogImageAlt: 'Logo Theses.fr',
     twitterCard: 'summary_large_image',
   })

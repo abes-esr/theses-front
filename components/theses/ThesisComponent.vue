@@ -80,7 +80,7 @@ watchEffect(() => {
     ogTitle: () => `${titleThese} | Theses.fr`,
     description: () => props.these.resumes.fr,
     ogDescription: () => props.these.resumes.fr,
-    ogImage: "https://beta.theses.fr/icone-theses-beta.svg",
+    ogImage: "https://beta.theses.fr/logo-theses-beta.png",
     ogImageAlt: 'Logo Theses.fr',
     twitterCard: 'summary_large_image',
   })

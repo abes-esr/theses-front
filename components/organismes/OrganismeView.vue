@@ -153,7 +153,7 @@ getName(props.id).then(result => {
         ogTitle: () => `${name.value} | Theses.fr`,
         description: () => t("meta.descPersonne") + name.value,
         ogDescription: () => t("meta.descPersonne") + name.value,
-        ogImage: "https://beta.theses.fr/icone-theses-beta.svg",
+        ogImage: "https://beta.theses.fr/logo-theses-beta.png",
         ogImageAlt: 'Logo Theses.fr',
         twitterCard: 'summary_large_image',
     })
