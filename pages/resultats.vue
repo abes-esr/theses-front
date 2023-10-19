@@ -119,7 +119,7 @@ onMounted(async () => {
         //Titre surchargé lors de l'hydratation
         useSeoMeta({
             title: () => `Résultats pour ${request.value} | Theses.fr`,
-            ogTitle: () => `${titleThese} | Theses.fr`,
+            ogTitle: () => `Résultats pour ${request.value} | Theses.fr`,
             description: () => `Résultats pour ${request.value} | Theses.fr`,
             ogDescription: () => `Résultats pour ${request.value} | Theses.fr`,
             ogImage: "https://beta.theses.fr/icone-theses-beta.svg",
