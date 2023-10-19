@@ -117,9 +117,14 @@ onMounted(async () => {
         setQuery(request.value);
         search(true);
         //Titre surchargé lors de l'hydratation
-        useHead({
-            meta: [{ property: 'title', content: `Résultats pour ${request.value} | Theses.fr` }],
-            title: `Résultats pour ${request.value} | Theses.fr `
+        useSeoMeta({
+            title: () => `Résultats pour ${request.value} | Theses.fr`,
+            ogTitle: () => `${titleThese} | Theses.fr`,
+            description: () => `Résultats pour ${request.value} | Theses.fr`,
+            ogDescription: () => `Résultats pour ${request.value} | Theses.fr`,
+            ogImage: "https://beta.theses.fr/_nuxt/icone-theses-beta.svg",
+            ogImageAlt: 'Logo Theses.fr',
+            twitterCard: 'summary_large_image',
         })
     });
 });
