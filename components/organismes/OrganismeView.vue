@@ -149,10 +149,13 @@ getName(props.id).then(result => {
     name.value = result.data.value;
     // Titre détaillé 
     useSeoMeta({
-        title: `${name.value} | Theses.fr`,
-        ogTitle: `${name.value} | Theses.fr`,
-        description: t("meta.descPersonne") + name.value,
-        ogDescription: t("meta.descPersonne") + name.value
+        title: () => `${name.value} | Theses.fr`,
+        ogTitle: () => `${name.value} | Theses.fr`,
+        description: () => t("meta.descPersonne") + name.value,
+        ogDescription: () => t("meta.descPersonne") + name.value,
+        ogImage: "https://beta.theses.fr/_nuxt/public/icone-theses-beta.svg",
+        ogImageAlt: 'Logo Theses.fr',
+        twitterCard: 'summary_large_image',
     })
 }).catch(error => {
     if (error.response) {

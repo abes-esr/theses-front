@@ -135,10 +135,13 @@ getPersonne(props.id).then(result => {
 
   // Titre détaillé 
   useSeoMeta({
-    title: `${item.value.prenom} ${item.value.nom} | Theses.fr`,
-    ogTitle: `${item.value.prenom} ${item.value.nom} | Theses.fr`,
-    description: t("meta.descPersonne") + item.value.prenom + " " + item.value.nom,
-    ogDescription: t("meta.descPersonne") + item.prenom + " " + item.nom
+    title: () => `${item.value.prenom} ${item.value.nom} | Theses.fr`,
+    ogTitle: () => `${item.value.prenom} ${item.value.nom} | Theses.fr`,
+    description: () => t("meta.descPersonne") + item.value.prenom + " " + item.value.nom,
+    ogDescription: () => t("meta.descPersonne") + item.prenom + " " + item.nom,
+    ogImage: "https://beta.theses.fr/_nuxt/public/icone-theses-beta.svg",
+    ogImageAlt: 'Logo Theses.fr',
+    twitterCard: 'summary_large_image',
   })
 
 }).catch(error => {

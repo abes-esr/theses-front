@@ -76,10 +76,13 @@ watchEffect(() => {
 
   // Titre détaillé 
   useSeoMeta({
-    title: `${titleThese} | Theses.fr`,
-    ogTitle: `${titleThese} | Theses.fr`,
-    description: t("meta.descThese") + titleThese,
-    ogDescription: t("meta.descThese") + titleThese
+    title: () => `${titleThese} | Theses.fr`,
+    ogTitle: () => `${titleThese} | Theses.fr`,
+    description: () => props.these.resumes.fr,
+    ogDescription: () => props.these.resumes.fr,
+    ogImage: "https://beta.theses.fr/_nuxt/public/icone-theses-beta.svg",
+    ogImageAlt: 'Logo Theses.fr',
+    twitterCard: 'summary_large_image',
   })
 });
 </script>

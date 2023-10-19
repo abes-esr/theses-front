@@ -39,7 +39,7 @@
   <div class="logo-menu-wrapper">
     <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site"
       class="logo logo_home logo_resultview">
-      <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses-beta.svg" />
+      <img alt="logo Theses" id="logoIMG" src="/icone-theses-beta.svg" />
     </NuxtLink>
     <!-- Menu burger mobile -->
     <v-expand-transition>
