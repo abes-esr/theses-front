@@ -15,7 +15,7 @@
     <ClientOnly>
       <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
         :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-        <LazyThesesButtonsList v-if="buttonsReady" :soutenue="these.status === 'soutenue'" :buttons-list="buttonsList"
+        <LazyThesesButtonsList v-if="buttonsReady" :soutenue="these.status === 'soutenue'" :categories="categories"
           @closeOverlay="closeOverlay"></LazyThesesButtonsList>
       </v-dialog>
     </ClientOnly>
@@ -41,7 +41,7 @@
       <div class="thesis-components white-containers">
         <!-- TODO: Semble générer un bug lors de l'hydratation-->
         <ThesesThesisComponent v-if="dataReady" :soutenue="these.status === 'soutenue'" :nnt="props.id" :these="these"
-          :buttons-list="buttonsList"></ThesesThesisComponent>
+                               :categories="categories"></ThesesThesisComponent>
         <ClientOnly>
           <ThesesThesisSkeleton v-if="!dataReady"></ThesesThesisSkeleton>
         </ClientOnly>
@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent } from "vue";
+import { ref, defineAsyncComponent, toRaw } from "vue";
 import { useDisplay } from "vuetify";
 
 const MessageBox = defineAsyncComponent(() => import('../common/MessageBox.vue'));
@@ -66,7 +66,7 @@ const dataReady = ref(false);
 const buttonsReady = ref(false);
 const these = ref({});
 const resume = ref("");
-const buttonsList = ref([]);
+const categories = ref([]);
 const hasScrolled = ref(false);
 let isServer = false;
 if (process.server) isServer = true;
@@ -84,7 +84,7 @@ if (!isServer) {
 getThese(props.id).then(result => {
   these.value = result.data.value;
   resume.value = these.value.resumes.fr;
-  loadButtons(these.value);
+  loadButtons(toRaw(these.value));
 
   dataReady.value = !result.pending.value;
 }).catch(error => {
@@ -109,8 +109,7 @@ function closeOverlay() {
 function loadButtons(these) {
   if (these.status === 'soutenue') {
     getButtons(these.nnt).then((res) => {
-      buttonsList.value = res.data.value.buttons;
-      buttonsReady.value = !res.pending.value;
+      categories.value = res.data.value.categories;
     })
       .catch((err) => {
         displayError("Accès en ligne : " + err.message);
@@ -239,7 +238,6 @@ function sleep(ms) {
 
 .enCours {
   background-color: rgb(var(--v-theme-secondary));
-  ;
 }
 
 .v-list {

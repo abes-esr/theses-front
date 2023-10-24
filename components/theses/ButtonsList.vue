@@ -1,33 +1,71 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
   <div class="buttons">
-    <div v-if="buttonsList.length > 0">
       <div class="buttons-header">
         <span>{{ $t("theseView.access") }}</span>
         <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
           <div class="close-overlay-icon-wrapper">
-            <div><v-icon size="35">mdi-close-box</v-icon></div>
+            <div>
+              <v-icon size="35">mdi-close-box</v-icon>
+            </div>
           </div>
         </button>
       </div>
-      <div class="buttons-sub-header">
-        <div class="header-container no-wrap-text">
-          <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
-          <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
-        </div>
-      </div>
-      <div class="buttons-list-wrapper" v-if="soutenue">
-        <div class="buttons-list no-wrap-text" v-for="b in buttonsList" :key="b">
-          <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat :href="baseURL + b.url"
-            target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
-              b.libelle }}</v-btn>
-          <span v-else>
-            <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
-            <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
-          </span>
-        </div>
-      </div>
-    </div>
+
+      <!--  Catégorie validé par le jury -->
+      <v-expansion-panels v-if="categoriesValide.length > 0 && soutenue">
+        <v-expansion-panel class="buttons-sub-header">
+          <v-expansion-panel-title class="header-container no-wrap-text">
+            <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
+            <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <div v-for="sousCategorie in categoriesValide" class="buttons-list-wrapper" :key="sousCategorie.libelle">
+              <div v-if="sousCategorie.boutons.length > 0">
+                <!--            Intitulé de la catégorie-->
+                <div class="sous-categorie-header">
+                  <span>{{ sousCategorie.libelle }}</span>
+                </div>
+                <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
+                  <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
+                         :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
+                         target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+                      b.libelle }}
+                  </v-btn>
+                  <span class="texte-embargo" v-else>
+                      <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
+                      <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin
+                        }}</span>
+                    </span>
+                </div>
+              </div>
+            </div>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+      <!--  Catégorie Autres versions-->
+      <v-expansion-panels v-if="boutonsAutres.length > 0 && soutenue">
+        <v-expansion-panel class="buttons-sub-header">
+          <v-expansion-panel-title>
+            <v-icon color="primary" class="menu-icon">mdi-list-box</v-icon>
+            <span class="buttons-title-header">{{ $t("theseView.others") }}</span>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <div v-for="b in boutonsAutres" class="buttons-list" :key="b.libelle">
+              <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
+                     :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
+                     target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+                  b.libelle }}
+              </v-btn>
+              <span class="texte-embargo" v-else>
+                      <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
+                      <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin
+                        }}</span>
+                    </span>
+            </div>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
   </div>
 
   <!-- Modal Accès ESR -->
@@ -54,12 +92,14 @@ const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const messageBox = ref(null);
 
-defineProps({
-  buttonsList: {
+const props = defineProps({
+  categories: {
     type: Object,
+    default: []
   },
   soutenue: {
     type: Boolean,
+    default: false
   }
 });
 
@@ -71,6 +111,14 @@ const baseURL = config.public.API;
 const dialog = ref(false);
 const checkboxModal = ref(false);
 const dialogUrl = ref("");
+const categoriesValide = ref([]);
+const boutonsAutres = ref([]);
+
+watch(() => props.categories, () => {
+  console.info("oi")
+  categoriesValide.value = props.categories.filter((category) => category.libelle === "Validé par le jury")[0]['sousCategories'];
+  boutonsAutres.value = props.categories.filter((category) => category.libelle === "Autres versions")[0]['boutons'];
+});
 
 /**
  * Fonctions
@@ -110,8 +158,18 @@ function closeOverlay() {
     padding: unset;
     font-size: 16px;
   }
+}
 
-  margin-bottom: 0.6em;
+.sous-categorie-header, .texte-embargo {
+  overflow: hidden;
+  padding: 0 1em;
+  margin-bottom: 0.3em;
+  font-size: 16px;
+  text-align: start;
+}
+
+.sous-categorie-header {
+  font-weight: 500;
 }
 
 .header-container {
@@ -163,6 +221,7 @@ function closeOverlay() {
 .buttons-list-wrapper {
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 
 .buttons-list {
