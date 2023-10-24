@@ -13,20 +13,19 @@
       </div>
 
       <!--  Catégorie validé par le jury -->
-      <v-expansion-panels v-if="categoriesValide.length > 0 && soutenue">
-        <v-expansion-panel class="buttons-sub-header">
-          <v-expansion-panel-title class="header-container no-wrap-text">
+      <div v-if="categoriesValide.length > 0 && soutenue">
+          <div class="header-container no-wrap-text">
             <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
             <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <div v-for="sousCategorie in categoriesValide" class="buttons-list-wrapper" :key="sousCategorie.libelle">
-              <div v-if="sousCategorie.boutons.length > 0">
+          </div>
+            <v-expansion-panels v-model="panel" variant="accordion" multiple v-for="sousCategorie in categoriesValide" class="buttons-list-wrapper" :key="sousCategorie.libelle">
+              <v-expansion-panel :value="sousCategorie.libelle" v-if="sousCategorie.boutons.length > 0">
                 <!--            Intitulé de la catégorie-->
-                <div class="sous-categorie-header">
-                  <span>{{ sousCategorie.libelle }}</span>
-                </div>
-                <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
+                <v-expansion-panel-title class="sous-categorie-header">
+                  {{ sousCategorie.libelle }}
+                </v-expansion-panel-title>
+                <v-expansion-panel-text>
+                  <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
                   <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
                          :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
                          target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
@@ -37,12 +36,11 @@
                       <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin
                         }}</span>
                     </span>
-                </div>
-              </div>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
-      </v-expansion-panels>
+                  </div>
+                </v-expansion-panel-text>
+              </v-expansion-panel>
+            </v-expansion-panels>
+      </div>
       <!--  Catégorie Autres versions-->
       <v-expansion-panels v-if="boutonsAutres.length > 0 && soutenue">
         <v-expansion-panel class="buttons-sub-header">
@@ -114,8 +112,10 @@ const dialogUrl = ref("");
 const categoriesValide = ref([]);
 const boutonsAutres = ref([]);
 
+const panel = ref(["Dépôt national"]);
+
 watch(() => props.categories, () => {
-  console.info("oi")
+  console.dir(props.categories)
   categoriesValide.value = props.categories.filter((category) => category.libelle === "Validé par le jury")[0]['sousCategories'];
   boutonsAutres.value = props.categories.filter((category) => category.libelle === "Autres versions")[0]['boutons'];
 });
@@ -222,6 +222,18 @@ function closeOverlay() {
   display: flex;
   justify-content: center;
   flex-direction: column;
+
+  :deep(.v-expansion-panel__shadow) {
+    box-shadow: unset;
+  }
+
+  :deep(.v-expansion-panel-title__overlay) {
+    background-color: rgb(var(--v-theme-surface));
+  }
+
+  :deep(.v-expansion-panel-text__wrapper) {
+    padding: unset;
+  }
 }
 
 .buttons-list {
