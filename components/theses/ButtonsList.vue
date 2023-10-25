@@ -42,28 +42,30 @@
             </v-expansion-panels>
       </div>
       <!--  Catégorie Autres versions-->
-      <v-expansion-panels v-if="boutonsAutres.length > 0 && soutenue">
-        <v-expansion-panel class="buttons-sub-header">
+    <div v-if="boutonsAutres.length > 0 && soutenue">
+      <v-expansion-panels>
+        <v-expansion-panel class="buttons-sub-header buttons-sub-header-other">
           <v-expansion-panel-title>
             <v-icon color="primary" class="menu-icon">mdi-list-box</v-icon>
-            <span class="buttons-title-header">{{ $t("theseView.others") }}</span>
+            <span class="buttons-title-header buttons-title-header-other">{{ $t("theseView.others") }}</span>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <div v-for="b in boutonsAutres" class="buttons-list" :key="b.libelle">
-              <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
-                     :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
-                     target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
-                  b.libelle }}
-              </v-btn>
-              <span class="texte-embargo" v-else>
+            <div class="buttons-list" v-for="b in boutonsAutres" :key="b.libelle">
+              <span class="texte-embargo" v-if="typeof b.url === 'undefined'">
                       <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
                       <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin
                         }}</span>
                     </span>
+              <v-btn v-else color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
+                     :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
+                     target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+                  b.libelle }}
+              </v-btn>
             </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
+    </div>
   </div>
 
   <!-- Modal Accès ESR -->
@@ -160,6 +162,42 @@ function closeOverlay() {
   }
 }
 
+.buttons-sub-header-other {
+  overflow: unset !important;
+  display: unset !important;
+  padding: unset !important;
+
+  :deep(.v-expansion-panel-title__overlay) {
+    background-color: rgb(var(--v-theme-surface));
+  }
+
+  :deep(.v-expansion-panel__shadow) {
+    box-shadow: unset;
+  }
+
+  :deep(.v-expansion-panel-title) {
+    min-height: 28px;
+    padding: 0 0.8em;
+  }
+
+  :deep(.v-expansion-panel-text) {
+    padding-top: 0.3em;
+  }
+
+  :deep(.v-expansion-panel-text__wrapper) {
+    padding: unset;
+  }
+
+  :deep(.v-btn__content) {
+    white-space: break-spaces;
+  }
+
+  :deep(.v-btn--density-default) {
+    height: unset;
+    padding: 0.8em 1em;
+  }
+}
+
 .sous-categorie-header, .texte-embargo {
   overflow: hidden;
   padding: 0 1em;
@@ -219,6 +257,10 @@ function closeOverlay() {
   }
 }
 
+.buttons-title-header-other {
+  margin-top: 0 !important;
+}
+
 .buttons-list-wrapper {
   display: flex;
   justify-content: center;
@@ -255,22 +297,15 @@ function closeOverlay() {
     justify-content: space-between;
     text-transform: none;
     margin-bottom: 1em;
-
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-      width: 85%;
-    }
+    width: 80%;
   }
-}
+  }
 
 .buttons,
 .skeleton-loader-wrapper {
   display: flex;
   flex-direction: column;
   border-right: 2px solid rgb(var(--v-theme-gris-clair));
-
-  .buttons-list {
-    width: 85%;
-  }
 
   .skeleton {
     height: 36px !important;
