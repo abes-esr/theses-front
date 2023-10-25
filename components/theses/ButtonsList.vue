@@ -177,6 +177,7 @@ function closeOverlay() {
   display: grid;
   grid-template-columns: 1fr 1fr 100fr;
   grid-template-rows: 20% 60% 20%;
+  padding: 0 10px;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     width: 100%;
@@ -223,6 +224,10 @@ function closeOverlay() {
   justify-content: center;
   flex-direction: column;
 
+  :deep(.v-expansion-panel-title) {
+    min-height: 28px;
+  }
+
   :deep(.v-expansion-panel__shadow) {
     box-shadow: unset;
   }
@@ -234,6 +239,10 @@ function closeOverlay() {
   :deep(.v-expansion-panel-text__wrapper) {
     padding: unset;
   }
+
+  :deep(.v-btn__content) {
+    white-space: break-spaces;
+  }
 }
 
 .buttons-list {
@@ -242,11 +251,14 @@ function closeOverlay() {
   align-items: center;
 
   .v-btn {
-    width: 85%;
     display: inline-flex;
     justify-content: space-between;
     text-transform: none;
     margin-bottom: 1em;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+      width: 85%;
+    }
   }
 }
 

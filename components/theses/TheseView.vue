@@ -42,9 +42,8 @@
         <!-- TODO: Semble générer un bug lors de l'hydratation-->
         <ThesesThesisComponent v-if="dataReady" :soutenue="these.status === 'soutenue'" :nnt="props.id" :these="these"
                                :categories="categories"></ThesesThesisComponent>
-        <ClientOnly>
-          <ThesesThesisSkeleton v-if="!dataReady"></ThesesThesisSkeleton>
-        </ClientOnly>
+
+        <ThesesThesisSkeleton v-if="!dataReady"></ThesesThesisSkeleton>
       </div>
     </div>
   </div>
@@ -187,7 +186,6 @@ function sleep(ms) {
   display: grid;
   grid-template-columns: 10fr 103fr 10fr;
   align-items: start;
-  margin-top: 0;
   width: 100%;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
