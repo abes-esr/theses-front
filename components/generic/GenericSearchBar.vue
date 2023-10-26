@@ -31,7 +31,6 @@ async function updateComponent(domaine) {
 }
 
 watch(() => currentRoute.query.domaine, () => {
-  console.log("coucou")
   updateComponent(currentRoute.query.domaine)
 });
 
