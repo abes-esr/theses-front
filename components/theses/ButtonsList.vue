@@ -85,7 +85,7 @@
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent } from "vue";
+import { ref, defineAsyncComponent, toRaw } from "vue";
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
@@ -119,6 +119,8 @@ const panel = ref(["Dépôt national"]);
 watch(() => props.categories, () => {
   categoriesValide.value = props.categories.filter((category) => category.libelle === "Validé par le jury")[0]['sousCategories'];
   boutonsAutres.value = props.categories.filter((category) => category.libelle === "Autres versions")[0]['boutons'];
+
+  putEmbargoTextAndESRButtonBeforeEveryhting();
 });
 
 /**
@@ -128,6 +130,24 @@ function closeOverlay() {
   emit('closeOverlay');
 }
 
+function putEmbargoTextAndESRButtonBeforeEveryhting() {
+  categoriesValide.value.forEach(sousCategorie => {
+    if (sousCategorie.libelle === "Dépôt national") {
+      let indexEmbargo = sousCategorie.boutons.findIndex((bouton) => bouton.typeAcces === "EMBARGO");
+
+      if (indexEmbargo > -1) {
+        let embargoObject = sousCategorie.boutons.splice(indexEmbargo, 1);
+        sousCategorie.boutons.splice(0, 0, toRaw(embargoObject[0]));
+
+        let indexESR = sousCategorie.boutons.findIndex((bouton) => bouton.typeAcces === "ACCES_ESR");
+        if (indexESR > -1) {
+          let esrObject = sousCategorie.boutons.splice(indexESR, 1);
+          sousCategorie.boutons.splice(1, 0, toRaw(esrObject[0]));
+        }
+      }
+    }
+  });
+}
 </script>
 
 <style scoped lang="scss">
