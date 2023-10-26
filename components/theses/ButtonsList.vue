@@ -18,7 +18,7 @@
             <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
             <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
           </div>
-            <v-expansion-panels v-model="panel" variant="accordion" multiple v-for="sousCategorie in categoriesValide" class="buttons-list-wrapper" :key="sousCategorie.libelle">
+            <v-expansion-panels v-model="panel" variant="accordion" v-for="sousCategorie in categoriesValide" class="buttons-list-wrapper" :key="sousCategorie.libelle">
               <v-expansion-panel :value="sousCategorie.libelle" v-if="sousCategorie.boutons.length > 0">
                 <!--            Intitulé de la catégorie-->
                 <v-expansion-panel-title class="sous-categorie-header">
@@ -26,7 +26,7 @@
                 </v-expansion-panel-title>
                 <v-expansion-panel-text>
                   <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
-                  <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
+                  <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
                          :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
                          target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
                       b.libelle }}
@@ -43,7 +43,7 @@
       </div>
       <!--  Catégorie Autres versions-->
     <div v-if="boutonsAutres.length > 0 && soutenue">
-      <v-expansion-panels>
+      <v-expansion-panels class="v-expansion-panels-other">
         <v-expansion-panel class="buttons-sub-header buttons-sub-header-other">
           <v-expansion-panel-title>
             <v-icon color="primary" class="menu-icon">mdi-list-box</v-icon>
@@ -56,7 +56,7 @@
                       <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin
                         }}</span>
                     </span>
-              <v-btn v-else color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat
+              <v-btn v-else color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
                      :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
                      target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
                   b.libelle }}
@@ -75,9 +75,9 @@
       <br />
       <v-checkbox v-model="checkboxModal" :label='$t("theseView.modalAgree")' />
       <div class="submit">
-        <v-btn flat variant="outlined" size="large" @click="dialog = false">{{ $t('theseView.modalCancel')
+        <v-btn variant="outlined" size="large" @click="dialog = false">{{ $t('theseView.modalCancel')
         }}</v-btn>
-        <v-btn flat variant="outlined" size="large" :disabled="!checkboxModal" target="_blank" :href="dialogUrl">{{
+        <v-btn variant="outlined" size="large" :disabled="!checkboxModal" target="_blank" :href="dialogUrl">{{
           $t('theseView.modalOk') }}</v-btn>
       </div>
     </v-card>
@@ -179,6 +179,10 @@ function putEmbargoTextAndESRButtonBeforeEveryhting() {
     padding: unset;
     font-size: 16px;
   }
+}
+
+.v-expansion-panels-other {
+  display: unset;
 }
 
 .buttons-sub-header-other {
