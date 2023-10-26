@@ -1,6 +1,6 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
-  <div class="buttons">
+  <div class="buttons" v-if="categories.length > 0">
       <div class="buttons-header">
         <span>{{ $t("theseView.access") }}</span>
         <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
@@ -117,7 +117,6 @@ const boutonsAutres = ref([]);
 const panel = ref(["Dépôt national"]);
 
 watch(() => props.categories, () => {
-  console.dir(props.categories)
   categoriesValide.value = props.categories.filter((category) => category.libelle === "Validé par le jury")[0]['sousCategories'];
   boutonsAutres.value = props.categories.filter((category) => category.libelle === "Autres versions")[0]['boutons'];
 });
@@ -299,7 +298,12 @@ function closeOverlay() {
     margin-bottom: 1em;
     width: 80%;
   }
+
+  :deep(.v-btn--density-default) {
+    height: unset;
+    padding: 0.8em 1em;
   }
+}
 
 .buttons,
 .skeleton-loader-wrapper {

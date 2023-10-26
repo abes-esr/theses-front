@@ -108,7 +108,10 @@ function closeOverlay() {
 function loadButtons(these) {
   if (these.status === 'soutenue') {
     getButtons(these.nnt).then((res) => {
-      categories.value = res.data.value.categories;
+      if (res.data.value !== null && typeof res.data.value.categories !== 'undefined')
+        categories.value = res.data.value.categories;
+      else
+        throw new Error("Pas d'accès à la thèse disponible")
     })
       .catch((err) => {
         displayError("Accès en ligne : " + err.message);
