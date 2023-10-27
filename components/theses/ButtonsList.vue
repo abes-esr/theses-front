@@ -1,32 +1,70 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
-  <div class="buttons">
-    <div v-if="buttonsList.length > 0">
+  <div class="buttons" v-if="categories.length > 0">
       <div class="buttons-header">
         <span>{{ $t("theseView.access") }}</span>
         <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
           <div class="close-overlay-icon-wrapper">
-            <div><v-icon size="35">mdi-close-box</v-icon></div>
+            <div>
+              <v-icon size="35">mdi-close-box</v-icon>
+            </div>
           </div>
         </button>
       </div>
-      <div class="buttons-sub-header">
-        <div class="header-container no-wrap-text">
-          <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
-          <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
-        </div>
+
+      <!--  Catégorie validé par le jury -->
+      <div v-if="categoriesValide.length > 0 && soutenue">
+          <div class="header-container no-wrap-text">
+            <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
+            <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
+          </div>
+            <v-expansion-panels multiple v-model="panel" variant="accordion" v-for="sousCategorie in categoriesValide" class="buttons-list-wrapper" :key="sousCategorie.libelle">
+              <v-expansion-panel :value="sousCategorie.libelle" v-if="sousCategorie.boutons.length > 0">
+                <!--            Intitulé de la catégorie-->
+                <v-expansion-panel-title class="sous-categorie-header">
+                  {{ sousCategorie.libelle }}
+                </v-expansion-panel-title>
+                <v-expansion-panel-text>
+                  <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
+                  <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
+                         :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
+                         target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+                      b.libelle }}
+                  </v-btn>
+                  <span class="texte-embargo" v-else>
+                      <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
+                      <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin
+                        }}</span>
+                    </span>
+                  </div>
+                </v-expansion-panel-text>
+              </v-expansion-panel>
+            </v-expansion-panels>
       </div>
-      <div class="buttons-list-wrapper" v-if="soutenue">
-        <div class="buttons-list no-wrap-text" v-for="b in buttonsList" :key="b">
-          <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle" flat :href="baseURL + b.url"
-            target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
-              b.libelle }}</v-btn>
-          <span v-else>
-            <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
-            <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
-          </span>
-        </div>
-      </div>
+      <!--  Catégorie Autres versions-->
+    <div v-if="boutonsAutres.length > 0 && soutenue">
+      <v-expansion-panels multiple variant="accordion" class="v-expansion-panels-other">
+        <v-expansion-panel class="buttons-sub-header buttons-sub-header-other">
+          <v-expansion-panel-title>
+            <v-icon color="primary" class="menu-icon">mdi-list-box</v-icon>
+            <span class="buttons-title-header buttons-title-header-other">{{ $t("theseView.others") }}</span>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <div class="buttons-list" v-for="b in boutonsAutres" :key="b.libelle">
+              <span class="texte-embargo" v-if="typeof b.url === 'undefined'">
+                      <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
+                      <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin
+                        }}</span>
+                    </span>
+              <v-btn v-else color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
+                     :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
+                     target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+                  b.libelle }}
+              </v-btn>
+            </div>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </div>
   </div>
 
@@ -37,9 +75,9 @@
       <br />
       <v-checkbox v-model="checkboxModal" :label='$t("theseView.modalAgree")' />
       <div class="submit">
-        <v-btn flat variant="outlined" size="large" @click="dialog = false">{{ $t('theseView.modalCancel')
+        <v-btn variant="outlined" size="large" @click="dialog = false">{{ $t('theseView.modalCancel')
         }}</v-btn>
-        <v-btn flat variant="outlined" size="large" :disabled="!checkboxModal" target="_blank" :href="dialogUrl">{{
+        <v-btn variant="outlined" size="large" :disabled="!checkboxModal" target="_blank" :href="dialogUrl">{{
           $t('theseView.modalOk') }}</v-btn>
       </div>
     </v-card>
@@ -47,19 +85,21 @@
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent } from "vue";
+import { ref, defineAsyncComponent, toRaw } from "vue";
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const messageBox = ref(null);
 
-defineProps({
-  buttonsList: {
+const props = defineProps({
+  categories: {
     type: Object,
+    default: []
   },
   soutenue: {
     type: Boolean,
+    default: false
   }
 });
 
@@ -71,6 +111,17 @@ const baseURL = config.public.API;
 const dialog = ref(false);
 const checkboxModal = ref(false);
 const dialogUrl = ref("");
+const categoriesValide = ref([]);
+const boutonsAutres = ref([]);
+
+const panel = ref(["Dépôt national"]);
+
+watch(() => props.categories, () => {
+  categoriesValide.value = props.categories.filter((category) => category.libelle === "Validé par le jury")[0]['sousCategories'];
+  boutonsAutres.value = props.categories.filter((category) => category.libelle === "Autres versions")[0]['boutons'];
+
+  putEmbargoTextAndESRButtonBeforeEveryhting();
+});
 
 /**
  * Fonctions
@@ -79,6 +130,24 @@ function closeOverlay() {
   emit('closeOverlay');
 }
 
+function putEmbargoTextAndESRButtonBeforeEveryhting() {
+  categoriesValide.value.forEach(sousCategorie => {
+    if (sousCategorie.libelle === "Dépôt national") {
+      let indexEmbargo = sousCategorie.boutons.findIndex((bouton) => bouton.typeAcces === "EMBARGO");
+
+      if (indexEmbargo > -1) {
+        let embargoObject = sousCategorie.boutons.splice(indexEmbargo, 1);
+        sousCategorie.boutons.splice(0, 0, toRaw(embargoObject[0]));
+
+        let indexESR = sousCategorie.boutons.findIndex((bouton) => bouton.typeAcces === "ACCES_ESR");
+        if (indexESR > -1) {
+          let esrObject = sousCategorie.boutons.splice(indexESR, 1);
+          sousCategorie.boutons.splice(1, 0, toRaw(esrObject[0]));
+        }
+      }
+    }
+  });
+}
 </script>
 
 <style scoped lang="scss">
@@ -110,8 +179,58 @@ function closeOverlay() {
     padding: unset;
     font-size: 16px;
   }
+}
 
-  margin-bottom: 0.6em;
+.v-expansion-panels-other {
+  display: unset;
+}
+
+.buttons-sub-header-other {
+  overflow: unset !important;
+  display: unset !important;
+  padding: unset !important;
+
+  :deep(.v-expansion-panel-title__overlay) {
+    background-color: rgb(var(--v-theme-surface));
+  }
+
+  :deep(.v-expansion-panel__shadow) {
+    box-shadow: unset;
+  }
+
+  :deep(.v-expansion-panel-title) {
+    min-height: 28px;
+    padding: 0 0.8em;
+  }
+
+  :deep(.v-expansion-panel-text) {
+    padding-top: 0.3em;
+  }
+
+  :deep(.v-expansion-panel-text__wrapper) {
+    padding: unset;
+  }
+
+  :deep(.v-btn__content) {
+    white-space: break-spaces;
+  }
+
+  :deep(.v-btn--density-default) {
+    height: unset;
+    padding: 0.8em 1em;
+  }
+}
+
+.sous-categorie-header, .texte-embargo {
+  overflow: hidden;
+  padding: 0 1em;
+  margin-bottom: 0.3em;
+  font-size: 16px;
+  text-align: start;
+}
+
+.sous-categorie-header {
+  font-weight: 500;
 }
 
 .header-container {
@@ -119,6 +238,7 @@ function closeOverlay() {
   display: grid;
   grid-template-columns: 1fr 1fr 100fr;
   grid-template-rows: 20% 60% 20%;
+  padding: 0 10px;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     width: 100%;
@@ -160,9 +280,34 @@ function closeOverlay() {
   }
 }
 
+.buttons-title-header-other {
+  margin-top: 0 !important;
+}
+
 .buttons-list-wrapper {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+
+  :deep(.v-expansion-panel-title) {
+    min-height: 28px;
+  }
+
+  :deep(.v-expansion-panel__shadow) {
+    box-shadow: unset;
+  }
+
+  :deep(.v-expansion-panel-title__overlay) {
+    background-color: rgb(var(--v-theme-surface));
+  }
+
+  :deep(.v-expansion-panel-text__wrapper) {
+    padding: unset;
+  }
+
+  :deep(.v-btn__content) {
+    white-space: break-spaces;
+  }
 }
 
 .buttons-list {
@@ -171,11 +316,16 @@ function closeOverlay() {
   align-items: center;
 
   .v-btn {
-    width: 85%;
     display: inline-flex;
     justify-content: space-between;
     text-transform: none;
     margin-bottom: 1em;
+    width: 80%;
+  }
+
+  :deep(.v-btn--density-default) {
+    height: unset;
+    padding: 0.8em 1em;
   }
 }
 
@@ -184,10 +334,6 @@ function closeOverlay() {
   display: flex;
   flex-direction: column;
   border-right: 2px solid rgb(var(--v-theme-gris-clair));
-
-  .buttons-list {
-    width: 85%;
-  }
 
   .skeleton {
     height: 36px !important;
