@@ -18,7 +18,7 @@
             <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
             <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
           </div>
-            <v-expansion-panels v-model="panel" variant="accordion" v-for="sousCategorie in categoriesValide" class="buttons-list-wrapper" :key="sousCategorie.libelle">
+            <v-expansion-panels multiple v-model="panel" variant="accordion" v-for="sousCategorie in categoriesValide" class="buttons-list-wrapper" :key="sousCategorie.libelle">
               <v-expansion-panel :value="sousCategorie.libelle" v-if="sousCategorie.boutons.length > 0">
                 <!--            Intitulé de la catégorie-->
                 <v-expansion-panel-title class="sous-categorie-header">
@@ -43,7 +43,7 @@
       </div>
       <!--  Catégorie Autres versions-->
     <div v-if="boutonsAutres.length > 0 && soutenue">
-      <v-expansion-panels class="v-expansion-panels-other">
+      <v-expansion-panels multiple variant="accordion" class="v-expansion-panels-other">
         <v-expansion-panel class="buttons-sub-header buttons-sub-header-other">
           <v-expansion-panel-title>
             <v-icon color="primary" class="menu-icon">mdi-list-box</v-icon>
