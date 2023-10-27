@@ -31,11 +31,11 @@
                          target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
                       b.libelle }}
                   </v-btn>
-                  <span class="texte-embargo" v-else>
+                    <v-card class="texte-embargo" v-else>
+                      <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
                       <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
-                      <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin
-                        }}</span>
-                    </span>
+                      <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
+                    </v-card>
                   </div>
                 </v-expansion-panel-text>
               </v-expansion-panel>
@@ -50,17 +50,17 @@
             <span class="buttons-title-header buttons-title-header-other">{{ $t("theseView.others") }}</span>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <div class="buttons-list" v-for="b in boutonsAutres" :key="b.libelle">
-              <span class="texte-embargo" v-if="typeof b.url === 'undefined'">
-                      <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
-                      <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin
-                        }}</span>
-                    </span>
-              <v-btn v-else color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
+            <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
+              <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
                      :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
                      target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
                   b.libelle }}
               </v-btn>
+              <v-card class="texte-embargo" v-else>
+                <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
+                <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
+                <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
+              </v-card>
             </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
@@ -221,12 +221,41 @@ function putEmbargoTextAndESRButtonBeforeEveryhting() {
   }
 }
 
-.sous-categorie-header, .texte-embargo {
+.sous-categorie-header {
   overflow: hidden;
   padding: 0 1em;
-  margin-bottom: 0.3em;
+  margin-bottom: 0.8em;
   font-size: 16px;
   text-align: start;
+}
+
+.texte-embargo {
+  width: 80%;
+  padding: 0.8em 0;
+  margin-bottom: 1em;
+
+  display: inline-grid;
+  grid-template-columns: 25fr 75fr;
+
+  .icon-alert {
+    align-self: center;
+    justify-self: center;
+    margin: 10px;
+  }
+
+  .icon-alert path {
+      fill: rgb(var(--v-theme-orange-abes));
+  }
+
+  span {
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding-right: 1em;
+    align-self: center;
+    justify-self: center;
+    word-break: break-word;
+  }
 }
 
 .sous-categorie-header {
