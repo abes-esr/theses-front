@@ -169,7 +169,6 @@ const firstKeyName = ref("");
 partenairesGroupedByType.value = groupBy(props.these.partenairesRecherche, "type");
 firstKeyName.value = Object.keys(partenairesGroupedByType.value)[0];
 
-console.info(partenairesGroupedByType.value)
 /**
  * Functions
  */
