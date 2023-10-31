@@ -33,8 +33,8 @@
           {{ $t('resultCard.par') }}{{ '\xa0' }}
         </span>
 
-        <span v-for="(item, index) in auteur" :key="item.ppn">
-          <span :class="item.ppn ? 'clickable lightblue' : ''" @click="linkTo(item.ppn)">
+        <span v-for="(item, index) in auteur" :key="item.ppn ? item.ppn : item.id">
+          <span :class="item.ppn || item.id ? 'clickable lightblue' : ''" @click="linkTo(item.ppn ? item.ppn : item.id)">
             <span class="card-text">{{ item.prenom }}{{ '\xa0' }}</span>
             <span class="card-text">{{ item.nom }}</span>
           </span>{{ '\xa0' }}
@@ -50,8 +50,8 @@
           {{ $t('resultCard.dir') }}{{ '\xa0' }}
         </span>
 
-        <span v-for="(item, index) in directeurs" :key="item.ppn">
-          <span :class="item.ppn ? 'clickable lightblue' : ''" @click="linkTo(item.ppn)">
+        <span v-for="(item, index) in directeurs" :key="item.ppn ? item.ppn : item.id">
+          <span :class="item.ppn || item.id ? 'clickable lightblue' : ''" @click="linkTo(item.ppn ? item.ppn : item.id)">
             <span class="card-text">
               {{ item.prenom }}{{ '\xa0' }}
             </span>

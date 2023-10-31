@@ -7,7 +7,7 @@
       <!-- Bare latérale Desktop -->
       <div v-if="!mobile && soutenue" class="access-buttons">
         <!-- Menu boutons-liens desktop-->
-        <ThesesButtonsList v-if="!mobile" :buttons-list="buttonsList" :soutenue="soutenue">
+        <ThesesButtonsList v-if="!mobile" :categories="categories" :soutenue="soutenue">
         </ThesesButtonsList>
       </div>
 
@@ -48,8 +48,13 @@ const props = defineProps({
   soutenue: {
     type: Boolean
   },
-  buttonsList: {
+  dataReady: {
+    type: Boolean,
+    default: false
+  },
+  categories: {
     type: Object,
+    default: []
   }
 });
 
@@ -138,8 +143,8 @@ watchEffect(() => {
 
 .access-buttons {
   grid-column-start: 1;
+  grid-column-end: 2;
   grid-row-start: 2;
-
 }
 
 .thesis-info-wrapper {
