@@ -76,7 +76,7 @@
                                             </v-icon>
                                         </template>
                                         <h2>
-                                            {{ $t("organismeView." + key, [item[key].length]) }}
+                                            {{ $t("organismeView." + key, [item["totalHits" + key]]) }}
 
                                         </h2>
                                     </v-expansion-panel-title>
@@ -93,6 +93,10 @@
                                             </v-lazy>
                                             <hr class="result-dividers" v-if="index < item[key].length - 1" />
                                         </div>
+                                        <div v-if="item['totalHits' + key] > 100" class="loadMoreButton"><v-btn
+                                                variant=outlined size="x-large" @click="voirPlus(key, props.id)">{{
+                                                    $t("organismeView.voirPlus") }}</v-btn></div>
+
                                     </v-expansion-panel-text>
                                 </v-expansion-panel>
                             </div>
@@ -174,6 +178,34 @@ getName(props.id).then(result => {
     }
 });
 
+async function voirPlus(contexte, ppn) {
+    switch (contexte) {
+        case 'etabSoutenance':
+            await navigateTo('/resultats?q=etabSoutenancePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D');
+            break;
+        case 'etabSoutenanceEnCours':
+            await navigateTo('/resultats?q=etabSoutenancePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D');
+            break;
+        case 'partenaireRecherche':
+            await navigateTo('/resultats?q=partenairesRecherchePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D');
+            break;
+        case 'partenaireRechercheEnCours':
+            await navigateTo('/resultats?q=partenairesRecherchePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D');
+            break;
+        case 'etabCotutelle':
+            await navigateTo('/resultats?q=etabsCotutellePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D');
+            break;
+        case 'etabCotutelleEnCours':
+            await navigateTo('/resultats?q=etabsCotutellePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D');
+            break;
+        case 'ecoleDoctorale':
+            await navigateTo('/resultats?q=ecolesDoctoralesPpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D');
+            break;
+        case 'ecoleDoctoraleEnCours':
+            await navigateTo('/resultats?q=ecolesDoctoralesPpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D');
+            break;
+    }
+}
 
 const messageBox = ref(null);
 
@@ -217,6 +249,7 @@ function displayError(message, opt) {
 
         @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
             width: 100%;
+            padding: 0 0.5em;
         }
 
         .info {
@@ -283,6 +316,19 @@ function displayError(message, opt) {
                 }
             }
 
+            :deep(.v-expansion-panel-text__wrapper) {
+                @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+            }
+
+            :deep(.v-card-title) {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+
             .v-expansion-panel :deep(.v-expansion-panel__shadow) {
                 box-shadow: none;
             }
@@ -334,5 +380,10 @@ function displayError(message, opt) {
 :deep(.v-skeleton-loader__button) {
     max-width: unset !important;
     width: 250px;
+}
+
+.loadMoreButton {
+    display: flex;
+    justify-content: center;
 }
 </style>

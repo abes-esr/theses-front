@@ -91,14 +91,15 @@
     "modalCancel": "Annuler"
   },
   "organismeView": {
-    "etabSoutenance": "{0} thèse(s) soutenue(s) dans cet établissement",
-    "etabSoutenanceEnCours": "{0} thèse(s) en cours de préparation dans cet établissement",
-    "partenaireRecherche": "{0} thèse(s) soutenue(s) en partenariat avec cet établissement",
-    "partenaireRechercheEnCours": "{0} thèse(s) en préparation en partenariat avec cet établissement",
-    "etabCotutelle": "{0} thèse(s) soutenue(s) en cotutelle avec cet établissement",
-    "etabCotutelleEnCours": "{0} thèse(s) en préparation en cotutelle avec cet établissement",
-    "ecoleDoctorale": "{0} thèse(s) soutenue(s) dans le cadre de cet établissement",
-    "ecoleDoctoraleEnCours": "{0} thèse(s) en péparation dans le cadre de cet établissement"
+    "etabSoutenance": "{0} thèse(s) soutenue(s) dans cette structure",
+    "etabSoutenanceEnCours": "{0} thèse(s) en cours de préparation dans cette structure",
+    "partenaireRecherche": "{0} thèse(s) soutenue(s) en partenariat avec cette structure",
+    "partenaireRechercheEnCours": "{0} thèse(s) en préparation en partenariat avec cette structure",
+    "etabCotutelle": "{0} thèse(s) soutenue(s) en cotutelle avec cette structure",
+    "etabCotutelleEnCours": "{0} thèse(s) en préparation en cotutelle avec cette structure",
+    "ecoleDoctorale": "{0} thèse(s) soutenue(s) dans le cadre de cette structure",
+    "ecoleDoctoraleEnCours": "{0} thèse(s) en préparation dans le cadre de cette structure",
+    "voirPlus": "Voir plus"
   },
   "results": {
     "facetsHeader": "Filtres",

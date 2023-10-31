@@ -16,9 +16,7 @@ activeComponent.value = SearchBarTheses;
 
 const currentRoute = useRoute();
 
-onBeforeUpdate(() => {
-  updateComponent(currentRoute.query.domaine)
-})
+updateComponent(currentRoute.query.domaine)
 
 async function updateComponent(domaine) {
   if (domaine && domaine == "personnes") {
@@ -31,7 +29,6 @@ async function updateComponent(domaine) {
 }
 
 watch(() => currentRoute.query.domaine, () => {
-  console.log("coucou")
   updateComponent(currentRoute.query.domaine)
 });
 

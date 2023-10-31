@@ -138,7 +138,7 @@ getPersonne(props.id).then(result => {
     title: () => `${item.value.prenom} ${item.value.nom} | Theses.fr`,
     ogTitle: () => `${item.value.prenom} ${item.value.nom} | Theses.fr`,
     description: () => t("meta.descPersonne") + item.value.prenom + " " + item.value.nom,
-    ogDescription: () => t("meta.descPersonne") + item.prenom + " " + item.nom,
+    ogDescription: () => t("meta.descPersonne") + item.value.prenom + " " + item.value.nom,
     ogImage: "https://beta.theses.fr/logo-theses-beta.png",
     ogImageAlt: 'Logo Theses.fr',
     twitterCard: 'summary',
@@ -353,6 +353,7 @@ function sleep(ms) {
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       width: 100%;
       margin-top: -20px;
+      padding: 0 0.5em;
     }
 
     .info {
@@ -421,6 +422,18 @@ function sleep(ms) {
 
       .v-expansion-panel :deep(.v-expansion-panel__shadow) {
         box-shadow: none;
+      }
+
+      :deep(.v-expansion-panel-text__wrapper) {
+        @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+
+      :deep(.v-card-title) {
+        padding-left: 0;
+        padding-right: 0;
       }
 
       .v-expansion-panel-title--active :deep(.v-expansion-panel-title__overlay) {
