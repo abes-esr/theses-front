@@ -389,7 +389,6 @@ h4 {
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
     flex: 1 0 60%;
-    margin-left: 0.5em;
   }
 
   .nomprenom {
@@ -399,10 +398,6 @@ h4 {
     text-decoration: none;
     color: rgb(var(--v-theme-primary));
     font-size: 20px;
-
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      font-size: 29.5px;
-    }
 
     .prenom {
       font-weight: 400;
