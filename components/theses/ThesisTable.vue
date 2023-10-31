@@ -88,63 +88,62 @@
         </td>
       </tr>
       <!-- Partenariat -->
+      <!-- Première ligne -->
       <tr v-if="these.partenairesRecherche && these.partenairesRecherche.length > 0" class="table-rows">
         <td>
           <strong>{{ $t('theseView.partenariat') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
         <td>
-          <span v-for="(ecole, index) in these.partenairesRecherche" :key="ecole.ppn">
-            <span :class='ecole.ppn ? "clickable lightblue" : ""' @click="lintoTo(ecole.ppn)"> {{ ecole.nom }} </span> {{
-              '\xa0' }} ({{ ecole.type }})
-            <span v-if="index < these.partenairesRecherche.length - 1">,{{ '\xa0' }}</span>
+          <strong>{{ firstPartenaireKeyName + " : "}}</strong>
+          <span v-for="(partenaire, index) in partenairesGroupedByType[firstPartenaireKeyName]" :key="partenaire.ppn"
+                :class='partenaire.ppn ? "clickable lightblue" : ""' @click="linkTo(partenaire.ppn)">
+            {{ partenaire.nom }} {{ (index < partenairesGroupedByType[firstPartenaireKeyName].length - 1) ? ' - ' : '' }}
           </span>
         </td>
       </tr>
+      <!-- Partenariat x-eme ligne / premiere colonne vide -->
+      <template v-for="(type, indexType) in partenairesGroupedByType" :key="indexType">
+        <tr v-if="indexType !== firstPartenaireKeyName" class="table-rows">
+          <td class="empty-first-cell-mandatory"></td>
+          <td>
+            <strong>{{ indexType + " : " }}</strong>
+              <span v-for="(partenaire, index) in type" :class='partenaire.ppn ? "clickable lightblue" : ""' @click="linkTo(partenaire.ppn)">
+                {{ partenaire.nom }} {{ (index < partenairesGroupedByType[partenaire.type].length - 1) ? ' - ' : '' }}
+              </span>
+          </td>
+        </tr>
+      </template>
       <!-- Jury -->
-      <!-- Président-->
-      <tr
-        v-if="(these.presidentJury && these.presidentJury.nom) || (these.membresJury && these.membresJury.length > 0) || (these.rapporteurs && these.rapporteurs.length > 0)"
-        class="table-rows">
+      <!-- Première ligne -->
+      <tr v-if="(Object.keys(juryMembersGroupedByType).length > 0)" class="table-rows">
         <td>
           <strong>{{ $t('theseView.jury') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
-        <td v-if="these.presidentJury && these.presidentJury.nom" id="president">
-          <strong>{{ $t('theseView.president') }}{{ '\xa0' }}</strong>
-          <span :class="these.presidentJury.ppn ? 'clickable lightblue' : ''" @click="linkTo(these.presidentJury.ppn)">{{
-            these.presidentJury.prenom }} {{
-    these.presidentJury.nom }}</span>
-        </td>
-      </tr>
-      <!-- Composition-->
-      <tr v-if="these.membresJury && these.membresJury.length > 0" class="table-rows">
-        <td class="empty-first-cell-mandatory"></td>
         <td>
-          {{ '\r' }}<strong>{{ $t('theseView.composition') }} {{ '\xa0' }}</strong>
-          <span v-for="(membre, index) in these.membresJury" :key="membre.ppn">
-            <span :class="membre.ppn ? 'clickable lightblue' : ''" @click="linkTo(membre.ppn)">{{
-              membre.prenom }} {{ membre.nom }}</span>
-            <span v-if="index < these.membresJury.length - 1">,{{ '\xa0' }}</span>
-          </span>
+          <strong>{{ firstJuryMemberKeyName + " : " }}</strong>
+          <span v-for="(member, index) in juryMembersGroupedByType[firstJuryMemberKeyName]" :key="member.ppn"
+                :class='member.ppn ? "clickable lightblue" : ""' @click="linkTo(member.ppn)">
+            {{ member.prenom }} {{ member.nom }}{{ (index < juryMembersGroupedByType[firstJuryMemberKeyName].length - 1) ? ', ' : '' }}</span>
         </td>
       </tr>
-      <!-- Rapporteurs-->
-      <tr v-if="these.rapporteurs && these.rapporteurs.length > 0" class="table-rows">
-        <td class="empty-first-cell-mandatory"></td>
-        <td>
-          {{ "\r" }}<strong>{{ $t("theseView.rapporteurs") }} {{ "\xa0" }}</strong>
-          <span v-for="(rapporteur, index) in these.rapporteurs" :key="rapporteur.ppn">
-            <span :class="rapporteur.ppn ? 'clickable lightblue' : ''" @click="linkTo(rapporteur.ppn)">{{
-              rapporteur.prenom }} {{ rapporteur.nom }}</span>
-            <span v-if="index < these.rapporteurs.length - 1">,{{ "\xa0" }}</span>
-          </span>
-        </td>
-      </tr>
+      <!-- Jury x-eme ligne / première colonne vide -->
+      <template v-for="(type, indexType) in juryMembersGroupedByType" :key="indexType">
+        <tr v-if="indexType !== firstJuryMemberKeyName" class="table-rows">
+          <td class="empty-first-cell-mandatory"></td>
+          <td>
+            <strong>{{ indexType + " : " }}</strong>
+            <span v-for="(member, index) in type" :class='member.ppn ? "clickable lightblue" : ""' @click="linkTo(member.ppn)">
+                {{ member.prenom }} {{ member.nom }}{{ (index < juryMembersGroupedByType[indexType].length - 1) ? ', ' : '' }}
+            </span>
+          </td>
+        </tr>
+      </template>
     </tbody>
   </table>
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   these: {
     type: Object,
     required: true
@@ -152,10 +151,41 @@ defineProps({
 });
 
 const router = useRouter();
+const partenairesGroupedByType = ref({});
+const firstPartenaireKeyName = ref("");
+const firstJuryMemberKeyName = ref("");
+const juryMembersGroupedByType = ref({});
+const juryMap = {0:"Président", 1:"Examinateurs", 2:"Rapporteurs"};
+
+// Regrouper les partenaires de recherche par type
+partenairesGroupedByType.value = groupBy(props.these.partenairesRecherche, "type");
+firstPartenaireKeyName.value = Object.keys(partenairesGroupedByType.value)[0];
+
+// Regrouper les membres de jury par fonction
+[props.these.presidentJury, props.these.membresJury, props.these.rapporteurs].forEach((juryMemberType, index) => {
+  if(( typeof juryMemberType.nom === 'string' && juryMemberType.nom !== null ) // Président (objet)
+    ||
+    ( typeof juryMemberType.nom !== 'string' && juryMemberType.length > 0 )) { // Autres membres (array d'objets)
+    let key = juryMap[index];
+
+    juryMembersGroupedByType.value[key] = (index === 0) ? [juryMemberType] : juryMemberType; // Type 0 = président : gestion différente car pas un array
+  }
+});
+firstJuryMemberKeyName.value = Object.keys(juryMembersGroupedByType.value)[0];
+
+/**
+ * Functions
+ */
 function linkTo(id) {
   if (id) router.push("/" + id);
 }
 
+function groupBy(xs, key) {
+  return xs.reduce(function(rv, x) {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+};
 </script>
 
 <style lang="scss" scoped>

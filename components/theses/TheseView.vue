@@ -80,6 +80,7 @@ if (!isServer) {
   window.addEventListener('scroll', () => { hasScrolled.value = true; });
 }
 
+
 getThese(props.id).then(result => {
   these.value = result.data.value;
   resume.value = these.value.resumes.fr;

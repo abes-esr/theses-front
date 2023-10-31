@@ -19,8 +19,7 @@ const listKeywordsAndChars = {
   "]": "\\]",
   "^": "\\^",
   "~": "\\~",
-  "?": "\\?",
-  ":": "\\:"
+  "?": "\\?"
 }
 
 export function replaceAndEscape(q) {
