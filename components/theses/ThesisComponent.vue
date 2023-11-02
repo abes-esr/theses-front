@@ -7,7 +7,8 @@
       <!-- Bare latérale Desktop -->
       <div v-if="!mobile && soutenue" class="access-buttons">
         <!-- Menu boutons-liens desktop-->
-        <ThesesButtonsList v-if="!mobile" :categories-valide="categoriesValide" :boutons-autres="boutonsAutres" :soutenue="soutenue">
+        <ThesesButtonsList v-if="!mobile" :categories-valide="categoriesValide" :status="these.status"
+                           :boutons-autres="boutonsAutres" :soutenue="soutenue" :date-soutenance="these.dateSoutenance">
         </ThesesButtonsList>
       </div>
 

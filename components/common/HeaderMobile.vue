@@ -21,7 +21,7 @@
         <v-tooltip activator="parent" location="start">{{ $t('filtres') }}</v-tooltip>
       </button>
       <!-- Bouton accès theses -->
-      <button v-if="type === 'these' && theseSoutenue && (categoriesValide.length > 0 || boutonsAutres.length > 0)" @click="activateThesisAccess"
+      <button v-if="type === 'these' && theseSoutenue && (categoriesValide.length > 0 || boutonsAutres.length > 0) || (theseSoutenue && status === 'enCours')" @click="activateThesisAccess"
         class="filter-mobile-nav-bar buttons">
         <v-icon v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
         </v-icon>
@@ -111,9 +111,9 @@ import { useI18n } from "vue-i18n";
 const { locale } = useI18n();
 
 const props = defineProps({
-  theseStatut: {
-    type: Boolean,
-    default: false
+  status: {
+    type: String,
+    default: ''
   },
   showSearchBar: {
     type: Boolean,
@@ -126,9 +126,6 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false
-  },
-  type: {
-    type: String
   },
   theseSoutenue: {
     type: Boolean,

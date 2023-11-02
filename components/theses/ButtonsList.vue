@@ -1,6 +1,6 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
-  <div class="buttons" v-if="categoriesValide.length > 0 || boutonsAutres.length > 0">
+  <div class="buttons">
       <div class="buttons-header">
         <span>{{ $t("theseView.access") }}</span>
         <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
@@ -33,7 +33,7 @@
                   </v-btn>
                     <v-card class="texte-embargo" v-else>
                       <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
-                      <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
+                      <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}.</span>
                       <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
                     </v-card>
                   </div>
@@ -58,13 +58,20 @@
               </v-btn>
               <v-card class="texte-embargo" v-else>
                 <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
-                <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
+                <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargoStart") }}{{ b.dateFin }}{{ $t("theseView.embargoEnd") }}</span>
                 <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
               </v-card>
             </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
+    </div>
+  <!--  Encart thèse en cours de traitement-->
+    <div v-if="soutenue && status === 'enCours'" class="buttons-list-wrapper processing-status">
+      <v-card class="texte-embargo">
+        <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
+        <span>{{ $t("theseView.enTraitementStart") }}{{ dateSoutenance }}{{ $t("theseView.enTraitementEnd") }}</span>
+      </v-card>
     </div>
   </div>
 
@@ -104,6 +111,14 @@ const props = defineProps({
   soutenue: {
     type: Boolean,
     default: false
+  },
+  status: {
+    type: String,
+    default: ''
+  },
+  dateSoutenance: {
+    type: String,
+    default: ''
   }
 });
 
@@ -225,7 +240,7 @@ function closeOverlay() {
 
   span {
     font-family: Roboto, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     padding-right: 1em;
     align-self: center;
@@ -313,6 +328,11 @@ function closeOverlay() {
   :deep(.v-btn__content) {
     white-space: break-spaces;
   }
+}
+
+.processing-status {
+  flex-direction: row !important;
+  margin-top: 1.5em;
 }
 
 .buttons-list {

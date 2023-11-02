@@ -83,6 +83,8 @@
     "projet": "Projet de thèse",
     "doctorat": "Thèse de doctorat",
     "embargo": "Cette thèse est sous embargo jusqu’au ",
+    "enTraitementStart": "La soutenance a eu lieu le ",
+    "enTraitementEnd": ". Le document qui a justifié du diplôme est en cours de traitement par l'établissement de soutenance.",
     "confidentialite": "Cette thèse est confidentielle jusqu’au ",
     "alertSign": "Triangle exclamation plein",
     "access": "Accès à la thèse",
