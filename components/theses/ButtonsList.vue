@@ -50,7 +50,7 @@
             <span class="buttons-title-header buttons-title-header-other">{{ $t("theseView.others") }}</span>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
+            <div class="buttons-list" v-for="b in boutonsAutres" :key="b">
               <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
                      :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
                      target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
@@ -107,7 +107,7 @@ const props = defineProps({
   }
 });
 
-defineEmits(['closeOverlay']);
+const emit = defineEmits(['closeOverlay']);
 
 const config = useRuntimeConfig();
 const baseURL = config.public.API;

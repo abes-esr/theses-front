@@ -16,7 +16,7 @@
     <ClientOnly>
       <v-dialog v-model="dialogVisible" :eager="true" location-strategy="static" :persistent="true" no-click-animation :fullscreen="true"
         :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-        <LazyThesesButtonsList v-if="buttonsReady" :soutenue="these.status === 'soutenue'" :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"
+        <LazyThesesButtonsList :soutenue="these.status === 'soutenue'" :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"
           @closeOverlay="closeOverlay"></LazyThesesButtonsList>
       </v-dialog>
     </ClientOnly>
@@ -63,7 +63,6 @@ const dialogVisible = ref(false);
 const showMenu = ref(false);
 const showSearchBar = ref(false);
 const dataReady = ref(false);
-const buttonsReady = ref(false);
 const these = ref({});
 const resume = ref("");
 const categories = ref([]);
