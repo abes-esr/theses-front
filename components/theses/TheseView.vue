@@ -4,19 +4,17 @@
       <Message-box ref="messageBox"></Message-box>
     </ClientOnly>
     <!--  Mobile -->
-    <ClientOnly>
-      <CommonHeaderMobile v-if="mobile" type="these" @displayError="displayError" @activate-menu="activateMenu"
-        @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
-        :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"
-        :show-menu="showMenu" :show-search-bar="showSearchBar"
-        :these-soutenue="these.status === 'soutenue'">
-      </CommonHeaderMobile>
-    </ClientOnly>
+    <CommonHeaderMobile v-if="mobile" type="these" @displayError="displayError" @activate-menu="activateMenu"
+                        @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
+                        :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"
+                        :show-menu="showMenu" :show-search-bar="showSearchBar"
+                        :these-soutenue="these.isSoutenue" :status="these.status">
+    </CommonHeaderMobile>
     <!--    Menu accès these boutons-liens -->
     <ClientOnly>
       <v-dialog v-model="dialogVisible" :eager="true" location-strategy="static" :persistent="true" no-click-animation :fullscreen="true"
         :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-        <LazyThesesButtonsList :soutenue="these.status === 'soutenue'" :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"
+        <LazyThesesButtonsList :soutenue="these.isSoutenue" :status="these.status" :categories-valide="categoriesValide" :boutons-autres="boutonsAutres" :date-soutenance="these.dateSoutenance"
           @closeOverlay="closeOverlay"></LazyThesesButtonsList>
       </v-dialog>
     </ClientOnly>
@@ -41,7 +39,7 @@
       <!-- Infos these -->
       <div class="thesis-components white-containers">
         <!-- TODO: Semble générer un bug lors de l'hydratation-->
-        <ThesesThesisComponent v-if="dataReady" :soutenue="these.status === 'soutenue'" :nnt="props.id" :these="these"
+        <ThesesThesisComponent v-if="dataReady" :soutenue="these.isSoutenue" :nnt="props.id" :these="these"
                                :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"></ThesesThesisComponent>
 
         <ThesesThesisSkeleton v-if="!dataReady"></ThesesThesisSkeleton>
