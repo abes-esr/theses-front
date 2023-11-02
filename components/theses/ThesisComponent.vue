@@ -94,9 +94,11 @@ watchEffect(() => {
   });
 
   let listeSujetsFR = "";
-  props.these.mapSujets.fr.forEach(element => {
-    listeSujetsFR += element.keyword + ", ";
-  });
+  if (typeof props.these.mapSujets.fr !== 'undefined') {
+    props.these.mapSujets.fr.forEach(element => {
+      listeSujetsFR += element.keyword + ", ";
+    });
+  }
 
   useHead({
     meta: [
