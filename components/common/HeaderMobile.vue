@@ -21,7 +21,7 @@
         <v-tooltip activator="parent" location="start">{{ $t('filtres') }}</v-tooltip>
       </button>
       <!-- Bouton accès theses -->
-      <button v-if="type === 'these' && theseSoutenue && buttonsList.length > 0" @click="activateThesisAccess"
+      <button v-if="type === 'these' && theseSoutenue && (categoriesValide.length > 0 || boutonsAutres.length > 0)" @click="activateThesisAccess"
         class="filter-mobile-nav-bar buttons">
         <v-icon v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
         </v-icon>
@@ -134,8 +134,13 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  buttonsList: {
-    type: Array
+  categoriesValide: {
+    type: Object,
+    default: []
+  },
+  boutonsAutres: {
+    type: Object,
+    default: []
   }
 });
 
