@@ -7,7 +7,7 @@
       <!-- Bare latérale Desktop -->
       <div v-if="!mobile && soutenue" class="access-buttons">
         <!-- Menu boutons-liens desktop-->
-        <ThesesButtonsList v-if="!mobile" :categories="categories" :soutenue="soutenue">
+        <ThesesButtonsList v-if="!mobile" :categories-valide="categoriesValide" :boutons-autres="boutonsAutres" :soutenue="soutenue">
         </ThesesButtonsList>
       </div>
 
@@ -52,10 +52,14 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  categories: {
+  boutonsAutres: {
     type: Object,
     default: []
-  }
+  },
+  categoriesValide: {
+    type: Object,
+    default: []
+  },
 });
 
 const resumeIsSet = ref(false);
