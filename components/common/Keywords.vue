@@ -203,10 +203,13 @@ h1 {
 }
 
 .v-chip {
-  justify-content: center;
-
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     width: 46%;
+  }
+
+  :deep(.v-chip__content) {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
