@@ -60,8 +60,8 @@ const props = defineProps({
 
 const { mobile } = useDisplay();
 
-const numberOfKeywordsPerLine = mobile.value ? ref(6) : ref(5);
-const numberOfKeywords = mobile.value ? ref(6) : ref(5);
+const numberOfKeywordsPerLine = mobile.value ? ref(6) : ref(10);
+const numberOfKeywords = mobile.value ? ref(6) : ref(10);
 const forceRenderKey = ref(0);
 
 const keywords = ref([]);
@@ -152,9 +152,9 @@ watch(mobile, (newValue) => {
 
 .key-words-title-wrapper {
   width: 100%;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin: 0.4em 0 0.8em 0;
 }
 
@@ -204,7 +204,6 @@ h1 {
 
 .v-chip {
   justify-content: center;
-  width: 18.5%;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     width: 46%;
