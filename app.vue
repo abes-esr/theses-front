@@ -409,8 +409,8 @@ h4 {
   }
 
   #logoIdref {
-    margin-left: 1em;
-    height: 1.2em;
+    margin: 0 0.6em;
+    height: 2.5em;
   }
 }
 
