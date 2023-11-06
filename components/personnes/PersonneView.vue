@@ -42,10 +42,10 @@
         <div class="info">
           <IconsIconPersonne v-if="!mobile"></IconsIconPersonne>
           <div class="nom-card">
+            <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
+              <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png" />
+            </a>
             <div class="nomprenom">
-              <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
-                <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png" />
-              </a>
               <span class="prenom">{{ item.prenom + "\xa0" }}</span>
               <span class="nom">{{ item.nom }}</span>
             </div>
@@ -378,24 +378,20 @@ function sleep(ms) {
 
         @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
           display: grid;
-          grid-template-columns: 1fr 4fr;
+          grid-template-columns: 1fr 16fr;
+        }
+
+        a {
+          display: flex;
+          align-items: center;
+          justify-items: center;
         }
 
         .nomprenom {
           color: rgb(var(--v-theme-orange-abes));
           font-size: 28px;
-
-          a {
-            display: flex;
-            align-items: center;
-
-            img {
-              margin: 0 0.3em !important;
-            }
-          }
         }
       }
-
     }
 
     .theses {
