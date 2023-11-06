@@ -2,9 +2,10 @@
   <ClientOnly><Message-box ref="messageBox"></Message-box></ClientOnly>
   <!--  Mobile-->
   <ClientOnly>
-    <CommonHeaderMobile class="test" v-if="mobile" @displayError="displayError" @activateMenu="activateMenu"
+    <CommonHeaderMobile v-if="mobile" @displayError="displayError" @activateMenu="activateMenu"
       @activateSearchBar="activateSearchBar" :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar">
-    </CommonHeaderMobile> <!--  Fin Mobile-->
+    </CommonHeaderMobile>
+    <!--  Fin Mobile-->
   </ClientOnly>
   <!--  Desktop-->
   <div v-if="!mobile" class="sub-header">
@@ -39,7 +40,7 @@
       <!--      End skeletton-->
       <div class="info-wrapper" v-if="dataReady">
         <div class="info">
-          <IconsIconPersonne></IconsIconPersonne>
+          <IconsIconPersonne v-if="!mobile"></IconsIconPersonne>
           <div class="nom-card">
             <div class="nomprenom">
               <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
@@ -133,7 +134,7 @@ getPersonne(props.id).then(result => {
     panel.value = [0];
   }
 
-  // Titre détaillé 
+  // Titre détaillé
   useSeoMeta({
     title: () => `${item.value.prenom} ${item.value.nom} | Theses.fr`,
     ogTitle: () => `${item.value.prenom} ${item.value.nom} | Theses.fr`,
@@ -360,10 +361,6 @@ function sleep(ms) {
       display: flex;
       align-content: center;
 
-      @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
-        justify-content: flex-start;
-      }
-
       .sep {
         height: 40px;
         margin-right: 1rem;
@@ -379,8 +376,14 @@ function sleep(ms) {
       .nom-card {
         display: inline-flex;
 
+        @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+          display: grid;
+          grid-template-columns: 1fr 4fr;
+        }
+
         .nomprenom {
           color: rgb(var(--v-theme-orange-abes));
+          font-size: 28px;
 
           a {
             display: flex;
