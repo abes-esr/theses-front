@@ -70,7 +70,8 @@
     <div v-if="soutenue && status === 'enCours'" class="buttons-list-wrapper processing-status">
       <v-card class="texte-embargo">
         <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
-        <span>{{ $t("theseView.enTraitementStart") }}{{ dateSoutenance }}{{ $t("theseView.enTraitementEnd") }}</span>
+        <span v-if="source === 'sudoc'">{{ $t("theseView.enTraitementStartYear") }}{{ dateVerifiee }}{{ $t("theseView.enTraitementEnd") }}</span>
+        <span v-else>{{ $t("theseView.enTraitementStartDay") }}{{ dateSoutenance }}{{ $t("theseView.enTraitementEnd") }}</span>
       </v-card>
     </div>
   </div>
@@ -119,7 +120,11 @@ const props = defineProps({
   dateSoutenance: {
     type: String,
     default: ''
-  }
+  },
+  source: {
+    type: String,
+    default: ''
+  },
 });
 
 const emit = defineEmits(['closeOverlay']);
@@ -130,9 +135,15 @@ const baseURL = config.public.API;
 const dialog = ref(false);
 const checkboxModal = ref(false);
 const dialogUrl = ref("");
-
 const panel = ref(["Dépôt national"]);
+const dateVerifiee = ref(new Date());
 
+if(props.source === 'sudoc') {
+  // Récupérer l'année
+  dateVerifiee.value = props.dateSoutenance.split('/')[2];
+} else {
+  dateVerifiee.value = props.dateSoutenance;
+}
 /**
  * Fonctions
  */

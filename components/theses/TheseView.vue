@@ -14,7 +14,7 @@
     <ClientOnly>
       <v-dialog v-model="dialogVisible" :eager="true" location-strategy="static" :persistent="true" no-click-animation :fullscreen="true"
         :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-        <LazyThesesButtonsList :soutenue="these.isSoutenue" :status="these.status" :categories-valide="categoriesValide" :boutons-autres="boutonsAutres" :date-soutenance="these.dateSoutenance"
+        <LazyThesesButtonsList :source="these.source" :soutenue="these.isSoutenue" :status="these.status" :categories-valide="categoriesValide" :boutons-autres="boutonsAutres" :date-soutenance="these.dateSoutenance"
           @closeOverlay="closeOverlay"></LazyThesesButtonsList>
       </v-dialog>
     </ClientOnly>
