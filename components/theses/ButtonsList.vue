@@ -28,10 +28,10 @@
                   <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
                   <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
                          :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
-                         target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+                         target="_blank" :title="b.libelle" :aria-label="b.libelle" :flat="true">{{
                       b.libelle }}
                   </v-btn>
-                    <v-card class="texte-embargo" v-else>
+                    <v-card class="texte-embargo" :flat="true" v-else>
                       <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
                       <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}.</span>
                       <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
@@ -53,10 +53,10 @@
             <div class="buttons-list" v-for="b in boutonsAutres" :key="b">
               <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
                      :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
-                     target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
+                     target="_blank" :title="b.libelle" :aria-label="b.libelle" :flat="true">{{
                   b.libelle }}
               </v-btn>
-              <v-card class="texte-embargo" v-else>
+              <v-card class="texte-embargo" :flat="true" v-else>
                 <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
                 <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargoStart") }}{{ b.dateFin }}{{ $t("theseView.embargoEnd") }}</span>
                 <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
@@ -68,7 +68,7 @@
     </div>
   <!--  Encart thèse en cours de traitement-->
     <div v-if="soutenue && status === 'enCours'" class="buttons-list-wrapper processing-status">
-      <v-card class="texte-embargo">
+      <v-card class="texte-embargo" :flat="true">
         <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
         <span v-if="source === 'sudoc'">{{ $t("theseView.enTraitementStartYear") }}{{ dateVerifiee }}{{ $t("theseView.enTraitementEnd") }}</span>
         <span v-else>{{ $t("theseView.enTraitementStartDay") }}{{ dateSoutenance }}{{ $t("theseView.enTraitementEnd") }}</span>
