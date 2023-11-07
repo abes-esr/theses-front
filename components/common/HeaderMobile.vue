@@ -111,6 +111,10 @@ import { useI18n } from "vue-i18n";
 const { locale } = useI18n();
 
 const props = defineProps({
+  type: {
+    type: String,
+    default: ''
+  },
   status: {
     type: String,
     default: ''
