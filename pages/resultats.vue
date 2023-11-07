@@ -74,7 +74,8 @@ const {
     setShowingNumber,
     setCheckedFilters,
     getURLParameters,
-    setWorkingFacetName
+    setWorkingFacetName,
+    fetchCodeLangues
 } = useStrategyAPI();
 
 const MessageBox = defineAsyncComponent(() => import('/components/common/MessageBox.vue'));
@@ -110,157 +111,159 @@ definePageMeta({
 
 
 onMounted(async () => {
-    getURLParameters().then(() => {
-        setDomaine(currentRoute.query.domaine);
-        dataReady.value = false;
-        request.value = decodeURI(currentRoute.query.q);
-        setQuery(request.value);
-        search(true);
-        //Titre surchargé lors de l'hydratation
-        useSeoMeta({
-            title: () => `Résultats pour ${request.value} | Theses.fr`,
-            ogTitle: () => `Résultats pour ${request.value} | Theses.fr`,
-            description: () => `Résultats pour ${request.value} | Theses.fr`,
-            ogDescription: () => `Résultats pour ${request.value} | Theses.fr`,
-            ogImage: "https://beta.theses.fr/logo-theses-beta.png",
-            ogImageAlt: 'Logo Theses.fr',
-            twitterCard: 'summary',
-        })
+  fetchCodeLangues();
+
+  getURLParameters().then(() => {
+    setDomaine(currentRoute.query.domaine);
+    dataReady.value = false;
+    request.value = decodeURI(currentRoute.query.q);
+    setQuery(request.value);
+    search(true);
+    //Titre surchargé lors de l'hydratation
+    useSeoMeta({
+      title: () => `Résultats pour ${request.value} | Theses.fr`,
+      ogTitle: () => `Résultats pour ${request.value} | Theses.fr`,
+      description: () => `Résultats pour ${request.value} | Theses.fr`,
+      ogDescription: () => `Résultats pour ${request.value} | Theses.fr`,
+      ogImage: "https://beta.theses.fr/logo-theses-beta.png",
+      ogImageAlt: "Logo Theses.fr",
+      twitterCard: "summary"
     });
+  });
 });
 
 /**
  * Fonctions
  */
 async function search(firstLoad = false) {
-    request.value = getQuery();
-    loading.value = true;
-    dataReady.value = false;
+  request.value = getQuery();
+  loading.value = true;
+  dataReady.value = false;
 
-    updateFacets(firstLoad);
+  updateFacets(firstLoad);
 
-    /**
-     * Chargement des donnees
-     */
-    return queryAPI(mobile).then((response) => {
-        if (!["theses", "personnes"].includes(currentRoute.query.domaine)) {
-            throw new Error("Erreur de nom de paramètres");
-        }
+  /**
+   * Chargement des donnees
+   */
+  return queryAPI(mobile).then((response) => {
+    if (!["theses", "personnes"].includes(currentRoute.query.domaine)) {
+      throw new Error("Erreur de nom de paramètres");
+    }
 
-        result.value = response[currentRoute.query.domaine];
-        nbResult.value = response.totalHits;
-        domainNameChange.value = currentRoute.query.domaine;
-    }).catch(error => {
-        displayError(error.message);
-        result.value = [];
-        nbResult.value = 0;
-    }).finally(() => {
-        loading.value = false;
-        dataReady.value = true;
-    });
+    result.value = response[currentRoute.query.domaine];
+    nbResult.value = response.totalHits;
+    domainNameChange.value = currentRoute.query.domaine;
+  }).catch(error => {
+    displayError(error.message);
+    result.value = [];
+    nbResult.value = 0;
+  }).finally(() => {
+    loading.value = false;
+    dataReady.value = true;
+  });
 }
 
 function update(facetsArray) {
-    dataReady.value = false;
-    reinitialize();
-    loadChips(facetsArray);
-    search();
+  dataReady.value = false;
+  reinitialize();
+  loadChips(facetsArray);
+  search();
 }
 
 function loadChips(facetsArray) {
-    if (facetsArray) {
-        // mise à jour des chips
-        selectedFacets.value = facetsArray;
-    }
+  if (facetsArray) {
+    // mise à jour des chips
+    selectedFacets.value = facetsArray;
+  }
 }
 
 function displayError(message) {
-    messageBox.value?.open(message, {
-        type: "error"
-    });
+  messageBox.value?.open(message, {
+    type: "error"
+  });
 }
 
 function closeOverlay() {
-    dialogVisible.value = false;
+  dialogVisible.value = false;
 }
 
 function updateFacets(firstLoad) {
-    getFacets().then(response => {
-        facets.value = response;
-        if (firstLoad) {
-            parametersLoaded.value++;
-            dataFacetsReady.value = true;
-        }
-    }).catch(error => {
-        facets.value = {};
-        if (typeof error !== 'undefined' && typeof error.message !== 'undefined') {
-            displayError(error.message);
-        }
-        console.error(error);
-    });
+  getFacets().then(response => {
+    facets.value = response;
+    if (firstLoad) {
+      parametersLoaded.value++;
+      dataFacetsReady.value = true;
+    }
+  }).catch(error => {
+    facets.value = {};
+    if (typeof error !== "undefined" && typeof error.message !== "undefined") {
+      displayError(error.message);
+    }
+    console.error(error);
+  });
 }
 
 function moreThanXResults(x) {
-    if (typeof result.value.length === 'undefined')
-        return false;
-    return (result.value.length >= x);
+  if (typeof result.value.length === "undefined")
+    return false;
+  return (result.value.length >= x);
 }
 
 // Si on passe de desktop à mobile ou inversement, réinitialisation des variables de pagination
 watch(mobile, () => {
-    reinitializeCurrentRequest();
+  reinitializeCurrentRequest();
 });
 
 /**
  * Réinitialiser l'affichage des résultats
  */
 function reinitializeCurrentRequest() {
-    reinitialize();
-    search();
+  reinitialize();
+  search();
 }
 
 function reinitialize() {
-    setPageNumber(1);
-    resetPage.value++;
-    setShowingNumber(10);
-    resetShowingNumber.value++;
+  setPageNumber(1);
+  resetPage.value++;
+  setShowingNumber(10);
+  resetShowingNumber.value++;
 }
 
 async function searchAndReinitializeFacet(query) {
-    setQuery(query);
-    searchAndReinitialize();
-    resetFacets.value++;
+  setQuery(query);
+  searchAndReinitialize();
+  resetFacets.value++;
 }
 
 function resetBeforeSearch() {
-    resetFacets.value++;
-    setWorkingFacetName("");
-    setCheckedFilters([]);
+  resetFacets.value++;
+  setWorkingFacetName("");
+  setCheckedFilters([]);
 }
 
 async function searchAndReinitializeAllFacets() {
-    showSearchBar.value = false;
-    resetBeforeSearch();
-    searchAndReinitialize();
+  showSearchBar.value = false;
+  resetBeforeSearch();
+  searchAndReinitialize();
 }
 
 
 function changeDomain() {
-    searchAndReinitializeFacet(request.value);
+  searchAndReinitializeFacet(request.value);
 }
 
 async function searchAndReinitialize() {
-    dataReady.value = false;
-    reinitialize();
-    await search();
+  dataReady.value = false;
+  reinitialize();
+  await search();
 }
 
 function deleteDateFilterIfIsDate(filter) {
-    if (filter.filter.facetName === 'datedebut') {
-        reinitializeDateFromTrigger.value++;
-    } else if (filter.filter.facetName === 'datefin') {
-        reinitializeDateToTrigger.value++;
-    }
+  if (filter.filter.facetName === "datedebut") {
+    reinitializeDateFromTrigger.value++;
+  } else if (filter.filter.facetName === "datefin") {
+    reinitializeDateToTrigger.value++;
+  }
 }
 
 /**
@@ -268,44 +271,45 @@ function deleteDateFilterIfIsDate(filter) {
  * @param filter
  */
 function deleteFilter(filter) {
-    numberOfDeletedChips.value++;
-    deleteDateFilterIfIsDate(filter);
-    filterToBeDeleted.value = {
-        'numberOfDeletedChips': numberOfDeletedChips.value,
-        'filter': filter.filter
-    };
+  numberOfDeletedChips.value++;
+  deleteDateFilterIfIsDate(filter);
+  filterToBeDeleted.value = {
+    "numberOfDeletedChips": numberOfDeletedChips.value,
+    "filter": filter.filter
+  };
 }
 
 /**
  * Fonctionnement du header mobile
  */
 function activateMenu() {
-    showSearchBar.value = false;
-    sleep(250).then(() => {
-        showMenu.value = !showMenu.value;
-    });
+  showSearchBar.value = false;
+  sleep(250).then(() => {
+    showMenu.value = !showMenu.value;
+  });
 }
 
 function activateSearchBar() {
-    showMenu.value = false;
-    sleep(250).then(() => {
-        showSearchBar.value = !showSearchBar.value;
-    });
+  showMenu.value = false;
+  sleep(250).then(() => {
+    showSearchBar.value = !showSearchBar.value;
+  });
 }
 
 function activateFilterMenu() {
-    dialogVisible.value = true;
+  dialogVisible.value = true;
 }
 
 function sleep(ms) {
-    return new Promise((r) => setTimeout(r, ms));
+  return new Promise((r) => setTimeout(r, ms));
 }
+
 /**
  * Watchers
  */
 
 watch(() => currentRoute.query.domaine, () => {
-    setDomaine(currentRoute.query.domaine);
+  setDomaine(currentRoute.query.domaine);
 });
 </script>
 
@@ -313,59 +317,59 @@ watch(() => currentRoute.query.domaine, () => {
 @use 'vuetify/settings';
 
 .grey-bar {
-    background-color: rgb(var(--v-theme-gris-clair)) !important;
+  background-color: rgb(var(--v-theme-gris-clair)) !important;
 }
 
 .dark-grey-bar {
-    background-color: rgb(var(--v-theme-gris-fonce)) !important;
+  background-color: rgb(var(--v-theme-gris-fonce)) !important;
 }
 
 .left-side {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    flex: 1 0 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex: 1 0 100%;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-        max-width: 100%;
-        flex: 0 1 auto;
-        padding: 0;
-    }
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    max-width: 100%;
+    flex: 0 1 auto;
+    padding: 0;
+  }
 }
 
 .result-main-wrapper {
-    padding: 30px 0;
-    display: grid;
-    grid-template-columns: 10fr 20fr 3fr 80fr 10fr;
-    align-items: start;
-    margin-top: 0;
+  padding: 30px 0;
+  display: grid;
+  grid-template-columns: 10fr 20fr 3fr 80fr 10fr;
+  align-items: start;
+  margin-top: 0;
+  width: 100%;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    grid-template-columns: 100%;
+  }
+
+  .result-components {
+    grid-column-start: 4;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5px;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-        grid-template-columns: 100%;
+      grid-column-start: 1;
     }
-
-    .result-components {
-        grid-column-start: 4;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        padding-bottom: 5px;
-
-        @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-            grid-column-start: 1;
-        }
-    }
+  }
 }
 
 .domain-selector {
-    :deep(.v-btn__content) {
-        flex-direction: row !important;
-    }
+  :deep(.v-btn__content) {
+    flex-direction: row !important;
+  }
 
-    :deep(.v-icon) {
-        margin-right: 1rem !important;
-    }
+  :deep(.v-icon) {
+    margin-right: 1rem !important;
+  }
 }
 </style>
