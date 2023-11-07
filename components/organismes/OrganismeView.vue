@@ -88,7 +88,8 @@
                                                     :date="these.status === 'enCours' ? these.datePremiereInscriptionDoctorat : these.dateSoutenance"
                                                     :auteur="these.auteurs" :directeurs="these.directeurs"
                                                     :discipline="these.discipline" :etab="these.etabSoutenanceN"
-                                                    :id="these.id" :status="these.status">
+                                                    :etabPPN="these.etabSoutenancePpn" :id="these.id"
+                                                    :status="these.status">
                                                 </ResultCard>
                                             </v-lazy>
                                             <hr class="result-dividers" v-if="index < item[key].length - 1" />

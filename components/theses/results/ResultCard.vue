@@ -69,7 +69,8 @@
           </span>
         </span>
         <span class="card-text-bold">
-          - {{ discipline }} - {{ etab }}
+          - {{ discipline }} - <span :class="etabPPN ? 'clickable lightblue' : ''" @click="linkTo(etabPPN)">{{ etab
+          }}</span>
         </span>
       </v-card-text>
     </div>
@@ -104,8 +105,10 @@ defineProps({
     default: 'Discipline'
   },
   etab: {
-    type: String,
-    default: 'Université'
+    type: String
+  },
+  etabPPN: {
+    type: String
   },
   id: {
     type: String
