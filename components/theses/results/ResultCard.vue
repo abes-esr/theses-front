@@ -1,6 +1,8 @@
 <template>
   <v-card flat class="card-container">
-    <div class="first-half" @click="$router.push({ name: 'id', params: { id: id } })">
+    <div class="first-half" @click="$router.push({
+      name: 'id', params: { id: id }, query: { domaine: route.query.domaine }
+    })">
       <v-card-title>
         <div class="card-title-wrapper line-clamp">
           <div v-if="!mobile" class="thesis-icon">
@@ -115,6 +117,7 @@ defineProps({
 
 });
 
+const route = useRoute();
 const router = useRouter();
 function linkTo(id) {
   if (id) router.push("/" + id);
