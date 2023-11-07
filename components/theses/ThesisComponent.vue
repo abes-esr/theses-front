@@ -7,7 +7,8 @@
       <!-- Bare latérale Desktop -->
       <div v-if="!mobile && soutenue" class="access-buttons">
         <!-- Menu boutons-liens desktop-->
-        <ThesesButtonsList v-if="!mobile" :categories="categories" :soutenue="soutenue">
+        <ThesesButtonsList v-if="!mobile" :categories-valide="categoriesValide" :status="these.status"
+                           :boutons-autres="boutonsAutres" :soutenue="soutenue" :date-soutenance="these.dateSoutenance">
         </ThesesButtonsList>
       </div>
 
@@ -52,10 +53,14 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  categories: {
+  boutonsAutres: {
     type: Object,
     default: []
-  }
+  },
+  categoriesValide: {
+    type: Object,
+    default: []
+  },
 });
 
 const resumeIsSet = ref(false);
@@ -94,9 +99,11 @@ watchEffect(() => {
   });
 
   let listeSujetsFR = "";
-  props.these.mapSujets.fr.forEach(element => {
-    listeSujetsFR += element.keyword + ", ";
-  });
+  if (typeof props.these.mapSujets.fr !== 'undefined') {
+    props.these.mapSujets.fr.forEach(element => {
+      listeSujetsFR += element.keyword + ", ";
+    });
+  }
 
   useHead({
     meta: [

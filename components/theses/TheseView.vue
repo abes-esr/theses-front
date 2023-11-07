@@ -4,18 +4,17 @@
       <Message-box ref="messageBox"></Message-box>
     </ClientOnly>
     <!--  Mobile -->
-    <ClientOnly>
-      <CommonHeaderMobile v-if="mobile" type="these" @displayError="displayError" @activate-menu="activateMenu"
-        @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
-        :buttons-list="buttonsList" :show-menu="showMenu" :show-search-bar="showSearchBar"
-        :these-soutenue="these.status === 'soutenue'">
-      </CommonHeaderMobile>
-    </ClientOnly>
+    <CommonHeaderMobile v-if="mobile" type="these" @displayError="displayError" @activate-menu="activateMenu"
+                        @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
+                        :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"
+                        :show-menu="showMenu" :show-search-bar="showSearchBar"
+                        :these-soutenue="these.isSoutenue" :status="these.status">
+    </CommonHeaderMobile>
     <!--    Menu accès these boutons-liens -->
     <ClientOnly>
-      <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+      <v-dialog v-model="dialogVisible" :eager="true" location-strategy="static" :persistent="true" no-click-animation :fullscreen="true"
         :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-        <LazyThesesButtonsList v-if="buttonsReady" :soutenue="these.status === 'soutenue'" :categories="categories"
+        <LazyThesesButtonsList :soutenue="these.isSoutenue" :status="these.status" :categories-valide="categoriesValide" :boutons-autres="boutonsAutres" :date-soutenance="these.dateSoutenance"
           @closeOverlay="closeOverlay"></LazyThesesButtonsList>
       </v-dialog>
     </ClientOnly>
@@ -40,8 +39,8 @@
       <!-- Infos these -->
       <div class="thesis-components white-containers">
         <!-- TODO: Semble générer un bug lors de l'hydratation-->
-        <ThesesThesisComponent v-if="dataReady" :soutenue="these.status === 'soutenue'" :nnt="props.id" :these="these"
-                               :categories="categories"></ThesesThesisComponent>
+        <ThesesThesisComponent v-if="dataReady" :soutenue="these.isSoutenue" :nnt="props.id" :these="these"
+                               :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"></ThesesThesisComponent>
 
         <ThesesThesisSkeleton v-if="!dataReady"></ThesesThesisSkeleton>
       </div>
@@ -62,11 +61,12 @@ const dialogVisible = ref(false);
 const showMenu = ref(false);
 const showSearchBar = ref(false);
 const dataReady = ref(false);
-const buttonsReady = ref(false);
 const these = ref({});
 const resume = ref("");
 const categories = ref([]);
 const hasScrolled = ref(false);
+const categoriesValide = ref([]);
+const boutonsAutres = ref([]);
 let isServer = false;
 if (process.server) isServer = true;
 
@@ -109,8 +109,14 @@ function closeOverlay() {
 function loadButtons(these) {
   if (these.status === 'soutenue') {
     getButtons(these.nnt).then((res) => {
-      if (res.data.value !== null && typeof res.data.value.categories !== 'undefined')
+      if (res.data.value !== null && typeof res.data.value.categories !== 'undefined') {
         categories.value = res.data.value.categories;
+
+        categoriesValide.value = categories.value.filter((category) => category.libelle === "Validé par le jury")[0]['sousCategories'];
+        boutonsAutres.value = categories.value.filter((category) => category.libelle === "Autres versions")[0]['boutons'];
+
+        putEmbargoTextAndESRButtonBeforeEveryhting();
+      }
       else
         throw new Error("Pas d'accès à la thèse disponible")
     })
@@ -118,6 +124,25 @@ function loadButtons(these) {
         displayError("Accès en ligne : " + err.message);
       })
   }
+}
+
+function putEmbargoTextAndESRButtonBeforeEveryhting() {
+  categoriesValide.value.forEach(sousCategorie => {
+    if (sousCategorie.libelle === "Dépôt national") {
+      let indexEmbargo = sousCategorie.boutons.findIndex((bouton) => bouton.typeAcces === "EMBARGO");
+
+      if (indexEmbargo > -1) {
+        let embargoObject = sousCategorie.boutons.splice(indexEmbargo, 1);
+        sousCategorie.boutons.splice(0, 0, toRaw(embargoObject[0]));
+
+        let indexESR = sousCategorie.boutons.findIndex((bouton) => bouton.typeAcces === "ACCES_ESR");
+        if (indexESR > -1) {
+          let esrObject = sousCategorie.boutons.splice(indexESR, 1);
+          sousCategorie.boutons.splice(1, 0, toRaw(esrObject[0]));
+        }
+      }
+    }
+  });
 }
 
 /**

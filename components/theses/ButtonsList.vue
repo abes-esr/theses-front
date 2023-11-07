@@ -1,6 +1,6 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
-  <div class="buttons" v-if="categories.length > 0">
+  <div class="buttons">
       <div class="buttons-header">
         <span>{{ $t("theseView.access") }}</span>
         <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
@@ -33,7 +33,7 @@
                   </v-btn>
                     <v-card class="texte-embargo" v-else>
                       <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
-                      <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
+                      <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}.</span>
                       <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
                     </v-card>
                   </div>
@@ -50,7 +50,7 @@
             <span class="buttons-title-header buttons-title-header-other">{{ $t("theseView.others") }}</span>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
+            <div class="buttons-list" v-for="b in boutonsAutres" :key="b">
               <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
                      :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
                      target="_blank" :title="b.libelle" :aria-label="b.libelle">{{
@@ -58,13 +58,20 @@
               </v-btn>
               <v-card class="texte-embargo" v-else>
                 <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
-                <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}</span>
+                <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargoStart") }}{{ b.dateFin }}{{ $t("theseView.embargoEnd") }}</span>
                 <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
               </v-card>
             </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
+    </div>
+  <!--  Encart thèse en cours de traitement-->
+    <div v-if="soutenue && status === 'enCours'" class="buttons-list-wrapper processing-status">
+      <v-card class="texte-embargo">
+        <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
+        <span>{{ $t("theseView.enTraitementStart") }}{{ dateSoutenance }}{{ $t("theseView.enTraitementEnd") }}</span>
+      </v-card>
     </div>
   </div>
 
@@ -93,17 +100,29 @@ const MessageBox = defineAsyncComponent(() => import('@/components/common/Messag
 const messageBox = ref(null);
 
 const props = defineProps({
-  categories: {
+  boutonsAutres: {
+    type: Object,
+    default: []
+  },
+  categoriesValide: {
     type: Object,
     default: []
   },
   soutenue: {
     type: Boolean,
     default: false
+  },
+  status: {
+    type: String,
+    default: ''
+  },
+  dateSoutenance: {
+    type: String,
+    default: ''
   }
 });
 
-defineEmits(['closeOverlay']);
+const emit = defineEmits(['closeOverlay']);
 
 const config = useRuntimeConfig();
 const baseURL = config.public.API;
@@ -111,42 +130,14 @@ const baseURL = config.public.API;
 const dialog = ref(false);
 const checkboxModal = ref(false);
 const dialogUrl = ref("");
-const categoriesValide = ref([]);
-const boutonsAutres = ref([]);
 
 const panel = ref(["Dépôt national"]);
-
-watch(() => props.categories, () => {
-  categoriesValide.value = props.categories.filter((category) => category.libelle === "Validé par le jury")[0]['sousCategories'];
-  boutonsAutres.value = props.categories.filter((category) => category.libelle === "Autres versions")[0]['boutons'];
-
-  putEmbargoTextAndESRButtonBeforeEveryhting();
-});
 
 /**
  * Fonctions
  */
 function closeOverlay() {
   emit('closeOverlay');
-}
-
-function putEmbargoTextAndESRButtonBeforeEveryhting() {
-  categoriesValide.value.forEach(sousCategorie => {
-    if (sousCategorie.libelle === "Dépôt national") {
-      let indexEmbargo = sousCategorie.boutons.findIndex((bouton) => bouton.typeAcces === "EMBARGO");
-
-      if (indexEmbargo > -1) {
-        let embargoObject = sousCategorie.boutons.splice(indexEmbargo, 1);
-        sousCategorie.boutons.splice(0, 0, toRaw(embargoObject[0]));
-
-        let indexESR = sousCategorie.boutons.findIndex((bouton) => bouton.typeAcces === "ACCES_ESR");
-        if (indexESR > -1) {
-          let esrObject = sousCategorie.boutons.splice(indexESR, 1);
-          sousCategorie.boutons.splice(1, 0, toRaw(esrObject[0]));
-        }
-      }
-    }
-  });
 }
 </script>
 
@@ -249,7 +240,7 @@ function putEmbargoTextAndESRButtonBeforeEveryhting() {
 
   span {
     font-family: Roboto, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     padding-right: 1em;
     align-self: center;
@@ -337,6 +328,11 @@ function putEmbargoTextAndESRButtonBeforeEveryhting() {
   :deep(.v-btn__content) {
     white-space: break-spaces;
   }
+}
+
+.processing-status {
+  flex-direction: row !important;
+  margin-top: 1.5em;
 }
 
 .buttons-list {
