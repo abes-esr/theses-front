@@ -16,8 +16,6 @@ const checkedFilters = ref([]);
 const currentWorkingFacetName = ref("");
 const labelMap = ref(new Map());
 
-
-
 export default function () {
 // import fonctions
 const { fetchCodeLangues, createLabels, getLabelFromCode } = useReferentielsAPI();
@@ -25,8 +23,6 @@ const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTri
 const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes, disableOrFiltersPersonnes, getItemsTriMapPersonnes } = usePersonnesAPI();
 
 const router = useRouter();
-
-fetchCodeLangues();
 
 /**
  * Fonctions communes
@@ -550,6 +546,7 @@ function addToFiltersLabelsMap(filterData) {
     addToFiltersLabelsMap,
     getTriMap,
     reinitializeResultData,
-    setShowingNumberMobile
+    setShowingNumberMobile,
+    fetchCodeLangues
   };
 }

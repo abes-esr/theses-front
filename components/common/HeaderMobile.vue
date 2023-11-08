@@ -21,9 +21,8 @@
         <v-tooltip activator="parent" location="start">{{ $t('filtres') }}</v-tooltip>
       </button>
       <!-- Bouton accès theses -->
-      <button
-        v-if="type === 'these' && theseSoutenue && (categoriesValide.length > 0 || boutonsAutres.length > 0) || (theseSoutenue && status === 'enCours')"
-        @click="activateThesisAccess" class="filter-mobile-nav-bar buttons">
+      <button v-if="type === 'these' && theseSoutenue && (categoriesValide.length > 0 || boutonsAutres.length > 0) || (theseSoutenue && status === 'enCours')" @click="activateThesisAccess"
+        class="filter-mobile-nav-bar buttons">
         <v-icon v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
         </v-icon>
         <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
@@ -114,7 +113,7 @@ const { locale } = useI18n();
 const props = defineProps({
   type: {
     type: String,
-    default: 'home'
+    default: ''
   },
   status: {
     type: String,
