@@ -248,12 +248,14 @@ function sleep(ms) {
     display: grid;
     grid-template-columns: 10fr 103fr 10fr;
     align-items: start;
-    margin-top: 0;
+    margin-top: 30px;
     width: 100%;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
         display: flex;
+        padding: unset;
         padding-top: 0;
+        margin-top: 0;
     }
 
     .result-components {
@@ -292,19 +294,21 @@ function sleep(ms) {
             .nom-card {
                 display: inline-flex;
 
+                @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+                    display: grid;
+                    grid-template-columns: 1fr 16fr;
+                }
+
+                a {
+                    display: flex;
+                    align-items: center;
+                    justify-items: center;
+                }
+
                 .nomprenom {
                     color: rgb(var(--v-theme-orange-abes));
                     font-size: 28px;
                     font-weight: 500;
-
-                    a {
-                        display: flex;
-                        align-items: center;
-
-                        img {
-                            margin: 0 0.3em !important;
-                        }
-                    }
                 }
             }
 
