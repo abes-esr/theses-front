@@ -31,7 +31,7 @@
                          target="_blank" :title="b.libelle" :aria-label="b.libelle" :flat="true">{{
                       b.libelle }}
                   </v-btn>
-                    <v-card class="texte-embargo" :flat="true" v-else>
+                    <v-card class="texte-embargo" variant="outlined" v-else>
                       <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
                       <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}.</span>
                       <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
@@ -56,7 +56,7 @@
                      target="_blank" :title="b.libelle" :aria-label="b.libelle" :flat="true">{{
                   b.libelle }}
               </v-btn>
-              <v-card class="texte-embargo" :flat="true" v-else>
+              <v-card class="texte-embargo" variant="outlined" v-else>
                 <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
                 <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargoStart") }}{{ b.dateFin }}{{ $t("theseView.embargoEnd") }}</span>
                 <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
@@ -68,7 +68,7 @@
     </div>
   <!--  Encart thèse en cours de traitement-->
     <div v-if="soutenue && status === 'enCours'" class="buttons-list-wrapper processing-status">
-      <v-card class="texte-embargo" :flat="true">
+      <v-card class="texte-embargo" variant="outlined">
         <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
         <span v-if="source === 'sudoc'">{{ $t("theseView.enTraitementStartYear") }}{{ dateVerifiee }}{{ $t("theseView.enTraitementEnd") }}</span>
         <span v-else>{{ $t("theseView.enTraitementStartDay") }}{{ dateSoutenance }}{{ $t("theseView.enTraitementEnd") }}</span>
@@ -235,9 +235,14 @@ function closeOverlay() {
   width: 80%;
   padding: 0.8em 0;
   margin-bottom: 1em;
+  border: thin solid rgb(var(--v-theme-gris-fonce));
 
   display: inline-grid;
   grid-template-columns: 25fr 75fr;
+
+  span {
+    color: rgb(var(--v-theme-primary));
+  }
 
   .icon-alert {
     align-self: center;
