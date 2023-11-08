@@ -113,7 +113,7 @@ const { locale } = useI18n();
 const props = defineProps({
   type: {
     type: String,
-    default: 'home'
+    default: ''
   },
   status: {
     type: String,
