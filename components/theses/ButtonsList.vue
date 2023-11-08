@@ -34,7 +34,7 @@
                     <v-card class="texte-embargo" :flat="true" v-else>
                       <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
                       <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}.</span>
-                      <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
+                      <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
                     </v-card>
                   </div>
                 </v-expansion-panel-text>
@@ -59,7 +59,7 @@
               <v-card class="texte-embargo" :flat="true" v-else>
                 <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
                 <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargoStart") }}{{ b.dateFin }}{{ $t("theseView.embargoEnd") }}</span>
-                <span v-if="b.libelle === 'Confidentialité'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
+                <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
               </v-card>
             </div>
           </v-expansion-panel-text>
