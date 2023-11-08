@@ -1,46 +1,29 @@
 <template>
     <ClientOnly>
         <Message-box ref="messageBox"></Message-box>
-
-        <nav v-if="mobile" class="mobile-nav-bar">
-            <div>
-                <v-icon @click="showSearchBar = !showSearchBar" size="40px"
-                    :class="{ 'magnify-logo-active': showSearchBar }">mdi-magnify
-                </v-icon>
-                <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
-            </div>
-        </nav>
-
-        <!--  Mobile-->
-
-        <div v-if="mobile" class="logo-menu-wrapper">
-            <NuxtLink :to="{ name: 'index', query: { domaine: 'theses' } }" title="Accueil du site"
-                class="logo logo_resultview">
-                <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-            </NuxtLink>
-            <v-expand-transition>
-                <div v-show="showSearchBar" class="expanded-search-bar-container white-containers">
-                    <div class="expanded-search-bar">
-                        <CommonDomainSelector></CommonDomainSelector>
-                        <GenericSearchBar />
-                    </div>
-                </div>
-            </v-expand-transition>
-        </div>
     </ClientOnly>
 
+    <!--  Mobile-->
+    <ClientOnly>
+        <CommonHeaderMobile v-if="mobile" @displayError="displayError" @activateMenu="activateMenu"
+            @activateSearchBar="activateSearchBar" :loading="loading" :show-menu="showMenu"
+            :show-search-bar="showSearchBar">
+        </CommonHeaderMobile>
+        <!--  Fin Mobile-->
+    </ClientOnly>
     <!--  Desktop-->
     <div v-if="!mobile" class="sub-header">
         <div class="search-bar-container white-containers">
             <div class="sub_header__logo">
-                <NuxtLink :to="{ name: 'index', query: { domaine: 'theses' } }" title="Accueil du site">
+                <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
                     <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
                 </NuxtLink>
                 <h1>{{ $t("slogan") }}</h1>
             </div>
             <div class="sub_header__action">
                 <CommonDomainSelector compact></CommonDomainSelector>
-                <GenericSearchBar />
+                <GenericSearchBar searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+                    @onError="displayError" />
             </div>
         </div>
     </div>
@@ -56,7 +39,12 @@
             <!--      End skeletton-->
             <div class="info-wrapper" v-else>
                 <div class="info">
+                    <IconsIconOrganisme></IconsIconOrganisme>
                     <div class="nom-card">
+                        <a :href="`https://www.idref.fr/${props.id}`" target="_blank"
+                            alt="Lien de la page de cet organisme sur le site IdRef">
+                            <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
+                        </a>
                         <div class="nomprenom">
                             {{ name }}
                         </div>
@@ -88,7 +76,8 @@
                                                     :date="these.status === 'enCours' ? these.datePremiereInscriptionDoctorat : these.dateSoutenance"
                                                     :auteur="these.auteurs" :directeurs="these.directeurs"
                                                     :discipline="these.discipline" :etab="these.etabSoutenanceN"
-                                                    :id="these.id" :status="these.status">
+                                                    :etabPPN="these.etabSoutenancePpn" :id="these.id"
+                                                    :status="these.status">
                                                 </ResultCard>
                                             </v-lazy>
                                             <hr class="result-dividers" v-if="index < item[key].length - 1" />
@@ -135,9 +124,11 @@ const props = defineProps({
 const dataReady = ref(false);
 const item = ref({});
 const name = ref("");
-const showSearchBar = ref(false);
-
 dataReady.value = false;
+const loading = ref(false);
+const showSearchBar = ref(false);
+const showMenu = ref(false);
+
 getOrganisme(props.id).then(result => {
     item.value = result.data.value;
     dataReady.value = true;
@@ -215,6 +206,27 @@ function displayError(message, opt) {
         type: "error"
     });
 }
+
+/**
+ * Fonctionnement du header mobile
+ */
+function activateMenu() {
+    showSearchBar.value = false;
+    sleep(250).then(() => {
+        showMenu.value = !showMenu.value;
+    });
+}
+
+function activateSearchBar() {
+    showMenu.value = false;
+    sleep(250).then(() => {
+        showSearchBar.value = !showSearchBar.value;
+    });
+}
+
+function sleep(ms) {
+    return new Promise((r) => setTimeout(r, ms));
+}
 </script>
 
 <style scoped lang="scss">
@@ -241,6 +253,7 @@ function displayError(message, opt) {
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
         display: flex;
+        padding-top: 0;
     }
 
     .result-components {
@@ -260,6 +273,10 @@ function displayError(message, opt) {
                 justify-content: flex-start;
             }
 
+            svg {
+                max-width: 45px !important;
+            }
+
             .sep {
                 height: 40px;
                 margin-right: 1rem;
@@ -277,6 +294,8 @@ function displayError(message, opt) {
 
                 .nomprenom {
                     color: rgb(var(--v-theme-orange-abes));
+                    font-size: 28px;
+                    font-weight: 500;
 
                     a {
                         display: flex;

@@ -58,7 +58,8 @@ onMounted(() => {
 });
 
 const nbPages = computed(() => {
-  return Math.ceil(props.nbResults / currentShowingNumber.value);
+  if (currentShowingNumber.value && props.nbResults) return Math.ceil(props.nbResults / currentShowingNumber.value);
+  else return 0;
 });
 
 /**
