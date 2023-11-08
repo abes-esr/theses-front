@@ -12,7 +12,7 @@
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
         <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
-          <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+          <img class="logo IdRef" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
         </NuxtLink>
         <h1>{{ $t("slogan") }}</h1>
       </div>
@@ -346,6 +346,8 @@ function sleep(ms) {
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     display: flex;
     padding: unset;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 
   .result-components {
