@@ -12,7 +12,7 @@
       <ThesesResultsResultCard :titre="item.titrePrincipal"
         :date="item.status === 'enCours' ? item.datePremiereInscriptionDoctorat : item.dateSoutenance"
         :auteur="item.auteurs" :directeurs="item.directeurs" :discipline="item.discipline" :etab="item.etabSoutenanceN"
-        :id="item.id" :status="item.status">
+        :etabPPN="item.etabSoutenancePpn" :id="item.id" :status="item.status">
       </ThesesResultsResultCard>
       <hr class="result-dividers" v-if="index < result.length - 1" />
     </div>

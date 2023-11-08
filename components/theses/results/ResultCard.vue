@@ -1,6 +1,8 @@
 <template>
   <v-card flat class="card-container">
-    <div class="first-half" @click="$router.push({ name: 'id', params: { id: id } })">
+    <div class="first-half" @click="$router.push({
+      name: 'id', params: { id: id }, query: { domaine: route.query.domaine }
+    })">
       <v-card-title>
         <div class="card-title-wrapper line-clamp">
           <div v-if="!mobile" class="thesis-icon">
@@ -67,7 +69,8 @@
           </span>
         </span>
         <span class="card-text-bold">
-          - {{ discipline }} - {{ etab }}
+          - {{ discipline }} - <span :class="etabPPN ? 'clickable lightblue' : ''" @click="linkTo(etabPPN)">{{ etab
+          }}</span>
         </span>
       </v-card-text>
     </div>
@@ -102,8 +105,10 @@ defineProps({
     default: 'Discipline'
   },
   etab: {
-    type: String,
-    default: 'Université'
+    type: String
+  },
+  etabPPN: {
+    type: String
   },
   id: {
     type: String
@@ -115,6 +120,7 @@ defineProps({
 
 });
 
+const route = useRoute();
 const router = useRouter();
 function linkTo(id) {
   if (id) router.push("/" + id);

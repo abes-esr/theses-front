@@ -12,7 +12,7 @@
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
         <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
-          <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+          <img class="logo IdRef" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
         </NuxtLink>
         <h1>{{ $t("slogan") }}</h1>
       </div>
@@ -77,7 +77,8 @@
                         <ThesesResultsResultCard :titre="these.titre"
                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
                           :auteur="these.auteurs" :directeurs="these.directeurs" :discipline="these.discipline"
-                          :etab="these.etablissement_soutenance.nom" :id="these.id" :status="these.status">
+                          :etab="these.etablissement_soutenance.nom" :etabPPN="these.etablissement_soutenance.nnt"
+                          :id="these.id" :status="these.status">
                         </ThesesResultsResultCard>
                       </v-lazy>
                       <hr class="result-dividers" v-if="index < item.theses[key].length - 1" />
@@ -345,6 +346,8 @@ function sleep(ms) {
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     display: flex;
     padding: unset;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 
   .result-components {

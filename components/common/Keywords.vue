@@ -184,11 +184,6 @@ h1 {
   justify-content: flex-start;
   flex-wrap: nowrap;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
   .free-chip {
     background-color: rgb(var(--v-theme-secondary-darken-2)) !important;
   }
@@ -203,10 +198,6 @@ h1 {
 }
 
 .v-chip {
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    width: 46%;
-  }
-
   :deep(.v-chip__content) {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -251,7 +242,7 @@ h1 {
   display: inline-flex;
   padding: 0 1em;
   letter-spacing: 0.5px;
-  max-width: 314px;
+  max-width: 90%;
 
   :deep(.v-btn__content) {
     width: 100%;
@@ -259,6 +250,11 @@ h1 {
 
     i {
       margin-left: 0.3em;
+    }
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

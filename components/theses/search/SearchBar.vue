@@ -80,8 +80,11 @@ onMounted(
       watcherActive = false;
     }
 
-    if (currentRoute.query && currentRoute.query.domaine)
+    if (currentRoute.query && currentRoute.query.domaine) {
       setDomaine(decodeURI(currentRoute.query.domaine));
+    } else {
+      setDomaine("theses");
+    }
   }
 );
 

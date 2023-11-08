@@ -5,16 +5,16 @@
     </ClientOnly>
     <!--  Mobile -->
     <CommonHeaderMobile v-if="mobile" type="these" @displayError="displayError" @activate-menu="activateMenu"
-                        @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
-                        :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"
-                        :show-menu="showMenu" :show-search-bar="showSearchBar"
-                        :these-soutenue="these.isSoutenue" :status="these.status">
+      @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
+      :categories-valide="categoriesValide" :boutons-autres="boutonsAutres" :show-menu="showMenu"
+      :show-search-bar="showSearchBar" :these-soutenue="these.isSoutenue" :status="these.status">
     </CommonHeaderMobile>
     <!--    Menu accès these boutons-liens -->
     <ClientOnly>
       <v-dialog v-model="dialogVisible" :eager="true" location-strategy="static" :persistent="true" no-click-animation :fullscreen="true"
         :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-        <LazyThesesButtonsList :source="these.source" :soutenue="these.isSoutenue" :status="these.status" :categories-valide="categoriesValide" :boutons-autres="boutonsAutres" :date-soutenance="these.dateSoutenance"
+        <LazyThesesButtonsList :source="these.source" :soutenue="these.isSoutenue" :status="these.status" :categories-valide="categoriesValide" 
+        :boutons-autres="boutonsAutres" :date-soutenance="these.dateSoutenance"
           @closeOverlay="closeOverlay"></LazyThesesButtonsList>
       </v-dialog>
     </ClientOnly>
@@ -40,7 +40,7 @@
       <div class="thesis-components white-containers">
         <!-- TODO: Semble générer un bug lors de l'hydratation-->
         <ThesesThesisComponent v-if="dataReady" :soutenue="these.isSoutenue" :nnt="props.id" :these="these"
-                               :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"></ThesesThesisComponent>
+          :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"></ThesesThesisComponent>
 
         <ThesesThesisSkeleton v-if="!dataReady"></ThesesThesisSkeleton>
       </div>
@@ -220,6 +220,7 @@ function sleep(ms) {
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: 100%;
     padding: 8px 0;
+    margin-top: 0 !important;
   }
 
   .thesis-components {
