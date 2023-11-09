@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar flat color="white" id="appBar" v-if="!mobile">
+  <v-app-bar flat color="surface" id="appBar" v-if="!mobile">
     <div class="text-center text-md-left language-accessibility-toolbar">
       <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
       <div class="languages-btn">

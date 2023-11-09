@@ -9,35 +9,35 @@
         <table class="list-1">
           <tbody>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
               <td><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank">
-              {{ $t("footer.opendata") }}</a></td>
+                  {{ $t("footer.opendata") }}</a></td>
             </tr>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
               <td><a href="http://www.sudoc.abes.fr/cbs/" target="_blank">{{
-              $t("footer.catalogue") }}</a></td>
+                $t("footer.catalogue") }}</a></td>
             </tr>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
-              <td><a
-                href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{ $t("footer.tef")
-            }}</a></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
+              <td><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{
+                $t("footer.tef")
+              }}</a></td>
             </tr>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
               <td><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
-            }}</a></td>
+              }}</a></td>
             </tr>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
-              <td><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
-                                                                  target="_blank">{{ $t("footer.doc") }}</a></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
+              <td><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank">{{
+                $t("footer.doc") }}</a></td>
             </tr>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
               <td><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{
-              $t("footer.assistance") }}</a></td>
+                $t("footer.assistance") }}</a></td>
             </tr>
           </tbody>
         </table>
@@ -94,7 +94,7 @@
   flex-direction: column;
   width: 100vw;
   background-color: rgb(var(--v-theme-surface));
-  color: rgb(var(--v-theme-fond-noir));
+  color: rgb(var(--v-theme-text-dark-blue));
   flex-basis: 1%;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
@@ -195,7 +195,7 @@
   .footerBottom {
     width: 100%;
     background-color: rgb(var(--v-theme-fond-noir));
-    color: rgb(var(--v-theme-background));
+    color: rgb(var(--v-theme-text-footer));
 
 
     .v-btn {
