@@ -1,7 +1,7 @@
 <template>
   <v-app-bar flat color="white" id="appBar" v-if="!mobile">
     <div class="text-center text-md-left language-accessibility-toolbar">
-      <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
+      <!--<img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />-->
       <div class="languages-btn">
         <v-btn flat @click="setLanguage('fr')" title="Langue française">FR</v-btn>
         |
@@ -97,7 +97,7 @@ header {
 }
 
 .languages-btn {
-  grid-column-start: 3;
+  grid-column-start: 1; // 3 si on active le bouton accessibilité
   max-height: 36px;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {

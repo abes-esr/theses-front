@@ -4,17 +4,19 @@
       <Message-box ref="messageBox"></Message-box>
     </ClientOnly>
     <!--  Mobile -->
-    <CommonHeaderMobile v-if="mobile" type="these" @displayError="displayError" @activate-menu="activateMenu"
-      @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
-      :categories-valide="categoriesValide" :boutons-autres="boutonsAutres" :show-menu="showMenu"
-      :show-search-bar="showSearchBar" :these-soutenue="these.isSoutenue" :status="these.status">
-    </CommonHeaderMobile>
+    <ClientOnly>
+      <CommonHeaderMobile v-if="mobile" type="these" @displayError="displayError" @activate-menu="activateMenu"
+        @activate-search-bar="activateSearchBar" @activate-thesis-access="activateThesisAccess"
+        :categories-valide="categoriesValide" :boutons-autres="boutonsAutres" :show-menu="showMenu"
+        :show-search-bar="showSearchBar" :these-soutenue="these.isSoutenue" :status="these.status">
+      </CommonHeaderMobile>
+    </ClientOnly>
     <!--    Menu accès these boutons-liens -->
     <ClientOnly>
-      <v-dialog v-model="dialogVisible" :eager="true" location-strategy="static" :persistent="true" no-click-animation :fullscreen="true"
-        :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-        <LazyThesesButtonsList :source="these.source" :soutenue="these.isSoutenue" :status="these.status" :categories-valide="categoriesValide" 
-        :boutons-autres="boutonsAutres" :date-soutenance="these.dateSoutenance"
+      <v-dialog v-model="dialogVisible" :eager="true" location-strategy="static" :persistent="true" no-click-animation
+        :fullscreen="true" :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+        <LazyThesesButtonsList :source="these.source" :soutenue="these.isSoutenue" :status="these.status"
+          :categories-valide="categoriesValide" :boutons-autres="boutonsAutres" :date-soutenance="these.dateSoutenance"
           @closeOverlay="closeOverlay"></LazyThesesButtonsList>
       </v-dialog>
     </ClientOnly>
@@ -54,9 +56,8 @@ import { useDisplay } from "vuetify";
 
 const MessageBox = defineAsyncComponent(() => import('../common/MessageBox.vue'));
 
-const route = useRoute();
 const { mobile } = useDisplay();
-const { getThese, getButtons } = useThesesAPI();
+const { getThese, getButtons, getNNTifExists } = useThesesAPI();
 const dialogVisible = ref(false);
 const showMenu = ref(false);
 const showSearchBar = ref(false);
@@ -80,6 +81,11 @@ if (!isServer) {
   window.addEventListener('scroll', () => { hasScrolled.value = true; });
 }
 
+getNNTifExists(props.id).then(result => {
+  if (result.data.value) {
+    return navigateTo("/" + result.data.value, { replace: true });
+  }
+})
 
 getThese(props.id).then(result => {
   these.value = result.data.value;
@@ -210,12 +216,12 @@ function sleep(ms) {
 }
 
 .thesis-main-wrapper {
-  margin-top: 30px !important;
   padding: 30px 0;
   display: grid;
   grid-template-columns: 10fr 103fr 10fr;
   align-items: start;
   width: 100%;
+  margin-top: 0 !important;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: 100%;

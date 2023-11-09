@@ -91,6 +91,10 @@ function getStatsSujets() {
   return useAPIFetch("theses/statsSujets");
 }
 
+function getNNTifExists(numSujet) {
+  return useAPIFetch('theses/checkNNT/' + numSujet);
+}
+
 function postSignalerErreur(jsonData) {
   return useAPIFetch("/theses/these/signaler/", {
         method: 'post',
@@ -114,6 +118,7 @@ export default function () {
     disableOrFiltersTheses,
     getItemsTriMapTheses,
     getButtons,
-    postSignalerErreur
+    postSignalerErreur,
+    getNNTifExists
   };
 }

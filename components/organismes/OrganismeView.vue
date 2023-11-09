@@ -245,10 +245,10 @@ function sleep(ms) {
 
 .main-wrapper {
     padding: 30px 0;
+    margin-top: 0 !important;
     display: grid;
     grid-template-columns: 10fr 103fr 10fr;
     align-items: start;
-    margin-top: 30px;
     width: 100%;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {

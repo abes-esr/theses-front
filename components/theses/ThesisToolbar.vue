@@ -11,27 +11,8 @@
       </template>
       <p>{{ $t("theseView.retour") }}</p>
     </v-btn>
-    <span></span>
     <div class="no-wrap-text">
-      <v-btn class="arrow-buttons" flat icon="mdi-chevron-left">
-        <template v-slot:icon>
-          <v-icon size="x-large">
-            mdi-arrow-left-circle
-          </v-icon>
-        </template>
-        <!--        <p>{{ $t("theseView.thesePrecedente") }}</p>-->
-      </v-btn>
-      <v-btn class="arrow-buttons" flat icon="mdi-chevron-right">
-        <template v-slot:icon>
-          <v-icon size="x-large">
-            mdi-arrow-right-circle
-          </v-icon>
-        </template>
-        <!--        <p>{{ $t("theseView.theseSuivante") }}</p>-->
-      </v-btn>
-    </div>
-    <span></span>
-    <div class="no-wrap-text">
+      <!--
       <v-btn flat append-icon="mdi-file-export-outline">
         <template v-slot:append-icon>
           <v-icon>
@@ -40,6 +21,7 @@
         </template>
         <p>{{ $t("theseView.exporter") }}</p>
       </v-btn>
+    -->
       <v-btn flat append-icon="mdi-alert" @click="dialog = true">
         <template v-slot:append-icon>
           <v-icon>

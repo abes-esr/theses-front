@@ -7,10 +7,10 @@
         </v-icon>
         <v-tooltip activator="parent">{{ $t('menu') }}</v-tooltip>
       </div>
-      <div class="buttons language-accessibility-button">
+      <!---<div class="buttons language-accessibility-button">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
         <v-tooltip activator="parent">{{ $t('header.accessibility') }}</v-tooltip>
-      </div>
+      </div>-->
     </div>
     <div class="right-side-buttons">
       <!--    Bouton filtres-->
@@ -21,8 +21,9 @@
         <v-tooltip activator="parent" location="start">{{ $t('filtres') }}</v-tooltip>
       </button>
       <!-- Bouton accès theses -->
-      <button v-if="type === 'these' && theseSoutenue && (categoriesValide.length > 0 || boutonsAutres.length > 0) || (theseSoutenue && status === 'enCours')" @click="activateThesisAccess"
-        class="filter-mobile-nav-bar buttons">
+      <button
+        v-if="type === 'these' && theseSoutenue && (categoriesValide.length > 0 || boutonsAutres.length > 0) || (theseSoutenue && status === 'enCours')"
+        @click="activateThesisAccess" class="filter-mobile-nav-bar buttons">
         <v-icon v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
         </v-icon>
         <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
