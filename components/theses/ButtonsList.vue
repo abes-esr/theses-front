@@ -18,27 +18,29 @@
             <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
             <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
           </div>
-            <v-expansion-panels multiple v-model="panel" variant="accordion" v-for="sousCategorie in categoriesValide" class="buttons-list-wrapper" :key="sousCategorie.libelle">
-              <v-expansion-panel :value="sousCategorie.libelle" v-if="sousCategorie.boutons.length > 0">
-                <!--            Intitulé de la catégorie-->
-                <v-expansion-panel-title class="sous-categorie-header">
-                  {{ sousCategorie.libelle }}
-                </v-expansion-panel-title>
-                <v-expansion-panel-text>
-                  <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
-                  <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
-                         :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
-                         target="_blank" :title="b.libelle" :aria-label="b.libelle" :flat="true">{{
-                      b.libelle }}
-                  </v-btn>
-                    <v-card class="texte-embargo" variant="outlined" v-else>
-                      <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
-                      <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}.</span>
-                      <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
-                    </v-card>
-                  </div>
-                </v-expansion-panel-text>
-              </v-expansion-panel>
+            <v-expansion-panels multiple v-model="panel" variant="accordion" class="buttons-list-wrapper">
+              <template v-for="sousCategorie in categoriesValide" :key="sousCategorie.libelle">
+                <v-expansion-panel :value="sousCategorie.libelle" v-if="sousCategorie.boutons.length > 0">
+                  <!--            Intitulé de la catégorie-->
+                  <v-expansion-panel-title class="sous-categorie-header">
+                    {{ sousCategorie.libelle }}
+                  </v-expansion-panel-title>
+                  <v-expansion-panel-text>
+                    <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
+                    <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
+                           :href="b.url.startsWith('http') ? b.url : baseURL + b.url"
+                           target="_blank" :title="b.libelle" :aria-label="b.libelle" :flat="true">{{
+                        b.libelle }}
+                    </v-btn>
+                      <v-card class="texte-embargo" variant="outlined" v-else>
+                        <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
+                        <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}.</span>
+                        <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
+                      </v-card>
+                    </div>
+                  </v-expansion-panel-text>
+                </v-expansion-panel>
+              </template>
             </v-expansion-panels>
       </div>
       <!--  Catégorie Autres versions-->
@@ -318,6 +320,10 @@ function closeOverlay() {
 
 .buttons-title-header-other {
   margin-top: 0 !important;
+}
+
+:deep(.v-expansion-panel::after) {
+  border-top-style: none !important;
 }
 
 .buttons-list-wrapper {
