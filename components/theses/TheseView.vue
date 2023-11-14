@@ -123,8 +123,6 @@ function loadButtons(these) {
 
         putEmbargoTextAndESRButtonBeforeEveryhting();
       }
-      else
-        throw new Error("Pas d'accès à la thèse disponible")
     })
       .catch((err) => {
         displayError("Accès en ligne : " + err.message);
