@@ -186,7 +186,7 @@ useSeoMeta({
 })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use 'vuetify/settings';
 
 article {

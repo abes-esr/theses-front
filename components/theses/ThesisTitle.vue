@@ -51,7 +51,7 @@ const langList = computed(() => {
 function onUpdateLangue(langue) {
   selectedLanguage.value = langue;
   currentTitle.value = props.titles[selectedLanguage.value];
-  LanguesRTL.includes(selectedLanguage.value.toLowerCase()) ? isRtl.value = true : isRtl.value = false;
+  isRtl.value = LanguesRTL.includes(selectedLanguage.value.toLowerCase());
 }
 
 
@@ -91,6 +91,11 @@ function onUpdateLangue(langue) {
     letter-spacing: -0.5px;
     line-height: 1.2;
     align-self: end;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      font-size: 21px;
+      margin-top: 0.3em;
+    }
   }
 }
 

@@ -72,7 +72,6 @@ header {
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       display: flex;
-      justify-content: center;
       align-items: center;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -87,8 +86,8 @@ header {
 }
 
 .language-accessibility-toolbar {
-  display: grid;
-  grid-template-columns: 1fr 20px 3fr;
+  //display: grid; // dé-commenter si si on active le bouton accessibilité
+  //grid-template-columns: 1fr 20px 3fr;
   margin: 0 30px 0;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
