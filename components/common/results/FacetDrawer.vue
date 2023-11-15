@@ -103,7 +103,7 @@ let dateFromMax = computed(() => {
 let dateToMin = computed(() => {
   return dateFrom.value
     ? new Date(dateFrom.value + '-01-01')
-    : new Date('1970-01-01');
+    : new Date('1960-01-01');
 });
 
 let dateToMax = computed(() => {
