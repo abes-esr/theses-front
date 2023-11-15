@@ -27,7 +27,7 @@
           </div>
         </div>
       </v-card-title>
-    </div>
+    </nuxt-link>
     <div class="vertical-spacer"></div>
     <div class="second-half">
       <v-card-text class="py-2 card-text-wrapper">
@@ -36,10 +36,10 @@
         </span>
 
         <span v-for="(item, index) in auteur" :key="item.ppn ? item.ppn : item.id">
-          <span :class="item.ppn || item.id ? 'clickable lightblue' : ''" @click="linkTo(item.ppn ? item.ppn : item.id)">
+          <nuxt-link :class="item.ppn || item.id ? 'clickable lightblue' : 'disabled-link'" :to="'/' + (item.ppn ? item.ppn : item.id)">
             <span class="card-text">{{ item.prenom }}{{ '\xa0' }}</span>
             <span class="card-text">{{ item.nom }}</span>
-          </span>{{ '\xa0' }}
+          </nuxt-link>{{ '\xa0' }}
           <span v-if="index < auteur.length - 2">
             ,{{ '\xa0' }}
           </span>
@@ -53,14 +53,14 @@
         </span>
 
         <span v-for="(item, index) in directeurs" :key="item.ppn ? item.ppn : item.id">
-          <span :class="item.ppn || item.id ? 'clickable lightblue' : ''" @click="linkTo(item.ppn ? item.ppn : item.id)">
+          <nuxt-link :class="item.ppn || item.id ? 'clickable lightblue' : 'disabled-link'" :to="'/' + (item.ppn ? item.ppn : item.id)">
             <span class="card-text">
               {{ item.prenom }}{{ '\xa0' }}
             </span>
             <span class="card-text">
               {{ item.nom }}
             </span>
-          </span>
+          </nuxt-link>
           <span v-if="index < directeurs.length - 2">
             ,{{ '\xa0' }}
           </span>
@@ -69,8 +69,8 @@
           </span>
         </span>
         <span class="card-text-bold">
-          - {{ discipline }} - <span :class="etabPPN ? 'clickable lightblue' : ''" @click="linkTo(etabPPN)">{{ etab
-          }}</span>
+          - {{ discipline }} - <nuxt-link :class="etabPPN ? 'clickable lightblue' : 'disabled-link'" :to="'/' + etabPPN">{{ etab
+          }}</nuxt-link>
         </span>
       </v-card-text>
     </div>
@@ -121,10 +121,6 @@ defineProps({
 });
 
 const route = useRoute();
-const router = useRouter();
-function linkTo(id) {
-  if (id) router.push("/" + id);
-}
 </script>
 
 <style scoped lang="scss">
@@ -245,5 +241,9 @@ a, a:visited, a:hover, a:active {
 
 .lightblue {
   color: rgb(var(--v-theme-secondary-darken-2)) !important;
+}
+
+.disabled-link {
+  pointer-events: none;
 }
 </style>
