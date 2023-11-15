@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { onBeforeUpdate, ref, watch, computed, onBeforeMount } from "vue";
+import { onBeforeUpdate, ref, watch, computed } from "vue";
 import { useDisplay } from "vuetify";
 import { LanguesRTL } from "@/services/Common";
 
@@ -113,7 +113,7 @@ const isRtl = ref(false);
 
 function onUpdateLangue(langue) {
   selectedLanguage.value = langue;
-  LanguesRTL.includes(selectedLanguage.value.toLowerCase()) ? isRtl.value = true : isRtl.value = false;
+  isRtl.value = LanguesRTL.includes(selectedLanguage.value.toLowerCase());
 }
 
 function addTenKeywords() {
@@ -140,10 +140,6 @@ watch(mobile, (newValue) => {
 .chip-lines :deep(.v-chip--disabled) {
   opacity: unset;
   pointer-events: unset;
-}
-
-.v-chip-group {
-  margin-top: unset !important;
 }
 
 .chip-lines {
@@ -179,11 +175,12 @@ h1 {
 }
 
 .v-chip-group {
-  margin-top: 0.5em;
   padding: 0;
   justify-content: flex-start;
   flex-wrap: nowrap;
+  max-width: 90vw;
 
+  margin-top: unset !important;
   .free-chip {
     background-color: rgb(var(--v-theme-secondary-darken-2)) !important;
   }
@@ -201,6 +198,10 @@ h1 {
   :deep(.v-chip__content) {
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    max-width: 90vw;
   }
 }
 
@@ -233,6 +234,7 @@ h1 {
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     flex-direction: column;
     align-items: end;
+    max-width: 90vw;
   }
 }
 
