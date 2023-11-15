@@ -27,7 +27,7 @@
           </div>
         </div>
       </v-card-title>
-    </nuxt-link>
+    </div>
     <div class="vertical-spacer"></div>
     <div class="second-half">
       <v-card-text class="py-2 card-text-wrapper">
@@ -36,10 +36,10 @@
         </span>
 
         <span v-for="(item, index) in auteur" :key="item.ppn ? item.ppn : item.id">
-          <nuxt-link :class="item.ppn || item.id ? 'clickable lightblue' : ''" :to="'/' + (item.ppn ? item.ppn : item.id)">
+          <span :class="item.ppn || item.id ? 'clickable lightblue' : ''" @click="linkTo(item.ppn ? item.ppn : item.id)">
             <span class="card-text">{{ item.prenom }}{{ '\xa0' }}</span>
             <span class="card-text">{{ item.nom }}</span>
-          </nuxt-link>{{ '\xa0' }}
+          </span>{{ '\xa0' }}
           <span v-if="index < auteur.length - 2">
             ,{{ '\xa0' }}
           </span>
@@ -53,14 +53,14 @@
         </span>
 
         <span v-for="(item, index) in directeurs" :key="item.ppn ? item.ppn : item.id">
-          <nuxt-link :class="item.ppn || item.id ? 'clickable lightblue' : ''" :to="'/' + (item.ppn ? item.ppn : item.id)">
+          <span :class="item.ppn || item.id ? 'clickable lightblue' : ''" @click="linkTo(item.ppn ? item.ppn : item.id)">
             <span class="card-text">
               {{ item.prenom }}{{ '\xa0' }}
             </span>
             <span class="card-text">
               {{ item.nom }}
             </span>
-          </nuxt-link>
+          </span>
           <span v-if="index < directeurs.length - 2">
             ,{{ '\xa0' }}
           </span>
@@ -69,8 +69,8 @@
           </span>
         </span>
         <span class="card-text-bold">
-          - {{ discipline }} - <nuxt-link :class="etabPPN ? 'clickable lightblue' : ''" :to="'/' + etabPPN">{{ etab
-          }}</nuxt-link>
+          - {{ discipline }} - <span :class="etabPPN ? 'clickable lightblue' : ''" @click="linkTo(etabPPN)">{{ etab
+          }}</span>
         </span>
       </v-card-text>
     </div>
