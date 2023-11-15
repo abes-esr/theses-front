@@ -1,8 +1,8 @@
 <template>
   <v-card flat class="card-container">
-    <div class="first-half" @click="$router.push({
-      name: 'id', params: { id: id }, query: { domaine: route.query.domaine }
-    })">
+    <nuxt-link class="first-half"
+       :to="{ path: '/'+id, query: { domaine: route.query.domaine }}"
+    >
       <v-card-title>
         <div class="card-title-wrapper line-clamp">
           <div v-if="!mobile" class="thesis-icon">
@@ -27,7 +27,7 @@
           </div>
         </div>
       </v-card-title>
-    </div>
+    </nuxt-link>
     <div class="vertical-spacer"></div>
     <div class="second-half">
       <v-card-text class="py-2 card-text-wrapper">
@@ -36,10 +36,10 @@
         </span>
 
         <span v-for="(item, index) in auteur" :key="item.ppn ? item.ppn : item.id">
-          <span :class="item.ppn || item.id ? 'clickable lightblue' : ''" @click="linkTo(item.ppn ? item.ppn : item.id)">
+          <nuxt-link :class="item.ppn || item.id ? 'clickable lightblue' : ''" :to="'/' + (item.ppn ? item.ppn : item.id)">
             <span class="card-text">{{ item.prenom }}{{ '\xa0' }}</span>
             <span class="card-text">{{ item.nom }}</span>
-          </span>{{ '\xa0' }}
+          </nuxt-link>{{ '\xa0' }}
           <span v-if="index < auteur.length - 2">
             ,{{ '\xa0' }}
           </span>
@@ -53,14 +53,14 @@
         </span>
 
         <span v-for="(item, index) in directeurs" :key="item.ppn ? item.ppn : item.id">
-          <span :class="item.ppn || item.id ? 'clickable lightblue' : ''" @click="linkTo(item.ppn ? item.ppn : item.id)">
+          <nuxt-link :class="item.ppn || item.id ? 'clickable lightblue' : ''" :to="'/' + (item.ppn ? item.ppn : item.id)">
             <span class="card-text">
               {{ item.prenom }}{{ '\xa0' }}
             </span>
             <span class="card-text">
               {{ item.nom }}
             </span>
-          </span>
+          </nuxt-link>
           <span v-if="index < directeurs.length - 2">
             ,{{ '\xa0' }}
           </span>
@@ -69,8 +69,8 @@
           </span>
         </span>
         <span class="card-text-bold">
-          - {{ discipline }} - <span :class="etabPPN ? 'clickable lightblue' : ''" @click="linkTo(etabPPN)">{{ etab
-          }}</span>
+          - {{ discipline }} - <nuxt-link :class="etabPPN ? 'clickable lightblue' : ''" :to="'/' + etabPPN">{{ etab
+          }}</nuxt-link>
         </span>
       </v-card-text>
     </div>
@@ -129,6 +129,11 @@ function linkTo(id) {
 
 <style scoped lang="scss">
 @use 'vuetify/settings';
+
+a, a:visited, a:hover, a:active {
+  color: inherit;
+  text-decoration: none;
+}
 
 .card-container {
   display: flex;

@@ -25,9 +25,9 @@
     <div v-if="!mobile" class="sub-header">
       <div class="search-bar-container white-containers">
         <div class="sub_header__logo">
-          <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
+          <nuxt-link :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
             <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-          </NuxtLink>
+          </nuxt-link>
           <h1>{{ $t("slogan") }}</h1>
         </div>
         <div class="sub_header__action">
