@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 defineProps({
   compact: {
@@ -30,10 +30,12 @@ const router = useRouter();
 const currentRoute = useRoute();
 const emit = defineEmits(['changeDomain']);
 
-if (currentRoute.query.domaine) {
-  selected.value = currentRoute.query.domaine;
-} else {
-  select("theses");
+function init() {
+  if (currentRoute.query.domaine !== undefined && currentRoute.query.domaine !== "undefined") {
+    selected.value = currentRoute.query.domaine;
+  } else if (currentRoute.name !== "id") {
+    select("theses")
+  }
 }
 
 async function select(selection) {
@@ -51,6 +53,11 @@ async function select(selection) {
     emit('changeDomain');
   });
 }
+
+watch(() => currentRoute.path, () => {
+  init();
+}, { immediate: true, deep: true });
+
 
 </script>
 

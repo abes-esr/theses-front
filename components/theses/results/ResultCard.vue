@@ -1,7 +1,7 @@
 <template>
   <v-card flat class="card-container">
     <div class="first-half" @click="$router.push({
-      name: 'id', params: { id: id }, query: { domaine: route.query.domaine }
+      name: 'id', params: { id: id }
     })">
       <v-card-title>
         <div class="card-title-wrapper line-clamp">

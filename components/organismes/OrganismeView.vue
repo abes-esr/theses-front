@@ -104,9 +104,9 @@
 import { useI18n } from "vue-i18n";
 import { ref, defineAsyncComponent } from "vue";
 import { useDisplay } from "vuetify";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader';
 import ResultCard from "../theses/results/ResultCard.vue";
 import ScrollToTopButton from "../common/ScrollToTopButton.vue";
+import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader';
 
 const { mobile } = useDisplay();
 const { t } = useI18n();
