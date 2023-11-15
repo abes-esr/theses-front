@@ -11,18 +11,18 @@
       </div>
     </div>
     <div class="text-center text-md-right">
-      <v-btn title="Réseau" size="x-large" icon>
+      <!--<v-btn tabindex="-1" title="Réseau" size="x-large" icon>
         <div class="icons"><icons-icon-reseau></icons-icon-reseau></div>
       </v-btn>
-      <v-btn title="Flux RSS" size="x-large" icon>
+      <v-btn tabindex="-1" title="Flux RSS" size="x-large" icon>
         <div class="icons"><icons-icon-rss></icons-icon-rss></div>
-      </v-btn>
+      </v-btn>-->
       <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
-          :title='$t("header.assistance")' size="x-large" icon>
+          tabindex="-1" :title='$t("header.assistance")' size="x-large" icon>
           <div class="icons"><icons-icon-assistance></icons-icon-assistance></div>
         </v-btn></a>
       <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
-          :title='$t("header.doc")' size="x-large" icon>
+          tabindex="-1" :title='$t("header.doc")' size="x-large" icon>
           <div class="icons"><icons-icon-documentation></icons-icon-documentation></div>
         </v-btn></a>
     </div>
@@ -40,12 +40,22 @@ const { mobile } = useDisplay();
 onMounted(() => {
   if (localStorage.getItem("language")) {
     locale.value = localStorage.getItem("language");
+    useHead({
+      htmlAttrs: {
+        lang: locale.value,
+      },
+    })
   }
 });
 
 function setLanguage(lang) {
   localStorage.setItem("language", lang);
   locale.value = lang;
+  useHead({
+    htmlAttrs: {
+      lang: lang,
+    },
+  })
 }
 </script>
 

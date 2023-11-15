@@ -1,8 +1,9 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" :items="items" :menu="suggestionActive" :menu-props="menuProps" :active="true"
-      v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-no-data
-      hide-selected no-filter density="compact" return-object type="text" menu-icon="" @keydown.enter="search">
+    <v-combobox class="searchbar__input" label="Barre de recherche" :items="items" :menu="suggestionActive"
+      :menu-props="menuProps" :active="true" v-model="request" v-model:search="requestSearch" variant="outlined"
+      cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object type="text"
+      menu-icon="" @keydown.enter="search">
       <!--      Bouton rechercher-->
       <template v-slot:prepend-inner>
         <v-btn @click="search" :title='$t("searchButton")' :loading="loading" class="elevation-0 appended-buttons">
@@ -139,11 +140,15 @@ async function search() {
     setQuery(request.value);
     emit('searchAndReinitializeAllFacets', request.value);
   } else {
-    setDomaine(currentRoute.query.domaine);
+    if (currentRoute.query && currentRoute.query.domaine) {
+      setDomaine(decodeURI(currentRoute.query.domaine));
+    } else {
+      setDomaine("theses");
+    }
     if (request.value === "") setSorting('dateDesc');
     router.push({
       name: 'resultats',
-      query: { 'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine), 'tri': request.value === "" ? "dateDesc" : "" }
+      query: { 'q': encodeURI(request.value), 'tri': request.value === "" ? "dateDesc" : "" }
     });
   }
 }

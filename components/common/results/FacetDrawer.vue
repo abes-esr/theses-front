@@ -27,7 +27,8 @@
               <p>{{ $t("results.drawer.from") }}</p>
               <vue-date-picker v-model="dateFrom" @update:model-value="updateFilterDateOnly" :teleport="true" locale="fr"
                 auto-apply :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false"
-                text-input placeholder="AAAA" :max-date="dateFromMax" :teleport-center="teleportCenter">
+                text-input placeholder="AAAA" :start-date="startDate" :focus-start-date="true" :max-date="dateFromMax"
+                :teleport-center="teleportCenter">
               </vue-date-picker>
             </span>
             <span class="date-item">
@@ -90,6 +91,7 @@ const marginOffset = ref(0);
 const filterSearchText = ref("");
 
 const dateFrom = ref();
+const startDate = ref(new Date().getFullYear());
 const dateTo = ref(new Date().getFullYear());
 
 let dateFromMax = computed(() => {
@@ -101,7 +103,7 @@ let dateFromMax = computed(() => {
 let dateToMin = computed(() => {
   return dateFrom.value
     ? new Date(dateFrom.value + '-01-01')
-    : new Date('1900-01-01');
+    : new Date('1970-01-01');
 });
 
 let dateToMax = computed(() => {

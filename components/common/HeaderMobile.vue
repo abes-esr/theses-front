@@ -56,6 +56,7 @@
         </div>
         <div class="expanded-burger-menu">
           <div class="nav-bar-list-burger">
+            <!--
             <div class="menu-text-element">
               <a>
                 <v-btn title="Réseau" size="large" variant="text" icon>
@@ -72,6 +73,7 @@
                 <span>{{ $t('rss') }}</span>
               </a>
             </div>
+            -->
             <div class="menu-text-element">
               <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
                   :title='$t("header.assistance")' size="large" variant="text" icon>

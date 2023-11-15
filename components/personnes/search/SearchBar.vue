@@ -1,7 +1,8 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" :items="suggestions" :menu="isSuggestionActive && suggestions.length != 0"
-      :menu-props="menuProps" :active="true" :hide-no-data="!isSuggestionActive || suggestions.length == 0"
+    <v-combobox class="searchbar__input" label="Barre de recherche" :items="suggestions"
+      :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps" :active="true"
+      :hide-no-data="!isSuggestionActive || suggestions.length == 0"
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
       v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected no-filter
       density="compact" return-object type="text" menu-icon="" @keydown.enter="search" :loading="isSuggestionLoading">
@@ -98,7 +99,11 @@ onMounted(
     } else {
       isSuggestionActive.value = true;
     }
-    setDomaine(currentRoute.query.domaine);
+    if (currentRoute.query && currentRoute.query.domaine) {
+      setDomaine(decodeURI(currentRoute.query.domaine));
+    } else {
+      setDomaine("theses");
+    }
   }
 );
 

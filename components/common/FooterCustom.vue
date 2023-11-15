@@ -1,51 +1,52 @@
 <template>
   <v-footer class="pa-0">
     <div class="footer-top">
+      <div class="theses-description footer-content">
+        <h1>Theses.fr</h1>
+        <span>{{ $t("footer.texte") }}</span>&nbsp;<a href="/apropos" alt="En savoir plus sur Theses.fr">{{
+          $t("footer.plus")
+        }}</a>
+      </div>
       <div class="links-container footer-content">
-        <h3>
+        <h2>
           <v-icon>mdi-arrow-top-right</v-icon>
           {{ $t("accesDirect") }}
-        </h3>
+        </h2>
         <table class="list-1">
           <tbody>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
               <td><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank">
-              {{ $t("footer.opendata") }}</a></td>
+                  {{ $t("footer.opendata") }}</a></td>
             </tr>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
               <td><a href="http://www.sudoc.abes.fr/cbs/" target="_blank">{{
-              $t("footer.catalogue") }}</a></td>
+                $t("footer.catalogue") }}</a></td>
             </tr>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
-              <td><a
-                href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{ $t("footer.tef")
-            }}</a></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
+              <td><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{
+                $t("footer.tef")
+              }}</a></td>
             </tr>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
               <td><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
-            }}</a></td>
+              }}</a></td>
             </tr>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
-              <td><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
-                                                                  target="_blank">{{ $t("footer.doc") }}</a></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
+              <td><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank">{{
+                $t("footer.doc") }}</a></td>
             </tr>
             <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{">\xa0" }}</span></td>
+              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
               <td><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{
-              $t("footer.assistance") }}</a></td>
+                $t("footer.assistance") }}</a></td>
             </tr>
           </tbody>
         </table>
-      </div>
-      <div class="theses-description footer-content">
-        <h4>Theses.fr</h4>
-        <span>{{ $t("footer.texte") }}</span>&nbsp;<a href="/apropos">{{ $t("footer.plus")
-        }}</a>
       </div>
       <div class="logos-container footer-content">
         <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
@@ -117,10 +118,6 @@
       flex: 0 0 70%;
       flex-direction: row;
       width: 97%;
-    }
-
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      div:nth-of-type(1) {}
     }
 
     div {
@@ -225,8 +222,16 @@
 
 }
 
-h3 {
+h1 {
   color: rgb(var(--v-theme-primary));
+  font-size: 1.2rem;
+}
+
+h2 {
+  color: rgb(var(--v-theme-primary));
+  font-size: 15px;
+  font-family: "Roboto-Bold", sans-serif;
+  font-weight: 700;
 }
 
 .orange-link {

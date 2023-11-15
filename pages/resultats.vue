@@ -1,62 +1,61 @@
 <template>
-    <ClientOnly><Message-box ref="messageBox"></Message-box></ClientOnly>
-    <!--  Mobile-->
-    <ClientOnly>
-        <CommonHeaderMobile v-if="mobile" type="resultats" @changeDomain="changeDomain" @search="search"
-            @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
-            @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
-            :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"></CommonHeaderMobile>
-    </ClientOnly>
-    <!--    Menu filtres  -->
-    <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
-        :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-        <CommonResultsFacetsHeader @closeOverlay="closeOverlay"
-            @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></CommonResultsFacetsHeader>
-        <CommonResultsFacetsList @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-            :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
-            :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-            :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-            :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side">
-        </CommonResultsFacetsList>
-    </v-dialog>
-    <!--  Fin Mobile-->
-    <!--  Desktop-->
-    <div v-if="!mobile" class="sub-header">
-        <div class="search-bar-container white-containers">
-            <div class="sub_header__logo">
-                <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
-                    <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
-                </NuxtLink>
-                <h1>{{ $t("slogan") }}</h1>
-            </div>
-            <div class="sub_header__action">
-                <CommonDomainSelector @changeDomain="changeDomain" compact></CommonDomainSelector>
-                <GenericSearchBar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-                    @onError="displayError" />
-            </div>
-        </div>
+  <ClientOnly><Message-box ref="messageBox"></Message-box></ClientOnly>
+  <!--  Mobile-->
+  <ClientOnly>
+    <CommonHeaderMobile v-if="mobile" type="resultats" @changeDomain="changeDomain" @search="search"
+      @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
+      @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
+      :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"></CommonHeaderMobile>
+  </ClientOnly>
+  <!--    Menu filtres  -->
+  <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+    :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
+    <CommonResultsFacetsHeader @closeOverlay="closeOverlay"
+      @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></CommonResultsFacetsHeader>
+    <CommonResultsFacetsList @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
+      :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
+      :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+      :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
+      :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side">
+    </CommonResultsFacetsList>
+  </v-dialog>
+  <!--  Fin Mobile-->
+  <!--  Desktop-->
+  <div v-if="!mobile" class="sub-header">
+    <div class="search-bar-container white-containers">
+      <div class="sub_header__logo">
+        <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
+          <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+        </NuxtLink>
+        <h1>{{ $t("slogan") }}</h1>
+      </div>
+      <div class="sub_header__action">
+        <CommonDomainSelector @changeDomain="changeDomain" compact></CommonDomainSelector>
+        <GenericSearchBar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+          @onError="displayError" />
+      </div>
     </div>
+  </div>
 
-    <div class="result-main-wrapper">
-        <div v-if="!mobile" class="nav-bar">
-            <CommonResultsFacetsHeader @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets">
-            </CommonResultsFacetsHeader>
-            <CommonResultsFacetsList @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-                :facets="facets" :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-                :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-                :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
-                class="left-side"></CommonResultsFacetsList>
-        </div>
-        <!--    Mobile & desktop-->
-        <div class="result-components white-containers">
-            <CommonResultsResultComponents :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
-                :persistentQuery="request" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
-                :domain-name-change="domainNameChange" :facets="selectedFacets" @search="search"
-                @deleteFilter="deleteFilter">
-            </CommonResultsResultComponents>
-        </div>
-        <CommonScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
+  <div class="result-main-wrapper">
+    <div v-if="!mobile" class="nav-bar">
+      <CommonResultsFacetsHeader @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets">
+      </CommonResultsFacetsHeader>
+      <CommonResultsFacetsList @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
+        :facets="facets" :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
+        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
+        class="left-side"></CommonResultsFacetsList>
     </div>
+    <!--    Mobile & desktop-->
+    <div class="result-components white-containers">
+      <CommonResultsResultComponents :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
+        :persistentQuery="request" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
+        :domain-name-change="domainNameChange" :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
+      </CommonResultsResultComponents>
+    </div>
+    <CommonScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
+  </div>
 </template>
 
 <script setup>
@@ -65,17 +64,17 @@ import { useDisplay } from 'vuetify';
 
 const { mobile } = useDisplay();
 const {
-    setQuery,
-    getQuery,
-    queryAPI,
-    getFacets,
-    setDomaine,
-    setPageNumber,
-    setShowingNumber,
-    setCheckedFilters,
-    getURLParameters,
-    setWorkingFacetName,
-    fetchCodeLangues
+  setQuery,
+  getQuery,
+  queryAPI,
+  getFacets,
+  setDomaine,
+  setPageNumber,
+  setShowingNumber,
+  setCheckedFilters,
+  getURLParameters,
+  setWorkingFacetName,
+  fetchCodeLangues
 } = useStrategyAPI();
 
 const MessageBox = defineAsyncComponent(() => import('/components/common/MessageBox.vue'));
@@ -106,7 +105,7 @@ const reinitializeDateToTrigger = ref(0);
 
 //Titre statique
 definePageMeta({
-    title: 'Résultats | Theses.fr'
+  title: 'Résultats | Theses.fr'
 })
 
 
@@ -199,7 +198,6 @@ function updateFacets(firstLoad) {
     if (typeof error !== "undefined" && typeof error.message !== "undefined") {
       displayError(error.message);
     }
-    console.error(error);
   });
 }
 

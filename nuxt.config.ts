@@ -12,7 +12,7 @@ export default defineNuxtConfig({
       })
     }
   ],
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   i18n: {
     vueI18n: './i18n.config.ts' // if you are using custom path, default 
   },
@@ -32,11 +32,14 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      link: [{ rel: 'stylesheet', media: 'print', onload:"this.onload=null;this.removeAttribute('media')", href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap' }, {rel:"stylesheet preload prefetch", href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900', as:"style", crossorigin: '', type: 'text/css' }, {rel:'preconnect', href:'https://fonts.gstatic.com'}]
+      link: [{ rel: 'stylesheet', media: 'print', onload:"this.onload=null;this.removeAttribute('media')", href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap' }, {rel:"stylesheet preload prefetch", href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900', as:"style", crossorigin: '', type: 'text/css' }, {rel:'preconnect', href:'https://fonts.gstatic.com'}],
+      htmlAttrs: {
+        lang: 'fr',
+      },
     }
   },
   build: {
-    transpile: ['vuetify'],
+    transpile: ['vuetify', '@vuepic/vue-datepicker'],
   },
   vite: {
     vue: {
