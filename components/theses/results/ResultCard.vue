@@ -242,8 +242,4 @@ a, a:visited, a:hover, a:active {
 .lightblue {
   color: rgb(var(--v-theme-secondary-darken-2)) !important;
 }
-
-.disabled-link {
-  pointer-events: none;
-}
 </style>

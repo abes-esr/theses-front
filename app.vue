@@ -453,4 +453,8 @@ h4 {
   top: 0;
   left: 0;
 }
+
+.disabled-link {
+  pointer-events: none;
+}
 </style>

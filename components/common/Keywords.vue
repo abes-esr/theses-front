@@ -20,12 +20,14 @@
         </v-overlay>
       </div>
       <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
-        <v-chip label v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword"
-          :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
-          :disabled="keyWord.type === 'sujetsRameau' ? false : true"
-          @click="if (keyWord.type === 'sujetsRameau') $router.push({ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } });">
-          <span class="key-word-label">{{ keyWord.keyword }}</span>
-        </v-chip>
+        <template v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
+          <nuxt-link :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' }}"
+                     :class="keyWord.type !== 'sujetsRameau' ? 'disabled-link' : ''">
+            <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'">
+              <span class="key-word-label">{{ keyWord.keyword }}</span>
+            </v-chip>
+          </nuxt-link>
+        </template>
       </v-chip-group>
       <div id="key-words-button-wrapper">
         <v-btn
