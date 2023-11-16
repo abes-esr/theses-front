@@ -1,66 +1,55 @@
 <template>
   <v-card flat class="card-container">
-    <div class="first-half">
-      <div class="info">
-        <div class="icon">
-          <IconsIconPersonne></IconsIconPersonne>
-        </div>
-        <div class="nom-card">
-          <NuxtLink class="nomprenom"
-            :to="{ name: 'id', params: { id: item.id }, query: { 'domaine': currentRoute.query.domaine } }"
-            v-if="item.has_idref">
-            <span class="prenom">{{ item.prenom + "\xa0" }}</span><span class="nom">{{ item.nom }}</span>
-          </NuxtLink>
-          <NuxtLink v-else-if="item.these" class="nomprenom" :to="{ name: 'id', params: { id: item.these } }">
-            <span class="prenom">{{ item.prenom + "\xa0" }}</span><span class="nom">{{ item.nom }}</span>
-          </NuxtLink>
-          <div v-else class="nomprenom">
-            <span class="prenom">{{ item.prenom + "\xa0" }}</span><span class="nom">{{ item.nom }}</span>
-          </div>
+    <NuxtLink class="icon" v-if="!mobile" :to="{ name: 'id', params: { id: linkId } }">
+      <IconsIconPersonne></IconsIconPersonne>
+    </NuxtLink>
+    <NuxtLink :to="{ name: 'id', params: { id: linkId } }">
+      <div class="nom-card">
+        <div class="nomprenom">
+          <span class="prenom">{{ item.prenom + "\xa0" }}</span><span class="nom">{{ item.nom }}</span>
         </div>
       </div>
-      <div class="action">
-        <div class="idref-container">
-          <a class="nomprenom" v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank"
-            title="Accéder à IdRef, le référentiel des personnes et des structures">
-            <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png" />
-          </a>
-        </div>
-        <div class="action-buttons-container">
-          <v-btn :disabled="!item.roles['auteur'] || !item.these" color="secondary-darken-2"
-            append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Auteurs')">{{
-              $t('personnes.resultView.personnesCard.auteur') }}
-            ({{ item.roles["auteur"] ? item.roles["auteur"] : 0 }})
-          </v-btn>
-          <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these" color="secondary-darken-2"
-            append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Directeurs')">{{
-              $t('personnes.resultView.personnesCard.directeur') }}
-            ({{ item.roles["directeur de thèse"] ? item.roles["directeur de thèse"] : 0 }})
-          </v-btn>
-          <v-btn :disabled="!item.roles['rapporteur'] || !item.these" color="secondary-darken-2"
-            append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Rapporteurs')">{{
-              $t('personnes.resultView.personnesCard.rapporteur') }}
-            ({{ item.roles["rapporteur"] ? item.roles["rapporteur"] : 0 }})
-          </v-btn>
-        </div>
-      </div>
+    </NuxtLink>
+    <div class="idref-container">
+      <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank"
+        title="Accéder à IdRef, le référentiel des personnes et des structures">
+        <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png" />
+      </a>
     </div>
-    <div class="vertical-spacer"></div>
-    <div class="second-half">
-      <template v-for="(name, index) in item.disciplines" :key="name">
-        {{ name }}<span v-if="index !== item.disciplines.length - 1">{{ "\xa0" }};{{ "\xa0" }}</span>
-      </template>
-      <span>{{ "\xa0" + "|" + "\xa0" }}</span>
-      <template v-for="(name, index) in item.etablissements " :key="name">
-        {{ name }}<span v-if="index !== item.etablissements.length - 1">{{ "\xa0" }};{{ "\xa0" }}</span>
-      </template>
+    <div class="role-personne">
+      <NuxtLink :to="{ name: 'id', params: { id: linkId } }">
+        {{
+          $t('personnes.resultView.personnesCard.auteur') }}&nbsp;({{ item.roles["auteur"] ? item.roles["auteur"] : 0 }})
+        &nbsp;|&nbsp; {{
+          $t('personnes.resultView.personnesCard.directeur') }}&nbsp;({{ item.roles["directeur de thèse"] ?
+    item.roles["directeur de thèse"] : 0 }}) &nbsp;|&nbsp;
+        {{
+          $t('personnes.resultView.personnesCard.rapporteur') }}&nbsp;({{ item.roles["rapporteur"] ?
+    item.roles["rapporteur"]
+    : 0 }})</NuxtLink>
+    </div>
+    <div class="disciplines">
+      <NuxtLink :to="{ name: 'id', params: { id: linkId } }">
+
+        <template v-for="(name, index) in item.disciplines" :key="name">
+          {{ name }}<span v-if="index !== item.disciplines.length - 1">{{ "\xa0" }};{{ "\xa0" }}</span>
+        </template>
+        <span>{{ "\xa0" + "|" + "\xa0" }}</span>
+        <template v-for="(name, index) in item.etablissements " :key="name">
+          {{ name }}<span v-if="index !== item.etablissements.length - 1">{{ "\xa0" }};{{ "\xa0" }}</span>
+        </template>
+      </NuxtLink>
     </div>
   </v-card>
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { useDisplay } from "vuetify";
+
 const router = useRouter();
 const currentRoute = useRoute();
+const { mobile } = useDisplay();
 
 const props = defineProps({
   item: {
@@ -84,198 +73,102 @@ function goToPersonne(hash) {
     });
   }
 }
+
+const linkId = computed(() => {
+  return props.item.id ? props.item.id
+    : props.item.these ? props.item.these : "#";
+});
+
 </script>
 
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .card-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.card-title-wrapper {
-  display: grid !important;
-  grid-template-columns: 1fr 20fr 3fr;
-}
-
-.line-clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.first-half {
   display: grid;
-  grid-template-columns: 4fr 6fr;
-  padding: 0 2rem 0 1rem;
-  justify-content: space-between;
-  align-items: center;
-  height: calc(100% + 180px);
-  width: 100%;
+  grid-template-columns: 60px 10fr 2fr;
+  grid-template-rows: 1.5em auto auto;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-    height: 100%;
-    flex-direction: row;
-    flex-wrap: nowrap;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    grid-template-rows: auto auto auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+  }
+}
+
+.icon {
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.nom-card {
+  margin-top: -5px;
+  line-height: 1.3;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+}
+
+.idref-container {
+
+  display: grid;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 3;
+  grid-column-end: 4;
+
+  z-index: 99999;
+
+  a {
+    justify-self: end;
   }
 
-  .info {
-    width: 100%;
-    flex: 0 0 10%;
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-      flex: 1 0 30%;
-    }
-
-    .icon {
-      margin-right: 1rem;
-      flex: 0 0 10%;
-      align-self: start;
-    }
-
-    .sep {
-      height: 40px;
-      margin-right: 1rem;
-
-      hr {
-        border-color: rgb(var(--v-theme-primary));
-        opacity: 1;
-        border-width: 0 1.5px 0 0;
-      }
-    }
-
-    a {
-      img {
-        max-height: 45px;
-      }
-    }
-  }
-
-  .action {
-    display: flex;
-    justify-content: flex-end;
+  img {
+    max-height: 45px;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-      grid-row-start: 2;
-      grid-column-start: 1;
-      margin-top: 1em;
-      justify-content: center;
-    }
-
-    .idref-container {
-      display: flex;
-      align-items: center;
-
-      img {
-        max-height: 45px;
-      }
-
-      @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-        order: 2;
-        width: 50%;
-        justify-content: center;
-        margin-left: 1em;
-      }
-    }
-
-    .action-buttons-container {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      align-content: center;
-      justify-content: flex-start;
-      height: 100px;
-
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-        justify-content: flex-end;
-      }
-
-      .v-btn {
-        max-height: 30px;
-        min-width: 166px;
-        font-weight: 500;
-        text-transform: none;
-        padding: 0 8px;
-        margin-left: 0;
-        margin-bottom: 0.3rem;
-        margin-right: 1rem;
-
-        @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-          margin-left: 1rem;
-          margin-right: 0rem;
-        }
-      }
-    }
-
-  }
-}
-
-.vertical-spacer {
-  flex: 1;
-}
-
-.second-half {
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  padding: 0.5rem;
-  font-weight: bold;
-  color: rgb(var(--v-theme-primary));
-
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-    padding: 0rem 1rem 0.5rem;
-
-    hr {
-      height: 20px;
-      border-color: rgb(var(--v-theme-primary)) !important;
-      opacity: 1;
-      border-width: 0 1.5px 0 0;
+      max-height: 30px !important;
     }
   }
 
-  .disciplines {
-    margin-right: 0.5em;
+
+}
+
+.disciplines {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 3;
+  grid-row-end: 4;
+
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    font-size: 0.9em;
   }
 }
 
-.subtitle {
-  font-size: 0.9rem;
-  font-weight: 400;
-}
 
-.card-title {
-  color: rgb(var(--v-theme-primary));
-}
+.role-personne {
+  grid-row-start: 2;
+  grid-column-start: 2;
+  font-weight: 500;
+  color: rgb(var(--v-theme-secondary-darken-2));
 
-.card-text .card-text-bold {
-  white-space: unset !important;
-  font-size: 15px;
-}
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    font-size: 0.8em;
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
 
-.card-text {
-  font-family: Roboto-Regular, sans-serif;
-}
-
-.card-text-bold {
-  font-family: Roboto-Bold, sans-serif;
-  font-weight: 700
-}
-
-.card-text-wrapper {
-  display: inline-block;
-}
-
-.clickable {
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.lightblue {
-  color: rgb(var(--v-theme-secondary-darken-2)) !important;
 }
 </style>
