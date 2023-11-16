@@ -2,17 +2,20 @@
   <ClientOnly>
     <MessageBox ref="messageBox"></MessageBox>
   </ClientOnly>
-  <div v-if="!mobile" class="thesis-toolbar no-wrap-text">
-    <v-btn flat prepend-icon="mdi-arrow-left-circle" @click="previousPage">
-      <template v-slot:prepend-icon>
-        <v-icon>
-          mdi-arrow-left-circle
-        </v-icon>
-      </template>
-      <p>{{ $t("theseView.retour") }}</p>
-    </v-btn>
-    <div class="no-wrap-text">
-      <!--
+
+  <ClientOnly>
+    <div v-if="!mobile" class="thesis-toolbar no-wrap-text">
+      <v-btn v-if="isBackAvailable" flat prepend-icon="mdi-arrow-left-circle" @click="previousPage">
+        <template v-slot:prepend-icon>
+          <v-icon>
+            mdi-arrow-left-circle
+          </v-icon>
+        </template>
+        <p>{{ $t("theseView.retour") }}</p>
+      </v-btn>
+      <span v-else></span>
+      <div class="no-wrap-text">
+        <!--
       <v-btn flat append-icon="mdi-file-export-outline">
         <template v-slot:append-icon>
           <v-icon>
@@ -22,16 +25,31 @@
         <p>{{ $t("theseView.exporter") }}</p>
       </v-btn>
     -->
-      <v-btn flat append-icon="mdi-alert" @click="dialog = true">
-        <template v-slot:append-icon>
+        <v-btn v-if="!organisme && !personne" flat append-icon="mdi-alert" @click="dialog = true">
+          <template v-slot:append-icon>
+            <v-icon>
+              mdi-alert
+            </v-icon>
+          </template>
+          <p>{{ $t("theseView.alert") }}</p>
+        </v-btn>
+        <v-btn v-if="personne" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
+          alt="Documentation de theses.fr" target="_blank">
           <v-icon>
             mdi-alert
           </v-icon>
-        </template>
-        <p>{{ $t("theseView.alert") }}</p>
-      </v-btn>
+          {{ $t("theseView.alert") }}
+        </v-btn>
+        <v-btn v-if="organisme" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#PageOrganisme"
+          alt="Document theses.fr sur les pages d'organisme" target="_blank">
+          <v-icon>
+            mdi-alert
+          </v-icon>
+          {{ $t("theseView.alert") }}
+        </v-btn>
+      </div>
     </div>
-  </div>
+  </ClientOnly>
 
   <ClientOnly>
     <v-dialog v-model="dialog" persistent :fullscreen="mobile" :width="mobile ? '100%' : '70%'">
@@ -44,7 +62,7 @@
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent } from 'vue';
+import { ref, defineAsyncComponent, computed } from 'vue';
 import { useDisplay } from "vuetify";
 import { useI18n } from "vue-i18n";
 
@@ -74,8 +92,21 @@ const props = defineProps({
   etabPpn: {
     type: String,
     default: ""
+  },
+  organisme: {
+    type: Boolean,
+    default: false
+  },
+  personne: {
+    type: Boolean,
+    default: false
   }
 });
+
+const isBackAvailable = computed(() => {
+  return window.history.state.back && window.history.state.back.includes("/resultats");
+});
+
 
 /**
  * Fonctions

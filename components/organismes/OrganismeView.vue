@@ -30,6 +30,8 @@
 
     <div class="main-wrapper">
         <div class="result-components white-containers">
+            <ThesesThesisToolbar organisme />
+
             <!--   Skeletton-->
             <div v-if="!dataReady" class="skeleton-wrapper">
                 <v-skeleton-loader type="list-item-avatar-two-line" class="skeleton"></v-skeleton-loader>
@@ -37,6 +39,7 @@
                 <v-skeleton-loader v-for="i in 4" :key="i" type="paragraph" class="skeleton-cards"></v-skeleton-loader>
             </div>
             <!--      End skeletton-->
+
             <div class="info-wrapper" v-else>
                 <div class="info">
                     <IconsIconOrganisme></IconsIconOrganisme>

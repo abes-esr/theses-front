@@ -26,6 +26,7 @@
 
   <div class="main-wrapper">
     <div class="result-components white-containers">
+      <CommonToolbar personne />
       <!--   Skeletton-->
       <ClientOnly>
         <div v-if="!dataReady" class="skeleton-wrapper">
