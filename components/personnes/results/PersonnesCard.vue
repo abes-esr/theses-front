@@ -20,12 +20,6 @@
         </div>
       </div>
       <div class="action">
-        <div class="idref-container">
-          <a class="nomprenom" v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank"
-            title="Accéder à IdRef, le référentiel des personnes et des structures">
-            <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png" />
-          </a>
-        </div>
         <div class="action-buttons-container">
           <v-btn :disabled="!item.roles['auteur'] || !item.these" color="secondary-darken-2"
             append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Auteurs')">{{
@@ -42,6 +36,12 @@
               $t('personnes.resultView.personnesCard.rapporteur') }}
             ({{ item.roles["rapporteur"] ? item.roles["rapporteur"] : 0 }})
           </v-btn>
+        </div>
+        <div class="idref-container">
+          <a class="nomprenom" v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank"
+             title="Accéder à IdRef, le référentiel des personnes et des structures">
+            <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png" />
+          </a>
         </div>
       </div>
     </div>
@@ -164,12 +164,13 @@ function goToPersonne(hash) {
       grid-row-start: 2;
       grid-column-start: 1;
       margin-top: 1em;
-      justify-content: center;
+      justify-content: start;
     }
 
     .idref-container {
       display: flex;
       align-items: center;
+      padding-left: 1em;
 
       img {
         max-height: 45px;
@@ -177,9 +178,8 @@ function goToPersonne(hash) {
 
       @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
         order: 2;
-        width: 50%;
         justify-content: center;
-        margin-left: 1em;
+        margin-left: 0;
       }
     }
 
@@ -190,6 +190,10 @@ function goToPersonne(hash) {
       align-content: center;
       justify-content: flex-start;
       height: 100px;
+
+      @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+        max-width: 166px;
+      }
 
       @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
         justify-content: flex-end;
