@@ -30,7 +30,7 @@
 
     <div class="main-wrapper">
         <div class="result-components white-containers">
-            <ThesesThesisToolbar organisme />
+            <CommonToolbar organisme />
 
             <!--   Skeletton-->
             <div v-if="!dataReady" class="skeleton-wrapper">
