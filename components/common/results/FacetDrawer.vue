@@ -25,18 +25,17 @@
           <div v-if="date" class="date-container">
             <span class="date-item">
               <p>{{ $t("results.drawer.from") }}</p>
-              <vue-date-picker v-model="dateFrom" @update:model-value="updateFilterDateOnly" :teleport="true" locale="fr"
-                auto-apply :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false"
-                text-input placeholder="AAAA" :start-date="startDate" :focus-start-date="true" :max-date="dateFromMax"
+              <vue-date-picker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA"
+                :start-date="startDate" :focus-start-date="true" :max-date="dateFromMax"
                 :teleport-center="teleportCenter">
               </vue-date-picker>
             </span>
             <span class="date-item">
               <p>{{ $t("results.drawer.to") }}</p>
-              <vue-date-picker v-model="dateTo" @update:model-value="updateFilterDateOnly" :teleport="true" locale="fr"
-                auto-apply :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false"
-                text-input placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin"
-                :teleport-center="teleportCenter">
+              <vue-date-picker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA"
+                :max-date="dateToMax" :min-date="dateToMin" :teleport-center="teleportCenter">
               </vue-date-picker>
             </span>
           </div>
@@ -91,7 +90,7 @@ const marginOffset = ref(0);
 const filterSearchText = ref("");
 
 const dateFrom = ref();
-const startDate = ref(new Date().getFullYear());
+const startDate = ref("1980");
 const dateTo = ref(new Date().getFullYear());
 
 let dateFromMax = computed(() => {
@@ -150,6 +149,15 @@ function searchIntoFacet() {
 watch(filterSearchText, () => {
   searchIntoFacet();
 });
+
+watch(dateFrom, () => {
+  updateFilterDateOnly();
+});
+
+watch(dateTo, () => {
+  updateFilterDateOnly();
+});
+
 
 /**
  * Emits
