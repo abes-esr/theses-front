@@ -83,7 +83,6 @@ const requestSearch = ref("");
 const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
 
 const menuProps = {
-  'scroll-strategy': 'close',
   'open-on-focus': false,
   'content-class': 'autocompl',
   'max-height': '600px'

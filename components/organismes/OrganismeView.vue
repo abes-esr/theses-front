@@ -30,6 +30,8 @@
 
     <div class="main-wrapper">
         <div class="result-components white-containers">
+            <CommonToolbar organisme />
+
             <!--   Skeletton-->
             <div v-if="!dataReady" class="skeleton-wrapper">
                 <v-skeleton-loader type="list-item-avatar-two-line" class="skeleton"></v-skeleton-loader>
@@ -37,12 +39,14 @@
                 <v-skeleton-loader v-for="i in 4" :key="i" type="paragraph" class="skeleton-cards"></v-skeleton-loader>
             </div>
             <!--      End skeletton-->
+
             <div class="info-wrapper" v-else>
                 <div class="info">
                     <IconsIconOrganisme></IconsIconOrganisme>
                     <div class="nom-card">
                         <a :href="`https://www.idref.fr/${props.id}`" target="_blank"
-                            alt="Lien de la page de cet organisme sur le site IdRef">
+                            alt="Accéder à IdRef, le référentiel des personnes et des structures"
+                            title="Accéder à IdRef, le référentiel des personnes et des structures">
                             <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
                         </a>
                         <div class="nomprenom">
