@@ -45,7 +45,8 @@
                     <IconsIconOrganisme></IconsIconOrganisme>
                     <div class="nom-card">
                         <a :href="`https://www.idref.fr/${props.id}`" target="_blank"
-                            alt="Lien de la page de cet organisme sur le site IdRef">
+                            alt="Accéder à IdRef, le référentiel des personnes et des structures"
+                            title="Accéder à IdRef, le référentiel des personnes et des structures">
                             <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
                         </a>
                         <div class="nomprenom">
