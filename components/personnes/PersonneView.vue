@@ -26,6 +26,7 @@
 
   <div class="main-wrapper">
     <div class="result-components white-containers">
+      <CommonToolbar personne />
       <!--   Skeletton-->
       <ClientOnly>
         <div v-if="!dataReady" class="skeleton-wrapper">
@@ -42,7 +43,8 @@
         <div class="info">
           <IconsIconPersonne v-if="!mobile"></IconsIconPersonne>
           <div class="nom-card">
-            <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank">
+            <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank"
+              title="Accéder à IdRef, le référentiel des personnes et des structures">
               <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png" />
             </a>
             <div class="nomprenom">
@@ -99,7 +101,7 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-import { defineAsyncComponent, onBeforeMount, onUpdated, ref, watchEffect } from 'vue';
+import { defineAsyncComponent, onUpdated, ref } from 'vue';
 import { useDisplay } from "vuetify";
 import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 

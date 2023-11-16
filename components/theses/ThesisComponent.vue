@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ThesesThesisToolbar :source="these.source" :nnt="props.nnt"
+    <CommonToolbar :source="these.source" :nnt="props.nnt"
       :etab-ppn="these.etabSoutenance ? these.etabSoutenance.ppn : ''" />
     <div class="thesis-info-access-wrapper">
       <ThesesThesisTitle :status="these.status" :titles="these.titres" />

@@ -3,7 +3,7 @@
         <p>{{ $t('reportErrorView.info') }}<a target="_blank" :href="href">{{ href
         }}</a>
         </p>
-        <v-form id="form" ref="form" v-model="isValid">
+        <v-form id="form" ref="form">
             <div class="form-row shortened"><v-text-field :label="$t('reportErrorView.nom')" v-model="nom"
                     :rules=requiredRule variant="outlined" density="compact" class="item first-item"></v-text-field>
                 <v-text-field :label="$t('reportErrorView.prenom')" v-model="prenom" :rules=requiredRule variant="outlined"
