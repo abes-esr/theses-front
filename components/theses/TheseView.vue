@@ -31,7 +31,7 @@
           <h1>{{ $t("slogan") }}</h1>
         </div>
         <div class="sub_header__action">
-          <CommonDomainSelector compact></CommonDomainSelector>
+          <CommonDomainSelector></CommonDomainSelector>
           <GenericSearchBar @onError="displayError" />
         </div>
       </div>
@@ -290,6 +290,16 @@ function sleep(ms) {
     left: 90vw;
     top: unset;
     bottom: 1vh;
+  }
+}
+
+.domain-selector {
+  :deep(.v-btn__content) {
+    flex-direction: row !important;
+  }
+
+  :deep(.v-icon) {
+    margin-right: 1rem !important;
   }
 }
 </style>

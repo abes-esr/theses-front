@@ -19,12 +19,6 @@
 <script setup>
 import { ref, watch } from 'vue';
 
-defineProps({
-  compact: {
-    type: Boolean
-  }
-});
-
 const selected = ref('theses');
 const router = useRouter();
 const currentRoute = useRoute();
