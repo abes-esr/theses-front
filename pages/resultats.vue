@@ -30,7 +30,7 @@
         <h1>{{ $t("slogan") }}</h1>
       </div>
       <div class="sub_header__action">
-        <CommonDomainSelector @changeDomain="changeDomain" compact></CommonDomainSelector>
+        <CommonDomainSelector @changeDomain="changeDomain"></CommonDomainSelector>
         <GenericSearchBar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
           @onError="displayError" />
       </div>

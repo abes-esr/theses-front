@@ -98,7 +98,7 @@
     <v-expand-transition>
       <div v-if="type !== 'home'" v-show="showSearchBar" class="expanded-search-bar-container white-containers">
         <div class="expanded-search-bar">
-          <LazyCommonDomainSelector @changeDomain="changeDomain" compact></LazyCommonDomainSelector>
+          <LazyCommonDomainSelector @changeDomain="changeDomain"></LazyCommonDomainSelector>
           <LazyGenericSearchBar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"
             :loading="loading" @onError="displayError" />
         </div>

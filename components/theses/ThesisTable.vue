@@ -64,7 +64,8 @@
           <strong>{{ $t('theseView.etablissements') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
         <td>
-          <strong> <a class='clickable lightblue' :href='"/" + these.etabSoutenance.ppn'>{{ these.etabSoutenance.nom }}
+          <strong> <a :class='these.etabSoutenance.ppn ? "clickable lightblue" : ""'
+              @click="linkTo(these.etabSoutenance.ppn)">{{ these.etabSoutenance.nom }}
             </a></strong>
           <span v-if="these.etabCotutelle.length > 0">
             {{ $t('theseView.cotutelle') }}
@@ -94,11 +95,11 @@
           <strong>{{ $t('theseView.partenariat') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
         <td>
-          <strong>{{ firstPartenaireKeyName + " : "}}</strong>
+          <strong>{{ firstPartenaireKeyName + " : " }}</strong>
           <span v-for="(partenaire, index) in partenairesGroupedByType[firstPartenaireKeyName]" :key="partenaire.ppn"
-                :class='partenaire.ppn ? "clickable lightblue" : ""' @click="linkTo(partenaire.ppn)">
+            :class='partenaire.ppn ? "clickable lightblue" : ""' @click="linkTo(partenaire.ppn)">
             {{ partenaire.nom }} {{ (index < partenairesGroupedByType[firstPartenaireKeyName].length - 1) ? ' - ' : '' }}
-          </span>
+              </span>
         </td>
       </tr>
       <!-- Partenariat x-eme ligne / premiere colonne vide -->
@@ -107,9 +108,10 @@
           <td class="empty-first-cell-mandatory"></td>
           <td>
             <strong>{{ indexType + " : " }}</strong>
-              <span v-for="(partenaire, index) in type" :class='partenaire.ppn ? "clickable lightblue" : ""' @click="linkTo(partenaire.ppn)">
-                {{ partenaire.nom }} {{ (index < partenairesGroupedByType[partenaire.type].length - 1) ? ' - ' : '' }}
-              </span>
+            <span v-for="(partenaire, index) in type" :class='partenaire.ppn ? "clickable lightblue" : ""'
+              @click="linkTo(partenaire.ppn)">
+              {{ partenaire.nom }} {{ (index < partenairesGroupedByType[partenaire.type].length - 1) ? ' - ' : '' }}
+                </span>
           </td>
         </tr>
       </template>
@@ -122,8 +124,9 @@
         <td>
           <strong>{{ firstJuryMemberKeyName + " : " }}</strong>
           <span v-for="(member, index) in juryMembersGroupedByType[firstJuryMemberKeyName]" :key="member.ppn"
-                :class='member.ppn ? "clickable lightblue" : ""' @click="linkTo(member.ppn)">
-            {{ member.prenom }} {{ member.nom }}{{ (index < juryMembersGroupedByType[firstJuryMemberKeyName].length - 1) ? ', ' : '' }}</span>
+            :class='member.ppn ? "clickable lightblue" : ""' @click="linkTo(member.ppn)">
+            {{ member.prenom }} {{ member.nom }}{{ (index < juryMembersGroupedByType[firstJuryMemberKeyName].length - 1)
+              ? ', ' : '' }}</span>
         </td>
       </tr>
       <!-- Jury x-eme ligne / première colonne vide -->
@@ -132,9 +135,10 @@
           <td class="empty-first-cell-mandatory"></td>
           <td>
             <strong>{{ indexType + " : " }}</strong>
-            <span v-for="(member, index) in type" :class='member.ppn ? "clickable lightblue" : ""' @click="linkTo(member.ppn)">
-                {{ member.prenom }} {{ member.nom }}{{ (index < juryMembersGroupedByType[indexType].length - 1) ? ', ' : '' }}
-            </span>
+            <span v-for="(member, index) in type" :class='member.ppn ? "clickable lightblue" : ""'
+              @click="linkTo(member.ppn)">
+              {{ member.prenom }} {{ member.nom }}{{ (index < juryMembersGroupedByType[indexType].length - 1) ? ', ' : ''
+              }} </span>
           </td>
         </tr>
       </template>
@@ -155,7 +159,7 @@ const partenairesGroupedByType = ref({});
 const firstPartenaireKeyName = ref("");
 const firstJuryMemberKeyName = ref("");
 const juryMembersGroupedByType = ref({});
-const juryMap = {0:"Président", 1:"Examinateurs", 2:"Rapporteurs"};
+const juryMap = { 0: "Président", 1: "Examinateurs", 2: "Rapporteurs" };
 
 // Regrouper les partenaires de recherche par type
 partenairesGroupedByType.value = groupBy(props.these.partenairesRecherche, "type");
@@ -163,9 +167,9 @@ firstPartenaireKeyName.value = Object.keys(partenairesGroupedByType.value)[0];
 
 // Regrouper les membres de jury par fonction
 [props.these.presidentJury, props.these.membresJury, props.these.rapporteurs].forEach((juryMemberType, index) => {
-  if(( typeof juryMemberType.nom === 'string' && juryMemberType.nom !== null ) // Président (objet)
+  if ((typeof juryMemberType.nom === 'string' && juryMemberType.nom !== null) // Président (objet)
     ||
-    ( typeof juryMemberType.nom !== 'string' && juryMemberType.length > 0 )) { // Autres membres (array d'objets)
+    (typeof juryMemberType.nom !== 'string' && juryMemberType.length > 0)) { // Autres membres (array d'objets)
     let key = juryMap[index];
 
     juryMembersGroupedByType.value[key] = (index === 0) ? [juryMemberType] : juryMemberType; // Type 0 = président : gestion différente car pas un array
@@ -181,7 +185,7 @@ function linkTo(id) {
 }
 
 function groupBy(xs, key) {
-  return xs.reduce(function(rv, x) {
+  return xs.reduce(function (rv, x) {
     (rv[x[key]] = rv[x[key]] || []).push(x);
     return rv;
   }, {});
@@ -237,5 +241,4 @@ function groupBy(xs, key) {
   font-weight: bold;
   color: rgb(var(--v-theme-secondary-darken-2));
   text-decoration: none;
-}
-</style>
+}</style>

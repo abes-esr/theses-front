@@ -17,7 +17,7 @@
         <h1>{{ $t("slogan") }}</h1>
       </div>
       <div class="sub_header__action">
-        <CommonDomainSelector compact></CommonDomainSelector>
+        <CommonDomainSelector></CommonDomainSelector>
         <GenericSearchBar searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
           @onError="displayError" />
       </div>
@@ -488,5 +488,15 @@ function sleep(ms) {
 :deep(.v-skeleton-loader__button) {
   max-width: unset !important;
   width: 250px;
+}
+
+.domain-selector {
+  :deep(.v-btn__content) {
+    flex-direction: row !important;
+  }
+
+  :deep(.v-icon) {
+    margin-right: 1rem !important;
+  }
 }
 </style>

@@ -52,9 +52,14 @@ function deleteFilter(facet) {
 
 .chip-label {
   overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 14px;
   font-family: Roboto-Regular, sans-serif;
   font-weight: 400;
   color: rgb(var(--v-theme-primary));
+}
+
+:deep(.v-chip__content) {
+  overflow: hidden !important;
 }
 </style>
