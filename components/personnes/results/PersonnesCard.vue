@@ -21,18 +21,18 @@
       </div>
       <div class="action">
         <div class="action-buttons-container">
-          <v-btn :disabled="!item.roles['auteur'] || !item.these" color="secondary-darken-2"
-            append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Auteurs')">{{
+          <v-btn :flat="true" variant="outlined" :disabled="!item.roles['auteur'] || !item.these" color="text-dark-blue"
+             @click="goToPersonne('#Auteurs')">{{
               $t('personnes.resultView.personnesCard.auteur') }}
             ({{ item.roles["auteur"] ? item.roles["auteur"] : 0 }})
           </v-btn>
-          <v-btn :disabled="!item.roles['directeur de thèse'] || !item.these" color="secondary-darken-2"
-            append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Directeurs')">{{
+          <v-btn :flat="true" variant="outlined" :disabled="!item.roles['directeur de thèse'] || !item.these" color="text-dark-blue"
+             @click="goToPersonne('#Directeurs')">{{
               $t('personnes.resultView.personnesCard.directeur') }}
             ({{ item.roles["directeur de thèse"] ? item.roles["directeur de thèse"] : 0 }})
           </v-btn>
-          <v-btn :disabled="!item.roles['rapporteur'] || !item.these" color="secondary-darken-2"
-            append-icon="mdi-arrow-right-circle" @click="goToPersonne('#Rapporteurs')">{{
+          <v-btn :flat="true" variant="outlined" :disabled="!item.roles['rapporteur'] || !item.these" color="text-dark-blue"
+             @click="goToPersonne('#Rapporteurs')">{{
               $t('personnes.resultView.personnesCard.rapporteur') }}
             ({{ item.roles["rapporteur"] ? item.roles["rapporteur"] : 0 }})
           </v-btn>
@@ -192,7 +192,7 @@ function goToPersonne(hash) {
       height: 100px;
 
       @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-        max-width: 166px;
+        max-width: 146px;
       }
 
       @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
@@ -201,7 +201,7 @@ function goToPersonne(hash) {
 
       .v-btn {
         max-height: 30px;
-        min-width: 166px;
+        min-width: 146px;
         font-weight: 500;
         text-transform: none;
         padding: 0 8px;
