@@ -456,5 +456,7 @@ h4 {
 
 .disabled-link {
   pointer-events: none;
+  color: inherit;
+  text-decoration: none;
 }
 </style>

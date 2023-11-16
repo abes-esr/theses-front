@@ -6,9 +6,9 @@
         <td><strong>{{ $t('theseView.auteur') }}&nbsp;:{{ '\xa0' }}</strong></td>
         <td>
           <span v-for="(auteur, index) in these.auteurs" :key="auteur.ppn">
-            <span :class="auteur.ppn ? 'clickable orange' : ''" @click="linkTo(auteur.ppn)">
+            <nuxt-link :class="auteur.ppn ? 'clickable orange' : 'disabled-link'" :to="'/' + auteur.ppn">
               {{ auteur.prenom }} {{ auteur.nom }}
-            </span>
+            </nuxt-link>
             <span v-if="index < these.auteurs.length - 1">,{{ '\xa0' }}</span>
           </span>
         </td>
@@ -18,8 +18,8 @@
         <td><strong>{{ $t('theseView.direction') }}&nbsp;:{{ '\xa0' }}</strong></td>
         <td>
           <span v-for="(directeur, index) in these.directeurs" :key="directeur.ppn">
-            <span :class="directeur.ppn ? 'clickable lightblue' : ''" @click="linkTo(directeur.ppn)">{{ directeur.prenom
-            }} {{ directeur.nom }}</span>
+            <nuxt-link :class="directeur.ppn ? 'clickable lightblue' : 'disabled-link'" :to="'/' + directeur.ppn">{{ directeur.prenom
+            }} {{ directeur.nom }}</nuxt-link>
             <span v-if="index < these.directeurs.length - 1">,{{ '\xa0' }}</span>
           </span>
         </td>
