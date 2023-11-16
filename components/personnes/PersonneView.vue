@@ -100,7 +100,7 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-import { defineAsyncComponent, onBeforeMount, onUpdated, ref, watchEffect } from 'vue';
+import { defineAsyncComponent, onUpdated, ref } from 'vue';
 import { useDisplay } from "vuetify";
 import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 

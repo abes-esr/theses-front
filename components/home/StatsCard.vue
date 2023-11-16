@@ -1,15 +1,15 @@
 <template>
     <v-card flat>
-        <div class="icon-wrapper">
-            <v-icon class="icon">{{ icon }}</v-icon>
-            <v-badge v-if="badge" class="badge" :icon="badge" :color="badgecolor" />
-        </div>
-        <v-card-title class="d-flex justify-center pb-1">
-            <h1 v-if="titre !== 0"> {{ titre.toLocaleString() }} </h1>
-            <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
-        </v-card-title>
-        <v-card-subtitle class="d-flex justify-center">{{ description }}</v-card-subtitle>
         <a :href="url" style="text-decoration: none;">
+            <div class="icon-wrapper">
+                <v-icon class="icon">{{ icon }}</v-icon>
+                <v-badge v-if="badge" class="badge" :icon="badge" :color="badgecolor" />
+            </div>
+            <v-card-title class="d-flex justify-center pb-1">
+                <h1 v-if="titre !== 0"> {{ titre.toLocaleString() }} </h1>
+                <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
+            </v-card-title>
+            <v-card-subtitle class="d-flex justify-center">{{ description }}</v-card-subtitle>
             <v-row class="pa-0 pb-5 ma-0 d-flex justify-center">
                 <h2>{{ $t("explorer") }}</h2>
                 <v-icon color="orange-abes" class="pl-2">mdi-arrow-right-circle</v-icon>
