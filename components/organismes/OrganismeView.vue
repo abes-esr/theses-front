@@ -44,14 +44,14 @@
                 <div class="info">
                     <IconsIconOrganisme></IconsIconOrganisme>
                     <div class="nom-card">
+                        <div class="nomprenom">
+                            {{ name }}
+                        </div>
                         <a :href="`https://www.idref.fr/${props.id}`" target="_blank"
                             alt="Accéder à IdRef, le référentiel des personnes et des structures"
                             title="Accéder à IdRef, le référentiel des personnes et des structures">
                             <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
                         </a>
-                        <div class="nomprenom">
-                            {{ name }}
-                        </div>
                     </div>
                 </div>
                 <!--        Tiroirs thèses-->
@@ -297,11 +297,7 @@ function sleep(ms) {
 
             .nom-card {
                 display: inline-flex;
-
-                @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-                    display: grid;
-                    grid-template-columns: 1fr 16fr;
-                }
+                justify-content: space-between;
 
                 a {
                     display: flex;
@@ -313,6 +309,7 @@ function sleep(ms) {
                     color: rgb(var(--v-theme-orange-abes));
                     font-size: 28px;
                     font-weight: 500;
+                    padding-left: 10px;
                 }
             }
 
