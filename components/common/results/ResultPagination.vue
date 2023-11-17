@@ -11,9 +11,11 @@
       </v-select>
       <span class="results-number-span no-wrap-text">{{ $t('results.resultsPerPage') }}</span>
     </div>
-    <v-pagination class="middle-bar-element" :length="nbPages" total-visible="2" v-model="currentPageNumber"
-      @update:modelValue="bottomScrollsToTop">
-    </v-pagination>
+    <div class="middle-bar-element">
+      <v-pagination :length="nbPages" v-model="currentPageNumber" :total-visible="totalVisible" size="x-large"
+        @update:modelValue="bottomScrollsToTop">
+      </v-pagination>
+    </div>
     <div v-if="type === 'top'" class="last-bar-element">
       <span class="sort-by-span no-wrap-text">{{ $t('results.sortBy') }}</span>
       <CommonResultsSortingSelect class="right-select v-selects"
@@ -26,6 +28,7 @@
 <script setup>
 import { ref, watch, computed, onMounted } from "vue";
 import { scrollToTop } from "../../services/Common";
+import { useDisplay } from "vuetify";
 
 const { setPageNumber, setShowingNumber } = useStrategyAPI();
 const emit = defineEmits(['search', 'updatePage', 'updateShowingNumber']);
@@ -61,6 +64,21 @@ const nbPages = computed(() => {
   if (currentShowingNumber.value && props.nbResults) return Math.ceil(props.nbResults / currentShowingNumber.value);
   else return 0;
 });
+
+
+const { xl } = useDisplay();
+
+const totalVisible = computed(() => {
+  if (nbPages.value > 10000)
+    if (xl.value) return 5;
+    else return 2;
+  else if (nbPages.value > 100)
+    if (xl.value) return 8;
+    else return 2;
+  else
+    if (xl.value) return "";
+    else return 2;
+})
 
 /**
  * Fonctions
@@ -235,5 +253,10 @@ watch(() => props.currentShowingNumber, () => {
 .right-select {
   max-width: 150px;
   font-size: 15px;
+}
+
+:deep(.v-pagination__item>.v-btn) {
+  width: fit-content !important;
+  min-width: 30px;
 }
 </style>

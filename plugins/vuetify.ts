@@ -36,6 +36,9 @@ export default defineNuxtPlugin((app) => {
     ssr: true,
     display: {
         mobileBreakpoint: 'md'
+    },
+    locale: {
+      locale: 'fr'
     }
   })
   app.vueApp.use(vuetify)
