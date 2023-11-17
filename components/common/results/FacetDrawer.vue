@@ -25,7 +25,7 @@
           <div v-if="date" class="date-container">
             <span class="date-item">
               <p>{{ $t("results.drawer.from") }}</p>
-              <vue-date-picker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+              <vue-date-picker v-model="dateFrom" @update:model-value="handleDate" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
                 model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA"
                 :start-date="startDate" :focus-start-date="true" :max-date="dateFromMax"
                 :teleport-center="teleportCenter">
@@ -33,7 +33,7 @@
             </span>
             <span class="date-item">
               <p>{{ $t("results.drawer.to") }}</p>
-              <vue-date-picker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+              <vue-date-picker v-model="dateTo" @update:model-value="handleDate" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
                 model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA"
                 :max-date="dateToMax" :min-date="dateToMin" :teleport-center="teleportCenter">
               </vue-date-picker>
@@ -144,22 +144,6 @@ function searchIntoFacet() {
 }
 
 /**
- * Watchers
- */
-watch(filterSearchText, () => {
-  searchIntoFacet();
-});
-
-watch(dateFrom, () => {
-  updateFilterDateOnly();
-});
-
-watch(dateTo, () => {
-  updateFilterDateOnly();
-});
-
-
-/**
  * Emits
  */
 function updateFilterData(filterData) {
@@ -195,6 +179,26 @@ function reinitializeDateToField() {
     dateTo.value = "";
 }
 
+function fillDateDrawerFields() {
+  if (props.date) {
+    props.facetsArray.forEach((filter) => {
+      if (filter.datedebut) {
+        dateFrom.value = filter.datedebut;
+      } else if (filter.datefin) {
+        dateTo.value = filter.datefin;
+      } else if (filter.facetName === "datedebut") {
+        dateFrom.value = filter.label;
+      } else if (filter.facetName === "datefin") {
+        dateTo.value = filter.label;
+      }
+    });
+  }
+}
+
+function handleDate() {
+  updateFilterDateOnly();
+}
+
 /**
  * Watchers
  */
@@ -213,22 +217,9 @@ watch(() => props.reinitializeDateToTrigger,
     reinitializeDateToField();
   });
 
-function fillDateDrawerFields() {
-  if (props.date) {
-    props.facetsArray.forEach((filter) => {
-      if (filter.datedebut) {
-        dateFrom.value = filter.datedebut;
-      } else if (filter.datefin) {
-        dateTo.value = filter.datefin;
-      } else if (filter.facetName === "datedebut") {
-        dateFrom.value = filter.label;
-      } else if (filter.facetName === "datefin") {
-        dateTo.value = filter.label;
-      }
-    });
-  }
-}
-
+watch(filterSearchText, () => {
+  searchIntoFacet();
+});
 /**
  * Initialisation des valeurs dates depuis chargées l'url
  */
