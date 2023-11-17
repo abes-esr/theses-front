@@ -11,8 +11,8 @@
         <a href="https://theses.fr/">Retour à l'accueil</a>
         <h1>A propos</h1>
         <span>
-            <p>Moteur de recherche des th&egrave;ses de doctorat fran&ccedil;aises, le site <a
-                    href="https://theses.fr/">theses.fr</a> a pour objet de r&eacute;f&eacute;rencer :</p>
+            <p>Moteur de recherche des th&egrave;ses de doctorat fran&ccedil;aises, le site <a href="https://theses.fr/"
+                    target="_blank">theses.fr</a> a pour objet de r&eacute;f&eacute;rencer :</p>
             <ul>
                 <li>les th&egrave;ses de doctorat en cours de pr&eacute;paration en France, si
                     l'&eacute;tablissement d'inscription a fait le choix de les signaler et si le ou la doctorant(e)
@@ -22,7 +22,7 @@
                 <li>les personnes et les organismes en lien avec ces th&egrave;ses.</li>
             </ul>
             <h2>Une base de donn&eacute;es aliment&eacute;e par les &eacute;tablissements de soutenance</h2>
-            <p><a href="https://theses.fr/">theses.fr</a> est la vitrine de donn&eacute;es produites et
+            <p><a href="https://theses.fr/" target="_blank">theses.fr</a> est la vitrine de donn&eacute;es produites et
                 valid&eacute;es par les diff&eacute;rents personnels des &eacute;tablissements de
                 l&rsquo;enseignement sup&eacute;rieur fran&ccedil;ais habilit&eacute;s &agrave; d&eacute;livrer le
                 doctorat (services de scolarit&eacute;, &eacute;coles doctorales, biblioth&egrave;ques et centres de
@@ -41,7 +41,8 @@
             </ul>
             <p>La base de donn&eacute;es theses.fr tend &agrave; r&eacute;f&eacute;rencer l&rsquo;ensemble des
                 th&egrave;ses de doctorat soutenues en France depuis 1985. Les lacunes peuvent &ecirc;tre
-                signal&eacute;es via <a href="https://stp.abes.fr/node/3?origine=thesesFr">ABESstp, le guichet
+                signal&eacute;es via <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">ABESstp, le
+                    guichet
                     d&rsquo;assistance en ligne de l&rsquo;Abes</a>.</p>
             <p>En revanche, theses.fr ne r&eacute;f&eacute;rence pas&nbsp;:</p>
             <ul>
@@ -54,45 +55,52 @@
                 <li>les th&egrave;ses de doctorat fran&ccedil;aises soutenues avant 1985</li>
             </ul>
             <h2>Une interface et des API</h2>
-            <p>Les donn&eacute;es de <a href="https://theses.fr/">theses.fr</a> sont accessibles via le site
-                <a href="https://theses.fr/">www.theses.fr</a> gr&acirc;ce &agrave; un moteur de recherche et une
-                navigation &agrave; facettes. Un <a
-                    href="https://documentation.abes.fr/aidetheses/thesesfr/index.html">guide d&rsquo;utilisation du
+            <p>Les donn&eacute;es de <a href="https://theses.fr/" target="_blank">theses.fr</a> sont accessibles via le site
+                <a href="https://theses.fr/" target="_blank">www.theses.fr</a> gr&acirc;ce &agrave; un moteur de recherche
+                et une
+                navigation &agrave; facettes. Un <a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
+                    target="_blank">guide d&rsquo;utilisation du
                     moteur de recherche</a> est mis &agrave; la disposition des utilisateurs. Conform&eacute;ment
-                &agrave; la politique d&rsquo;ouverture des donn&eacute;es de l&rsquo;Abes, <a
-                    href="https://theses.fr/">theses.fr</a> s&rsquo;inscrit dans le mouvement du web de
+                &agrave; la politique d&rsquo;ouverture des donn&eacute;es de l&rsquo;Abes, <a href="https://theses.fr/"
+                    target="_blank">theses.fr</a> s&rsquo;inscrit dans le mouvement du web de
                 donn&eacute;es et du linked data.
             </p>
             <p>Les donn&eacute;es brutes rel&egrave;vent du domaine public et sont plac&eacute;es <a
-                    href="https://abes.fr/reseau-theses/reutiliser-les-donnees/">sous licence Etalab</a>. Elles sont
-                disponibles via une <a
-                    href="https://documentation.abes.fr/aidetheses/thesesfr/co/RecupererDonneesAPI.html">API
+                    href="https://abes.fr/reseau-theses/reutiliser-les-donnees/" target="_blank">sous licence Etalab</a>.
+                Elles sont
+                disponibles via une <a href="https://documentation.abes.fr/aidetheses/thesesfr/co/RecupererDonneesAPI.html"
+                    target="_blank">API
                     XML</a>.</p>
             <p>Pour favoriser leur r&eacute;utilisation, les donn&eacute;es relatives aux th&egrave;ses soutenues
                 sont &eacute;galement disponibles sous forme d&rsquo;un <em>dump</em> d&eacute;pos&eacute; et mis
                 &agrave; jour annuellement sur le site data.gouv.fr&nbsp;: <a
-                    href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/">Th&egrave;ses
+                    href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/"
+                    target="_blank">Th&egrave;ses
                     soutenues en France depuis 1985</a>. Un guide de r&eacute;utilisation accompagne
                 l&rsquo;extraction.</p>
             <h2>Historique du projet &laquo;&nbsp;Portail des th&egrave;ses&nbsp;&raquo;</h2>
             <h3>Objectifs initiaux du projet</h3>
-            <p><a href="https://theses.fr/">theses.fr</a> est une des applications du projet &laquo;&nbsp;Portail
+            <p><a href="https://theses.fr/" target="_blank">theses.fr</a> est une des applications du projet
+                &laquo;&nbsp;Portail
                 des th&egrave;ses&nbsp;&raquo;, confi&eacute; &agrave; l&rsquo;Abes en 2009 par le Minist&egrave;re
-                de l&rsquo;enseignement sup&eacute;rieur et de la recherche. Le <a
-                    href="https://theses.fr/apropos.html#cdo">comit&eacute; de d&eacute;cision et
+                de l&rsquo;enseignement sup&eacute;rieur et de la recherche. Le <a href="https://theses.fr/apropos.html#cdo"
+                    target="_blank">comit&eacute; de d&eacute;cision et
                     d&rsquo;op&eacute;ration</a> du projet &laquo;&nbsp;Portail des th&egrave;ses&nbsp;&raquo; a
                 valid&eacute; les principales orientations d&rsquo;une feuille de route qui comportait trois axes
                 principaux :</p>
             <ul>
                 <li><strong>Renforcer la visibilit&eacute; nationale et internationale de la recherche doctorale
-                        fran&ccedil;aise</strong>&nbsp;: <a href="https://theses.fr/">theses.fr</a> expose largement
+                        fran&ccedil;aise</strong>&nbsp;: <a href="https://theses.fr/" target="_blank">theses.fr</a> expose
+                    largement
                     sur le web les donn&eacute;es d&eacute;crivant les th&egrave;ses de doctorat</li>
-                <li><strong>Servir le monde acad&eacute;mique</strong>&nbsp;: <a href="https://theses.fr/">theses.fr</a>
+                <li><strong>Servir le monde acad&eacute;mique</strong>&nbsp;: <a href="https://theses.fr/"
+                        target="_blank">theses.fr</a>
                     permet &agrave; la communaut&eacute; scientifique
                     d'avoir une connaissance aussi exacte que possible de l'&eacute;tat de la recherche doctorale en
                     cours, au niveau national, local, par disciplines ou par th&eacute;matiques de recherche</li>
                 <li><strong>Servir le monde &eacute;conomique</strong>&nbsp;: en valorisant les travaux des
-                    doctorants et des docteurs, <a href="https://theses.fr/">theses.fr</a> vise &agrave; faciliter
+                    doctorants et des docteurs, <a href="https://theses.fr/" target="_blank">theses.fr</a> vise &agrave;
+                    faciliter
                     l&rsquo;insertion professionnelle des jeunes chercheurs</li>
             </ul>
             <br />
@@ -106,26 +114,29 @@
                     (MISTRD), Direction g&eacute;n&eacute;rale pour l'enseignement sup&eacute;rieur et l'insertion
                     professionnelle (DGESIP), Direction g&eacute;n&eacute;rale pour la recherche et l'innovation
                     (DGRI)</li>
-                <li>un repr&eacute;sentant de la <a href="http://www.cpu.fr/">Conf&eacute;rence des
+                <li>un repr&eacute;sentant de la <a href="http://www.cpu.fr/" target="_blank">Conf&eacute;rence des
                         Pr&eacute;sidents d&rsquo;Universit&eacute;</a></li>
-                <li>un repr&eacute;sentant de la <a href="http://www.cge.asso.fr/">Conf&eacute;rence des Grandes
+                <li>un repr&eacute;sentant de la <a href="http://www.cge.asso.fr/" target="_blank">Conf&eacute;rence des
+                        Grandes
                         Ecoles</a></li>
                 <li>un repr&eacute;sentant des formations doctorales dans les &eacute;tablissements habilit&eacute;s
                 </li>
                 <li>deux repr&eacute;sentants de la recherche priv&eacute;e ou du monde &eacute;conomique</li>
                 <li>trois repr&eacute;sentants des op&eacute;rateurs documentaires nationaux des th&egrave;ses en
                     France : <a href="http://www.inist.fr/">CNRS-INIST</a> ,<a
-                        href="http://www.diffusiontheses.fr/content/4-anrt-lille-reproduction-theses">Atelier
-                        national de reproduction des th&egrave;ses de Lille</a>, <a href="http://www.cines.fr/">CINES</a>
+                        href="http://www.diffusiontheses.fr/content/4-anrt-lille-reproduction-theses"
+                        target="_blank">Atelier
+                        national de reproduction des th&egrave;ses de Lille</a>, <a href="http://www.cines.fr/"
+                        target="_blank">CINES</a>
                 </li>
-                <li>trois repr&eacute;sentants d&rsquo;associations : <a
-                        href="http://www.intelliagence.fr">l&rsquo;Intelli&rsquo;Agence </a>(Association Bernard
-                    Gregory),<a href="http://www.adbu.fr"> l&rsquo;ADBU </a>(association des directeurs de
+                <li>trois repr&eacute;sentants d&rsquo;associations : <a href="http://www.intelliagence.fr"
+                        target="_blank">l&rsquo;Intelli&rsquo;Agence </a>(Association Bernard
+                    Gregory),<a href="http://www.adbu.fr" target="_blank"> l&rsquo;ADBU </a>(association des directeurs de
                     biblioth&egrave;ques universitaires), l&rsquo;AURA (association du r&eacute;seau des
                     utilisateurs des produits de l&rsquo;Abes)</li>
             </ul>
             <p>Les comptes-rendus de d&eacute;cisions du CDO ont fait l&rsquo;objet de billets sur le <a
-                    href="https://fil.abes.fr/category/theses">blog de l&rsquo;Abes</a>.</p>
+                    href="https://fil.abes.fr/category/theses" target="_blank">blog de l&rsquo;Abes</a>.</p>
             <br />
             <p>Une nouvelle version de theses.fr, d&eacute;velopp&eacute;e en 2022-2023, a &eacute;t&eacute;
                 d&eacute;ploy&eacute;e en janvier 2024.</p>
@@ -222,5 +233,4 @@ h3 {
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
         margin-top: 20px;
     }
-}
-</style>
+}</style>
