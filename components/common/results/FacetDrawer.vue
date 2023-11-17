@@ -25,7 +25,7 @@
           <div v-if="date" class="date-container">
             <span class="date-item">
               <p>{{ $t("results.drawer.from") }}</p>
-              <vue-date-picker v-model="dateFrom" @update:model-value="handleDate" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+              <vue-date-picker v-model="dateFrom" @focus="allowModification" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
                 model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA"
                 :start-date="startDate" :focus-start-date="true" :max-date="dateFromMax"
                 :teleport-center="teleportCenter">
@@ -33,7 +33,7 @@
             </span>
             <span class="date-item">
               <p>{{ $t("results.drawer.to") }}</p>
-              <vue-date-picker v-model="dateTo" @update:model-value="handleDate" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
+              <vue-date-picker v-model="dateTo" @focus="allowModification" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
                 model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA"
                 :max-date="dateToMax" :min-date="dateToMin" :teleport-center="teleportCenter">
               </vue-date-picker>
@@ -92,6 +92,7 @@ const filterSearchText = ref("");
 const dateFrom = ref();
 const startDate = ref("1980");
 const dateTo = ref(new Date().getFullYear());
+const resetIsSet = ref(true);
 
 let dateFromMax = computed(() => {
   return dateTo.value && (dateTo.value <= (new Date()).getFullYear())
@@ -195,25 +196,40 @@ function fillDateDrawerFields() {
   }
 }
 
-function handleDate() {
-  updateFilterDateOnly();
+function allowModification() {
+  resetIsSet.value = false;
 }
-
 /**
  * Watchers
  */
+watch(() => dateFrom.value,
+  () => {
+  if(!resetIsSet.value){
+      updateFilterDateOnly();
+  }
+  });
+
+watch(() => dateTo.value,
+  () => {
+    if (!resetIsSet.value)
+      updateFilterDateOnly();
+  });
+
 watch(() => props.reinitializeDateFieldsTrigger,
   () => {
+    resetIsSet.value = true;
     reinitializeDateFields();
   });
 
 watch(() => props.reinitializeDateFromTrigger,
   () => {
+    resetIsSet.value = true;
     reinitializeDateFromField();
   });
 
 watch(() => props.reinitializeDateToTrigger,
   () => {
+    resetIsSet.value = true;
     reinitializeDateToField();
   });
 
