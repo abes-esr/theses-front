@@ -66,17 +66,17 @@ const nbPages = computed(() => {
 });
 
 
-const { xl } = useDisplay();
+const { xlAndUp } = useDisplay();
 
 const totalVisible = computed(() => {
   if (nbPages.value > 10000)
-    if (xl.value) return 5;
+    if (xlAndUp.value) return 5;
     else return 2;
   else if (nbPages.value > 100)
-    if (xl.value) return 8;
+    if (xlAndUp.value) return 8;
     else return 2;
   else
-    if (xl.value) return "";
+    if (xlAndUp.value) return "";
     else return 2;
 })
 
