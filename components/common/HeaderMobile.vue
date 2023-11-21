@@ -45,14 +45,19 @@
     <!-- Menu burger mobile -->
     <v-expand-transition>
       <div v-show="showMenu" class="expanded-search-bar-container white-containers">
+
         <div class="languages-btn-container">
+          <!--
           <div class="languages-btn">
-            <button flat @click="setLanguage('fr')" title="Langue française">FR</button>
+            <button flat @click="setLanguage('fr')" title="Langue française"
+              :class="locale === 'fr' ? 'selected' : ''">FR</button>
             <p>|</p>
-            <button flat @click="setLanguage('en')" title="English Language">EN</button>
+            <button flat @click="setLanguage('en')" title="English Language"
+              :class="locale === 'en' ? 'selected' : ''">EN</button>
             <p>|</p>
-            <button flat @click="setLanguage('es')" title="English Language">ES</button>
-          </div>
+            <button flat @click="setLanguage('es')" title="English Language"
+              :class="locale === 'es' ? 'selected' : ''">ES</button>
+          </div>-->
         </div>
         <div class="expanded-burger-menu">
           <div class="nav-bar-list-burger">
@@ -248,6 +253,7 @@ function setLanguage(lang) {
   width: 100%;
   display: grid;
   grid-template-columns: 3fr 2fr;
+  height: 35px;
 }
 
 .languages-btn {
@@ -266,5 +272,10 @@ function setLanguage(lang) {
   p {
     width: 2px;
   }
+}
+
+.selected {
+  color: rgb(var(--v-theme-orange-abes));
+  font-weight: 700;
 }
 </style>
