@@ -2,16 +2,16 @@
   <v-footer class="pa-0">
     <div class="footer-top">
       <div class="theses-description footer-content">
-        <h1>Theses.fr</h1>
+        <h1>theses.fr</h1>
         <span>{{ $t("footer.texte") }}</span>&nbsp;<a href="/apropos" alt="En savoir plus sur Theses.fr">{{
           $t("footer.plus")
         }}</a>
       </div>
       <div class="links-container footer-content">
-        <h2>
-          <v-icon>mdi-arrow-top-right</v-icon>
+        <h1>
+          <v-icon>mdi-open-in-new</v-icon>
           {{ $t("accesDirect") }}
-        </h2>
+        </h1>
         <table class="list-1">
           <tbody>
             <tr>
@@ -26,13 +26,13 @@
             </tr>
             <tr>
               <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
-              <td><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{
-                $t("footer.tef")
+              <td><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
               }}</a></td>
             </tr>
             <tr>
               <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
-              <td><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
+              <td><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{
+                $t("footer.tef")
               }}</a></td>
             </tr>
             <tr>
@@ -60,7 +60,7 @@
       <v-row>
         <v-col cols="12" md="3" class="text-center text-md-left pa-0">
           {{ new Date().getFullYear() }} —
-          <strong>Theses.fr</strong>
+          theses.fr, le moteur de recherche des thèses françaises
         </v-col>
         <v-col cols="12" md="9" class="text-center text-md-right pa-0">
           <v-divider vertical class="my-1"></v-divider>
@@ -68,16 +68,16 @@
             href="https://abes.fr/pages-donnees-personnelles/thesesfr.html">
             {{ $t("donnees") }}
           </v-btn>
-          <v-divider vertical class="my-1"></v-divider>
+          <v-divider vertical class="my-1">|</v-divider>|
           <v-btn color="transparent" size="small" target="_blank"
             href="https://abes.fr/pages-cgu/conditions-generales-utilisation-sites-abes.html">{{ $t("CGU") }}
           </v-btn>
-          <v-divider vertical class="my-1"></v-divider>
+          <v-divider vertical class="my-1"></v-divider>|
           <v-btn color="transparent" size="small" href="https://abes.fr/pages-mentions-legales/theses.html"
             target="_blank">
             {{ $t("mentions") }}
           </v-btn>
-          <v-divider vertical class="my-1"></v-divider>
+          <v-divider vertical class="my-1"></v-divider>|
           <v-btn color="transparent" size="small" target="_blank" href="https://abes.fr/pages-accessibilite/theses.html">
             {{ $t("accessibilite") }}
           </v-btn>
@@ -143,6 +143,12 @@
         }
       }
     }
+
+    a {
+      text-decoration: none;
+      color: rgb(var(--v-theme-secondary-darken-2)) !important;
+
+    }
   }
 
   .links-container {
@@ -152,24 +158,37 @@
     grid-row-start: 1;
 
     display: grid;
-    grid-template-rows: 1fr 7fr;
+    grid-template-rows: 1fr 6fr;
 
     justify-content: center;
+
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       justify-content: flex-start;
     }
+
+    tbody {
+      display: block;
+      padding-left: 25px;
+    }
+
+    td {
+      padding-bottom: 1px;
+    }
+
+    .v-icon {
+      font-size: 1.2rem;
+    }
+
   }
 
-  .first-column-bullet {
-    vertical-align: top;
-  }
 
   .theses-description {
     grid-column-start: 1;
     order: 1;
 
     span {
+      line-height: 1.3;
       opacity: 0.6;
     }
   }
@@ -180,11 +199,22 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-end;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      justify-content: space-around;
+    }
+
 
     a {
       img {
         height: 6em;
+      }
+
+      padding-left: 40px;
+
+      @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+        padding-left: unset;
       }
     }
   }
@@ -197,7 +227,9 @@
 
     .v-btn {
       text-transform: none !important;
-      font-size: 0.75rem;
+      font-weight: 400;
+      font-size: 0.875rem;
+      letter-spacing: unset;
     }
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {

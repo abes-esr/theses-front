@@ -8,7 +8,7 @@
   "au": "au ",
   "explorer": "EXPLORER",
   "rechercher": "Rechercher",
-  "accesDirect": "Accès Direct",
+  "accesDirect": "Ressources",
   "apropos": "A Propos",
   "donnees": "Données Personnelles",
   "CGU": "CGU",
@@ -180,11 +180,11 @@
   "footer": {
     "texte": "Theses.fr est un moteur de recherche qui recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française. La base de données est en constante évolution.",
     "opendata": "Theses.fr en Open Data",
-    "catalogue": "Catalogue collectif Sudoc",
+    "catalogue": "Catalogue Sudoc",
     "idRref": "IdRef Identifiants et référentiels",
     "tef": "Format TEF (Thèses Electroniques Françaises)",
     "doc": "Documentation",
-    "assistance": "Guichet d'assistance",
+    "assistance": "Guichet d'assistance ABESstp",
     "logoAbesAlt": "Accéder au site de l’Agence Bibliographique de l’Enseignement Supérieur",
     "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche",
     "plus": "En savoir plus"
