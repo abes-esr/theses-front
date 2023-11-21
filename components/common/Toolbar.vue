@@ -5,7 +5,8 @@
 
   <ClientOnly>
     <div v-if="!mobile" class="thesis-toolbar no-wrap-text">
-      <v-btn v-if="isBackAvailable" flat prepend-icon="mdi-arrow-left-circle" @click="previousPage">
+      <v-btn v-if="isBackAvailable" flat prepend-icon="mdi-arrow-left-circle-outline" variant="outlined"
+        @click="previousPage">
         <template v-slot:prepend-icon>
           <v-icon>
             mdi-arrow-left-circle
@@ -25,7 +26,8 @@
         <p>{{ $t("theseView.exporter") }}</p>
       </v-btn>
     -->
-        <v-btn v-if="!organisme && !personne" flat append-icon="mdi-alert" @click="dialog = true">
+        <v-btn v-if="!organisme && !personne" flat append-icon="mdi-alert-circle" variant="outlined"
+          @click="dialog = true">
           <template v-slot:append-icon>
             <v-icon>
               mdi-alert
@@ -34,14 +36,14 @@
           <p>{{ $t("theseView.alert") }}</p>
         </v-btn>
         <v-btn v-if="personne" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
-          alt="Documentation de theses.fr" target="_blank">
+          alt="Documentation de theses.fr" target="_blank" variant="outlined">
           <v-icon>
             mdi-alert
           </v-icon>
           {{ $t("theseView.alert") }}
         </v-btn>
         <v-btn v-if="organisme" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#PageOrganisme"
-          alt="Document theses.fr sur les pages d'organisme" target="_blank">
+          alt="Document theses.fr sur les pages d'organisme" target="_blank" variant="outlined">
           <v-icon>
             mdi-alert
           </v-icon>
@@ -131,7 +133,7 @@ function mailSent() {
 }
 
 .thesis-toolbar {
-  height: 42px;
+  height: 60px;
   width: 100%;
   padding: 0 10px;
   margin: 0.6em 0;
@@ -141,9 +143,6 @@ function mailSent() {
   align-items: center;
 
   p {
-    font-size: 13px;
-    font-weight: 400;
-    font-family: Roboto-Medium, sans-serif;
     color: rgb(var(--v-text-dark-blue));
   }
 
@@ -154,25 +153,30 @@ function mailSent() {
   }
 
   .v-btn {
-    height: 25px;
-
-    letter-spacing: unset;
-    text-transform: unset;
-    text-indent: unset;
-
-    margin: 0 8px;
-    border: solid 1px rgb(var(--v-theme-primary));
-  }
-
-  .arrow-buttons {
-    border: unset;
-    height: 2.4em;
-    width: 2.4em;
+    margin: 1em;
+    text-transform: none;
+    display: inline-flex;
+    padding: 0 1em;
+    letter-spacing: 0.5px;
+    max-width: 90%;
+    font-weight: 500;
 
     :deep(.v-btn__content) {
+      width: 100%;
+      justify-content: space-between;
+
       i {
-        --v-icon-size-multiplier: 1.4;
+        margin-left: 0.3em;
       }
+
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    :deep(.v-btn__append) {
+      color: rgb(var(--v-theme-error));
     }
   }
 }
