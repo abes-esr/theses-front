@@ -115,8 +115,8 @@ const teleportCenter = ref(mobile);
  * Initialisation
  */
 
-//Pour avoir le panel "Statut" ouvert par défaut
-const panel = ref(["Statut"])
+//Pour avoir le panel "Statut" et "Rôles" ouvert par défaut
+const panel = ref(["Statut", "Rôles"])
 
 let facetItems = computed(() => {
   if (props.date)
