@@ -12,41 +12,39 @@
           <v-icon>mdi-open-in-new</v-icon>
           {{ $t("accesDirect") }}
         </h1>
-        <table class="list-1">
-          <tbody>
-            <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
-              <td><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank">
-                  {{ $t("footer.opendata") }}</a></td>
-            </tr>
-            <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
-              <td><a href="http://www.sudoc.abes.fr/cbs/" target="_blank">{{
-                $t("footer.catalogue") }}</a></td>
-            </tr>
-            <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
-              <td><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
-              }}</a></td>
-            </tr>
-            <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
-              <td><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{
-                $t("footer.tef")
-              }}</a></td>
-            </tr>
-            <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
-              <td><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank">{{
-                $t("footer.doc") }}</a></td>
-            </tr>
-            <tr>
-              <td class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></td>
-              <td><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{
-                $t("footer.assistance") }}</a></td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="list-1">
+          <div>
+            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+            <span><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank">
+                {{ $t("footer.opendata") }}</a></span>
+          </div>
+          <div>
+            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+            <span><a href="http://www.sudoc.abes.fr/cbs/" target="_blank">{{
+              $t("footer.catalogue") }}</a></span>
+          </div>
+          <div>
+            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+            <span><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
+            }}</a></span>
+          </div>
+          <div>
+            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+            <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{
+              $t("footer.tef")
+            }}</a></span>
+          </div>
+          <div>
+            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+            <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank">{{
+              $t("footer.doc") }}</a></span>
+          </div>
+          <div>
+            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+            <span><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{
+              $t("footer.assistance") }}</a></span>
+          </div>
+        </div>
       </div>
       <div class="logos-container footer-content">
         <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
@@ -68,16 +66,16 @@
             href="https://abes.fr/pages-donnees-personnelles/thesesfr.html">
             {{ $t("donnees") }}
           </v-btn>
-          <v-divider vertical class="my-1">|</v-divider>|
+          <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
           <v-btn color="transparent" size="small" target="_blank"
             href="https://abes.fr/pages-cgu/conditions-generales-utilisation-sites-abes.html">{{ $t("CGU") }}
           </v-btn>
-          <v-divider vertical class="my-1"></v-divider>|
+          <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
           <v-btn color="transparent" size="small" href="https://abes.fr/pages-mentions-legales/theses.html"
             target="_blank">
             {{ $t("mentions") }}
           </v-btn>
-          <v-divider vertical class="my-1"></v-divider>|
+          <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
           <v-btn color="transparent" size="small" target="_blank" href="https://abes.fr/pages-accessibilite/theses.html">
             {{ $t("accessibilite") }}
           </v-btn>
@@ -104,7 +102,7 @@
 
   .footer-top {
     display: grid;
-    grid-template-columns: 30fr 0.5fr 30fr 0.5fr 30fr;
+    grid-template-columns: 40fr 0.5fr 40fr 0.5fr 20fr;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       display: flex;
@@ -158,7 +156,7 @@
     grid-row-start: 1;
 
     display: grid;
-    grid-template-rows: 1fr 6fr;
+    grid-template-rows: auto auto;
 
     justify-content: center;
 
@@ -167,19 +165,31 @@
       justify-content: flex-start;
     }
 
-    tbody {
-      display: block;
-      padding-left: 25px;
+    .list-1 {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      justify-content: flex-start;
+      margin-left: 1.5rem;
     }
 
-    td {
-      padding-bottom: 1px;
+    .list-1 div {
+      flex: 1 0 50%;
+      /* Les lignes occupent 50% de largeur chacune, sur deux colonnes */
+      box-sizing: border-box;
+      /* Ajustez la marge intérieure au besoin */
+      min-width: 350px;
+      max-width: 350px;
+      line-height: 1.35rem;
+    }
+
+    .list-1 span {
+      width: 100%;
     }
 
     .v-icon {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
     }
-
   }
 
 
@@ -189,7 +199,9 @@
 
     span {
       line-height: 1.3;
-      opacity: 0.6;
+      opacity: 0.9;
+      color: rgb(var(--v-theme-text-dark-blue));
+
     }
   }
 
@@ -223,6 +235,7 @@
     width: 100%;
     background-color: rgb(var(--v-theme-fond-noir));
     color: rgb(var(--v-theme-background));
+    max-height: 32px;
 
 
     .v-btn {
@@ -233,6 +246,8 @@
     }
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      max-height: unset;
+
       .v-btn {
         width: 100%;
         line-height: 2rem;
@@ -282,6 +297,12 @@ footer {
 }
 
 .footer-content {
-  margin-top: 1em;
+  margin: 1em 0 1em;
+}
+
+.mobileHide {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    display: none !important;
+  }
 }
 </style>
