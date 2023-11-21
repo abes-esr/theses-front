@@ -36,17 +36,12 @@
           <p>{{ $t("theseView.alert") }}</p>
         </v-btn>
         <v-btn v-if="personne" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
-          alt="Documentation de theses.fr" target="_blank" variant="outlined">
-          <v-icon>
-            mdi-alert
-          </v-icon>
+          alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle">
           {{ $t("theseView.alert") }}
         </v-btn>
         <v-btn v-if="organisme" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#PageOrganisme"
-          alt="Document theses.fr sur les pages d'organisme" target="_blank" variant="outlined">
-          <v-icon>
-            mdi-alert
-          </v-icon>
+          alt="Document theses.fr sur les pages d'organisme" target="_blank" variant="outlined" flat
+          append-icon="mdi-alert-circle">
           {{ $t("theseView.alert") }}
         </v-btn>
       </div>
