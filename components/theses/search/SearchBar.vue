@@ -135,8 +135,8 @@ function clearSearch() {
 }
 
 async function search() {
+  setQuery(request.value);
   if (routeName.value === "resultats") {
-    setQuery(request.value);
     emit('searchAndReinitializeAllFacets', request.value);
   } else {
     if (currentRoute.query && currentRoute.query.domaine) {

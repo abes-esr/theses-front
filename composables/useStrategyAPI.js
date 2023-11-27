@@ -79,7 +79,7 @@ function getCurrentSorting() {
 }
 
 function setQuery(newQuery) {
-  query.value = (typeof newQuery !== 'undefined' && newQuery !== '') ? newQuery : '*';
+  query.value = (typeof newQuery !== 'undefined' && newQuery !== '' && newQuery !== null) ? newQuery : '*';
 }
 
 function setCheckedFilters(objectsArray) {
