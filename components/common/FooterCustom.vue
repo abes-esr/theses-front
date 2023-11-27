@@ -62,7 +62,7 @@
     <v-divider></v-divider>
     <v-card-text class="footerBottom">
       <v-row>
-        <v-col cols="12" md="3" class="text-center text-md-left pa-0">
+        <v-col cols="12" md="3" class="text-center text-md-left pa-0 slogan">
           {{ new Date().getFullYear() }} —
           theses.fr, le moteur de recherche des thèses françaises
         </v-col>
@@ -305,6 +305,11 @@ footer {
 
 .footer-content {
   margin: 0.8em 0 0.8em;
+}
+
+.slogan {
+  display: flex;
+  align-items: center;
 }
 
 .mobileHide {
