@@ -3,9 +3,9 @@
     <div class="footer-top">
       <div class="theses-description footer-content">
         <h1>theses.fr</h1>
-        <span>{{ $t("footer.texte") }}</span>&nbsp;<a href="/apropos" alt="En savoir plus sur Theses.fr">{{
+        <span>{{ $t("footer.texte") }}</span>&nbsp;<a href="/apropos" alt="En savoir plus sur Theses.fr"><strong>{{
           $t("footer.plus")
-        }}</a>
+        }}</strong></a>
       </div>
       <div class="links-container footer-content">
         <h1>
@@ -13,44 +13,50 @@
           {{ $t("accesDirect") }}
         </h1>
         <div class="list-1">
-          <div>
-            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-            <span><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank">
-                {{ $t("footer.opendata") }}</a></span>
+          <div class="colonne1">
+            <div>
+              <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+              <span><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/"
+                  target="_blank">
+                  {{ $t("footer.opendata") }}</a></span>
+            </div>
+            <div>
+              <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+              <span><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
+              }}</a></span>
+            </div>
+            <div>
+              <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+              <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank">{{
+                $t("footer.doc") }}</a></span>
+            </div>
           </div>
-          <div>
-            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-            <span><a href="http://www.sudoc.abes.fr/cbs/" target="_blank">{{
-              $t("footer.catalogue") }}</a></span>
-          </div>
-          <div>
-            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-            <span><a href="https://www.idref.fr/" target="_blank">{{ $t("footer.idRref")
-            }}</a></span>
-          </div>
-          <div>
-            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-            <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{
-              $t("footer.tef")
-            }}</a></span>
-          </div>
-          <div>
-            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-            <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank">{{
-              $t("footer.doc") }}</a></span>
-          </div>
-          <div>
-            <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-            <span><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{
-              $t("footer.assistance") }}</a></span>
+          <div class="colonne2">
+            <div>
+              <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+              <span><a href="http://www.sudoc.abes.fr/cbs/" target="_blank">{{
+                $t("footer.catalogue") }}</a></span>
+            </div>
+            <div>
+              <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+              <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank">{{
+                $t("footer.tef")
+              }}</a></span>
+            </div>
+
+            <div>
+              <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+              <span><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{
+                $t("footer.assistance") }}</a></span>
+            </div>
           </div>
         </div>
       </div>
       <div class="logos-container footer-content">
-        <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
-          <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")'></a>
         <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
           <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' class="pr-4 "></a>
+        <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
+          <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")'></a>
       </div>
     </div>
     <v-divider></v-divider>
@@ -102,7 +108,7 @@
 
   .footer-top {
     display: grid;
-    grid-template-columns: 40fr 0.5fr 40fr 0.5fr 20fr;
+    grid-template-columns: 45fr 0.5fr 45fr 0.5fr 15fr;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       display: flex;
@@ -110,7 +116,6 @@
     }
 
     width: 90%;
-    padding-bottom: 0.6em;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 0 0 70%;
@@ -156,7 +161,7 @@
     grid-row-start: 1;
 
     display: grid;
-    grid-template-rows: auto auto;
+    grid-template-rows: 1.8rem auto;
 
     justify-content: center;
 
@@ -175,16 +180,18 @@
 
     .list-1 div {
       flex: 1 0 50%;
-      /* Les lignes occupent 50% de largeur chacune, sur deux colonnes */
       box-sizing: border-box;
-      /* Ajustez la marge intérieure au besoin */
-      min-width: 350px;
-      max-width: 350px;
       line-height: 1.35rem;
     }
 
-    .list-1 span {
-      width: 100%;
+    .colonne1 {
+      min-width: 250px;
+      max-width: 250px;
+    }
+
+    .colonne2 {
+      min-width: 350px;
+      max-width: 350px;
     }
 
     .v-icon {
@@ -235,7 +242,7 @@
     width: 100%;
     background-color: rgb(var(--v-theme-fond-noir));
     color: rgb(var(--v-theme-background));
-    max-height: 32px;
+    max-height: 36px;
 
 
     .v-btn {
@@ -297,7 +304,7 @@ footer {
 }
 
 .footer-content {
-  margin: 1em 0 1em;
+  margin: 0.8em 0 0.8em;
 }
 
 .mobileHide {
