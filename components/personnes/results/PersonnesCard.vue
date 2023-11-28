@@ -75,7 +75,7 @@ function goToPersonne(hash) {
 }
 
 const linkId = computed(() => {
-  return props.item.id ? props.item.id
+  return props.item.has_idref ? props.item.id
     : props.item.these ? props.item.these : "#";
 });
 
