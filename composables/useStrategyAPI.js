@@ -24,10 +24,23 @@ const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, 
 
 const router = useRouter();
 
+function printParameters() {
+  console.log('domaine : ' + domaine.value)
+  console.log('currentPageNumber : ' + currentPageNumber.value)
+  console.log('currentShowingNumber : ' + currentShowingNumber.value)
+  console.log('currentSorting : ' + currentSorting.value)
+  console.log('currentFacets : ' + currentFacets.value)
+  console.log('query : ' + query.value)
+  console.log('rawFacets : ' + rawFacets.value)
+  console.log('checkedFilters : ' + checkedFilters.value)
+  console.log('currentWorkingFacetName : ' + currentWorkingFacetName.value)
+}
+
 /**
  * Fonctions communes
  */
 function setPageNumber(value) {
+  console.log('setPageNumber')
   currentPageNumber.value = parseInt(value);
   updateURL();
 }
@@ -42,6 +55,7 @@ function getCurrentPageNumber() {
 }
 
 function setShowingNumber(value) {
+  console.log('setShowingNumber')
   currentShowingNumber.value = parseInt(value);
   updateURL();
 }
@@ -60,11 +74,13 @@ function getCurrentShowingNumber() {
 }
 
 function setSorting(value) {
+  console.log('setSorting')
   currentSorting.value = value;
   updateURL();
 }
 
 function setDomaine(newDomain) {
+  console.log('setDomaine')
   domaine.value = newDomain;
   updateURL();
 }
@@ -83,6 +99,7 @@ function setQuery(newQuery) {
 }
 
 function setCheckedFilters(objectsArray) {
+  console.log('setCheckedFilters')
   return new Promise((resolve) => {
     currentFacets.value = parseFacetsValuesArray(objectsArray);
     updateURL();
@@ -110,22 +127,25 @@ function getFacetsRequest() {
  */
 async function getURLParameters() {
   return new Promise((resolve) => {
-    const mobile = useDisplay().mobile._object.mobile;
+    const { mobile } = useDisplay();
+console.info('mobile')
+console.info(mobile.value)
 
     const startingParameterTri = getURLParameter('tri');
     const startingParameterFiltres = getURLParameterNoBrackets('filtres');
     const startingParameterQ = getURLParameter('q');
     const startingParameterDomaine = getURLParameter('domaine');
-    const startingParameterPage = mobile ? 1 : parseInt( getURLParameter('page') );
-    const startingParameterShowingNumber = mobile ? 10 : parseInt( getURLParameter('nb') );
-
+    const startingParameterPage = mobile.value ? 1 : parseInt( getURLParameter('page') );
+    const startingParameterShowingNumber = mobile.value ? 10 : parseInt( getURLParameter('nb') );
+console.log('startingParameterShowingNumber')
+console.log(startingParameterShowingNumber)
     currentSorting.value = startingParameterTri ? startingParameterTri : 'pertinence';
     currentFacets.value = startingParameterFiltres ? startingParameterFiltres : '';
     query.value = (startingParameterQ && typeof startingParameterQ !== 'undefined') ? startingParameterQ : '*';
     domaine.value = startingParameterDomaine ? startingParameterDomaine : 'theses';
     currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
     currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
-
+printParameters();
     resolve();
   });
 }
@@ -135,7 +155,9 @@ function getURLParameterNoBrackets(parameter) {
 }
 
 function getURLParameter(parameter) {
+  console.log('getURLParameter')
   const params = router.currentRoute._value.query;
+  console.log(params)
   if (params[parameter]) {
     return decodeURIComponent(params[parameter]);
   }
@@ -150,12 +172,14 @@ function setParameters() {
   if (currentShowingNumber.value) params['nb'] = currentShowingNumber.value;
   if (currentSorting.value) params['tri'] = currentSorting.value;
   if (domaine.value) params['domaine'] = domaine.value;
-
+console.info('setParameters')
+console.info(params )
   return params;
 }
 
 function updateURL() {
   if(router.currentRoute._value.name === 'resultats') {
+    console.log('updateURL')
     const routerParams = setParameters();
     router.replace({
       name: 'resultats',
@@ -197,6 +221,7 @@ function queryAPI(mobile) {
   query.value = (typeof query.value === 'undefined') ? '*' : query.value;
 
   if (!mobile._object.mobile) {
+    console.log('queryAPI')
     updateURL();
   }
 
