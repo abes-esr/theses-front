@@ -1,9 +1,9 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" label="Barre de recherche" :items="items" :menu="suggestionActive"
-      :menu-props="menuProps" :active="true" v-model="request" v-model:search="requestSearch" variant="outlined"
-      cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object type="text"
-      menu-icon="" @keydown.enter="search">
+    <v-combobox class="searchbar__input" label="Rechercher des thèses" single-line :items="items" :menu="suggestionActive"
+      :menu-props="menuProps" v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details
+      hide-no-data hide-selected no-filter density="compact" return-object type="text" menu-icon=""
+      @keydown.enter="search">
       <!--      Bouton rechercher-->
       <template v-slot:prepend-inner>
         <v-btn @click="search" :title='$t("searchButton")' :loading="loading" class="elevation-0 appended-buttons">
@@ -64,8 +64,8 @@ defineProps({
     default: false
   },
 });
-const request = ref("");
-const requestSearch = ref("");
+const request = ref();
+const requestSearch = ref();
 const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
 let watcherActive = true;
 const disableCompletion = ref(false);
@@ -73,7 +73,7 @@ const disableCompletion = ref(false);
 
 onMounted(
   () => {
-    if (currentRoute.query && currentRoute.query.q) {
+    if (currentRoute.query && currentRoute.query.q && currentRoute.query.q !== "*") {
       request.value = decodeURI(currentRoute.query.q);
       setQuery(request.value);
       // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
@@ -131,10 +131,12 @@ watch(disableCompletion, (newDisableCompletion) => {
  * Fonction lorsqu'on vide le champ de saisie
  */
 function clearSearch() {
-  request.value = "";
+  request.value = null;
 }
 
 async function search() {
+  if (request.value === null || request.value === undefined) request.value = "";
+
   setQuery(request.value);
   if (routeName.value === "resultats") {
     emit('searchAndReinitializeAllFacets', request.value);

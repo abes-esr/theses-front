@@ -1,7 +1,7 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" label="Barre de recherche" :items="suggestions"
-      :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps" :active="true"
+    <v-combobox class="searchbar__input" label="Rechercher des personnes" single-line :items="suggestions"
+      :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps"
       :hide-no-data="!isSuggestionActive || suggestions.length == 0"
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
       v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected no-filter
@@ -78,8 +78,8 @@ defineProps({
     default: false
   },
 });
-const request = ref('');
-const requestSearch = ref("");
+const request = ref();
+const requestSearch = ref();
 const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
 
 const menuProps = {
@@ -90,7 +90,7 @@ const menuProps = {
 
 onMounted(
   () => {
-    if (currentRoute.query && currentRoute.query.q) {
+    if (currentRoute.query && currentRoute.query.q && currentRoute.query.q !== "*") {
       // Il y a une précédente recherche dans l'URL
       request.value = decodeURI(currentRoute.query.q);
       requestSearch.value = decodeURI(currentRoute.query.q);
@@ -111,13 +111,16 @@ onMounted(
  * @returns {Promise<void>}
  */
 function clearSearch() {
-  request.value = "";
+  request.value = null;
 }
 
 /**
  * Fonction pour rechercher
  */
 async function search() {
+
+  if (request.value === null || request.value === undefined) request.value = "";
+
   isSuggestionActive.value = false;
   suggestions.value = [];
 
