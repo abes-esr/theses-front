@@ -1,6 +1,6 @@
 <template>
   <div class="result-pagination">
-    <div v-if="type === 'top'" class="first-bar-element">
+    <div class="first-bar-element">
       <v-select :items="['10', '25', '50']" v-model="currentShowingNumber" density="compact" variant="solo"
         class="left-select v-selects" menu-icon="mdi-chevron-down">
         <template v-slot:menu-icon>
@@ -16,7 +16,7 @@
         @update:modelValue="bottomScrollsToTop">
       </v-pagination>
     </div>
-    <div v-if="type === 'top'" class="last-bar-element">
+    <div class="last-bar-element">
       <span class="sort-by-span no-wrap-text">{{ $t('results.sortBy') }}</span>
       <CommonResultsSortingSelect class="right-select v-selects"
         @updatePageNumberFromSortingSelect="updatePageNumberFromSortingSelect">
@@ -164,12 +164,11 @@ watch(() => props.currentShowingNumber, () => {
 }
 
 .left-select {
-  max-width: 50px;
   margin: 10px 8px 0;
   padding-top: 6px;
 
   :deep(.v-field) {
-    max-width: 50px;
+    max-width: 70px;
   }
 
   :deep(.v-field--appended) {

@@ -116,8 +116,8 @@ const teleportCenter = ref(mobile);
  * Initialisation
  */
 
-//Pour avoir le panel "Statut" ouvert par défaut
-const panel = ref(["Statut"])
+//Pour avoir le panel "Statut" et "Rôles" ouvert par défaut
+const panel = ref(["Statut", "Rôles"])
 
 let facetItems = computed(() => {
   if (props.date)
@@ -138,10 +138,15 @@ fillDateDrawerFields();
 
 function searchIntoFacet() {
   facetItems.value.forEach(function (facetItem) {
-    const filterLowerCase = facetItem.label.toLowerCase();
+    const filterLowerCase = removeAccents(facetItem.label.toLowerCase());
     const searchTextLowerCase = filterSearchText.value.toLowerCase();
-    facetItem.selected = filterLowerCase.includes(searchTextLowerCase);
+    facetItem.selected = filterLowerCase.includes(removeAccents(searchTextLowerCase));
   });
+}
+
+// Fonction pour enlever les accents d'une chaîne de caractères
+function removeAccents(str) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 /**

@@ -95,6 +95,8 @@ useHead({
 .v-application__wrap {
   justify-content: center;
   align-items: center;
+  display: flex;
+  flex-direction: column !important;
 }
 
 main {
@@ -102,6 +104,9 @@ main {
   align-items: center;
   flex-direction: column;
   width: 100vw;
+  height: 100%;
+  flex: 1 1 auto !important;
+
 
   padding-top: 0 !important;
   color: rgb(var(--v-theme-text-dark-blue)) !important;

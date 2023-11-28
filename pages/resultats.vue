@@ -191,8 +191,8 @@ function updateFacets(firstLoad) {
     facets.value = response;
     if (firstLoad) {
       parametersLoaded.value++;
-      dataFacetsReady.value = true;
     }
+    dataFacetsReady.value = true;
   }).catch(error => {
     facets.value = {};
     if (typeof error !== "undefined" && typeof error.message !== "undefined") {

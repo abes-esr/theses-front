@@ -3,11 +3,16 @@
     <div class="text-center text-md-left language-accessibility-toolbar">
       <!--<img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />-->
       <div class="languages-btn">
-        <v-btn flat @click="setLanguage('fr')" title="Langue française">FR</v-btn>
+        <!--
+        <v-btn flat @click="setLanguage('fr')" title="Langue française"
+          :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
         |
-        <v-btn flat @click="setLanguage('en')" title="English Language">EN</v-btn>
+        <v-btn flat @click="setLanguage('en')" title="English Language"
+          :class="locale === 'en' ? 'selected' : ''">EN</v-btn>
         |
-        <v-btn flat @click="setLanguage('es')" title="English Language">ES</v-btn>
+        <v-btn flat @click="setLanguage('es')" title="English Language"
+          :class="locale === 'es' ? 'selected' : ''">ES</v-btn>
+          -->
       </div>
     </div>
     <div class="text-center text-md-right">
@@ -130,6 +135,10 @@ header {
     grid-column-start: 1;
     justify-self: left;
   }
+}
 
+.selected {
+  color: rgb(var(--v-theme-orange-abes));
+  font-weight: 700;
 }
 </style>
