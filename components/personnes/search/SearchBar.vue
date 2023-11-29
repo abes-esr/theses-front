@@ -1,7 +1,7 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" label="Rechercher des personnes" single-line :items="suggestions"
-      :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps"
+    <v-combobox class="searchbar__input" label="Rechercher des personnes, par nom ou par domaine d’expertise" single-line
+      :items="suggestions" :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps"
       :hide-no-data="!isSuggestionActive || suggestions.length == 0"
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
       v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected no-filter
