@@ -23,6 +23,7 @@ import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 
 const { setCheckedFilters, getFacetsArrayFromURL, setWorkingFacetName } = useStrategyAPI();
+const currentRoute = useRoute();
 
 const props = defineProps({
   facets: {
@@ -346,6 +347,10 @@ watch(() => props.parametersLoaded, () => {
   }
 });
 
+
+watch(() => currentRoute.query.filters, () => {
+  facetsArray.value = getFacetsArrayFromURL();
+});
 </script>
 
 <style scoped lang="scss">

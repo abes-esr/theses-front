@@ -15,6 +15,7 @@ const rawFacets = ref([]);
 const checkedFilters = ref([]);
 const currentWorkingFacetName = ref("");
 const labelMap = ref(new Map());
+const facetsArray = ref([]);
 
 export default function () {
 // import fonctions
@@ -40,7 +41,6 @@ function printParameters() {
  * Fonctions communes
  */
 function setPageNumber(value) {
-  console.log('setPageNumber')
   currentPageNumber.value = parseInt(value);
   updateURL();
 }
@@ -55,7 +55,6 @@ function getCurrentPageNumber() {
 }
 
 function setShowingNumber(value) {
-  console.log('setShowingNumber')
   currentShowingNumber.value = parseInt(value);
   updateURL();
 }
@@ -74,13 +73,11 @@ function getCurrentShowingNumber() {
 }
 
 function setSorting(value) {
-  console.log('setSorting')
   currentSorting.value = value;
   updateURL();
 }
 
 function setDomaine(newDomain) {
-  console.log('setDomaine')
   domaine.value = newDomain;
   updateURL();
 }
@@ -99,9 +96,10 @@ function setQuery(newQuery) {
 }
 
 function setCheckedFilters(objectsArray) {
-  console.log('setCheckedFilters')
   return new Promise((resolve) => {
     currentFacets.value = parseFacetsValuesArray(objectsArray);
+    console.log('currentFacets.value :')
+    console.log(currentFacets.value)
     updateURL();
     checkedFilters.value = objectsArray;
     resolve();
@@ -128,8 +126,6 @@ function getFacetsRequest() {
 async function getURLParameters() {
   return new Promise((resolve) => {
     const { mobile } = useDisplay();
-console.info('mobile')
-console.info(mobile.value)
 
     const startingParameterTri = getURLParameter('tri');
     const startingParameterFiltres = getURLParameterNoBrackets('filtres');
@@ -137,15 +133,14 @@ console.info(mobile.value)
     const startingParameterDomaine = getURLParameter('domaine');
     const startingParameterPage = mobile.value ? 1 : parseInt( getURLParameter('page') );
     const startingParameterShowingNumber = mobile.value ? 10 : parseInt( getURLParameter('nb') );
-console.log('startingParameterShowingNumber')
-console.log(startingParameterShowingNumber)
+
     currentSorting.value = startingParameterTri ? startingParameterTri : 'pertinence';
     currentFacets.value = startingParameterFiltres ? startingParameterFiltres : '';
     query.value = (startingParameterQ && typeof startingParameterQ !== 'undefined') ? startingParameterQ : '*';
     domaine.value = startingParameterDomaine ? startingParameterDomaine : 'theses';
     currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
     currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
-printParameters();
+
     resolve();
   });
 }
@@ -155,9 +150,7 @@ function getURLParameterNoBrackets(parameter) {
 }
 
 function getURLParameter(parameter) {
-  console.log('getURLParameter')
   const params = router.currentRoute._value.query;
-  console.log(params)
   if (params[parameter]) {
     return decodeURIComponent(params[parameter]);
   }
@@ -172,14 +165,11 @@ function setParameters() {
   if (currentShowingNumber.value) params['nb'] = currentShowingNumber.value;
   if (currentSorting.value) params['tri'] = currentSorting.value;
   if (domaine.value) params['domaine'] = domaine.value;
-console.info('setParameters')
-console.info(params )
   return params;
 }
 
 function updateURL() {
   if(router.currentRoute._value.name === 'resultats') {
-    console.log('updateURL')
     const routerParams = setParameters();
     router.replace({
       name: 'resultats',
@@ -221,7 +211,6 @@ function queryAPI(mobile) {
   query.value = (typeof query.value === 'undefined') ? '*' : query.value;
 
   if (!mobile._object.mobile) {
-    console.log('queryAPI')
     updateURL();
   }
 
@@ -487,6 +476,106 @@ async function getFacets() {
   });
 }
 
+  /**
+   * Met à jour l'url avec les filtres sélectionnés
+   * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
+   * @param filterData objet contenant le nom de la facette et de son filtre correspondant
+   */
+  function updateFilterData(filterData) {
+    let facetsArray = getFacetsArrayFromURL();
+
+    const lastFacetFilter =
+      {
+        [filterData.filter.facetName]: filterData.filter.filterName
+      };
+
+    if (isNotChecked(filterData, lastFacetFilter)) {
+      // Ajout
+      console.log('Ajout')
+      setWorkingFacetName(Object.keys(lastFacetFilter)[0]);
+      facetsArray.value.splice(0, 0, lastFacetFilter);
+    } else {
+      // Suppression
+      console.log('Suppression')
+      let itemIndex = getFacetItemIndex(lastFacetFilter, facetsArray);
+      if (itemIndex > -1) {
+        facetsArray.splice(itemIndex, 1);
+      }
+
+      // itemIndex = getChipFacetItemIndex(lastFacetFilter);
+      // if (itemIndex > -1) {
+      //   deleteFromChips(itemIndex);
+      // }
+    }
+
+    setCheckedFilters(facetsArray);
+  }
+
+// Retourne l'index de l'objet courant dans le tableau facetsArray
+  function getFacetItemIndex(lastFacetFilter, facetsArray) {
+    console.log(lastFacetFilter)
+    console.info(facetsArray)
+    return facetsArray.findIndex(function (facetFilter) {
+      return filtersAreEqual(facetFilter, lastFacetFilter);
+    });
+  }
+
+  function deleteFromFilters(itemIndex) {
+    facetsArray.value.splice(itemIndex, 1);
+  }
+
+  function deleteFromChips(itemIndex) {
+    facetsChipsArray.value.splice(itemIndex, 1);
+  }
+
+  function arrayContainsFilter(lastFacetFilter) {
+    const countOccurrences = facetsArray.value.filter(function (facetFilter) {
+      return filtersAreEqual(facetFilter, lastFacetFilter);
+    }).length;
+    return countOccurrences > 0;
+  }
+
+  function isDateFilter(facetFilter) {
+    return Object.keys(facetFilter)[0].startsWith("date");
+  }
+
+  function getChipFacetItemIndex(lastFacetFilter) {
+    return facetsChipsArray.value.findIndex(function (facetFilter) {
+      return chipFiltersAreEqual(facetFilter, lastFacetFilter);
+    });
+  }
+
+  function chipFiltersAreEqual(comparedChipObject, currentObject) {
+    return (isDateFilter(currentObject)
+        && comparedChipObject.filter.filterName === Object.keys(currentObject)[0])
+      || (comparedChipObject.filter.facetName === Object.keys(currentObject)[0]
+        && comparedChipObject.filter.filterName === Object.values(currentObject)[0]);
+  }
+
+  /**
+   * checkbox cochée
+   * @Param filterData
+   * @Param lastFacetFilter mise en forme de filterData
+   */
+  function isNotChecked(filterData, lastFacetFilter) {
+    return filterData.value && !arrayContainsFilter(lastFacetFilter);
+  }
+
+
+  /**
+   * Compare les chaines de caractères contenues dans les Array
+   * Pour les dates on ne compare que le nom du filtre ( datedebut | datefin )
+   * @param comparedObject
+   * @param currentObject
+   * @returns {boolean}
+   */
+  function filtersAreEqual(comparedObject, currentObject) {
+    return (isDateFilter(currentObject)
+        && Object.keys(comparedObject)[0] === Object.keys(currentObject)[0])
+      || (Object.keys(comparedObject)[0] === Object.keys(currentObject)[0]
+        && Object.values(comparedObject)[0] === Object.values(currentObject)[0]);
+  }
+
 function getData(id) {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise( async (resolve, reject) => {
@@ -572,6 +661,7 @@ function addToFiltersLabelsMap(filterData) {
     getTriMap,
     reinitializeResultData,
     setShowingNumberMobile,
-    fetchCodeLangues
+    fetchCodeLangues,
+    updateFilterData
   };
 }

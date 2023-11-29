@@ -89,7 +89,6 @@ function bottomScrollsToTop() {
 }
 
 function updatePageNumberFromSortingSelect(pageNumber) {
-  console.log('updatePageNumberFromSortingSelect')
   currentPageNumber.value = pageNumber;
   setPageNumber(pageNumber);
   emit("updatePage", pageNumber);
@@ -111,7 +110,6 @@ watch(currentPageNumber, (newCurrentPageNumber, previousCurrentPageNumber) => {
 });
 
 watch(currentShowingNumber, (newShowingNumber, previousShowingNumber) => {
-  console.log('currentShowingNumber')
   if (typeof previousShowingNumber !== 'undefined') {
     setShowingNumber(newShowingNumber);
     setPageNumber(1);

@@ -16,9 +16,11 @@
     </v-chip>
   </div>
 </template>
-<script setup>
 
-const { setWorkingFacetName } = useStrategyAPI();
+<script setup>
+const router = useRouter();
+const currentRoute = useRoute();
+const { setWorkingFacetName, updateFilterData } = useStrategyAPI();
 
 defineProps({
   facets: {
@@ -30,7 +32,7 @@ const emit = defineEmits(['deleteFilter']);
 
 function deleteFilter(facet) {
   setWorkingFacetName('');
-  emit('deleteFilter', facet);
+  updateFilterData(facet);
 }
 </script>
 

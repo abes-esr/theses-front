@@ -164,7 +164,6 @@ async function search(firstLoad = false) {
 
 function update(facetsArray) {
   dataReady.value = false;
-  console.log('reinitialize from update')
   reinitialize();
   loadChips(facetsArray);
   search();
@@ -217,13 +216,11 @@ watch(mobile, () => {
  * Réinitialiser l'affichage des résultats
  */
 function reinitializeCurrentRequest() {
-  console.log('reinitialize from reinitializeCurrentRequest')
   reinitialize();
   search();
 }
 
 function reinitialize() {
-  console.log('reinitialize')
   setPageNumber(1);
   resetPage.value++;
   setShowingNumber(10);
@@ -254,7 +251,6 @@ function changeDomain() {
 }
 
 async function searchAndReinitialize() {
-  console.log('reinitialize from searchAndReinitialize')
   dataReady.value = false;
   reinitialize();
   await search();
@@ -312,6 +308,10 @@ function sleep(ms) {
 
 watch(() => currentRoute.query.domaine, () => {
   setDomaine(currentRoute.query.domaine);
+});
+
+watch(() => currentRoute.query, () => {
+  search();
 });
 </script>
 
