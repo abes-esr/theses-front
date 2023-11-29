@@ -43,7 +43,7 @@
           <!--          Facettes texte-->
           <div v-else v-for="(facetItem, index) in facetItems" :key="`facet-${facetItem.name}`">
             <CommonResultsFacetCheckbox v-if="facetItem.selected" :key="`${facet.name}-value-${index}`"
-              :facets-array="facetsArray" :facet-name="facet.name" :facet-item="facetItem"
+              :selected-facets-array="selectedFacetsArray" :facet-name="facet.name" :facet-item="facetItem"
               @updateFilterData="updateFilterData" :margin-offset="marginOffset" />
           </div>
         </div>
@@ -60,13 +60,15 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
-const emit = defineEmits(['update:facetsArray', 'updateFilterData', 'updateFilterDateOnly', 'reinitializeCheckboxes']);
+const emit = defineEmits(['update:selectedFacetsArray', 'updateFilterData', 'updateFilterDateOnly', 'reinitializeCheckboxes']);
 const props = defineProps({
-  facetsArray: {
-    type: Array
+  selectedFacetsArray: {
+    type: Array,
+    default: []
   },
   facet: {
-    type: Object
+    type: Object,
+    default: {}
   },
   date: {
     type: Boolean,
@@ -187,7 +189,7 @@ function reinitializeDateToField() {
 
 function fillDateDrawerFields() {
   if (props.date) {
-    props.facetsArray.forEach((filter) => {
+    props.selectedFacetsArray.forEach((filter) => {
       if (filter.datedebut) {
         dateFrom.value = filter.datedebut;
       } else if (filter.datefin) {

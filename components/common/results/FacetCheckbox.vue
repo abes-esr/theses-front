@@ -10,7 +10,7 @@
     && facetItem.checkboxes.length">
     <div v-for="facetItem in childrenCheckboxes" :key="`facet-${facetItem.name}`">
       <facet-checkbox :facet-item="facetItem" :facet-name="facetName" :margin-offset="props.marginOffset + 4"
-        :parent-checkbox-state="checkboxState" :facets-array="facetsArray" @updateParentCheckbox="updateSelfCheckbox"
+        :parent-checkbox-state="checkboxState" :selected-facets-array="selectedFacetsArray" @updateParentCheckbox="updateSelfCheckbox"
         @updateFilterDataRecursive="updateFilterDataRecursive" />
     </div>
   </template>
@@ -24,7 +24,7 @@ const { addToFiltersLabelsMap } = useStrategyAPI();
 
 const emit = defineEmits(['updateParentCheckbox', 'updateFilterData', 'updateFilterDataRecursive']);
 const props = defineProps({
-  facetsArray: {
+  selectedFacetsArray: {
     type: Object
   },
   facetItem: {
@@ -74,7 +74,7 @@ watch(() => props.parentCheckboxState,
     }
   });
 
-// Mise à jour de facetsArray depuis les composants parents
+// Mise à jour de selectedFacetsArray depuis les composants parents
 watch(props,
   () => {
     checkboxState.value = arrayContainsFilter();
@@ -129,8 +129,8 @@ function isDateFilter(filter) {
 }
 
 function arrayContainsFilter() {
-  if (props.facetsArray) {
-    return props.facetsArray.filter(function (filter) {
+  if (props.selectedFacetsArray) {
+    return props.selectedFacetsArray.filter(function (filter) {
       if (isDateFilter(filter)) {
         return false;
       }

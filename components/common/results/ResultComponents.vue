@@ -21,7 +21,7 @@
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
-    <CommonResultsFacetsChips :facets="facets" @deleteFilter="deleteFilter" />
+    <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray" @deleteFilter="deleteFilter" />
     <div v-if="mobile || dataReady" class="colonnes-resultats">
       <CommonResultsResultList :result="result" :domain-name-change="domainNameChange">
       </CommonResultsResultList>
@@ -83,23 +83,13 @@ const props = defineProps({
   domainNameChange: {
     type: String
   },
-  facets: {
+  selectedFacetsArray: {
     type: Array
   }
 });
 
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
-
-/**
- * Emits
- */
-
-const emit = defineEmits(['search', 'deleteFilter']);
-
-function deleteFilter(facet) {
-  emit('deleteFilter', facet);
-}
 
 /**
  * Fonctions
@@ -130,23 +120,7 @@ function updatePage(newPage) {
 
 function updatePageNumberFromSortingSelect(pageNumber) {
   updatePage(pageNumber);
-  emit('search');
 }
-
-function search() {
-  emit('search');
-}
-
-/**
- * Watchers
- */
-watch(() => props.resetPage, () => {
-  currentPageNumber.value = 1;
-});
-
-watch(() => props.resetShowingNumber, () => {
-  currentShowingNumber.value = 10;
-});
 </script>
 
 <style scoped lang="scss">

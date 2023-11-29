@@ -1,14 +1,14 @@
 <template>
   <div class="facets">
     <CommonResultsFacetDrawer v-if="domaine === 'theses' && Object.keys(facets).length > 0" date key="facet-date"
-      :facet="{ 'name': 'Date' }" :facets-array="facetsArray" :parameters-loaded="parametersLoaded"
+      :facet="{ 'name': 'Date' }" :facets-array="selectedFacetsArray" :parameters-loaded="parametersLoaded"
       :reinitialize-date-fields-trigger="reinitializeDateFieldsTrigger"
       :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
       :reinitialize-date-to-trigger="reinitializeDateToTrigger" @updateFilterDateOnly="updateFilterDateOnly($event)"
       @reinitializeCheckboxes="reinitializeDates">
     </CommonResultsFacetDrawer>
     <CommonResultsFacetDrawer v-for="facet in facets" :key="`facet-${facet.name}`" :facet="facet"
-      :facets-array="facetsArray" @updateFilterData="updateFilterData" @reinitializeCheckboxes="reinitializeCheckboxes">
+      :facets-array="selectedFacetsArray" @updateFilterData="updateFilterData" @reinitializeCheckboxes="reinitializeCheckboxes">
     </CommonResultsFacetDrawer>
     <v-btn v-if="mobile" class="filters-btn" variant="outlined" color="primary" @click="update">Appliquer les
       filtres</v-btn>
@@ -22,18 +22,18 @@ import { useDisplay } from "vuetify";
 import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 
-const { setCheckedFilters, getFacetsArrayFromURL, setWorkingFacetName } = useStrategyAPI();
+const { setCheckedFilters, getFacetsArrayFromURL, setWorkingFacetName, updateFilterData } = useStrategyAPI();
 const currentRoute = useRoute();
 
 const props = defineProps({
   facets: {
     type: Object
   },
+  selectedFacetsArray: {
+    type: Array
+  },
   resetFacets: {
     type: Number
-  },
-  filterToBeDeleted: {
-    type: Object
   },
   domaine: {
     type: String
@@ -53,7 +53,6 @@ const props = defineProps({
 });
 
 const { mobile } = useDisplay();
-const emit = defineEmits(['update', 'searchAndReinitialize', 'loadChips']);
 const facetsArray = ref([]);
 const facetsChipsArray = ref([]);
 const reinitializeDateFieldsTrigger = ref(0);
@@ -61,15 +60,6 @@ const reinitializeDateFieldsTrigger = ref(0);
 /**
  * Fonctions
  */
-
-/**
- * checkbox cochée
- * @Param filterData
- * @Param lastFacetFilter mise en forme de filterData
- */
-function isChecked(filterData, lastFacetFilter) {
-  return filterData.value && !arrayContainsFilter(lastFacetFilter);
-}
 
 function isDateFilter(facetFilter) {
   return Object.keys(facetFilter)[0].startsWith("date");
@@ -155,8 +145,8 @@ function clearDates() {
  */
 
 function update() {
-  emit('update', facetsChipsArray.value);
-  emit('closeOverlay');
+  // emit('update', facetsChipsArray.value);
+  // emit('closeOverlay');
 }
 
 function handleSpecialCase(label) {
@@ -200,36 +190,8 @@ function deleteFromFilters(itemIndex) {
   facetsArray.value.splice(itemIndex, 1);
 }
 
-/**
- * Met à jour l'Array contenant les filtres sélectionnés.
- * Met à plat les niveaux de récursivité en utilisant le nom de la facette en clé dans tous les cas
- * @param filterData objet contenant le nom de la facette et de son filtre correspondant
- */
-function updateFilterData(filterData) {
-  const lastFacetFilter =
-  {
-    [filterData.facetName]: filterData.filterName
-  };
-
-  if (isChecked(filterData, lastFacetFilter)) {
-    // Ajout
-    addToFilters(lastFacetFilter);
-    addToChips(filterData);
-  } else {
-    // Suppression
-    let itemIndex = getFacetItemIndex(lastFacetFilter);
-    if (itemIndex > -1) {
-      deleteFromFilters(itemIndex);
-    }
-
-    itemIndex = getChipFacetItemIndex(lastFacetFilter);
-    if (itemIndex > -1) {
-      deleteFromChips(itemIndex);
-    }
-  }
-
-  setCheckedFilters(facetsArray.value);
-  emit('update', facetsChipsArray.value);
+function isChecked(filterData, lastFacetFilter) {
+  return filterData.value && !arrayContainsFilter(lastFacetFilter);
 }
 
 /**
@@ -318,16 +280,6 @@ watch(() => props.resetFacets,
   });
 
 /**
- * watch: suppression d'un v-chip
- * Nécessite un timer pour attendre la mise à jour des filtres imbriqués
- */
-watch(() => props.filterToBeDeleted,
-  (newValue) => {
-    updateFilterData(newValue.filter);
-    setCheckedFilters(facetsArray.value)
-  });
-
-/**
  * Met à jour les chips selon les paramètres filtres de l'url
  */
 watch(() => props.parametersLoaded, () => {
@@ -345,11 +297,6 @@ watch(() => props.parametersLoaded, () => {
 
     emit('loadChips', facetsChipsArray.value);
   }
-});
-
-
-watch(() => currentRoute.query.filters, () => {
-  facetsArray.value = getFacetsArrayFromURL();
 });
 </script>
 

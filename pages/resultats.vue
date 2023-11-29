@@ -13,10 +13,10 @@
     <CommonResultsFacetsHeader @closeOverlay="closeOverlay"
       @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></CommonResultsFacetsHeader>
     <CommonResultsFacetsList @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-      :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
+      :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :selected-facets-array="selectedFacetsArray"
       :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
       :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-      :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side">
+      :parameters-loaded="parametersLoaded" class="left-side">
     </CommonResultsFacetsList>
   </v-dialog>
   <!--  Fin Mobile-->
@@ -42,16 +42,16 @@
       <CommonResultsFacetsHeader @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets">
       </CommonResultsFacetsHeader>
       <CommonResultsFacetsList @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-        :facets="facets" :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
+        :facets="facets"  :selected-facets-array="selectedFacetsArray" :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
         :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
+        :parameters-loaded="parametersLoaded" :loading="!dataFacetsReady"
         class="left-side"></CommonResultsFacetsList>
     </div>
     <!--    Mobile & desktop-->
     <div class="result-components white-containers">
       <CommonResultsResultComponents :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
         :persistentQuery="request" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
-        :domain-name-change="domainNameChange" :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
+        :domain-name-change="domainNameChange" :selected-facets-array="selectedFacetsArray" @search="search" @deleteFilter="deleteFilter">
       </CommonResultsResultComponents>
     </div>
     <CommonScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
@@ -68,6 +68,7 @@ const {
   getQuery,
   queryAPI,
   getFacets,
+  getFacetsArrayFromURL,
   setDomaine,
   setPageNumber,
   setShowingNumber,
@@ -80,6 +81,7 @@ const {
 const MessageBox = defineAsyncComponent(() => import('/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
+const selectedFacetsArray = ref({});
 const request = ref("");
 const result = ref([]);
 const dataReady = ref(false);
@@ -95,8 +97,6 @@ const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
 const showMenu = ref(false);
 const showSearchBar = ref(false);
-const selectedFacets = ref([]);
-const filterToBeDeleted = ref([]);
 const numberOfDeletedChips = ref(0);
 const parametersLoaded = ref(0);
 const reinitializeDateFromTrigger = ref(0);
@@ -140,6 +140,7 @@ async function search(firstLoad = false) {
   dataReady.value = false;
 
   updateFacets(firstLoad);
+  selectedFacetsArray.value = getFacetsArrayFromURL();
 
   /**
    * Chargement des donnees
@@ -148,7 +149,6 @@ async function search(firstLoad = false) {
     if (!["theses", "personnes"].includes(currentRoute.query.domaine)) {
       throw new Error("Erreur de nom de paramètres");
     }
-
     result.value = response[currentRoute.query.domaine];
     nbResult.value = response.totalHits;
     domainNameChange.value = currentRoute.query.domaine;
@@ -163,17 +163,10 @@ async function search(firstLoad = false) {
 }
 
 function update(facetsArray) {
-  dataReady.value = false;
-  reinitialize();
-  loadChips(facetsArray);
-  search();
-}
-
-function loadChips(facetsArray) {
-  if (facetsArray) {
-    // mise à jour des chips
-    selectedFacets.value = facetsArray;
-  }
+  // dataReady.value = false;
+  // reinitialize();
+  // loadChips(facetsArray);
+  // search();
 }
 
 function displayError(message) {
@@ -207,17 +200,12 @@ function moreThanXResults(x) {
   return (result.value.length >= x);
 }
 
-// Si on passe de desktop à mobile ou inversement, réinitialisation des variables de pagination
-watch(mobile, () => {
-  reinitializeCurrentRequest();
-});
-
 /**
  * Réinitialiser l'affichage des résultats
  */
 function reinitializeCurrentRequest() {
-  reinitialize();
-  search();
+  // reinitialize();
+  // search();
 }
 
 function reinitialize() {
@@ -228,21 +216,21 @@ function reinitialize() {
 }
 
 async function searchAndReinitializeFacet(query) {
-  setQuery(query);
-  searchAndReinitialize();
-  resetFacets.value++;
+  // setQuery(query);
+  // searchAndReinitialize();
+  // resetFacets.value++;
 }
 
 function resetBeforeSearch() {
-  resetFacets.value++;
-  setWorkingFacetName("");
-  setCheckedFilters([]);
+  // resetFacets.value++;
+  // setWorkingFacetName("");
+  // setCheckedFilters([]);
 }
 
 async function searchAndReinitializeAllFacets() {
-  showSearchBar.value = false;
-  resetBeforeSearch();
-  searchAndReinitialize();
+  // showSearchBar.value = false;
+  // resetBeforeSearch();
+  // searchAndReinitialize();
 }
 
 
@@ -251,17 +239,17 @@ function changeDomain() {
 }
 
 async function searchAndReinitialize() {
-  dataReady.value = false;
-  reinitialize();
-  await search();
+  // dataReady.value = false;
+  // reinitialize();
+  // await search();
 }
 
 function deleteDateFilterIfIsDate(filter) {
-  if (filter.filter.facetName === "datedebut") {
-    reinitializeDateFromTrigger.value++;
-  } else if (filter.filter.facetName === "datefin") {
-    reinitializeDateToTrigger.value++;
-  }
+  // if (filter.filter.facetName === "datedebut") {
+  //   reinitializeDateFromTrigger.value++;
+  // } else if (filter.filter.facetName === "datefin") {
+  //   reinitializeDateToTrigger.value++;
+  // }
 }
 
 /**
@@ -269,12 +257,12 @@ function deleteDateFilterIfIsDate(filter) {
  * @param filter
  */
 function deleteFilter(filter) {
-  numberOfDeletedChips.value++;
-  deleteDateFilterIfIsDate(filter);
-  filterToBeDeleted.value = {
-    "numberOfDeletedChips": numberOfDeletedChips.value,
-    "filter": filter.filter
-  };
+  // numberOfDeletedChips.value++;
+  // deleteDateFilterIfIsDate(filter);
+  // filterToBeDeleted.value = {
+  //   "numberOfDeletedChips": numberOfDeletedChips.value,
+  //   "filter": filter.filter
+  // };
 }
 
 /**
@@ -305,13 +293,22 @@ function sleep(ms) {
 /**
  * Watchers
  */
+// Si on passe de desktop à mobile ou inversement, réinitialisation des variables de pagination
+watch(mobile, () => {
+  reinitializeCurrentRequest();
+});
 
 watch(() => currentRoute.query.domaine, () => {
   setDomaine(currentRoute.query.domaine);
 });
 
 watch(() => currentRoute.query, () => {
+  console.log('trigger du watcher de l\'url')
+  selectedFacetsArray.value = getFacetsArrayFromURL();
   search();
+});
+
+watch(() => currentRoute.query.filters, () => {
 });
 </script>
 

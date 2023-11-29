@@ -272,6 +272,7 @@ function getFacetsArrayFromURLString() {
  * @returns {*|*[]}
  */
 function getFacetsArrayFromURL() {
+  console.log('getFacetsArrayFromURL')
 
   if (!currentFacets.value) return [];
 
@@ -281,6 +282,7 @@ function getFacetsArrayFromURL() {
   let dataCleanedFacetsArray = getFiltersOnlyInURLAndInESResponse(facetsArray);
 
   // Récupérer les labels avec les mises en forme récupérées depuis elastic search
+  console.log(getFacetsLabels(dataCleanedFacetsArray))
   return getFacetsLabels(dataCleanedFacetsArray);
 }
 
@@ -483,17 +485,17 @@ async function getFacets() {
    */
   function updateFilterData(filterData) {
     let facetsArray = getFacetsArrayFromURL();
-
+console.log(filterData)
     const lastFacetFilter =
       {
-        [filterData.filter.facetName]: filterData.filter.filterName
+        [filterData.facetName]: filterData.filterName
       };
 
     if (isNotChecked(filterData, lastFacetFilter)) {
       // Ajout
       console.log('Ajout')
       setWorkingFacetName(Object.keys(lastFacetFilter)[0]);
-      facetsArray.value.splice(0, 0, lastFacetFilter);
+      facetsArray.splice(0, 0, lastFacetFilter);
     } else {
       // Suppression
       console.log('Suppression')
