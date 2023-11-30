@@ -38,9 +38,16 @@
     <theses-search-advanced-form v-if="isAdvanced" @search="advancedSearch"></theses-search-advanced-form>
 
     <div class="searchbar__action">
-      <v-checkbox :label="$t('disableSuggestion')" v-model="disableCompletion"
+      <span v-if="isAdvanced"></span>
+      <v-checkbox v-else :label="$t('disableSuggestion')" v-model="disableCompletion"
         :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn color="primary" density="compact" variant="outlined" :title='$t("avancee")'
+
+      <v-btn v-if="isAdvanced" color="primary" density="compact" variant="outlined" :title='$t("simple")'
+        @click="isAdvanced = !isAdvanced">{{
+          $t("simple")
+        }}
+      </v-btn>
+      <v-btn v-else color="primary" density="compact" variant="outlined" :title='$t("avancee")'
         @click="isAdvanced = !isAdvanced">{{
           $t("avancee")
         }}

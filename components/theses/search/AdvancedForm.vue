@@ -24,7 +24,7 @@
                         item-title="titre" item-value="value" label="Champ" variant="outlined"></v-select>
                 </div>
                 <div v-else class="text">
-                    <v-text-field v-model="field.value" label="Champ de texte" variant="outlined" />
+                    <v-text-field v-model="field.value" label="Champ de texte" variant="outlined" clearable />
                 </div>
                 <div class="operator" v-if="index < formFields.length - 1">
                     <v-select v-model="field.operator" :items="operators" label="Opérateur" variant="outlined"></v-select>
@@ -33,6 +33,8 @@
                     <v-btn @click="removeField(index)" v-if="formFields.length > 1" variant="outlined">Supprimer</v-btn>
                 </div>
             </div>
+            <v-btn color="primary" density="compact" variant="outlined" :title='$t("vider")' @click="clear">{{
+                $t("vider") }}</v-btn>
             <v-btn @click="addField" variant="outlined">Ajouter un champ</v-btn>
             <v-btn @click="search" variant="outlined">Rechercher</v-btn>
 
@@ -73,7 +75,7 @@ const types = ref([
     { titre: "Date d'inscription en doctorat", value: "datePremiereInscriptionDoctorat" },
     { titre: "Statut", value: "status" }
 ]);
-const operators = ref(['ET', 'OU']);
+const operators = ref(['ET', 'OU', 'SAUF']);
 
 const formFields = ref([
     { value: '', type: '', operator: 'ET' },
@@ -90,6 +92,14 @@ function removeField(index) {
         formFields.value.splice(index, 1);
     }
 };
+
+function clear() {
+    formFields.value.forEach(element => {
+        element.operator = 'ET';
+        element.type = '';
+        element.value = ''
+    });
+}
 
 function search() {
     emit('search', objectToQuery())
