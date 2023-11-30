@@ -81,7 +81,7 @@ const {
 const MessageBox = defineAsyncComponent(() => import('/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
-const selectedFacetsArray = ref({});
+const selectedFacetsArray = ref([]);
 const request = ref("");
 const result = ref([]);
 const dataReady = ref(false);
@@ -140,7 +140,6 @@ async function search(firstLoad = false) {
   dataReady.value = false;
 
   updateFacets(firstLoad);
-  selectedFacetsArray.value = getFacetsArrayFromURL();
 
   /**
    * Chargement des donnees
@@ -186,6 +185,10 @@ function updateFacets(firstLoad) {
       parametersLoaded.value++;
     }
     dataFacetsReady.value = true;
+  }).then(response => {
+    selectedFacetsArray.value = getFacetsArrayFromURL();
+    console.info('then post chargement facettes')
+    console.info(selectedFacetsArray.value)
   }).catch(error => {
     facets.value = {};
     if (typeof error !== "undefined" && typeof error.message !== "undefined") {
@@ -228,7 +231,7 @@ function resetBeforeSearch() {
 }
 
 async function searchAndReinitializeAllFacets() {
-  // showSearchBar.value = false;
+  showSearchBar.value = false;
   // resetBeforeSearch();
   // searchAndReinitialize();
 }

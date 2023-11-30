@@ -385,6 +385,10 @@ function reinitializeResultData() {
   rawFacets.value = [];
 }
 
+function reinitializeFilters() {
+  setCheckedFilters([]);
+}
+
 /**
  * Récupère les filtres cochés qui ne sont pas dans la liste courante des facettes
  * En les ajoutant dans le tableau des facettes, derrière les facettes retournées par la recherche courante et par ordre alphabétique
@@ -664,6 +668,7 @@ function addToFiltersLabelsMap(filterData) {
     reinitializeResultData,
     setShowingNumberMobile,
     fetchCodeLangues,
-    updateFilterData
+    updateFilterData,
+    reinitializeFilters
   };
 }

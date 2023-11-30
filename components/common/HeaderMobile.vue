@@ -115,6 +115,7 @@
 <script setup>
 import { onMounted } from "vue";
 import { useI18n } from "vue-i18n";
+import useStrategyAPI from "#build/composables/useStrategyAPI.js";
 
 const { locale } = useI18n();
 
@@ -154,6 +155,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['search', 'changeDomain', 'displayError', 'searchAndReinitializeAllFacets', 'activateMenu', 'activateSearchBar', 'activateFilterMenu', 'activateThesisAccess']);
+const { reinitializeFilters } = useStrategyAPI();
 
 /**
  * Fonctions
@@ -177,7 +179,7 @@ function search() {
   emit('search');
 }
 function searchAndReinitializeAllFacets() {
-  emit('searchAndReinitializeAllFacets');
+  reinitializeFilters();
 }
 function displayError() {
   emit('displayError');

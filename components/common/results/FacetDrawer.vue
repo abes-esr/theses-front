@@ -188,6 +188,8 @@ function reinitializeDateToField() {
 }
 
 function fillDateDrawerFields() {
+  console.log('fillDateDrawerFields')
+  console.log(props.selectedFacetsArray)
   if (props.date) {
     props.selectedFacetsArray.forEach((filter) => {
       if (filter.datedebut) {

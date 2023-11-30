@@ -26,11 +26,12 @@
 <script setup>
 import { useDisplay } from "vuetify";
 const { mobile } = useDisplay();
+const { reinitializeFilters } = useStrategyAPI();
 
-const emit = defineEmits(['searchAndReinitializeAllFacets', 'closeOverlay']);
+const emit = defineEmits(['closeOverlay']);
 
 function searchAndReinitializeAllFacets() {
-  emit('searchAndReinitializeAllFacets');
+  reinitializeFilters();
 }
 
 function closeOverlay() {

@@ -1,14 +1,14 @@
 <template>
   <div class="facets">
     <CommonResultsFacetDrawer v-if="domaine === 'theses' && Object.keys(facets).length > 0" date key="facet-date"
-      :facet="{ 'name': 'Date' }" :facets-array="selectedFacetsArray" :parameters-loaded="parametersLoaded"
+      :facet="{ 'name': 'Date' }" :selected-facets-array="selectedFacetsArray" :parameters-loaded="parametersLoaded"
       :reinitialize-date-fields-trigger="reinitializeDateFieldsTrigger"
       :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
       :reinitialize-date-to-trigger="reinitializeDateToTrigger" @updateFilterDateOnly="updateFilterDateOnly($event)"
       @reinitializeCheckboxes="reinitializeDates">
     </CommonResultsFacetDrawer>
     <CommonResultsFacetDrawer v-for="facet in facets" :key="`facet-${facet.name}`" :facet="facet"
-      :facets-array="selectedFacetsArray" @updateFilterData="updateFilterData" @reinitializeCheckboxes="reinitializeCheckboxes">
+      :selected-facets-array="selectedFacetsArray" @updateFilterData="updateFilterData" @reinitializeCheckboxes="reinitializeCheckboxes">
     </CommonResultsFacetDrawer>
     <v-btn v-if="mobile" class="filters-btn" variant="outlined" color="primary" @click="update">Appliquer les
       filtres</v-btn>
@@ -30,7 +30,8 @@ const props = defineProps({
     type: Object
   },
   selectedFacetsArray: {
-    type: Array
+    type: Array,
+    default: []
   },
   resetFacets: {
     type: Number
@@ -235,7 +236,7 @@ function updateFilterDateOnly(datesArray) {
   addOrOverwriteDate(datesArray);
 
   setCheckedFilters(facetsArray.value);
-  emit('update', facetsChipsArray.value);
+  // emit('update', facetsChipsArray.value);
 }
 
 function reinitializeCheckboxes(facetName) {
@@ -252,13 +253,13 @@ function reinitializeCheckboxes(facetName) {
   });
 
   setCheckedFilters(facetsArray.value);
-  emit('update');
+  // emit('update');
 }
 
 function reinitializeDates() {
   clearDates();
   setCheckedFilters(facetsArray.value);
-  emit('update');
+  // emit('update');
 }
 
 function resetArray(array) {
@@ -274,9 +275,6 @@ function resetArray(array) {
 watch(() => props.resetFacets,
   () => {
     reinitializeDateFieldsTrigger.value++;
-    resetArray(facetsArray.value);
-    resetArray(facetsChipsArray.value);
-    setCheckedFilters(facetsArray.value);
   });
 
 /**
@@ -295,7 +293,7 @@ watch(() => props.parametersLoaded, () => {
       addToChips(filterData);
     });
 
-    emit('loadChips', facetsChipsArray.value);
+    // emit('loadChips', facetsChipsArray.value);
   }
 });
 </script>
