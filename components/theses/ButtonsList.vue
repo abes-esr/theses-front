@@ -35,8 +35,10 @@
                 <v-card class="texte-embargo" variant="outlined" v-else>
                   <img :alt="$t('theseView.alertSign')" class="icon-alert"
                     src="@/assets/triangle-exclamation-solid.svg" />
-                  <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin }}.</span>
-                  <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{ b.dateFin
+                  <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin.replaceAll("-", "/")
+                  }}.</span>
+                  <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{
+                    b.dateFin.replaceAll("-", "/")
                   }}</span>
                 </v-card>
               </div>
@@ -60,11 +62,14 @@
                 :aria-label="b.libelle" :flat="true">{{
                   b.libelle }}
               </v-btn>
-              <v-card class="texte-embargo" variant="outlined" v-else>
+              <v-card class="texte-embargo" variant="outlined"
+                v-if="b.libelle === 'Embargo' || b.libelle === 'Confidentialite'">
                 <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
-                <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargoStart") }}{{ b.dateFin }}{{
-                  $t("theseView.embargoEnd") }}</span>
-                <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{ b.dateFin }}</span>
+                <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargoStart") }}{{ b.dateFin.replaceAll("-", "/")
+                }}{{
+  $t("theseView.embargoEnd") }}</span>
+                <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{
+                  b.dateFin.replaceAll("-", "/") }}</span>
               </v-card>
             </div>
           </v-expansion-panel-text>
