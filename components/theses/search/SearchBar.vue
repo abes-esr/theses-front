@@ -95,7 +95,8 @@ const suggestionActive = ref(false);
 const menuProps = {
   'open-on-focus': false,
   'content-class': 'autocomplete',
-  'max-height': '600px'
+  'height': '50vh',
+  'max-height': '340px'
 };
 
 watch(requestSearch, (newRequestSearch) => {
