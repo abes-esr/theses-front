@@ -6,7 +6,24 @@
                     <v-select v-model="field.type" :items="types" item-title="titre" item-value="value" label="Champ"
                         variant="outlined"></v-select>
                 </div>
-                <div class="text">
+                <div v-if="field.type === 'dateSoutenance' || field.type === 'datePremiereInscriptionDoctorat'">
+                    Du <vue-date-picker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false"
+                        model-type="yyyy-MM-dd" format="yyyy-MM-dd" :enable-time-picker="false" text-input
+                        placeholder="yyyy-MM-dd" :start-date="new Date()" min-date="1965-01-01" :max-date="new Date()"
+                        :teleport-center="teleportCenter">
+                    </vue-date-picker>
+                    Au <vue-date-picker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false"
+                        model-type="yyyy-MM-dd" format="yyyy-MM-dd" :enable-time-picker="false" text-input
+                        placeholder="yyyy-MM-dd" :start-date="new Date()" :min-date="dateFrom" :max-date="new Date()"
+                        :teleport-center="teleportCenter">
+                    </vue-date-picker>
+                </div>
+                <div v-else-if="field.type === 'status'">
+                    <v-select v-model="field.value"
+                        :items="[{ titre: 'Toutes les thèses', value: '*' }, { titre: 'Uniquement les thèses soutenues', value: 'soutenue' }, { titre: 'Uniquement les thèses soutenues accessibles en ligne', value: 'accessible' }, { titre: 'Uniquement les thèses en préparation', value: 'enCours' }]"
+                        item-title="titre" item-value="value" label="Champ" variant="outlined"></v-select>
+                </div>
+                <div v-else class="text">
                     <v-text-field v-model="field.value" label="Champ de texte" variant="outlined" />
                 </div>
                 <div class="operator" v-if="index < formFields.length - 1">
@@ -25,9 +42,17 @@
 
 <script setup>
 import { ref } from 'vue';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+import { useDisplay } from "vuetify";
 
 const emit = defineEmits(['search']);
 
+const { mobile } = useDisplay();
+const teleportCenter = ref(mobile);
+
+const dateFrom = ref();
+const dateTo = ref();
 
 const types = ref([
     { titre: 'Titre', value: 'titrePrincipal' },
@@ -44,6 +69,9 @@ const types = ref([
     { titre: "Etablissement de cotutelle", value: "etabsCotutelleN" },
     { titre: "Ecole doctorale", value: "ecolesDoctoralesN" },
     { titre: "Ecole doctorale", value: "ecolesDoctoralesN" },
+    { titre: "Date de soutenance", value: "dateSoutenance" },
+    { titre: "Date d'inscription en doctorat", value: "datePremiereInscriptionDoctorat" },
+    { titre: "Statut", value: "status" }
 ]);
 const operators = ref(['ET', 'OU']);
 
@@ -70,13 +98,21 @@ function search() {
 function objectToQuery() {
     const result = formFields.value
         .map((field, index) => {
+            //Cas particulier des dates, on les reformate pour ES
+
+
             if (index === formFields.value.length - 1) {
                 return `${field.type}:${field.value}`;
             } else {
                 return `${field.type}:${field.value} ${field.operator}`;
             }
         })
-        .join(' ');
+        .join(' ')
+        //Cas particulier des status accessible en ligne
+        .replaceAll('status:accessible', 'accessible:oui')
+        //Cas particulier des dates
+        .replaceAll('dateSoutenance:', 'dateSoutenance:[' + dateFrom.value + ' TO ' + dateTo.value + ']')
+        .replaceAll('datePremiereInscriptionDoctorat:', 'datePremiereInscriptionDoctorat:[' + dateFrom.value + ' TO ' + dateTo.value + ']');
     return result.trim();
 }
 </script>
