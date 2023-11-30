@@ -1,9 +1,9 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" label="Rechercher des thèses" single-line :items="items" :menu="suggestionActive"
-      :menu-props="menuProps" v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details
-      hide-no-data hide-selected no-filter density="compact" return-object type="text" menu-icon=""
-      @keydown.enter="search">
+    <v-combobox v-if="!isAdvanced" class="searchbar__input" label="Rechercher des thèses" single-line :items="items"
+      :menu="suggestionActive" :menu-props="menuProps" v-model="request" v-model:search="requestSearch" variant="outlined"
+      cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object type="text"
+      menu-icon="" @keydown.enter="search">
       <!--      Bouton rechercher-->
       <template v-slot:prepend-inner>
         <v-btn @click="search" :title='$t("searchButton")' :loading="loading" class="elevation-0 appended-buttons">
@@ -35,12 +35,15 @@
       </template>
     </v-combobox>
 
+    <theses-search-advanced-form v-if="isAdvanced" @search="advancedSearch"></theses-search-advanced-form>
+
     <div class="searchbar__action">
       <v-checkbox :label="$t('disableSuggestion')" v-model="disableCompletion"
         :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn color="primary" density="compact" variant="outlined" :title='$t("avancee")' @click="search">{{
-        $t("avancee")
-      }}
+      <v-btn color="primary" density="compact" variant="outlined" :title='$t("avancee")'
+        @click="isAdvanced = !isAdvanced">{{
+          $t("avancee")
+        }}
       </v-btn>
     </div>
   </div>
@@ -69,6 +72,8 @@ const requestSearch = ref();
 const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
 let watcherActive = true;
 const disableCompletion = ref(false);
+
+const isAdvanced = ref(false);
 
 
 onMounted(
@@ -153,6 +158,11 @@ async function search() {
       query: { 'q': encodeURI(request.value), 'tri': request.value === "" ? "dateDesc" : "" }
     });
   }
+}
+
+function advancedSearch(payload) {
+  request.value = payload;
+  search();
 }
 
 /**
