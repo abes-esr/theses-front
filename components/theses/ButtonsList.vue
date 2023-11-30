@@ -20,7 +20,7 @@
       </div>
       <v-expansion-panels multiple v-model="panel" variant="accordion" class="buttons-list-wrapper">
         <template v-for="sousCategorie in categoriesValide" :key="sousCategorie.libelle">
-          <v-expansion-panel :value="sousCategorie.libelle" v-if="sousCategorie.boutons.length > 0">
+          <v-expansion-panel v-if="sousCategorie.boutons.length > 0">
             <!--            Intitulé de la catégorie-->
             <v-expansion-panel-title class="sous-categorie-header">
               {{ sousCategorie.libelle }}
@@ -49,7 +49,7 @@
     </div>
     <!--  Catégorie Autres versions-->
     <div v-if="boutonsAutres.length > 0 && soutenue">
-      <v-expansion-panels multiple variant="accordion" class="v-expansion-panels-other">
+      <v-expansion-panels v-model="panel2" multiple variant="accordion" class="v-expansion-panels-other">
         <v-expansion-panel class="buttons-sub-header buttons-sub-header-other">
           <v-expansion-panel-title>
             <v-icon color="primary" class="menu-icon">mdi-list-box</v-icon>
@@ -147,7 +147,9 @@ const baseURL = config.public.API;
 const dialog = ref(false);
 const checkboxModal = ref(false);
 const dialogUrl = ref("");
-const panel = ref(["Dépôt national"]);
+//Pour ouvrir les 4 premiers panels par défaut
+const panel = ref([0, 1, 2, 3, 4]);
+const panel2 = ref([0, 1, 2, 3, 4]);
 const dateVerifiee = ref(new Date());
 
 if (props.source === 'sudoc') {
