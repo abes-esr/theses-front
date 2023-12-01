@@ -52,9 +52,7 @@
     <div class="searchbar__action">
       <v-checkbox :label="$t('disableSuggestion')" v-model="isSuggestionDisabledCheckbox"
         :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn color="primary" density="compact" variant="outlined" :title='$t("avancee")' @click="search">{{ $t("avancee")
-      }}
-      </v-btn>
+
     </div>
   </div>
 </template>
