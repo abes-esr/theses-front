@@ -70,7 +70,6 @@ const types = ref([
     { titre: "Etablissement de soutenance", value: "etabSoutenanceN" },
     { titre: "Etablissement de cotutelle", value: "etabsCotutelleN" },
     { titre: "Ecole doctorale", value: "ecolesDoctoralesN" },
-    { titre: "Ecole doctorale", value: "ecolesDoctoralesN" },
     { titre: "Date de soutenance", value: "dateSoutenance" },
     { titre: "Date d'inscription en doctorat", value: "datePremiereInscriptionDoctorat" },
     { titre: "Statut", value: "status" }
@@ -112,17 +111,17 @@ function objectToQuery() {
 
 
             if (index === formFields.value.length - 1) {
-                return `${field.type}:${field.value}`;
+                return `${field.type}:(${field.value})`;
             } else {
-                return `${field.type}:${field.value} ${field.operator}`;
+                return `${field.type}:(${field.value}) ${field.operator}`;
             }
         })
         .join(' ')
         //Cas particulier des status accessible en ligne
-        .replaceAll('status:accessible', 'accessible:oui')
+        .replaceAll('status:(accessible)', 'accessible:oui')
         //Cas particulier des dates
-        .replaceAll('dateSoutenance:', 'dateSoutenance:[' + dateFrom.value + ' TO ' + dateTo.value + ']')
-        .replaceAll('datePremiereInscriptionDoctorat:', 'datePremiereInscriptionDoctorat:[' + dateFrom.value + ' TO ' + dateTo.value + ']');
+        .replaceAll('dateSoutenance:()', 'dateSoutenance:[' + dateFrom.value + ' TO ' + dateTo.value + ']')
+        .replaceAll('datePremiereInscriptionDoctorat:()', 'datePremiereInscriptionDoctorat:[' + dateFrom.value + ' TO ' + dateTo.value + ']');
     return result.trim();
 }
 </script>
