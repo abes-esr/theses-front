@@ -5,21 +5,20 @@
       cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object type="text"
       menu-icon="" @keydown.enter="search">
       <!--      Bouton rechercher-->
-      <template v-slot:prepend-inner>
-        <v-btn @click="search" :title='$t("searchButton")' :loading="loading" class="elevation-0 appended-buttons">
-          <template v-slot:append>
-            <v-icon class="search-bar-icons" id="magnifying-glass">
-              mdi-magnify
-            </v-icon>
-          </template>
-        </v-btn>
-      </template>
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
         <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")' :ripple="false">
           <template v-slot:append>
             <v-icon class="search-bar-icons" id="clean-button">
               mdi-close
+            </v-icon>
+          </template>
+        </v-btn>
+        <v-btn @click="search" :title='$t("searchButton")' :loading="loading"
+          class="elevation-0 appended-buttons border-left-btn">
+          <template v-slot:append>
+            <v-icon class="search-bar-icons" id="magnifying-glass">
+              mdi-magnify
             </v-icon>
           </template>
         </v-btn>
@@ -256,6 +255,12 @@ defineExpose({
   :deep(.v-btn__append) {
     justify-content: center;
   }
+}
+
+:deep(.border-left-btn) {
+  border-left: solid 1px rgb(var(--v-theme-gris-clair));
+  border-radius: 0;
+  width: 50px;
 }
 
 
