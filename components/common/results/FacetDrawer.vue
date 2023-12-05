@@ -189,7 +189,6 @@ function reinitializeDateToField() {
 
 function fillDateDrawerFields() {
   console.log('fillDateDrawerFields')
-  console.log(props.selectedFacetsArray)
   if (props.date) {
     props.selectedFacetsArray.forEach((filter) => {
       if (filter.datedebut) {
@@ -200,6 +199,8 @@ function fillDateDrawerFields() {
         dateFrom.value = filter.label;
       } else if (filter.facetName === "datefin") {
         dateTo.value = filter.label;
+      } else {
+        reinitializeDateFields();
       }
     });
   }

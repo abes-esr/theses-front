@@ -225,7 +225,7 @@ async function searchAndReinitializeFacet(query) {
 }
 
 function resetBeforeSearch() {
-  // resetFacets.value++;
+  resetFacets.value++;
   // setWorkingFacetName("");
   // setCheckedFilters([]);
 }

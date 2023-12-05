@@ -107,6 +107,7 @@ function setCheckedFilters(objectsArray) {
 }
 
 function setWorkingFacetName(facetName) {
+  console.log('setWorkingFacetName : ' + facetName)
   currentWorkingFacetName.value = facetName;
 }
 

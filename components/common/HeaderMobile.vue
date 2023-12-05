@@ -115,7 +115,6 @@
 <script setup>
 import { onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import useStrategyAPI from "#build/composables/useStrategyAPI.js";
 
 const { locale } = useI18n();
 
