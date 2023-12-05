@@ -9,9 +9,12 @@
     <v-divider vertical></v-divider>
     <v-btn flat @click="select('personnes')">
       <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
-      <h2 :class="selected === 'personnes' ? 'selected' : ''">
-        {{ $t("toutesPersonnes") }}
-      </h2>
+      <span class="personTitle">
+        <h2>
+          {{ $t("toutesPersonnes") }}
+        </h2>
+        <h3 :class="selected === 'personnes' ? 'selected' : ''">{{ $t("toutesPersonnesSubtitle") }}</h3>
+      </span>
     </v-btn>
   </div>
 </template>
@@ -107,5 +110,24 @@ watch(() => currentRoute.path, () => {
   text-decoration-thickness: 4px;
   text-underline-offset: 8px;
   text-decoration-color: rgb(var(--v-theme-orange-abes));
+}
+
+.personTitle {
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h2 {
+  line-height: unset !important;
+}
+
+h3 {
+  font-size: 0.875rem;
+  letter-spacing: normal;
+  font-weight: 400;
+  text-transform: none;
 }
 </style>
