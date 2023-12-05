@@ -60,7 +60,8 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
-const emit = defineEmits(['update:selectedFacetsArray', 'updateFilterData', 'updateFilterDateOnly', 'reinitializeCheckboxes']);
+const { reinitializeFacetFilters } = useStrategyAPI();
+const emit = defineEmits(['update:selectedFacetsArray', 'updateFilterData', 'updateFilterDateOnly']);
 const props = defineProps({
   selectedFacetsArray: {
     type: Array,
@@ -173,7 +174,7 @@ function reinitializeCheckboxes() {
     reinitializeDateFields();
     updateFilterDateOnly();
   } else {
-    emit("reinitializeCheckboxes", props.facet.name);
+    reinitializeFacetFilters(props.facet.name);
   }
 }
 

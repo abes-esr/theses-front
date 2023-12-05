@@ -390,6 +390,16 @@ function reinitializeFilters() {
   setCheckedFilters([]);
 }
 
+function reinitializeFacetFilters(facetName) {
+  let facetsArray = getFacetsArrayFromURL();
+
+  let reinitializedFacetsArray =  facetsArray.filter(filter => {
+    return filter.facetName !== facetName;
+  });
+
+  setCheckedFilters(reinitializedFacetsArray);
+}
+
 /**
  * Récupère les filtres cochés qui ne sont pas dans la liste courante des facettes
  * En les ajoutant dans le tableau des facettes, derrière les facettes retournées par la recherche courante et par ordre alphabétique
@@ -670,6 +680,7 @@ function addToFiltersLabelsMap(filterData) {
     setShowingNumberMobile,
     fetchCodeLangues,
     updateFilterData,
-    reinitializeFilters
+    reinitializeFilters,
+    reinitializeFacetFilters
   };
 }

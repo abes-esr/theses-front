@@ -5,7 +5,7 @@
       :reinitialize-date-fields-trigger="reinitializeDateFieldsTrigger"
       :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
       :reinitialize-date-to-trigger="reinitializeDateToTrigger" @updateFilterDateOnly="updateFilterDateOnly($event)"
-      @reinitializeCheckboxes="reinitializeDates">
+      >
     </CommonResultsFacetDrawer>
     <CommonResultsFacetDrawer v-for="facet in facets" :key="`facet-${facet.name}`" :facet="facet"
       :selected-facets-array="selectedFacetsArray" @updateFilterData="updateFilterData" @reinitializeCheckboxes="reinitializeCheckboxes">
@@ -237,23 +237,6 @@ function updateFilterDateOnly(datesArray) {
 
   setCheckedFilters(facetsArray.value);
   // emit('update', facetsChipsArray.value);
-}
-
-function reinitializeCheckboxes(facetName) {
-  let selectedFiltersIndexes = getFacetItemsIndexes(facetName);
-  // Facettes
-  selectedFiltersIndexes.reverse().forEach(function (key) {
-    facetsArray.value.splice(key, 1);
-  });
-
-  // Chips
-  selectedFiltersIndexes = getFacetChipsItemsIndexes(facetName);
-  selectedFiltersIndexes.reverse().forEach(function (key) {
-    deleteFromChips(key);
-  });
-
-  setCheckedFilters(facetsArray.value);
-  // emit('update');
 }
 
 function reinitializeDates() {
