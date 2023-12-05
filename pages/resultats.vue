@@ -202,7 +202,9 @@ function updateFacets(firstLoad) {
 }
 
 function moreThanXResults(x) {
-  if (typeof result.value.length === "undefined")
+  if (typeof result.value === "undefined")
+    return false;
+  else if (typeof result.value.length === "undefined")
     return false;
   return (result.value.length >= x);
 }

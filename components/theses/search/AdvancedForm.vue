@@ -99,7 +99,7 @@ const types = ref([
 ]);
 const operators = ref(['ET', 'OU', 'SAUF']);
 
-const formFields = ref([
+const formFields = useState("formFields", () => [
     { value: '', type: 'titrePrincipal', operator: 'ET' },
     { value: '', type: 'titrePrincipal', operator: 'ET' },
     { value: '', type: 'titrePrincipal', operator: 'ET' },

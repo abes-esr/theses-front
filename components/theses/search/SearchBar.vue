@@ -75,8 +75,7 @@ const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
 let watcherActive = true;
 const disableCompletion = ref(false);
 
-const isAdvanced = ref(false);
-
+const isAdvanced = useState('isAdvanced', () => false);
 
 onMounted(
   () => {

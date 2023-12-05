@@ -92,6 +92,15 @@ onMounted(
       // Il y a une précédente recherche dans l'URL
       request.value = decodeURI(currentRoute.query.q);
       requestSearch.value = decodeURI(currentRoute.query.q);
+
+      //Si on avait une recherche avancée en cours, on réinitialise
+      const isAdvanced = useState("isAdvanced");
+      if (isAdvanced.value) {
+        request.value = "";
+        requestSearch.value = "";
+        isAdvanced.value = false;
+      }
+
       search()
     } else {
       isSuggestionActive.value = true;
@@ -101,6 +110,8 @@ onMounted(
     } else {
       setDomaine("theses");
     }
+
+
   }
 );
 
@@ -122,7 +133,7 @@ async function search() {
   isSuggestionActive.value = false;
   suggestions.value = [];
 
-  await setQuery(request.value);
+  setQuery(request.value);
   emit('searchAndReinitializeAllFacets');
 
   if (routeName.value != "resultats") {

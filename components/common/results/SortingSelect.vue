@@ -36,7 +36,7 @@ onMounted(() => {
  */
 function getCurrentSortName() {
   const startingTri = getCurrentSorting();
-  const itemsTriMap = getTriMap();
+  const itemsTriMap = getTriMap() ? getTriMap() : new Map();
   const startingTriName = itemsTriMap.get(startingTri) ? itemsTriMap.get(startingTri) : "Pertinence";
   return { nom: startingTriName, cle: startingTri ? startingTri : "pertinence" };
 }
