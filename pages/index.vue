@@ -14,7 +14,7 @@
                 <h1 class="text-center">{{ $t("slogan") }}</h1>
             </div>
             <CommonDomainSelector></CommonDomainSelector>
-            <GenericSearchBar @search="loading = true" :loading="loading" @onError="displayError" />
+            <GenericSearchBar @search="loading = true" :white-container="true" :loading="loading" @onError="displayError" />
             <div class="stats">
                 <HomeStatsCard :titre=nbTheses :description="$t('referencés')" badge="mdi-check" badgecolor="green"
                     url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">

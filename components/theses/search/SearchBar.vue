@@ -34,8 +34,8 @@
       </template>
     </v-combobox>
 
-    <theses-search-advanced-form v-if="isAdvanced" @search="advancedSearch"
-      @simple="isAdvanced = false"></theses-search-advanced-form>
+    <theses-search-advanced-form v-if="isAdvanced" @search="advancedSearch" @simple="isAdvanced = false"
+      :white-container="whiteContainer"></theses-search-advanced-form>
 
     <div class="searchbar__action">
       <span v-if="isAdvanced"></span>
@@ -67,6 +67,10 @@ defineProps({
     type: Boolean,
     default: false
   },
+  whiteContainer: {
+    type: Boolean,
+    default: false
+  }
 });
 const request = ref();
 const requestSearch = ref();
