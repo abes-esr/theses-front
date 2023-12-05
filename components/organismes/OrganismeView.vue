@@ -377,16 +377,6 @@ function sleep(ms) {
     padding-top: 1em;
 }
 
-.domain-selector {
-    :deep(.v-btn__content) {
-        flex-direction: row !important;
-    }
-
-    :deep(.v-icon) {
-        margin-right: 1rem !important;
-    }
-}
-
 .skeleton-cards {
     height: 150px !important;
     background-color: rgb(var(--v-theme-gris-clair));

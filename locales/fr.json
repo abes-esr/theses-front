@@ -3,6 +3,7 @@
     "parameters": "Erreur dans le nom du paramètre"
   },
   "slogan": "Le moteur de recherche des thèses françaises",
+  "slogan2lines": "Le moteur de recherche <br /> des thèses françaises",
   "toutesTheses": "Les thèses",
   "toutesPersonnes": "Les personnes",
   "au": "au ",
@@ -24,9 +25,7 @@
   "scroll": "Haut de la page",
   "clear": "Effacer",
   "searchButton": "Rechercher",
-  "simple":"Recherche simple",
-  "avancee":"Recherche avancée",
-  "vider":"Vider les champs",
+  "avancee":"Recherche Avancée",
   "disableSuggestion": "Désactiver l'aide à la saisie",
   "top": "Haut de la page",
   "menu": "Menu",

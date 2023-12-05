@@ -292,14 +292,4 @@ function sleep(ms) {
     bottom: 1vh;
   }
 }
-
-.domain-selector {
-  :deep(.v-btn__content) {
-    flex-direction: row !important;
-  }
-
-  :deep(.v-icon) {
-    margin-right: 1rem !important;
-  }
-}
 </style>

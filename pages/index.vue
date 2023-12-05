@@ -96,17 +96,6 @@ function sleep(ms) {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
-    background-image: url(@/assets/background.svg);
-    background-repeat: repeat-x;
-    background-size: auto 50%;
-    background-position: bottom -80px left -10px;
-
-    @media #{ map-get(settings.$display-breakpoints, 'xs')} {
-        background-size: auto 25%;
-        background-position: bottom -50px center;
-        background-attachment: fixed;
-    }
 }
 
 #logoIMG {

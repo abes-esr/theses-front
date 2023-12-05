@@ -157,7 +157,7 @@ main {
       height: 70px;
 
       @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-        height: 150px;
+        height: 130px;
       }
     }
   }
@@ -463,5 +463,19 @@ h4 {
   pointer-events: none;
   color: inherit;
   text-decoration: none;
+}
+
+.searchbar .v-input {
+  background-color: white;
+}
+
+.domain-selector {
+  .v-btn__content {
+    flex-direction: row !important;
+  }
+
+  .v-icon {
+    margin-right: 1rem !important;
+  }
 }
 </style>
