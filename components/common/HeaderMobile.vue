@@ -153,7 +153,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['search', 'changeDomain', 'displayError', 'searchAndReinitializeAllFacets', 'activateMenu', 'activateSearchBar', 'activateFilterMenu', 'activateThesisAccess']);
+const emit = defineEmits(['search', 'changeDomain', 'displayError', 'activateMenu', 'activateSearchBar', 'activateFilterMenu', 'activateThesisAccess']);
 const { reinitializeFilters } = useStrategyAPI();
 
 /**

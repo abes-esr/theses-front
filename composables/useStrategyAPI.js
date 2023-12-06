@@ -116,8 +116,11 @@ function getQuery() {
 }
 
 function getFacetsRequest() {
+  console.info('getFacetsRequest :')
+  console.log("&filtres=" + encodeURIComponent("[") + disableOrFilters().toString() +encodeURIComponent( "]"))
+
   return currentFacets.value.length > 0
-    ? "&filtres=" + encodeURIComponent("[" + disableOrFilters().toString() + "]")
+    ? "&filtres=" + encodeURIComponent("[") + disableOrFilters().toString() + encodeURIComponent("]")
     : "";
 }
 
@@ -160,7 +163,7 @@ function getURLParameter(parameter) {
 
 function setParameters() {
   let params = {};
-  if (currentFacets.value && currentFacets.value.length > 0) params['filtres'] = encodeURIComponent("[" + disableOrFilters().toString() + "]");
+  if (currentFacets.value && currentFacets.value.length > 0) params['filtres'] = encodeURIComponent("[") + disableOrFilters().toString() + encodeURIComponent("]");
   if (query.value) params['q'] = query.value;
   if (currentPageNumber.value) params['page'] = currentPageNumber.value;
   if (currentShowingNumber.value) params['nb'] = currentShowingNumber.value;
@@ -185,12 +188,18 @@ function updateURL() {
  * @returns {string}
  */
 function parseFacetsValuesArray(objectsArray) {
+  console.info('parseFacetsValuesArray')
   let filtersArrayURL = [];
   objectsArray.forEach((filter) => {
-    filtersArrayURL.push(Object.keys(filter)[0] + '="' + Object.values(filter)[0] + '"');
+    filtersArrayURL.push(
+      Object.keys(filter)[0] + '="' + Object.values(filter)[0] + '"'
+    );
   });
-
-  return filtersArrayURL.join('&');
+console.info('filtersArrayURL')
+console.log(filtersArrayURL)
+  return encodeURIComponent(
+    filtersArrayURL.join('&')
+  );
 }
 
 /**
@@ -249,11 +258,10 @@ function getFiltersOnlyInURLAndInESResponse(facetsArray) {
  * @returns {*[]}
  */
 function getFacetsArrayFromURLString() {
+console.info('getFacetsArrayFromURLString')
+  console.log(currentFacets.value.toString())
   let facetsArray  = [];
-  const stringifiedFacetsArray = currentFacets.value
-    .slice(currentFacets.value.indexOf("[") + 1, currentFacets.value.indexOf("]")).toString()
-    .split("&");
-
+  const stringifiedFacetsArray = decodeURIComponent(currentFacets.value.toString()).split("&");
   if(stringifiedFacetsArray.length > 0 && stringifiedFacetsArray[0] !== ""){
     stringifiedFacetsArray.forEach((facet) => {
         let line = facet.split("=");
@@ -388,6 +396,7 @@ function reinitializeResultData() {
 
 function reinitializeFilters() {
   setCheckedFilters([]);
+  setWorkingFacetName('')
 }
 
 function reinitializeFacetFilters(facetName) {
@@ -518,11 +527,6 @@ console.log(filterData)
       if (itemIndex > -1) {
         facetsArray.splice(itemIndex, 1);
       }
-
-      // itemIndex = getChipFacetItemIndex(lastFacetFilter);
-      // if (itemIndex > -1) {
-      //   deleteFromChips(itemIndex);
-      // }
     }
 
     setCheckedFilters(facetsArray);

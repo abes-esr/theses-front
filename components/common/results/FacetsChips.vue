@@ -31,8 +31,6 @@ defineProps({
 
 function deleteFilter(facet) {
   setWorkingFacetName(facet.facetName);
-  console.log('facet')
-  console.log(facet)
   updateFilterData(facet);
 }
 </script>
