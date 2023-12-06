@@ -8,9 +8,9 @@
       >
     </CommonResultsFacetDrawer>
     <CommonResultsFacetDrawer v-for="facet in facets" :key="`facet-${facet.name}`" :facet="facet"
-      :selected-facets-array="selectedFacetsArray" @updateFilterData="updateFilterData" @reinitializeCheckboxes="reinitializeCheckboxes">
+      :selected-facets-array="selectedFacetsArray" @reinitializeCheckboxes="reinitializeCheckboxes">
     </CommonResultsFacetDrawer>
-    <v-btn v-if="mobile" class="filters-btn" variant="outlined" color="primary" @click="update">Appliquer les
+    <v-btn v-if="mobile" class="filters-btn" variant="outlined" color="primary" @click="closeOverlay">Appliquer les
       filtres</v-btn>
     <v-skeleton-loader v-if="loading" v-for="i in 6" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
   </div>
@@ -22,8 +22,8 @@ import { useDisplay } from "vuetify";
 import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 
-const { setCheckedFilters, getFacetsArrayFromURL, setWorkingFacetName, updateFilterData } = useStrategyAPI();
 const currentRoute = useRoute();
+const emit = defineEmits('closeOverlay');
 
 const props = defineProps({
   facets: {
@@ -54,199 +54,14 @@ const props = defineProps({
 });
 
 const { mobile } = useDisplay();
-const facetsArray = ref([]);
-const facetsChipsArray = ref([]);
 const reinitializeDateFieldsTrigger = ref(0);
 
 /**
- * Fonctions
+ * Emits
  */
 
-function isDateFilter(facetFilter) {
-  return Object.keys(facetFilter)[0].startsWith("date");
-}
-
-// Retourne l'index de l'objet courant dans le tableau facetsArray
-function getFacetItemIndex(lastFacetFilter) {
-  return facetsArray.value.findIndex(function (facetFilter) {
-    return filtersAreEqual(facetFilter, lastFacetFilter);
-  });
-}
-
-/**
- * Compare les chaines de caractères contenues dans les Array
- * Pour les dates on ne compare que le nom du filtre ( datedebut | datefin )
- * @param comparedObject
- * @param currentObject
- * @returns {boolean}
- */
-function filtersAreEqual(comparedObject, currentObject) {
-  return (isDateFilter(currentObject)
-    && Object.keys(comparedObject)[0] === Object.keys(currentObject)[0])
-    || (Object.keys(comparedObject)[0] === Object.keys(currentObject)[0]
-      && Object.values(comparedObject)[0] === Object.values(currentObject)[0]);
-}
-
-function getChipFacetItemIndex(lastFacetFilter) {
-  return facetsChipsArray.value.findIndex(function (facetFilter) {
-    return chipFiltersAreEqual(facetFilter, lastFacetFilter);
-  });
-}
-
-function chipFiltersAreEqual(comparedChipObject, currentObject) {
-  return (isDateFilter(currentObject)
-    && comparedChipObject.filter.filterName === Object.keys(currentObject)[0])
-    || (comparedChipObject.filter.facetName === Object.keys(currentObject)[0]
-      && comparedChipObject.filter.filterName === Object.values(currentObject)[0]);
-}
-
-function arrayContainsFilter(lastFacetFilter) {
-  const countOccurrences = facetsArray.value.filter(function (facetFilter) {
-    return filtersAreEqual(facetFilter, lastFacetFilter);
-  }).length;
-  return countOccurrences > 0;
-}
-
-
-function getFacetItemsIndexes(facetName) {
-  let selectedFiltersIndexes = [];
-
-  facetsArray.value.forEach(function (facetFilter, index) {
-    if (Object.keys(facetFilter)[0] === facetName) {
-      selectedFiltersIndexes.push(index);
-    }
-  });
-  return selectedFiltersIndexes;
-}
-
-function getFacetChipsItemsIndexes(facetName) {
-  let selectedFiltersIndexes = [];
-
-  facetsChipsArray.value.forEach(function (facetFilter, index) {
-    if (facetFilter.filter.facetName === facetName) {
-      selectedFiltersIndexes.push(index);
-    }
-  });
-  return selectedFiltersIndexes;
-}
-
-function clearDates() {
-  //Supprime les dates précedentes
-  facetsArray.value = facetsArray.value.filter(objet => {
-    for (let key in objet) {
-      if (key.startsWith("date")) {
-        return false;
-      }
-    }
-    return true;
-  });
-}
-/**
- * Emit
- */
-
-function update() {
-  // emit('update', facetsChipsArray.value);
-  // emit('closeOverlay');
-}
-
-function handleSpecialCase(label) {
-  if (label === "enCours") return "En préparation";
-  if (label === "soutenue") return "Soutenues";
-  return label;
-}
-
-function addToChips(filterData) {
-  let chipData = {};
-
-  if (isDateFilter(filterData)) {
-    chipData = {
-      'label': Object.values(filterData)[0],
-      'filter': {
-        'facetName': Object.keys(filterData)[0],
-        'filterName': Object.keys(filterData)[0]
-      }
-    };
-  } else {
-    // Cas Particuliers
-    filterData.label = handleSpecialCase(filterData.label);
-
-    chipData = {
-      'label': filterData.label,
-      'filter': {
-        'facetName': filterData.facetName,
-        'filterName': filterData.filterName
-      }
-    };
-  }
-
-  facetsChipsArray.value.splice(facetsChipsArray.value.length, 0, chipData);
-}
-
-function deleteFromChips(itemIndex) {
-  facetsChipsArray.value.splice(itemIndex, 1);
-}
-
-function deleteFromFilters(itemIndex) {
-  facetsArray.value.splice(itemIndex, 1);
-}
-
-function isChecked(filterData, lastFacetFilter) {
-  return filterData.value && !arrayContainsFilter(lastFacetFilter);
-}
-
-/**
- * WorkingFacetName est la facette qui est en cours d'utilisation/séléction
- * @param filterObject
- */
-function addToFilters(filterObject) {
-  setWorkingFacetName(Object.keys(filterObject)[0]);
-  facetsArray.value.splice(0, 0, filterObject);
-}
-
-function addOrOverwriteDate(datesArray) {
-  let dateFiltersNames = [
-    'datedebut',
-    'datefin'
-  ];
-
-  datesArray.forEach((dateData, key) => {
-    const filterDateDebut = { [dateFiltersNames[key]]: dateData };
-    let itemIndex = -1;
-
-    itemIndex = getFacetItemIndex(filterDateDebut);
-    if (itemIndex > -1) {
-      deleteFromFilters(itemIndex);
-    }
-
-    itemIndex = getChipFacetItemIndex(filterDateDebut);
-    if (itemIndex > -1) {
-      deleteFromChips(itemIndex);
-    }
-
-    if (Object.values(filterDateDebut)[0]) {
-      addToFilters(filterDateDebut);
-      addToChips(filterDateDebut);
-    }
-  });
-}
-
-function updateFilterDateOnly(datesArray) {
-  //Ajoute les dates courantes dans la liste des filtres, si elles sont définies
-  addOrOverwriteDate(datesArray);
-
-  setCheckedFilters(facetsArray.value);
-  // emit('update', facetsChipsArray.value);
-}
-
-function reinitializeDates() {
-  clearDates();
-  setCheckedFilters(facetsArray.value);
-  // emit('update');
-}
-
-function resetArray(array) {
-  array.splice(0, array.length);
+function closeOverlay() {
+  emit('closeOverlay');
 }
 
 /**
@@ -259,26 +74,6 @@ watch(() => props.resetFacets,
   () => {
     reinitializeDateFieldsTrigger.value++;
   });
-
-/**
- * Met à jour les chips selon les paramètres filtres de l'url
- */
-watch(() => props.parametersLoaded, () => {
-  facetsArray.value = getFacetsArrayFromURL();
-
-  if (Object.keys(facetsArray.value).length > 0) {
-    facetsArray.value.forEach((facet) => {
-      const filterData = {
-        facetName: facet.facetName,
-        filterName: facet.filterName,
-        label: facet.label
-      };
-      addToChips(filterData);
-    });
-
-    // emit('loadChips', facetsChipsArray.value);
-  }
-});
 </script>
 
 <style scoped lang="scss">

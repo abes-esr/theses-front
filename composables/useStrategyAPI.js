@@ -532,6 +532,32 @@ console.log(filterData)
     setCheckedFilters(facetsArray);
   }
 
+  function addOrOverwriteDate(datesArray) {
+    let facetsArray = getFacetsArrayFromURL();
+
+    let dateFiltersNames = [
+      'datedebut',
+      'datefin'
+    ];
+
+    datesArray.forEach((dateData, key) => {
+      const filterDate = { [dateFiltersNames[key]]: dateData };
+      let itemIndex = -1;
+      itemIndex = getFacetItemIndex(filterDate, facetsArray);
+
+      if (itemIndex > -1) {
+        facetsArray.splice(itemIndex, 1);
+      }
+
+      if (Object.values(filterDate)[0]) {
+        setWorkingFacetName(Object.keys(filterDate)[0]);
+        facetsArray.splice(0, 0, filterDate);
+      }
+    });
+
+    setCheckedFilters(facetsArray);
+  }
+
 // Retourne l'index de l'objet courant dans le tableau facetsArray
   function getFacetItemIndex(lastFacetFilter, facetsArray) {
     console.log(lastFacetFilter)
@@ -539,14 +565,6 @@ console.log(filterData)
     return facetsArray.findIndex(function (facetFilter) {
       return filtersAreEqual(facetFilter, lastFacetFilter);
     });
-  }
-
-  function deleteFromFilters(itemIndex) {
-    facetsArray.value.splice(itemIndex, 1);
-  }
-
-  function deleteFromChips(itemIndex) {
-    facetsChipsArray.value.splice(itemIndex, 1);
   }
 
   function arrayContainsFilter(lastFacetFilter) {
@@ -685,6 +703,7 @@ function addToFiltersLabelsMap(filterData) {
     fetchCodeLangues,
     updateFilterData,
     reinitializeFilters,
-    reinitializeFacetFilters
+    reinitializeFacetFilters,
+    addOrOverwriteDate
   };
 }

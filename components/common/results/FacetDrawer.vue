@@ -44,7 +44,7 @@
           <div v-else v-for="(facetItem, index) in facetItems" :key="`facet-${facetItem.name}`">
             <CommonResultsFacetCheckbox v-if="facetItem.selected" :key="`${facet.name}-value-${index}`"
               :selected-facets-array="selectedFacetsArray" :facet-name="facet.name" :facet-item="facetItem"
-              @updateFilterData="updateFilterData" :margin-offset="marginOffset" />
+              @updateFilterData="updateFilterDataFromDrawer" :margin-offset="marginOffset" />
           </div>
         </div>
         <!--          Fin Facettes texte-->
@@ -60,7 +60,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
-const { reinitializeFacetFilters } = useStrategyAPI();
+const { reinitializeFacetFilters, updateFilterData, addOrOverwriteDate,setWorkingFacetName } = useStrategyAPI();
 const emit = defineEmits(['update:selectedFacetsArray', 'updateFilterData', 'updateFilterDateOnly']);
 const props = defineProps({
   selectedFacetsArray: {
@@ -151,17 +151,9 @@ function searchIntoFacet() {
 function removeAccents(str) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
-
-/**
- * Emits
- */
-function updateFilterData(filterData) {
+function updateFilterDataFromDrawer(filterData) {
   filterData.facetName = props.facet.name; // Nom de la facette
-  emit("updateFilterData", filterData);
-}
-
-function updateFilterDateOnly() {
-  emit("updateFilterDateOnly", [dateFrom.value, dateTo.value]);
+  updateFilterData(filterData);
 }
 
 function reinitializeDateFields() {
@@ -210,6 +202,13 @@ function fillDateDrawerFields() {
 function allowModification() {
   resetIsSet.value = false;
 }
+
+function updateFilterDateOnly() {
+  setWorkingFacetName('');
+  //Ajoute les dates courantes dans la liste des filtres, si elles sont définies
+  addOrOverwriteDate([dateFrom.value, dateTo.value]);
+}
+
 /**
  * Watchers
  */
