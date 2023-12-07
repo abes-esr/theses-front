@@ -82,7 +82,8 @@ const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
 const menuProps = {
   'open-on-focus': false,
   'content-class': 'autocompl',
-  'max-height': '600px'
+  'height': '50vh',
+  'max-height': '340px'
 };
 
 onMounted(
