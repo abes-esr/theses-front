@@ -146,11 +146,11 @@
     },
     "personneView": {
       "statistiques": {
-        "auteur": "Auteur",
-        "directeur de thèse": "Directeur",
-        "président du jury": "Président du jury",
-        "rapporteur": "Rapporteur",
-        "membre du jury": "Membre du jury",
+        "auteur": "Auteur / Autrice",
+        "directeur de thèse": "Directeur / Directrice",
+        "président du jury": "Président / Présidente du jury",
+        "rapporteur": "Rapporteur / Rapporteuse",
+        "membre du jury": "Examinateur / Examinatrice",
         "theses": "thèse(s)",
         "theses2": "thèse(s)"
       },
@@ -159,11 +159,11 @@
         "readLess": "Refermer"
       },
       "roles": {
-        "auteur": "Auteur de {0} thèse(s)",
-        "directeur": "Directeur de {0} thèse(s)",
-        "rapporteur": "Rapporteur pour {0} thèse(s)",
-        "president": "Président de jury pour {0} thèse(s)",
-        "membre": "Membre du jury pour {0} thèse(s)"
+        "auteur": "Auteur / Autrice de {0} thèse(s)",
+        "directeur": "Directeur / Directrice de {0} thèse(s)",
+        "rapporteur": "Rapporteur / Rapporteuse pour {0} thèse(s)",
+        "president": "Président / Présidente du jury de jury pour {0} thèse(s)",
+        "membre": "Examinateur / Examinatrice pour {0} thèse(s)"
       }
     }
   },
