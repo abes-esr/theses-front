@@ -139,9 +139,9 @@
     "resultView": {
       "resultats": " résultats de personnes pour ",
       "personnesCard": {
-        "auteur": "Auteur",
-        "directeur": "Directeur",
-        "rapporteur": "Rapporteur"
+        "auteur": "Auteur / Autrice",
+        "directeur": "Directeur / Directrice",
+        "rapporteur": "Rapporteur / Rapporteuse"
       }
     },
     "personneView": {
