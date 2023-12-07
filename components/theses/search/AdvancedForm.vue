@@ -2,11 +2,14 @@
     <div>
         <v-form id="form" ref="form">
             <div :class="whiteContainer ? 'white-containers' : ''">
+                <span class="switch"><span class="switch-text">Opérateur entre les champs</span> <span
+                        class="switch-text pl-4">ET</span><v-switch base-color="primary" color="primary" inset flat
+                        class="pl-4" v-model="operatorModel"></v-switch><span class="switch-text pl-4">OU</span></span>
                 <div v-for="(field, index) in formFields" :key="index" class="form-row">
                     <div class="type">
                         <v-select density="compact" v-model="field.type" :items="types" item-title="titre"
                             item-value="value" label="Champ" variant="plain" single-line menu-icon="mdi-chevron-down"
-                            :rules=requiredRule></v-select>
+                            @update:model-value="clearField(index)"></v-select>
                     </div>
 
                     <div class="text">
@@ -30,20 +33,12 @@
                             <v-select density="compact" v-model="field.value"
                                 :items="[{ titre: 'Toutes les thèses', value: '*' }, { titre: 'Uniquement les thèses soutenues', value: 'soutenue' }, { titre: 'Uniquement les thèses soutenues accessibles en ligne', value: 'accessible' }, { titre: 'Uniquement les thèses en préparation', value: 'enCours' }]"
                                 item-title="titre" item-value="value" label="Champ" variant="outlined"
-                                menu-icon="mdi-chevron-down" single-line :rules=requiredRule></v-select>
+                                menu-icon="mdi-chevron-down" single-line></v-select>
                         </div>
                         <div v-else>
                             <v-text-field density="compact" v-model="field.value" label="Texte à rechercher"
-                                variant="outlined" single-line clearable clear-icon="mdi-close"
-                                :rules=requiredRule></v-text-field>
+                                variant="outlined" single-line clearable clear-icon="mdi-close"></v-text-field>
                         </div>
-                    </div>
-
-                    <div class="operator">
-                        <v-select density="compact" v-if="index < formFields.length - 1" v-model="field.operator"
-                            :items="operators" label="Opérateur" variant="plain" single-line menu-icon="mdi-chevron-down"
-                            :rules=requiredRule></v-select>
-                        <span v-else></span>
                     </div>
                     <div class="removeButton">
                         <v-btn @click="removeField(index)" v-if="formFields.length > 1"
@@ -65,16 +60,15 @@
                 <v-btn variant="outlined" density="compact" color="primary" @click="emit('simple')" class="mr-4">{{
                     $t("simple")
                 }}</v-btn>
-                <v-btn @click="validate" flat color="primary" density="compact" class="mr-4">{{ $t("rechercher")
+                <v-btn @click="search" flat color="primary" density="compact" class="mr-4">{{ $t("rechercher")
                 }}</v-btn>
             </div>
-
         </v-form>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, computed } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { useDisplay } from "vuetify";
@@ -94,10 +88,15 @@ const teleportCenter = ref(mobile);
 const dateFrom = ref();
 const dateTo = ref();
 
+const operatorModel = ref(false);
+const operator = computed(() => {
+    return operatorModel.value ? 'OU' : 'ET'
+})
+
 const types = ref([
     { titre: 'Titre', value: 'titrePrincipal' },
-    { titre: 'Mot clés', value: 'sujetsLibelle' },
-    { titre: 'Mot clés rameaux', value: 'sujetsRameauLibelle' },
+    { titre: 'Mots clés', value: 'sujetsLibelle' },
+    { titre: 'Mots clés rameaux', value: 'sujetsRameauLibelle' },
     { titre: "Résumé", value: 'resumes.\\*' },
     { titre: "Discipline", value: "discipline" },
     { titre: "Auteur", value: "auteursNP" },
@@ -112,16 +111,15 @@ const types = ref([
     { titre: "Date d'inscription en doctorat", value: "datePremiereInscriptionDoctorat" },
     { titre: "Statut", value: "status" }
 ]);
-const operators = ref(['ET', 'OU', 'SAUF']);
 
 const formFields = useState("formFields", () => [
-    { value: '', type: 'titrePrincipal', operator: 'ET' },
-    { value: '', type: 'titrePrincipal', operator: 'ET' },
-    { value: '', type: 'titrePrincipal', operator: 'ET' },
+    { value: '', type: 'titrePrincipal' },
+    { value: '', type: 'sujetsLibelle' },
+    { value: '', type: 'discipline' },
 ]);
 
 function addField() {
-    formFields.value.push({ value: '', type: 'titrePrincipal', operator: 'ET' });
+    formFields.value.push({ value: '', type: 'titrePrincipal' });
 };
 
 function removeField(index) {
@@ -135,55 +133,49 @@ function search() {
 }
 
 function objectToQuery() {
-    const result = formFields.value
-        .map((field, index) => {
-            //Cas particulier des dates, on les reformate pour ES
+    let result = "";
 
-
+    formFields.value.forEach((field, index) => {
+        if (field.value === "") {
+            result += " ";
+        } else {
             if (index === formFields.value.length - 1) {
-                return `${field.type}:(${field.value})`;
+                result += ` ${field.type}:(${field.value})`;
             } else {
-                return `${field.type}:(${field.value}) ${field.operator}`;
+                result += ` ${field.type}:(${field.value}) ${operator.value}`;
             }
-        })
-        .join(' ')
-        //Cas particulier des status accessible en ligne
-        .replaceAll('status:(accessible)', 'accessible:oui')
-        //Cas particulier des dates
-        .replaceAll('dateSoutenance:()', 'dateSoutenance:[' + dateFrom.value + ' TO ' + dateTo.value + ']')
-        .replaceAll('datePremiereInscriptionDoctorat:()', 'datePremiereInscriptionDoctorat:[' + dateFrom.value + ' TO ' + dateTo.value + ']');
-    return result.trim();
-}
-
-
-/**
- * Règles de validation du formulaire
- */
-
-const { t } = useI18n();
-
-const requiredRule = [value => {
-    if (value) return true;
-    return t("reportErrorView.requis");
-}];
-
-const form = ref();
-
-function validate() {
-    form.value.validate().then((v) => {
-        if (v.valid) {
-            search();
         }
     });
+
+    return result.replaceAll('status:(accessible)', 'accessible:oui').trim();
 }
+
+watch(dateFrom, () => {
+    formFields.value.forEach((field) => {
+        if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
+            field.value = '[' + dateFrom.value + ' TO ' + dateTo.value + ']';
+        }
+    });
+})
+
+watch(dateTo, () => {
+    formFields.value.forEach((field) => {
+        if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
+            field.value = '[' + dateFrom.value + ' TO ' + dateTo.value + ']';
+        }
+    });
+})
+
 
 function clear() {
     for (const element of formFields.value) {
-        element.operator = 'ET';
         element.type = 'titrePrincipal';
         element.value = '';
     }
-    form.value.resetValidation();
+}
+
+function clearField(index) {
+    formFields.value[index].value = "";
 }
 </script>
 
@@ -192,12 +184,12 @@ function clear() {
 
 .form-row {
     display: grid;
-    grid-template-columns: 250px auto 90px 20px;
+    grid-template-columns: 250px auto 20px;
     gap: 10px;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-        grid-template-columns: 1fr 1fr;
-        margin-bottom: 40px;
+        grid-template-columns: 4fr 1fr;
+        margin-bottom: 10px;
     }
 }
 
@@ -219,36 +211,12 @@ function clear() {
     font-weight: 600;
 }
 
-
-.operator :deep(.v-select) {
-    font-weight: 600;
-}
-
-.operator :deep(.v-field__input) {
-    justify-content: center;
-}
-
 .text {
     @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
         grid-row-start: 2;
         grid-row-end: 3;
         grid-column-start: 1;
-        grid-column-end: 3;
-
-    }
-}
-
-.operator {
-    max-width: 100px;
-    padding-left: 10px;
-
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-        grid-row-start: 3;
-        grid-row-end: 4;
-        grid-column-start: 1;
-        grid-column-end: 3;
-
-        padding-left: unset;
+        grid-column-end: 2;
 
     }
 }
@@ -258,8 +226,8 @@ function clear() {
     justify-content: center;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-        grid-row-start: 3;
-        grid-row-end: 4;
+        grid-row-start: 2;
+        grid-row-end: 3;
         grid-column-start: 2;
         grid-column-end: 3;
 
@@ -281,10 +249,10 @@ hr {
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
         display: unset;
-        grid-row-start: 4;
-        grid-row-end: 5;
+        grid-row-start: 3;
+        grid-row-end: 1;
         grid-column-start: 1;
-        grid-column-end: 4;
+        grid-column-end: 3;
 
         display: flex;
         justify-content: center;
@@ -304,6 +272,10 @@ hr {
 .right {
     padding-top: 20px;
     justify-content: flex-end;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+        justify-content: center;
+    }
 }
 
 .calendars {
@@ -333,5 +305,27 @@ hr {
 
 .white-containers {
     padding: 20px 20px 10px;
+}
+
+.switch {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+        margin-bottom: 20px;
+    }
+}
+
+.switch-text {
+    opacity: 0.8;
+    font-weight: 600;
+    color: rgb(var(--v-theme-primary));
+}
+
+.v-switch {
+    max-width: 60px;
+    max-height: 60px;
 }
 </style>

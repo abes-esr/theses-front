@@ -3,7 +3,7 @@
     <v-combobox v-if="!isAdvanced" class="searchbar__input" label="Rechercher des thèses" single-line :items="items"
       :menu="suggestionActive" :menu-props="menuProps" v-model="request" v-model:search="requestSearch" variant="outlined"
       cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object type="text"
-      menu-icon="" @keydown.enter="search">
+      menu-icon="" @keydown.enter="search" enterkeyhint="send">
       <!--      Bouton rechercher-->
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
