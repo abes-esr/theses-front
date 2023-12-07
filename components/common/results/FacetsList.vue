@@ -1,14 +1,12 @@
 <template>
   <div class="facets">
     <CommonResultsFacetDrawer v-if="domaine === 'theses' && Object.keys(facets).length > 0" date key="facet-date"
-      :facet="{ 'name': 'Date' }" :selected-facets-array="selectedFacetsArray" :parameters-loaded="parametersLoaded"
-      :reinitialize-date-fields-trigger="reinitializeDateFieldsTrigger"
-      :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-      :reinitialize-date-to-trigger="reinitializeDateToTrigger" @updateFilterDateOnly="updateFilterDateOnly($event)"
+      :facet="{ 'name': 'Date' }" :selected-facets-array="selectedFacetsArray"
+      :reinitialize-date-to-trigger="reinitializeDateToTrigger" @reinitializePageNumber="reinitializePageNumber" @updateFilterDateOnly="updateFilterDateOnly($event)"
       >
     </CommonResultsFacetDrawer>
     <CommonResultsFacetDrawer v-for="facet in facets" :key="`facet-${facet.name}`" :facet="facet"
-      :selected-facets-array="selectedFacetsArray" @reinitializeCheckboxes="reinitializeCheckboxes">
+      :selected-facets-array="selectedFacetsArray" @reinitializePageNumber="reinitializePageNumber" @reinitializeCheckboxes="reinitializeCheckboxes">
     </CommonResultsFacetDrawer>
     <v-btn v-if="mobile" class="filters-btn" variant="outlined" color="primary" @click="closeOverlay">Appliquer les
       filtres</v-btn>
@@ -21,59 +19,39 @@ import { ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
-
 const currentRoute = useRoute();
-const emit = defineEmits('closeOverlay');
+const { mobile } = useDisplay();
+const emit = defineEmits(['closeOverlay', 'reinitializePageNumber']);
 
 const props = defineProps({
   facets: {
-    type: Object
+    type: Object,
+    default: []
   },
   selectedFacetsArray: {
     type: Array,
     default: []
   },
-  resetFacets: {
-    type: Number
-  },
   domaine: {
-    type: String
-  },
-  parametersLoaded: {
-    type: Number
-  },
-  reinitializeDateFromTrigger: {
-    type: Number
-  },
-  reinitializeDateToTrigger: {
-    type: Number
+    type: String,
+    default: "these"
   },
   loading: {
-    type: Boolean
+    type: Boolean,
+    default: true
   }
 });
-
-const { mobile } = useDisplay();
-const reinitializeDateFieldsTrigger = ref(0);
-
-/**
- * Emits
- */
 
 function closeOverlay() {
   emit('closeOverlay');
 }
 
 /**
- * Watchers
+ * Emits
  */
-/**
- * watch: bouton réinitialiser toutes les facettes
- */
-watch(() => props.resetFacets,
-  () => {
-    reinitializeDateFieldsTrigger.value++;
-  });
+function reinitializePageNumber() {
+  emit('reinitializePageNumber');
+}
 </script>
 
 <style scoped lang="scss">

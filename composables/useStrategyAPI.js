@@ -25,18 +25,6 @@ const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, 
 
 const router = useRouter();
 
-function printParameters() {
-  console.log('domaine : ' + domaine.value)
-  console.log('currentPageNumber : ' + currentPageNumber.value)
-  console.log('currentShowingNumber : ' + currentShowingNumber.value)
-  console.log('currentSorting : ' + currentSorting.value)
-  console.log('currentFacets : ' + currentFacets.value)
-  console.log('query : ' + query.value)
-  console.log('rawFacets : ' + rawFacets.value)
-  console.log('checkedFilters : ' + checkedFilters.value)
-  console.log('currentWorkingFacetName : ' + currentWorkingFacetName.value)
-}
-
 /**
  * Fonctions communes
  */
@@ -46,7 +34,7 @@ function setPageNumber(value) {
 }
 
 function getCurrentPageNumber() {
-  if(typeof currentPageNumber.value != 'undefined'){
+  if(typeof currentPageNumber.value !== 'undefined'){
     return parseInt(currentPageNumber.value);
   } else {
     const startingParameterPageFirstLoad = parseInt( getURLParameter('page') );
@@ -96,10 +84,10 @@ function setQuery(newQuery) {
 }
 
 function setCheckedFilters(objectsArray) {
+  currentPageNumber.value = 1;
+
   return new Promise((resolve) => {
     currentFacets.value = parseFacetsValuesArray(objectsArray);
-    console.log('currentFacets.value :')
-    console.log(currentFacets.value)
     updateURL();
     checkedFilters.value = objectsArray;
     resolve();
@@ -107,7 +95,6 @@ function setCheckedFilters(objectsArray) {
 }
 
 function setWorkingFacetName(facetName) {
-  console.log('setWorkingFacetName : ' + facetName)
   currentWorkingFacetName.value = facetName;
 }
 
@@ -116,9 +103,6 @@ function getQuery() {
 }
 
 function getFacetsRequest() {
-  console.info('getFacetsRequest :')
-  console.log("&filtres=" + encodeURIComponent("[") + disableOrFilters().toString() +encodeURIComponent( "]"))
-
   return currentFacets.value.length > 0
     ? "&filtres=" + encodeURIComponent("[") + disableOrFilters().toString() + encodeURIComponent("]")
     : "";
@@ -188,15 +172,13 @@ function updateURL() {
  * @returns {string}
  */
 function parseFacetsValuesArray(objectsArray) {
-  console.info('parseFacetsValuesArray')
   let filtersArrayURL = [];
   objectsArray.forEach((filter) => {
     filtersArrayURL.push(
       Object.keys(filter)[0] + '="' + Object.values(filter)[0] + '"'
     );
   });
-console.info('filtersArrayURL')
-console.log(filtersArrayURL)
+
   return encodeURIComponent(
     filtersArrayURL.join('&')
   );
@@ -258,11 +240,10 @@ function getFiltersOnlyInURLAndInESResponse(facetsArray) {
  * @returns {*[]}
  */
 function getFacetsArrayFromURLString() {
-console.info('getFacetsArrayFromURLString')
-  console.log(currentFacets.value.toString())
   let facetsArray  = [];
   const stringifiedFacetsArray = decodeURIComponent(currentFacets.value.toString()).split("&");
-  if(stringifiedFacetsArray.length > 0 && stringifiedFacetsArray[0] !== ""){
+
+  if (stringifiedFacetsArray.length > 0 && stringifiedFacetsArray[0] !== ""){
     stringifiedFacetsArray.forEach((facet) => {
         let line = facet.split("=");
         facetsArray.splice(
@@ -281,8 +262,6 @@ console.info('getFacetsArrayFromURLString')
  * @returns {*|*[]}
  */
 function getFacetsArrayFromURL() {
-  console.log('getFacetsArrayFromURL')
-
   if (!currentFacets.value) return [];
 
   let facetsArray = getFacetsArrayFromURLString();
@@ -291,7 +270,6 @@ function getFacetsArrayFromURL() {
   let dataCleanedFacetsArray = getFiltersOnlyInURLAndInESResponse(facetsArray);
 
   // Récupérer les labels avec les mises en forme récupérées depuis elastic search
-  console.log(getFacetsLabels(dataCleanedFacetsArray))
   return getFacetsLabels(dataCleanedFacetsArray);
 }
 
@@ -509,7 +487,7 @@ async function getFacets() {
    */
   function updateFilterData(filterData) {
     let facetsArray = getFacetsArrayFromURL();
-console.log(filterData)
+
     const lastFacetFilter =
       {
         [filterData.facetName]: filterData.filterName
@@ -517,12 +495,10 @@ console.log(filterData)
 
     if (isNotChecked(filterData, lastFacetFilter)) {
       // Ajout
-      console.log('Ajout')
       setWorkingFacetName(Object.keys(lastFacetFilter)[0]);
       facetsArray.splice(0, 0, lastFacetFilter);
     } else {
       // Suppression
-      console.log('Suppression')
       let itemIndex = getFacetItemIndex(lastFacetFilter, facetsArray);
       if (itemIndex > -1) {
         facetsArray.splice(itemIndex, 1);
@@ -560,8 +536,6 @@ console.log(filterData)
 
 // Retourne l'index de l'objet courant dans le tableau facetsArray
   function getFacetItemIndex(lastFacetFilter, facetsArray) {
-    console.log(lastFacetFilter)
-    console.info(facetsArray)
     return facetsArray.findIndex(function (facetFilter) {
       return filtersAreEqual(facetFilter, lastFacetFilter);
     });

@@ -21,7 +21,7 @@
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
-    <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray" @deleteFilter="deleteFilter" />
+    <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray" @reinitializePageNumber="reinitializePageNumber" />
     <div v-if="mobile || dataReady" class="colonnes-resultats">
       <CommonResultsResultList :result="result" :domain-name-change="domainNameChange">
       </CommonResultsResultList>
@@ -55,6 +55,7 @@ import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
 const { setShowingNumber, setShowingNumberMobile } = useStrategyAPI();
+const emit = defineEmits('reinitializePageNumber');
 
 const props = defineProps({
   result: {
@@ -75,10 +76,12 @@ const props = defineProps({
     type: Boolean
   },
   resetPage: {
-    type: Number
+    type: Number,
+    default: 1
   },
   resetShowingNumber: {
-    type: Number
+    type: Number,
+    default: 10
   },
   domainNameChange: {
     type: String
@@ -121,6 +124,20 @@ function updatePage(newPage) {
 function updatePageNumberFromSortingSelect(pageNumber) {
   updatePage(pageNumber);
 }
+
+/**
+ * Emits
+ */
+function reinitializePageNumber() {
+  emit('reinitializePageNumber');
+}
+
+/**
+ * Watchers
+ */
+watch(() => props.resetPage, () => {
+  currentPageNumber.value = 1;
+});
 </script>
 
 <style scoped lang="scss">

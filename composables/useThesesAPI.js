@@ -15,11 +15,8 @@ function disableOrFiltersTheses(facets) {
 
 // Recherche simple dans les theses
 function queryThesesAPI(query, facetsRequest, currentPageNumber, currentShowingNumber, currentSorting) {
-  console.info('query filtres :')
-  console.log(facetsRequest)
   const url = "/theses/recherche/?q=" + encodeURIComponent(query) + "&debut=" + ((currentPageNumber - 1) * currentShowingNumber) + "&nombre=" + currentShowingNumber + "&tri=" + currentSorting + facetsRequest;
-console.info('url :')
-  console.log(url)
+
   return new Promise((resolve, reject) => {
     useAPIFetch(url)
       .then((response) => {

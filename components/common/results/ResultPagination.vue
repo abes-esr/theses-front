@@ -32,6 +32,7 @@ import { useDisplay } from "vuetify";
 
 const { setPageNumber, setShowingNumber } = useStrategyAPI();
 const emit = defineEmits(['search', 'updatePage', 'updateShowingNumber']);
+const currentRoute = useRoute();
 
 const props = defineProps({
   nbResults: {
@@ -54,6 +55,7 @@ const props = defineProps({
 
 const currentPageNumber = ref();
 const currentShowingNumber = ref();
+const reinitializingPageNumber = ref(false);
 
 onMounted(() => {
   currentPageNumber.value = props.currentPageNumber;
@@ -98,9 +100,8 @@ function updatePageNumberFromSortingSelect(pageNumber) {
 /**
  * Watchers
  */
-
 watch(currentPageNumber, (newCurrentPageNumber, previousCurrentPageNumber) => {
-  if (typeof previousCurrentPageNumber !== 'undefined') {
+  if (typeof previousCurrentPageNumber !== "undefined") {
     setPageNumber(newCurrentPageNumber);
     emit("updatePage", newCurrentPageNumber);
     if (props.type === "top") {
@@ -131,11 +132,6 @@ watch(() => props.currentPageNumber, () => {
 watch(() => props.currentShowingNumber, () => {
   currentShowingNumber.value = props.currentShowingNumber;
 });
-
-/**
- * Watcher breakpoints
- */
-
 </script>
 
 <style scoped lang="scss">

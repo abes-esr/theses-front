@@ -29,9 +29,12 @@ defineProps({
   }
 });
 
+const emit = defineEmits('reinitializePageNumber');
+
 function deleteFilter(facet) {
   setWorkingFacetName(facet.facetName);
   updateFilterData(facet);
+  emit('reinitializePageNumber');
 }
 </script>
 
