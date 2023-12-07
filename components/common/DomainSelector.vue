@@ -2,14 +2,16 @@
   <div class="domain-selector">
     <v-btn flat @click="select('theses')">
       <v-icon size="50" color="secondary">mdi-school</v-icon>
-      <h2 :class="selected === 'theses' ? 'selected' : ''">
-        {{ $t("toutesTheses") }}
-      </h2>
+      <span class="title">
+        <h2 :class="selected === 'theses' ? 'selected' : ''">
+          {{ $t("toutesTheses") }}
+        </h2>
+      </span>
     </v-btn>
     <v-divider vertical></v-divider>
     <v-btn flat @click="select('personnes')">
       <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
-      <span class="personTitle">
+      <span class="title">
         <h2>
           {{ $t("toutesPersonnes") }}
         </h2>
@@ -112,7 +114,7 @@ watch(() => currentRoute.path, () => {
   text-decoration-color: rgb(var(--v-theme-orange-abes));
 }
 
-.personTitle {
+.title {
   height: 64px;
   display: flex;
   flex-direction: column;

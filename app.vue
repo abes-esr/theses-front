@@ -469,13 +469,18 @@ h4 {
   background-color: white;
 }
 
+
+
 .domain-selector {
-  .v-btn__content {
-    flex-direction: row !important;
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    .v-btn__content {
+      flex-direction: row !important;
+    }
+
+    .v-icon {
+      margin-right: 1rem !important;
+    }
   }
 
-  .v-icon {
-    margin-right: 1rem !important;
-  }
 }
 </style>

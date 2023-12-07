@@ -28,7 +28,7 @@
           <nuxt-link :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
             <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
           </nuxt-link>
-          <h1>{{ $t("slogan") }}</h1>
+          <h1 v-html='$t("slogan2lines")'></h1>
         </div>
         <div class="sub_header__action">
           <CommonDomainSelector></CommonDomainSelector>
