@@ -465,7 +465,7 @@ h4 {
   text-decoration: none;
 }
 
-.searchbar__input {
+.searchbar__input .v-field {
   background-color: white;
 }
 
