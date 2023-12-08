@@ -1,7 +1,7 @@
 <template>
   <CommonResultsResultPagination v-if="!mobile" :nb-results=nbResult :type="'top'"
     :current-showing-number="currentShowingNumber" :current-page-number="currentPageNumber"
-    @updateShowingNumber="updateShowingNumber" @updatePage="updatePage" @search="search">
+    @updateShowingNumber="updateShowingNumber" @updatePage="updatePage">
   </CommonResultsResultPagination>
 
   <div class="result-components-wrapper">
@@ -37,11 +37,11 @@
   </div>
 
   <CommonResultsMoreResultsButton class="more-result-button" v-if="mobile && !allResultsWereLoaded()" :loading=loading
-    :nb-result=nbResult @addTenResultsToList="addTenResultsToList" @search="search" />
+    :nb-result=nbResult @addTenResultsToList="addTenResultsToList" />
 
   <CommonResultsResultPagination v-if="!mobile" :nb-results=nbResult :type="'bottom'"
     :current-showing-number="currentShowingNumber" :current-page-number="currentPageNumber" class="pagination-bottom"
-    @updateShowingNumber="updateShowingNumber" @updatePage="updatePage" @search="search">
+    @updateShowingNumber="updateShowingNumber" @updatePage="updatePage">
   </CommonResultsResultPagination>
 </template>
 
@@ -54,7 +54,7 @@ import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
-const { setShowingNumber, setShowingNumberMobile } = useStrategyAPI();
+const { setShowingNumber } = useStrategyAPI();
 const emit = defineEmits('reinitializePageNumber');
 
 const props = defineProps({
@@ -78,10 +78,6 @@ const props = defineProps({
   resetPage: {
     type: Number,
     default: 1
-  },
-  resetShowingNumber: {
-    type: Number,
-    default: 10
   },
   domainNameChange: {
     type: String
@@ -114,7 +110,7 @@ function updateShowingNumber(newValue) {
 
 function addTenResultsToList() {
   currentShowingNumber.value += 10;
-  setShowingNumberMobile(currentShowingNumber.value);
+  setShowingNumber(currentShowingNumber.value);
 }
 
 function updatePage(newPage) {

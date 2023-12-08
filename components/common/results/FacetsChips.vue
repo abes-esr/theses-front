@@ -18,8 +18,6 @@
 </template>
 
 <script setup>
-const router = useRouter();
-const currentRoute = useRoute();
 const { setWorkingFacetName, updateFilterData } = useStrategyAPI();
 
 defineProps({

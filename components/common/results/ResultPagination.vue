@@ -55,7 +55,6 @@ const props = defineProps({
 
 const currentPageNumber = ref();
 const currentShowingNumber = ref();
-const reinitializingPageNumber = ref(false);
 
 onMounted(() => {
   currentPageNumber.value = props.currentPageNumber;
@@ -94,7 +93,6 @@ function updatePageNumberFromSortingSelect(pageNumber) {
   currentPageNumber.value = pageNumber;
   setPageNumber(pageNumber);
   emit("updatePage", pageNumber);
-  emit("search");
 }
 
 /**
@@ -104,9 +102,6 @@ watch(currentPageNumber, (newCurrentPageNumber, previousCurrentPageNumber) => {
   if (typeof previousCurrentPageNumber !== "undefined") {
     setPageNumber(newCurrentPageNumber);
     emit("updatePage", newCurrentPageNumber);
-    if (props.type === "top") {
-      emit("search");
-    }
   }
 });
 
@@ -116,9 +111,6 @@ watch(currentShowingNumber, (newShowingNumber, previousShowingNumber) => {
     setPageNumber(1);
     emit("updateShowingNumber", newShowingNumber);
     emit("updatePage", 1);
-    if (props.type === "top") {
-      emit("search");
-    }
   }
 });
 

@@ -17,468 +17,479 @@ const currentWorkingFacetName = ref("");
 const labelMap = ref(new Map());
 const facetsArray = ref([]);
 
-export default function () {
+export default function() {
 // import fonctions
-const { fetchCodeLangues, createLabels, getLabelFromCode } = useReferentielsAPI();
-const { suggestionTheses, getFacetsTheses, getThese, queryThesesAPI, getItemsTriTheses, disableOrFiltersTheses, getItemsTriMapTheses } = useThesesAPI();
-const { suggestionPersonne, getFacetsPersonnes, getPersonne, queryPersonnesAPI, getItemsTriPersonnes, disableOrFiltersPersonnes, getItemsTriMapPersonnes } = usePersonnesAPI();
+  const { fetchCodeLangues, createLabels, getLabelFromCode } = useReferentielsAPI();
+  const {
+    suggestionTheses,
+    getFacetsTheses,
+    getThese,
+    queryThesesAPI,
+    getItemsTriTheses,
+    disableOrFiltersTheses,
+    getItemsTriMapTheses
+  } = useThesesAPI();
+  const {
+    suggestionPersonne,
+    getFacetsPersonnes,
+    getPersonne,
+    queryPersonnesAPI,
+    getItemsTriPersonnes,
+    getItemsTriMapPersonnes
+  } = usePersonnesAPI();
 
-const router = useRouter();
+  const router = useRouter();
 
-/**
- * Fonctions communes
- */
-function setPageNumber(value) {
-  currentPageNumber.value = parseInt(value);
-  updateURL();
-}
-
-function getCurrentPageNumber() {
-  if(typeof currentPageNumber.value !== 'undefined'){
-    return parseInt(currentPageNumber.value);
-  } else {
-    const startingParameterPageFirstLoad = parseInt( getURLParameter('page') );
-    return  startingParameterPageFirstLoad ? startingParameterPageFirstLoad : 1;
-  }
-}
-
-function setShowingNumber(value) {
-  currentShowingNumber.value = parseInt(value);
-  updateURL();
-}
-
-function setShowingNumberMobile(value) {
-  currentShowingNumber.value = parseInt(value);
-}
-
-function getCurrentShowingNumber() {
-  if(typeof currentShowingNumber.value !== 'undefined') {
-    return parseInt(currentShowingNumber.value);
-  } else {
-    const startingParameterShowingNumberFirstLoad = parseInt( getURLParameter('nb') );
-    return startingParameterShowingNumberFirstLoad ? startingParameterShowingNumberFirstLoad : 10;
-  }
-}
-
-function setSorting(value) {
-  currentSorting.value = value;
-  updateURL();
-}
-
-function setDomaine(newDomain) {
-  domaine.value = newDomain;
-  updateURL();
-}
-
-function getCurrentSorting() {
-  if(typeof currentSorting.value !== 'undefined') {
-    return currentSorting.value;
-  } else {
-    const startingParameterTriFirstLoad = getURLParameter('tri');
-    return startingParameterTriFirstLoad ? startingParameterTriFirstLoad : "pertinence";
-  }
-}
-
-function setQuery(newQuery) {
-  query.value = (typeof newQuery !== 'undefined' && newQuery !== '' && newQuery !== null) ? newQuery : '*';
-}
-
-function setCheckedFilters(objectsArray) {
-  currentPageNumber.value = 1;
-
-  return new Promise((resolve) => {
-    currentFacets.value = parseFacetsValuesArray(objectsArray);
+  /**
+   * Fonctions communes
+   */
+  function setPageNumber(value) {
+    currentPageNumber.value = parseInt(value);
     updateURL();
-    checkedFilters.value = objectsArray;
-    resolve();
-  });
-}
-
-function setWorkingFacetName(facetName) {
-  currentWorkingFacetName.value = facetName;
-}
-
-function getQuery() {
-  return query.value;
-}
-
-function getFacetsRequest() {
-  return currentFacets.value.length > 0
-    ? "&filtres=" + encodeURIComponent("[") + disableOrFilters().toString() + encodeURIComponent("]")
-    : "";
-}
-
-/**
- * Gestion URL
- */
-async function getURLParameters() {
-  return new Promise((resolve) => {
-    const { mobile } = useDisplay();
-
-    const startingParameterTri = getURLParameter('tri');
-    const startingParameterFiltres = getURLParameterNoBrackets('filtres');
-    const startingParameterQ = getURLParameter('q');
-    const startingParameterDomaine = getURLParameter('domaine');
-    const startingParameterPage = mobile.value ? 1 : parseInt( getURLParameter('page') );
-    const startingParameterShowingNumber = mobile.value ? 10 : parseInt( getURLParameter('nb') );
-
-    currentSorting.value = startingParameterTri ? startingParameterTri : 'pertinence';
-    currentFacets.value = startingParameterFiltres ? startingParameterFiltres : '';
-    query.value = (startingParameterQ && typeof startingParameterQ !== 'undefined') ? startingParameterQ : '*';
-    domaine.value = startingParameterDomaine ? startingParameterDomaine : 'theses';
-    currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
-    currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
-
-    resolve();
-  });
-}
-
-function getURLParameterNoBrackets(parameter) {
-  return getURLParameter(parameter).replaceAll('[', '').replaceAll(']', '');
-}
-
-function getURLParameter(parameter) {
-  const params = router.currentRoute._value.query;
-  if (params[parameter]) {
-    return decodeURIComponent(params[parameter]);
   }
-  return "";
-}
 
-function setParameters() {
-  let params = {};
-  if (currentFacets.value && currentFacets.value.length > 0) params['filtres'] = encodeURIComponent("[") + disableOrFilters().toString() + encodeURIComponent("]");
-  if (query.value) params['q'] = query.value;
-  if (currentPageNumber.value) params['page'] = currentPageNumber.value;
-  if (currentShowingNumber.value) params['nb'] = currentShowingNumber.value;
-  if (currentSorting.value) params['tri'] = currentSorting.value;
-  if (domaine.value) params['domaine'] = domaine.value;
-  return params;
-}
+  function getCurrentPageNumber() {
+    if (typeof currentPageNumber.value !== "undefined") {
+      return parseInt(currentPageNumber.value);
+    } else {
+      const startingParameterPageFirstLoad = parseInt(getURLParameter("page"));
+      return startingParameterPageFirstLoad ? startingParameterPageFirstLoad : 1;
+    }
+  }
 
-function updateURL() {
-  if(router.currentRoute._value.name === 'resultats') {
-    const routerParams = setParameters();
-    router.replace({
-      name: 'resultats',
-      query: routerParams
+  function setShowingNumber(value) {
+    currentShowingNumber.value = parseInt(value);
+    updateURL();
+  }
+
+  function getCurrentShowingNumber() {
+    if (typeof currentShowingNumber.value !== "undefined") {
+      return parseInt(currentShowingNumber.value);
+    } else {
+      const startingParameterShowingNumberFirstLoad = parseInt(getURLParameter("nb"));
+      return startingParameterShowingNumberFirstLoad ? startingParameterShowingNumberFirstLoad : 10;
+    }
+  }
+
+  function setSorting(value) {
+    currentSorting.value = value;
+    updateURL();
+  }
+
+  function setDomaine(newDomain) {
+    domaine.value = newDomain;
+    updateURL();
+  }
+
+  function getCurrentSorting() {
+    if (typeof currentSorting.value !== "undefined") {
+      return currentSorting.value;
+    } else {
+      const startingParameterTriFirstLoad = getURLParameter("tri");
+      return startingParameterTriFirstLoad ? startingParameterTriFirstLoad : "pertinence";
+    }
+  }
+
+  function setQuery(newQuery) {
+    query.value = (typeof newQuery !== "undefined" && newQuery !== "" && newQuery !== null) ? newQuery : "*";
+  }
+
+  function setCheckedFilters(objectsArray) {
+    currentPageNumber.value = 1;
+
+    return new Promise((resolve) => {
+      currentFacets.value = parseFacetsValuesArray(objectsArray);
+      updateURL();
+      checkedFilters.value = objectsArray;
+      resolve();
     });
   }
-}
 
-/**
- * Mise en forme du tableau de valeurs des facettes à destination de l'url
- * @param objectsArray
- * @returns {string}
- */
-function parseFacetsValuesArray(objectsArray) {
-  let filtersArrayURL = [];
-  objectsArray.forEach((filter) => {
-    filtersArrayURL.push(
-      Object.keys(filter)[0] + '="' + Object.values(filter)[0] + '"'
+  function setWorkingFacetName(facetName) {
+    currentWorkingFacetName.value = facetName;
+  }
+
+  function getQuery() {
+    return query.value;
+  }
+
+  function getFacetsRequest() {
+    return currentFacets.value.length > 0
+      ? "&filtres=" + encodeURIComponent("[") + disableOrFilters().toString() + encodeURIComponent("]")
+      : "";
+  }
+
+  /**
+   * Gestion URL
+   */
+  async function getURLParameters() {
+    return new Promise((resolve) => {
+      const { mobile } = useDisplay();
+
+      const startingParameterTri = getURLParameter("tri");
+      const startingParameterFiltres = getURLParameterNoBrackets("filtres");
+      const startingParameterQ = getURLParameter("q");
+      const startingParameterDomaine = getURLParameter("domaine");
+      const startingParameterPage = mobile.value ? 1 : parseInt(getURLParameter("page"));
+      const startingParameterShowingNumber = mobile.value ? 10 : parseInt(getURLParameter("nb"));
+
+      currentSorting.value = startingParameterTri ? startingParameterTri : "pertinence";
+      currentFacets.value = startingParameterFiltres ? startingParameterFiltres : "";
+      query.value = (startingParameterQ && typeof startingParameterQ !== "undefined") ? startingParameterQ : "*";
+      domaine.value = startingParameterDomaine ? startingParameterDomaine : "theses";
+      currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
+      currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
+
+      resolve();
+    });
+  }
+
+  function getURLParameterNoBrackets(parameter) {
+    return getURLParameter(parameter).replaceAll("[", "").replaceAll("]", "");
+  }
+
+  function getURLParameter(parameter) {
+    const params = router.currentRoute._value.query;
+    if (params[parameter]) {
+      return decodeURIComponent(params[parameter]);
+    }
+    return "";
+  }
+
+  function setParameters() {
+    let params = {};
+    if (currentFacets.value && currentFacets.value.length > 0) params["filtres"] = encodeURIComponent("[" + disableOrFilters().toString() + "]");
+    if (query.value) params["q"] = query.value;
+    if (currentPageNumber.value) params["page"] = currentPageNumber.value;
+    if (currentShowingNumber.value) params["nb"] = currentShowingNumber.value;
+    if (currentSorting.value) params["tri"] = currentSorting.value;
+    if (domaine.value) params["domaine"] = domaine.value;
+    return params;
+  }
+
+  function updateURL() {
+    if (router.currentRoute._value.name === "resultats") {
+      const routerParams = setParameters();
+      router.replace({
+        name: "resultats",
+        query: routerParams
+      });
+    }
+  }
+
+  /**
+   * Mise en forme du tableau de valeurs des facettes à destination de l'url
+   * @param objectsArray
+   * @returns {string}
+   */
+  function parseFacetsValuesArray(objectsArray) {
+    let filtersArrayURL = [];
+    objectsArray.forEach((filter) => {
+      filtersArrayURL.push(
+        Object.keys(filter)[0] + "=\"" + Object.values(filter)[0] + "\""
+      );
+    });
+
+    return encodeURIComponent(
+      filtersArrayURL.join("&")
     );
-  });
-
-  return encodeURIComponent(
-    filtersArrayURL.join('&')
-  );
-}
-
-/**
- * Pour thèses : les status "soutenue" et "en cours" s'annulent
- * @returns {*}
- */
-function disableOrFilters() {
-  if (domaine.value === "theses") {
-    return disableOrFiltersTheses(currentFacets.value);
   }
 
-  return currentFacets.value;
-}
+  /**
+   * Pour thèses : les status "soutenue" et "en cours" s'annulent
+   * @returns {*}
+   */
+  function disableOrFilters() {
+    if (domaine.value === "theses") {
+      return disableOrFiltersTheses(currentFacets.value);
+    }
 
-/**
- * Routes
- */
-function queryAPI(mobile) {
-  query.value = (typeof query.value === 'undefined') ? '*' : query.value;
-
-  if (!mobile._object.mobile) {
-    updateURL();
+    return currentFacets.value;
   }
 
-  if(domaine.value === "personnes")
-    return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
-  else
-    return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
-}
+  /**
+   * Routes
+   */
+  function queryAPI(mobile) {
+    query.value = (typeof query.value === "undefined") ? "*" : query.value;
 
-/**
- * Récupère seulement les filtres présents dans l'URL ET dans le retour elastic search
- * @param facetsArray
- * @returns {*[]}
- */
-function getFiltersOnlyInURLAndInESResponse(facetsArray) {
-  let dataCleanedFacetsArray = [];
-  // Gestion dates
-  dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
-    return Object.keys(urlFacet)[0].startsWith('date');
-  }));
-  // Gestion autres facettes retournées par theses-api-recherche
-  rawFacets.value.forEach((facet) => {
+    if (!mobile._object.mobile) {
+      updateURL();
+    }
+
+    if (domaine.value === "personnes")
+      return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
+    else
+      return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
+  }
+
+  /**
+   * Récupère seulement les filtres présents dans l'URL ET dans le retour elastic search
+   * @param facetsArray
+   * @returns {*[]}
+   */
+  function getFiltersOnlyInURLAndInESResponse(facetsArray) {
+    let dataCleanedFacetsArray = [];
+    // Gestion dates
     dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
-      if (facet.name === Object.keys(urlFacet)[0]) {
-        return rawFacetReturnedFilter(facet, Object.values(urlFacet)[0]);
-      }
-      return false;
+      return Object.keys(urlFacet)[0].startsWith("date");
     }));
-  });
-  return dataCleanedFacetsArray;
-}
+    // Gestion autres facettes retournées par theses-api-recherche
+    rawFacets.value.forEach((facet) => {
+      dataCleanedFacetsArray.push(...facetsArray.filter((urlFacet) => {
+        if (facet.name === Object.keys(urlFacet)[0]) {
+          return rawFacetReturnedFilter(facet, Object.values(urlFacet)[0]);
+        }
+        return false;
+      }));
+    });
+    return dataCleanedFacetsArray;
+  }
 
-/**
- * Parse le paramètre filtres de l'url pour le restituer dans un array
- * @returns {*[]}
- */
-function getFacetsArrayFromURLString() {
-  let facetsArray  = [];
-  const stringifiedFacetsArray = decodeURIComponent(currentFacets.value.toString()).split("&");
+  /**
+   * Parse le paramètre filtres de l'url pour le restituer dans un array
+   * @returns {*[]}
+   */
+  function getFacetsArrayFromURLString() {
+    let facetsArray = [];
+    const stringifiedFacetsArray = decodeURIComponent(currentFacets.value.toString()).split("&");
 
-  if (stringifiedFacetsArray.length > 0 && stringifiedFacetsArray[0] !== ""){
-    stringifiedFacetsArray.forEach((facet) => {
+    if (stringifiedFacetsArray.length > 0 && stringifiedFacetsArray[0] !== "") {
+      stringifiedFacetsArray.forEach((facet) => {
         let line = facet.split("=");
         facetsArray.splice(
           0, 0, {
             [line[0]]: line[1].replaceAll("\"", "")
           });
       });
+    }
+
+    return facetsArray;
   }
 
-  return facetsArray;
-}
+  /**
+   * Parse le parametre filtres de l'url pour récupérer chaque filtre
+   * Et les nettoyer selon les résultats d'elastic search puis récupérer la mise en forme des labels d'elastic search
+   * @returns {*|*[]}
+   */
+  function getFacetsArrayFromURL() {
+    if (!currentFacets.value) return [];
 
-/**
- * Parse le parametre filtres de l'url pour récupérer chaque filtre
- * Et les nettoyer selon les résultats d'elastic search puis récupérer la mise en forme des labels d'elastic search
- * @returns {*|*[]}
- */
-function getFacetsArrayFromURL() {
-  if (!currentFacets.value) return [];
+    let facetsArray = getFacetsArrayFromURLString();
 
-  let facetsArray = getFacetsArrayFromURLString();
+    // Enlever les filtres qui ne sont pas dans la liste de facettes retournée par elastic search
+    let dataCleanedFacetsArray = getFiltersOnlyInURLAndInESResponse(facetsArray);
 
-  // Enlever les filtres qui ne sont pas dans la liste de facettes retournée par elastic search
-  let dataCleanedFacetsArray = getFiltersOnlyInURLAndInESResponse(facetsArray);
-
-  // Récupérer les labels avec les mises en forme récupérées depuis elastic search
-  return getFacetsLabels(dataCleanedFacetsArray);
-}
-
-/**
- * Aplatit tous les niveaux de récursion des checkboxes pour une facette donnée
- * @param facetArray
- * @returns {*[]}
- */
-function getFlattenedCheckboxesArray(facetArray) {
-  let deepArray = [];
-
-  if (facetArray.checkboxes) {
-    deepArray.push(...facetArray.checkboxes);
-
-    facetArray.checkboxes.forEach((facet) => {
-      deepArray.push(...getFlattenedCheckboxesArray(facet));
-    });
+    // Récupérer les labels avec les mises en forme récupérées depuis elastic search
+    return getFacetsLabels(dataCleanedFacetsArray);
   }
-  return deepArray;
-}
 
-/**
- * Récupère le label d'un filtre récupéré depuis l'url ; permet d'avoir le texte mis en forme
- * depth gère la récursion
- * @param urlFacet
- * @returns {*|string|string}
- */
-function getLabelFromURLName(urlFacet) {
-  let correspondingFacet = {};
-  let currentFacets = [];
+  /**
+   * Aplatit tous les niveaux de récursion des checkboxes pour une facette donnée
+   * @param facetArray
+   * @returns {*[]}
+   */
+  function getFlattenedCheckboxesArray(facetArray) {
+    let deepArray = [];
 
-  rawFacets.value.forEach((facet) => {
-    if (facet.name === urlFacet.facetName) {
-      currentFacets = getFlattenedCheckboxesArray(facet);
-      correspondingFacet = currentFacets.find((filter) => {
-        return filter.name === urlFacet.filterName;
+    if (facetArray.checkboxes) {
+      deepArray.push(...facetArray.checkboxes);
+
+      facetArray.checkboxes.forEach((facet) => {
+        deepArray.push(...getFlattenedCheckboxesArray(facet));
       });
     }
-  });
-
-  return correspondingFacet ? correspondingFacet.label : "";
-}
-
-/**
- * Récupère les labels des filtres avec mise en forme ; les noms des langues pour les codes langues ; le int de l'année pour les dates
- * @param facetsArray
- */
-function getFacetsLabels(facetsArray) {
-  facetsArray.forEach((facet) => {
-    facet.filterName = Object.values(facet)[0];
-    facet.facetName = Object.keys(facet)[0];
-
-    if (Object.keys(facet)[0] === 'langues') {
-      facet.label = getLabelFromCode(facet.filterName);
-    } else if (Object.keys(facet)[0].startsWith('date')) {
-      facet.label = parseInt(facet.filterName);
-      facet.filterName = facet.facetName;
-    } else {
-      let label = getLabelFromURLName(facet);
-
-      // Cas particulier
-      label = handleSpecialCase(label);
-
-      facet.label = label ? label : facet.filterName;
-    }
-  });
-
-  return facetsArray;
-}
-
-
-function handleSpecialCase(label) {
-  if (label === "enCours") return  "En préparation";
-  if (label === "soutenue") return  "Soutenues";
-  return label;
-}
-
-function replaceWorkingFacet(facetsArray, currentWorkingFacet) {
-  if (currentWorkingFacet.length > 0) {
-    const facetIndex = facetsArray.findIndex((facet) => {
-      return facet.name === currentWorkingFacetName.value;
-    });
-
-    if (facetIndex > -1)
-      facetsArray.splice(facetIndex, 1, currentWorkingFacet[0]);
+    return deepArray;
   }
 
-  return facetsArray;
-}
+  /**
+   * Récupère le label d'un filtre récupéré depuis l'url ; permet d'avoir le texte mis en forme
+   * depth gère la récursion
+   * @param urlFacet
+   * @returns {*|string|string}
+   */
+  function getLabelFromURLName(urlFacet) {
+    let correspondingFacet = {};
+    let currentFacets = [];
 
-/**
- * Réinitialisation
- */
-function reinitializeResultData() {
-  query.value = '*';
-  currentSorting.value = 'pertinence';
-  currentPageNumber.value = 1;
-  currentShowingNumber.value = 10;
-  currentFacets.value = [];
-  rawFacets.value = [];
-}
-
-function reinitializeFilters() {
-  setCheckedFilters([]);
-  setWorkingFacetName('')
-}
-
-function reinitializeFacetFilters(facetName) {
-  let facetsArray = getFacetsArrayFromURL();
-
-  let reinitializedFacetsArray =  facetsArray.filter(filter => {
-    return filter.facetName !== facetName;
-  });
-
-  setCheckedFilters(reinitializedFacetsArray);
-}
-
-/**
- * Récupère les filtres cochés qui ne sont pas dans la liste courante des facettes
- * En les ajoutant dans le tableau des facettes, derrière les facettes retournées par la recherche courante et par ordre alphabétique
- */
-function addCheckedFilters() {
-  // Tri alphabétique
-  checkedFilters.value.sort((a, b) => {
-    return Object.values(a)[0] > Object.values(b)[0];
-  });
-
-  checkedFilters.value.forEach((checkedFilter) => {
-    const checkedFilterFacetName = Object.keys(checkedFilter)[0];
-    const checkedFilterName = Object.values(checkedFilter)[0];
-
-    getCheckedFiltersBackIntoList(checkedFilterName, checkedFilterFacetName);
-  });
-}
-
-function rawFacetReturnedFilter(facet, checkedFilterName) {
-  let flattenedFacet = getFlattenedCheckboxesArray(facet);
-
-  return flattenedFacet.filter((filter) => {
-    return filter.name === checkedFilterName;
-  }).length > 0;
-}
-
-function facetIsEmpty(facet) {
-  return Object.keys(facet.checkboxes).length < 1;
-}
-
-/**
- * Si les filtres cochés présents dans rawFacets ne sont pas dans la liste des facettes
- * retournées par l'API alors on les ajoute à cette même liste avec la valeur 0
- * Seulement si la facette est peuplée
- * @param checkedFilterName
- * @param checkedFilterFacetName
- */
-function getCheckedFiltersBackIntoList(checkedFilterName, checkedFilterFacetName) {
-  rawFacets.value.forEach((facet) => {
-    if ( !facetIsEmpty(facet)
-      && (facet.name === checkedFilterFacetName) ) {
-      let currentFacet = { ...facet }; // cloner l'objet
-      currentFacet.checkboxes = getFlattenedCheckboxesArray(facet);
-
-      if (!rawFacetReturnedFilter(currentFacet, checkedFilterName)) {
-        const label = labelMap.value.get(checkedFilterName);
-
-        facet.checkboxes.push(
-          {
-            'name': checkedFilterName,
-            'label': label ? label : checkedFilterName,
-            'value': 0
-          }
-        );
+    rawFacets.value.forEach((facet) => {
+      if (facet.name === urlFacet.facetName) {
+        currentFacets = getFlattenedCheckboxesArray(facet);
+        correspondingFacet = currentFacets.find((filter) => {
+          return filter.name === urlFacet.filterName;
+        });
       }
-    }
-  });
-}
-
-async function getFacets() {
-  // eslint-disable-next-line no-async-promise-executor
-  return new Promise(async (resolve, reject) => {
-    const currentWorkingFacet = rawFacets.value.filter((facet) => {
-      return facet.name === currentWorkingFacetName.value;
     });
 
-    if (domaine.value === "theses") {
-      await getFacetsTheses(query.value, getFacetsRequest())
-        .then(response => {
-          rawFacets.value = replaceWorkingFacet(response.data.value, currentWorkingFacet);
-        }).catch((err) => {
-          reject(err);
-        });
+    return correspondingFacet ? correspondingFacet.label : "";
+  }
+
+  /**
+   * Récupère les labels des filtres avec mise en forme ; les noms des langues pour les codes langues ; le int de l'année pour les dates
+   * @param facetsArray
+   */
+  function getFacetsLabels(facetsArray) {
+    facetsArray.forEach((facet) => {
+      facet.filterName = Object.values(facet)[0];
+      facet.facetName = Object.keys(facet)[0];
+
+      if (Object.keys(facet)[0] === "langues") {
+        facet.label = getLabelFromCode(facet.filterName);
+      } else if (Object.keys(facet)[0].startsWith("date")) {
+        facet.label = parseInt(facet.filterName);
+        facet.filterName = facet.facetName;
+      } else {
+        let label = getLabelFromURLName(facet);
+
+        // Cas particulier
+        label = handleSpecialCase(label);
+
+        facet.label = label ? label : facet.filterName;
+      }
+    });
+
+    return facetsArray;
+  }
+
+
+  function handleSpecialCase(label) {
+    if (label === "enCours") return "En préparation";
+    if (label === "soutenue") return "Soutenues";
+    return label;
+  }
+
+  function replaceWorkingFacet(facetsArray, currentWorkingFacet) {
+    if (currentWorkingFacet.length > 0) {
+      const facetIndex = facetsArray.findIndex((facet) => {
+        return facet.name === currentWorkingFacetName.value;
+      });
+
+      if (facetIndex > -1)
+        facetsArray.splice(facetIndex, 1, currentWorkingFacet[0]);
     }
 
-    if (domaine.value === "personnes") {
-      await getFacetsPersonnes(query.value, getFacetsRequest())
-        .then(response => {
-          rawFacets.value = replaceWorkingFacet(response.data.value, currentWorkingFacet);
-        }).catch((err) => {
-          reject(err);
-        });
-    }
+    return facetsArray;
+  }
 
-    if (Object.keys(rawFacets.value).length > 0) {
-      addCheckedFilters();
-      createLabels(rawFacets.value);
-      resolve(rawFacets.value);
-    }
-    reject();
-  });
-}
+  /**
+   * Réinitialisation
+   */
+  function reinitializeResultData() {
+    query.value = "*";
+    currentSorting.value = "pertinence";
+    currentPageNumber.value = 1;
+    currentShowingNumber.value = 10;
+    currentFacets.value = [];
+    rawFacets.value = [];
+  }
+
+  function reinitializeFilters() {
+    setCheckedFilters([]);
+    setWorkingFacetName("");
+  }
+
+  function reinitializeFacetFilters(facetName) {
+    let facetsArray = getFacetsArrayFromURL();
+
+    let reinitializedFacetsArray = facetsArray.filter(filter => {
+      return filter.facetName !== facetName;
+    });
+
+    setCheckedFilters(reinitializedFacetsArray);
+  }
+
+  /**
+   * Récupère les filtres cochés qui ne sont pas dans la liste courante des facettes
+   * En les ajoutant dans le tableau des facettes, derrière les facettes retournées par la recherche courante et par ordre alphabétique
+   */
+  function addCheckedFilters() {
+    // Tri alphabétique
+    checkedFilters.value.sort((a, b) => {
+      return Object.values(a)[0] > Object.values(b)[0];
+    });
+
+    checkedFilters.value.forEach((checkedFilter) => {
+      const checkedFilterFacetName = Object.keys(checkedFilter)[0];
+      const checkedFilterName = Object.values(checkedFilter)[0];
+
+      getCheckedFiltersBackIntoList(checkedFilterName, checkedFilterFacetName);
+    });
+  }
+
+  function rawFacetReturnedFilter(facet, checkedFilterName) {
+    let flattenedFacet = getFlattenedCheckboxesArray(facet);
+
+    return flattenedFacet.filter((filter) => {
+      return filter.name === checkedFilterName;
+    }).length > 0;
+  }
+
+  function facetIsEmpty(facet) {
+    return Object.keys(facet.checkboxes).length < 1;
+  }
+
+  /**
+   * Si les filtres cochés présents dans rawFacets ne sont pas dans la liste des facettes
+   * retournées par l'API alors on les ajoute à cette même liste avec la valeur 0
+   * Seulement si la facette est peuplée
+   * @param checkedFilterName
+   * @param checkedFilterFacetName
+   */
+  function getCheckedFiltersBackIntoList(checkedFilterName, checkedFilterFacetName) {
+    rawFacets.value.forEach((facet) => {
+      if (!facetIsEmpty(facet)
+        && (facet.name === checkedFilterFacetName)) {
+        let currentFacet = { ...facet }; // cloner l'objet
+        currentFacet.checkboxes = getFlattenedCheckboxesArray(facet);
+
+        if (!rawFacetReturnedFilter(currentFacet, checkedFilterName)) {
+          const label = labelMap.value.get(checkedFilterName);
+
+          facet.checkboxes.push(
+            {
+              "name": checkedFilterName,
+              "label": label ? label : checkedFilterName,
+              "value": 0
+            }
+          );
+        }
+      }
+    });
+  }
+
+  async function getFacets() {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      const currentWorkingFacet = rawFacets.value.filter((facet) => {
+        return facet.name === currentWorkingFacetName.value;
+      });
+
+      if (domaine.value === "theses") {
+        await getFacetsTheses(query.value, getFacetsRequest())
+          .then(response => {
+            rawFacets.value = replaceWorkingFacet(response.data.value, currentWorkingFacet);
+          }).catch((err) => {
+            reject(err);
+          });
+      }
+
+      if (domaine.value === "personnes") {
+        await getFacetsPersonnes(query.value, getFacetsRequest())
+          .then(response => {
+            rawFacets.value = replaceWorkingFacet(response.data.value, currentWorkingFacet);
+          }).catch((err) => {
+            reject(err);
+          });
+      }
+
+      if (Object.keys(rawFacets.value).length > 0) {
+        addCheckedFilters();
+        createLabels(rawFacets.value);
+        resolve(rawFacets.value);
+      }
+      reject();
+    });
+  }
 
   /**
    * Met à jour l'url avec les filtres sélectionnés
@@ -512,8 +523,8 @@ async function getFacets() {
     let facetsArray = getFacetsArrayFromURL();
 
     let dateFiltersNames = [
-      'datedebut',
-      'datefin'
+      "datedebut",
+      "datefin"
     ];
 
     datesArray.forEach((dateData, key) => {
@@ -536,13 +547,13 @@ async function getFacets() {
 
 // Retourne l'index de l'objet courant dans le tableau facetsArray
   function getFacetItemIndex(lastFacetFilter, facetsArray) {
-    return facetsArray.findIndex(function (facetFilter) {
+    return facetsArray.findIndex(function(facetFilter) {
       return filtersAreEqual(facetFilter, lastFacetFilter);
     });
   }
 
   function arrayContainsFilter(lastFacetFilter) {
-    const countOccurrences = facetsArray.value.filter(function (facetFilter) {
+    const countOccurrences = facetsArray.value.filter(function(facetFilter) {
       return filtersAreEqual(facetFilter, lastFacetFilter);
     }).length;
     return countOccurrences > 0;
@@ -550,19 +561,6 @@ async function getFacets() {
 
   function isDateFilter(facetFilter) {
     return Object.keys(facetFilter)[0].startsWith("date");
-  }
-
-  function getChipFacetItemIndex(lastFacetFilter) {
-    return facetsChipsArray.value.findIndex(function (facetFilter) {
-      return chipFiltersAreEqual(facetFilter, lastFacetFilter);
-    });
-  }
-
-  function chipFiltersAreEqual(comparedChipObject, currentObject) {
-    return (isDateFilter(currentObject)
-        && comparedChipObject.filter.filterName === Object.keys(currentObject)[0])
-      || (comparedChipObject.filter.facetName === Object.keys(currentObject)[0]
-        && comparedChipObject.filter.filterName === Object.values(currentObject)[0]);
   }
 
   /**
@@ -573,7 +571,6 @@ async function getFacets() {
   function isNotChecked(filterData, lastFacetFilter) {
     return filterData.value && !arrayContainsFilter(lastFacetFilter);
   }
-
 
   /**
    * Compare les chaines de caractères contenues dans les Array
@@ -589,81 +586,77 @@ async function getFacets() {
         && Object.values(comparedObject)[0] === Object.values(currentObject)[0]);
   }
 
-function getData(id) {
-  // eslint-disable-next-line no-async-promise-executor
-  return new Promise( async (resolve, reject) => {
-    let thesisData = {};
+  function getData(id) {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      let thesisData = {};
 
-    if (domaine.value === "theses") {
-      await getThese(id)
-        .then(response => {
-          thesisData = response;
-        }).catch((err) => {
-          reject(err);
-        });
-    }
+      if (domaine.value === "theses") {
+        await getThese(id)
+          .then(response => {
+            thesisData = response;
+          }).catch((err) => {
+            reject(err);
+          });
+      }
 
-    if (domaine.value === "personnes") {
-      await getPersonne(id)
-        .then(response => {
-          thesisData = response;
-        }).catch((err) => {
-          reject(err);
-        });
-    }
+      if (domaine.value === "personnes") {
+        await getPersonne(id)
+          .then(response => {
+            thesisData = response;
+          }).catch((err) => {
+            reject(err);
+          });
+      }
 
-    if (Object.keys(thesisData).length > 0) {
-      resolve(thesisData);
-    }
-    reject();
-  });
-}
+      if (Object.keys(thesisData).length > 0) {
+        resolve(thesisData);
+      }
+      reject();
+    });
+  }
 
-function getSuggestion(candidate) {
-  return new Promise ((resolve) => {
-    if(domaine.value === "theses")
-      resolve(suggestionTheses(query.value));
-    if(domaine.value === "personnes")
-      resolve(suggestionPersonne(candidate));
-  });
-}
+  function getSuggestion(candidate) {
+    return new Promise((resolve) => {
+      if (domaine.value === "theses")
+        resolve(suggestionTheses(query.value));
+      if (domaine.value === "personnes")
+        resolve(suggestionPersonne(candidate));
+    });
+  }
 
-function getItemsTri() {
-  if(domaine.value === "theses")
-    return getItemsTriTheses();
-  if(domaine.value === "personnes")
-    return getItemsTriPersonnes();
-}
+  function getItemsTri() {
+    if (domaine.value === "theses")
+      return getItemsTriTheses();
+    if (domaine.value === "personnes")
+      return getItemsTriPersonnes();
+  }
 
-function getTriMap() {
-  if(domaine.value === "theses")
-    return getItemsTriMapTheses();
-  if(domaine.value === "personnes")
-    return getItemsTriMapPersonnes();
-}
+  function getTriMap() {
+    if (domaine.value === "theses")
+      return getItemsTriMapTheses();
+    if (domaine.value === "personnes")
+      return getItemsTriMapPersonnes();
+  }
 
-function addToFiltersLabelsMap(filterData) {
-  labelMap.value.set(filterData.filterName, filterData.label);
-}
+  function addToFiltersLabelsMap(filterData) {
+    labelMap.value.set(filterData.filterName, filterData.label);
+  }
 
-/**
- *
- * @returns {{setCheckedFilters: setCheckedFilters, queryAPI: ((function(): (*|undefined))|*), getFacets: ((function(): (*|undefined))|*), setShowingNumber: setShowingNumber, setPageNumber: setPageNumber, setQuery: setQuery, getData: ((function(*): (*|undefined))|*), getSuggestion: ((function(): (*|undefined))|*), setSorting: setSorting}}
- * @constructor
- */
+  /**
+   *
+   * @returns {{setCheckedFilters: setCheckedFilters, queryAPI: ((function(): (*|undefined))|*), getFacets: ((function(): (*|undefined))|*), setShowingNumber: setShowingNumber, setPageNumber: setPageNumber, setQuery: setQuery, getData: ((function(*): (*|undefined))|*), getSuggestion: ((function(): (*|undefined))|*), setSorting: setSorting}}
+   * @constructor
+   */
   return {
     setPageNumber,
     setShowingNumber,
     setSorting,
-    getCurrentPageNumber,
-    getCurrentShowingNumber,
     getCurrentSorting,
-    setCheckedFilters,
     setQuery,
     getQuery,
     queryAPI,
     getFacets,
-    getData,
     getSuggestion,
     setDomaine,
     getItemsTri,
@@ -673,11 +666,10 @@ function addToFiltersLabelsMap(filterData) {
     addToFiltersLabelsMap,
     getTriMap,
     reinitializeResultData,
-    setShowingNumberMobile,
     fetchCodeLangues,
     updateFilterData,
+    addOrOverwriteDate,
     reinitializeFilters,
-    reinitializeFacetFilters,
-    addOrOverwriteDate
+    reinitializeFacetFilters
   };
 }

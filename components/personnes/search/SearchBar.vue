@@ -68,9 +68,8 @@ import { ref, onMounted, watch, computed } from 'vue';
 
 const router = useRouter();
 const currentRoute = useRoute();
-const routeName = computed(() => currentRoute.name);
 const query = computed(() => decodeURI(currentRoute.query.q));
-const { getSuggestion, setQuery, setDomaine } = useStrategyAPI();
+const { getSuggestion, setQuery, setDomaine, reinitializeFilters } = useStrategyAPI();
 
 defineProps({
   loading: {
@@ -78,9 +77,10 @@ defineProps({
     default: false
   },
 });
+
 const request = ref('');
 const requestSearch = ref("");
-const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
+const emit = defineEmits(['onError', 'reinitializePageNumber']);
 
 const menuProps = {
   'open-on-focus': false,
@@ -94,7 +94,6 @@ onMounted(
       // Il y a une précédente recherche dans l'URL
       request.value = decodeURI(currentRoute.query.q);
       requestSearch.value = decodeURI(currentRoute.query.q);
-      search()
     } else {
       isSuggestionActive.value = true;
     }
@@ -122,14 +121,13 @@ async function search() {
   suggestions.value = [];
 
   await setQuery(request.value);
-  emit('searchAndReinitializeAllFacets');
+  reinitializeFilters();
+  emit('reinitializePageNumber');
 
-  if (routeName.value != "resultats") {
-    router.push({
-      name: 'resultats',
-      query: { 'q': encodeURI(request.value), 'domaine': encodeURI(currentRoute.query.domaine) }
-    });
-  }
+  router.push({
+    name: "resultats",
+    query: { "q": encodeURI(request.value), "domaine": encodeURI(currentRoute.query.domaine) }
+  });
 
   if (!isSuggestionDisabledCheckbox.value) {
     isSuggestionActive.value = true;
@@ -320,10 +318,6 @@ defineExpose({
 
 :deep(.v-field--appended) {
   padding-inline-end: 0 !important;
-}
-
-.no-background-hover::before {
-  background-color: transparent !important;
 }
 </style>
 

@@ -2,11 +2,11 @@
   <div class="facets">
     <CommonResultsFacetDrawer v-if="domaine === 'theses' && Object.keys(facets).length > 0" date key="facet-date"
       :facet="{ 'name': 'Date' }" :selected-facets-array="selectedFacetsArray"
-      :reinitialize-date-to-trigger="reinitializeDateToTrigger" @reinitializePageNumber="reinitializePageNumber" @updateFilterDateOnly="updateFilterDateOnly($event)"
+      @reinitializePageNumber="reinitializePageNumber"
       >
     </CommonResultsFacetDrawer>
     <CommonResultsFacetDrawer v-for="facet in facets" :key="`facet-${facet.name}`" :facet="facet"
-      :selected-facets-array="selectedFacetsArray" @reinitializePageNumber="reinitializePageNumber" @reinitializeCheckboxes="reinitializeCheckboxes">
+      :selected-facets-array="selectedFacetsArray" @reinitializePageNumber="reinitializePageNumber">
     </CommonResultsFacetDrawer>
     <v-btn v-if="mobile" class="filters-btn" variant="outlined" color="primary" @click="closeOverlay">Appliquer les
       filtres</v-btn>
@@ -15,7 +15,6 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 

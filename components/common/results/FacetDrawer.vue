@@ -54,14 +54,14 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
 const { reinitializeFacetFilters, updateFilterData, addOrOverwriteDate,setWorkingFacetName } = useStrategyAPI();
-const emit = defineEmits(['update:selectedFacetsArray', 'reinitializePageNumber', 'updateFilterDateOnly']);
+const emit = defineEmits(['reinitializePageNumber']);
 const props = defineProps({
   selectedFacetsArray: {
     type: Array,

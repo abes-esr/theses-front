@@ -2,7 +2,7 @@
   <ClientOnly><Message-box ref="messageBox"></Message-box></ClientOnly>
   <!--  Mobile-->
   <ClientOnly>
-    <CommonHeaderMobile v-if="mobile" type="resultats" @changeDomain="changeDomain" @search="search" @displayError="displayError"
+    <CommonHeaderMobile v-if="mobile" type="resultats" @search="search(true)" @displayError="displayError"
       @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
       :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"></CommonHeaderMobile>
   </ClientOnly>
@@ -11,7 +11,7 @@
     :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
     <CommonResultsFacetsHeader @closeOverlay="closeOverlay" @reinitializePageNumber="reinitializePageNumber"
     ></CommonResultsFacetsHeader>
-    <CommonResultsFacetsList @loadChips="loadChips" @reinitializePageNumber="reinitializePageNumber" @searchAndReinitialize="searchAndReinitialize"
+    <CommonResultsFacetsList @reinitializePageNumber="reinitializePageNumber"
       :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :selected-facets-array="selectedFacetsArray" :domaine="domainNameChange"
       class="left-side">
     </CommonResultsFacetsList>
@@ -27,9 +27,9 @@
         <h1>{{ $t("slogan") }}</h1>
       </div>
       <div class="sub_header__action">
-        <CommonDomainSelector @changeDomain="changeDomain"></CommonDomainSelector>
+        <CommonDomainSelector></CommonDomainSelector>
         <GenericSearchBar :loading="loading"
-          @onError="displayError" />
+          @onError="displayError" @reinitializePageNumber="reinitializePageNumber" />
       </div>
     </div>
   </div>
@@ -38,17 +38,18 @@
     <div v-if="!mobile" class="nav-bar">
       <CommonResultsFacetsHeader @reinitializePageNumber="reinitializePageNumber">
       </CommonResultsFacetsHeader>
-      <CommonResultsFacetsList @loadChips="loadChips" @reinitializePageNumber="reinitializePageNumber" @searchAndReinitialize="searchAndReinitialize"
+      <CommonResultsFacetsList @reinitializePageNumber="reinitializePageNumber"
         :facets="facets"  :selected-facets-array="selectedFacetsArray"
-        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
+        :domaine="domainNameChange"
         :loading="!dataFacetsReady"
         class="left-side"></CommonResultsFacetsList>
     </div>
     <!--    Mobile & desktop-->
     <div class="result-components white-containers">
       <CommonResultsResultComponents :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
-        :persistentQuery="request" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
-        :domain-name-change="domainNameChange" :selected-facets-array="selectedFacetsArray" @reinitializePageNumber="reinitializePageNumber" @search="search">
+        :persistentQuery="request" :reset-page="resetPage"
+        :domain-name-change="domainNameChange" :selected-facets-array="selectedFacetsArray"
+        @reinitializePageNumber="reinitializePageNumber">
       </CommonResultsResultComponents>
     </div>
     <CommonScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
@@ -69,9 +70,7 @@ const {
   setDomaine,
   setPageNumber,
   setShowingNumber,
-  setCheckedFilters,
   getURLParameters,
-  setWorkingFacetName,
   fetchCodeLangues
 } = useStrategyAPI();
 
@@ -88,7 +87,6 @@ const loading = ref(false);
 const facets = ref({});
 const nbResult = ref(0);
 const resetPage = ref(0);
-const resetShowingNumber = ref(0);
 const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
 const showMenu = ref(false);
@@ -125,12 +123,13 @@ onMounted(async () => {
 /**
  * Fonctions
  */
-async function search(firstLoad = false) {
+async function search(loadFacets = false) {
   request.value = getQuery();
   loading.value = true;
   dataReady.value = false;
 
-  updateFacets(firstLoad);
+  if (loadFacets)
+    updateFacets();
 
   /**
    * Chargement des donnees
@@ -162,7 +161,7 @@ function closeOverlay() {
   dialogVisible.value = false;
 }
 
-function updateFacets(firstLoad) {
+function updateFacets() {
   getFacets().then(response => {
     facets.value = response;
     dataFacetsReady.value = true;
@@ -185,7 +184,6 @@ function moreThanXResults(x) {
 function reinitialize() {
   reinitializePageNumber();
   setShowingNumber(10);
-  resetShowingNumber.value++;
 }
 
 function reinitializePageNumber() {
@@ -230,10 +228,22 @@ watch(() => currentRoute.query.domaine, () => {
   setDomaine(currentRoute.query.domaine);
 });
 
-watch(() => currentRoute.query, () => {
-  selectedFacetsArray.value = getFacetsArrayFromURL();
-  search();
+watch(() => currentRoute.query, (newParams, oldParams) => {
+  console.log(newParams)
+  console.log(oldParams)
+  if (newParams.q !== oldParams.q
+      || newParams.filtres !== oldParams.filtres
+      // || newParams.domaine !== oldParams.domaine
+  ) {
+    selectedFacetsArray.value = getFacetsArrayFromURL();
+    search(true);
+  } else if (newParams.page !== oldParams.page || newParams.nb !== oldParams.nb || newParams.tri !== oldParams.tri) {
+    search(false);
+  } else {
+    search(true);
+  }
 });
+
 </script>
 
 <style scoped lang="scss">

@@ -51,12 +51,11 @@ export default {
 };
 </script>
 <script setup>
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 
 const currentRoute = useRoute();
 const router = useRouter();
-const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery, setDomaine, setSorting } = useStrategyAPI();
+const { getSuggestion, setQuery, setDomaine, setSorting, reinitializeFilters } = useStrategyAPI();
 
 defineProps({
   loading: {
@@ -64,9 +63,10 @@ defineProps({
     default: false
   },
 });
+
 const request = ref("");
 const requestSearch = ref("");
-const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
+const emit = defineEmits(['reinitializePageNumber', 'onError']);
 let watcherActive = true;
 const disableCompletion = ref(false);
 
@@ -135,21 +135,22 @@ function clearSearch() {
 }
 
 async function search() {
-  setQuery(request.value);
-  if (routeName.value === "resultats") {
-    emit('searchAndReinitializeAllFacets', request.value);
+  await setQuery(request.value);
+  reinitializeFilters();
+  emit('reinitializePageNumber');
+
+  if (currentRoute.query && currentRoute.query.domaine) {
+    setDomaine(decodeURI(currentRoute.query.domaine));
   } else {
-    if (currentRoute.query && currentRoute.query.domaine) {
-      setDomaine(decodeURI(currentRoute.query.domaine));
-    } else {
-      setDomaine("theses");
-    }
-    if (request.value === "") setSorting('dateDesc');
-    router.push({
-      name: 'resultats',
-      query: { 'q': encodeURI(request.value), 'tri': request.value === "" ? "dateDesc" : "" }
-    });
+    setDomaine("theses");
   }
+
+  if (request.value === "") setSorting("dateDesc");
+
+  router.push({
+    name: "resultats",
+    query: { "q": encodeURI(request.value), "domaine": encodeURI(currentRoute.query.domaine) }
+  });
 }
 
 /**
