@@ -25,17 +25,17 @@
           <div v-if="date" class="date-container">
             <span class="date-item">
               <p>{{ $t("results.drawer.from") }}</p>
-              <vue-date-picker v-model="dateFrom" @focus="allowModification" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA"
-                start-date="startDate" :max-date="dateFromMax"
-                :teleport-center="teleportCenter">
+              <vue-date-picker v-model="dateFrom" @focus="allowModification" :teleport="true" locale="fr" auto-apply
+                :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
+                placeholder="AAAA" :start-date="startDate" :max-date="dateFromMax" :teleport-center="teleportCenter">
               </vue-date-picker>
             </span>
             <span class="date-item">
               <p>{{ $t("results.drawer.to") }}</p>
-              <vue-date-picker v-model="dateTo" @focus="allowModification" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" start-date="2020" text-input placeholder="AAAA"
-                :max-date="dateToMax" :min-date="dateToMin" :teleport-center="teleportCenter">
+              <vue-date-picker v-model="dateTo" @focus="allowModification" :teleport="true" locale="fr" auto-apply
+                :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false"
+                start-date="2020" text-input placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin"
+                :teleport-center="teleportCenter">
               </vue-date-picker>
             </span>
           </div>
@@ -60,7 +60,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
-const { reinitializeFacetFilters, updateFilterData, addOrOverwriteDate,setWorkingFacetName } = useStrategyAPI();
+const { reinitializeFacetFilters, updateFilterData, addOrOverwriteDate, setWorkingFacetName } = useStrategyAPI();
 const emit = defineEmits(['reinitializePageNumber']);
 const props = defineProps({
   selectedFacetsArray: {
@@ -205,7 +205,7 @@ function updateFilterDateOnly() {
  */
 watch(() => dateFrom.value,
   () => {
-    if(!resetIsSet.value) {
+    if (!resetIsSet.value) {
       updateFilterDateOnly();
     }
   });
