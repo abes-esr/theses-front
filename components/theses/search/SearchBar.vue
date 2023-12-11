@@ -4,7 +4,6 @@
       :menu="suggestionActive" :menu-props="menuProps" v-model="request" v-model:search="requestSearch" variant="outlined"
       cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object type="text"
       menu-icon="" @keydown.enter="search">
-      <!--      Bouton rechercher-->
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
         <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")' :ripple="false">
@@ -14,6 +13,7 @@
             </v-icon>
           </template>
         </v-btn>
+      <!--      Bouton rechercher-->
         <v-btn @click="search" :title='$t("searchButton")' :loading="loading"
           class="elevation-0 appended-buttons border-left-btn">
           <template v-slot:append>
@@ -55,12 +55,11 @@ export default {
 };
 </script>
 <script setup>
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 
 const currentRoute = useRoute();
 const router = useRouter();
-const routeName = computed(() => currentRoute.name);
-const { getSuggestion, setQuery, setDomaine, setSorting } = useStrategyAPI();
+const { getSuggestion, setQuery, setDomaine, reinitializeFilters } = useStrategyAPI();
 
 defineProps({
   loading: {
@@ -72,9 +71,10 @@ defineProps({
     default: false
   }
 });
+
 const request = ref();
 const requestSearch = ref();
-const emit = defineEmits(['searchAndReinitializeAllFacets', 'onError']);
+const emit = defineEmits(['onError', 'reinitializePageNumber']);
 let watcherActive = true;
 const disableCompletion = ref(false);
 
@@ -148,20 +148,19 @@ async function search() {
   if (request.value === null || request.value === undefined) request.value = "";
 
   setQuery(request.value);
-  if (routeName.value === "resultats") {
-    emit('searchAndReinitializeAllFacets', request.value);
+  reinitializeFilters();
+  emit('reinitializePageNumber');
+
+  if (currentRoute.query && currentRoute.query.domaine) {
+    setDomaine(decodeURI(currentRoute.query.domaine));
   } else {
-    if (currentRoute.query && currentRoute.query.domaine) {
-      setDomaine(decodeURI(currentRoute.query.domaine));
-    } else {
-      setDomaine("theses");
-    }
-    if (request.value === "") setSorting('dateDesc');
-    router.push({
-      name: 'resultats',
-      query: { 'q': encodeURI(request.value), 'tri': request.value === "" ? "dateDesc" : "" }
-    });
+    setDomaine("theses");
   }
+
+  router.push({
+    name: "resultats",
+    query: { "q": encodeURI(request.value), "domaine": encodeURI(currentRoute.query.domaine) }
+  });
 }
 
 function advancedSearch(payload) {
@@ -266,8 +265,6 @@ defineExpose({
   border-radius: 0;
   width: 50px;
 }
-
-
 
 /* Permet de rendre l'auto-complétion + dense */
 :deep(.v-overlay-container) .v-list-item--density-default.v-list-item--one-line {

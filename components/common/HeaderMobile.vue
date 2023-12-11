@@ -103,8 +103,8 @@
     <v-expand-transition>
       <div v-if="type !== 'home'" v-show="showSearchBar" class="expanded-search-bar-container white-containers">
         <div class="expanded-search-bar">
-          <LazyCommonDomainSelector @changeDomain="changeDomain"></LazyCommonDomainSelector>
-          <LazyGenericSearchBar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"
+          <LazyCommonDomainSelector></LazyCommonDomainSelector>
+          <LazyGenericSearchBar
             :loading="loading" @onError="displayError" />
         </div>
       </div>
@@ -153,7 +153,8 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['search', 'changeDomain', 'displayError', 'searchAndReinitializeAllFacets', 'activateMenu', 'activateSearchBar', 'activateFilterMenu', 'activateThesisAccess']);
+const emit = defineEmits(['search', 'displayError', 'activateMenu', 'activateSearchBar', 'activateFilterMenu', 'activateThesisAccess']);
+const { reinitializeFilters } = useStrategyAPI();
 
 /**
  * Fonctions
@@ -170,14 +171,11 @@ function activateFilterMenu() {
 function activateThesisAccess() {
   emit('activateThesisAccess');
 }
-function changeDomain() {
-  emit('changeDomain');
-}
 function search() {
   emit('search');
 }
 function searchAndReinitializeAllFacets() {
-  emit('searchAndReinitializeAllFacets');
+  reinitializeFilters();
 }
 function displayError() {
   emit('displayError');

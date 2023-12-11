@@ -1,7 +1,7 @@
 <template>
   <CommonResultsResultPagination v-if="!mobile" :nb-results=nbResult :type="'top'"
     :current-showing-number="currentShowingNumber" :current-page-number="currentPageNumber"
-    @updateShowingNumber="updateShowingNumber" @updatePage="updatePage" @search="search">
+    @updateShowingNumber="updateShowingNumber" @updatePage="updatePage">
   </CommonResultsResultPagination>
 
   <div class="result-components-wrapper">
@@ -21,7 +21,7 @@
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
-    <CommonResultsFacetsChips :facets="facets" @deleteFilter="deleteFilter" />
+    <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray" @reinitializePageNumber="reinitializePageNumber" />
     <div v-if="mobile || dataReady" class="colonnes-resultats">
       <CommonResultsResultList :result="result" :domain-name-change="domainNameChange">
       </CommonResultsResultList>
@@ -37,11 +37,11 @@
   </div>
 
   <CommonResultsMoreResultsButton class="more-result-button" v-if="mobile && !allResultsWereLoaded()" :loading=loading
-    :nb-result=nbResult @addTenResultsToList="addTenResultsToList" @search="search" />
+    :nb-result=nbResult @addTenResultsToList="addTenResultsToList" />
 
   <CommonResultsResultPagination v-if="!mobile" :nb-results=nbResult :type="'bottom'"
     :current-showing-number="currentShowingNumber" :current-page-number="currentPageNumber" class="pagination-bottom"
-    @updateShowingNumber="updateShowingNumber" @updatePage="updatePage" @search="search">
+    @updateShowingNumber="updateShowingNumber" @updatePage="updatePage">
   </CommonResultsResultPagination>
 </template>
 
@@ -54,7 +54,8 @@ import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
-const { setShowingNumber, setShowingNumberMobile } = useStrategyAPI();
+const { setShowingNumber } = useStrategyAPI();
+const emit = defineEmits(['reinitializePageNumber']);
 
 const props = defineProps({
   result: {
@@ -75,31 +76,19 @@ const props = defineProps({
     type: Boolean
   },
   resetPage: {
-    type: Number
-  },
-  resetShowingNumber: {
-    type: Number
+    type: Number,
+    default: 1
   },
   domainNameChange: {
     type: String
   },
-  facets: {
+  selectedFacetsArray: {
     type: Array
   }
 });
 
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
-
-/**
- * Emits
- */
-
-const emit = defineEmits(['search', 'deleteFilter']);
-
-function deleteFilter(facet) {
-  emit('deleteFilter', facet);
-}
 
 /**
  * Fonctions
@@ -121,7 +110,7 @@ function updateShowingNumber(newValue) {
 
 function addTenResultsToList() {
   currentShowingNumber.value += 10;
-  setShowingNumberMobile(currentShowingNumber.value);
+  setShowingNumber(currentShowingNumber.value);
 }
 
 function updatePage(newPage) {
@@ -130,11 +119,13 @@ function updatePage(newPage) {
 
 function updatePageNumberFromSortingSelect(pageNumber) {
   updatePage(pageNumber);
-  emit('search');
 }
 
-function search() {
-  emit('search');
+/**
+ * Emits
+ */
+function reinitializePageNumber() {
+  emit('reinitializePageNumber');
 }
 
 /**
@@ -142,10 +133,6 @@ function search() {
  */
 watch(() => props.resetPage, () => {
   currentPageNumber.value = 1;
-});
-
-watch(() => props.resetShowingNumber, () => {
-  currentShowingNumber.value = 10;
 });
 </script>
 

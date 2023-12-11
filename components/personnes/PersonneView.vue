@@ -18,7 +18,7 @@
       </div>
       <div class="sub_header__action">
         <CommonDomainSelector></CommonDomainSelector>
-        <GenericSearchBar searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
+        <GenericSearchBar :loading="loading"
           @onError="displayError" />
       </div>
     </div>

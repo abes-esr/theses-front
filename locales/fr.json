@@ -129,6 +129,7 @@
     "returned": "a retourné",
     "results": "résultat(s)"
   },
+  "loading": "Recherche en cours...",
   "personnes": {
     "searchBar": {
       "loading": "Recherche en cours...",

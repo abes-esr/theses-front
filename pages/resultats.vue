@@ -2,21 +2,18 @@
   <ClientOnly><Message-box ref="messageBox"></Message-box></ClientOnly>
   <!--  Mobile-->
   <ClientOnly>
-    <CommonHeaderMobile v-if="mobile" type="resultats" @changeDomain="changeDomain" @search="search"
-      @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" @displayError="displayError"
+    <CommonHeaderMobile v-if="mobile" type="resultats" @search="search(true)" @displayError="displayError"
       @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
       :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"></CommonHeaderMobile>
   </ClientOnly>
   <!--    Menu filtres  -->
   <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
     :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-    <CommonResultsFacetsHeader @closeOverlay="closeOverlay"
-      @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"></CommonResultsFacetsHeader>
-    <CommonResultsFacetsList @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-      :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :reset-facets="resetFacets"
-      :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-      :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-      :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" class="left-side">
+    <CommonResultsFacetsHeader @closeOverlay="closeOverlay" @reinitializePageNumber="reinitializePageNumber"
+    ></CommonResultsFacetsHeader>
+    <CommonResultsFacetsList @reinitializePageNumber="reinitializePageNumber"
+      :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :selected-facets-array="selectedFacetsArray" :domaine="domainNameChange"
+      class="left-side">
     </CommonResultsFacetsList>
   </v-dialog>
   <!--  Fin Mobile-->
@@ -30,28 +27,29 @@
         <h1 v-html='$t("slogan2lines")'></h1>
       </div>
       <div class="sub_header__action">
-        <CommonDomainSelector @changeDomain="changeDomain"></CommonDomainSelector>
-        <GenericSearchBar @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets" :loading="loading"
-          @onError="displayError" />
+        <CommonDomainSelector></CommonDomainSelector>
+        <GenericSearchBar :loading="loading"
+          @onError="displayError" @reinitializePageNumber="reinitializePageNumber" />
       </div>
     </div>
   </div>
 
   <div class="result-main-wrapper">
     <div v-if="!mobile" class="nav-bar">
-      <CommonResultsFacetsHeader @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets">
+      <CommonResultsFacetsHeader @reinitializePageNumber="reinitializePageNumber">
       </CommonResultsFacetsHeader>
-      <CommonResultsFacetsList @update="update" @loadChips="loadChips" @searchAndReinitialize="searchAndReinitialize"
-        :facets="facets" :reset-facets="resetFacets" :reinitialize-date-from-trigger="reinitializeDateFromTrigger"
-        :reinitialize-date-to-trigger="reinitializeDateToTrigger" :domaine="domainNameChange"
-        :parameters-loaded="parametersLoaded" :filter-to-be-deleted="filterToBeDeleted" :loading="!dataFacetsReady"
+      <CommonResultsFacetsList @reinitializePageNumber="reinitializePageNumber"
+        :facets="facets"  :selected-facets-array="selectedFacetsArray"
+        :domaine="domainNameChange"
+        :loading="!dataFacetsReady"
         class="left-side"></CommonResultsFacetsList>
     </div>
     <!--    Mobile & desktop-->
     <div class="result-components white-containers">
       <CommonResultsResultComponents :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
-        :persistentQuery="request" :reset-page="resetPage" :reset-showing-number="resetShowingNumber"
-        :domain-name-change="domainNameChange" :facets="selectedFacets" @search="search" @deleteFilter="deleteFilter">
+        :persistentQuery="request" :reset-page="resetPage"
+        :domain-name-change="domainNameChange" :selected-facets-array="selectedFacetsArray"
+        @reinitializePageNumber="reinitializePageNumber">
       </CommonResultsResultComponents>
     </div>
     <CommonScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
@@ -61,47 +59,38 @@
 <script setup>
 import { defineAsyncComponent, onMounted, ref, watch } from "vue";
 import { useDisplay } from 'vuetify';
-
 const { mobile } = useDisplay();
+
 const {
   setQuery,
   getQuery,
   queryAPI,
   getFacets,
+  getFacetsArrayFromURL,
   setDomaine,
   setPageNumber,
   setShowingNumber,
-  setCheckedFilters,
   getURLParameters,
-  setWorkingFacetName,
   fetchCodeLangues
 } = useStrategyAPI();
 
 const MessageBox = defineAsyncComponent(() => import('/components/common/MessageBox.vue'));
 
 const currentRoute = useRoute();
+const selectedFacetsArray = ref([]);
 const request = ref("");
 const result = ref([]);
 const dataReady = ref(false);
 const dataFacetsReady = ref(false);
 const messageBox = ref(null);
-const resetFacets = ref(0);
 const loading = ref(false);
 const facets = ref({});
 const nbResult = ref(0);
 const resetPage = ref(0);
-const resetShowingNumber = ref(0);
 const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
 const showMenu = ref(false);
 const showSearchBar = ref(false);
-const selectedFacets = ref([]);
-const filterToBeDeleted = ref([]);
-const numberOfDeletedChips = ref(0);
-const parametersLoaded = ref(0);
-const reinitializeDateFromTrigger = ref(0);
-const reinitializeDateToTrigger = ref(0);
-
 
 //Titre statique
 definePageMeta({
@@ -134,12 +123,13 @@ onMounted(async () => {
 /**
  * Fonctions
  */
-async function search(firstLoad = false) {
+async function search(loadFacets = false) {
   request.value = getQuery();
   loading.value = true;
   dataReady.value = false;
 
-  updateFacets(firstLoad);
+  if (loadFacets)
+    updateFacets();
 
   /**
    * Chargement des donnees
@@ -148,7 +138,6 @@ async function search(firstLoad = false) {
     if (!["theses", "personnes"].includes(currentRoute.query.domaine)) {
       throw new Error("Erreur de nom de paramètres");
     }
-
     result.value = response[currentRoute.query.domaine];
     nbResult.value = response.totalHits;
     domainNameChange.value = currentRoute.query.domaine;
@@ -162,20 +151,6 @@ async function search(firstLoad = false) {
   });
 }
 
-function update(facetsArray) {
-  dataReady.value = false;
-  reinitialize();
-  loadChips(facetsArray);
-  search();
-}
-
-function loadChips(facetsArray) {
-  if (facetsArray) {
-    // mise à jour des chips
-    selectedFacets.value = facetsArray;
-  }
-}
-
 function displayError(message) {
   messageBox.value?.open(message, {
     type: "error"
@@ -186,13 +161,12 @@ function closeOverlay() {
   dialogVisible.value = false;
 }
 
-function updateFacets(firstLoad) {
+function updateFacets() {
   getFacets().then(response => {
     facets.value = response;
-    if (firstLoad) {
-      parametersLoaded.value++;
-    }
     dataFacetsReady.value = true;
+  }).then(response => {
+    selectedFacetsArray.value = getFacetsArrayFromURL();
   }).catch(error => {
     facets.value = {};
     if (typeof error !== "undefined" && typeof error.message !== "undefined") {
@@ -202,81 +176,19 @@ function updateFacets(firstLoad) {
 }
 
 function moreThanXResults(x) {
-  if (typeof result.value === "undefined")
-    return false;
-  else if (typeof result.value.length === "undefined")
+  if (typeof result.value === "undefined" || typeof result.value.length === "undefined")
     return false;
   return (result.value.length >= x);
 }
 
-// Si on passe de desktop à mobile ou inversement, réinitialisation des variables de pagination
-watch(mobile, () => {
-  reinitializeCurrentRequest();
-});
-
-/**
- * Réinitialiser l'affichage des résultats
- */
-function reinitializeCurrentRequest() {
-  reinitialize();
-  search();
+function reinitialize() {
+  reinitializePageNumber();
+  setShowingNumber(10);
 }
 
-function reinitialize() {
+function reinitializePageNumber() {
   setPageNumber(1);
   resetPage.value++;
-  setShowingNumber(10);
-  resetShowingNumber.value++;
-}
-
-async function searchAndReinitializeFacet(query) {
-  setQuery(query);
-  searchAndReinitialize();
-  resetFacets.value++;
-}
-
-function resetBeforeSearch() {
-  resetFacets.value++;
-  setWorkingFacetName("");
-  setCheckedFilters([]);
-}
-
-async function searchAndReinitializeAllFacets() {
-  showSearchBar.value = false;
-  resetBeforeSearch();
-  searchAndReinitialize();
-}
-
-
-function changeDomain() {
-  searchAndReinitializeFacet(request.value);
-}
-
-async function searchAndReinitialize() {
-  dataReady.value = false;
-  reinitialize();
-  await search();
-}
-
-function deleteDateFilterIfIsDate(filter) {
-  if (filter.filter.facetName === "datedebut") {
-    reinitializeDateFromTrigger.value++;
-  } else if (filter.filter.facetName === "datefin") {
-    reinitializeDateToTrigger.value++;
-  }
-}
-
-/**
- * Envoie le filtre à supprimer au composant FacetsList, utilisation de numberOfDeletedChips pour détecter la suppression d'un même objet deux fois d'affilée
- * @param filter
- */
-function deleteFilter(filter) {
-  numberOfDeletedChips.value++;
-  deleteDateFilterIfIsDate(filter);
-  filterToBeDeleted.value = {
-    "numberOfDeletedChips": numberOfDeletedChips.value,
-    "filter": filter.filter
-  };
 }
 
 /**
@@ -307,10 +219,31 @@ function sleep(ms) {
 /**
  * Watchers
  */
+// Si on passe de desktop à mobile ou inversement, réinitialisation des variables de pagination
+watch(mobile, () => {
+  reinitialize();
+});
 
 watch(() => currentRoute.query.domaine, () => {
   setDomaine(currentRoute.query.domaine);
 });
+
+watch(() => currentRoute.query, (newParams, oldParams) => {
+  if(!loading.value) {
+    if (newParams.q !== oldParams.q
+        || newParams.filtres !== oldParams.filtres
+        // || newParams.domaine !== oldParams.domaine
+    ) {
+      selectedFacetsArray.value = getFacetsArrayFromURL();
+      search(true);
+    } else if (newParams.page !== oldParams.page || newParams.nb !== oldParams.nb || newParams.tri !== oldParams.tri) {
+      search(false);
+    } else {
+      search(true);
+    }
+  }
+});
+
 </script>
 
 <style scoped lang="scss">
