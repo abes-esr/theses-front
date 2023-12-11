@@ -104,7 +104,7 @@
       <div v-if="type !== 'home'" v-show="showSearchBar" class="expanded-search-bar-container white-containers">
         <div class="expanded-search-bar">
           <LazyCommonDomainSelector></LazyCommonDomainSelector>
-          <LazyGenericSearchBar @search="search" @searchAndReinitializeAllFacets="searchAndReinitializeAllFacets"
+          <LazyGenericSearchBar
             :loading="loading" @onError="displayError" />
         </div>
       </div>

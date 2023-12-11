@@ -176,9 +176,7 @@ function updateFacets() {
 }
 
 function moreThanXResults(x) {
-  if (typeof result.value === "undefined")
-    return false;
-  else if (typeof result.value.length === "undefined")
+  if (typeof result.value === "undefined" || typeof result.value.length === "undefined")
     return false;
   return (result.value.length >= x);
 }
@@ -231,18 +229,18 @@ watch(() => currentRoute.query.domaine, () => {
 });
 
 watch(() => currentRoute.query, (newParams, oldParams) => {
-  console.log(newParams)
-  console.log(oldParams)
-  if (newParams.q !== oldParams.q
-      || newParams.filtres !== oldParams.filtres
-      // || newParams.domaine !== oldParams.domaine
-  ) {
-    selectedFacetsArray.value = getFacetsArrayFromURL();
-    search(true);
-  } else if (newParams.page !== oldParams.page || newParams.nb !== oldParams.nb || newParams.tri !== oldParams.tri) {
-    search(false);
-  } else {
-    search(true);
+  if(!loading.value) {
+    if (newParams.q !== oldParams.q
+        || newParams.filtres !== oldParams.filtres
+        // || newParams.domaine !== oldParams.domaine
+    ) {
+      selectedFacetsArray.value = getFacetsArrayFromURL();
+      search(true);
+    } else if (newParams.page !== oldParams.page || newParams.nb !== oldParams.nb || newParams.tri !== oldParams.tri) {
+      search(false);
+    } else {
+      search(true);
+    }
   }
 });
 

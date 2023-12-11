@@ -27,7 +27,7 @@
               <p>{{ $t("results.drawer.from") }}</p>
               <vue-date-picker v-model="dateFrom" @focus="allowModification" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
                 model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA"
-                start-date="2020" :min-date="dateToMin" :max-date="dateFromMax"
+                start-date="startDate" :max-date="dateFromMax"
                 :teleport-center="teleportCenter">
               </vue-date-picker>
             </span>

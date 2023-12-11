@@ -55,7 +55,7 @@ import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
 const { setShowingNumber } = useStrategyAPI();
-const emit = defineEmits('reinitializePageNumber');
+const emit = defineEmits(['reinitializePageNumber']);
 
 const props = defineProps({
   result: {
