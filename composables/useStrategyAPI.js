@@ -252,7 +252,7 @@ export default function() {
    */
   function getFacetsArrayFromURLString() {
     let facetsArray = [];
-    const stringifiedFacetsArray = decodeURIComponent(currentFacets.value.toString()).split("&");
+    const stringifiedFacetsArray = decodeURIComponent(currentFacets.value.toString()).split("~");
 
     if (stringifiedFacetsArray.length > 0 && stringifiedFacetsArray[0] !== "") {
       stringifiedFacetsArray.forEach((facet) => {
