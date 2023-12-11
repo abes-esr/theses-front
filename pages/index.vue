@@ -14,7 +14,7 @@
                 <h1 class="text-center">{{ $t("slogan") }}</h1>
             </div>
             <CommonDomainSelector></CommonDomainSelector>
-            <GenericSearchBar @search="loading = true" :loading="loading" @onError="displayError" />
+            <GenericSearchBar @search="loading = true" :white-container="true" :loading="loading" @onError="displayError" />
             <div class="stats">
                 <HomeStatsCard :titre=nbTheses :description="$t('referencés')" badge="mdi-check" badgecolor="green"
                     url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">
@@ -96,17 +96,6 @@ function sleep(ms) {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
-    background-image: url(@/assets/background.svg);
-    background-repeat: repeat-x;
-    background-size: auto 50%;
-    background-position: bottom -80px left -10px;
-
-    @media #{ map-get(settings.$display-breakpoints, 'xs')} {
-        background-size: auto 25%;
-        background-position: bottom -50px center;
-        background-attachment: fixed;
-    }
 }
 
 #logoIMG {

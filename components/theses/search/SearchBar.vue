@@ -1,25 +1,24 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" label="Barre de recherche" :items="items" :menu="suggestionActive"
-      :menu-props="menuProps" :active="true" v-model="request" v-model:search="requestSearch" variant="outlined"
+    <v-combobox v-if="!isAdvanced" class="searchbar__input" label="Rechercher des thèses" single-line :items="items"
+      :menu="suggestionActive" :menu-props="menuProps" v-model="request" v-model:search="requestSearch" variant="outlined"
       cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object type="text"
       menu-icon="" @keydown.enter="search">
       <!--      Bouton rechercher-->
-      <template v-slot:prepend-inner>
-        <v-btn @click="search" :title='$t("searchButton")' :loading="loading" class="elevation-0 appended-buttons">
-          <template v-slot:append>
-            <v-icon class="search-bar-icons" id="magnifying-glass">
-              mdi-magnify
-            </v-icon>
-          </template>
-        </v-btn>
-      </template>
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
         <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")' :ripple="false">
           <template v-slot:append>
             <v-icon class="search-bar-icons" id="clean-button">
               mdi-close
+            </v-icon>
+          </template>
+        </v-btn>
+        <v-btn @click="search" :title='$t("searchButton")' :loading="loading"
+          class="elevation-0 appended-buttons border-left-btn">
+          <template v-slot:append>
+            <v-icon class="search-bar-icons" id="magnifying-glass">
+              mdi-magnify
             </v-icon>
           </template>
         </v-btn>
@@ -35,12 +34,17 @@
       </template>
     </v-combobox>
 
+    <theses-search-advanced-form v-if="isAdvanced" @search="advancedSearch" @simple="isAdvanced = false"
+      :white-container="whiteContainer"></theses-search-advanced-form>
+
     <div class="searchbar__action">
-      <v-checkbox :label="$t('disableSuggestion')" v-model="disableCompletion"
+      <span v-if="isAdvanced"></span>
+      <v-checkbox v-else :label="$t('disableSuggestion')" v-model="disableCompletion"
         :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn color="primary" density="compact" variant="outlined" :title='$t("avancee")' @click="search">{{
-        $t("avancee")
-      }}
+      <v-btn v-if="!isAdvanced" color="primary" density="compact" variant="outlined" :title='$t("avancee")'
+        @click="isAdvanced = true">{{
+          $t("avancee")
+        }}
       </v-btn>
     </div>
   </div>
@@ -51,29 +55,35 @@ export default {
 };
 </script>
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 
 const currentRoute = useRoute();
 const router = useRouter();
-const { getSuggestion, setQuery, setDomaine, setSorting, reinitializeFilters } = useStrategyAPI();
+const routeName = computed(() => currentRoute.name);
+const { getSuggestion, setQuery, setDomaine, setSorting } = useStrategyAPI();
 
 defineProps({
   loading: {
     type: Boolean,
     default: false
   },
+  whiteContainer: {
+    type: Boolean,
+    default: false
+  }
 });
 
-const request = ref("");
-const requestSearch = ref("");
+const request = ref();
+const requestSearch = ref();
 const emit = defineEmits(['reinitializePageNumber', 'onError']);
 let watcherActive = true;
 const disableCompletion = ref(false);
 
+const isAdvanced = useState('isAdvanced', () => false);
 
 onMounted(
   () => {
-    if (currentRoute.query && currentRoute.query.q) {
+    if (currentRoute.query && currentRoute.query.q && currentRoute.query.q !== "*") {
       request.value = decodeURI(currentRoute.query.q);
       setQuery(request.value);
       // Permet de ne pas ouvrir l'autocomplétion au chargement de la page
@@ -95,7 +105,8 @@ const suggestionActive = ref(false);
 const menuProps = {
   'open-on-focus': false,
   'content-class': 'autocomplete',
-  'max-height': '600px'
+  'height': '50vh',
+  'max-height': '340px'
 };
 
 watch(requestSearch, (newRequestSearch) => {
@@ -131,11 +142,13 @@ watch(disableCompletion, (newDisableCompletion) => {
  * Fonction lorsqu'on vide le champ de saisie
  */
 function clearSearch() {
-  request.value = "";
+  request.value = null;
 }
 
 async function search() {
-  await setQuery(request.value);
+  if (request.value === null || request.value === undefined) request.value = "";
+
+  setQuery(request.value);
   reinitializeFilters();
   emit('reinitializePageNumber');
 
@@ -144,13 +157,16 @@ async function search() {
   } else {
     setDomaine("theses");
   }
-
   if (request.value === "") setSorting("dateDesc");
-
   router.push({
     name: "resultats",
     query: { "q": encodeURI(request.value), "domaine": encodeURI(currentRoute.query.domaine) }
   });
+}
+
+function advancedSearch(payload) {
+  request.value = payload;
+  search();
 }
 
 /**
@@ -245,7 +261,11 @@ defineExpose({
   }
 }
 
-
+:deep(.border-left-btn) {
+  border-left: solid 1px rgb(var(--v-theme-gris-clair));
+  border-radius: 0;
+  width: 50px;
+}
 
 /* Permet de rendre l'auto-complétion + dense */
 :deep(.v-overlay-container) .v-list-item--density-default.v-list-item--one-line {

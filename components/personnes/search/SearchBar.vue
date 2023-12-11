@@ -1,27 +1,26 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" label="Barre de recherche" :items="suggestions"
-      :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps" :active="true"
+    <v-combobox class="searchbar__input" label="Rechercher des personnes, par nom ou par domaine d’expertise" single-line
+      :items="suggestions" :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps"
       :hide-no-data="!isSuggestionActive || suggestions.length == 0"
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
       v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected no-filter
       density="compact" return-object type="text" menu-icon="" @keydown.enter="search" :loading="isSuggestionLoading">
       <!--      Bouton rechercher-->
-      <template v-slot:prepend-inner>
-        <v-btn @click="search" :title='$t("searchButton")' :loading="loading" class="elevation-0 appended-buttons">
-          <template v-slot:append>
-            <v-icon class="search-bar-icons" id="magnifying-glass">
-              mdi-magnify
-            </v-icon>
-          </template>
-        </v-btn>
-      </template>
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
         <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")' :ripple="false">
           <template v-slot:append>
             <v-icon class="search-bar-icons" id="clean-button">
               mdi-close
+            </v-icon>
+          </template>
+        </v-btn>
+        <v-btn @click="search" :title='$t("searchButton")' :loading="loading"
+          class="elevation-0 appended-buttons border-left-btn">
+          <template v-slot:append>
+            <v-icon class="search-bar-icons" id="magnifying-glass">
+              mdi-magnify
             </v-icon>
           </template>
         </v-btn>
@@ -52,9 +51,7 @@
     <div class="searchbar__action">
       <v-checkbox :label="$t('disableSuggestion')" v-model="isSuggestionDisabledCheckbox"
         :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn color="primary" density="compact" variant="outlined" :title='$t("avancee")' @click="search">{{ $t("avancee")
-      }}
-      </v-btn>
+
     </div>
   </div>
 </template>
@@ -85,15 +82,24 @@ const emit = defineEmits(['onError', 'reinitializePageNumber']);
 const menuProps = {
   'open-on-focus': false,
   'content-class': 'autocompl',
-  'max-height': '600px'
+  'height': '50vh',
+  'max-height': '340px'
 };
 
 onMounted(
   () => {
-    if (currentRoute.query && currentRoute.query.q) {
+    if (currentRoute.query && currentRoute.query.q && currentRoute.query.q !== "*") {
       // Il y a une précédente recherche dans l'URL
       request.value = decodeURI(currentRoute.query.q);
       requestSearch.value = decodeURI(currentRoute.query.q);
+
+      //Si on avait une recherche avancée en cours, on réinitialise
+      const isAdvanced = useState("isAdvanced");
+      if (isAdvanced.value) {
+        request.value = "";
+        requestSearch.value = "";
+        isAdvanced.value = false;
+      }
     } else {
       isSuggestionActive.value = true;
     }
@@ -110,13 +116,16 @@ onMounted(
  * @returns {Promise<void>}
  */
 function clearSearch() {
-  request.value = "";
+  request.value = null;
 }
 
 /**
  * Fonction pour rechercher
  */
 async function search() {
+
+  if (request.value === null || request.value === undefined) request.value = "";
+
   isSuggestionActive.value = false;
   suggestions.value = [];
 
@@ -285,6 +294,11 @@ defineExpose({
   }
 }
 
+:deep(.border-left-btn) {
+  border-left: solid 1px rgb(var(--v-theme-gris-clair));
+  border-radius: 0;
+  width: 50px;
+}
 
 
 /* Permet de rendre l'auto-complétion + dense */

@@ -147,6 +147,7 @@ a {
 }
 
 .disciplines {
+  display: grid;
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 3;
@@ -167,7 +168,7 @@ a {
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     font-size: 0.8em;
     grid-column-start: 1;
-    grid-column-end: 3;
+    grid-column-end: 4;
   }
 
 }

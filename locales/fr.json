@@ -3,11 +3,15 @@
     "parameters": "Erreur dans le nom du paramètre"
   },
   "slogan": "Le moteur de recherche des thèses françaises",
+  "slogan2lines": "Le moteur de recherche <br /> des thèses françaises",
   "toutesTheses": "Les thèses",
   "toutesPersonnes": "Les personnes",
+  "toutesPersonnesSubtitle": "liées aux thèses",
   "au": "au ",
   "explorer": "EXPLORER",
   "rechercher": "Rechercher",
+  "simple": "Recherche simple",
+  "vider": "Vider les champs",
   "accesDirect": "Ressources",
   "apropos": "A propos",
   "donnees": "Données personnelles",
@@ -16,7 +20,7 @@
   "accessibilite": "Accessibilité",
   "referencés": "thèses soutenues",
   "preparation": "thèses en préparation",
-  "personnesRef": "personnes",
+  "personnesRef": "personnes liées aux thèses",
   "assistance": "Assistance",
   "partager": "Partager",
   "documentation": "Documentation",
@@ -55,7 +59,7 @@
     "soutenueEn": "Soutenance en ",
     "inscription": "Inscription en doctorat le ",
     "a": " à ",
-    "auteur": "Auteur",
+    "auteur": "Auteur / Autrice",
     "direction": "Direction",
     "type": "Type",
     "disciplines": "Discipline(s)",
@@ -64,9 +68,9 @@
     "etablissements" : "Etablissement(s)",
     "partenariat": "Partenaire(s) de recherche",
     "jury": "Jury",
-    "president": "Président :",
-    "composition": "Examinateurs :",
-    "rapporteurs": "Rapporteurs :",
+    "president": "Président / Présidente :",
+    "composition": "Examinateurs / Examinatrices :",
+    "rapporteurs": "Rapporteurs / Rapporteuses :",
     "cadre": " dans le cadre de ",
     "cotutelle": " en cotutelle avec ",
     "motcle": "Mots clés",
@@ -135,18 +139,18 @@
     "resultView": {
       "resultats": " résultats de personnes pour ",
       "personnesCard": {
-        "auteur": "Auteur",
-        "directeur": "Directeur",
-        "rapporteur": "Rapporteur"
+        "auteur": "Auteur / Autrice",
+        "directeur": "Directeur / Directrice",
+        "rapporteur": "Rapporteur / Rapporteuse"
       }
     },
     "personneView": {
       "statistiques": {
-        "auteur": "Auteur",
-        "directeur de thèse": "Directeur",
-        "président du jury": "Président du jury",
-        "rapporteur": "Rapporteur",
-        "membre du jury": "Membre du jury",
+        "auteur": "Auteur / Autrice",
+        "directeur de thèse": "Directeur / Directrice",
+        "président du jury": "Président / Présidente du jury",
+        "rapporteur": "Rapporteur / Rapporteuse",
+        "membre du jury": "Examinateur / Examinatrice",
         "theses": "thèse(s)",
         "theses2": "thèse(s)"
       },
@@ -155,11 +159,11 @@
         "readLess": "Refermer"
       },
       "roles": {
-        "auteur": "Auteur de {0} thèse(s)",
-        "directeur": "Directeur de {0} thèse(s)",
-        "rapporteur": "Rapporteur pour {0} thèse(s)",
-        "president": "Président de jury pour {0} thèse(s)",
-        "membre": "Membre du jury pour {0} thèse(s)"
+        "auteur": "Auteur / Autrice de {0} thèse(s)",
+        "directeur": "Directeur / Directrice de {0} thèse(s)",
+        "rapporteur": "Rapporteur / Rapporteuse pour {0} thèse(s)",
+        "president": "Président / Présidente du jury de jury pour {0} thèse(s)",
+        "membre": "Examinateur / Examinatrice pour {0} thèse(s)"
       }
     }
   },

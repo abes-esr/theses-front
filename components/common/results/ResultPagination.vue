@@ -77,7 +77,7 @@ const totalVisible = computed(() => {
     if (xlAndUp.value) return 8;
     else return 2;
   else
-    if (xlAndUp.value) return "";
+    if (xlAndUp.value) return "10";
     else return 2;
 })
 

@@ -18,7 +18,7 @@
                 <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
                     <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
                 </NuxtLink>
-                <h1>{{ $t("slogan") }}</h1>
+                <h1 v-html='$t("slogan2lines")'></h1>
             </div>
             <div class="sub_header__action">
                 <CommonDomainSelector></CommonDomainSelector>
@@ -375,16 +375,6 @@ function sleep(ms) {
 
 .info-wrapper {
     padding-top: 1em;
-}
-
-.domain-selector {
-    :deep(.v-btn__content) {
-        flex-direction: row !important;
-    }
-
-    :deep(.v-icon) {
-        margin-right: 1rem !important;
-    }
 }
 
 .skeleton-cards {

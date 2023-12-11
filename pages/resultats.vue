@@ -24,7 +24,7 @@
         <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
           <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
         </NuxtLink>
-        <h1>{{ $t("slogan") }}</h1>
+        <h1 v-html='$t("slogan2lines")'></h1>
       </div>
       <div class="sub_header__action">
         <CommonDomainSelector></CommonDomainSelector>
@@ -176,7 +176,9 @@ function updateFacets() {
 }
 
 function moreThanXResults(x) {
-  if (typeof result.value.length === "undefined")
+  if (typeof result.value === "undefined")
+    return false;
+  else if (typeof result.value.length === "undefined")
     return false;
   return (result.value.length >= x);
 }
@@ -293,16 +295,6 @@ watch(() => currentRoute.query, (newParams, oldParams) => {
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       grid-column-start: 1;
     }
-  }
-}
-
-.domain-selector {
-  :deep(.v-btn__content) {
-    flex-direction: row !important;
-  }
-
-  :deep(.v-icon) {
-    margin-right: 1rem !important;
   }
 }
 </style>

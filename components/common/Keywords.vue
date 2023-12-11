@@ -21,8 +21,9 @@
       </div>
       <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
         <template v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
-          <nuxt-link :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' }}"
-                     :class="keyWord.type !== 'sujetsRameau' ? 'disabled-link' : ''">
+          <nuxt-link
+            :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }"
+            :class="keyWord.type !== 'sujetsRameau' ? 'disabled-link' : ''">
             <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'">
               <span class="key-word-label">{{ keyWord.keyword }}</span>
             </v-chip>
@@ -62,8 +63,9 @@ const props = defineProps({
 
 const { mobile } = useDisplay();
 
-const numberOfKeywordsPerLine = mobile.value ? ref(6) : ref(10);
-const numberOfKeywords = mobile.value ? ref(6) : ref(10);
+// Si c'est une these (donc si on a un titre dans l'objet) on affiche plus de keywords
+const numberOfKeywordsPerLine = mobile.value ? ref(6) : props.these.titrePrincipal ? ref(50) : ref(10);
+const numberOfKeywords = mobile.value ? ref(6) : props.these.titrePrincipal ? ref(50) : ref(10);
 const forceRenderKey = ref(0);
 
 const keywords = ref([]);
@@ -129,9 +131,8 @@ function narrowDownKeywords() {
  * Watchers
  */
 watch(mobile, (newValue) => {
-  numberOfKeywordsPerLine.value = newValue ? 6 : 5;
-  numberOfKeywords.value = newValue ? 6 : 5;
-
+  numberOfKeywordsPerLine.value = newValue ? 6 : props.these.titrePrincipal ? 50 : 10;
+  numberOfKeywords.value = newValue ? 6 : props.these.titrePrincipal ? 50 : 10;
   forceRenderKey.value++;
 });
 </script>
@@ -183,6 +184,7 @@ h1 {
   max-width: 90vw;
 
   margin-top: unset !important;
+
   .free-chip {
     background-color: rgb(var(--v-theme-secondary-darken-2)) !important;
   }
