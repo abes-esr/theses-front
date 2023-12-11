@@ -191,7 +191,7 @@ export default function() {
     });
 
     return encodeURIComponent(
-      filtersArrayURL.join("&")
+      filtersArrayURL.join("~")
     );
   }
 
