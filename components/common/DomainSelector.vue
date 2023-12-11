@@ -27,7 +27,6 @@ import { ref, watch } from 'vue';
 const selected = ref('theses');
 const router = useRouter();
 const currentRoute = useRoute();
-const emit = defineEmits(['changeDomain']);
 
 function init() {
   if (currentRoute.query.domaine !== undefined && currentRoute.query.domaine !== "undefined") {
@@ -48,9 +47,7 @@ async function select(selection) {
   }
   await router.replace({
     query: currentURLParams
-  }).then(() => {
-    emit('changeDomain');
-  });
+  })
 }
 
 watch(() => currentRoute.path, () => {

@@ -25,16 +25,17 @@
           <div v-if="date" class="date-container">
             <span class="date-item">
               <p>{{ $t("results.drawer.from") }}</p>
-              <vue-date-picker v-model="dateFrom" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input placeholder="AAAA"
-                start-date="2020" :min-date="dateToMin" :max-date="dateFromMax" :teleport-center="teleportCenter">
+              <vue-date-picker v-model="dateFrom" @focus="allowModification" :teleport="true" locale="fr" auto-apply
+                :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
+                placeholder="AAAA" :start-date="startDate" :max-date="dateFromMax" :teleport-center="teleportCenter">
               </vue-date-picker>
             </span>
             <span class="date-item">
               <p>{{ $t("results.drawer.to") }}</p>
-              <vue-date-picker v-model="dateTo" :teleport="true" locale="fr" auto-apply :clearable="false" year-picker
-                model-type="yyyy" format="yyyy" :enable-time-picker="false" start-date="2020" text-input
-                placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin" :teleport-center="teleportCenter">
+              <vue-date-picker v-model="dateTo" @focus="allowModification" :teleport="true" locale="fr" auto-apply
+                :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false"
+                start-date="2020" text-input placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin"
+                :teleport-center="teleportCenter">
               </vue-date-picker>
             </span>
           </div>
@@ -42,8 +43,8 @@
           <!--          Facettes texte-->
           <div v-else v-for="(facetItem, index) in facetItems" :key="`facet-${facetItem.name}`">
             <CommonResultsFacetCheckbox v-if="facetItem.selected" :key="`${facet.name}-value-${index}`"
-              :facets-array="facetsArray" :facet-name="facet.name" :facet-item="facetItem"
-              @updateFilterData="updateFilterData" :margin-offset="marginOffset" />
+              :selected-facets-array="selectedFacetsArray" :facet-name="facet.name" :facet-item="facetItem"
+              @updateFilterData="updateFilterDataFromDrawer" :margin-offset="marginOffset" />
           </div>
         </div>
         <!--          Fin Facettes texte-->
@@ -59,29 +60,20 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
-const emit = defineEmits(['update:facetsArray', 'updateFilterData', 'updateFilterDateOnly', 'reinitializeCheckboxes']);
+const { reinitializeFacetFilters, updateFilterData, addOrOverwriteDate, setWorkingFacetName } = useStrategyAPI();
+const emit = defineEmits(['reinitializePageNumber']);
 const props = defineProps({
-  facetsArray: {
-    type: Array
+  selectedFacetsArray: {
+    type: Array,
+    default: []
   },
   facet: {
-    type: Object
+    type: Object,
+    default: {}
   },
   date: {
     type: Boolean,
     default: false
-  },
-  reinitializeDateFieldsTrigger: {
-    type: Number
-  },
-  reinitializeDateFromTrigger: {
-    type: Number
-  },
-  reinitializeDateToTrigger: {
-    type: Number
-  },
-  parametersLoaded: {
-    type: Number
   }
 });
 
@@ -89,7 +81,9 @@ const marginOffset = ref(0);
 const filterSearchText = ref("");
 
 const dateFrom = ref();
+const startDate = ref("1980");
 const dateTo = ref(new Date().getFullYear());
+const resetIsSet = ref(true);
 
 let dateFromMax = computed(() => {
   return dateTo.value && (dateTo.value <= (new Date()).getFullYear())
@@ -127,12 +121,9 @@ let facetItems = computed(() => {
   return filters;
 });
 
-fillDateDrawerFields();
-
 /**
  * Fonctions
  */
-
 function searchIntoFacet() {
   facetItems.value.forEach(function (facetItem) {
     const filterLowerCase = removeAccents(facetItem.label.toLowerCase());
@@ -145,33 +136,10 @@ function searchIntoFacet() {
 function removeAccents(str) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
-
-/**
- * Watchers
- */
-watch(filterSearchText, () => {
-  searchIntoFacet();
-});
-
-watch(dateFrom, () => {
-  updateFilterDateOnly();
-});
-
-watch(dateTo, () => {
-  updateFilterDateOnly();
-});
-
-
-/**
- * Emits
- */
-function updateFilterData(filterData) {
+function updateFilterDataFromDrawer(filterData) {
   filterData.facetName = props.facet.name; // Nom de la facette
-  emit("updateFilterData", filterData);
-}
-
-function updateFilterDateOnly() {
-  emit("updateFilterDateOnly", [dateFrom.value, dateTo.value]);
+  updateFilterData(filterData);
+  emit('reinitializePageNumber');
 }
 
 function reinitializeDateFields() {
@@ -180,45 +148,18 @@ function reinitializeDateFields() {
 }
 
 function reinitializeCheckboxes() {
+  emit('reinitializePageNumber');
   if (props.date) {
     reinitializeDateFields();
     updateFilterDateOnly();
   } else {
-    emit("reinitializeCheckboxes", props.facet.name);
+    reinitializeFacetFilters(props.facet.name);
   }
 }
 
-function reinitializeDateFromField() {
-  if (props.date)
-    dateFrom.value = "";
-}
-
-function reinitializeDateToField() {
-  if (props.date)
-    dateTo.value = "";
-}
-
-/**
- * Watchers
- */
-watch(() => props.reinitializeDateFieldsTrigger,
-  () => {
-    reinitializeDateFields();
-  });
-
-watch(() => props.reinitializeDateFromTrigger,
-  () => {
-    reinitializeDateFromField();
-  });
-
-watch(() => props.reinitializeDateToTrigger,
-  () => {
-    reinitializeDateToField();
-  });
-
 function fillDateDrawerFields() {
   if (props.date) {
-    props.facetsArray.forEach((filter) => {
+    props.selectedFacetsArray.forEach((filter) => {
       if (filter.datedebut) {
         dateFrom.value = filter.datedebut;
       } else if (filter.datefin) {
@@ -229,16 +170,64 @@ function fillDateDrawerFields() {
         dateTo.value = filter.label;
       }
     });
+
+    // Réinitialiser les valeurs de dates si non sélectionnées dans le tableau ou réinitialisées
+    let dateDebutSelected = props.selectedFacetsArray.filter((filter) => {
+      return (filter.datedebut || filter.facetName === "datedebut")
+    });
+    let dateFinSelected = props.selectedFacetsArray.filter((filter) => {
+      return (filter.datefin || filter.facetName === "datefin")
+    });
+
+    if (dateDebutSelected.length < 1) {
+      dateFrom.value = "";
+    }
+
+    if (dateFinSelected.length < 1) {
+      dateTo.value = "";
+    }
   }
 }
 
+function allowModification() {
+  resetIsSet.value = false;
+}
+
+function updateFilterDateOnly() {
+  setWorkingFacetName('');
+  //Ajoute les dates courantes dans la liste des filtres, si elles sont définies
+  addOrOverwriteDate([dateFrom.value, dateTo.value]);
+  emit('reinitializePageNumber');
+}
+
 /**
- * Initialisation des valeurs dates depuis chargées l'url
+ * Watchers
  */
-watch(() => props.parametersLoaded,
+watch(() => dateFrom.value,
+  () => {
+    if (!resetIsSet.value) {
+      updateFilterDateOnly();
+    }
+  });
+
+watch(() => dateTo.value,
+  () => {
+    if (!resetIsSet.value) {
+      updateFilterDateOnly();
+    }
+  });
+
+watch(filterSearchText, () => {
+  searchIntoFacet();
+});
+/**
+ * Initialisation des valeurs dates depuis chargées l'url et mise à jour
+ */
+watch(() => props.selectedFacetsArray,
   () => {
     fillDateDrawerFields();
   });
+
 </script>
 
 <style scoped lang="scss">

@@ -9,7 +9,7 @@
 <script setup>
 import { useDisplay } from "vuetify";
 const { mobile } = useDisplay();
-const emit = defineEmits(['addTenResultsToList', 'search']);
+const emit = defineEmits(['addTenResultsToList']);
 
 defineProps({
   nbResult: {
@@ -22,10 +22,8 @@ defineProps({
   }
 })
 
-
 function incrementAffichage() {
   emit('addTenResultsToList');
-  emit('search');
 }
 </script>
 

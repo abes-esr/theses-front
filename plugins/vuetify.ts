@@ -26,6 +26,14 @@ const myCustomLightTheme = {
 }
 
 export default defineNuxtPlugin((app) => {
+  let ssr = true;
+
+  if (!app.ssrContext?.event?.node?.req?.headers?.['user-agent']?.toLowerCase().includes('mobi')) {
+    ssr = {
+      clientWidth: 1281, // the desired width for initial render. This is a 'lg' breakpoint width
+    };
+  }
+
   const vuetify = createVuetify({
      theme: {
         defaultTheme: 'myCustomLightTheme',
@@ -33,7 +41,7 @@ export default defineNuxtPlugin((app) => {
             myCustomLightTheme,
         }
     },
-    ssr: true,
+    ssr: ssr,
     display: {
         mobileBreakpoint: 'md'
     },

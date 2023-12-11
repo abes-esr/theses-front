@@ -1,12 +1,12 @@
 <template>
   <div class="chips-list">
-    <v-chip v-for="facet in facets" :key="`facet-chip-${facet.label}`" label closable variant="outlined" size="small"
+    <v-chip v-for="facet in selectedFacetsArray" :key="`facet-chip-${facet.label}`" label closable variant="outlined" size="small"
       @click:close="deleteFilter(facet)">
-      <label v-if="facet.filter.facetName === 'datedebut'" :title="$t('results.chips.from') + ' ' + facet.label"
+      <label v-if="facet.facetName === 'datedebut'" :title="$t('results.chips.from') + ' ' + facet.label"
         class="chip-label">
         {{ $t("results.chips.from") }} {{ facet.label }}
       </label>
-      <label v-else-if="facet.filter.facetName === 'datefin'" :title="$t('results.chips.to') + ' ' + facet.label"
+      <label v-else-if="facet.facetName === 'datefin'" :title="$t('results.chips.to') + ' ' + facet.label"
         class="chip-label">
         {{ $t("results.chips.to") }} {{ facet.label }}
       </label>
@@ -16,21 +16,23 @@
     </v-chip>
   </div>
 </template>
-<script setup>
 
-const { setWorkingFacetName } = useStrategyAPI();
+<script setup>
+const { setWorkingFacetName, updateFilterData } = useStrategyAPI();
 
 defineProps({
-  facets: {
-    type: Object
+  selectedFacetsArray: {
+    type: Object,
+      default: []
   }
 });
 
-const emit = defineEmits(['deleteFilter']);
+const emit = defineEmits('reinitializePageNumber');
 
 function deleteFilter(facet) {
-  setWorkingFacetName('');
-  emit('deleteFilter', facet);
+  setWorkingFacetName(facet.facetName);
+  updateFilterData(facet);
+  emit('reinitializePageNumber');
 }
 </script>
 
