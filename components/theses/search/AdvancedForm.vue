@@ -48,7 +48,7 @@
                 </div>
                 <div class="buttons space-between">
                     <v-btn color="primary" density="compact" variant="plain" :title='$t("vider")' @click="clear"
-                        prepend-icon="mdi-close">{{
+                        prepend-icon="mdi-reload">{{
                             $t("vider") }}</v-btn>
                     <span>
                         <v-btn @click="addField" variant="plain" density="compact" title="Ajouter un champ"
@@ -96,7 +96,6 @@ const operator = computed(() => {
 const types = ref([
     { titre: 'Titre', value: 'titrePrincipal' },
     { titre: 'Mots clés', value: 'sujetsLibelle' },
-    { titre: 'Mots clés rameaux', value: 'sujetsRameauLibelle' },
     { titre: "Résumé", value: 'resumes.\\*' },
     { titre: "Discipline", value: "discipline" },
     { titre: "Auteur", value: "auteursNP" },
@@ -139,10 +138,13 @@ function objectToQuery() {
         if (field.value === "") {
             result += " ";
         } else {
-            if (index === formFields.value.length - 1) {
-                result += ` ${field.type}:(${field.value})`;
-            } else {
-                result += ` ${field.type}:(${field.value}) ${operator.value}`;
+            result += ` ${field.type}:(${field.value})`;
+
+            //Cas particulier : pour les mots clés on ajoute également les rameaux
+            if (field.type === "sujetsLibelle") result += ` OR sujetsRameauLibelle:(${field.value})`;
+
+            if (index !== formFields.value.length - 1) {
+                result += ` ${operator.value}`;
             }
         }
     });
