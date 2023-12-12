@@ -237,9 +237,6 @@ watch(() => currentRoute.query.domaine, () => {
 });
 
 watch(() => currentRoute.query, (newParams, oldParams) => {
-  console.log(oldParams)
-  console.log(newParams)
-
     if (newParams.q !== oldParams.q || newParams.filtres !== oldParams.filtres) {
       selectedFacetsArray.value = getFacetsArrayFromURL();
       search(true);
