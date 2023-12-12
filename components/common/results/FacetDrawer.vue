@@ -149,6 +149,8 @@ function reinitializeDateFields() {
 
 function reinitializeCheckboxes() {
   emit('reinitializePageNumber');
+  setWorkingFacetName("");
+
   if (props.date) {
     reinitializeDateFields();
     updateFilterDateOnly();

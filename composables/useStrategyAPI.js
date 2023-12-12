@@ -23,7 +23,6 @@ export default function() {
   const {
     suggestionTheses,
     getFacetsTheses,
-    getThese,
     queryThesesAPI,
     getItemsTriTheses,
     disableOrFiltersTheses,
@@ -32,7 +31,6 @@ export default function() {
   const {
     suggestionPersonne,
     getFacetsPersonnes,
-    getPersonne,
     queryPersonnesAPI,
     getItemsTriPersonnes,
     getItemsTriMapPersonnes
@@ -48,27 +46,9 @@ export default function() {
     updateURL();
   }
 
-  function getCurrentPageNumber() {
-    if (typeof currentPageNumber.value !== "undefined") {
-      return parseInt(currentPageNumber.value);
-    } else {
-      const startingParameterPageFirstLoad = parseInt(getURLParameter("page"));
-      return startingParameterPageFirstLoad ? startingParameterPageFirstLoad : 1;
-    }
-  }
-
   function setShowingNumber(value) {
     currentShowingNumber.value = parseInt(value);
     updateURL();
-  }
-
-  function getCurrentShowingNumber() {
-    if (typeof currentShowingNumber.value !== "undefined") {
-      return parseInt(currentShowingNumber.value);
-    } else {
-      const startingParameterShowingNumberFirstLoad = parseInt(getURLParameter("nb"));
-      return startingParameterShowingNumberFirstLoad ? startingParameterShowingNumberFirstLoad : 10;
-    }
   }
 
   function setSorting(value) {
@@ -212,10 +192,6 @@ export default function() {
    */
   function queryAPI(mobile) {
     query.value = (typeof query.value === "undefined") ? "*" : query.value;
-
-    if (!mobile._object.mobile) {
-      updateURL();
-    }
 
     if (domaine.value === "personnes")
       return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
@@ -586,36 +562,6 @@ export default function() {
         && Object.values(comparedObject)[0] === Object.values(currentObject)[0]);
   }
 
-  function getData(id) {
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async (resolve, reject) => {
-      let thesisData = {};
-
-      if (domaine.value === "theses") {
-        await getThese(id)
-          .then(response => {
-            thesisData = response;
-          }).catch((err) => {
-            reject(err);
-          });
-      }
-
-      if (domaine.value === "personnes") {
-        await getPersonne(id)
-          .then(response => {
-            thesisData = response;
-          }).catch((err) => {
-            reject(err);
-          });
-      }
-
-      if (Object.keys(thesisData).length > 0) {
-        resolve(thesisData);
-      }
-      reject();
-    });
-  }
-
   function getSuggestion(candidate) {
     return new Promise((resolve) => {
       if (domaine.value === "theses")
@@ -670,6 +616,7 @@ export default function() {
     updateFilterData,
     addOrOverwriteDate,
     reinitializeFilters,
-    reinitializeFacetFilters
+    reinitializeFacetFilters,
+    setCheckedFilters
   };
 }

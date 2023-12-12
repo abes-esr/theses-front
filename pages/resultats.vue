@@ -71,7 +71,9 @@ const {
   setPageNumber,
   setShowingNumber,
   getURLParameters,
-  fetchCodeLangues
+  fetchCodeLangues,
+  setWorkingFacetName,
+  setCheckedFilters
 } = useStrategyAPI();
 
 const MessageBox = defineAsyncComponent(() => import('/components/common/MessageBox.vue'));
@@ -136,7 +138,7 @@ async function search(loadFacets = false) {
    */
   return queryAPI(mobile).then((response) => {
     if (!["theses", "personnes"].includes(currentRoute.query.domaine)) {
-      throw new Error("Erreur de nom de paramètres");
+      throw new Error("Erreur");
     }
     result.value = response[currentRoute.query.domaine];
     nbResult.value = response.totalHits;
@@ -186,6 +188,12 @@ function reinitialize() {
   setShowingNumber(10);
 }
 
+function reinitializeEverything() {
+  setCheckedFilters([]);
+  setWorkingFacetName("");
+  reinitialize();
+}
+
 function reinitializePageNumber() {
   setPageNumber(1);
   resetPage.value++;
@@ -229,19 +237,20 @@ watch(() => currentRoute.query.domaine, () => {
 });
 
 watch(() => currentRoute.query, (newParams, oldParams) => {
-  if(!loading.value) {
-    if (newParams.q !== oldParams.q
-        || newParams.filtres !== oldParams.filtres
-        // || newParams.domaine !== oldParams.domaine
-    ) {
+  console.log(oldParams)
+  console.log(newParams)
+
+    if (newParams.q !== oldParams.q || newParams.filtres !== oldParams.filtres) {
       selectedFacetsArray.value = getFacetsArrayFromURL();
       search(true);
     } else if (newParams.page !== oldParams.page || newParams.nb !== oldParams.nb || newParams.tri !== oldParams.tri) {
       search(false);
+    } else if(newParams.domaine !== oldParams.domaine) {
+      reinitializeEverything();
+      search(true);
     } else {
       search(true);
     }
-  }
 });
 
 </script>
