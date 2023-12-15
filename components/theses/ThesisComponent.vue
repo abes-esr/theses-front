@@ -16,7 +16,7 @@
       <div class="thesis-info-wrapper">
         <ThesesThesisTable class="thesis-component" :these="these" />
         <v-divider v-if="keywordsAreSet" :thickness="1" class="divider border-opacity-50" length="90%" />
-        <CommonKeywords v-if="keywordsAreSet" class="thesis-component" :keywords-are-set="keywordsAreSet" :these="these"
+        <CommonKeywords v-if="keywordsAreSet" class="thesis-component" :keywords-are-set="keywordsAreSet" :these="these" type="theses"
           :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
         <v-divider v-if="resumeIsSet" :thickness="1" class="divider border-opacity-50" length="90%" />
         <ThesesThesisResume v-if="resumeIsSet" class="thesis-component" :resume-is-set="resumeIsSet" :these="these"
