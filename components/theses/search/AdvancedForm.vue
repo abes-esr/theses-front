@@ -337,4 +337,13 @@ hr {
     max-width: 60px;
     max-height: 60px;
 }
+
+:deep(.v-switch__thumb) {
+    color: rgb(var(--v-theme-primary)) !important;
+}
+
+:deep(.v-switch__track) {
+    color: rgb(var(--v-theme-primary)) !important;
+
+}
 </style>
