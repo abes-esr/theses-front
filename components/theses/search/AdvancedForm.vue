@@ -141,7 +141,7 @@ function objectToQuery() {
             result += ` ${field.type}:(${field.value})`;
 
             //Cas particulier : pour les mots clés on ajoute également les rameaux
-            if (field.type === "sujetsLibelle") result += ` OU sujetsRameauLibelle:(${field.value})`;
+            if (field.type === "sujetsLibelle") result += ` OU sujetsRameauLibelle:(${field.value}))`;
 
             if (index !== formFields.value.length - 1) {
                 result += ` ${operator.value}`;
@@ -149,7 +149,7 @@ function objectToQuery() {
         }
     });
 
-    return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').trim());
+    return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').replace('sujetsLibelle', '(sujetsLibelle').trim());
 }
 
 function deleteEndOperator(texte) {
