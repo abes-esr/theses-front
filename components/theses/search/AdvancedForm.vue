@@ -141,7 +141,7 @@ function objectToQuery() {
             result += ` ${field.type}:(${field.value})`;
 
             //Cas particulier : pour les mots clés on ajoute également les rameaux
-            if (field.type === "sujetsLibelle") result += ` OR sujetsRameauLibelle:(${field.value})`;
+            if (field.type === "sujetsLibelle") result += ` OU sujetsRameauLibelle:(${field.value})`;
 
             if (index !== formFields.value.length - 1) {
                 result += ` ${operator.value}`;
@@ -149,7 +149,15 @@ function objectToQuery() {
         }
     });
 
-    return result.replaceAll('status:(accessible)', 'accessible:oui').trim();
+    return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').trim());
+}
+
+function deleteEndOperator(texte) {
+    if (texte.endsWith(" ET") || texte.endsWith(" OU")) {
+        return texte.slice(0, - 3);
+    } else {
+        return texte;
+    }
 }
 
 watch(dateFrom, () => {
@@ -171,7 +179,6 @@ watch(dateTo, () => {
 
 function clear() {
     for (const element of formFields.value) {
-        element.type = 'titrePrincipal';
         element.value = '';
     }
 }

@@ -15,7 +15,8 @@ const handleError = () => clearError({ redirect: '/' })
                 <div v-if="error.statusCode.toString().startsWith('5')">Serveur
                     Indisponible</div>
             </h1>
-            <p v-if="error.statusCode.toString().startsWith('5')"><strong>Merci d'essayer à nouveau dans quelques instants.
+            <p v-if="error.statusCode.toString().startsWith('5')"><strong>Merci d'essayer à nouveau dans quelques
+                    instants.
                     Si le problème persiste, vous
                     pouvez contacter le guichet
                     d'assistance de l'Abes : <a href="https://stp.abes.fr/node/3?origine=thesesFr"
@@ -27,7 +28,8 @@ const handleError = () => clearError({ redirect: '/' })
             <br />
             <span v-html="error.stack" />
             </p>
-            <p v-if="error.statusCode.toString().startsWith('4')"><strong>La page à laquelle vous tentez d'accéder n'existe
+            <p v-if="error.statusCode.toString().startsWith('4')"><strong>La page à laquelle vous tentez d'accéder
+                    n'existe
                     pas, ou
                     n'est plus disponible.</strong></p>
             <br /><br />
@@ -38,6 +40,15 @@ const handleError = () => clearError({ redirect: '/' })
 </template>
 
 <style scoped>
+.v-application {
+    height: 100%;
+    display: flex !important;
+}
+
+.v-main {
+    flex: 1;
+}
+
 h1 {
     padding-top: 20px;
     padding-bottom: 20px;

@@ -88,6 +88,14 @@ getNNTifExists(props.id).then(result => {
 })
 
 getThese(props.id).then(result => {
+
+  if (result.data.value === "") {
+    showError({
+      fatal: true,
+      statusCode: 404,
+      statusMessage: `Page introuvable`,
+    });
+  }
   these.value = result.data.value;
   resume.value = these.value.resumes.fr;
   loadButtons(toRaw(these.value));
