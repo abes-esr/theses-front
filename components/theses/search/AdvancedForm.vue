@@ -3,8 +3,8 @@
         <v-form id="form" ref="form">
             <div :class="whiteContainer ? 'white-containers' : ''">
                 <span class="switch"><span class="switch-text">Opérateur entre les champs</span> <span
-                        class="switch-text pl-4">ET</span><v-switch base-color="primary" color="primary" inset flat
-                        class="pl-4" v-model="operatorModel"></v-switch><span class="switch-text pl-4">OU</span></span>
+                        class="switch-text pl-4">ET</span><v-switch inset flat class="pl-4"
+                        v-model="operatorModel"></v-switch><span class="switch-text pl-4">OU</span></span>
                 <div v-for="(field, index) in formFields" :key="index" class="form-row">
                     <div class="type">
                         <v-select density="compact" v-model="field.type" :items="types" item-title="titre"
@@ -339,11 +339,10 @@ hr {
 }
 
 :deep(.v-switch__thumb) {
-    color: rgb(var(--v-theme-primary)) !important;
+    color: rgb(var(--v-theme-surface)) !important;
 }
 
 :deep(.v-switch__track) {
-    color: rgb(var(--v-theme-primary)) !important;
-
+    color: rgb(11, 33, 52) !important;
 }
 </style>
