@@ -76,7 +76,7 @@ defineProps({
   },
 });
 
-const request = ref('');
+const request = ref();
 const requestSearch = ref("");
 const emit = defineEmits(['onError', 'reinitializePageNumber']);
 
