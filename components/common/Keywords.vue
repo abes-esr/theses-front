@@ -19,31 +19,61 @@
           </v-card>
         </v-overlay>
       </div>
-      <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
-        <template v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
-          <nuxt-link
-            :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }"
-            :class="keyWord.type !== 'sujetsRameau' ? 'disabled-link' : ''">
-            <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'">
-              <span class="key-word-label">{{ keyWord.keyword }}</span>
-            </v-chip>
-          </nuxt-link>
-        </template>
-      </v-chip-group>
-      <div id="key-words-button-wrapper">
-        <v-btn
-          v-if="numberOfKeywords > numberOfKeywordsPerLine && keywords[selectedLanguage].length > numberOfKeywordsPerLine"
-          class="read-more-less-button" variant="outlined" @click="narrowDownKeywords" flat>
-          <span></span>
-          <span>{{ $t('theseView.showLessKeywords') }}</span>
-          <v-icon class="toggle-up-down rotate">mdi-arrow-down-circle-outline</v-icon>
-        </v-btn>
-        <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length" class="read-more-less-button"
-          variant="outlined" @click="addTenKeywords" flat>
-          <span></span>
-          <span>{{ $t('theseView.showMoreKeywords') }}</span>
-          <v-icon class="toggle-up-down">mdi-arrow-down-circle-outline</v-icon>
-        </v-btn>
+      <div v-if="type === 'personnes' || type === 'organisme'">
+        <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
+          <template v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
+            <nuxt-link
+              :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }"
+              :class="keyWord.type !== 'sujetsRameau' ? 'disabled-link' : ''">
+              <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'">
+                <span class="key-word-label">{{ keyWord.keyword }}</span>
+              </v-chip>
+            </nuxt-link>
+          </template>
+        </v-chip-group>
+        <div id="key-words-button-wrapper">
+          <v-btn
+            v-if="numberOfKeywords > numberOfKeywordsPerLine && keywords[selectedLanguage].length > numberOfKeywordsPerLine"
+            class="read-more-less-button" variant="outlined" @click="narrowDownKeywords" flat>
+            <span></span>
+            <span>{{ $t('theseView.showLessKeywords') }}</span>
+            <v-icon class="toggle-up-down rotate">mdi-arrow-down-circle-outline</v-icon>
+          </v-btn>
+          <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length" class="read-more-less-button"
+            variant="outlined" @click="addTenKeywords" flat>
+            <span></span>
+            <span>{{ $t('theseView.showMoreKeywords') }}</span>
+            <v-icon class="toggle-up-down">mdi-arrow-down-circle-outline</v-icon>
+          </v-btn>
+        </div>
+      </div>
+      <div class="thesis-keywords" v-else>
+        <div class="mots-cles-controlles" v-if="selectKeyWords('sujetsRameau').length > 0">
+          <h2>{{ $t("theseView.motCleControle") }}</h2>
+          <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
+            <template v-for="keyWord in selectKeyWords('sujetsRameau')" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
+              <nuxt-link :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
+                <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'">
+                  <span class="key-word-label">{{ keyWord.keyword }}</span>
+                </v-chip>
+              </nuxt-link>
+            </template>
+          </v-chip-group>
+        </div>
+        <div class="mots-cles-libres" v-if="selectKeyWords('sujet').length > 0">
+          <h2>{{ $t("theseView.motCleLibres") }}</h2>
+          <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
+            <template v-for="keyWord in selectKeyWords('sujet')" :key="keyWord.keyword + forceRenderKey"
+                      :title="keyWord.keyword">
+              <nuxt-link
+                :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
+                <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'">
+                  <span class="key-word-label">{{ keyWord.keyword }}</span>
+                </v-chip>
+              </nuxt-link>
+            </template>
+          </v-chip-group>
+        </div>
       </div>
     </div>
   </div>
@@ -58,6 +88,10 @@ const props = defineProps({
   these: {
     type: Object,
     required: true
+  },
+  type: {
+    type: String,
+    default: 'theses'
   }
 });
 
@@ -92,10 +126,13 @@ const langList = computed(() => {
  */
 
 /**
- * Renvoie un sous-ensemble du tableau de mot-clés selon la valeur de numberOfKeywords
+ * Renvoie un sous-ensemble du tableau de mot-clés selon la valeur de numberOfKeywords ou le type de mot clé désiré
  * @returns {UnwrapRefSimple<*>[]}
  */
-function selectKeyWords() {
+function selectKeyWords(keyWordType = null) {
+  if (typeof keyWordType === 'string')
+    return keywords.value[selectedLanguage.value].filter((word) => { return word.type === keyWordType; });
+
   return keywords.value[selectedLanguage.value].filter((word, index) => { return index < numberOfKeywords.value && index >= 0; });
 }
 
@@ -154,12 +191,16 @@ watch(mobile, (newValue) => {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin: 0.4em 0 0.8em 0;
+  margin-top: 0.4em;
 }
 
 .title {
   display: inline-flex;
   align-items: center;
+}
+
+.thesis-keywords {
+  margin-left: 1.5em;
 }
 
 h1 {
@@ -168,6 +209,15 @@ h1 {
 
   font-family: Roboto-Bold, sans-serif;
   font-weight: 700;
+  letter-spacing: 0px;
+  color: rgb(var(--v-theme-text-dark-blue))
+}
+
+h2 {
+  font-size: 20px;
+
+  font-family: Roboto-Bold, sans-serif;
+  font-weight: 500;
   letter-spacing: 0px;
   color: rgb(var(--v-theme-text-dark-blue))
 }
