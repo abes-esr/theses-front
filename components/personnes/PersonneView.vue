@@ -54,7 +54,7 @@
           </div>
         </div>
 
-        <CommonKeywords class="thesis-component" :data-ready="true" :keywordsAreSet="true"
+        <CommonKeywords class="thesis-component" :data-ready="true" :keywordsAreSet="true" type="personnes"
           :these="conversionMotClesFormatTheses(item.mots_cles)" />
 
         <!--        Tiroirs thèses par rôles-->
