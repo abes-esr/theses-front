@@ -1,7 +1,7 @@
 <template>
   <v-lazy :min-height="10" :options="{ threshold: 1.0 }">
     <v-checkbox v-model="checkboxState" @click="updateCheckbox" :class="`checkboxes ms-${props.marginOffset}`"
-      :label="`${replaceFacetsText(facetItem.label)} (${facetItem.value})`" density="compact" inline hide-details>
+      :label="`${replaceFacetsText(facetItem.label)} (${facetItem.value.toLocaleString('fr-FR')})`" density="compact" inline hide-details>
     </v-checkbox>
   </v-lazy>
 
