@@ -74,6 +74,10 @@ useHead({
     {
       async: true,
       src: "https://abes-esr.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/-ia3qmx/b/4/c95134bc67d3a521bb3f4331beb9b804/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=fr-FR&collectorId=1a71caf6"
+    },
+    {
+      async: true,
+      children: ` var _paq = window._paq = window._paq || []; _paq.push(['trackPageView']); _paq.push(['enableLinkTracking']); (function() { var u="https://piwik.abes.fr/"; _paq.push(['setTrackerUrl', u+'matomo.php']); _paq.push(['setSiteId', '36']); var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);})();`
     }
   ],
 });

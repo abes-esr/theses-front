@@ -16,7 +16,7 @@
         <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
         <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
         <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
-        <span class="darker-text">{{ nbResult }}{{ '\xa0' }}</span>
+        <span class="darker-text">{{ nbResult.toLocaleString("fr-FR") }}{{ '\xa0' }}</span>
         <span>{{ $t("results.results") }}</span>
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
@@ -28,7 +28,7 @@
     </div>
     <div v-else>
       <div v-for="i in currentShowingNumber" :key="i" class="skeleton">
-        <v-card flat style="margin-bottom: 1rem;">
+        <v-card :flat="true" style="margin-bottom: 1rem;">
           <v-skeleton-loader type="article">
           </v-skeleton-loader>
         </v-card>
