@@ -70,9 +70,15 @@
             <v-icon class="toggle-up-down rotate">mdi-arrow-down-circle-outline</v-icon>
           </v-btn>
           <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length" class="read-more-less-button"
-                 variant="outlined" @click="addTenKeywords" flat>
+                 variant="outlined" @click="addNKeywords" flat>
             <span></span>
             <span>{{ $t('showMoreKeywords') }}</span>
+            <v-icon class="toggle-up-down">mdi-arrow-down-circle-outline</v-icon>
+          </v-btn>
+          <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length" class="read-more-less-button"
+                 variant="outlined" @click="showAllKeywords" flat>
+            <span></span>
+            <span>{{ $t('showAllKeywords') + "(" + keywords[selectedLanguage].length +")" }}</span>
             <v-icon class="toggle-up-down">mdi-arrow-down-circle-outline</v-icon>
           </v-btn>
         </div>
@@ -159,12 +165,16 @@ function onUpdateLangue(langue) {
   isRtl.value = LanguesRTL.includes(selectedLanguage.value.toLowerCase());
 }
 
-function addTenKeywords() {
+function addNKeywords() {
   numberOfKeywords.value += increment.value;
 }
 
 function narrowDownKeywords() {
   numberOfKeywords.value = numberOfKeywordsPerLine.value;
+}
+
+function showAllKeywords() {
+  numberOfKeywords.value = keywords.value[selectedLanguage.value].length;
 }
 /**
  * Watchers

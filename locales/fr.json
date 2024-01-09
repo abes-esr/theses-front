@@ -42,6 +42,7 @@
   "motCleLibres": "Mots clés libres",
   "showMoreKeywords": "Afficher plus de mots-clés",
   "showLessKeywords": "Réduire la liste des mots-clés",
+  "showAllKeywords": "Afficher tous les mots-clés ",
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
   },
