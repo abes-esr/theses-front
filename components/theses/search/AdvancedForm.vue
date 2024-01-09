@@ -37,7 +37,8 @@
                         </div>
                         <div v-else>
                             <v-text-field density="compact" v-model="field.value" label="Texte à rechercher"
-                                variant="outlined" single-line clearable clear-icon="mdi-close"></v-text-field>
+                                variant="outlined" single-line clearable clear-icon="mdi-close"
+                                @keydown.enter="search"></v-text-field>
                         </div>
                     </div>
                     <div class="removeButton">
@@ -68,7 +69,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { useDisplay } from "vuetify";
@@ -91,6 +92,20 @@ const dateTo = ref();
 const operatorModel = ref(false);
 const operator = computed(() => {
     return operatorModel.value ? 'OU' : 'ET'
+})
+
+onMounted(() => {
+    formFields.value.forEach((field) => {
+        if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
+            //On découpe le champ date qui contient dateFrom et dateTo concaténées, pour peupler dateTo et dateFrom
+            let dates = field.value.match(/\[(.*?) TO (.*?)\]/);
+
+            if (dates && dates.length >= 3) {
+                dateFrom.value = dates[1];
+                dateTo.value = dates[2];
+            }
+        }
+    })
 })
 
 const types = ref([
