@@ -13,6 +13,7 @@
             <div class="justify-center max-height-200">
                 <h1 class="text-center">{{ $t("slogan") }}</h1>
             </div>
+            {{ new Date() }}
             <CommonDomainSelector></CommonDomainSelector>
             <GenericSearchBar @search="loading = true" :white-container="true" :loading="loading" @onError="displayError" />
             <div class="stats">

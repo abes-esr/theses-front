@@ -28,6 +28,7 @@ export default defineNuxtConfig({
      '/resultats/**': { ssr: false },
      '/resultats': { ssr: false },
      '/**': { swr: 300 },
+     '/': { swr: 600 },
      '/apropos' : { prerender: true}
   },
   nitro: {
