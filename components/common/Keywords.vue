@@ -100,12 +100,12 @@ const props = defineProps({
 const { mobile } = useDisplay();
 
 // Si c'est une these (donc si on a un titre dans l'objet) on affiche plus de keywords
-const numberOfKeywordsPerLine = mobile.value ? ref(6) : props.these.titrePrincipal ? ref(50) : ref(10);
-const numberOfKeywords = mobile.value ? ref(6) : props.these.titrePrincipal ? ref(50) : ref(10);
+const numberOfKeywordsPerLine = mobile.value ? ref(6) : props.these.titrePrincipal ? ref(50) : ref(20);
+const numberOfKeywords = mobile.value ? ref(6) : props.these.titrePrincipal ? ref(50) : ref(20);
 const forceRenderKey = ref(0);
 
 const keywords = ref([]);
-const increment = ref(10);
+const increment = props.these.titrePrincipal ? ref(10) : ref(20);
 const selectedLanguage = ref("fr");
 
 setKeywords();
