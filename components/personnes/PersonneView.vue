@@ -241,7 +241,7 @@ function conversionMotClesFormatTheses(motsCles) {
       {
         keyword: elem,
         type: "sujet",
-        query: ""
+        query: "sujetsLibelle:\"" + elem + "\" OU sujetsRameauLibelle:\"" + elem +"\""
       }))
   }
   return { mapSujets: keyword };

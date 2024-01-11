@@ -53,8 +53,7 @@
         <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
           <template v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
             <nuxt-link
-              :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }"
-              :class="keyWord.type !== 'sujetsRameau' ? 'disabled-link' : ''">
+              :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
               <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'">
                 <span class="key-word-label">{{ keyWord.keyword }}</span>
               </v-chip>
