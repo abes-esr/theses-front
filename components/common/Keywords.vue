@@ -53,8 +53,7 @@
         <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
           <template v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
             <nuxt-link
-              :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }"
-              :class="keyWord.type !== 'sujetsRameau' ? 'disabled-link' : ''">
+              :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
               <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'">
                 <span class="key-word-label">{{ keyWord.keyword }}</span>
               </v-chip>
@@ -70,9 +69,15 @@
             <v-icon class="toggle-up-down rotate">mdi-arrow-down-circle-outline</v-icon>
           </v-btn>
           <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length" class="read-more-less-button"
-                 variant="outlined" @click="addTenKeywords" flat>
+                 variant="outlined" @click="addNKeywords" flat>
             <span></span>
             <span>{{ $t('showMoreKeywords') }}</span>
+            <v-icon class="toggle-up-down">mdi-arrow-down-circle-outline</v-icon>
+          </v-btn>
+          <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length" class="read-more-less-button"
+                 variant="outlined" @click="showAllKeywords" flat>
+            <span></span>
+            <span>{{ $t('showAllKeywords') + "(" + keywords[selectedLanguage].length +")" }}</span>
             <v-icon class="toggle-up-down">mdi-arrow-down-circle-outline</v-icon>
           </v-btn>
         </div>
@@ -100,12 +105,12 @@ const props = defineProps({
 const { mobile } = useDisplay();
 
 // Si c'est une these (donc si on a un titre dans l'objet) on affiche plus de keywords
-const numberOfKeywordsPerLine = mobile.value ? ref(6) : props.these.titrePrincipal ? ref(50) : ref(10);
-const numberOfKeywords = mobile.value ? ref(6) : props.these.titrePrincipal ? ref(50) : ref(10);
+const numberOfKeywordsPerLine = mobile.value ? ref(6) : props.these.titrePrincipal ? ref(50) : ref(20);
+const numberOfKeywords = mobile.value ? ref(6) : props.these.titrePrincipal ? ref(50) : ref(20);
 const forceRenderKey = ref(0);
 
 const keywords = ref([]);
-const increment = ref(10);
+const increment = props.these.titrePrincipal ? ref(10) : ref(20);
 const selectedLanguage = ref("fr");
 
 setKeywords();
@@ -159,12 +164,16 @@ function onUpdateLangue(langue) {
   isRtl.value = LanguesRTL.includes(selectedLanguage.value.toLowerCase());
 }
 
-function addTenKeywords() {
+function addNKeywords() {
   numberOfKeywords.value += increment.value;
 }
 
 function narrowDownKeywords() {
   numberOfKeywords.value = numberOfKeywordsPerLine.value;
+}
+
+function showAllKeywords() {
+  numberOfKeywords.value = keywords.value[selectedLanguage.value].length;
 }
 /**
  * Watchers

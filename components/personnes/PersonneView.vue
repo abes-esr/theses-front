@@ -230,7 +230,7 @@ function i18nValueFromKey(key) {
 }
 
 /**
- * Cette fonction permet de convertir les mot-clés au format du composant mot-clés des thèses
+ * Cette fonction permet de convertir la liste de mot-clés au format du composant mot-clés des thèses
  * @param motsCles
  * @returns {{mapSujets: { codeLangue : { keyword, type, query}}}}
  */
@@ -241,7 +241,7 @@ function conversionMotClesFormatTheses(motsCles) {
       {
         keyword: elem,
         type: "sujet",
-        query: ""
+        query: "sujetsLibelle:\"" + elem + "\" OU sujetsRameauLibelle:\"" + elem +"\""
       }))
   }
   return { mapSujets: keyword };
