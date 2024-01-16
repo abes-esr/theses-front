@@ -6,7 +6,7 @@
     </div>
     <v-btn v-if="!mobile" @click.stop="" @click="searchAndReinitializeAllFacets" size="small" depressed elevation="0"
       color="surface" class="desktop-reinitialize-button">
-      Réinitialiser
+      <v-icon>mdi-reload</v-icon> Réinitialiser
     </v-btn>
     <button v-else @click="closeOverlay" class="close-overlay-button" elevation="0" color="transparent">
       <div class="close-overlay-icon-wrapper">

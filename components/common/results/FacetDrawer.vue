@@ -10,7 +10,7 @@
           {{ facet.name }}
         </h3>
         <v-btn @click.stop="" @click="reinitializeCheckboxes" class="reinitialize-button" size="small" depressed
-          elevation="0" color="surface">
+          elevation="0" color="surface" title="Réinitialiser">
           <v-icon>mdi-reload</v-icon>
         </v-btn>
       </v-expansion-panel-title>
