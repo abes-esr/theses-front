@@ -83,9 +83,8 @@
             <p><a href="https://theses.fr/" target="_blank">theses.fr</a> est une des applications du projet
                 &laquo;&nbsp;Portail
                 des th&egrave;ses&nbsp;&raquo;, confi&eacute; &agrave; l&rsquo;Abes en 2009 par le Minist&egrave;re
-                de l&rsquo;enseignement sup&eacute;rieur et de la recherche. Le <a href="https://theses.fr/apropos.html#cdo"
-                    target="_blank">comit&eacute; de d&eacute;cision et
-                    d&rsquo;op&eacute;ration</a> du projet &laquo;&nbsp;Portail des th&egrave;ses&nbsp;&raquo; a
+                de l&rsquo;enseignement sup&eacute;rieur et de la recherche. Le comit&eacute; de d&eacute;cision et
+                d&rsquo;op&eacute;ration du projet &laquo;&nbsp;Portail des th&egrave;ses&nbsp;&raquo; a
                 valid&eacute; les principales orientations d&rsquo;une feuille de route qui comportait trois axes
                 principaux :</p>
             <ul>
@@ -114,7 +113,8 @@
                     (MISTRD), Direction g&eacute;n&eacute;rale pour l'enseignement sup&eacute;rieur et l'insertion
                     professionnelle (DGESIP), Direction g&eacute;n&eacute;rale pour la recherche et l'innovation
                     (DGRI)</li>
-                <li>un repr&eacute;sentant de la <a href="http://www.cpu.fr/" target="_blank">Conf&eacute;rence des
+                <li>un repr&eacute;sentant de la <a href="https://franceuniversites.fr/ " target="_blank">Conf&eacute;rence
+                        des
                         Pr&eacute;sidents d&rsquo;Universit&eacute;</a></li>
                 <li>un repr&eacute;sentant de la <a href="http://www.cge.asso.fr/" target="_blank">Conf&eacute;rence des
                         Grandes
@@ -129,7 +129,7 @@
                         national de reproduction des th&egrave;ses de Lille</a>, <a href="http://www.cines.fr/"
                         target="_blank">CINES</a>
                 </li>
-                <li>trois repr&eacute;sentants d&rsquo;associations : <a href="http://www.intelliagence.fr"
+                <li>trois repr&eacute;sentants d&rsquo;associations : <a href="https://www.abg.asso.fr"
                         target="_blank">l&rsquo;Intelli&rsquo;Agence </a>(Association Bernard
                     Gregory),<a href="http://www.adbu.fr" target="_blank"> l&rsquo;ADBU </a>(association des directeurs de
                     biblioth&egrave;ques universitaires), l&rsquo;AURA (association du r&eacute;seau des
@@ -233,4 +233,5 @@ h3 {
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
         margin-top: 20px;
     }
-}</style>
+}
+</style>
