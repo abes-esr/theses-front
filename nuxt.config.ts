@@ -37,7 +37,9 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [{ rel: 'stylesheet', media: 'print', onload:"this.onload=null;this.removeAttribute('media')", href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap' }, {rel:"stylesheet preload prefetch", href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900', as:"style", crossorigin: '', type: 'text/css' }, {rel:'preconnect', href:'https://fonts.gstatic.com'},
-    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+  { rel: 'apple-touch-icon', href: '/logo-theses-beta.png' }
+],
       htmlAttrs: {
         lang: 'fr',
       },
