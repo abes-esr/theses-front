@@ -79,7 +79,8 @@
                     soutenues en France depuis 1985</a>. Un guide de r&eacute;utilisation accompagne
                 l&rsquo;extraction.</p>
             <h2>Historique du projet &laquo;&nbsp;Portail des th&egrave;ses&nbsp;&raquo;</h2>
-            <h3>Objectifs initiaux du projet</h3>
+            <h3>Theses.fr v1</h3>
+            <h4>Objectifs initiaux du projet</h4>
             <p><a href="https://theses.fr/" target="_blank">theses.fr</a> est une des applications du projet
                 &laquo;&nbsp;Portail
                 des th&egrave;ses&nbsp;&raquo;, confi&eacute; &agrave; l&rsquo;Abes en 2009 par le Minist&egrave;re
@@ -103,7 +104,7 @@
                     l&rsquo;insertion professionnelle des jeunes chercheurs</li>
             </ul>
             <br />
-            <h3>Gouvernance du projet et principaux partenaires</h3>
+            <h4>Gouvernance du projet et principaux partenaires</h4>
             <p>Pour mener &agrave; bien theses.fr, l&rsquo;Abes s&rsquo;est entour&eacute;e de nombreux partenaires.
             </p>
             <p>Composition du Comit&eacute; de d&eacute;cision et d&rsquo;op&eacute;ration (CDO) du projet :</p>
@@ -138,9 +139,7 @@
             <p>Les comptes-rendus de d&eacute;cisions du CDO ont fait l&rsquo;objet de billets sur le <a
                     href="https://fil.abes.fr/category/theses" target="_blank">blog de l&rsquo;Abes</a>.</p>
             <br />
-            <p>Une nouvelle version de theses.fr, d&eacute;velopp&eacute;e en 2022-2023, a &eacute;t&eacute;
-                d&eacute;ploy&eacute;e en janvier 2024.</p>
-            <h3>Versement progressif des donn&eacute;es</h3>
+            <h4>Versement progressif des donn&eacute;es</h4>
             <p>Le versement dans theses.fr des donn&eacute;es relatives aux th&egrave;ses de doctorat
                 fran&ccedil;aises s&rsquo;est fait progressivement&nbsp;:</p>
             <ul>
@@ -180,6 +179,22 @@
             <p>D&eacute;sormais, la quasi-totalit&eacute; des &eacute;tablissements qui d&eacute;livrent le doctorat
                 signalent les sujets de th&egrave;ses pr&eacute;par&eacute;s en leur sein.</p>
             <p>&nbsp;</p>
+            <h3>Theses.fr v2</h3>
+            <p>A partir du printemps 2022, l’Agence Bibliographique de l’Enseignement Supérieur lance le projet de refonte
+                du site theses.fr.</p>
+            <p>Les objectifs sont : </p>
+            <ul>
+                <li>la refonte complète du socle technique : l’outil SolR est remplacé par Elastic Search</li>
+                <li>le développement d’une interface ergonomique, responsive et accessible</li>
+                <li>la mise en place d’un accès contrôlé, centralisé, aux thèses dont la diffusion est restreinte au
+                    périmètre de l’enseignement supérieur français</li>
+            </ul>
+            <br />
+            <p>
+                Le site est développé en grande partie en interne, y compris la partie graphique. Un prestataire externe est
+                engagé pendant un an pour appuyer l’équipe technique sur le moteur de recherche consacré aux personnes.
+            </p>
+            <p>La nouvelle version de theses.fr est déployée en production en 2024.</p>
         </span>
     </article>
 </template>
