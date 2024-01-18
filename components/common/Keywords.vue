@@ -4,7 +4,7 @@
       <div class="key-words-title-wrapper">
         <div class="title">
           <v-icon color="primary">mdi-list-box</v-icon>
-          <h1>{{ $t('motcle') }}</h1>
+          <h1 tabindex="0">{{ $t('motcle') }}</h1>
           <CommonLanguageSelector :languages="langList" @update-langue="onUpdateLangue"></CommonLanguageSelector>
         </div>
       </div>
@@ -23,9 +23,11 @@
             </v-overlay>
           </div>
           <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
-            <template v-for="keyWord in selectKeyWords('sujetsRameau')" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
-              <nuxt-link :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
-                <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'">
+            <template v-for="keyWord in selectKeyWords('sujetsRameau')" :key="keyWord.keyword + forceRenderKey"
+              :title="keyWord.keyword">
+              <nuxt-link
+                :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
+                <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'" tabindex="-1">
                   <span class="key-word-label">{{ keyWord.keyword }}</span>
                 </v-chip>
               </nuxt-link>
@@ -38,10 +40,10 @@
           </div>
           <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in selectKeyWords('sujet')" :key="keyWord.keyword + forceRenderKey"
-                      :title="keyWord.keyword">
+              :title="keyWord.keyword">
               <nuxt-link
                 :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
-                <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'">
+                <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'" tabindex="-1">
                   <span class="key-word-label">{{ keyWord.keyword }}</span>
                 </v-chip>
               </nuxt-link>
@@ -54,7 +56,7 @@
           <template v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
             <nuxt-link
               :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
-              <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'">
+              <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'" tabindex="-1">
                 <span class="key-word-label">{{ keyWord.keyword }}</span>
               </v-chip>
             </nuxt-link>
@@ -69,15 +71,15 @@
             <v-icon class="toggle-up-down rotate">mdi-arrow-down-circle-outline</v-icon>
           </v-btn>
           <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length" class="read-more-less-button"
-                 variant="outlined" @click="addNKeywords" flat>
+            variant="outlined" @click="addNKeywords" flat>
             <span></span>
             <span>{{ $t('showMoreKeywords') }}</span>
             <v-icon class="toggle-up-down">mdi-arrow-down-circle-outline</v-icon>
           </v-btn>
           <v-btn v-if="numberOfKeywords < keywords[selectedLanguage].length" class="read-more-less-button"
-                 variant="outlined" @click="showAllKeywords" flat>
+            variant="outlined" @click="showAllKeywords" flat>
             <span></span>
-            <span>{{ $t('showAllKeywords') + "(" + keywords[selectedLanguage].length +")" }}</span>
+            <span>{{ $t('showAllKeywords') + "(" + keywords[selectedLanguage].length + ")" }}</span>
             <v-icon class="toggle-up-down">mdi-arrow-down-circle-outline</v-icon>
           </v-btn>
         </div>
@@ -112,6 +114,7 @@ const forceRenderKey = ref(0);
 const keywords = ref([]);
 const increment = props.these.titrePrincipal ? ref(10) : ref(20);
 const selectedLanguage = ref("fr");
+
 
 setKeywords();
 
@@ -166,15 +169,32 @@ function onUpdateLangue(langue) {
 
 function addNKeywords() {
   numberOfKeywords.value += increment.value;
+  focusLastKeyword();
 }
 
 function narrowDownKeywords() {
   numberOfKeywords.value = numberOfKeywordsPerLine.value;
+  focusLastKeyword();
 }
 
 function showAllKeywords() {
   numberOfKeywords.value = keywords.value[selectedLanguage.value].length;
+  focusLastKeyword();
 }
+
+
+function focusLastKeyword() {
+  var chipGroup = document.querySelector('.v-chip-group');
+
+  if (chipGroup) {
+    var lastAElement = chipGroup.querySelector('a:last-child');
+
+    if (lastAElement) {
+      lastAElement.focus();
+    }
+  }
+}
+
 /**
  * Watchers
  */
@@ -205,7 +225,8 @@ watch(mobile, (newValue) => {
   margin-top: 0.4em;
 }
 
-.title, .subtitle {
+.title,
+.subtitle {
   display: inline-flex;
   align-items: center;
 }

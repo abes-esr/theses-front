@@ -1,8 +1,9 @@
 <template>
     <div class="languageSelector">
         <div v-for="(item, index) in langList" :key="item">
-            <span @click="update(item)" :class="current === item ? 'selected' : ''">{{ item.toUpperCase()
-            }}</span><span v-if="index < props.languages.length - 1">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span tabindex="0" @click="update(item)" v-on:keyup.enter="update(item)"
+                :class="current === item ? 'selected' : ''">{{ item.toUpperCase()
+                }}</span><span v-if="index < props.languages.length - 1">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
         </div>
     </div>
 </template>
