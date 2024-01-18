@@ -16,14 +16,13 @@
             <CommonDomainSelector></CommonDomainSelector>
             <GenericSearchBar @search="loading = true" :white-container="true" :loading="loading" @onError="displayError" />
             <div class="stats">
-                <HomeStatsCard :titre=nbTheses :description="$t('referencés')" badge="mdi-check" badgecolor="green"
+                <HomeStatsCard :titre=nbTheses :description="$t('referencés')" icon="soutenue"
                     url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">
                 </HomeStatsCard>
-                <HomeStatsCard :titre=nbSujets :description="$t('preparation')" badge="mdi-progress-clock"
-                    badgecolor="orange"
+                <HomeStatsCard :titre=nbSujets :description="$t('preparation')" icon="enCours"
                     url="/resultats?filtres=%255BStatut%253D%2522enCours%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">
                 </HomeStatsCard>
-                <HomeStatsCard :titre=nbPersonnes :description="$t('personnesRef')" icon="mdi-account"
+                <HomeStatsCard :titre=nbPersonnes :description="$t('personnesRef')" icon="personne"
                     url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></HomeStatsCard>
             </div>
             <br />

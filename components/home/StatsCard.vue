@@ -1,10 +1,14 @@
 <template>
     <v-card flat>
         <a :href="url" style="text-decoration: none;">
-            <div class="icon-wrapper">
-                <v-icon class="icon">{{ icon }}</v-icon>
-                <v-badge v-if="badge" class="badge" :icon="badge" :color="badgecolor" />
-            </div>
+            <ClientOnly>
+                <div v-if="icon === 'soutenue' || icon === 'enCours'" class="icon-wrapper">
+                    <ThesesResultsThesisIcon :status="icon"></ThesesResultsThesisIcon>
+                </div>
+                <div v-else class="icon-wrapper personne-icon">
+                    <IconPersonne></IconPersonne>
+                </div>
+            </ClientOnly>
             <v-card-title class="d-flex justify-center pb-1">
                 <h1 v-if="titre !== 0"> {{ titre.toLocaleString() }} </h1>
                 <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
@@ -20,6 +24,8 @@
 
 
 <script setup>
+import IconPersonne from '../icons/IconPersonne.vue';
+
 defineProps({
     titre: {
         type: Number,
@@ -29,19 +35,13 @@ defineProps({
         type: String,
         default: ''
     },
-    icon: {
-        type: String,
-        default: 'mdi-school'
-    },
-    badgecolor: {
-        type: String
-    },
-    badge: {
-        type: String
-    },
     url: {
         type: String,
         default: "#"
+    },
+    icon: {
+        type: String,
+        default: "soutenue"
     }
 });
 </script>
@@ -90,36 +90,15 @@ h2 {
     text-align: center;
 }
 
-.icon {
-    font-size: 40px;
-    color: white;
-}
-
 .icon-wrapper {
     position: absolute;
     top: -35px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgb(var(--v-theme-secondary));
-    border-radius: 10%;
-    padding: 5px;
+    padding-left: 25px;
 }
 
-.badge {
-    position: absolute;
-    top: 3px;
-    right: -3px;
-}
-
-:deep(.v-badge__badge) {
-    height: 1.5rem !important;
-    width: 1.5rem !important;
-    border-radius: 100%;
-}
-
-:deep(.v-badge__badge > .v-icon) {
-    padding-left: 1px;
-    color: white !important;
-    font-size: 20px;
+.personne-icon {
+    padding-left: unset !important;
 }
 </style>

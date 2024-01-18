@@ -300,7 +300,7 @@ h2 {
 footer {
   padding-top: 0;
   background-color: rgb(var(--v-theme-surface));
-  border-top: 1px solid rgb(var(--v-theme-gris-clair));
+  border-top: 2px solid rgb(var(--v-theme-gris-fonce));
 }
 
 .footer-content {
