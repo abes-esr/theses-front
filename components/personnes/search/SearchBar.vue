@@ -6,7 +6,7 @@
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
       v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected no-filter
       density="compact" return-object type="text" menu-icon="" @keydown.enter="search" :loading="isSuggestionLoading"
-      enterkeyhint="send">
+      enterkeyhint="send" ref="targetElement">
       <!--      Bouton rechercher-->
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
@@ -63,6 +63,7 @@ export default {
 </script>
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
+import { onKeyStroke } from '@vueuse/core'
 
 const router = useRouter();
 const currentRoute = useRoute();
@@ -209,6 +210,14 @@ async function selectSuggestion(value) {
   request.value = value.suggestion;
   await search();
 }
+
+//Focus sur la barre de recherche lors du Ctrl + K
+const targetElement = ref(null);
+
+onKeyStroke(['ctrl', 'k'], (e) => {
+  e.preventDefault();
+  targetElement.value.focus();
+})
 
 defineExpose({
   search,

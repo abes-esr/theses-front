@@ -3,7 +3,7 @@
     <v-combobox v-if="!isAdvanced" class="searchbar__input" label="Rechercher des thèses" single-line :items="items"
       :menu="suggestionActive" :menu-props="menuProps" v-model="request" v-model:search="requestSearch" variant="outlined"
       cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object type="text"
-      menu-icon="" @keydown.enter="search" enterkeyhint="send">
+      menu-icon="" @keydown.enter="search" enterkeyhint="send" ref="targetElement">
       <!--      Bouton rechercher-->
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
@@ -57,6 +57,8 @@ export default {
 </script>
 <script setup>
 import { ref, watch, onMounted } from 'vue';
+import { onKeyStroke } from '@vueuse/core'
+
 
 const currentRoute = useRoute();
 const router = useRouter();
@@ -181,6 +183,14 @@ async function selectSuggestion(value) {
 defineExpose({
   search,
 });
+
+//Focus sur la barre de recherche lors du Ctrl + K
+const targetElement = ref(null);
+
+onKeyStroke(['ctrl', 'k'], (e) => {
+  e.preventDefault();
+  targetElement.value.focus();
+})
 </script>
 
 <style scoped lang="scss">
