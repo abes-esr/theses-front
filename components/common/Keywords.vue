@@ -4,7 +4,7 @@
       <div class="key-words-title-wrapper">
         <div class="title">
           <v-icon color="primary">mdi-list-box</v-icon>
-          <h1 tabindex="0">{{ $t('motcle') }}</h1>
+          <h1>{{ $t('motcle') }}</h1>
           <CommonLanguageSelector :languages="langList" @update-langue="onUpdateLangue"></CommonLanguageSelector>
         </div>
       </div>

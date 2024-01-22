@@ -1,6 +1,6 @@
 <template>
     <v-card flat>
-        <a :href="url" style="text-decoration: none;">
+        <a :href="url" style="text-decoration: none;" :title="info">
             <ClientOnly>
                 <div v-if="icon === 'soutenue' || icon === 'enCours'" class="icon-wrapper">
                     <ThesesResultsThesisIcon :status="icon"></ThesesResultsThesisIcon>
@@ -42,6 +42,10 @@ defineProps({
     icon: {
         type: String,
         default: "soutenue"
+    },
+    info: {
+        type: String,
+        default: null
     }
 });
 </script>

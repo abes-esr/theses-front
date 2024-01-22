@@ -17,12 +17,15 @@
             <GenericSearchBar @search="loading = true" :white-container="true" :loading="loading" @onError="displayError" />
             <div class="stats">
                 <HomeStatsCard :titre=nbTheses :description="$t('referencés')" icon="soutenue"
+                    info="Afficher toutes les thèses soutenues"
                     url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">
                 </HomeStatsCard>
                 <HomeStatsCard :titre=nbSujets :description="$t('preparation')" icon="enCours"
+                    info="Afficher toutes les thèses soutenues"
                     url="/resultats?filtres=%255BStatut%253D%2522enCours%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">
                 </HomeStatsCard>
                 <HomeStatsCard :titre=nbPersonnes :description="$t('personnesRef')" icon="personne"
+                    info="Afficher toutes les personnes liées aux thèses"
                     url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></HomeStatsCard>
             </div>
             <br />
@@ -184,5 +187,4 @@ function sleep(ms) {
 
 .mobile-nav-bar {
     margin-top: 50px !important;
-}
-</style>
+}</style>
