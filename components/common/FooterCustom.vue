@@ -23,7 +23,7 @@
             <div>
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://www.idref.fr/" target="_blank"
-                  title="Accéder à IdRef, le base des identifiants et des référentiels utilisés pour l’enseignement supérieur et la recherche">{{
+                  title="Accéder à IdRef, la base des identifiants et des référentiels utilisés pour l’enseignement supérieur et la recherche">{{
                     $t("footer.idRref")
                   }}</a></span>
             </div>
