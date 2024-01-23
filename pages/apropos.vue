@@ -44,7 +44,8 @@
                 signal&eacute;es via <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
                     title="Accéder au guichet d’assistance de l’Abes">ABESstp, le
                     guichet
-                    d&rsquo;assistance en ligne de l&rsquo;Abes</a>.</p>
+                    d&rsquo;assistance en ligne de l&rsquo;Abes <v-icon title="Lien externe">mdi-open-in-new</v-icon></a>.
+            </p>
             <p>En revanche, theses.fr ne r&eacute;f&eacute;rence pas&nbsp;:</p>
             <ul>
                 <li>les Habilitations &agrave; Diriger des Recherches (HDR)</li>
@@ -61,25 +62,28 @@
                 et une
                 navigation &agrave; facettes. Un <a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
                     target="_blank" title="Accéder à la documentation de theses.fr">guide d&rsquo;utilisation du
-                    moteur de recherche</a> est mis &agrave; la disposition des utilisateurs. Conform&eacute;ment
+                    moteur de recherche <v-icon title="Lien externe">mdi-open-in-new</v-icon></a> est mis &agrave; la
+                disposition des utilisateurs. Conform&eacute;ment
                 &agrave; la politique d&rsquo;ouverture des donn&eacute;es de l&rsquo;Abes, <a href="https://theses.fr/"
-                    target="_blank">theses.fr</a> s&rsquo;inscrit dans le mouvement du web de
+                    target="_blank">theses.fr</a> s&rsquo;inscrit dans
+                le mouvement du web de
                 donn&eacute;es et du linked data.
             </p>
             <p>Les donn&eacute;es brutes rel&egrave;vent du domaine public et sont plac&eacute;es <a
                     href="https://abes.fr/reseau-theses/reutiliser-les-donnees/" target="_blank"
                     title="Accéder sur le site de l’Abes aux informations relatives à la licence Etalab">sous licence
-                    Etalab</a>.
+                    Etalab <v-icon title="Lien externe">mdi-open-in-new</v-icon></a>.
                 Elles sont
                 disponibles via une <a href="https://documentation.abes.fr/aidetheses/thesesfr/co/RecupererDonneesAPI.html"
                     target="_blank" title="Accéder à la documentation de theses.fr relative à l’utilisation de l’API">API
-                    XML</a>.</p>
+                    XML <v-icon title="Lien externe">mdi-open-in-new</v-icon></a>.</p>
             <p>Pour favoriser leur r&eacute;utilisation, les donn&eacute;es relatives aux th&egrave;ses soutenues
                 sont &eacute;galement disponibles sous forme d&rsquo;un <em>dump</em> d&eacute;pos&eacute; et mis
                 &agrave; jour annuellement sur le site data.gouv.fr&nbsp;: <a
                     href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank"
                     title="Accéder sur le site data.gouv.fr  à l’extraction complète des données disponibles sur theses.fr  et relatives aux thèses soutenues">Th&egrave;ses
-                    soutenues en France depuis 1985</a>. Un guide de r&eacute;utilisation accompagne
+                    soutenues en France depuis 1985 <v-icon title="Lien externe">mdi-open-in-new</v-icon></a>. Un guide de
+                r&eacute;utilisation accompagne
                 l&rsquo;extraction.</p>
             <h2>Historique du projet &laquo;&nbsp;Portail des th&egrave;ses&nbsp;&raquo;</h2>
             <h3>Theses.fr v1</h3>
@@ -120,35 +124,39 @@
                 <li>un repr&eacute;sentant de la <a href="https://franceuniversites.fr/ " target="_blank"
                         title="Accéder au site de France Universités">Conf&eacute;rence
                         des
-                        Pr&eacute;sidents d&rsquo;Universit&eacute;</a></li>
+                        Pr&eacute;sidents d&rsquo;Universit&eacute; <v-icon
+                            title="Lien externe">mdi-open-in-new</v-icon></a></li>
                 <li>un repr&eacute;sentant de la <a href="http://www.cge.asso.fr/" target="_blank"
                         title="Accéder au site de la Conférence des Grandes Ecoles">Conf&eacute;rence des
                         Grandes
-                        Ecoles</a></li>
+                        Ecoles <v-icon title="Lien externe">mdi-open-in-new</v-icon></a></li>
                 <li>un repr&eacute;sentant des formations doctorales dans les &eacute;tablissements habilit&eacute;s
                 </li>
                 <li>deux repr&eacute;sentants de la recherche priv&eacute;e ou du monde &eacute;conomique</li>
                 <li>trois repr&eacute;sentants des op&eacute;rateurs documentaires nationaux des th&egrave;ses en
                     France : <a href="http://www.inist.fr/"
-                        title="Accéder au site de l’Institut de l’Information Scientifique et technique">CNRS-INIST</a> ,<a
+                        title="Accéder au site de l’Institut de l’Information Scientifique et technique">CNRS-INIST <v-icon
+                            title="Lien externe">mdi-open-in-new</v-icon></a> ,<a
                         href="http://www.diffusiontheses.fr/content/4-anrt-lille-reproduction-theses" target="_blank"
                         title="Accéder au site de l’Atelier National de Reproduction des Thèses">Atelier
-                        national de reproduction des th&egrave;ses de Lille</a>, <a href="http://www.cines.fr/"
+                        national de reproduction des th&egrave;ses de Lille <v-icon
+                            title="Lien externe">mdi-open-in-new</v-icon></a>, <a href="http://www.cines.fr/"
                         target="_blank"
-                        title="Accéder au site du Centre Informatique National de l’Enseignement Supérieur">CINES</a>
+                        title="Accéder au site du Centre Informatique National de l’Enseignement Supérieur">CINES <v-icon
+                            title="Lien externe">mdi-open-in-new</v-icon></a>
                 </li>
                 <li>trois repr&eacute;sentants d&rsquo;associations : <a href="https://www.abg.asso.fr" target="_blank"
                         title="Accéder au site de l’Association Bernard Grégory">l&rsquo;Intelli&rsquo;Agence
-                    </a>(Association Bernard
+                        <v-icon title="Lien externe">mdi-open-in-new</v-icon></a>(Association Bernard
                     Gregory),<a href="http://www.adbu.fr" target="_blank"
                         title="Accéder au site de l’Association française des directeurs et personnels de direction des bibliothèques universitaires et de la documentation">
-                        l&rsquo;ADBU </a>(association des directeurs de
+                        l&rsquo;ADBU <v-icon title="Lien externe">mdi-open-in-new</v-icon></a>(association des directeurs de
                     biblioth&egrave;ques universitaires), l&rsquo;AURA (association du r&eacute;seau des
                     utilisateurs des produits de l&rsquo;Abes)</li>
             </ul>
             <p>Les comptes-rendus de d&eacute;cisions du CDO ont fait l&rsquo;objet de billets sur le <a
                     href="https://fil.abes.fr/category/theses" target="_blank" title="Accéder au blog Fil’Abes">blog de
-                    l&rsquo;Abes</a>.</p>
+                    l&rsquo;Abes <v-icon title="Lien externe">mdi-open-in-new</v-icon></a>.</p>
             <br />
             <h4>Versement progressif des donn&eacute;es</h4>
             <p>Le versement dans theses.fr des donn&eacute;es relatives aux th&egrave;ses de doctorat
@@ -259,4 +267,5 @@ h3 {
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
         margin-top: 20px;
     }
-}</style>
+}
+</style>

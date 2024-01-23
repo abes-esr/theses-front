@@ -9,7 +9,7 @@
       </div>
       <div class="links-container footer-content">
         <h1>
-          <v-icon>mdi-open-in-new</v-icon>
+          <v-icon title="Lien externe">mdi-open-in-new</v-icon>
           {{ $t("accesDirect") }}
         </h1>
         <div class="list-1">

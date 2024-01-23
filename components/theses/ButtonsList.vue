@@ -27,7 +27,7 @@
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
-                <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
+                <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-open-in-new"
                   :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle"
                   :aria-label="b.libelle" :flat="true">{{
                     b.libelle }}
@@ -57,7 +57,7 @@
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <div class="buttons-list" v-for="b in boutonsAutres" :key="b">
-              <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-arrow-right-circle"
+              <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-open-in-new"
                 :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle"
                 :aria-label="b.libelle" :flat="true">{{
                   b.libelle }}
