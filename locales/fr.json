@@ -210,5 +210,12 @@
     "descResult": "Résultat du moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation. Grâce à son moteur de recherche et sa navigation par facette, l’interface donne accès aux données des thèses : titre, docteur, disciplines,  directeurs, établissements de soutenance, écoles doctorales, partenaires de recherche et date de soutenance.",
     "descThese": "Page détaillée de la thèse ",
     "descPersonne": "Page détaillée de "
+  },
+  "access" : {
+    "params": "Paramètres d'accessibilité",
+    "police": "Police adaptée à la dyslexie",
+    "interligne": "Augmenter l'interlignage",
+    "justification": "Désactiver la justification du texte",
+    "fermer": "Fermer"
   }
 }

@@ -1,7 +1,8 @@
 <template>
   <v-app-bar flat color="white" id="appBar" v-if="!mobile">
     <div class="text-center text-md-left language-accessibility-toolbar">
-      <!--<img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />-->
+      <v-btn plain size="x-large" @click="dialog = true"><img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
+          src="@/assets/icone-handicap-visuel.svg" /></v-btn>
       <div class="languages-btn">
         <!--
         <v-btn flat @click="setLanguage('fr')" title="Langue française"
@@ -32,6 +33,20 @@
         </v-btn></a>
     </div>
   </v-app-bar>
+
+  <v-dialog v-model="dialog" width="auto">
+    <v-card>
+      <v-card-title>{{ $t("access.params") }}</v-card-title>
+      <v-card-text>
+        <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
+        <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
+        <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
@@ -62,6 +77,13 @@ function setLanguage(lang) {
     },
   })
 }
+
+//Paramètres d'accessibilité
+const dialog = ref(false);
+const opendys = useState('opendys', () => false);
+const interlignes = useState('interlignes', () => false);
+const justification = useState('justification', () => false);
+
 </script>
 
 <style scoped lang="scss">
@@ -140,5 +162,17 @@ header {
 .selected {
   color: rgb(var(--v-theme-orange-abes));
   font-weight: 700;
+}
+
+:deep(.v-overlay__content) {
+  .v-card-text * {
+    font-size: 1.2rem !important;
+  }
+
+  label {
+    color: rgb(var(--v-theme-text-dark-blue));
+
+    opacity: 1;
+  }
 }
 </style>

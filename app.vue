@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :class="{ 'opendys': opendys, 'interlignes': interlignes, 'justification': justification }">
     <ClientOnly>
       <!-- DEBUT BLOC BETA-->
       <v-alert class="beta-alert" width="100%" outlined color="primary"
@@ -81,6 +81,12 @@ useHead({
     }
   ],
 });
+
+//Accessibilite
+const opendys = useState('opendys', () => false);
+const interlignes = useState('interlignes', () => false);
+const justification = useState('justification', () => false);
+
 
 </script>
 
@@ -485,6 +491,21 @@ h4 {
       margin-right: 1rem !important;
     }
   }
+}
 
+//Accessibilité
+@import url('https://fonts.cdnfonts.com/css/open-dyslexic');
+
+.opendys * {
+  font-family: 'Open-Dyslexic', sans-serif !important;
+}
+
+.interlignes * {
+  line-height: 2rem !important;
+}
+
+.justification p {
+  text-justify: none !important;
+  text-align: unset !important;
 }
 </style>
