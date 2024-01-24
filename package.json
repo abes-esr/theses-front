@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node --max-old-space-size=8192 node_modules/nuxt/bin/nuxt.mjs build",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 nuxt build",
     "dev": "nuxt dev --host",
     "generate": "NODE_OPTIONS=--max_old_space_size=8192 nuxt generate",
     "preview": "nuxt preview",
