@@ -11,7 +11,6 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader';
 
 const route = useRoute();
 const { getName } = useOrganismeAPI();

@@ -16,7 +16,6 @@
 
 <script setup>
 import { useDisplay } from "vuetify";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();

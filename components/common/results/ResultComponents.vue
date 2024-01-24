@@ -49,7 +49,6 @@
 <script setup>
 import { useDisplay } from "vuetify";
 import { ref, watch } from "vue";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 
 const currentRoute = useRoute();

@@ -103,7 +103,6 @@
 import { useI18n } from "vue-i18n";
 import { defineAsyncComponent, onUpdated, ref } from 'vue';
 import { useDisplay } from "vuetify";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 
 const { mobile } = useDisplay();
