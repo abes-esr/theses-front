@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt --max-old-space-size=8192 build",
-    "dev": "nuxt dev --max-old-space-size=4096 --host",
-    "generate": "nuxt --max-old-space-size=8192 generate",
-    "preview": "nuxt --max-old-space-size=8192 preview",
-    "postinstall": "nuxt --max-old-space-size=8192 prepare"
+    "build": "node --max-old-space-size=8192 node_modules/nuxt/bin/nuxt.mjs build",
+    "dev": "nuxt dev --host",
+    "generate": "NODE_OPTIONS=--max_old_space_size=8192 nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
