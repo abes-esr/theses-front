@@ -21,7 +21,8 @@
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
-    <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray" @reinitializePageNumber="reinitializePageNumber" />
+    <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray"
+      @reinitializePageNumber="reinitializePageNumber" />
     <div v-if="mobile || dataReady" class="colonnes-resultats">
       <CommonResultsResultList :result="result" :domain-name-change="domainNameChange">
       </CommonResultsResultList>
@@ -49,8 +50,6 @@
 <script setup>
 import { useDisplay } from "vuetify";
 import { ref, watch } from "vue";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
-
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();

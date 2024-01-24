@@ -22,8 +22,7 @@
             </div>
             <div class="sub_header__action">
                 <CommonDomainSelector></CommonDomainSelector>
-                <GenericSearchBar :loading="loading"
-                    @onError="displayError" />
+                <GenericSearchBar :loading="loading" @onError="displayError" />
             </div>
         </div>
     </div>
@@ -110,7 +109,6 @@ import { ref, defineAsyncComponent } from "vue";
 import { useDisplay } from "vuetify";
 import ResultCard from "../theses/results/ResultCard.vue";
 import ScrollToTopButton from "../common/ScrollToTopButton.vue";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader';
 
 const { mobile } = useDisplay();
 const { t } = useI18n();

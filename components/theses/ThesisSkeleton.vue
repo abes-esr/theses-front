@@ -11,7 +11,3 @@
     <v-skeleton-loader type="article"></v-skeleton-loader>
     <v-skeleton-loader type="article"></v-skeleton-loader>
 </template>
-
-<script setup>
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
-</script>

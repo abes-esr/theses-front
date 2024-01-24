@@ -18,8 +18,7 @@
       </div>
       <div class="sub_header__action">
         <CommonDomainSelector></CommonDomainSelector>
-        <GenericSearchBar :loading="loading"
-          @onError="displayError" />
+        <GenericSearchBar :loading="loading" @onError="displayError" />
       </div>
     </div>
   </div>
@@ -103,7 +102,6 @@
 import { useI18n } from "vue-i18n";
 import { defineAsyncComponent, onUpdated, ref } from 'vue';
 import { useDisplay } from "vuetify";
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 
 const { mobile } = useDisplay();
@@ -241,7 +239,7 @@ function conversionMotClesFormatTheses(motsCles) {
       {
         keyword: elem,
         type: "sujet",
-        query: "sujetsLibelle:\"" + elem + "\" OU sujetsRameauLibelle:\"" + elem +"\""
+        query: "sujetsLibelle:\"" + elem + "\" OU sujetsRameauLibelle:\"" + elem + "\""
       }))
   }
   return { mapSujets: keyword };
