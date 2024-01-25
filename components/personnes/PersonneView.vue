@@ -18,8 +18,7 @@
       </div>
       <div class="sub_header__action">
         <CommonDomainSelector></CommonDomainSelector>
-        <GenericSearchBar :loading="loading"
-          @onError="displayError" />
+        <GenericSearchBar :loading="loading" @onError="displayError" />
       </div>
     </div>
   </div>
@@ -240,7 +239,7 @@ function conversionMotClesFormatTheses(motsCles) {
       {
         keyword: elem,
         type: "sujet",
-        query: "sujetsLibelle:\"" + elem + "\" OU sujetsRameauLibelle:\"" + elem +"\""
+        query: "sujetsLibelle:\"" + elem + "\" OU sujetsRameauLibelle:\"" + elem + "\""
       }))
   }
   return { mapSujets: keyword };

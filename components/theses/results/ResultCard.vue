@@ -1,8 +1,6 @@
 <template>
   <v-card flat class="card-container">
-    <nuxt-link class="first-half"
-       :to="{ path: '/'+id, query: { domaine: route.query.domaine }}"
-    >
+    <nuxt-link class="first-half" :to="{ path: '/' + id, query: { domaine: route.query.domaine } }">
       <v-card-title>
         <div class="card-title-wrapper line-clamp">
           <div v-if="!mobile" class="thesis-icon">
@@ -36,7 +34,8 @@
         </span>
 
         <span v-for="(item, index) in auteur" :key="item.ppn ? item.ppn : item.id">
-          <nuxt-link :class="item.ppn || item.id ? 'clickable lightblue' : 'disabled-link'" :to="'/' + (item.ppn ? item.ppn : item.id)">
+          <nuxt-link :class="item.ppn || item.id ? 'clickable lightblue' : 'disabled-link'"
+            :to="'/' + (item.ppn ? item.ppn : item.id)">
             <span class="card-text">{{ item.prenom }}{{ '\xa0' }}</span>
             <span class="card-text">{{ item.nom }}</span>
           </nuxt-link>{{ '\xa0' }}
@@ -53,7 +52,8 @@
         </span>
 
         <span v-for="(item, index) in directeurs" :key="item.ppn ? item.ppn : item.id">
-          <nuxt-link :class="item.ppn || item.id ? 'clickable lightblue' : 'disabled-link'" :to="'/' + (item.ppn ? item.ppn : item.id)">
+          <nuxt-link :class="item.ppn || item.id ? 'clickable lightblue' : 'disabled-link'"
+            :to="'/' + (item.ppn ? item.ppn : item.id)">
             <span class="card-text">
               {{ item.prenom }}{{ '\xa0' }}
             </span>
@@ -69,8 +69,9 @@
           </span>
         </span>
         <span class="card-text-bold">
-          - {{ discipline }} - <nuxt-link :class="etabPPN ? 'clickable lightblue' : 'disabled-link'" :to="'/' + etabPPN">{{ etab
-          }}</nuxt-link>
+          - {{ discipline }} - <nuxt-link :class="etabPPN ? 'clickable lightblue' : 'disabled-link'"
+            :to="'/' + etabPPN">{{ etab
+            }}</nuxt-link>
         </span>
       </v-card-text>
     </div>
@@ -126,7 +127,10 @@ const route = useRoute();
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-a, a:visited, a:hover, a:active {
+a,
+a:visited,
+a:hover,
+a:active {
   color: inherit;
   text-decoration: none;
 }
@@ -159,13 +163,13 @@ a, a:visited, a:hover, a:active {
   font-size: 18px;
   font-family: Roboto-Regular, sans-serif;
   font-weight: 500;
-  line-height: 1.4rem !important;
+  line-height: 1.4rem;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 1;
-    line-height: 1.6rem !important;
+    line-height: 1.6rem;
     padding: 0;
 
   }
@@ -241,5 +245,4 @@ a, a:visited, a:hover, a:active {
 
 .lightblue {
   color: rgb(var(--v-theme-secondary-darken-2)) !important;
-}
-</style>
+}</style>

@@ -21,7 +21,7 @@
                     url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">
                 </HomeStatsCard>
                 <HomeStatsCard :titre=nbSujets :description="$t('preparation')" icon="enCours"
-                    info="Afficher toutes les thèses soutenues"
+                    info="Afficher toutes les thèses en préparation"
                     url="/resultats?filtres=%255BStatut%253D%2522enCours%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">
                 </HomeStatsCard>
                 <HomeStatsCard :titre=nbPersonnes :description="$t('personnesRef')" icon="personne"
@@ -187,4 +187,5 @@ function sleep(ms) {
 
 .mobile-nav-bar {
     margin-top: 50px !important;
-}</style>
+}
+</style>

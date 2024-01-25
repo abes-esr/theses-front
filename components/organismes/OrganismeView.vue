@@ -22,8 +22,7 @@
             </div>
             <div class="sub_header__action">
                 <CommonDomainSelector></CommonDomainSelector>
-                <GenericSearchBar :loading="loading"
-                    @onError="displayError" />
+                <GenericSearchBar :loading="loading" @onError="displayError" />
             </div>
         </div>
     </div>

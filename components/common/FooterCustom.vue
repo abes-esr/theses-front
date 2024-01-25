@@ -9,7 +9,7 @@
       </div>
       <div class="links-container footer-content">
         <h1>
-          <v-icon>mdi-open-in-new</v-icon>
+          <v-icon title="Lien externe">mdi-open-in-new</v-icon>
           {{ $t("accesDirect") }}
         </h1>
         <div class="list-1">
@@ -23,7 +23,7 @@
             <div>
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://www.idref.fr/" target="_blank"
-                  title="Accéder à IdRef, le base des identifiants et des référentiels utilisés pour l’enseignement supérieur et la recherche">{{
+                  title="Accéder à IdRef, la base des identifiants et des référentiels utilisés pour l’enseignement supérieur et la recherche">{{
                     $t("footer.idRref")
                   }}</a></span>
             </div>

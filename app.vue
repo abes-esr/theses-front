@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 
 // DEBUT BETA
 const dialog = ref(false);
@@ -87,7 +87,29 @@ const opendys = useState('opendys', () => false);
 const interlignes = useState('interlignes', () => false);
 const justification = useState('justification', () => false);
 
+//Persistence en localStorage des préférences de l'utilisateur
+onMounted(() => {
+  opendys.value = getFromLocalStorage('opendys', false);
+  interlignes.value = getFromLocalStorage('interlignes', false);
+  justification.value = getFromLocalStorage('justification', false);
+});
 
+const getFromLocalStorage = (key, defaultValue) => {
+  const storedValue = localStorage.getItem(key);
+  return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+};
+
+watch(opendys, (newValue) => {
+  localStorage.setItem('opendys', JSON.stringify(newValue));
+});
+
+watch(interlignes, (newValue) => {
+  localStorage.setItem('interlignes', JSON.stringify(newValue));
+});
+
+watch(justification, (newValue) => {
+  localStorage.setItem('justification', JSON.stringify(newValue));
+});
 </script>
 
 <style lang="scss">
@@ -500,7 +522,7 @@ h4 {
   font-family: 'Open-Dyslexic', sans-serif !important;
 }
 
-.interlignes * {
+.interlignes * :not(.v-btn__content, .v-btn, .v-input, .v-field, .v-input__control, .v-label, .v-field__field, .v-select, .v-field__overlay, .v-field__input, .v-select__selection, .v-select__selection-text) {
   line-height: 2rem !important;
 }
 

@@ -80,9 +80,9 @@ function setLanguage(lang) {
 
 //Paramètres d'accessibilité
 const dialog = ref(false);
-const opendys = useState('opendys', () => false);
-const interlignes = useState('interlignes', () => false);
-const justification = useState('justification', () => false);
+const opendys = useState('opendys');
+const interlignes = useState('interlignes');
+const justification = useState('justification');
 
 </script>
 
