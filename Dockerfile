@@ -1,4 +1,4 @@
-ARG NODE_VERSION=18.14.2
+ARG NODE_VERSION=20.11.0
 ARG PORT=3000
 
 # Build
@@ -18,6 +18,7 @@ RUN npm run build
 # Run
 FROM node:${NODE_VERSION}-slim as theses-front-image-run
 ENV PORT=$PORT
+ENV NODE_OPTIONS=--max-old-space-size=8192
 WORKDIR /src/
 COPY --from=theses-front-image-build /src/.output/ /src/.output/
 CMD [ "node", "/src/.output/server/index.mjs" ]
