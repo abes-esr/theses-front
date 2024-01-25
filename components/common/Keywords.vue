@@ -175,6 +175,8 @@ const isRtl = ref(false);
 function onUpdateLangue(langue) {
   selectedLanguage.value = langue;
   isRtl.value = LanguesRTL.includes(selectedLanguage.value.toLowerCase());
+
+  setKeywords();
 }
 
 function addNKeywords() {
