@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="thesis-keywords" v-if="type === 'theses'">
-        <div class="mots-cles-controlles" v-if="selectKeyWords('sujetsRameau').length > 0">
+        <div class="mots-cles-controlles" v-if="rameauKeywords.length > 0">
           <div class="subtitle">
             <h2>{{ $t("motCleControle") }}</h2>
             <v-btn class="info-button" flat icon="mdi-information-outline">
@@ -22,46 +22,46 @@
               </v-card>
             </v-overlay>
           </div>
-          <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
-            <template v-for="keyWord in selectKeyWords('sujetsRameau')" :key="keyWord.keyword + forceRenderKey"
+          <div class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+            <template v-for="keyWord in rameauKeywords" :key="keyWord.keyword + forceRenderKey"
               :title="keyWord.keyword">
               <nuxt-link
                 :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
-                <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'" tabindex="-1">
-                  <span class="key-word-label">{{ keyWord.keyword }}</span>
+                <v-chip label class="rameau-chip chips" tabindex="-1">
+                  <span class="key-word-label" tabindex="-1">{{ keyWord.keyword }}</span>
                 </v-chip>
               </nuxt-link>
             </template>
-          </v-chip-group>
+          </div>
         </div>
-        <div class="mots-cles-libres" v-if="selectKeyWords('sujet').length > 0">
+        <div class="mots-cles-libres" v-if="freeKeywords.length > 0">
           <div class="subtitle">
             <h2>{{ $t("motCleLibres") }}</h2>
           </div>
-          <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
-            <template v-for="keyWord in selectKeyWords('sujet')" :key="keyWord.keyword + forceRenderKey"
+          <div class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+            <template v-for="keyWord in freeKeywords" :key="keyWord.keyword + forceRenderKey"
               :title="keyWord.keyword">
               <nuxt-link
                 :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
-                <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'" tabindex="-1">
+                <v-chip label class="free-chip chips" tabindex="-1">
                   <span class="key-word-label">{{ keyWord.keyword }}</span>
                 </v-chip>
               </nuxt-link>
             </template>
-          </v-chip-group>
+          </div>
         </div>
       </div>
       <div v-else>
-        <v-chip-group class="chip-lines" :class="isRtl ? 'rtl-text' : ''">
-          <template v-for="keyWord in selectKeyWords()" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
+        <div v-if="mixedKeywords.length > 0" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+          <template v-for="keyWord in mixedKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
             <nuxt-link
               :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
-              <v-chip label :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'" tabindex="-1">
+              <v-chip label class="chips" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'" tabindex="-1">
                 <span class="key-word-label">{{ keyWord.keyword }}</span>
               </v-chip>
             </nuxt-link>
           </template>
-        </v-chip-group>
+        </div>
         <div id="key-words-button-wrapper">
           <v-btn
             v-if="numberOfKeywords > numberOfKeywordsPerLine && keywords[selectedLanguage].length > numberOfKeywordsPerLine"
@@ -114,6 +114,9 @@ const forceRenderKey = ref(0);
 const keywords = ref([]);
 const increment = props.these.titrePrincipal ? ref(10) : ref(20);
 const selectedLanguage = ref("fr");
+const freeKeywords = ref({});
+const rameauKeywords = ref({});
+const mixedKeywords = ref({});
 
 
 setKeywords();
@@ -158,6 +161,13 @@ sujets["langue"] = [
 */
 function setKeywords() {
   keywords.value = props.these.mapSujets;
+
+  if (props.type === 'theses') {
+    freeKeywords.value = selectKeyWords('sujet');
+    rameauKeywords.value = selectKeyWords('sujetsRameau');
+  } else {
+    mixedKeywords.value = selectKeyWords();
+  }
 }
 
 const isRtl = ref(false);
@@ -165,6 +175,8 @@ const isRtl = ref(false);
 function onUpdateLangue(langue) {
   selectedLanguage.value = langue;
   isRtl.value = LanguesRTL.includes(selectedLanguage.value.toLowerCase());
+
+  setKeywords();
 }
 
 function addNKeywords() {
@@ -278,6 +290,10 @@ h2 {
 
   .rameau-chip {
     background-color: rgb(var(--v-theme-orange-abes)) !important;
+  }
+
+  .chips {
+    cursor: pointer;
   }
 }
 
