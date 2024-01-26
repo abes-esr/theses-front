@@ -31,7 +31,11 @@
         <h3>{{ $t('personnes.searchBar.title-personnes') }}</h3>
         <h3>{{ $t('personnes.searchBar.title-thematiques') }}</h3>
       </template>
+      <v-list-item>
+        <span></span>
+      </v-list-item>
       <template v-slot:item="{ item, props, index }">
+        <v-list-item v-if="index === 0" id="spacer-v-list-item"></v-list-item>
         <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.personne == null"
           @click="selectSuggestion(item.raw.personne)">
           <span v-if="item.raw.personne != null">{{
@@ -85,7 +89,7 @@ const menuProps = {
   'open-on-focus': false,
   'content-class': 'autocompl',
   'height': '50vh',
-  'max-height': '340px'
+  'max-height': '360px'
 };
 
 onMounted(
@@ -228,6 +232,11 @@ defineExpose({
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
+.v-virtual-scroll__spacer, #spacer-v-list-item {
+  height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+}
 
 .searchbar {
   flex: 0 0 auto;
@@ -370,4 +379,5 @@ defineExpose({
     }
   }
 }
+
 </style>
