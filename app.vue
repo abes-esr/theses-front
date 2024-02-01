@@ -530,4 +530,13 @@ h4 {
   text-justify: none !important;
   text-align: unset !important;
 }
+
+.sr-only {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 </style>

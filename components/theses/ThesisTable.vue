@@ -1,5 +1,5 @@
 <template>
-  <table class="table" v-if="these.auteurs" aria-describedby="'meta-données de la thèse'">
+  <table class="table" v-if="these.auteurs" title="meta-données de la thèse">
     <tbody class="table-body">
       <!-- Auteur -->
       <tr v-if="these.auteurs && these.auteurs.length > 0" class="table-rows">
@@ -244,4 +244,5 @@ function groupBy(xs, key) {
   font-weight: bold;
   color: rgb(var(--v-theme-secondary-darken-2));
   text-decoration: none;
-}</style>
+}
+</style>

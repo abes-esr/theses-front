@@ -42,10 +42,9 @@
       <span v-if="isAdvanced"></span>
       <v-checkbox v-else :label="$t('disableSuggestion')" v-model="disableCompletion"
         :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn v-if="!isAdvanced" color="primary" density="compact" variant="outlined" :title='$t("avancee")'
-        @click="isAdvanced = true">{{
-          $t("avancee")
-        }}
+      <v-btn v-if="!isAdvanced" color="primary" density="compact" variant="outlined" @click="isAdvanced = true">{{
+        $t("avancee")
+      }}
       </v-btn>
     </div>
   </div>

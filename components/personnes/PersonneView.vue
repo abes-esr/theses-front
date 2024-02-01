@@ -48,7 +48,7 @@
             </div>
             <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank"
               title="Accéder à IdRef, le référentiel des personnes et des structures">
-              <img alt="logo" id="logoIdref" src="@/assets/idref-icone.png" />
+              <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
             </a>
           </div>
         </div>

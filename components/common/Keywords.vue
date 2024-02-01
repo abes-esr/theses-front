@@ -12,7 +12,8 @@
         <div class="mots-cles-controlles" v-if="rameauKeywords.length > 0">
           <div class="subtitle">
             <h2>{{ $t("motCleControle") }}</h2>
-            <v-btn class="info-button" flat icon="mdi-information-outline">
+            <v-btn class="info-button" flat icon="mdi-information-outline" title="Informations sur les mots clés">
+              <span class="sr-only">Informations sur les mots clés</span>
             </v-btn>
             <v-overlay activator=".info-button" location-strategy="connected" scroll-strategy="close">
               <v-card class="legend-tooltip">
@@ -23,8 +24,7 @@
             </v-overlay>
           </div>
           <div class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
-            <template v-for="keyWord in rameauKeywords" :key="keyWord.keyword + forceRenderKey"
-              :title="keyWord.keyword">
+            <template v-for="keyWord in rameauKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
               <nuxt-link
                 :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
                 <v-chip label class="rameau-chip chips" tabindex="-1">
@@ -39,8 +39,7 @@
             <h2>{{ $t("motCleLibres") }}</h2>
           </div>
           <div class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
-            <template v-for="keyWord in freeKeywords" :key="keyWord.keyword + forceRenderKey"
-              :title="keyWord.keyword">
+            <template v-for="keyWord in freeKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
               <nuxt-link
                 :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
                 <v-chip label class="free-chip chips" tabindex="-1">
@@ -56,7 +55,8 @@
           <template v-for="keyWord in mixedKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
             <nuxt-link
               :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
-              <v-chip label class="chips" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'" tabindex="-1">
+              <v-chip label class="chips" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
+                tabindex="-1">
                 <span class="key-word-label">{{ keyWord.keyword }}</span>
               </v-chip>
             </nuxt-link>

@@ -26,10 +26,12 @@
       <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
           tabindex="-1" :title='$t("header.assistance")' size="x-large" icon>
           <div class="icons"><icons-icon-assistance></icons-icon-assistance></div>
+          <span class="sr-only">{{ $t("header.assistance") }}</span>
         </v-btn></a>
       <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
           tabindex="-1" :title='$t("header.doc")' size="x-large" icon>
           <div class="icons"><icons-icon-documentation></icons-icon-documentation></div>
+          <span class="sr-only">{{ $t("header.doc") }}</span>
         </v-btn></a>
     </div>
   </v-app-bar>

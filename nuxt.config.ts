@@ -27,7 +27,8 @@ export default defineNuxtConfig({
   routeRules: {
      '/resultats/**': { ssr: false },
      '/resultats': { ssr: false },
-     '/apropos' : { prerender: true}
+     '/apropos' : { prerender: true},
+     '/' : { swr: 600 }
   },
   nitro: {
     compressPublicAssets: true,
