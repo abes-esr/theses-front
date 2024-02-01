@@ -1,6 +1,6 @@
 <template>
   <v-card flat class="card-container">
-    <nuxt-link class="first-half" :to="{ path: '/' + id, query: { domaine: route.query.domaine } }">
+    <nuxt-link class="first-half" :to="{ path: '/' + id }">
       <v-card-title>
         <div class="card-title-wrapper line-clamp">
           <div v-if="!mobile" class="thesis-icon">
