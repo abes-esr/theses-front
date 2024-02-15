@@ -113,14 +113,17 @@ const types = ref([
     { titre: 'Mots clés', value: 'sujetsLibelle' },
     { titre: "Résumé", value: 'resumes.\\*' },
     { titre: "Discipline", value: "discipline" },
+    { titre: "Toutes les métadonnées bibliographiques", value: "biblio" },
     { titre: "Auteur", value: "auteursNP" },
     { titre: "Directeur de thèse", value: "directeursNP" },
     { titre: "Président", value: "presidentJuryNP" },
     { titre: "Rapporteur", value: "rapporteursNP" },
     { titre: "Membre du jury", value: "membresJuryNP" },
+    { titre: "Tous les rôles", value: "roles" },
     { titre: "Etablissement de soutenance", value: "etabSoutenanceN" },
     { titre: "Etablissement de cotutelle", value: "etabsCotutelleN" },
     { titre: "Ecole doctorale", value: "ecolesDoctoralesN" },
+    { titre: "Toutes les structures", value: "structures" },
     { titre: "Date de soutenance", value: "dateSoutenance" },
     { titre: "Date d'inscription en doctorat", value: "datePremiereInscriptionDoctorat" },
     { titre: "Statut", value: "status" }
@@ -152,7 +155,18 @@ function objectToQuery() {
     formFields.value.forEach((field, index) => {
         if (field.value === "") {
             result += " ";
-        } else {
+        }
+        // Champs spéciaux toutes les données biblio/rôles/structures
+        else if (field.type === "biblio" || field.type === "roles" || field.type === "structures") {
+            if (field.type === "biblio") result += ` (titrePrincipal:(${field.value}) OU sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value})) OU resumes.\\*:(${field.value}) OU discipline:(${field.value}))`;
+            else if (field.type === "roles") result += ` (auteursNP:(${field.value}) OU directeursNP:(${field.value}) OU presidentJuryNP:(${field.value}) OU rapporteursNP:(${field.value}) OU membresJuryNP:(${field.value}))`;
+            else if (field.type === "structures") result += ` (etabSoutenanceN:(${field.value}) OU etabsCotutelleN:(${field.value}) OU ecolesDoctoralesN:(${field.value}))`;
+
+            if (index !== formFields.value.length - 1) {
+                result += ` ${operator.value}`;
+            }
+        }
+        else {
             result += ` ${field.type}:(${field.value})`;
 
             //Cas particulier : pour les mots clés on ajoute également les rameaux
