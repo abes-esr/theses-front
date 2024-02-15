@@ -65,14 +65,6 @@ import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
-const MessageBox = defineAsyncComponent(() => import('../components/common/MessageBox.vue'));
-const messageBox = ref(null);
-function displayMessage(message) {
-  messageBox.value?.open(message, {
-    type: "success"
-  });
-}
-
 const { mobile } = useDisplay();
 
 const dialog = ref(false);
@@ -110,11 +102,6 @@ const isBackAvailable = computed(() => {
  */
 function previousPage() {
   window.history.back();
-}
-
-function mailSent() {
-  displayMessage(t('reportErrorView.msg'));
-  dialog.value = false;
 }
 </script>
 
