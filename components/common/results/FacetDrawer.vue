@@ -27,15 +27,14 @@
               <p>{{ $t("results.drawer.from") }}</p>
               <vue-date-picker v-model="dateFrom" @focus="allowModification" :teleport="true" locale="fr" auto-apply
                 :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false" text-input
-                placeholder="AAAA" :start-date="startDate" :max-date="dateFromMax" :teleport-center="teleportCenter">
+                placeholder="AAAA" :start-date="startDate" :max-date="dateFromMax">
               </vue-date-picker>
             </span>
             <span class="date-item">
               <p>{{ $t("results.drawer.to") }}</p>
               <vue-date-picker v-model="dateTo" @focus="allowModification" :teleport="true" locale="fr" auto-apply
                 :clearable="false" year-picker model-type="yyyy" format="yyyy" :enable-time-picker="false"
-                start-date="2020" text-input placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin"
-                :teleport-center="teleportCenter">
+                start-date="2020" text-input placeholder="AAAA" :max-date="dateToMax" :min-date="dateToMin">
               </vue-date-picker>
             </span>
           </div>
@@ -100,8 +99,6 @@ let dateToMin = computed(() => {
 let dateToMax = computed(() => {
   return new Date();
 });
-
-const teleportCenter = ref(mobile);
 
 /**
  * Initialisation

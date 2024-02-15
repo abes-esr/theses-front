@@ -18,14 +18,12 @@
                                 <span class="calendar-text pr-4">Du</span> <vue-date-picker v-model="dateFrom"
                                     :teleport="true" locale="fr" auto-apply :clearable="false" model-type="yyyy-MM-dd"
                                     format="yyyy-MM-dd" :enable-time-picker="false" text-input placeholder="AAAA-MM-JJ"
-                                    :start-date="new Date()" min-date="1965-01-01" :max-date="new Date()"
-                                    :teleport-center="teleportCenter">
+                                    :start-date="new Date()" min-date="1965-01-01" :max-date="new Date()">
                                 </vue-date-picker>
                                 <span class="calendar-text px-4">Au</span> <vue-date-picker v-model="dateTo"
                                     :teleport="true" locale="fr" auto-apply :clearable="false" model-type="yyyy-MM-dd"
                                     format="yyyy-MM-dd" :enable-time-picker="false" text-input placeholder="AAAA-MM-JJ"
-                                    :start-date="new Date()" :min-date="dateFrom" :max-date="new Date()"
-                                    :teleport-center="teleportCenter">
+                                    :start-date="new Date()" :min-date="dateFrom" :max-date="new Date()">
                                 </vue-date-picker>
                             </span>
                         </div>
@@ -84,7 +82,6 @@ const props = defineProps({
 })
 
 const { mobile } = useDisplay();
-const teleportCenter = ref(mobile);
 
 const dateFrom = ref();
 const dateTo = ref();
@@ -373,5 +370,11 @@ hr {
 
 :deep(.v-switch__track) {
     color: rgb(11, 33, 52) !important;
+}
+</style>
+
+<style>
+.dp__input {
+    font-size: 14px;
 }
 </style>
