@@ -194,13 +194,26 @@
     }
 
     .colonne1 {
-      min-width: 250px;
-      max-width: 250px;
+      min-width: 90%;
+      max-width: 90%;
     }
 
     .colonne2 {
-      min-width: 350px;
-      max-width: 350px;
+      min-width: 90%;
+      max-width: 90%;
+    }
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      .colonne1 {
+        min-width: 250px;
+        max-width: 250px;
+      }
+
+      .colonne2 {
+        min-width: 350px;
+        max-width: 350px;
+      }
+
     }
 
     .v-icon {
