@@ -7,10 +7,11 @@
         </v-icon>
         <v-tooltip activator="parent">{{ $t('menu') }}</v-tooltip>
       </div>
-      <!---<div class="buttons language-accessibility-button">
+      <v-btn variant="plain" @click="dialog = true" class="buttons language-accessibility-button"
+        :title="$t('header.accessibility')">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
         <v-tooltip activator="parent">{{ $t('header.accessibility') }}</v-tooltip>
-      </div>-->
+      </v-btn>
     </div>
     <div class="right-side-buttons">
       <!--    Bouton filtres-->
@@ -104,12 +105,24 @@
       <div v-if="type !== 'home'" v-show="showSearchBar" class="expanded-search-bar-container white-containers">
         <div class="expanded-search-bar">
           <LazyCommonDomainSelector></LazyCommonDomainSelector>
-          <LazyGenericSearchBar
-            :loading="loading" @onError="displayError" />
+          <LazyGenericSearchBar :loading="loading" @onError="displayError" />
         </div>
       </div>
     </v-expand-transition>
   </div>
+  <v-dialog v-model="dialog" width="auto">
+    <v-card>
+      <v-card-title>{{ $t("access.params") }}</v-card-title>
+      <v-card-text>
+        <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
+        <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
+        <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
@@ -194,6 +207,12 @@ function setLanguage(lang) {
   localStorage.setItem("language", lang);
   locale.value = lang;
 }
+
+//Paramètres d'accessibilité
+const dialog = ref(false);
+const opendys = useState('opendys');
+const interlignes = useState('interlignes');
+const justification = useState('justification');
 </script>
 
 <style scoped lang="scss">
@@ -216,6 +235,7 @@ function setLanguage(lang) {
   .left-side-buttons {
     .language-accessibility-button {
       padding-left: 0.7em;
+      margin-top: -3px;
 
       img {
         height: 28px;
