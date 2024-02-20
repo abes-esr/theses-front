@@ -57,11 +57,13 @@
 
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
+const route = useRoute();
 
+console.log(route)
 
   useHead({
     title: "Theses.fr",
@@ -81,22 +83,7 @@ const { t } = useI18n();
     ]
   });
 
-const props = defineProps({
-    nnt: {
-        type: String,
-        default: ""
-    },
-    source: {
-        type: String,
-        default: "Star"
-    },
-    etabPpn: {
-        type: String,
-        default: ""
-    }
-});
-
-const href = computed(() => { return "https://theses.fr/" + props.nnt; });
+const href = computed(() => { return "https://theses.fr/" + route.query.nnt; });
 
 const domainItems = [
     "Signaler des erreurs dans la description de la thèse",
@@ -177,15 +164,15 @@ function validate() {
 function buildJSONToPost(token) {
     return {
         "token": token,
-        "url": "https://theses.fr/" + props.nnt,
+        "url": "https://theses.fr/" + route.query.nnt,
         "nom": nom.value,
         "prenom": prenom.value,
         "mail": mail.value,
         "domaine": domaine.value,
         "objet": objet.value,
         "question": question.value,
-        "appSource": props.source,
-        "etabPpn": props.etabPpn
+        "appSource": route.query.source,
+        "etabPpn": route.query.etabPpn
     }
 }
 
