@@ -9,7 +9,17 @@
                     <div class="type">
                         <v-select density="compact" v-model="field.type" :items="types" item-title="titre"
                             item-value="value" label="Champ" variant="plain" single-line menu-icon="mdi-chevron-down"
-                            @update:model-value="clearField(index)"></v-select>
+                            @update:model-value="clearField(index)">
+                            <template v-slot:item="{ props, index }">
+                                <v-list density="compact">
+                                    <VListSubheader v-if="index === 1">Description des thèses</VListSubheader>
+                                    <VListSubheader v-if="index === 6">Personnes liées aux thèses</VListSubheader>
+                                    <VListSubheader v-if="index === 12">Structures liées aux thèses</VListSubheader>
+                                    <VListSubheader v-if="index === 17">Dates</VListSubheader>
+                                    <v-list-item v-bind="props"></v-list-item>
+                                </v-list>
+                            </template>
+                        </v-select>
                     </div>
 
                     <div class="text">
@@ -106,11 +116,12 @@ onMounted(() => {
 })
 
 const types = ref([
+    { titre: "Statut", value: "status" },
     { titre: 'Titre', value: 'titrePrincipal' },
     { titre: 'Mots clés', value: 'sujetsLibelle' },
     { titre: "Résumé", value: 'resumes.\\*' },
     { titre: "Discipline", value: "discipline" },
-    { titre: "Toutes les métadonnées bibliographiques", value: "biblio" },
+    { titre: "Toutes les métadonnées bibliographiques" },
     { titre: "Auteur", value: "auteursNP" },
     { titre: "Directeur de thèse", value: "directeursNP" },
     { titre: "Président", value: "presidentJuryNP" },
@@ -120,10 +131,10 @@ const types = ref([
     { titre: "Etablissement de soutenance", value: "etabSoutenanceN" },
     { titre: "Etablissement de cotutelle", value: "etabsCotutelleN" },
     { titre: "Ecole doctorale", value: "ecolesDoctoralesN" },
+    { titre: "Partenaire de recherche", value: "partenairesRechercheN" },
     { titre: "Toutes les structures", value: "structures" },
     { titre: "Date de soutenance", value: "dateSoutenance" },
-    { titre: "Date d'inscription en doctorat", value: "datePremiereInscriptionDoctorat" },
-    { titre: "Statut", value: "status" }
+    { titre: "Date d'inscription en doctorat", value: "datePremiereInscriptionDoctorat" }
 ]);
 
 const formFields = useState("formFields", () => [
@@ -370,6 +381,28 @@ hr {
 
 :deep(.v-switch__track) {
     color: rgb(11, 33, 52) !important;
+}
+
+.v-list {
+    padding: 0 !important;
+}
+
+:deep(.v-list-item) {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+    min-height: 35px !important;
+}
+
+
+:deep(.v-list-item-title) {
+    font-size: 0.9rem !important;
+}
+
+:deep(.v-list-subheader) {
+    padding-top: 5px;
+    font-size: 1rem;
+    color: rgb(var(--v-theme-secondary-darken-2));
+    font-weight: 500;
 }
 </style>
 
