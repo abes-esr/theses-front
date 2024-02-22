@@ -1,4 +1,12 @@
 <template>
+  <!-- Mobile -->
+  <ClientOnly>
+    <CommonHeaderMobile v-if="mobile" type="home" @displayError="displayError" @activate-menu="activateMenu"
+                        :loading="loading" :show-menu="showMenu"></CommonHeaderMobile>
+  </ClientOnly>
+  <NuxtLink v-if="!mobile" class="logo logo_home" :to="{ name: 'index', query: { domaine: 'theses' } }">
+    <img alt="Logo du site theses.fr" id="logoIMG" src="/icone-theses-beta.svg" />
+  </NuxtLink>
   <div class="signaler-erreur-container">
     <p>{{ $t("reportErrorView.info") }}<a target="_blank" :href="href">{{ href
       }}</a>
@@ -62,8 +70,6 @@ import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 const route = useRoute();
-
-console.log(route)
 
   useHead({
     title: "Theses.fr",
@@ -243,7 +249,9 @@ p {
 
 
 .signaler-erreur-container {
+  margin-top: -80px;
   padding: 3em;
+  padding-top: 100px;
   background-color: rgb(var(--v-theme-surface));
   display: flex;
   flex-direction: column;
@@ -265,3 +273,4 @@ p {
     margin-right: 10px;
 }
 </style>
+
