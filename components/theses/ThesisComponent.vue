@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <CommonToolbar :source="these.source" :nnt="props.nnt"
-      :etab-ppn="these.etabSoutenance ? these.etabSoutenance.ppn : ''" />
+  <div class="thesis-component-container">
+    <div class="toolbar-container">
+      <CommonToolbar :source="these.source" :nnt="props.nnt"
+        :etab-ppn="these.etabSoutenance ? these.etabSoutenance.ppn : ''" />
+    </div>
     <div class="thesis-info-access-wrapper">
       <ThesesThesisTitle :status="these.status" :titles="these.titres" />
       <!-- Bare latérale Desktop -->
@@ -130,6 +132,17 @@ watchEffect(() => {
 
 <style scoped lang="scss">
 @use 'vuetify/settings';
+
+.thesis-component-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar-container {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    order: 10;
+  }
+}
 
 .thesis-info-access-wrapper {
   display: grid;
