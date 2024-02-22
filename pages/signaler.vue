@@ -7,7 +7,7 @@
   <NuxtLink v-if="!mobile" class="logo logo_home" :to="{ name: 'index', query: { domaine: 'theses' } }">
     <img alt="Logo du site theses.fr" id="logoIMG" src="/icone-theses-beta.svg" />
   </NuxtLink>
-  <div class="signaler-erreur-container">
+  <div class="signaler-erreur-container white-container">
     <p>{{ $t("reportErrorView.info") }}<a target="_blank" :href="href">{{ href
       }}</a>
     </p>
@@ -67,9 +67,11 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from "vue-i18n";
+import { useDisplay } from "vuetify";
 
 const { t } = useI18n();
 const route = useRoute();
+const { mobile } = useDisplay();
 
   useHead({
     title: "Theses.fr",
@@ -106,6 +108,7 @@ const mail = ref("");
 const objet = ref("");
 const domaine = ref("");
 const question = ref("");
+const showMenu = ref(false);
 
 
 /**
@@ -182,6 +185,18 @@ function buildJSONToPost(token) {
     }
 }
 
+/**
+ * Fonctionnement du header mobile
+ */
+function activateMenu() {
+  sleep(250).then(() => {
+    showMenu.value = !showMenu.value;
+  });
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
 </script>
 
 <style lang="scss" scoped>
@@ -247,12 +262,12 @@ p {
     padding-right: 5px;
 }
 
-
 .signaler-erreur-container {
-  margin-top: -80px;
   padding: 3em;
   padding-top: 100px;
   background-color: rgb(var(--v-theme-surface));
+
+  border-top: 1px solid rgb(var(--v-theme-gris-clair));
   display: flex;
   flex-direction: column;
   height: 100%;
