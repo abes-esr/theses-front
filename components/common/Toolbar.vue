@@ -47,6 +47,18 @@
         </v-btn>
       </div>
     </div>
+    <div v-else class="thesis-toolbar no-wrap-text">
+      <NuxtLink class="nuxt-link" v-if="!organisme && !personne" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
+        <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
+          <template v-slot:append-icon>
+            <v-icon>
+              mdi-alert
+            </v-icon>
+          </template>
+          <p>{{ $t("theseView.alert") }}</p>
+        </v-btn>
+      </NuxtLink>
+    </div>
   </ClientOnly>
 </template>
 
@@ -113,8 +125,12 @@ function previousPage() {
   margin: 0.6em 0;
 
   display: inline-flex;
-  justify-content: space-between;
   align-items: center;
+
+  justify-content: space-between;
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    justify-content: end;
+  }
 
   p {
     color: rgb(var(--v-text-dark-blue));

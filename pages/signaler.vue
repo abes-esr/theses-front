@@ -8,9 +8,7 @@
     <img alt="Logo du site theses.fr" id="logoIMG" src="/icone-theses-beta.svg" />
   </NuxtLink>
   <div class="signaler-erreur-container">
-    <p>{{ $t("reportErrorView.info") }}<a target="_blank" :href="href">{{ href
-      }}</a>
-    </p>
+    <p>{{ $t("reportErrorView.info") }}<a target="_blank" :href="href">{{ href }}</a></p>
     <div class="form-wrapper">
       <v-form id="form" ref="form">
         <div class="form-row shortened">
