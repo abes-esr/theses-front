@@ -46,9 +46,10 @@
               <span class="prenom">{{ item.prenom + "\xa0" }}</span>
               <span class="nom">{{ item.nom }}</span>
             </div>
-            <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank"
+            <a v-if="item.has_idref" class="idref-logo" :href="`https://www.idref.fr/${item.id}`" target="_blank"
               title="Accéder à IdRef, le référentiel des personnes et des structures">
               <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
+              <span>IdRef</span>
             </a>
           </div>
         </div>

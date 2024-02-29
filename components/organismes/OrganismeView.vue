@@ -46,10 +46,11 @@
                         <div class="nomprenom">
                             {{ name }}
                         </div>
-                        <a :href="`https://www.idref.fr/${props.id}`" target="_blank"
+                        <a :href="`https://www.idref.fr/${props.id}`" class="idref-logo" target="_blank"
                             alt="Accéder à IdRef, le référentiel des personnes et des structures"
                             title="Accéder à IdRef, le référentiel des personnes et des structures">
                             <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
+                          <span>IdRef</span>
                         </a>
                     </div>
                 </div>

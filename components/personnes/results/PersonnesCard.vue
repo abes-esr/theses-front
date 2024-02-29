@@ -142,14 +142,6 @@ a {
       max-height: 30px !important;
     }
   }
-
-  .idref-logo {
-    display: flex;
-    flex-direction: column;
-    color: rgb(var(--v-theme-text-dark-blue));
-    font-size: 0.9em;
-    text-align: center;
-  }
 }
 
 .disciplines {
