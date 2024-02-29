@@ -12,8 +12,9 @@
     </NuxtLink>
     <div class="idref-container">
       <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank"
-        title="Accéder à IdRef, le référentiel des personnes et des structures">
-        <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
+        title="Accéder à IdRef, le référentiel des personnes et des structures" class="idref-logo">
+          <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
+          <span>IdRef</span>
       </a>
     </div>
     <div class="role-personne">
@@ -30,7 +31,6 @@
     </div>
     <div class="disciplines">
       <NuxtLink :to="{ name: 'id', params: { id: linkId } }">
-
         <template v-for="(name, index) in item.disciplines" :key="name">
           {{ name }}<span v-if="index !== item.disciplines.length - 1">{{ "\xa0" }};{{ "\xa0" }}</span>
         </template>
@@ -143,13 +143,19 @@ a {
     }
   }
 
-
+  .idref-logo {
+    display: flex;
+    flex-direction: column;
+    color: rgb(var(--v-theme-text-dark-blue));
+    font-size: 0.9em;
+    text-align: center;
+  }
 }
 
 .disciplines {
   display: grid;
   grid-column-start: 1;
-  grid-column-end: 4;
+  grid-column-end: 3;
   grid-row-start: 3;
   grid-row-end: 4;
 
