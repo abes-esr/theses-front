@@ -539,4 +539,13 @@ h4 {
   height: 1px;
   overflow: hidden;
 }
+
+.idref-logo {
+  display: flex;
+  flex-direction: column;
+  color: rgb(var(--v-theme-text-dark-blue));
+  font-size: 0.9em;
+  text-align: center;
+  text-decoration: none;
+}
 </style>
