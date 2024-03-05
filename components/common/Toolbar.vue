@@ -26,15 +26,16 @@
         <p>{{ $t("theseView.exporter") }}</p>
       </v-btn>
     -->
-        <v-btn v-if="!organisme && !personne" flat append-icon="mdi-alert-circle" variant="outlined"
-          @click="dialog = true">
-          <template v-slot:append-icon>
-            <v-icon>
-              mdi-alert
-            </v-icon>
-          </template>
-          <p>{{ $t("theseView.alert") }}</p>
-        </v-btn>
+        <NuxtLink class="nuxt-link" v-if="!organisme && !personne" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
+          <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
+            <template v-slot:append-icon>
+              <v-icon>
+                mdi-alert
+              </v-icon>
+            </template>
+            <p>{{ $t("theseView.alert") }}</p>
+          </v-btn>
+        </NuxtLink>
         <v-btn v-if="personne" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
           alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle">
           {{ $t("theseView.alert") }}
@@ -46,15 +47,18 @@
         </v-btn>
       </div>
     </div>
-  </ClientOnly>
-
-  <ClientOnly>
-    <v-dialog v-model="dialog" persistent :fullscreen="mobile" :width="mobile ? '100%' : '70%'">
-      <v-card style="padding: 2rem 2rem;">
-        <LazyThesesReportErrorView @close="dialog = false" @done="mailSent" :source="props.source" :nnt="props.nnt"
-          :etab-ppn="props.etabPpn"></LazyThesesReportErrorView>
-      </v-card>
-    </v-dialog>
+    <div v-else class="thesis-toolbar no-wrap-text">
+      <NuxtLink class="nuxt-link" v-if="!organisme && !personne" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
+        <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
+          <template v-slot:append-icon>
+            <v-icon>
+              mdi-alert
+            </v-icon>
+          </template>
+          <p>{{ $t("theseView.alert") }}</p>
+        </v-btn>
+      </NuxtLink>
+    </div>
   </ClientOnly>
 </template>
 
@@ -64,14 +68,6 @@ import { useDisplay } from "vuetify";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
-
-const MessageBox = defineAsyncComponent(() => import('../components/common/MessageBox.vue'));
-const messageBox = ref(null);
-function displayMessage(message) {
-  messageBox.value?.open(message, {
-    type: "success"
-  });
-}
 
 const { mobile } = useDisplay();
 
@@ -111,11 +107,6 @@ const isBackAvailable = computed(() => {
 function previousPage() {
   window.history.back();
 }
-
-function mailSent() {
-  displayMessage(t('reportErrorView.msg'));
-  dialog.value = false;
-}
 </script>
 
 <style scoped lang="scss">
@@ -134,8 +125,12 @@ function mailSent() {
   margin: 0.6em 0;
 
   display: inline-flex;
-  justify-content: space-between;
   align-items: center;
+
+  justify-content: space-between;
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    justify-content: end;
+  }
 
   p {
     color: rgb(var(--v-text-dark-blue));
@@ -145,6 +140,10 @@ function mailSent() {
     i {
       opacity: 1 !important;
     }
+  }
+
+  .nuxt-link {
+    color: rgb(var(--v-text-dark-blue));
   }
 
   .v-btn {
