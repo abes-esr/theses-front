@@ -47,8 +47,8 @@
         </v-btn>
       </div>
     </div>
-    <div v-else class="thesis-toolbar no-wrap-text">
-      <NuxtLink class="nuxt-link" v-if="!organisme && !personne" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
+    <div v-else-if="!organisme && !personne" class="thesis-toolbar no-wrap-text">
+      <NuxtLink class="nuxt-link" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
         <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
           <template v-slot:append-icon>
             <v-icon>
