@@ -8,7 +8,7 @@
         <v-tooltip activator="parent">{{ $t('menu') }}</v-tooltip>
       </div>
       <v-btn variant="plain" @click="dialog = true" class="buttons language-accessibility-button"
-        :title="$t('header.accessibility')">
+        :title="$t('header.btn')">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
         <v-tooltip activator="parent">{{ $t('header.accessibility') }}</v-tooltip>
       </v-btn>

@@ -1,8 +1,8 @@
 <template>
   <v-app-bar flat color="white" id="appBar" v-if="!mobile">
     <div class="text-center text-md-left language-accessibility-toolbar">
-      <v-btn plain size="x-large" @click="dialog = true"><img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
-          src="@/assets/icone-handicap-visuel.svg" /></v-btn>
+      <v-btn plain size="x-large" @click="dialog = true" :title="$t('header.btn')"><img :alt="$t('header.accessibility')"
+          id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" /></v-btn>
       <div class="languages-btn">
         <!--
         <v-btn flat @click="setLanguage('fr')" title="Langue française"

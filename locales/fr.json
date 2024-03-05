@@ -213,6 +213,7 @@
   },
   "access" : {
     "params": "Paramètres d'accessibilité",
+    "btn": "Personnaliser l’affichage de l’interface",
     "police": "Police adaptée à la dyslexie",
     "interligne": "Augmenter l'interlignage",
     "justification": "Désactiver la justification du texte",
