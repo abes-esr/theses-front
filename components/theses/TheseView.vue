@@ -44,7 +44,9 @@
         <ThesesThesisComponent v-if="dataReady" :soutenue="these.isSoutenue" :nnt="props.id" :these="these"
           :categories-valide="categoriesValide" :boutons-autres="boutonsAutres"></ThesesThesisComponent>
 
-        <ThesesThesisSkeleton v-if="!dataReady"></ThesesThesisSkeleton>
+        <ClientOnly>
+          <ThesesThesisSkeleton v-if="!dataReady"></ThesesThesisSkeleton>
+        </ClientOnly>
       </div>
     </div>
   </div>

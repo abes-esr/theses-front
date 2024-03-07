@@ -27,7 +27,12 @@
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
-                <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-open-in-new"
+                <v-btn v-if="b.typeAcces == 'ACCES_ESR'" color="secondary-darken-2" append-icon="mdi-open-in-new"
+                  @click="checkboxModal = false; dialog = true; dialogUrl = b.url.startsWith('http') ? b.url : baseURL + b.url"
+                  :aria-label="b.libelle" :flat="true">{{
+                    b.libelle }}
+                </v-btn>
+                <v-btn v-else-if="b.url" color="secondary-darken-2" append-icon="mdi-open-in-new"
                   :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle"
                   :aria-label="b.libelle" :flat="true">{{
                     b.libelle }}
