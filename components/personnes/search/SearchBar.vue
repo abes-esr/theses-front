@@ -67,7 +67,10 @@ export default {
 </script>
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
-import { onKeyStroke } from '@vueuse/core'
+import { useMagicKeys } from '@vueuse/core'
+
+const keys = useMagicKeys();
+const CtrlK = keys['Ctrl+K'];
 
 const router = useRouter();
 const currentRoute = useRoute();
@@ -218,10 +221,10 @@ async function selectSuggestion(value) {
 //Focus sur la barre de recherche lors du Ctrl + K
 const targetElement = ref(null);
 
-onKeyStroke(['ctrl', 'k'], (e) => {
-  e.preventDefault();
-  targetElement.value.focus();
-})
+watch(CtrlK, (v) => {
+  if (v)
+    targetElement.value.focus();
+});
 
 defineExpose({
   search,
