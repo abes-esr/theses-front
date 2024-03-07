@@ -80,7 +80,7 @@ const emit = defineEmits(['onError', 'reinitializePageNumber']);
 let watcherActive = true;
 const disableCompletion = ref(false);
 
-const isAdvanced = useState('isAdvanced', () => false);
+const isAdvanced = useState('isAdvanced');
 
 onMounted(
   () => {

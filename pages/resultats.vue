@@ -2,17 +2,17 @@
   <ClientOnly><Message-box ref="messageBox"></Message-box></ClientOnly>
   <!--  Mobile-->
   <ClientOnly>
-    <CommonHeaderMobile v-if="mobile" type="resultats" @search="search(true)" @displayError="displayError"
-      @activateMenu="activateMenu" @activateSearchBar="activateSearchBar" @activateFilterMenu="activateFilterMenu"
+    <CommonHeaderMobile v-if="mobile" type="resultats" @search="search(true)" @display-error="displayError"
+      @activate-menu="activateMenu" @activate-search-bar="activateSearchBar" @activate-filter-menu="activateFilterMenu"
       :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"></CommonHeaderMobile>
   </ClientOnly>
   <!--    Menu filtres  -->
   <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
     :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-    <CommonResultsFacetsHeader @closeOverlay="closeOverlay" @reinitializePageNumber="reinitializePageNumber"
+    <CommonResultsFacetsHeader @close-overlay="closeOverlay" @reinitialize-all-facets="reinitializeAllFacets"
     ></CommonResultsFacetsHeader>
-    <CommonResultsFacetsList @reinitializePageNumber="reinitializePageNumber"
-      :loading="!dataFacetsReady" @closeOverlay="closeOverlay" :facets="facets" :selected-facets-array="selectedFacetsArray" :domaine="domainNameChange"
+    <CommonResultsFacetsList @reinitialize-page-number="reinitializePageNumber" :reset-text-fields="resetTextFields"
+      :loading="!dataFacetsReady" @close-overlay="closeOverlay" :facets="facets" :selected-facets-array="selectedFacetsArray" :domaine="domainNameChange"
       class="left-side">
     </CommonResultsFacetsList>
   </v-dialog>
@@ -29,16 +29,17 @@
       <div class="sub_header__action">
         <CommonDomainSelector></CommonDomainSelector>
         <GenericSearchBar :loading="loading"
-          @onError="displayError" @reinitializePageNumber="reinitializePageNumber" />
+          @on-error="displayError" @reinitialize-page-number="reinitializePageNumber" />
       </div>
     </div>
   </div>
 
   <div class="result-main-wrapper">
     <div v-if="!mobile" class="nav-bar">
-      <CommonResultsFacetsHeader @reinitializePageNumber="reinitializePageNumber">
+      <CommonResultsFacetsHeader @reinitialize-page-number="reinitializePageNumber" @reinitialize-all-facets="reinitializeAllFacets">
       </CommonResultsFacetsHeader>
-      <CommonResultsFacetsList @reinitializePageNumber="reinitializePageNumber"
+      <CommonResultsFacetsList @reinitialize-page-number="reinitializePageNumber"
+        :reset-text-fields="resetTextFields"
         :facets="facets"  :selected-facets-array="selectedFacetsArray"
         :domaine="domainNameChange"
         :loading="!dataFacetsReady"
@@ -49,7 +50,7 @@
       <CommonResultsResultComponents :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
         :persistentQuery="request" :reset-page="resetPage"
         :domain-name-change="domainNameChange" :selected-facets-array="selectedFacetsArray"
-        @reinitializePageNumber="reinitializePageNumber">
+        @reinitialize-page-number="reinitializePageNumber">
       </CommonResultsResultComponents>
     </div>
     <CommonScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
@@ -89,6 +90,7 @@ const loading = ref(false);
 const facets = ref({});
 const nbResult = ref(0);
 const resetPage = ref(0);
+const resetTextFields = ref(0);
 const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
 const showMenu = ref(false);
@@ -192,6 +194,11 @@ function reinitializeEverything() {
   setCheckedFilters([]);
   setWorkingFacetName("");
   reinitialize();
+}
+
+function reinitializeAllFacets() {
+  reinitializePageNumber()
+  resetTextFields.value++;
 }
 
 function reinitializePageNumber() {

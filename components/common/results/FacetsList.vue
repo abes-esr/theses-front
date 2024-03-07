@@ -5,7 +5,9 @@
       @reinitializePageNumber="reinitializePageNumber">
     </CommonResultsFacetDrawer>
     <CommonResultsFacetDrawer v-for="facet in facets" :key="`facet-${facet.name}`" :facet="facet"
-      :selected-facets-array="selectedFacetsArray" @reinitializePageNumber="reinitializePageNumber">
+      :selected-facets-array="selectedFacetsArray"
+      :reset-text-fields="resetTextFields"
+      @reinitializePageNumber="reinitializePageNumber">
     </CommonResultsFacetDrawer>
     <v-btn v-if="mobile" class="filters-btn" variant="outlined" color="primary" @click="closeOverlay">Appliquer les
       filtres</v-btn>
@@ -36,6 +38,10 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: true
+  },
+  resetTextFields: {
+    type: Number,
+    default: 0
   }
 });
 

@@ -9,7 +9,7 @@
         <h3 class="facet-title">
           {{ facet.name }}
         </h3>
-        <v-btn @click.stop="" @click="reinitializeCheckboxes" class="reinitialize-button" size="small" depressed
+        <v-btn @click.stop="" @click="reinitializeCheckboxes(); reinitializeFilterSearchText();" class="reinitialize-button" size="small" depressed
           elevation="0" color="surface" title="Réinitialiser">
           <v-icon>mdi-reload</v-icon>
         </v-btn>
@@ -73,6 +73,10 @@ const props = defineProps({
   date: {
     type: Boolean,
     default: false
+  },
+  resetTextFields: {
+    type: Number,
+    default: 0
   }
 });
 
@@ -144,6 +148,10 @@ function reinitializeDateFields() {
     dateFrom.value = dateTo.value = "";
 }
 
+function reinitializeFilterSearchText() {
+  filterSearchText.value = "";
+}
+
 function reinitializeCheckboxes() {
   emit('reinitializePageNumber');
   setWorkingFacetName("");
@@ -153,6 +161,9 @@ function reinitializeCheckboxes() {
     updateFilterDateOnly();
   } else {
     reinitializeFacetFilters(props.facet.name);
+    if (props.date) {
+      reinitializeFilterSearchText();
+    }
   }
 }
 
@@ -227,6 +238,10 @@ watch(() => props.selectedFacetsArray,
     fillDateDrawerFields();
   });
 
+watch(() => props.resetTextFields,
+  () => {
+    reinitializeFilterSearchText();
+  })
 </script>
 
 <style scoped lang="scss">
