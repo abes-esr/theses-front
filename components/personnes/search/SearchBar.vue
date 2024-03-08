@@ -69,9 +69,6 @@ export default {
 import { ref, onMounted, watch, computed } from 'vue';
 import { useMagicKeys } from '@vueuse/core'
 
-const keys = useMagicKeys();
-const CtrlK = keys['Ctrl+K'];
-
 const router = useRouter();
 const currentRoute = useRoute();
 const query = computed(() => decodeURI(currentRoute.query.q));
@@ -94,6 +91,22 @@ const menuProps = {
   'height': '50vh',
   'max-height': '360px'
 };
+
+// Focus sur la barre de recherche lors du Ctrl + K
+const { ctrl_k } = useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.ctrlKey && e.key === 'k' && e.type === 'keydown')
+      e.preventDefault()
+  },
+});
+
+const targetElement = ref(null);
+
+watch(ctrl_k, (v) => {
+  if (v)
+    targetElement.value.focus();
+});
 
 onMounted(
   () => {
@@ -217,14 +230,6 @@ async function selectSuggestion(value) {
   request.value = value.suggestion;
   await search();
 }
-
-//Focus sur la barre de recherche lors du Ctrl + K
-const targetElement = ref(null);
-
-watch(CtrlK, (v) => {
-  if (v)
-    targetElement.value.focus();
-});
 
 defineExpose({
   search,
