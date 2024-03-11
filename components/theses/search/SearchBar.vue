@@ -56,12 +56,19 @@ export default {
 </script>
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import { onKeyStroke } from '@vueuse/core'
-
+import { useMagicKeys } from '@vueuse/core'
 
 const currentRoute = useRoute();
 const router = useRouter();
 const { getSuggestion, setQuery, setDomaine, reinitializeFilters } = useStrategyAPI();
+
+const request = ref();
+const requestSearch = ref();
+const emit = defineEmits(['onError', 'reinitializePageNumber']);
+let watcherActive = true;
+const disableCompletion = ref(false);
+
+const isAdvanced = useState('isAdvanced');
 
 defineProps({
   loading: {
@@ -74,13 +81,21 @@ defineProps({
   }
 });
 
-const request = ref();
-const requestSearch = ref();
-const emit = defineEmits(['onError', 'reinitializePageNumber']);
-let watcherActive = true;
-const disableCompletion = ref(false);
+// Focus sur la barre de recherche lors du Ctrl + K
+const { ctrl_k } = useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.ctrlKey && e.key === 'k' && e.type === 'keydown')
+      e.preventDefault()
+  },
+});
 
-const isAdvanced = useState('isAdvanced');
+const targetElement = ref(null);
+
+watch(ctrl_k, (v) => {
+  if (v)
+    targetElement.value.focus();
+});
 
 onMounted(
   () => {
@@ -182,14 +197,6 @@ async function selectSuggestion(value) {
 defineExpose({
   search,
 });
-
-//Focus sur la barre de recherche lors du Ctrl + K
-const targetElement = ref(null);
-
-onKeyStroke(['ctrl', 'k'], (e) => {
-  e.preventDefault();
-  targetElement.value.focus();
-})
 </script>
 
 <style scoped lang="scss">
