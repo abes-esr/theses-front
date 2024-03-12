@@ -138,12 +138,6 @@ watchEffect(() => {
   flex-direction: column;
 }
 
-.toolbar-container {
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    order: 10;
-  }
-}
-
 .thesis-info-access-wrapper {
   display: grid;
   grid-template-rows: 1fr auto;

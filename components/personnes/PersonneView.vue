@@ -25,7 +25,9 @@
 
   <div class="main-wrapper">
     <div class="result-components white-containers">
-      <CommonToolbar personne />
+      <div class="toolbar-container">
+        <CommonToolbar personne />
+      </div>
       <!--   Skeletton-->
       <ClientOnly>
         <div v-if="!dataReady" class="skeleton-wrapper">
@@ -353,6 +355,9 @@ function sleep(ms) {
   .result-components {
     grid-column-start: 2;
     padding: 0 2em;
+
+    display: flex;
+    flex-direction: column;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       width: 100%;

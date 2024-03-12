@@ -29,8 +29,9 @@
 
     <div class="main-wrapper">
         <div class="result-components white-containers">
+          <div class="toolbar-container">
             <CommonToolbar organisme />
-
+           </div>
             <!--   Skeletton-->
             <div v-if="!dataReady" class="skeleton-wrapper">
                 <v-skeleton-loader type="list-item-avatar-two-line" class="skeleton"></v-skeleton-loader>
@@ -264,6 +265,9 @@ function sleep(ms) {
     .result-components {
         grid-column-start: 2;
         padding: 0 2em;
+
+      display: flex;
+      flex-direction: column;
 
         @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
             width: 100%;

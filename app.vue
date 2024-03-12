@@ -548,4 +548,10 @@ h4 {
   text-align: center;
   text-decoration: none;
 }
+
+.toolbar-container {
+  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    order: 10;
+  }
+}
 </style>
