@@ -47,7 +47,20 @@
         </v-btn>
       </div>
     </div>
-    <div v-else-if="!organisme && !personne" class="thesis-toolbar no-wrap-text">
+    <div v-else-if="personne" class="thesis-toolbar no-wrap-text">
+      <v-btn href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
+             alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle">
+        {{ $t("theseView.alert") }}
+      </v-btn>
+    </div>
+    <div v-else-if="organisme" class="thesis-toolbar no-wrap-text">
+      <v-btn href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#PageOrganisme"
+             alt="Document theses.fr sur les pages d'organisme" target="_blank" variant="outlined" flat
+             append-icon="mdi-alert-circle">
+        {{ $t("theseView.alert") }}
+      </v-btn>
+    </div>
+    <div v-else class="thesis-toolbar no-wrap-text">
       <NuxtLink class="nuxt-link" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
         <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
           <template v-slot:append-icon>
