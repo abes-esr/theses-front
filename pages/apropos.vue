@@ -58,8 +58,10 @@
                 <li>les th&egrave;ses de doctorat fran&ccedil;aises soutenues avant 1985</li>
             </ul>
             <h2>Une interface et des API</h2>
-            <p>Les donn&eacute;es de <a href="https://theses.fr/" target="_blank">theses.fr</a> sont accessibles via le site
-                <a href="https://theses.fr/" target="_blank">www.theses.fr</a> gr&acirc;ce &agrave; un moteur de recherche
+            <p>Les donn&eacute;es de <a href="https://theses.fr/" target="_blank">theses.fr</a> sont accessibles via le
+                site
+                <a href="https://theses.fr/" target="_blank">www.theses.fr</a> gr&acirc;ce &agrave; un moteur de
+                recherche
                 et une
                 navigation &agrave; facettes. Un <a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
                     target="_blank" title="Accéder à la documentation de theses.fr">guide d&rsquo;utilisation du
@@ -76,8 +78,9 @@
                     title="Accéder sur le site de l’Abes aux informations relatives à la licence Etalab">sous licence
                     Etalab <v-icon title="Lien externe" size="x-small">mdi-open-in-new</v-icon></a>.
                 Elles sont
-                disponibles via une <a href="https://documentation.abes.fr/aidetheses/thesesfr/co/RecupererDonneesAPI.html"
-                    target="_blank" title="Accéder à la documentation de theses.fr relative à l’utilisation de l’API">API
+                disponibles via une <a
+                    href="https://documentation.abes.fr/aidetheses/thesesfr/co/RecupererDonneesAPI.html" target="_blank"
+                    title="Accéder à la documentation de theses.fr relative à l’utilisation de l’API">API
                     XML <v-icon title="Lien externe" size="x-small">mdi-open-in-new</v-icon></a>.</p>
             <p>Pour favoriser leur r&eacute;utilisation, les donn&eacute;es relatives aux th&egrave;ses soutenues
                 sont &eacute;galement disponibles sous forme d&rsquo;un <em>dump</em> d&eacute;pos&eacute; et mis
@@ -100,7 +103,8 @@
                 principaux :</p>
             <ul>
                 <li><strong>Renforcer la visibilit&eacute; nationale et internationale de la recherche doctorale
-                        fran&ccedil;aise</strong>&nbsp;: <a href="https://theses.fr/" target="_blank">theses.fr</a> expose
+                        fran&ccedil;aise</strong>&nbsp;: <a href="https://theses.fr/" target="_blank">theses.fr</a>
+                    expose
                     largement
                     sur le web les donn&eacute;es d&eacute;crivant les th&egrave;ses de doctorat</li>
                 <li><strong>Servir le monde acad&eacute;mique</strong>&nbsp;: <a href="https://theses.fr/"
@@ -138,21 +142,22 @@
                 <li>deux repr&eacute;sentants de la recherche priv&eacute;e ou du monde &eacute;conomique</li>
                 <li>trois repr&eacute;sentants des op&eacute;rateurs documentaires nationaux des th&egrave;ses en
                     France : <a href="http://www.inist.fr/"
-                        title="Accéder au site de l’Institut de l’Information Scientifique et technique">CNRS-INIST <v-icon
-                            title="Lien externe" size="x-small">mdi-open-in-new</v-icon></a> ,<a
+                        title="Accéder au site de l’Institut de l’Information Scientifique et technique">CNRS-INIST
+                        <v-icon title="Lien externe" size="x-small">mdi-open-in-new</v-icon></a> ,<a
                         href="http://www.diffusiontheses.fr/content/4-anrt-lille-reproduction-theses" target="_blank"
                         title="Accéder au site de l’Atelier National de Reproduction des Thèses">Atelier
                         national de reproduction des th&egrave;ses de Lille <v-icon title="Lien externe"
                             size="x-small">mdi-open-in-new</v-icon></a>, <a href="http://www.cines.fr/" target="_blank"
-                        title="Accéder au site du Centre Informatique National de l’Enseignement Supérieur">CINES <v-icon
-                            title="Lien externe" size="x-small">mdi-open-in-new</v-icon></a>
+                        title="Accéder au site du Centre Informatique National de l’Enseignement Supérieur">CINES
+                        <v-icon title="Lien externe" size="x-small">mdi-open-in-new</v-icon></a>
                 </li>
                 <li>trois repr&eacute;sentants d&rsquo;associations : <a href="https://www.abg.asso.fr" target="_blank"
                         title="Accéder au site de l’Association Bernard Grégory">l&rsquo;Intelli&rsquo;Agence
                         <v-icon title="Lien externe" size="x-small">mdi-open-in-new</v-icon></a>(Association Bernard
                     Gregory),<a href="http://www.adbu.fr" target="_blank"
                         title="Accéder au site de l’Association française des directeurs et personnels de direction des bibliothèques universitaires et de la documentation">
-                        l&rsquo;ADBU <v-icon title="Lien externe" size="x-small">mdi-open-in-new</v-icon></a>(association
+                        l&rsquo;ADBU <v-icon title="Lien externe"
+                            size="x-small">mdi-open-in-new</v-icon></a>(association
                     des directeurs de
                     biblioth&egrave;ques universitaires), l&rsquo;AURA (association du r&eacute;seau des
                     utilisateurs des produits de l&rsquo;Abes)</li>
@@ -202,7 +207,8 @@
                 signalent les sujets de th&egrave;ses pr&eacute;par&eacute;s en leur sein.</p>
             <p>&nbsp;</p>
             <h3>Theses.fr v2</h3>
-            <p>A partir du printemps 2022, l’Agence Bibliographique de l’Enseignement Supérieur lance le projet de refonte
+            <p>A partir du printemps 2022, l’Agence Bibliographique de l’Enseignement Supérieur lance le projet de
+                refonte
                 du site theses.fr.</p>
             <p>Les objectifs sont : </p>
             <ul>
@@ -213,7 +219,8 @@
             </ul>
             <br />
             <p>
-                Le site est développé en grande partie en interne, y compris la partie graphique. Un prestataire externe est
+                Le site est développé en grande partie en interne, y compris la partie graphique. Un prestataire externe
+                est
                 engagé pendant un an pour appuyer l’équipe technique sur le moteur de recherche consacré aux personnes.
             </p>
             <p>La nouvelle version de theses.fr est déployée en production en 2024.</p>
@@ -255,13 +262,18 @@ h1 {
 }
 
 h2 {
+    font-size: 30px;
     padding-top: 20px;
     padding-bottom: 10px;
 }
 
 h3 {
-    font-size: 20px;
+    font-size: 25px;
     padding-bottom: 7px;
+}
+
+h4 {
+    font-size: 20px;
 }
 
 #logoIMG {
