@@ -80,7 +80,6 @@
 import { ref, watch, computed, onMounted } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-import { useDisplay } from "vuetify";
 
 const emit = defineEmits(['search', 'simple']);
 
@@ -90,8 +89,6 @@ const props = defineProps({
         default: false
     }
 })
-
-const { mobile } = useDisplay();
 
 const dateFrom = ref();
 const dateTo = ref();
@@ -213,15 +210,21 @@ watch(dateTo, () => {
     });
 })
 
-
 function clear() {
     for (const element of formFields.value) {
         element.value = '';
     }
+    dateTo.value = '';
+    dateFrom.value = '';
 }
 
 function clearField(index) {
     formFields.value[index].value = "";
+
+    if (formFields.value[index].type === "dateSoutenance" || formFields.value[index].type === "datePremiereInscriptionDoctorat") {
+        dateTo.value = '';
+        dateFrom.value = '';
+    }
 }
 </script>
 
