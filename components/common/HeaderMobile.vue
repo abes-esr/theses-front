@@ -8,7 +8,7 @@
         <v-tooltip activator="parent">{{ $t('menu') }}</v-tooltip>
       </div>
       <v-btn variant="plain" @click="dialog = true" class="buttons language-accessibility-button"
-        :title="$t('header.btn')">
+        :title="$t('access.btn')">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
         <v-tooltip activator="parent">{{ $t('header.accessibility') }}</v-tooltip>
       </v-btn>
@@ -81,8 +81,8 @@
             </div>
             -->
             <div class="menu-text-element">
-              <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
-                  :title='$t("header.assistance")' size="large" variant="text" icon>
+              <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
+                :alt='$t("header.assistance")'><v-btn :title='$t("header.assistance")' size="large" variant="text" icon>
                   <IconsIconAssistance />
                 </v-btn>
                 <span>{{ $t('assistance') }}</span>
