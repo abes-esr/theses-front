@@ -58,7 +58,7 @@
                 <div class="buttons space-between">
                     <v-btn color="primary" density="compact" variant="plain" :title='$t("vider")' @click="clear"
                         prepend-icon="mdi-reload">{{
-                            $t("vider") }}</v-btn>
+                $t("vider") }}</v-btn>
                     <span>
                         <v-btn @click="addField" variant="plain" density="compact" title="Ajouter un champ"
                             icon="mdi-plus"></v-btn>
@@ -67,10 +67,10 @@
             </div>
             <div class="buttons right">
                 <v-btn variant="outlined" density="compact" color="primary" @click="emit('simple')" class="mr-4">{{
-                    $t("simple")
-                }}</v-btn>
+                $t("simple")
+            }}</v-btn>
                 <v-btn @click="search" flat color="primary" density="compact" class="mr-4">{{ $t("rechercher")
-                }}</v-btn>
+                    }}</v-btn>
             </div>
         </v-form>
     </div>
@@ -121,7 +121,7 @@ const types = ref([
     { titre: 'Mots clés', value: 'sujetsLibelle' },
     { titre: "Résumé", value: 'resumes.\\*' },
     { titre: "Discipline", value: "discipline" },
-    { titre: "Toutes les métadonnées bibliographiques" },
+    { titre: "Toutes les métadonnées bibliographiques", value: "biblio" },
     { titre: "Auteur", value: "auteursNP" },
     { titre: "Directeur de thèse", value: "directeursNP" },
     { titre: "Président", value: "presidentJuryNP" },
