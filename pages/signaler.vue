@@ -290,9 +290,5 @@ p {
 .v-btn {
     margin-right: 10px;
 }
-
-.tarteaucitron-img {
-  height: 1em;
-}
 </style>
 
