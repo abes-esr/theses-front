@@ -151,6 +151,17 @@ function removeField(index) {
 };
 
 function search() {
+
+    //Si on a des dates vides, on remplit les champs date avec des dates max
+    let date = new Date();
+    if (dateTo.value == undefined || dateTo.value == '') dateTo.value = date.getFullYear().toString() + "-12-31";
+    if (dateFrom.value == undefined || dateFrom.value == '') dateFrom.value = "1960-01-01";
+    formFields.value.forEach((field) => {
+        if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
+            field.value = '[' + dateFrom.value + ' TO ' + dateTo.value + ']';
+        }
+    });
+
     emit('search', objectToQuery())
 }
 
@@ -219,12 +230,13 @@ function clear() {
 }
 
 function clearField(index) {
-    formFields.value[index].value = "";
-
     if (formFields.value[index].type === "dateSoutenance" || formFields.value[index].type === "datePremiereInscriptionDoctorat") {
         dateTo.value = '';
         dateFrom.value = '';
     }
+
+    formFields.value[index].value = "";
+
 }
 </script>
 
