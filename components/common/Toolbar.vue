@@ -16,16 +16,31 @@
       </v-btn>
       <span v-else></span>
       <div class="no-wrap-text">
-        <!--
-      <v-btn flat append-icon="mdi-file-export-outline">
-        <template v-slot:append-icon>
-          <v-icon>
-            mdi-file-export-outline
-          </v-icon>
-        </template>
-        <p>{{ $t("theseView.exporter") }}</p>
-      </v-btn>
-    -->
+<!--        Export-->
+        <v-menu location="bottom">
+          <template v-slot:activator="{ props }">
+            <v-btn flat append-icon="mdi-file-export-outline" variant="outlined" v-bind="props">
+              <template v-slot:append-icon>
+                <v-icon>
+                  mdi-file-export-outline
+                </v-icon>
+              </template>
+              <p>{{ $t("theseView.exporter") }}</p>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(exportType, index) in exportTypeList"
+              :key="index"
+            >
+              <v-list-item-title class="export-titles">{{ $t(index) }}</v-list-item-title>
+              <v-list-item-subtitle v-for="file in exportType">
+                <nuxt-link :to="file.url">{{ file.title }}</nuxt-link>
+              </v-list-item-subtitle>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+<!--        Fin export-->
         <NuxtLink class="nuxt-link" v-if="!organisme && !personne" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
           <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
             <template v-slot:append-icon>
@@ -113,6 +128,29 @@ const isBackAvailable = computed(() => {
   return window.history.state.back && window.history.state.back.includes("/resultats");
 });
 
+const exportTypeList = ref({});
+exportTypeList.value = {
+  exportData: {
+    XML: {
+      title: 'XML',
+      url: '/api/v1/export/xml/' + props.nnt
+    },
+    RDF: {
+      title: 'RDF',
+      url: '/api/v1/export/rdf/' + props.nnt
+    }
+  },
+  exportBiblio: {
+    RIS: {
+      title: 'RIS',
+      url: '/api/v1/export/ris/' + props.nnt
+    },
+    BIB: {
+      title: 'BIBTEX',
+      url: '/api/v1/export/bib/' + props.nnt
+    }
+  }
+}
 
 /**
  * Fonctions
@@ -182,9 +220,18 @@ function previousPage() {
       }
     }
 
-    :deep(.v-btn__append) {
+    :deep(.mdi-alert-circle) {
       color: rgb(var(--v-theme-error));
+    }
+    :deep(.mdi-file-export-outline) {
+      color: rgb(var(--v-theme-dark-blue));
     }
   }
 }
+
+.export-titles {
+
+}
+
+
 </style>
