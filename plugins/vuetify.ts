@@ -2,7 +2,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 
-const myCustomLightTheme = {
+const abesLightTheme = {
   dark: false,
   colors: {
     background: '#F9F9FB',
@@ -25,6 +25,29 @@ const myCustomLightTheme = {
   }
 }
 
+const abesDarkTheme = {
+  dark: false,
+  colors: {
+    background: '#343643',
+    surface: '#343643',
+    primary: '#FFFFFF',
+    'primary-darken-1': '#FFFFFF',
+    secondary: '#FFFFFF',
+    'secondary-darken-1': '#FFFFFF',
+    'secondary-darken-2': '#FFFFFF',
+    'orange-abes': '#FFFFFF',
+    'gris-clair' : '#FFFFFF',
+    'gris-fonce': '#FFFFFF',
+    error: '#B00020',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FB8C00',
+    'fond-noir': "#09090a",
+    'text-dark-blue': "#FFFFFF",
+    'fond-chip-blue': "#ABB9D5"
+  }
+}
+
 export default defineNuxtPlugin((app) => {
   let ssr = true;
 
@@ -36,9 +59,10 @@ export default defineNuxtPlugin((app) => {
 
   const vuetify = createVuetify({
      theme: {
-        defaultTheme: 'myCustomLightTheme',
+        defaultTheme: 'abesLightTheme',
         themes: {
-            myCustomLightTheme,
+            abesLightTheme,
+            abesDarkTheme,
         }
     },
     ssr: ssr,

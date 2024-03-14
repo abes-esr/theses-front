@@ -224,6 +224,7 @@ main {
 
       a {
         text-decoration: none;
+        color: rgb(var(--v-theme-primary));
       }
     }
   }
@@ -430,12 +431,6 @@ h4 {
   color: inherit;
   text-decoration: none;
 }
-
-.searchbar__input .v-field {
-  background-color: white;
-}
-
-
 
 .domain-selector {
   @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {

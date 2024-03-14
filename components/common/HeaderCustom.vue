@@ -1,9 +1,10 @@
 <template>
-  <v-app-bar flat color="white" id="appBar" v-if="!mobile">
+  <v-app-bar flat id="appBar" v-if="!mobile">
     <div class="text-center text-md-left language-accessibility-toolbar">
-      <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')"><img
-          :alt="$t('header.accessibility')" id="logo-handicap-visuel"
-          src="@/assets/icone-handicap-visuel.svg" /></v-btn>
+      <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')">
+        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
+          :src="'/icone-handicap-visuel-' + selectedTheme + '.svg'" />
+      </v-btn>
       <div class="languages-btn">
         <!--
         <v-btn flat @click="setLanguage('fr')" title="Langue française"
@@ -25,14 +26,14 @@
         <div class="icons"><icons-icon-rss></icons-icon-rss></div>
       </v-btn>-->
       <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
-          tabindex="-1" :title='$t("header.assistance")' size="x-large" icon>
-          <div class="icons"><icons-icon-assistance></icons-icon-assistance></div>
-          <span class="sr-only">{{ $t("header.assistance") }}</span>
+          tabindex="-1" :title='$t("header.assistance")' size="large" icon>
+          <div class="icons"><img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
+                                  :src="'/icone-assistance-' + selectedTheme + '.svg'" /></div>
         </v-btn></a>
       <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
-          tabindex="-1" :title='$t("header.doc")' size="x-large" icon>
-          <div class="icons"><icons-icon-documentation></icons-icon-documentation></div>
-          <span class="sr-only">{{ $t("header.doc") }}</span>
+          tabindex="-1" :title='$t("header.doc")' size="large" icon>
+        <div class="icons"><img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
+                                :src="'/icone-documentation-' + selectedTheme + '.svg'" /></div>
         </v-btn></a>
     </div>
   </v-app-bar>
@@ -44,6 +45,11 @@
         <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
         <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
         <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
+        <v-radio-group v-model="selectedTheme" inline :label='$t("access.theme")' class="theme-selector">
+          <v-radio :label='$t("access.light")' value="light"></v-radio>
+          <v-radio :label='$t("access.dark")' value="dark"></v-radio>
+          <v-radio :label='$t("access.contrast")' value="contrast"></v-radio>
+        </v-radio-group>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
@@ -53,12 +59,20 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { useDisplay } from "vuetify";
+import { useDisplay, useTheme } from "vuetify";
 
+const theme = useTheme();
 const { locale } = useI18n();
 const { mobile } = useDisplay();
+
+const selectedTheme = ref("light");
+const themesNames = ref({});
+themesNames.value = {
+  "light": "abesLightTheme",
+  "dark": "abesDarkTheme",
+};
 
 onMounted(() => {
   if (localStorage.getItem("language")) {
@@ -87,6 +101,12 @@ const opendys = useState('opendys');
 const interlignes = useState('interlignes');
 const justification = useState('justification');
 
+/**
+ * Watchers
+ */
+watch(selectedTheme, (newValue) => {
+  theme.global.name.value = themesNames.value[newValue];
+});
 </script>
 
 <style scoped lang="scss">
@@ -149,12 +169,16 @@ header {
   }
 }
 
+.logos-droite {
+  height: 40px;
+}
+
 #logo-handicap-visuel {
-  grid-column-start: 1;
   height: 30px;
+  grid-column-start: 1;
   justify-self: center;
   align-self: center;
-  ;
+  //filter: invert(42%) sepia(93%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%);
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: 1;

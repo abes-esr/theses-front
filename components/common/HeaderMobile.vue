@@ -9,7 +9,7 @@
       </div>
       <v-btn variant="plain" @click="dialog = true" class="buttons language-accessibility-button"
         :title="$t('access.btn')">
-        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
+        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" :src="'/icone-handicap-visuel-' + selectedTheme + '.svg'" />
         <v-tooltip activator="parent">{{ $t('header.accessibility') }}</v-tooltip>
       </v-btn>
     </div>
@@ -82,8 +82,10 @@
             -->
             <div class="menu-text-element">
               <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
-                :alt='$t("header.assistance")'><v-btn :title='$t("header.assistance")' size="large" variant="text" icon>
-                  <IconsIconAssistance />
+                :alt='$t("header.assistance")'>
+                <v-btn :title='$t("header.assistance")' size="large" variant="text" icon>
+                  <img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
+                       :src="'/icone-assistance-' + selectedTheme + '.svg'" />
                 </v-btn>
                 <span>{{ $t('assistance') }}</span>
               </a>
@@ -91,7 +93,8 @@
             <div class="menu-text-element">
               <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")'
                 target="_blank"><v-btn :title='$t("header.doc")' size="large" variant="text" icon>
-                  <IconsIconDocumentation />
+                <img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
+                     :src="'/icone-documentation-' + selectedTheme + '.svg'" />
                 </v-btn>
                 <span>{{ $t('documentation') }}</span>
               </a>
@@ -117,6 +120,11 @@
         <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
         <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
         <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
+        <v-radio-group v-model="selectedTheme" inline :label='$t("access.theme")' class="theme-selector">
+          <v-radio :label='$t("access.light")' value="light"></v-radio>
+          <v-radio :label='$t("access.dark")' value="dark"></v-radio>
+          <v-radio :label='$t("access.contrast")' value="contrast"></v-radio>
+        </v-radio-group>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
@@ -126,10 +134,19 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { useTheme } from "vuetify";
 
 const { locale } = useI18n();
+const theme = useTheme();
+
+const selectedTheme = ref("light");
+const themesNames = ref({});
+themesNames.value = {
+  "light": "abesLightTheme",
+  "dark": "abesDarkTheme",
+};
 
 const props = defineProps({
   type: {
@@ -213,6 +230,13 @@ const dialog = ref(false);
 const opendys = useState('opendys');
 const interlignes = useState('interlignes');
 const justification = useState('justification');
+
+/**
+ * Watchers
+ */
+watch(selectedTheme, (newValue) => {
+  theme.global.name.value = themesNames.value[newValue];
+});
 </script>
 
 <style scoped lang="scss">
@@ -259,6 +283,10 @@ const justification = useState('justification');
 
 #logoIMG {
   margin-top: 30px;
+}
+
+.logos-droite {
+  height: 40px;
 }
 
 .buttons {
