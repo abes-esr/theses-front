@@ -34,8 +34,12 @@
               :key="index"
             >
               <v-list-item-title class="export-titles">{{ $t(index) }}</v-list-item-title>
-              <v-list-item-subtitle v-for="file in exportType">
-                <nuxt-link :to="file.url">{{ file.title }}</nuxt-link>
+              <v-list-item-subtitle v-for="file in exportType" class="export-buttons">
+                  <nuxt-link :to="file.url">
+                    <v-btn color="secondary-darken-2" density="compact">
+                      {{ file.title }}
+                    </v-btn>
+                  </nuxt-link>
               </v-list-item-subtitle>
             </v-list-item>
           </v-list>
@@ -230,8 +234,24 @@ function previousPage() {
 }
 
 .export-titles {
-
+  font-size: 20px;
+  font-weight: 500;
+  font-family: Roboto-Regular, sans-serif;
+  color: rgb(var(--v-theme-text-dark-blue));
+  margin-bottom: 0.3em;
 }
 
+.export-buttons {
+  display: inline-flex;
+  opacity: 1 !important;
 
+  :deep(.v-btn) {
+    color: rgb(var(--v-theme-text-dark-blue));
+    margin-right: 0.5em;
+  }
+}
+
+:deep(.v-list) {
+  border: solid 1px rgb(var(--v-theme-gris-clair));
+}
 </style>
