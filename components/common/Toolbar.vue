@@ -16,16 +16,9 @@
       </v-btn>
       <span v-else></span>
       <div class="no-wrap-text">
-        <!--
-      <v-btn flat append-icon="mdi-file-export-outline">
-        <template v-slot:append-icon>
-          <v-icon>
-            mdi-file-export-outline
-          </v-icon>
-        </template>
-        <p>{{ $t("theseView.exporter") }}</p>
-      </v-btn>
-    -->
+<!--        Export-->
+        <CommonExportButton :nnt="nnt" v-if="these" />
+<!--        Fin export-->
         <NuxtLink class="nuxt-link" v-if="!organisme && !personne" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
           <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
             <template v-slot:append-icon>
@@ -47,6 +40,7 @@
         </v-btn>
       </div>
     </div>
+<!--    Mobile-->
     <div v-else-if="personne" class="thesis-toolbar no-wrap-text">
       <v-btn href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
              alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle">
@@ -61,6 +55,11 @@
       </v-btn>
     </div>
     <div v-else class="thesis-toolbar no-wrap-text">
+
+      <!--        Export-->
+      <CommonExportButton :nnt="nnt" />
+      <!--        Export-->
+<!--      Signaler une erreur-->
       <NuxtLink class="nuxt-link" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
         <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
           <template v-slot:append-icon>
@@ -71,12 +70,14 @@
           <p>{{ $t("theseView.alert") }}</p>
         </v-btn>
       </NuxtLink>
+<!--      Signaler une erreur-->
     </div>
+<!--    Fin Mobile-->
   </ClientOnly>
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent, computed } from 'vue';
+import { computed, ref } from "vue";
 import { useDisplay } from "vuetify";
 import { useI18n } from "vue-i18n";
 
@@ -99,6 +100,10 @@ const props = defineProps({
     type: String,
     default: ""
   },
+  these: {
+    type: Boolean,
+    default: false
+  },
   organisme: {
     type: Boolean,
     default: false
@@ -112,7 +117,6 @@ const props = defineProps({
 const isBackAvailable = computed(() => {
   return window.history.state.back && window.history.state.back.includes("/resultats");
 });
-
 
 /**
  * Fonctions
@@ -182,7 +186,7 @@ function previousPage() {
       }
     }
 
-    :deep(.v-btn__append) {
+    :deep(.mdi-alert-circle) {
       color: rgb(var(--v-theme-error));
     }
   }
