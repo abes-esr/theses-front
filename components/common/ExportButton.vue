@@ -17,11 +17,11 @@
       >
         <v-list-item-title class="export-titles">{{ $t(index) }}</v-list-item-title>
         <v-list-item-subtitle v-for="file in exportType" class="export-buttons">
-          <nuxt-link :to="file.url">
+          <a :href="file.url">
             <v-btn color="secondary-darken-2" density="compact">
               {{ file.title }}
             </v-btn>
-          </nuxt-link>
+          </a>
         </v-list-item-subtitle>
       </v-list-item>
     </v-list>
@@ -66,10 +66,6 @@ exportTypeList.value = {
 
 <style scoped lang="scss">
 @use 'vuetify/settings';
-
-.nuxt-link {
-  color: rgb(var(--v-text-dark-blue));
-}
 
 .v-btn {
   text-transform: none;
