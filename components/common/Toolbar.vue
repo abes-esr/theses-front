@@ -17,33 +17,7 @@
       <span v-else></span>
       <div class="no-wrap-text">
 <!--        Export-->
-        <v-menu location="bottom" v-if="these">
-          <template v-slot:activator="{ props }">
-            <v-btn flat append-icon="mdi-file-export-outline" variant="outlined" v-bind="props">
-              <template v-slot:append-icon>
-                <v-icon>
-                  mdi-file-export-outline
-                </v-icon>
-              </template>
-              <p>{{ $t("theseView.exporter") }}</p>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(exportType, index) in exportTypeList"
-              :key="index"
-            >
-              <v-list-item-title class="export-titles">{{ $t(index) }}</v-list-item-title>
-              <v-list-item-subtitle v-for="file in exportType" class="export-buttons">
-                  <nuxt-link :to="file.url">
-                    <v-btn color="secondary-darken-2" density="compact">
-                      {{ file.title }}
-                    </v-btn>
-                  </nuxt-link>
-              </v-list-item-subtitle>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <CommonExportButton :nnt="nnt" v-if="these" />
 <!--        Fin export-->
         <NuxtLink class="nuxt-link" v-if="!organisme && !personne" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
           <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
@@ -83,34 +57,8 @@
     <div v-else class="thesis-toolbar no-wrap-text">
 
       <!--        Export-->
-      <v-menu location="bottom">
-        <template v-slot:activator="{ props }">
-          <v-btn flat append-icon="mdi-file-export-outline" variant="outlined" v-bind="props">
-            <template v-slot:append-icon>
-              <v-icon>
-                mdi-file-export-outline
-              </v-icon>
-            </template>
-            <p>{{ $t("theseView.exporter") }}</p>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item
-            v-for="(exportType, index) in exportTypeList"
-            :key="index"
-          >
-            <v-list-item-title class="export-titles">{{ $t(index) }}</v-list-item-title>
-            <v-list-item-subtitle v-for="file in exportType" class="export-buttons">
-              <nuxt-link :to="file.url">
-                <v-btn color="secondary-darken-2" density="compact">
-                  {{ file.title }}
-                </v-btn>
-              </nuxt-link>
-            </v-list-item-subtitle>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      <!--        Fin export-->
+      <CommonExportButton :nnt="nnt" />
+      <!--        Export-->
 <!--      Signaler une erreur-->
       <NuxtLink class="nuxt-link" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
         <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
@@ -129,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent, computed } from 'vue';
+import { computed, ref } from "vue";
 import { useDisplay } from "vuetify";
 import { useI18n } from "vue-i18n";
 
@@ -169,30 +117,6 @@ const props = defineProps({
 const isBackAvailable = computed(() => {
   return window.history.state.back && window.history.state.back.includes("/resultats");
 });
-
-const exportTypeList = ref({});
-exportTypeList.value = {
-  exportData: {
-    XML: {
-      title: 'XML',
-      url: '/api/v1/export/xml/' + props.nnt
-    },
-    RDF: {
-      title: 'RDF',
-      url: '/api/v1/export/rdf/' + props.nnt
-    }
-  },
-  exportBiblio: {
-    RIS: {
-      title: 'RIS',
-      url: '/api/v1/export/ris/' + props.nnt
-    },
-    BIB: {
-      title: 'BIBTEX',
-      url: '/api/v1/export/bib/' + props.nnt
-    }
-  }
-}
 
 /**
  * Fonctions
@@ -265,31 +189,6 @@ function previousPage() {
     :deep(.mdi-alert-circle) {
       color: rgb(var(--v-theme-error));
     }
-    :deep(.mdi-file-export-outline) {
-      color: rgb(var(--v-theme-dark-blue));
-    }
   }
-}
-
-.export-titles {
-  font-size: 20px;
-  font-weight: 500;
-  font-family: Roboto-Regular, sans-serif;
-  color: rgb(var(--v-theme-text-dark-blue));
-  margin-bottom: 0.3em;
-}
-
-.export-buttons {
-  display: inline-flex;
-  opacity: 1 !important;
-
-  :deep(.v-btn) {
-    color: rgb(var(--v-theme-text-dark-blue));
-    margin-right: 0.5em;
-  }
-}
-
-:deep(.v-list) {
-  border: solid 1px rgb(var(--v-theme-gris-clair));
 }
 </style>
