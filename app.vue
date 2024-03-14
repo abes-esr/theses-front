@@ -1,49 +1,8 @@
 <template>
   <v-app :class="{ 'opendys': opendys, 'interlignes': interlignes, 'justification': justification }">
-    <ClientOnly>
-      <!-- DEBUT BLOC BETA-->
-      <v-alert class="beta-alert" width="100%" outlined color="primary"
-        style="padding-top: 30px; padding-bottom: 30px;"><strong>Avertissement</strong> : vous êtes
-        sur la version beta de
-        Theses.fr. Cette
-        version bêta est incomplète. <a href="https://theses.fr/"><strong style="color: white;">Cliquez ici pour retourner
-            à
-            la version actuelle.
-          </strong></a><v-btn style="margin-top: 10px;" class="float-right" density="compact" tonal color="secondary"
-          @click="dialog = true">Plus
-          d'informations</v-btn></v-alert>
-      <!-- FIN BLOC BETA-->
-    </ClientOnly>
+
     <CommonHeaderCustom></CommonHeaderCustom>
     <v-main>
-      <ClientOnly>
-        <!-- DEBUT BLOC BETA-->
-        <v-dialog v-model="dialog" width="auto">
-          <v-card>
-            <v-card-text style="font-size: 1.2rem; letter-spacing: normal;">
-              <strong>Avertissement :</strong><br /><br />
-              Une nouvelle version de theses.fr est en cours de développement. Nous vous proposons ici la version bêta de
-              ce
-              nouveau moteur de recherche. Cette version bêta est incomplète. Toutes les fonctionnalités n’ont pas encore
-              été développées, le design est appelé à évoluer et tous les bugs ne sont pas encore corrigés. Cette version
-              bêta évoluera au fil des nouvelles livraisons, jusqu’au passage en production officiel du nouveau theses.fr,
-              prévu pour 2024.<br /><br />
-              Les données qui figurent sur ce theses.fr bêta sont les mêmes que celles qui figurent sur theses.fr v1, avec
-              néanmoins un temps de mise à jour plus long, la réindexation automatique des données n’étant pas encore mise
-              en place sur la version bêta. Toutes les demandes relatives à ces données (ajouts, corrections,
-              suppressions)
-              doivent nous être adressées à partir du site officiel, theses.fr v1, et non à partir de la version bêta.
-              <br /><br />
-              <strong>Cliquez ici pour retourner à la version actuelle : </strong><a
-                href="https://theses.fr/">https://theses.fr/</a>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn color="primary" block flat @click="setDialogSeen">Fermer</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-        <!-- FIN BLOC BETA-->
-      </ClientOnly>
       <NuxtPage></NuxtPage>
     </v-main>
     <CommonFooterCustom></CommonFooterCustom>
@@ -51,19 +10,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
-
-// DEBUT BETA
-const dialog = ref(false);
-if (process.client) {
-  if (!localStorage.getItem('hasSeenWarning')) dialog.value = true;
-}
-
-function setDialogSeen() {
-  dialog.value = false;
-  localStorage.setItem('hasSeenWarning', true);
-}
-// FIN BETA
+import { watch, onMounted } from 'vue';
 
 useHead({
   title: "Theses.fr",
@@ -71,10 +18,6 @@ useHead({
   charset: "utf-8",
   meta: [{ name: "description", content: "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation." }],
   script: [
-    {
-      async: true,
-      src: "https://abes-esr.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/-ia3qmx/b/4/c95134bc67d3a521bb3f4331beb9b804/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=fr-FR&collectorId=1a71caf6"
-    },
     {
       async: true,
       children: ` var _paq = window._paq = window._paq || []; _paq.push(['trackPageView']); _paq.push(['enableLinkTracking']); (function() { var u="https://piwik.abes.fr/"; _paq.push(['setTrackerUrl', u+'matomo.php']); _paq.push(['setSiteId', '36']); var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);})();`
@@ -114,15 +57,6 @@ watch(justification, (newValue) => {
 
 <style lang="scss">
 @use 'vuetify/settings';
-
-//TODO : A SUPPRIMER APRES BETA
-.beta-alert {
-  max-height: 80px;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    max-height: 500px;
-  }
-}
 
 .v-application__wrap {
   justify-content: center;

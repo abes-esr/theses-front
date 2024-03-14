@@ -62,7 +62,8 @@
         <!--        Tiroirs thèses par rôles-->
         <div class="theses">
           <v-expansion-panels multiple v-model="panel" class="role-expansion-panel-wrapper">
-            <template v-for="key in ['auteur', 'directeur de thèse', 'rapporteur', 'président du jury', 'membre du jury']"
+            <template
+              v-for="key in ['auteur', 'directeur de thèse', 'rapporteur', 'président du jury', 'membre du jury']"
               :key="key">
               <div v-if="item.theses[key] && item.theses[key].length > 0" class="role-expansion-panel">
                 <v-expansion-panel>
