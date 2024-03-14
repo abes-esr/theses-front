@@ -30,21 +30,21 @@
                 <v-btn v-if="b.typeAcces == 'ACCES_ESR'" color="secondary-darken-2" append-icon="mdi-open-in-new"
                   @click="checkboxModal = false; dialog = true; dialogUrl = b.url.startsWith('http') ? b.url : baseURL + b.url"
                   :aria-label="b.libelle" :flat="true">{{
-                    b.libelle }}
+        b.libelle }}
                 </v-btn>
                 <v-btn v-else-if="b.url" color="secondary-darken-2" append-icon="mdi-open-in-new"
                   :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle"
                   :aria-label="b.libelle" :flat="true">{{
-                    b.libelle }}
+        b.libelle }}
                 </v-btn>
                 <v-card class="texte-embargo" variant="outlined" v-else>
                   <img :alt="$t('theseView.alertSign')" class="icon-alert"
                     src="@/assets/triangle-exclamation-solid.svg" />
                   <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin.replaceAll("-", "/")
-                  }}.</span>
+                    }}.</span>
                   <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{
-                    b.dateFin.replaceAll("-", "/")
-                  }}</span>
+        b.dateFin.replaceAll("-", "/")
+      }}</span>
                 </v-card>
               </div>
             </v-expansion-panel-text>
@@ -65,16 +65,17 @@
               <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-open-in-new"
                 :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle"
                 :aria-label="b.libelle" :flat="true">{{
-                  b.libelle }}
+        b.libelle }}
               </v-btn>
               <v-card class="texte-embargo" variant="outlined"
                 v-if="b.libelle === 'Embargo' || b.libelle === 'Confidentialite'">
-                <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
+                <img :alt="$t('theseView.alertSign')" class="icon-alert"
+                  src="@/assets/triangle-exclamation-solid.svg" />
                 <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargoStart") }}{{ b.dateFin.replaceAll("-", "/")
-                }}{{
-  $t("theseView.embargoEnd") }}</span>
+                  }}{{
+        $t("theseView.embargoEnd") }}</span>
                 <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{
-                  b.dateFin.replaceAll("-", "/") }}</span>
+        b.dateFin.replaceAll("-", "/") }}</span>
               </v-card>
             </div>
           </v-expansion-panel-text>
@@ -86,9 +87,9 @@
       <v-card class="texte-embargo" variant="outlined">
         <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
         <span v-if="source === 'sudoc'">{{ $t("theseView.enTraitementStartYear") }}{{ dateVerifiee }}{{
-          $t("theseView.enTraitementEnd") }}</span>
+        $t("theseView.enTraitementEnd") }}</span>
         <span v-else>{{ $t("theseView.enTraitementStartDay") }}{{ dateSoutenance }}{{ $t("theseView.enTraitementEnd")
-        }}</span>
+          }}</span>
       </v-card>
     </div>
   </div>
@@ -101,9 +102,9 @@
       <v-checkbox v-model="checkboxModal" :label='$t("theseView.modalAgree")' />
       <div class="submit">
         <v-btn variant="outlined" size="large" @click="dialog = false">{{ $t('theseView.modalCancel')
-        }}</v-btn>
+          }}</v-btn>
         <v-btn variant="outlined" size="large" :disabled="!checkboxModal" target="_blank" :href="dialogUrl">{{
-          $t('theseView.modalOk') }}</v-btn>
+        $t('theseView.modalOk') }}</v-btn>
       </div>
     </v-card>
   </v-dialog>
@@ -380,6 +381,7 @@ function closeOverlay() {
   align-items: center;
 
   .v-btn {
+    text-align: start !important;
     display: inline-flex;
     justify-content: space-between;
     text-transform: none;
