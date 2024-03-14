@@ -17,7 +17,7 @@
       <span v-else></span>
       <div class="no-wrap-text">
 <!--        Export-->
-        <v-menu location="bottom">
+        <v-menu location="bottom" v-if="these">
           <template v-slot:activator="{ props }">
             <v-btn flat append-icon="mdi-file-export-outline" variant="outlined" v-bind="props">
               <template v-slot:append-icon>
@@ -151,6 +151,10 @@ const props = defineProps({
   etabPpn: {
     type: String,
     default: ""
+  },
+  these: {
+    type: Boolean,
+    default: false
   },
   organisme: {
     type: Boolean,

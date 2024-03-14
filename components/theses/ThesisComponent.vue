@@ -1,7 +1,7 @@
 <template>
   <div class="thesis-component-container">
     <div class="toolbar-container">
-      <CommonToolbar :source="these.source" :nnt="props.nnt"
+      <CommonToolbar these :source="these.source" :nnt="props.nnt"
         :etab-ppn="these.etabSoutenance ? these.etabSoutenance.ppn : ''" />
     </div>
     <div class="thesis-info-access-wrapper">
