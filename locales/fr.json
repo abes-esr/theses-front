@@ -43,6 +43,8 @@
   "showMoreKeywords": "Afficher plus de mots-clés",
   "showLessKeywords": "Réduire la liste des mots-clés",
   "showAllKeywords": "Afficher tous les mots-clés ",
+  "exportData": "Exporter les données",
+  "exportBiblio": "Exporter une référence bibliographique ",
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
   },
