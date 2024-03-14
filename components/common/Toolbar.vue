@@ -66,6 +66,7 @@
         </v-btn>
       </div>
     </div>
+<!--    Mobile-->
     <div v-else-if="personne" class="thesis-toolbar no-wrap-text">
       <v-btn href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
              alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle">
@@ -80,6 +81,37 @@
       </v-btn>
     </div>
     <div v-else class="thesis-toolbar no-wrap-text">
+
+      <!--        Export-->
+      <v-menu location="bottom">
+        <template v-slot:activator="{ props }">
+          <v-btn flat append-icon="mdi-file-export-outline" variant="outlined" v-bind="props">
+            <template v-slot:append-icon>
+              <v-icon>
+                mdi-file-export-outline
+              </v-icon>
+            </template>
+            <p>{{ $t("theseView.exporter") }}</p>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(exportType, index) in exportTypeList"
+            :key="index"
+          >
+            <v-list-item-title class="export-titles">{{ $t(index) }}</v-list-item-title>
+            <v-list-item-subtitle v-for="file in exportType" class="export-buttons">
+              <nuxt-link :to="file.url">
+                <v-btn color="secondary-darken-2" density="compact">
+                  {{ file.title }}
+                </v-btn>
+              </nuxt-link>
+            </v-list-item-subtitle>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <!--        Fin export-->
+<!--      Signaler une erreur-->
       <NuxtLink class="nuxt-link" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
         <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
           <template v-slot:append-icon>
@@ -90,7 +122,9 @@
           <p>{{ $t("theseView.alert") }}</p>
         </v-btn>
       </NuxtLink>
+<!--      Signaler une erreur-->
     </div>
+<!--    Fin Mobile-->
   </ClientOnly>
 </template>
 
