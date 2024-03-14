@@ -44,7 +44,7 @@
       <img alt="logo Theses" id="logoIMG" src="/icone-theses-beta.svg" />
     </NuxtLink>
     <!-- Menu burger mobile -->
-    <v-expand-transition>
+    <v-fade-transition>
       <div v-show="showMenu" class="expanded-search-bar-container white-containers">
 
         <div class="languages-btn-container">
@@ -99,16 +99,16 @@
           </div>
         </div>
       </div>
-    </v-expand-transition>
+    </v-fade-transition>
     <!--    Menu recherche/selecteur these/personnes-->
-    <v-expand-transition>
+    <v-fade-transition>
       <div v-if="type !== 'home'" v-show="showSearchBar" class="expanded-search-bar-container white-containers">
         <div class="expanded-search-bar">
           <LazyCommonDomainSelector></LazyCommonDomainSelector>
           <LazyGenericSearchBar :loading="loading" @onError="displayError" />
         </div>
       </div>
-    </v-expand-transition>
+    </v-fade-transition>
   </div>
   <v-dialog v-model="dialog" width="auto">
     <v-card>
