@@ -194,7 +194,7 @@ function objectToQuery() {
         }
     });
 
-    return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').replace('sujetsLibelle', '(sujetsLibelle').trim());
+    return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').replaceAll('sujetsLibelle', '(sujetsLibelle').trim());
 }
 
 function deleteEndOperator(texte) {
