@@ -13,15 +13,29 @@
     </div>
     <Transition mode="out-in">
       <div class="returned-results-statement" v-if="dataReady">
-        <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
-        <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
-        <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
-        <span class="darker-text">{{ nbResult.toLocaleString("fr-FR") }}{{ '\xa0' }}</span>
-        <span>{{ $t("results.results") }}</span>
+        <div>
+          <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
+          <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
+          <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
+          <span class="darker-text">{{ nbResult.toLocaleString("fr-FR") }}{{ '\xa0' }}</span>
+          <span>{{ $t("results.results") }}</span>
+        </div>
+        <div>
+          <!-- test rss-->
+          <a class=""
+            :href="'http://localhost:8990/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
+            title="Flux RSS de cette recherche" target="_blank"><v-icon color="orange"
+              alt="logo RSS">mdi-rss-box</v-icon>
+          </a>
+        </div>
+        <!-- fin rss -->
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
-    <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray" @reinitializePageNumber="reinitializePageNumber" />
+
+
+    <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray"
+      @reinitializePageNumber="reinitializePageNumber" />
     <div v-if="mobile || dataReady" class="colonnes-resultats">
       <CommonResultsResultList :result="result" :domain-name-change="domainNameChange">
       </CommonResultsResultList>
@@ -53,7 +67,8 @@ import { ref, watch } from "vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
-const { setShowingNumber } = useStrategyAPI();
+import { replaceAndEscape } from "../services/Common";
+const { setShowingNumber, getFacetsRequest } = useStrategyAPI();
 const emit = defineEmits(['reinitializePageNumber']);
 
 const props = defineProps({
@@ -187,6 +202,8 @@ watch(() => props.resetPage, () => {
 }
 
 .returned-results-statement {
+  display: flex;
+  justify-content: space-between;
   margin: 0 1rem;
   font-family: Roboto-Medium, sans-serif;
   font-weight: 400;

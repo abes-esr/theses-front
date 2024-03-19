@@ -63,7 +63,7 @@
         <div class="theses">
           <v-expansion-panels multiple v-model="panel" class="role-expansion-panel-wrapper">
             <template
-              v-for="key in ['auteur', 'directeur de thèse', 'rapporteur', 'président du jury', 'membre du jury']"
+              v-for="key in ['Auteur / Autrice', 'Directeur / Directrice', 'Rapporteur / Rapporteuse', 'Président / Présidente du jury', 'Examinateur / Examinatrice']"
               :key="key">
               <div v-if="item.theses[key] && item.theses[key].length > 0" class="role-expansion-panel">
                 <v-expansion-panel>
@@ -211,19 +211,19 @@ function anchorValueFromKey(key) {
  */
 function i18nValueFromKey(key) {
   switch (key) {
-    case 'auteur':
+    case 'Auteur / Autrice':
       return "auteur";
 
-    case 'directeur de thèse':
+    case 'Directeur / Directrice':
       return "directeur";
 
-    case 'rapporteur':
+    case 'Rapporteur / Rapporteuse':
       return "rapporteur";
 
-    case 'président du jury':
+    case 'Président / Présidente du jury':
       return "president";
 
-    case 'membre du jury':
+    case 'Examinateur / Examinatrice':
       return "membre";
 
     default:
