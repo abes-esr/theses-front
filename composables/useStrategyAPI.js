@@ -602,6 +602,7 @@ export default function() {
     setQuery,
     getQuery,
     queryAPI,
+    getFacetsRequest,
     getFacets,
     getSuggestion,
     setDomaine,
