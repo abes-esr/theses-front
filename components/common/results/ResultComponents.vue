@@ -23,7 +23,7 @@
         <div>
           <!-- test rss-->
           <a class=""
-            :href="'http://localhost:8990/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
+            :href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
             title="Flux RSS de cette recherche" target="_blank"><v-icon color="orange"
               alt="logo RSS">mdi-rss-box</v-icon>
           </a>
