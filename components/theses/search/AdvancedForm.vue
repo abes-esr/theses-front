@@ -25,16 +25,22 @@
                     <div class="text">
                         <div v-if="field.type === 'dateSoutenance' || field.type === 'datePremiereInscriptionDoctorat'">
                             <span class="calendars">
-                                <span class="calendar-text pr-4">Du</span> <vue-date-picker v-model="dateFrom"
-                                    :teleport="true" locale="fr" auto-apply :clearable="false" model-type="yyyy-MM-dd"
-                                    format="yyyy-MM-dd" :enable-time-picker="false" text-input placeholder="AAAA-MM-JJ"
-                                    :start-date="new Date()" min-date="1965-01-01" :max-date="new Date()">
-                                </vue-date-picker>
-                                <span class="calendar-text px-4">Au</span> <vue-date-picker v-model="dateTo"
-                                    :teleport="true" locale="fr" auto-apply :clearable="false" model-type="yyyy-MM-dd"
-                                    format="yyyy-MM-dd" :enable-time-picker="false" text-input placeholder="AAAA-MM-JJ"
-                                    :start-date="new Date()" :min-date="dateFrom" :max-date="new Date()">
-                                </vue-date-picker>
+                                <div class="calendar-row">
+                                    <span class="calendar-text pr-4">Du</span> <vue-date-picker v-model="dateFrom"
+                                        :teleport="true" locale="fr" auto-apply :clearable="false"
+                                        model-type="yyyy-MM-dd" format="yyyy-MM-dd" :enable-time-picker="false"
+                                        text-input placeholder="AAAA-MM-JJ" :start-date="new Date()"
+                                        min-date="1965-01-01" :max-date="new Date()">
+                                    </vue-date-picker>
+                                </div>
+                                <div class="calendar-row">
+                                    <span class="calendar-text px-4">Au</span> <vue-date-picker v-model="dateTo"
+                                        :teleport="true" locale="fr" auto-apply :clearable="false"
+                                        model-type="yyyy-MM-dd" format="yyyy-MM-dd" :enable-time-picker="false"
+                                        text-input placeholder="AAAA-MM-JJ" :start-date="new Date()"
+                                        :min-date="dateFrom" :max-date="new Date()">
+                                    </vue-date-picker>
+                                </div>
                             </span>
                         </div>
                         <div v-else-if="field.type === 'status'">
@@ -341,6 +347,21 @@ hr {
 
 .calendars {
     display: flex;
+    flex-wrap: wrap;
+}
+
+.calendar-row {
+    display: flex;
+    flex-direction: row;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+        width: 100%;
+        padding-top: 5px;
+
+        .calendar-text {
+            padding-left: unset !important;
+        }
+    }
 }
 
 .calendar-text {
