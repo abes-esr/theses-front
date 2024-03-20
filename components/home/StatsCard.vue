@@ -103,6 +103,7 @@ h2 {
 }
 
 .personne-icon {
+    top: -25px;
     padding-left: unset !important;
 }
 </style>
