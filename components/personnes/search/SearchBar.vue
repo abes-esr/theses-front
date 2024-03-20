@@ -1,16 +1,17 @@
 <template>
   <div class="searchbar">
-    <v-combobox class="searchbar__input" label="Rechercher des personnes, par nom ou par domaine d’expertise" single-line
-      :items="suggestions" :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps"
+    <v-combobox class="searchbar__input" label="Rechercher des personnes, par nom ou par domaine d’expertise"
+      single-line :items="suggestions" :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps"
       :hide-no-data="!isSuggestionActive || suggestions.length == 0"
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
-      v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected no-filter
-      density="compact" return-object type="text" menu-icon="" @keydown.enter="search" :loading="isSuggestionLoading"
-      enterkeyhint="send" ref="targetElement">
+      v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected
+      no-filter density="compact" return-object type="text" menu-icon="" @keydown.enter="search"
+      :loading="isSuggestionLoading" enterkeyhint="send" ref="targetElement">
       <!--      Bouton rechercher-->
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
-        <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")' :ripple="false">
+        <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")'
+          :ripple="false">
           <template v-slot:append>
             <v-icon class="search-bar-icons" id="clean-button">
               mdi-close
@@ -39,15 +40,15 @@
         <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.personne == null"
           @click="selectSuggestion(item.raw.personne)">
           <span v-if="item.raw.personne != null">{{
-            item.raw.personne.suggestion
-          }}</span>
+        item.raw.personne.suggestion
+      }}</span>
           <span v-else></span>
         </v-list-item>
         <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.thematique == null"
           @click="selectSuggestion(item.raw.thematique)">
           <span v-if="item.raw.thematique != null">{{
-            item.raw.thematique.suggestion
-          }}</span>
+        item.raw.thematique.suggestion
+      }}</span>
           <span v-else></span>
         </v-list-item>
       </template>
@@ -88,7 +89,6 @@ const emit = defineEmits(['onError', 'reinitializePageNumber']);
 const menuProps = {
   'open-on-focus': false,
   'content-class': 'autocompl',
-  'height': '50vh',
   'max-height': '360px'
 };
 
@@ -240,7 +240,8 @@ defineExpose({
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-.v-virtual-scroll__spacer, #spacer-v-list-item {
+.v-virtual-scroll__spacer,
+#spacer-v-list-item {
   height: 0 !important;
   min-height: 0 !important;
   padding: 0 !important;
@@ -387,5 +388,4 @@ defineExpose({
     }
   }
 }
-
 </style>
