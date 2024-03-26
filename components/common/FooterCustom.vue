@@ -111,10 +111,6 @@
   color: rgb(var(--v-theme-fond-noir));
   flex-basis: 1%;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
-    max-height: 300px;
-  }
-
   .footer-top {
     display: grid;
     grid-template-columns: 45fr 0.5fr 45fr 0.5fr 15fr;
