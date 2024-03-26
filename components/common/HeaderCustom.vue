@@ -3,10 +3,10 @@
     <div class="text-center text-md-left language-accessibility-toolbar">
       <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
-          :src="'/icone-handicap-visuel-' + selectedTheme + '.svg'" />
+          :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
       </v-btn>
       <div class="languages-btn">
-        <!--
+        <!-- selecteur de langues désactivé
         <v-btn flat @click="setLanguage('fr')" title="Langue française"
           :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
         |
@@ -28,12 +28,12 @@
       <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
           tabindex="-1" :title='$t("header.assistance")' size="large" icon>
           <div class="icons"><img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
-                                  :src="'/icone-assistance-' + selectedTheme + '.svg'" /></div>
+                                  :src="'/icone-assistance-' + colorMode + '.svg'" /></div>
         </v-btn></a>
       <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
           tabindex="-1" :title='$t("header.doc")' size="large" icon>
         <div class="icons"><img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
-                                :src="'/icone-documentation-' + selectedTheme + '.svg'" /></div>
+                                :src="'/icone-documentation-' + colorMode + '.svg'" /></div>
         </v-btn></a>
     </div>
   </v-app-bar>
@@ -45,10 +45,9 @@
         <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
         <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
         <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
-        <v-radio-group v-model="selectedTheme" inline :label='$t("access.theme")' class="theme-selector">
+        <v-radio-group v-model="colorMode" inline :label='$t("access.theme")' class="theme-selector">
           <v-radio :label='$t("access.light")' value="light"></v-radio>
           <v-radio :label='$t("access.dark")' value="dark"></v-radio>
-          <v-radio :label='$t("access.contrast")' value="contrast"></v-radio>
         </v-radio-group>
       </v-card-text>
       <v-card-actions>
@@ -59,23 +58,34 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeMount,watch } from "vue";
+import { onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { useDisplay, useTheme } from "vuetify";
+import { useColorMode } from '@vueuse/core'
 
 const theme = useTheme();
 const { locale } = useI18n();
 const { mobile } = useDisplay();
 
-const selectedTheme = ref("");
-const themesNames = ref({});
-themesNames.value = {
+//Paramètres d'accessibilité
+const dialog = ref(false);
+const opendys = useState('opendys');
+const interlignes = useState('interlignes');
+const justification = useState('justification');
+
+const themesNames = ref({
   "light": "abesLightTheme",
-  "dark": "abesDarkTheme",
-};
+  "dark": "abesDarkTheme"
+});
+
+const colorMode = useColorMode({
+  onChanged(color) {
+    theme.global.name.value = themesNames.value[color];
+  }
+});
 
 onBeforeMount(() => {
-  selectedTheme.value = localStorage.getItem("selectedTheme");
+  theme.global.name.value = themesNames.value[useColorMode()];
 });
 
 onMounted(() => {
@@ -100,18 +110,7 @@ function setLanguage(lang) {
   })
 }
 
-//Paramètres d'accessibilité
-const dialog = ref(false);
-const opendys = useState('opendys');
-const interlignes = useState('interlignes');
-const justification = useState('justification');
 
-/**
- * Watchers
- */
-watch(selectedTheme, (newValue) => {
-  theme.global.name.value = themesNames.value[newValue];
-});
 </script>
 
 <style scoped lang="scss">

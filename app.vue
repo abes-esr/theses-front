@@ -29,20 +29,21 @@ useHead({
 const opendys = useState('opendys', () => false);
 const interlignes = useState('interlignes', () => false);
 const justification = useState('justification', () => false);
-const selectedTheme = useState('selectedTheme', () => 'light');
 
-//Persistence en localStorage des préférences de l'utilisateur
 onMounted(() => {
   opendys.value = getFromLocalStorage('opendys', false);
   interlignes.value = getFromLocalStorage('interlignes', false);
   justification.value = getFromLocalStorage('justification', false);
-  selectedTheme.value = getFromLocalStorage('justification', 'light');
 });
 
 const getFromLocalStorage = (key, defaultValue) => {
   const storedValue = localStorage.getItem(key);
   return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
 };
+
+/**
+ * Watchers
+ */
 
 watch(opendys, (newValue) => {
   localStorage.setItem('opendys', JSON.stringify(newValue));
@@ -56,9 +57,6 @@ watch(justification, (newValue) => {
   localStorage.setItem('justification', JSON.stringify(newValue));
 });
 
-watch(selectedTheme, (newValue) => {
-  localStorage.setItem('selectedTheme', JSON.stringify(newValue));
-});
 </script>
 
 <style lang="scss">
