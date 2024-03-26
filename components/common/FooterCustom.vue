@@ -74,23 +74,23 @@
         </v-col>
         <v-col cols="12" md="9" class="text-center text-md-right pa-0">
           <v-divider vertical class="my-1"></v-divider>
-          <v-btn plain color="transparent" size="small" target="_blank"
+          <v-btn flat plain color="transparent" size="small" target="_blank"
             href="https://abes.fr/pages-donnees-personnelles/thesesfr.html"
             title="Accéder sur le site de l’Abes aux informations relatives au traitement, par theses.fr, des données personnelles">
             {{ $t("donnees") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-          <v-btn color="transparent" size="small" target="_blank"
+          <v-btn flat color="transparent" size="small" target="_blank"
             href="https://abes.fr/pages-cgu/conditions-generales-utilisation-sites-abes.html"
             title="Accéder sur le site de l’Abes aux Conditions Générales d’Utilisation du site theses.fr">{{ $t("CGU") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-          <v-btn color="transparent" size="small" href="https://abes.fr/pages-mentions-legales/theses.html"
+          <v-btn flat color="transparent" size="small" href="https://abes.fr/pages-mentions-legales/theses.html"
             target="_blank" title="Accéder sur le site de l’Abes aux mentions légales de theses.fr">
             {{ $t("mentions") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-          <v-btn color="transparent" size="small" target="_blank" href="https://abes.fr/pages-accessibilite/theses.html"
+          <v-btn flat color="transparent" size="small" target="_blank" href="https://abes.fr/pages-accessibilite/theses.html"
             title="Accéder sur le site de l’Abes aux informations relatives à l’accessibilité numérique du site theses.fr">
             {{ $t("accessibilite") }}
           </v-btn>
@@ -263,8 +263,7 @@
   .footerBottom {
     width: 100%;
     background-color: rgb(var(--v-theme-fond-noir));
-    color: rgb(var(--v-theme-background));
-    max-height: 36px;
+    color: rgb(var(--v-theme-white-text));
 
 
     .v-btn {

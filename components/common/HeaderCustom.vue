@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { onMounted, watch } from "vue";
+import { onMounted, onBeforeMount,watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useDisplay, useTheme } from "vuetify";
 
@@ -67,16 +67,21 @@ const theme = useTheme();
 const { locale } = useI18n();
 const { mobile } = useDisplay();
 
-const selectedTheme = ref("light");
+const selectedTheme = ref("");
 const themesNames = ref({});
 themesNames.value = {
   "light": "abesLightTheme",
   "dark": "abesDarkTheme",
 };
 
+onBeforeMount(() => {
+  selectedTheme.value = localStorage.getItem("selectedTheme");
+});
+
 onMounted(() => {
   if (localStorage.getItem("language")) {
     locale.value = localStorage.getItem("language");
+
     useHead({
       htmlAttrs: {
         lang: locale.value,

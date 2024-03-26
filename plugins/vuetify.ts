@@ -21,7 +21,8 @@ const abesLightTheme = {
     warning: '#FB8C00',
     'fond-noir': "#000000",
     'text-dark-blue': "#0B2134",
-    'fond-chip-blue': "#ABB9D5"
+    'fond-chip-blue': "#ABB9D5",
+    'white-text': "#FFFFFF"
   }
 }
 
@@ -34,7 +35,7 @@ const abesDarkTheme = {
     'primary-darken-1': '#FFFFFF',
     secondary: '#FFFFFF',
     'secondary-darken-1': '#FFFFFF',
-    'secondary-darken-2': '#FFFFFF',
+    'secondary-darken-2': '#00aaea',
     'orange-abes': '#FFFFFF',
     'gris-clair' : '#FFFFFF',
     'gris-fonce': '#FFFFFF',
@@ -42,9 +43,10 @@ const abesDarkTheme = {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FB8C00',
-    'fond-noir': "#09090a",
+    'fond-noir': "#000000",
     'text-dark-blue': "#FFFFFF",
-    'fond-chip-blue': "#ABB9D5"
+    'fond-chip-blue': "#ABB9D5",
+    'white-text': "#FFFFFF"
   }
 }
 
