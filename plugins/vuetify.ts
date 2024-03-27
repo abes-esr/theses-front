@@ -2,7 +2,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 
-const myCustomLightTheme = {
+const abesLightTheme = {
   dark: false,
   colors: {
     background: '#F9F9FB',
@@ -21,7 +21,32 @@ const myCustomLightTheme = {
     warning: '#FB8C00',
     'fond-noir': "#000000",
     'text-dark-blue': "#0B2134",
-    'fond-chip-blue': "#ABB9D5"
+    'fond-chip-blue': "#ABB9D5",
+    'white-text': "#FFFFFF"
+  }
+}
+
+const abesDarkTheme = {
+  dark: false,
+  colors: {
+    background: '#343643',
+    surface: '#343643',
+    primary: '#FFFFFF',
+    'primary-darken-1': '#FFFFFF',
+    secondary: '#FFFFFF',
+    'secondary-darken-1': '#FFFFFF',
+    'secondary-darken-2': '#00AAEA',
+    'orange-abes': '#00AAEA',
+    'gris-clair' : '#FFFFFF',
+    'gris-fonce': '#FFFFFF',
+    error: '#B00020',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FB8C00',
+    'fond-noir': "#000000",
+    'text-dark-blue': "#FFFFFF",
+    'fond-chip-blue': "#ABB9D5",
+    'white-text': "#FFFFFF"
   }
 }
 
@@ -36,9 +61,10 @@ export default defineNuxtPlugin((app) => {
 
   const vuetify = createVuetify({
      theme: {
-        defaultTheme: 'myCustomLightTheme',
+        defaultTheme: 'abesLightTheme',
         themes: {
-            myCustomLightTheme,
+            abesLightTheme,
+            abesDarkTheme,
         }
     },
     ssr: ssr,

@@ -84,7 +84,7 @@ function closeOverlay() {
   font-size: 22px;
   font-weight: 400;
   font-family: Roboto-Regular, sans-serif;
-  color: rgb(var(--v-text-dark-blue));
+  color: rgb(var(--v-theme-text-dark-blue));
 }
 
 .v-btn--elevated :deep(.v-btn__content) {
