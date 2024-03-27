@@ -1,5 +1,5 @@
 <template>
-  <nav class="mobile-nav-bar">
+  <nav class="mobile-nav-bar" v-if="isReady">
     <div class="left-side-buttons">
       <!--    Bouton menu burger -->
       <div class="buttons">
@@ -120,10 +120,7 @@
         <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
         <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
         <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
-        <v-radio-group v-model="colorMode" inline :label='$t("access.theme")' class="theme-selector">
-          <v-radio :label='$t("access.light")' value="light"></v-radio>
-          <v-radio :label='$t("access.dark")' value="dark"></v-radio>
-        </v-radio-group>
+        <v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
@@ -133,13 +130,15 @@
 </template>
 
 <script setup>
-import { onMounted, watch } from "vue";
+import { onMounted, onBeforeMount, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useTheme } from "vuetify";
 import { useColorMode } from '@vueuse/core'
 
 const theme = useTheme();
 const { locale } = useI18n();
+const isReady = ref(false);
+const changeContrast = ref(false);
 
 const themesNames = ref({
   "light": "abesLightTheme",
@@ -153,7 +152,9 @@ const colorMode = useColorMode({
 });
 
 onBeforeMount(() => {
-  theme.global.name.value = themesNames.value[useColorMode()];
+  // Etat par défaut du switch
+  changeContrast.value = useColorMode().value === 'dark';
+  isReady.value = true;
 });
 
 const props = defineProps({
@@ -238,6 +239,13 @@ const dialog = ref(false);
 const opendys = useState('opendys');
 const interlignes = useState('interlignes');
 const justification = useState('justification');
+
+/**
+ * Watchers
+ */
+watch(changeContrast, newValue => {
+  colorMode.value = newValue ? 'dark' : 'light';
+});
 </script>
 
 <style scoped lang="scss">

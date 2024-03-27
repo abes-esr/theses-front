@@ -55,10 +55,10 @@
 </template>
 
 <script setup>
-import { onMounted, watch } from "vue";
+import { onBeforeMount, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useDisplay, useTheme } from "vuetify";
-import { useColorMode } from '@vueuse/core'
+import { useColorMode } from '@vueuse/core';
 
 const theme = useTheme();
 const { locale } = useI18n();
@@ -84,7 +84,6 @@ const colorMode = useColorMode({
 });
 
 onBeforeMount(() => {
-  theme.global.name.value = themesNames.value[useColorMode()];
   // Etat par défaut du switch
   changeContrast.value = useColorMode().value === 'dark';
   isReady.value = true;

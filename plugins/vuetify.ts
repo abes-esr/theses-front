@@ -27,7 +27,7 @@ const abesLightTheme = {
 }
 
 const abesDarkTheme = {
-  dark: true,
+  dark: false,
   colors: {
     background: '#343643',
     surface: '#343643',
