@@ -120,6 +120,7 @@ export default function() {
       currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
       currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
 
+
       resolve();
     });
   }
@@ -144,6 +145,14 @@ export default function() {
     if (currentShowingNumber.value) params["nb"] = currentShowingNumber.value;
     if (currentSorting.value) params["tri"] = currentSorting.value;
     if (domaine.value) params["domaine"] = domaine.value;
+
+    const isAdvanced = useState("isAdvanced");
+    console.log(isAdvanced.value)
+    if(isAdvanced.value) {
+      params["avancee"] = "true";
+      console.log("test")
+    }
+
     return params;
   }
 

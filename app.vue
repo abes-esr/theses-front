@@ -35,6 +35,13 @@ onMounted(() => {
   opendys.value = getFromLocalStorage('opendys', false);
   interlignes.value = getFromLocalStorage('interlignes', false);
   justification.value = getFromLocalStorage('justification', false);
+
+  const currentRoute = useRoute();
+  const currentQueryParams = { ...currentRoute.query };
+  if (currentQueryParams.avancee) {
+    const isAdvanced = useState("isAdvanced");
+    isAdvanced.value = true;
+  }
 });
 
 const getFromLocalStorage = (key, defaultValue) => {

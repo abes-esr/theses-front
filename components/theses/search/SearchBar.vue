@@ -36,14 +36,14 @@
       </template>
     </v-combobox>
 
-    <theses-search-advanced-form v-if="isAdvanced" @search="advancedSearch" @simple="isAdvanced = false; request = null"
+    <theses-search-advanced-form v-if="isAdvanced" @search="advancedSearch" @simple="setAdvanced(false)"
       :white-container="whiteContainer"></theses-search-advanced-form>
 
     <div class="searchbar__action">
       <span v-if="isAdvanced"></span>
       <v-checkbox v-else :label="$t('disableSuggestion')" v-model="disableCompletion"
         :title='$t("disableSuggestion")'></v-checkbox>
-      <v-btn v-if="!isAdvanced" color="primary" density="compact" variant="outlined" @click="isAdvanced = true">{{
+      <v-btn v-if="!isAdvanced" color="primary" density="compact" variant="outlined" @click="setAdvanced(true)">{{
       $t("avancee")
         }}
       </v-btn>
@@ -70,6 +70,7 @@ let watcherActive = true;
 const disableCompletion = ref(false);
 
 const isAdvanced = useState("isAdvanced");
+const lastAdvancedRequest = ref("*");
 
 defineProps({
   loading: {
@@ -176,13 +177,32 @@ async function search() {
 
   router.push({
     name: "resultats",
-    query: { "q": encodeURI(request.value), "domaine": encodeURI(currentRoute.query.domaine) }
+    query: { "q": encodeURI(request.value), "domaine": encodeURI(currentRoute.query.domaine), "avancee": isAdvanced.value }
   });
 }
 
 function advancedSearch(payload) {
+  lastAdvancedRequest.value = payload;
   request.value = payload;
   search();
+}
+
+function setAdvanced(value) {
+  isAdvanced.value = value;
+  if (value === false) request.value = null;
+
+  // On l'ajoute à l'URL, en cas de partage d'URL / bookmark
+  const currentQueryParams = { ...currentRoute.query };
+  if (value) {
+    currentQueryParams.avancee = isAdvanced.value;
+    request.value = lastAdvancedRequest.value;
+    setQuery(request.value);
+  } else {
+    delete currentQueryParams.avancee;
+    setQuery(request.value);
+  }
+
+  router.replace({ query: currentQueryParams });
 }
 
 /**
