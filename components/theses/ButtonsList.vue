@@ -103,7 +103,8 @@
       <div class="submit">
         <v-btn variant="outlined" size="large" @click="dialog = false">{{ $t('theseView.modalCancel')
           }}</v-btn>
-        <v-btn variant="outlined" size="large" :disabled="!checkboxModal" target="_blank" :href="dialogUrl">{{
+        <v-btn variant="outlined" size="large" :disabled="!checkboxModal" target="_blank" :href="dialogUrl"
+          @click="dialog = false">{{
         $t('theseView.modalOk') }}</v-btn>
       </div>
     </v-card>

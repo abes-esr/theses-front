@@ -121,7 +121,6 @@ const suggestionActive = ref(false);
 const menuProps = {
   'open-on-focus': false,
   'content-class': 'autocomplete',
-  'height': '50vh',
   'max-height': '340px'
 };
 
