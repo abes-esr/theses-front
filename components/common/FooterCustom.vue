@@ -67,12 +67,11 @@
     </div>
     <v-divider></v-divider>
     <v-card-text class="footerBottom">
-      <v-row>
-        <v-col cols="12" md="3" class="text-center text-md-left pa-0 slogan">
+        <div class="text-center text-md-left pa-0 slogan">
           {{ new Date().getFullYear() }} —
           theses.fr, le moteur de recherche des thèses françaises
-        </v-col>
-        <v-col cols="12" md="9" class="text-center text-md-right pa-0">
+        </div>
+        <div class="text-center text-md-right pa-0">
           <v-divider vertical class="my-1"></v-divider>
           <v-btn flat plain color="transparent" size="small" target="_blank"
             href="https://abes.fr/pages-donnees-personnelles/thesesfr.html"
@@ -94,9 +93,7 @@
             title="Accéder sur le site de l’Abes aux informations relatives à l’accessibilité numérique du site theses.fr">
             {{ $t("accessibilite") }}
           </v-btn>
-        </v-col>
-      </v-row>
-
+        </div>
     </v-card-text>
   </v-footer>
 </template>
@@ -261,6 +258,13 @@
     background-color: rgb(var(--v-theme-fond-noir));
     color: rgb(var(--v-theme-white-text));
 
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      display: flex;
+      flex-direction: column;
+    }
 
     .v-btn {
       text-transform: none !important;
@@ -327,6 +331,10 @@ footer {
 .slogan {
   display: flex;
   align-items: center;
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    justify-content: center;
+  }
 }
 
 .mobileHide {
