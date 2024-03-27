@@ -41,7 +41,7 @@ function suggestionTheses(query) {
 // #TODO gérer les erreurs
 function getFacetsTheses(query, facetsRequest) {
   const isAdvanced = useState("isAdvanced");
-  return useAPIFetch("/theses/facets/?q=" + encodeURIComponent(replaceAndEscape(query, isAdvanced)) + facetsRequest);
+  return useAPIFetch("/theses/facets/?q=" + encodeURIComponent(replaceAndEscape(query, isAdvanced.value)) + facetsRequest);
 }
 
 /**
