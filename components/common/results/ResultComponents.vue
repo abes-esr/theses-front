@@ -23,7 +23,7 @@
         <div>
           <!-- test CSV-->
           <a class=""
-            :href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(replaceAndEscape(currentRoute.query.tri)) + getFacetsRequest()"
+            :href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
             title="Exporter les résultats au format CSV" target="_blank"><v-icon
               alt="logo RSS">mdi-download-box-outline</v-icon>
           </a>

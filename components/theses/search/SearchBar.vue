@@ -36,7 +36,7 @@
       </template>
     </v-combobox>
 
-    <theses-search-advanced-form v-if="isAdvanced" @search="advancedSearch" @simple="isAdvanced = false"
+    <theses-search-advanced-form v-if="isAdvanced" @search="advancedSearch" @simple="isAdvanced = false; request = null"
       :white-container="whiteContainer"></theses-search-advanced-form>
 
     <div class="searchbar__action">
@@ -45,7 +45,7 @@
         :title='$t("disableSuggestion")'></v-checkbox>
       <v-btn v-if="!isAdvanced" color="primary" density="compact" variant="outlined" @click="isAdvanced = true">{{
       $t("avancee")
-    }}
+        }}
       </v-btn>
     </div>
   </div>

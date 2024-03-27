@@ -190,13 +190,16 @@ export default function() {
   /**
    * Routes
    */
-  function queryAPI(mobile) {
+  function queryAPI() {
+    const isAdvanced = useState("isAdvanced");
+
     query.value = (typeof query.value === "undefined") ? "*" : query.value;
 
     if (domaine.value === "personnes")
       return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
     else
-      return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
+    //La recherche avancée ne doit pas échapper les caractères spécieaux, on passe isAdvanced pour déterminer quels caractères échapper
+      return queryThesesAPI(replaceAndEscape(query.value, isAdvanced.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
   }
 
   /**

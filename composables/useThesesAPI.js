@@ -40,7 +40,8 @@ function suggestionTheses(query) {
  */
 // #TODO gérer les erreurs
 function getFacetsTheses(query, facetsRequest) {
-  return useAPIFetch("/theses/facets/?q=" + encodeURIComponent(replaceAndEscape(query)) + facetsRequest);
+  const isAdvanced = useState("isAdvanced");
+  return useAPIFetch("/theses/facets/?q=" + encodeURIComponent(replaceAndEscape(query, isAdvanced)) + facetsRequest);
 }
 
 /**
