@@ -194,9 +194,6 @@
     "interligne": "Augmenter l'interlignage",
     "justification": "Désactiver la justification du texte",
     "fermer": "Fermer",
-    "theme": "Couleurs",
-    "light": "Light",
-    "dark": "Dark",
-    "contrast": "Contrast"
+    "contrast": "Contraste renforcé"
   }
 }

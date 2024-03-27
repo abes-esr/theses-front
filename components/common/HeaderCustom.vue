@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar flat id="appBar" v-if="!mobile">
+  <v-app-bar flat id="appBar" v-if="!mobile && isReady">
     <div class="text-center text-md-left language-accessibility-toolbar">
       <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
@@ -45,10 +45,7 @@
         <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
         <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
         <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
-        <v-radio-group v-model="colorMode" inline :label='$t("access.theme")' class="theme-selector">
-          <v-radio :label='$t("access.light")' value="light"></v-radio>
-          <v-radio :label='$t("access.dark")' value="dark"></v-radio>
-        </v-radio-group>
+        <v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
@@ -58,7 +55,7 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useDisplay, useTheme } from "vuetify";
 import { useColorMode } from '@vueuse/core'
@@ -67,11 +64,13 @@ const theme = useTheme();
 const { locale } = useI18n();
 const { mobile } = useDisplay();
 
+const isReady = ref(false);
 //Paramètres d'accessibilité
 const dialog = ref(false);
 const opendys = useState('opendys');
 const interlignes = useState('interlignes');
 const justification = useState('justification');
+const changeContrast = ref(false);
 
 const themesNames = ref({
   "light": "abesLightTheme",
@@ -86,6 +85,9 @@ const colorMode = useColorMode({
 
 onBeforeMount(() => {
   theme.global.name.value = themesNames.value[useColorMode()];
+  // Etat par défaut du switch
+  changeContrast.value = useColorMode().value === 'dark';
+  isReady.value = true;
 });
 
 onMounted(() => {
@@ -110,7 +112,12 @@ function setLanguage(lang) {
   })
 }
 
-
+/**
+ * Watchers
+ */
+watch(changeContrast, newValue => {
+  colorMode.value = newValue ? 'dark' : 'light';
+});
 </script>
 
 <style scoped lang="scss">

@@ -220,9 +220,6 @@
     "interligne": "Augmenter l'interlignage",
     "justification": "Désactiver la justification du texte",
     "fermer": "Fermer",
-    "theme": "Couleurs",
-    "light": "Clair",
-    "dark": "Sombre",
-    "contrast": "Contrasté"
+    "contrast": "Contraste renforcé"
   }
 }
