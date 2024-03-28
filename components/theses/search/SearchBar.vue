@@ -1,6 +1,6 @@
 <template>
   <div class="searchbar">
-    <v-combobox v-if="!isAdvanced" class="searchbar__input" label="Rechercher des thèses" single-line :items="items"
+    <v-combobox role="search" v-if="!isAdvanced" class="searchbar__input" label="Rechercher des thèses" single-line :items="items"
       :menu="suggestionActive" :menu-props="menuProps" v-model="request" v-model:search="requestSearch" variant="outlined" base-color="primary"
       cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object type="text"
       menu-icon="" @keydown.enter="search" enterkeyhint="send" ref="targetElement">
