@@ -28,6 +28,11 @@
             title="Exporter les résultats au format CSV" target="_blank"><v-icon
               alt="logo RSS">mdi-download-box-outline</v-icon>
           </a>
+          <a class=""
+            :href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
+            title="Flux RSS de cette recherche" target="_blank"><v-icon color="orange"
+              alt="logo RSS">mdi-rss-box</v-icon>
+          </a>
         fin rss -->
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
