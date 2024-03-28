@@ -6,6 +6,9 @@ const listKeywordsAndChars = {
   " ET ":" AND ",
   " OU ": " OR ",
   " SAUF ": " NOT ",
+  ":": "\\:",
+  "(": "\\(",
+  ")": "\\)",
   "+": "\\+",
   "-": "\\-",
   "!": "\\!",
@@ -15,14 +18,41 @@ const listKeywordsAndChars = {
   "}": "\\}",
   "^": "\\^",
   "~": "\\~",
+  "/": "\\/",
   "?": "\\?"
 }
 
-export function replaceAndEscape(q) {
+const listKeywordsAndCharsAdvanced = {
+  " ET ":" AND ",
+  " OU ": " OR ",
+  " SAUF ": " NOT ",
+  "+": "\\+",
+  "-": "\\-",
+  "!": "\\!",
+  "&": "\\&",
+  "|": "\\|",
+  "{": "\\{",
+  "}": "\\}",
+  "^": "\\^",
+  "~": "\\~",
+  "/": "\\/",
+  "?": "\\?"
+}
+
+
+export function replaceAndEscape(q, isAdvanced = false) {
   q = deleteUnevenQuotes(q);
-    for(const [key, value] of Object.entries(listKeywordsAndChars)){
-      q = remplacerMotsCles(q, q, key, value, 0);
+
+    if(isAdvanced) {
+      for(const [key, value] of Object.entries(listKeywordsAndCharsAdvanced)){
+        q = remplacerMotsCles(q, q, key, value, 0, isAdvanced);
+      }
+    } else {
+      for(const [key, value] of Object.entries(listKeywordsAndChars)){
+        q = remplacerMotsCles(q, q, key, value, 0, isAdvanced);
+      }
     }
+    
     return q;
 }
 

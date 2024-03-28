@@ -120,6 +120,7 @@ export default function() {
       currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
       currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
 
+
       resolve();
     });
   }
@@ -144,6 +145,12 @@ export default function() {
     if (currentShowingNumber.value) params["nb"] = currentShowingNumber.value;
     if (currentSorting.value) params["tri"] = currentSorting.value;
     if (domaine.value) params["domaine"] = domaine.value;
+
+    const isAdvanced = useState("isAdvanced");
+    if(isAdvanced.value) {
+      params["avancee"] = "true";
+    }
+
     return params;
   }
 
@@ -190,13 +197,16 @@ export default function() {
   /**
    * Routes
    */
-  function queryAPI(mobile) {
+  function queryAPI() {
+    const isAdvanced = useState("isAdvanced");
+
     query.value = (typeof query.value === "undefined") ? "*" : query.value;
 
     if (domaine.value === "personnes")
       return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
     else
-      return queryThesesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
+    //La recherche avancée ne doit pas échapper les caractères spécieaux, on passe isAdvanced pour déterminer quels caractères échapper
+      return queryThesesAPI(replaceAndEscape(query.value, isAdvanced.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
   }
 
   /**
@@ -602,6 +612,7 @@ export default function() {
     setQuery,
     getQuery,
     queryAPI,
+    getFacetsRequest,
     getFacets,
     getSuggestion,
     setDomaine,

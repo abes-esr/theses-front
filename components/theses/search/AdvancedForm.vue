@@ -175,6 +175,7 @@ function objectToQuery() {
     let result = "";
 
     formFields.value.forEach((field, index) => {
+        field.value = field.value.replace(":", "\\:")
         if (field.value === "") {
             result += " ";
         }
