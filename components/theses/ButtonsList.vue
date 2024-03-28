@@ -1,8 +1,8 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
   <div class="buttons">
-    <div>
-      <h2 class="buttons-header pb-4">{{ $t("theseView.access") }}</h2>
+    <div class="buttons-header">
+      <h2 class="buttons-header-title">{{ $t("theseView.access") }}</h2>
       <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
         <div class="close-overlay-icon-wrapper">
           <div>
@@ -178,16 +178,29 @@ function closeOverlay() {
 <style scoped lang="scss">
 @use "vuetify/settings";
 
+h4 {
+  font-weight: 500;
+  font-size: 16px;
+  color: rgb(var(--v-theme-text-dark-blue));
+  width: unset;
+  background-color: unset;
+  text-align: start;
+}
+
 .buttons-header {
   overflow: hidden;
   padding: 0.4em 0.8em 0;
+  margin: 0.5em 0.5em 0.5em;
+  display: flex;
+  justify-content: space-between;
+}
 
+.buttons-header-title {
+  color: rgb(var(--v-theme-text-dark-blue));
   font-size: 22px;
   font-weight: 600;
   font-family: Roboto-Bold, sans-serif;
-
-  display: flex;
-  justify-content: space-between;
+  align-self: center;
 }
 
 .buttons-sub-header {
@@ -252,6 +265,7 @@ function closeOverlay() {
   margin-bottom: 0.8em;
   font-size: 16px;
   text-align: start;
+  font-weight: 500;
 }
 
 .texte-embargo {
@@ -286,10 +300,6 @@ function closeOverlay() {
     justify-self: center;
     word-break: break-word;
   }
-}
-
-.sous-categorie-header {
-  font-weight: 500;
 }
 
 .header-container {
@@ -351,6 +361,7 @@ function closeOverlay() {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  opacity: 1;
 
   :deep(.v-expansion-panel-title) {
     min-height: 28px !important;
