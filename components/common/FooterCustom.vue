@@ -2,13 +2,13 @@
   <v-footer class="pa-0">
     <div class="footer-top">
       <div class="theses-description footer-content">
-        <h1>theses.fr</h1>
+        <h1 aria-hidden="true">theses.fr</h1>
         <span>{{ $t("footer.texte") }}</span>&nbsp;<a href="/apropos" alt="En savoir plus sur Theses.fr"><strong>{{
           $t("footer.plus")
         }}</strong></a>
       </div>
       <div class="links-container footer-content">
-        <h1>
+        <h1 aria-hidden="true">
           <v-icon title="Lien externe">mdi-open-in-new</v-icon>
           {{ $t("accesDirect") }}
         </h1>

@@ -13,13 +13,13 @@
     </div>
     <Transition mode="out-in">
       <div class="returned-results-statement" v-if="dataReady">
-        <div>
+        <h1>
           <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
           <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
           <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
           <span class="darker-text">{{ nbResult.toLocaleString("fr-FR") }}{{ '\xa0' }}</span>
           <span>{{ $t("results.results") }}</span>
-        </div>
+        </h1>
         <div>
           <!-- test rss-->
           <a class=""
@@ -204,14 +204,17 @@ watch(() => props.resetPage, () => {
 .returned-results-statement {
   display: flex;
   justify-content: space-between;
-  margin: 0 1rem;
-  font-family: Roboto-Medium, sans-serif;
-  font-weight: 400;
-  font-size: 24.5px;
-  word-break: break-word;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    font-size: 22.5px;
+  h1 {
+    margin: 0 1rem;
+    font-family: Roboto-Medium, sans-serif;
+    font-weight: 400;
+    font-size: 24.5px;
+    word-break: break-word;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+      font-size: 22.5px;
+    }
   }
 }
 

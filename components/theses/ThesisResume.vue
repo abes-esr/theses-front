@@ -1,9 +1,8 @@
 <template>
-  <div>
     <div>
       <div class="resume-title-wrapper">
         <v-icon color="primary">mdi-file-document-arrow-right</v-icon>
-        <h1>{{ $t('theseView.resume') }}</h1>
+        <h2>{{ $t('theseView.resume') }}</h2>
         <CommonLanguageSelector :languages="langList" @update-langue="onUpdateLangue"></CommonLanguageSelector>
       </div>
       <div id="resume-text" :class="isRtl ? 'rtl-text' : ''">
@@ -12,7 +11,6 @@
         </p>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup>
@@ -66,7 +64,7 @@ function onUpdateLangue(langue) {
   align-items: center;
 }
 
-h1 {
+h2 {
   font-size: 24px;
   margin-left: 5px;
 

@@ -14,8 +14,8 @@
       <span class="title">
         <h2>
           {{ $t("toutesPersonnes") }}
-        </h2>
-        <h3 :class="selected === 'personnes' ? 'selected' : ''">{{ $t("toutesPersonnesSubtitle") }}</h3>
+          <br />
+        <span :class="selected === 'personnes' ? 'selected' : ''" id="personnes-subtitle">{{ $t("toutesPersonnesSubtitle") }}</span></h2>
       </span>
     </v-btn>
   </div>
@@ -123,10 +123,11 @@ h2 {
   line-height: unset !important;
 }
 
-h3 {
+#personnes-subtitle {
   font-size: 0.875rem;
   letter-spacing: normal;
   font-weight: 400;
   text-transform: none;
 }
+
 </style>

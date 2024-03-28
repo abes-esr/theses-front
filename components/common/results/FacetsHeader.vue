@@ -2,7 +2,7 @@
   <div class="search-filter">
     <div class="filter-meta">
       <v-icon color="primary" class="menu-icon">mdi-filter-menu</v-icon>
-      <span class="facet-title-header">{{ $t('results.facetsHeader') }}</span>
+      <h1 class="facet-title-header">{{ $t('results.facetsHeader') }}</h1>
     </div>
     <v-btn v-if="!mobile" @click.stop="" @click="searchAndReinitializeAllFacets" size="small" depressed elevation="0"
       color="surface" class="desktop-reinitialize-button">

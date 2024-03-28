@@ -16,7 +16,7 @@
         <div class="search-bar-container white-containers">
             <div class="sub_header__logo">
                 <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
-                    <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+                    <img class="logo" alt="Accueil theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
                 </NuxtLink>
                 <h1 v-html='$t("slogan2lines")'></h1>
             </div>
@@ -44,9 +44,9 @@
                 <div class="info">
                     <IconsIconOrganisme></IconsIconOrganisme>
                     <div class="nom-card">
-                        <div class="nomprenom">
+                        <h1 class="nomprenom">
                             {{ name }}
-                        </div>
+                        </h1>
                         <a :href="`https://www.idref.fr/${props.id}`" class="idref-logo" target="_blank"
                             alt="Accéder à IdRef, le référentiel des personnes et des structures"
                             title="Accéder à IdRef, le référentiel des personnes et des structures">
@@ -58,6 +58,7 @@
                 <!--        Tiroirs thèses-->
                 <div class="theses">
                     <v-expansion-panels multiple class="role-expansion-panel-wrapper">
+                      <h2 class="sr-only">{{ $t('institutionList') }}</h2>
                         <template
                             v-for="key in ['etabSoutenance', 'etabSoutenanceEnCours', 'partenaireRecherche', 'partenaireRechercheEnCours', 'etabCotutelle', 'etabCotutelleEnCours', 'ecoleDoctorale', 'ecoleDoctoraleEnCours']"
                             :key="key">
@@ -68,10 +69,9 @@
                                             <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
                                             </v-icon>
                                         </template>
-                                        <h2>
+                                        <h3>
                                             {{ $t("organismeView." + key, [item["totalHits" + key]]) }}
-
-                                        </h2>
+                                        </h3>
                                     </v-expansion-panel-title>
                                     <v-expansion-panel-text>
                                         <div v-for="(these, index) in item[key]" :key="these" class="card-wrapper">
@@ -337,7 +337,7 @@ function sleep(ms) {
             .role-expansion-panel {
                 border-top: 2px solid rgb(var(--v-theme-gris-fonce));
 
-                h2 {
+                h3 {
                     padding: 0.5em 0 0.5em;
                     font-size: 26px;
                 }

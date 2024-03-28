@@ -4,14 +4,14 @@
       <div class="key-words-title-wrapper">
         <div class="title">
           <v-icon color="primary">mdi-list-box</v-icon>
-          <h1>{{ $t('motcle') }}</h1>
+          <h2>{{ $t('motcle') }}</h2>
           <CommonLanguageSelector :languages="langList" @update-langue="onUpdateLangue"></CommonLanguageSelector>
         </div>
       </div>
       <div class="thesis-keywords" v-if="type === 'theses'">
         <div class="mots-cles-controlles" v-if="rameauKeywords.length > 0">
           <div class="subtitle">
-            <h2>{{ $t("motCleControle") }}</h2>
+            <h3>{{ $t("motCleControle") }}</h3>
             <v-btn class="info-button" flat icon="mdi-information-outline" title="Informations sur les mots clés">
               <span class="sr-only">Informations sur les mots clés</span>
             </v-btn>
@@ -36,7 +36,7 @@
         </div>
         <div class="mots-cles-libres" v-if="freeKeywords.length > 0">
           <div class="subtitle">
-            <h2>{{ $t("motCleLibres") }}</h2>
+            <h3>{{ $t("motCleLibres") }}</h3>
           </div>
           <div class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in freeKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
@@ -251,7 +251,7 @@ watch(mobile, (newValue) => {
   margin-left: 1.5em;
 }
 
-h1 {
+h2 {
   font-size: 24px;
   margin-left: 5px;
 
@@ -261,7 +261,7 @@ h1 {
   color: rgb(var(--v-theme-text-dark-blue))
 }
 
-h2 {
+h3 {
   font-size: 20px;
 
   font-family: Roboto-Bold, sans-serif;
