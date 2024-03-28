@@ -19,16 +19,16 @@
           <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
           <span class="darker-text">{{ nbResult.toLocaleString("fr-FR") }}{{ '\xa0' }}</span>
           <span>{{ $t("results.results") }}</span>
+
         </h1>
-        <div>
-          <!-- test rss-->
+        <!-- <div>
+          test CSV et RSS
           <a class=""
-            :href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
-            title="Flux RSS de cette recherche" target="_blank"><v-icon color="orange"
-              alt="logo RSS">mdi-rss-box</v-icon>
+            :href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
+            title="Exporter les résultats au format CSV" target="_blank"><v-icon
+              alt="logo RSS">mdi-download-box-outline</v-icon>
           </a>
-        </div>
-        <!-- fin rss -->
+        fin rss -->
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>

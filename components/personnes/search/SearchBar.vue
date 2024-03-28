@@ -120,7 +120,7 @@ onMounted(
       if (isAdvanced.value) {
         request.value = "";
         requestSearch.value = "";
-        isAdvanced.value = false;
+        setQuery(request.value);
       }
     } else {
       isSuggestionActive.value = true;
