@@ -17,11 +17,9 @@
       >
         <v-list-item-title class="export-titles">{{ $t(index) }}</v-list-item-title>
         <v-list-item-subtitle v-for="file in exportType" class="export-buttons">
-          <a :href="file.url">
-            <v-btn color="secondary-darken-2" density="compact">
+            <v-btn color="secondary-darken-2" density="compact" :href="file.url">
               {{ file.title }}
             </v-btn>
-          </a>
         </v-list-item-subtitle>
       </v-list-item>
     </v-list>

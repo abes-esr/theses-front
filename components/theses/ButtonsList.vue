@@ -1,8 +1,8 @@
 <template>
   <MessageBox ref="messageBox"></MessageBox>
   <div class="buttons">
-    <div class="buttons-header">
-      <span class="pb-4">{{ $t("theseView.access") }}</span>
+    <div>
+      <h2 class="buttons-header pb-4">{{ $t("theseView.access") }}</h2>
       <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
         <div class="close-overlay-icon-wrapper">
           <div>
@@ -16,14 +16,16 @@
     <div v-if="categoriesValide.length > 0 && soutenue">
       <div class="header-container no-wrap-text">
         <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
-        <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
+        <h3 class="buttons-title-header">{{ $t("theseView.valide") }}</h3>
       </div>
       <v-expansion-panels multiple v-model="panel" variant="accordion" class="buttons-list-wrapper">
         <template v-for="sousCategorie in categoriesValide" :key="sousCategorie.libelle">
           <v-expansion-panel v-if="sousCategorie.boutons.length > 0">
             <!--            Intitulé de la catégorie-->
-            <v-expansion-panel-title class="sous-categorie-header">
-              {{ sousCategorie.libelle }}
+            <v-expansion-panel-title class="sous-categorie-header" >
+              <h4>
+                {{ sousCategorie.libelle }}
+              </h4>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
@@ -58,7 +60,7 @@
         <v-expansion-panel class="buttons-sub-header buttons-sub-header-other">
           <v-expansion-panel-title>
             <v-icon color="primary" class="menu-icon">mdi-list-box</v-icon>
-            <span class="buttons-title-header buttons-title-header-other">{{ $t("theseView.others") }}</span>
+            <h3 class="buttons-title-header buttons-title-header-other">{{ $t("theseView.others") }}</h3>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <div class="buttons-list" v-for="b in boutonsAutres" :key="b">
@@ -351,7 +353,7 @@ function closeOverlay() {
   flex-direction: column;
 
   :deep(.v-expansion-panel-title) {
-    min-height: 28px;
+    min-height: 28px !important;
   }
 
   :deep(.v-expansion-panel__shadow) {
