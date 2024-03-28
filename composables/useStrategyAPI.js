@@ -147,10 +147,8 @@ export default function() {
     if (domaine.value) params["domaine"] = domaine.value;
 
     const isAdvanced = useState("isAdvanced");
-    console.log(isAdvanced.value)
     if(isAdvanced.value) {
       params["avancee"] = "true";
-      console.log("test")
     }
 
     return params;

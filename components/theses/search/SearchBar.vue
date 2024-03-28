@@ -189,18 +189,19 @@ function advancedSearch(payload) {
 
 function setAdvanced(value) {
   isAdvanced.value = value;
-  if (value === false) request.value = null;
+  request.value = "*";
 
   // On l'ajoute à l'URL, en cas de partage d'URL / bookmark
   const currentQueryParams = { ...currentRoute.query };
   if (value) {
     currentQueryParams.avancee = isAdvanced.value;
     request.value = lastAdvancedRequest.value;
-    setQuery(request.value);
   } else {
     delete currentQueryParams.avancee;
-    setQuery(request.value);
   }
+
+  setQuery(request.value);
+  currentQueryParams.q = request.value;
 
   router.replace({ query: currentQueryParams });
 }
