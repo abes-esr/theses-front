@@ -20,13 +20,13 @@
     <div class="role-personne">
       <NuxtLink :to="{ name: 'id', params: { id: linkId } }">
         {{
-      $t('personnes.resultView.personnesCard.auteur') }}&nbsp;({{ item.roles["auteur"] ? item.roles["auteur"] : 0 }})
+      $t('personnes.resultView.personnesCard.auteur') }}&nbsp;({{ item.roles["Auteur / Autrice"] ? item.roles["Auteur / Autrice"] : 0 }})
         &nbsp;|&nbsp; {{
-      $t('personnes.resultView.personnesCard.directeur') }}&nbsp;({{ item.roles["directeur de thèse"] ?
-      item.roles["directeur de thèse"] : 0 }}) &nbsp;|&nbsp;
+      $t('personnes.resultView.personnesCard.directeur') }}&nbsp;({{ item.roles["Directeur / Directrice"] ?
+      item.roles["Directeur / Directrice"] : 0 }}) &nbsp;|&nbsp;
         {{
-      $t('personnes.resultView.personnesCard.rapporteur') }}&nbsp;({{ item.roles["rapporteur"] ?
-      item.roles["rapporteur"]
+      $t('personnes.resultView.personnesCard.rapporteur') }}&nbsp;({{ item.roles["Rapporteur / Rapporteuse"] ?
+      item.roles["Rapporteur / Rapporteuse"]
       : 0 }})</NuxtLink>
     </div>
     <div class="disciplines">
