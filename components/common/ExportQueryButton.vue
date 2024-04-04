@@ -1,7 +1,7 @@
 <template>
   <v-menu location="bottom">
     <template v-slot:activator="{ props }">
-      <v-btn class="main-btn" icon="mdi-export-variant" color="text-dark-blue" variant="text"
+      <v-btn class="main-btn" icon="mdi-upload-box" color="secondary-darken-2" variant="text"
         title="Exporter les données" v-bind="props">
       </v-btn>
     </template>
@@ -16,7 +16,7 @@
       </v-list-item>
     </v-list>
   </v-menu>
-  <v-btn class="main-btn" icon="mdi-rss-box" color="text-dark-blue" variant="text" title="Flux RSS" :href="rssHref"
+  <v-btn class="main-btn" icon="mdi-rss-box" color="secondary-darken-2" variant="text" title="Flux RSS" :href="rssHref"
     target="_blank">
   </v-btn>
 </template>
@@ -67,13 +67,13 @@ exportTypeList.value = {
   max-width: 90%;
   font-weight: 500;
 
-  :deep(.mdi-file-export-outline) {
-    color: rgb(var(--v-theme-dark-blue));
+  :deep(.v-icon) {
+    --v-icon-size-multiplier: 1.3;
   }
 }
 
 .main-btn {
-  margin-top: -6px;
+  margin-top: -3px;
 }
 
 .export-titles {

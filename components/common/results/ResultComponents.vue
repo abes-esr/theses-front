@@ -19,12 +19,14 @@
           <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
           <span class="darker-text">{{ nbResult.toLocaleString("fr-FR") }}{{ '\xa0' }}</span>
           <span>{{ $t("results.results") }}</span>
+          <div class="export-buttons">
+            <CommonExportQueryButton v-if="domainNameChange == 'theses'"
+              :csv-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
+              :rss-href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
+              :json-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
+            </CommonExportQueryButton>
+          </div>
         </h1>
-        <CommonExportQueryButton v-if="domainNameChange == 'theses'"
-          :csv-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
-          :rss-href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
-          :json-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
-        </CommonExportQueryButton>
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
@@ -198,10 +200,11 @@ watch(() => props.resetPage, () => {
 }
 
 .returned-results-statement {
-  display: flex;
+  display: inline-block;
 
   h1 {
-    margin: 0 0.5rem 0 1rem;
+    display: inline-block;
+    margin: 0 1rem 0 1rem;
     font-family: Roboto-Medium, sans-serif;
     font-weight: 400;
     font-size: 24.5px;
@@ -211,6 +214,12 @@ watch(() => props.resetPage, () => {
       font-size: 22.5px;
     }
   }
+
+  .export-buttons {
+    display: inline-block;
+    padding-left: 0.5rem
+  }
+
 }
 
 .darker-text {
