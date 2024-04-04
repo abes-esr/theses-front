@@ -22,7 +22,8 @@ const abesLightTheme = {
     'fond-noir': "#000000",
     'text-dark-blue': "#0B2134",
     'fond-chip-blue': "#ABB9D5",
-    'white-text': "#FFFFFF"
+    'white-text': "#FFFFFF",
+    'gris-skeleton' : '#e6e6e6',
   }
 }
 
@@ -46,7 +47,8 @@ const abesDarkTheme = {
     'fond-noir': "#000000",
     'text-dark-blue': "#FFFFFF",
     'fond-chip-blue': "#ABB9D5",
-    'white-text': "#FFFFFF"
+    'white-text': "#FFFFFF",
+    'gris-skeleton' : '#55586d',
   }
 }
 

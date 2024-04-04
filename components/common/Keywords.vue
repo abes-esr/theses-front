@@ -376,11 +376,6 @@ h3 {
   transform: rotate(180deg);
 }
 
-:deep(.v-skeleton-loader__button) {
-  max-width: unset !important;
-  justify-self: end;
-}
-
 .legend-tooltip {
   display: flex;
   flex-direction: column;

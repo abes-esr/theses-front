@@ -46,7 +46,7 @@
       </CommonResultsResultList>
     </div>
     <div v-else>
-      <div v-for="i in currentShowingNumber" :key="i" class="skeleton">
+      <div v-for="i in currentShowingNumber" :key="i" class="skeleton-wrapper">
         <v-card :flat="true" style="margin-bottom: 1rem;">
           <v-skeleton-loader type="article">
           </v-skeleton-loader>
@@ -189,7 +189,7 @@ watch(() => props.resetPage, () => {
   min-height: 190px;
 }
 
-.skeleton {
+.skeleton-wrapper {
   padding: 0;
   display: grid;
   grid-template-columns: 95%
