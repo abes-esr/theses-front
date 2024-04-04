@@ -21,9 +21,9 @@
           <span>{{ $t("results.results") }}</span>
         </h1>
         <CommonExportQueryButton v-if="domainNameChange == 'theses'"
-          :csv-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
+          :csv-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
           :rss-href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
-          :json-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
+          :json-href="'/api/v1/theses/recherche' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
         </CommonExportQueryButton>
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
