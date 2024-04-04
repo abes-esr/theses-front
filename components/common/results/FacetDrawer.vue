@@ -298,6 +298,16 @@ watch(() => props.resetTextFields,
   opacity: 0.9;
 }
 
+.facet-search-bar {
+  :deep(.v-field__outline) {
+    --v-field-border-opacity: 1;
+  }
+
+  :deep(.v-label) {
+    opacity: 1 !important;
+  }
+}
+
 .panel-text {
   overflow: auto;
   padding: 0 10px;

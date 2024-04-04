@@ -420,6 +420,10 @@ hr {
     color: rgb(var(--v-theme-secondary-darken-2));
     font-weight: 500;
 }
+
+:deep(.v-switch__track) {
+  background-color: rgb(var(--v-theme-gris-switch));
+}
 </style>
 
 <style>

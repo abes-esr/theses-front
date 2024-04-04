@@ -3,37 +3,32 @@
     <div class="left-side-buttons">
       <!--    Bouton menu burger -->
       <div class="buttons">
-        <v-icon @click="activateMenu" size="35px" :class="{ 'logo-active': showMenu }">mdi-menu
+        <v-icon :title="$t('menu')" @click="activateMenu" size="35px" :class="{ 'logo-active': showMenu }">mdi-menu
         </v-icon>
-        <v-tooltip activator="parent">{{ $t('menu') }}</v-tooltip>
       </div>
       <v-btn variant="plain" @click="dialog = true" class="buttons language-accessibility-button"
         :title="$t('access.btn')">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
-        <v-tooltip activator="parent">{{ $t('header.accessibility') }}</v-tooltip>
       </v-btn>
     </div>
     <div class="right-side-buttons">
       <!--    Bouton filtres-->
       <button v-if="type === 'resultats'" @click="activateFilterMenu" color="primary"
         class="filter-mobile-nav-bar buttons">
-        <v-icon v-bind="props" size="35px">mdi-filter-menu-outline
+        <v-icon :title="$t('filtres')" v-bind="props" size="35px">mdi-filter-menu-outline
         </v-icon>
-        <v-tooltip activator="parent" location="start">{{ $t('filtres') }}</v-tooltip>
       </button>
       <!-- Bouton accès theses -->
       <button
         v-if="type === 'these' && theseSoutenue && (categoriesValide.length > 0 || boutonsAutres.length > 0) || (theseSoutenue && status === 'enCours')"
         @click="activateThesisAccess" class="filter-mobile-nav-bar buttons">
-        <v-icon v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
+        <v-icon :title="$t('theseView.access')" v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
         </v-icon>
-        <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
       </button>
       <!--    Bouton menu recherche/selecteur these/personnes-->
       <div v-if="type !== 'home'" class="buttons">
-        <v-icon @click="activateSearchBar" size="35px" :class="{ 'logo-active': showSearchBar }">mdi-magnify
+        <v-icon :title="$t('rechercher')" @click="activateSearchBar" size="35px" :class="{ 'logo-active': showSearchBar }">mdi-magnify
         </v-icon>
-        <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
       </div>
     </div>
   </nav>
@@ -336,5 +331,9 @@ watch(changeContrast, newValue => {
 
 :deep(.v-btn--variant-plain) {
   opacity: 1 !important;
+}
+
+:deep(.v-switch__track) {
+  background-color: rgb(var(--v-theme-gris-switch));
 }
 </style>
