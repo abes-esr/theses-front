@@ -26,7 +26,8 @@ const abesLightTheme = {
     'fond-chip-blue': "#ABB9D5",
     'white-text': "#FFFFFF",
     'gris-skeleton' : '#e6e6e6',
-    'gris-switch': '#595759'
+    'gris-switch': '#595759',
+    'thesaurus-text': "#FFFFFF",
   }
 }
 
@@ -42,7 +43,7 @@ const abesDarkTheme = {
     'secondary-darken-2': '#00AAEA',
     'secondary-darken-3': '#005A8F',
     'orange-abes': '#00AAEA',
-    'orange-abes-thesaurus': '#CF491B',
+    'orange-abes-thesaurus': '#FFFFFF',
     'gris-clair' : '#FFFFFF',
     'gris-fonce': '#FFFFFF',
     error: '#ff8080',
@@ -53,6 +54,7 @@ const abesDarkTheme = {
     'text-dark-blue': "#FFFFFF",
     'fond-chip-blue': "#ABB9D5",
     'white-text': "#FFFFFF",
+    'thesaurus-text': "#005A8F",
     'gris-skeleton' : '#55586d',
     'gris-switch': '#b3b2b4'
   }

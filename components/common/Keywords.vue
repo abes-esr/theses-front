@@ -296,6 +296,7 @@ h3 {
 
   .rameau-chip {
     background-color: rgb(var(--v-theme-orange-abes-thesaurus)) !important;
+    color: rgb(var(--v-theme-thesaurus-text));
   }
 
   .chips {
