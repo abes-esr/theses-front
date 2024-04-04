@@ -40,7 +40,7 @@ const abesDarkTheme = {
     'orange-abes': '#00AAEA',
     'gris-clair' : '#FFFFFF',
     'gris-fonce': '#FFFFFF',
-    error: '#B00020',
+    error: '#ff8080',
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FB8C00',
