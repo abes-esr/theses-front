@@ -212,4 +212,8 @@ header {
     opacity: 1;
   }
 }
+
+:deep(.v-switch__track) {
+  background-color: rgb(var(--v-theme-gris-switch));
+}
 </style>
