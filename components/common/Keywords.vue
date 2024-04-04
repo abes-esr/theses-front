@@ -285,11 +285,11 @@ h3 {
   margin-top: unset !important;
 
   .free-chip {
-    background-color: rgb(var(--v-theme-secondary-darken-2)) !important;
+    background-color: rgb(var(--v-theme-secondary-darken-3)) !important;
   }
 
   .rameau-chip {
-    background-color: rgb(var(--v-theme-orange-abes)) !important;
+    background-color: rgb(var(--v-theme-orange-abes-thesaurus)) !important;
   }
 
   .chips {
@@ -316,7 +316,7 @@ h3 {
   font-family: Roboto Black, sans-serif;
   font-weight: 600;
   font-size: 16px;
-  color: rgb(var(--v-theme-surface));
+  color: rgb(var(--v-theme-white-text));
 }
 
 .v-chip--disabled {
@@ -376,6 +376,11 @@ h3 {
   transform: rotate(180deg);
 }
 
+:deep(.v-skeleton-loader__button) {
+  max-width: unset !important;
+  justify-self: end;
+}
+
 .legend-tooltip {
   display: flex;
   flex-direction: column;
@@ -384,5 +389,9 @@ h3 {
   :deep(.v-chip) {
     width: fit-content;
   }
+}
+
+:deep(.v-chip__underlay) {
+  opacity: 0 !important;
 }
 </style>

@@ -127,14 +127,6 @@ const route = useRoute();
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-a,
-a:visited,
-a:hover,
-a:active {
-  color: inherit;
-  text-decoration: none;
-}
-
 .card-container {
   display: flex;
   flex-direction: column;
