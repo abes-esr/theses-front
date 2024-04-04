@@ -12,7 +12,8 @@
         <div class="mots-cles-controlles" v-if="rameauKeywords.length > 0">
           <div class="subtitle">
             <h3>{{ $t("motCleControle") }}</h3>
-            <v-btn class="info-button" flat icon="mdi-information-outline" title="Informations sur les mots clés">
+            <v-btn class="info-button" flat title="Informations sur les mots clés">
+              <v-icon size="22">mdi-information-outline</v-icon>
               <span class="sr-only">Informations sur les mots clés</span>
             </v-btn>
             <v-overlay activator=".info-button" location-strategy="connected" scroll-strategy="close">
@@ -268,6 +269,11 @@ h3 {
   font-weight: 600;
   letter-spacing: 0px;
   color: rgb(var(--v-theme-text-dark-blue))
+}
+
+.info-button {
+  min-width: unset;
+  padding: 0 8px;
 }
 
 .mdi-list-box.v-icon--size-default {

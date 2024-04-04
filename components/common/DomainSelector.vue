@@ -94,7 +94,8 @@ watch(() => currentRoute.path, () => {
   }
 
   .v-divider {
-    color: #0b2134;
+    color: rgb(var(--v-theme-gris-fonce));
+    opacity: 0.5;
     border-width: 0 2px 0 0;
     margin: 0 2rem 0 2rem;
 

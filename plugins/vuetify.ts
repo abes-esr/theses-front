@@ -14,6 +14,7 @@ const abesLightTheme = {
     'secondary-darken-2': '#005A8F',
     'secondary-darken-3': '#005A8F',
     'orange-abes': '#CF491B',
+    'orange-abes-thesaurus': '#CF491B',
     'gris-clair' : '#e6e6e6',
     'gris-fonce': '#b3b2b4',
     error: '#B00020',

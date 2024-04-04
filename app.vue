@@ -522,5 +522,4 @@ a:active {
   text-decoration: none;
   font-weight: 600;
 }
-
 </style>
