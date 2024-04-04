@@ -50,7 +50,7 @@
                         <a :href="`https://www.idref.fr/${props.id}`" class="idref-logo" target="_blank"
                             alt="Accéder à IdRef, le référentiel des personnes et des structures"
                             title="Accéder à IdRef, le référentiel des personnes et des structures">
-                            <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
+                            <img alt="Accéder à la page IdRef correspondante" id="logoIdref" :src="'/idref-icone-' + colorMode + '.svg'" />
                           <span>IdRef</span>
                         </a>
                     </div>
@@ -77,13 +77,13 @@
                                         <div v-for="(these, index) in item[key]" :key="these" class="card-wrapper">
                                             <v-lazy :options="{ threshold: 1.0 }">
 
-                                                <ResultCard :titre="these.titrePrincipal"
+                                                <ThesesResultsResultCard :titre="these.titrePrincipal"
                                                     :date="these.status === 'enCours' ? these.datePremiereInscriptionDoctorat : these.dateSoutenance"
                                                     :auteur="these.auteurs" :directeurs="these.directeurs"
                                                     :discipline="these.discipline" :etab="these.etabSoutenanceN"
                                                     :etabPPN="these.etabSoutenancePpn" :id="these.id"
                                                     :status="these.status">
-                                                </ResultCard>
+                                                </ThesesResultsResultCard>
                                             </v-lazy>
                                             <hr class="result-dividers" v-if="index < item[key].length - 1" />
                                         </div>
@@ -100,7 +100,7 @@
             </div>
         </div>
         <ClientOnly>
-            <ScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1></ScrollToTopButton>
+            <CommonScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1></CommonScrollToTopButton>
         </ClientOnly>
     </div>
 </template>
@@ -109,8 +109,9 @@
 import { useI18n } from "vue-i18n";
 import { ref, defineAsyncComponent } from "vue";
 import { useDisplay } from "vuetify";
-import ResultCard from "../theses/results/ResultCard.vue";
-import ScrollToTopButton from "../common/ScrollToTopButton.vue";
+import { useColorMode } from '@vueuse/core';
+
+const colorMode = useColorMode();
 
 const { mobile } = useDisplay();
 const { t } = useI18n();

@@ -13,7 +13,7 @@
     <div class="idref-container">
       <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank"
         title="Accéder à IdRef, le référentiel des personnes et des structures" class="idref-logo">
-        <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
+        <img alt="Accéder à la page IdRef correspondante" id="logoIdref" :src="'/idref-icone-' + colorMode + '.svg'" />
         <span>IdRef</span>
       </a>
     </div>
@@ -46,7 +46,9 @@
 <script setup>
 import { computed } from 'vue';
 import { useDisplay } from "vuetify";
+import { useColorMode } from '@vueuse/core';
 
+const colorMode = useColorMode();
 const router = useRouter();
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
