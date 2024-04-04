@@ -19,21 +19,12 @@
           <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
           <span class="darker-text">{{ nbResult.toLocaleString("fr-FR") }}{{ '\xa0' }}</span>
           <span>{{ $t("results.results") }}</span>
-
         </h1>
-        <!-- <div>
-          test CSV et RSS
-          <a class=""
-            :href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
-            title="Exporter les résultats au format CSV" target="_blank"><v-icon
-              alt="logo RSS">mdi-download-box-outline</v-icon>
-          </a>
-          <a class=""
-            :href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
-            title="Flux RSS de cette recherche" target="_blank"><v-icon color="orange"
-              alt="logo RSS">mdi-rss-box</v-icon>
-          </a>
-        fin rss -->
+        <CommonExportQueryButton v-if="domainNameChange == 'theses'"
+          :csv-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
+          :rss-href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
+          :json-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
+        </CommonExportQueryButton>
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
@@ -208,10 +199,9 @@ watch(() => props.resetPage, () => {
 
 .returned-results-statement {
   display: flex;
-  justify-content: space-between;
 
   h1 {
-    margin: 0 1rem;
+    margin: 0 0.5rem 0 1rem;
     font-family: Roboto-Medium, sans-serif;
     font-weight: 400;
     font-size: 24.5px;
