@@ -9,14 +9,15 @@
       <v-list-item v-for="(exportType, index) in exportTypeList" :key="index">
         <v-list-item-title class="export-titles">{{ $t(index) }}</v-list-item-title>
         <v-list-item-subtitle v-for="file in exportType" class="export-buttons">
-          <v-btn color="secondary-darken-2" density="compact" :href="file.url">
+          <v-btn color="secondary-darken-2" density="compact" :href="file.url" target="_blank">
             {{ file.title }}
           </v-btn>
         </v-list-item-subtitle>
       </v-list-item>
     </v-list>
   </v-menu>
-  <v-btn class="main-btn" icon="mdi-rss-box" color="text-dark-blue" variant="text" title="Flux RSS" :href="rssHref">
+  <v-btn class="main-btn" icon="mdi-rss-box" color="text-dark-blue" variant="text" title="Flux RSS" :href="rssHref"
+    target="_blank">
   </v-btn>
 </template>
 
