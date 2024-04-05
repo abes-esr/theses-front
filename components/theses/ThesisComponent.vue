@@ -7,9 +7,9 @@
     <div class="thesis-info-access-wrapper">
       <ThesesThesisTitle :status="these.status" :titles="these.titres" />
       <!-- Bare latérale Desktop -->
-      <div v-if="!mobile && soutenue" class="access-buttons">
+      <div v-if="!mobile && soutenue && (categoriesValide.length > 0 || boutonsAutres.lenght > 0)" class="access-buttons">
         <!-- Menu boutons-liens desktop-->
-        <ThesesButtonsList v-if="!mobile" :categories-valide="categoriesValide" :status="these.status"
+        <ThesesButtonsList :categories-valide="categoriesValide" :status="these.status"
           :source="these.source" :boutons-autres="boutonsAutres" :soutenue="soutenue"
           :date-soutenance="these.dateSoutenance">
         </ThesesButtonsList>

@@ -1,11 +1,12 @@
 <template>
-  <v-app-bar flat color="white" id="appBar" v-if="!mobile">
+  <v-app-bar flat id="appBar" v-if="!mobile && isReady">
     <div class="text-center text-md-left language-accessibility-toolbar">
-      <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')"><img
-          :alt="$t('header.accessibility')" id="logo-handicap-visuel"
-          src="@/assets/icone-handicap-visuel.svg" /></v-btn>
+      <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')">
+        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
+          :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
+      </v-btn>
       <div class="languages-btn">
-        <!--
+        <!-- selecteur de langues désactivé
         <v-btn flat @click="setLanguage('fr')" title="Langue française"
           :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
         |
@@ -25,14 +26,14 @@
         <div class="icons"><icons-icon-rss></icons-icon-rss></div>
       </v-btn>-->
       <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
-          tabindex="-1" :title='$t("header.assistance")' size="x-large" icon>
-          <div class="icons"><icons-icon-assistance></icons-icon-assistance></div>
-          <span class="sr-only">{{ $t("header.assistance") }}</span>
+          tabindex="-1" :title='$t("header.assistance")' size="large" icon>
+          <div class="icons"><img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
+                                  :src="'/icone-assistance-' + colorMode + '.svg'" /></div>
         </v-btn></a>
       <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
-          tabindex="-1" :title='$t("header.doc")' size="x-large" icon>
-          <div class="icons"><icons-icon-documentation></icons-icon-documentation></div>
-          <span class="sr-only">{{ $t("header.doc") }}</span>
+          tabindex="-1" :title='$t("header.doc")' size="large" icon>
+        <div class="icons"><img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
+                                :src="'/icone-documentation-' + colorMode + '.svg'" /></div>
         </v-btn></a>
     </div>
   </v-app-bar>
@@ -44,6 +45,7 @@
         <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
         <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
         <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
+        <v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
@@ -53,16 +55,44 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onBeforeMount, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { useDisplay } from "vuetify";
+import { useDisplay, useTheme } from "vuetify";
+import { useColorMode } from '@vueuse/core';
 
+const theme = useTheme();
 const { locale } = useI18n();
 const { mobile } = useDisplay();
+
+const isReady = ref(false);
+//Paramètres d'accessibilité
+const dialog = ref(false);
+const opendys = useState('opendys');
+const interlignes = useState('interlignes');
+const justification = useState('justification');
+const changeContrast = ref(false);
+
+const themesNames = ref({
+  "light": "abesLightTheme",
+  "dark": "abesDarkTheme"
+});
+
+const colorMode = useColorMode({
+  onChanged(color) {
+    theme.global.name.value = themesNames.value[color];
+  }
+});
+
+onBeforeMount(() => {
+  // Etat par défaut du switch
+  changeContrast.value = useColorMode().value === 'dark';
+  isReady.value = true;
+});
 
 onMounted(() => {
   if (localStorage.getItem("language")) {
     locale.value = localStorage.getItem("language");
+
     useHead({
       htmlAttrs: {
         lang: locale.value,
@@ -81,12 +111,12 @@ function setLanguage(lang) {
   })
 }
 
-//Paramètres d'accessibilité
-const dialog = ref(false);
-const opendys = useState('opendys');
-const interlignes = useState('interlignes');
-const justification = useState('justification');
-
+/**
+ * Watchers
+ */
+watch(changeContrast, newValue => {
+  colorMode.value = newValue ? 'dark' : 'light';
+});
 </script>
 
 <style scoped lang="scss">
@@ -149,12 +179,16 @@ header {
   }
 }
 
+.logos-droite {
+  height: 40px;
+}
+
 #logo-handicap-visuel {
-  grid-column-start: 1;
   height: 30px;
+  grid-column-start: 1;
   justify-self: center;
   align-self: center;
-  ;
+  //filter: invert(42%) sepia(93%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%);
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: 1;
@@ -177,5 +211,9 @@ header {
 
     opacity: 1;
   }
+}
+
+:deep(.v-switch__track) {
+  background-color: rgb(var(--v-theme-gris-switch));
 }
 </style>

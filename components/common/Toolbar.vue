@@ -19,8 +19,10 @@
 <!--        Export-->
         <CommonExportButton :nnt="nnt" v-if="these" />
 <!--        Fin export-->
-        <NuxtLink class="nuxt-link" v-if="!organisme && !personne" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
-          <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
+<!--        Signaler-->
+          <v-btn class="nuxt-link" v-if="!organisme && !personne" flat append-icon="mdi-alert-circle" variant="outlined"
+                 :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }"
+                 target="_blank">
             <template v-slot:append-icon>
               <v-icon>
                 mdi-alert
@@ -28,7 +30,7 @@
             </template>
             <p>{{ $t("theseView.alert") }}</p>
           </v-btn>
-        </NuxtLink>
+<!--        Fin signaler-->
         <v-btn v-if="personne" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
           alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle">
           {{ $t("theseView.alert") }}

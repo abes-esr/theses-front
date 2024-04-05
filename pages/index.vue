@@ -16,6 +16,7 @@
             <CommonDomainSelector></CommonDomainSelector>
             <GenericSearchBar @search="loading = true" :white-container="true" :loading="loading" @onError="displayError" />
             <div class="stats">
+              <h1 class="sr-only">{{ $t('exploreByType') }}</h1>
                 <HomeStatsCard :titre=nbTheses :description="$t('referencés')" icon="soutenue"
                     info="Afficher toutes les thèses soutenues"
                     url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">

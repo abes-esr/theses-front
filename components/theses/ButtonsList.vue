@@ -2,7 +2,7 @@
   <MessageBox ref="messageBox"></MessageBox>
   <div class="buttons">
     <div class="buttons-header">
-      <span class="pb-4">{{ $t("theseView.access") }}</span>
+      <h2 class="buttons-header-title">{{ $t("theseView.access") }}</h2>
       <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
         <div class="close-overlay-icon-wrapper">
           <div>
@@ -16,23 +16,25 @@
     <div v-if="categoriesValide.length > 0 && soutenue">
       <div class="header-container no-wrap-text">
         <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
-        <span class="buttons-title-header">{{ $t("theseView.valide") }}</span>
+        <h3 class="buttons-title-header">{{ $t("theseView.valide") }}</h3>
       </div>
       <v-expansion-panels multiple v-model="panel" variant="accordion" class="buttons-list-wrapper">
         <template v-for="sousCategorie in categoriesValide" :key="sousCategorie.libelle">
           <v-expansion-panel v-if="sousCategorie.boutons.length > 0">
             <!--            Intitulé de la catégorie-->
-            <v-expansion-panel-title class="sous-categorie-header">
-              {{ sousCategorie.libelle }}
+            <v-expansion-panel-title class="sous-categorie-header" >
+              <h4>
+                {{ sousCategorie.libelle }}
+              </h4>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
-                <v-btn v-if="b.typeAcces == 'ACCES_ESR'" color="secondary-darken-2" append-icon="mdi-open-in-new"
+                <v-btn v-if="b.typeAcces == 'ACCES_ESR'" class="thesis-access-buttons" append-icon="mdi-open-in-new"
                   @click="checkboxModal = false; dialog = true; dialogUrl = b.url.startsWith('http') ? b.url : baseURL + b.url"
                   :aria-label="b.libelle" :flat="true">{{
         b.libelle }}
                 </v-btn>
-                <v-btn v-else-if="b.url" color="secondary-darken-2" append-icon="mdi-open-in-new"
+                <v-btn v-else-if="b.url" class="thesis-access-buttons" append-icon="mdi-open-in-new"
                   :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle"
                   :aria-label="b.libelle" :flat="true">{{
         b.libelle }}
@@ -58,11 +60,11 @@
         <v-expansion-panel class="buttons-sub-header buttons-sub-header-other">
           <v-expansion-panel-title>
             <v-icon color="primary" class="menu-icon">mdi-list-box</v-icon>
-            <span class="buttons-title-header buttons-title-header-other">{{ $t("theseView.others") }}</span>
+            <h3 class="buttons-title-header buttons-title-header-other">{{ $t("theseView.others") }}</h3>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <div class="buttons-list" v-for="b in boutonsAutres" :key="b">
-              <v-btn v-if="b.url" color="secondary-darken-2" append-icon="mdi-open-in-new"
+              <v-btn v-if="b.url" class="thesis-access-buttons" append-icon="mdi-open-in-new"
                 :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle"
                 :aria-label="b.libelle" :flat="true">{{
         b.libelle }}
@@ -176,16 +178,29 @@ function closeOverlay() {
 <style scoped lang="scss">
 @use "vuetify/settings";
 
+h4 {
+  font-weight: 500;
+  font-size: 16px;
+  color: rgb(var(--v-theme-text-dark-blue));
+  width: unset;
+  background-color: unset;
+  text-align: start;
+}
+
 .buttons-header {
   overflow: hidden;
   padding: 0.4em 0.8em 0;
+  margin: 0.5em 0.5em 0.5em;
+  display: flex;
+  justify-content: space-between;
+}
 
+.buttons-header-title {
+  color: rgb(var(--v-theme-text-dark-blue));
   font-size: 22px;
   font-weight: 600;
   font-family: Roboto-Bold, sans-serif;
-
-  display: flex;
-  justify-content: space-between;
+  align-self: center;
 }
 
 .buttons-sub-header {
@@ -250,6 +265,7 @@ function closeOverlay() {
   margin-bottom: 0.8em;
   font-size: 16px;
   text-align: start;
+  font-weight: 500;
 }
 
 .texte-embargo {
@@ -284,10 +300,6 @@ function closeOverlay() {
     justify-self: center;
     word-break: break-word;
   }
-}
-
-.sous-categorie-header {
-  font-weight: 500;
 }
 
 .header-container {
@@ -349,9 +361,10 @@ function closeOverlay() {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  opacity: 1;
 
   :deep(.v-expansion-panel-title) {
-    min-height: 28px;
+    min-height: 28px !important;
   }
 
   :deep(.v-expansion-panel__shadow) {
@@ -440,5 +453,10 @@ function closeOverlay() {
   .v-btn {
     margin-left: 10px;
   }
+}
+
+.thesis-access-buttons {
+  background-color: rgb(var(--v-theme-secondary-darken-3));
+  color: rgb(var(--v-theme-white-text));
 }
 </style>

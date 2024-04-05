@@ -7,6 +7,7 @@
 "toutesPersonnes": "People",
 "au": "at ",
 "explorer": "EXPLORE",
+  "exploreByType": "Explore data by type",
 "rechercher": "Search",
 "accesDirect": "Direct Access",
 "apropos": "About",
@@ -16,6 +17,8 @@
 "accessibilite": "Accessibility",
 "referencés": "referenced thesis",
 "preparation": "thesis in preparation",
+  "roleList": "Thesis list by role",
+  "institutionList": "Thesis list by type",
 "personnesRef": "people",
 "assistance": "Help",
 "partager": "Share",
@@ -186,5 +189,14 @@
 "descResult": "Result of the search engine for French thesis, theses.fr provides access to defended or ongoing doctoral thesis. With its search engine and facet navigation, the interface provides access to thesis data: title, doctoral candidate, disciplines, supervisors, defending institutions, doctoral schools, research partners, and defense date.",
 "descThese": "Detailed page of the thesis",
 "descPersonne": "Detailed page of the person"
-}
+},
+  "access" : {
+    "params": "Accessibility settings",
+    "btn": "Personnaliser l’affichage de l’interface",
+    "police": "Police adaptée à la dyslexie",
+    "interligne": "Augmenter l'interlignage",
+    "justification": "Désactiver la justification du texte",
+    "fermer": "Fermer",
+    "contrast": "Contraste renforcé"
+  }
 }

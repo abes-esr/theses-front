@@ -13,27 +13,20 @@
     </div>
     <Transition mode="out-in">
       <div class="returned-results-statement" v-if="dataReady">
-        <div>
+        <h1>
           <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
           <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
           <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
           <span class="darker-text">{{ nbResult.toLocaleString("fr-FR") }}{{ '\xa0' }}</span>
           <span>{{ $t("results.results") }}</span>
-        </div>
-        <!-- <div>
-          test CSV et RSS
-          <a class=""
-            :href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
-            title="Exporter les résultats au format CSV" target="_blank"><v-icon
-              alt="logo RSS">mdi-download-box-outline</v-icon>
-          </a>
-          <a class=""
-            :href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
-            title="Flux RSS de cette recherche" target="_blank"><v-icon color="orange"
-              alt="logo RSS">mdi-rss-box</v-icon>
-          </a>
-        </div>
-        fin rss -->
+          <div class="export-buttons">
+            <CommonExportQueryButton v-if="domainNameChange == 'theses'"
+              :csv-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
+              :rss-href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
+              :json-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
+            </CommonExportQueryButton>
+          </div>
+        </h1>
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
@@ -46,7 +39,7 @@
       </CommonResultsResultList>
     </div>
     <div v-else>
-      <div v-for="i in currentShowingNumber" :key="i" class="skeleton">
+      <div v-for="i in currentShowingNumber" :key="i" class="skeleton-wrapper">
         <v-card :flat="true" style="margin-bottom: 1rem;">
           <v-skeleton-loader type="article">
           </v-skeleton-loader>
@@ -189,7 +182,7 @@ watch(() => props.resetPage, () => {
   min-height: 190px;
 }
 
-.skeleton {
+.skeleton-wrapper {
   padding: 0;
   display: grid;
   grid-template-columns: 95%
@@ -207,17 +200,26 @@ watch(() => props.resetPage, () => {
 }
 
 .returned-results-statement {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 1rem;
-  font-family: Roboto-Medium, sans-serif;
-  font-weight: 400;
-  font-size: 24.5px;
-  word-break: break-word;
+  display: inline-block;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    font-size: 22.5px;
+  h1 {
+    display: inline-block;
+    margin: 0 1rem 0 1rem;
+    font-family: Roboto-Medium, sans-serif;
+    font-weight: 400;
+    font-size: 24.5px;
+    word-break: break-word;
+
+    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+      font-size: 22.5px;
+    }
   }
+
+  .export-buttons {
+    display: inline-block;
+    padding-left: 0.5rem
+  }
+
 }
 
 .darker-text {

@@ -4,15 +4,16 @@
       <div class="key-words-title-wrapper">
         <div class="title">
           <v-icon color="primary">mdi-list-box</v-icon>
-          <h1>{{ $t('motcle') }}</h1>
+          <h2>{{ $t('motcle') }}</h2>
           <CommonLanguageSelector :languages="langList" @update-langue="onUpdateLangue"></CommonLanguageSelector>
         </div>
       </div>
       <div class="thesis-keywords" v-if="type === 'theses'">
         <div class="mots-cles-controlles" v-if="rameauKeywords.length > 0">
           <div class="subtitle">
-            <h2>{{ $t("motCleControle") }}</h2>
-            <v-btn class="info-button" flat icon="mdi-information-outline" title="Informations sur les mots clés">
+            <h3>{{ $t("motCleControle") }}</h3>
+            <v-btn class="info-button" flat title="Informations sur les mots clés">
+              <v-icon size="22">mdi-information-outline</v-icon>
               <span class="sr-only">Informations sur les mots clés</span>
             </v-btn>
             <v-overlay activator=".info-button" location-strategy="connected" scroll-strategy="close">
@@ -36,7 +37,7 @@
         </div>
         <div class="mots-cles-libres" v-if="freeKeywords.length > 0">
           <div class="subtitle">
-            <h2>{{ $t("motCleLibres") }}</h2>
+            <h3>{{ $t("motCleLibres") }}</h3>
           </div>
           <div class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in freeKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
@@ -251,7 +252,7 @@ watch(mobile, (newValue) => {
   margin-left: 1.5em;
 }
 
-h1 {
+h2 {
   font-size: 24px;
   margin-left: 5px;
 
@@ -261,13 +262,18 @@ h1 {
   color: rgb(var(--v-theme-text-dark-blue))
 }
 
-h2 {
+h3 {
   font-size: 20px;
 
   font-family: Roboto-Bold, sans-serif;
   font-weight: 600;
   letter-spacing: 0px;
   color: rgb(var(--v-theme-text-dark-blue))
+}
+
+.info-button {
+  min-width: unset;
+  padding: 0 8px;
 }
 
 .mdi-list-box.v-icon--size-default {
@@ -285,11 +291,12 @@ h2 {
   margin-top: unset !important;
 
   .free-chip {
-    background-color: rgb(var(--v-theme-secondary-darken-2)) !important;
+    background-color: rgb(var(--v-theme-secondary-darken-3)) !important;
   }
 
   .rameau-chip {
-    background-color: rgb(var(--v-theme-orange-abes)) !important;
+    background-color: rgb(var(--v-theme-orange-abes-thesaurus)) !important;
+    color: rgb(var(--v-theme-thesaurus-text));
   }
 
   .chips {
@@ -316,7 +323,7 @@ h2 {
   font-family: Roboto Black, sans-serif;
   font-weight: 600;
   font-size: 16px;
-  color: rgb(var(--v-theme-surface));
+  color: rgb(var(--v-theme-white-text));
 }
 
 .v-chip--disabled {
@@ -389,5 +396,9 @@ h2 {
   :deep(.v-chip) {
     width: fit-content;
   }
+}
+
+:deep(.v-chip__underlay) {
+  opacity: 0 !important;
 }
 </style>

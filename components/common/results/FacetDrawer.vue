@@ -6,9 +6,9 @@
           <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
           </v-icon>
         </template>
-        <h3 class="facet-title">
+        <h2 class="facet-title">
           {{ facet.name }}
-        </h3>
+        </h2>
         <v-btn @click.stop="" @click="reinitializeCheckboxes(); reinitializeFilterSearchText();" class="reinitialize-button" size="small" depressed
           elevation="0" color="surface" title="Réinitialiser">
           <v-icon>mdi-reload</v-icon>
@@ -293,11 +293,18 @@ watch(() => props.resetTextFields,
   padding-bottom: 5px;
   font-family: Roboto-Medium, sans-serif;
   font-weight: 600;
+  font-size: 15px;
   color: rgba(var(--v-theme-primary));
-  opacity: 0.8;
+  opacity: 0.9;
+}
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    font-size: 15px;
+.facet-search-bar {
+  :deep(.v-field__outline) {
+    --v-field-border-opacity: 1;
+  }
+
+  :deep(.v-label) {
+    opacity: 1 !important;
   }
 }
 

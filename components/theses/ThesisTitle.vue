@@ -4,9 +4,9 @@
       <ThesesResultsThesisIcon :status="status"></ThesesResultsThesisIcon>
     </div>
     <div class="title-flexbox">
-      <span :class="isRtl ? 'rtl-text' : ''">
+      <h1 :class="isRtl ? 'rtl-text' : ''">
         {{ currentTitle }}
-      </span>
+      </h1>
       <CommonLanguageSelector class="language-selector" :languages="langList" @update-langue="onUpdateLangue">
       </CommonLanguageSelector>
     </div>
@@ -83,7 +83,7 @@ function onUpdateLangue(langue) {
     flex-direction: column;
   }
 
-  span {
+  h1 {
     font-family: Roboto-Medium, sans-serif;
     font-size: 25.5px;
     font-weight: 600;

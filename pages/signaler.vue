@@ -5,9 +5,10 @@
                         :loading="loading" :show-menu="showMenu"></CommonHeaderMobile>
   </ClientOnly>
   <NuxtLink v-if="!mobile" class="logo logo_home" :to="{ name: 'index', query: { domaine: 'theses' } }">
-    <img alt="Logo du site theses.fr" id="logoIMG" src="/icone-theses-beta.svg" />
+    <img alt="Accueil de theses.fr" id="logoIMG" src="/icone-theses-beta.svg" />
   </NuxtLink>
   <div class="signaler-erreur-container">
+    <h1 class="sr-only">Formulaire de signalement d'erreur</h1>
     <p>{{ $t("reportErrorView.info") }}<a target="_blank" :href="href">{{ href }}</a></p>
       <v-form id="form" ref="form">
         <div class="form-row shortened">

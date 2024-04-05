@@ -1,5 +1,7 @@
 <template>
     <v-card flat>
+      <h2 :id="icon + '-heading'" class="sr-only">{{ $t('explorer') + ' ' + titre.toLocaleString() + ' ' + description }}</h2>
+      <div :aria-labelledby="icon + '-heading'" tabindex="-1">
         <a :href="url" style="text-decoration: none;" :title="info">
             <ClientOnly>
                 <div v-if="icon === 'soutenue' || icon === 'enCours'" class="icon-wrapper">
@@ -10,15 +12,16 @@
                 </div>
             </ClientOnly>
             <v-card-title class="d-flex justify-center pb-1">
-                <h1 v-if="titre !== 0"> {{ titre.toLocaleString() }} </h1>
+                <span class="thesis-number" v-if="titre !== 0"> {{ titre.toLocaleString() }} </span>
                 <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
             </v-card-title>
             <v-card-subtitle class="d-flex justify-center">{{ description }}</v-card-subtitle>
             <v-row class="pa-0 pb-5 ma-0 d-flex justify-center">
-                <h2>{{ $t("explorer") }}</h2>
+                <span class="explorer">{{ $t("explorer") }}</span>
                 <v-icon color="orange-abes" class="pl-2">mdi-arrow-right-circle</v-icon>
             </v-row>
         </a>
+      </div>
     </v-card>
 </template>
 
@@ -53,20 +56,22 @@ defineProps({
 <style scoped lang="scss">
 @use 'vuetify/settings';
 
-h1 {
+.thesis-number {
     color: rgb(var(--v-theme-secondary-darken-2));
     font-size: 35px;
     font-weight: 900;
 }
 
-h2 {
+.explorer {
     font-size: 19px;
     font-weight: 700;
+    color: rgb(var(--v-theme-primary));
+    text-transform: uppercase;
 }
 
 .v-card {
     border-radius: 0;
-    border: solid 1px rgba(0, 0, 0, 0.2);
+    border: solid 1px rgb(var(--v-theme-gris-clair));
     overflow: visible;
     padding-top: 20px;
     margin-top: 40px;

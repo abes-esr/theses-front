@@ -1,16 +1,19 @@
 <template>
-  <v-app :class="{ 'opendys': opendys, 'interlignes': interlignes, 'justification': justification }">
-
-    <CommonHeaderCustom></CommonHeaderCustom>
-    <v-main>
-      <NuxtPage></NuxtPage>
-    </v-main>
-    <CommonFooterCustom></CommonFooterCustom>
-  </v-app>
+  <v-theme-provider theme="colorMode">
+    <v-app :class="{ 'opendys': opendys, 'interlignes': interlignes, 'justification': justification }">
+      <CommonHeaderCustom></CommonHeaderCustom>
+      <v-main>
+        <NuxtPage></NuxtPage>
+      </v-main>
+      <CommonFooterCustom></CommonFooterCustom>
+    </v-app>
+  </v-theme-provider>
 </template>
 
 <script setup>
 import { watch, onMounted } from 'vue';
+import { useTheme } from "vuetify";
+import { useColorMode } from '@vueuse/core';
 
 useHead({
   title: "Theses.fr",
@@ -29,8 +32,19 @@ useHead({
 const opendys = useState('opendys', () => false);
 const interlignes = useState('interlignes', () => false);
 const justification = useState('justification', () => false);
+const theme = useTheme();
 
-//Persistence en localStorage des préférences de l'utilisateur
+const themesNames = ref({
+  "light": "abesLightTheme",
+  "dark": "abesDarkTheme"
+});
+
+const colorMode = useColorMode({
+  onChanged(color) {
+    theme.global.name.value = themesNames.value[color];
+  }
+});
+
 onMounted(() => {
   opendys.value = getFromLocalStorage('opendys', false);
   interlignes.value = getFromLocalStorage('interlignes', false);
@@ -49,6 +63,10 @@ const getFromLocalStorage = (key, defaultValue) => {
   return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
 };
 
+/**
+ * Watchers
+ */
+
 watch(opendys, (newValue) => {
   localStorage.setItem('opendys', JSON.stringify(newValue));
 });
@@ -60,6 +78,7 @@ watch(interlignes, (newValue) => {
 watch(justification, (newValue) => {
   localStorage.setItem('justification', JSON.stringify(newValue));
 });
+
 </script>
 
 <style lang="scss">
@@ -231,6 +250,7 @@ main {
 
       a {
         text-decoration: none;
+        color: rgb(var(--v-theme-primary));
       }
     }
   }
@@ -438,12 +458,6 @@ h4 {
   text-decoration: none;
 }
 
-.searchbar__input .v-field {
-  background-color: white;
-}
-
-
-
 .domain-selector {
   @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
     .v-btn__content {
@@ -494,5 +508,18 @@ h4 {
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     order: 10;
   }
+}
+
+.skeleton, .skeleton-cards {
+  background-color: rgb(var(--v-theme-gris-skeleton)) !important;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
 }
 </style>

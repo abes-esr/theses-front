@@ -12,7 +12,7 @@
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
         <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
-          <img class="logo IdRef" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+          <img class="logo IdRef" alt="Accueil Theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
         </NuxtLink>
         <h1 v-html='$t("slogan2lines")'></h1>
       </div>
@@ -44,13 +44,13 @@
         <div class="info">
           <IconsIconPersonne v-if="!mobile"></IconsIconPersonne>
           <div class="nom-card">
-            <div class="nomprenom">
+            <h1 class="nomprenom">
               <span class="prenom">{{ item.prenom + "\xa0" }}</span>
               <span class="nom">{{ item.nom }}</span>
-            </div>
+            </h1>
             <a v-if="item.has_idref" class="idref-logo" :href="`https://www.idref.fr/${item.id}`" target="_blank"
               title="Accéder à IdRef, le référentiel des personnes et des structures">
-              <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
+              <img alt="Accéder à la page IdRef correspondante" id="logoIdref" :src="'/idref-icone-' +  colorMode + '.svg'" />
               <span>IdRef</span>
             </a>
           </div>
@@ -62,6 +62,7 @@
         <!--        Tiroirs thèses par rôles-->
         <div class="theses">
           <v-expansion-panels multiple v-model="panel" class="role-expansion-panel-wrapper">
+            <h2 class="sr-only">{{ $t('roleList') }}</h2>
             <template
               v-for="key in ['Auteur / Autrice', 'Directeur / Directrice', 'Rapporteur / Rapporteuse', 'Président / Présidente du jury', 'Examinateur / Examinatrice']"
               :key="key">
@@ -72,9 +73,9 @@
                       <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
                       </v-icon>
                     </template>
-                    <h2 :id="anchorValueFromKey(key)">
+                    <h3 :id="anchorValueFromKey(key)">
                       {{ $t("personnes.personneView.roles." + i18nValueFromKey(key), [item.theses[key].length]) }}
-                    </h2>
+                    </h3>
                   </v-expansion-panel-title>
                   <v-expansion-panel-text>
                     <div v-for="(these, index) in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
@@ -106,8 +107,9 @@
 import { useI18n } from "vue-i18n";
 import { defineAsyncComponent, onUpdated, ref } from 'vue';
 import { useDisplay } from "vuetify";
+import { useColorMode } from '@vueuse/core';
 
-
+const colorMode = useColorMode();
 const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { getPersonne } = usePersonnesAPI();
@@ -419,7 +421,7 @@ function sleep(ms) {
       .role-expansion-panel {
         border-top: 2px solid rgb(var(--v-theme-gris-fonce));
 
-        h2 {
+        h3 {
           padding: 0.5em 0 0.5em;
           font-size: 26px;
         }

@@ -39,7 +39,9 @@ const handleError = () => clearError({ redirect: '/' })
     </v-app>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@use 'vuetify/settings';
+
 .v-application {
     height: 100%;
     display: flex !important;
@@ -58,8 +60,8 @@ h1 {
 
 button {
     font-size: 2em;
-    color: #252C61;
-    border: solid 2px #252C61;
+    color: rgb(var(--v-theme-text-dark-blue));
+    border: solid 2px rgb(var(--v-theme-text-dark-blue));
     border-radius: 5px;
     background-color: transparent;
     padding: 10px;

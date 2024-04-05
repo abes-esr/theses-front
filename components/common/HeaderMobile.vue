@@ -1,39 +1,34 @@
 <template>
-  <nav class="mobile-nav-bar">
+  <nav class="mobile-nav-bar" v-if="isReady">
     <div class="left-side-buttons">
       <!--    Bouton menu burger -->
       <div class="buttons">
-        <v-icon @click="activateMenu" size="35px" :class="{ 'logo-active': showMenu }">mdi-menu
+        <v-icon :title="$t('menu')" @click="activateMenu" size="35px" :class="{ 'logo-active': showMenu }">mdi-menu
         </v-icon>
-        <v-tooltip activator="parent">{{ $t('menu') }}</v-tooltip>
       </div>
       <v-btn variant="plain" @click="dialog = true" class="buttons language-accessibility-button"
         :title="$t('access.btn')">
-        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" src="@/assets/icone-handicap-visuel.svg" />
-        <v-tooltip activator="parent">{{ $t('header.accessibility') }}</v-tooltip>
+        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
       </v-btn>
     </div>
     <div class="right-side-buttons">
       <!--    Bouton filtres-->
       <button v-if="type === 'resultats'" @click="activateFilterMenu" color="primary"
         class="filter-mobile-nav-bar buttons">
-        <v-icon v-bind="props" size="35px">mdi-filter-menu-outline
+        <v-icon :title="$t('filtres')" v-bind="props" size="35px">mdi-filter-menu-outline
         </v-icon>
-        <v-tooltip activator="parent" location="start">{{ $t('filtres') }}</v-tooltip>
       </button>
       <!-- Bouton accès theses -->
       <button
         v-if="type === 'these' && theseSoutenue && (categoriesValide.length > 0 || boutonsAutres.length > 0) || (theseSoutenue && status === 'enCours')"
         @click="activateThesisAccess" class="filter-mobile-nav-bar buttons">
-        <v-icon v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
+        <v-icon :title="$t('theseView.access')" v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
         </v-icon>
-        <v-tooltip activator="parent">{{ $t('theseView.access') }}</v-tooltip>
       </button>
       <!--    Bouton menu recherche/selecteur these/personnes-->
       <div v-if="type !== 'home'" class="buttons">
-        <v-icon @click="activateSearchBar" size="35px" :class="{ 'logo-active': showSearchBar }">mdi-magnify
+        <v-icon :title="$t('rechercher')" @click="activateSearchBar" size="35px" :class="{ 'logo-active': showSearchBar }">mdi-magnify
         </v-icon>
-        <v-tooltip activator="parent" location="start">{{ $t('rechercher') }}</v-tooltip>
       </div>
     </div>
   </nav>
@@ -82,8 +77,10 @@
             -->
             <div class="menu-text-element">
               <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
-                :alt='$t("header.assistance")'><v-btn :title='$t("header.assistance")' size="large" variant="text" icon>
-                  <IconsIconAssistance />
+                :alt='$t("header.assistance")'>
+                <v-btn :title='$t("header.assistance")' size="large" variant="text" icon>
+                  <img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
+                       :src="'/icone-assistance-' + colorMode + '.svg'" />
                 </v-btn>
                 <span>{{ $t('assistance') }}</span>
               </a>
@@ -91,7 +88,8 @@
             <div class="menu-text-element">
               <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")'
                 target="_blank"><v-btn :title='$t("header.doc")' size="large" variant="text" icon>
-                  <IconsIconDocumentation />
+                <img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
+                     :src="'/icone-documentation-' + colorMode + '.svg'" />
                 </v-btn>
                 <span>{{ $t('documentation') }}</span>
               </a>
@@ -117,6 +115,7 @@
         <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
         <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
         <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
+        <v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
@@ -126,10 +125,32 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, onBeforeMount, watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { useTheme } from "vuetify";
+import { useColorMode } from '@vueuse/core'
 
+const theme = useTheme();
 const { locale } = useI18n();
+const isReady = ref(false);
+const changeContrast = ref(false);
+
+const themesNames = ref({
+  "light": "abesLightTheme",
+  "dark": "abesDarkTheme"
+});
+
+const colorMode = useColorMode({
+  onChanged(color) {
+    theme.global.name.value = themesNames.value[color];
+  }
+});
+
+onBeforeMount(() => {
+  // Etat par défaut du switch
+  changeContrast.value = useColorMode().value === 'dark';
+  isReady.value = true;
+});
 
 const props = defineProps({
   type: {
@@ -213,6 +234,13 @@ const dialog = ref(false);
 const opendys = useState('opendys');
 const interlignes = useState('interlignes');
 const justification = useState('justification');
+
+/**
+ * Watchers
+ */
+watch(changeContrast, newValue => {
+  colorMode.value = newValue ? 'dark' : 'light';
+});
 </script>
 
 <style scoped lang="scss">
@@ -261,6 +289,10 @@ const justification = useState('justification');
   margin-top: 30px;
 }
 
+.logos-droite {
+  height: 40px;
+}
+
 .buttons {
   display: flex;
   align-items: center;
@@ -295,5 +327,13 @@ const justification = useState('justification');
 .selected {
   color: rgb(var(--v-theme-orange-abes));
   font-weight: 700;
+}
+
+:deep(.v-btn--variant-plain) {
+  opacity: 1 !important;
+}
+
+:deep(.v-switch__track) {
+  background-color: rgb(var(--v-theme-gris-switch));
 }
 </style>

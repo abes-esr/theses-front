@@ -16,7 +16,7 @@
         <div class="search-bar-container white-containers">
             <div class="sub_header__logo">
                 <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
-                    <img class="logo" alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+                    <img class="logo" alt="Accueil theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
                 </NuxtLink>
                 <h1 v-html='$t("slogan2lines")'></h1>
             </div>
@@ -44,13 +44,13 @@
                 <div class="info">
                     <IconsIconOrganisme></IconsIconOrganisme>
                     <div class="nom-card">
-                        <div class="nomprenom">
+                        <h1 class="nomprenom">
                             {{ name }}
-                        </div>
+                        </h1>
                         <a :href="`https://www.idref.fr/${props.id}`" class="idref-logo" target="_blank"
                             alt="Accéder à IdRef, le référentiel des personnes et des structures"
                             title="Accéder à IdRef, le référentiel des personnes et des structures">
-                            <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
+                            <img alt="Accéder à la page IdRef correspondante" id="logoIdref" :src="'/idref-icone-' + colorMode + '.svg'" />
                           <span>IdRef</span>
                         </a>
                     </div>
@@ -58,6 +58,7 @@
                 <!--        Tiroirs thèses-->
                 <div class="theses">
                     <v-expansion-panels multiple class="role-expansion-panel-wrapper">
+                      <h2 class="sr-only">{{ $t('institutionList') }}</h2>
                         <template
                             v-for="key in ['etabSoutenance', 'etabSoutenanceEnCours', 'partenaireRecherche', 'partenaireRechercheEnCours', 'etabCotutelle', 'etabCotutelleEnCours', 'ecoleDoctorale', 'ecoleDoctoraleEnCours']"
                             :key="key">
@@ -68,22 +69,21 @@
                                             <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
                                             </v-icon>
                                         </template>
-                                        <h2>
+                                        <h3>
                                             {{ $t("organismeView." + key, [item["totalHits" + key]]) }}
-
-                                        </h2>
+                                        </h3>
                                     </v-expansion-panel-title>
                                     <v-expansion-panel-text>
                                         <div v-for="(these, index) in item[key]" :key="these" class="card-wrapper">
                                             <v-lazy :options="{ threshold: 1.0 }">
 
-                                                <ResultCard :titre="these.titrePrincipal"
+                                                <ThesesResultsResultCard :titre="these.titrePrincipal"
                                                     :date="these.status === 'enCours' ? these.datePremiereInscriptionDoctorat : these.dateSoutenance"
                                                     :auteur="these.auteurs" :directeurs="these.directeurs"
                                                     :discipline="these.discipline" :etab="these.etabSoutenanceN"
                                                     :etabPPN="these.etabSoutenancePpn" :id="these.id"
                                                     :status="these.status">
-                                                </ResultCard>
+                                                </ThesesResultsResultCard>
                                             </v-lazy>
                                             <hr class="result-dividers" v-if="index < item[key].length - 1" />
                                         </div>
@@ -100,7 +100,7 @@
             </div>
         </div>
         <ClientOnly>
-            <ScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1></ScrollToTopButton>
+            <CommonScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1></CommonScrollToTopButton>
         </ClientOnly>
     </div>
 </template>
@@ -109,8 +109,9 @@
 import { useI18n } from "vue-i18n";
 import { ref, defineAsyncComponent } from "vue";
 import { useDisplay } from "vuetify";
-import ResultCard from "../theses/results/ResultCard.vue";
-import ScrollToTopButton from "../common/ScrollToTopButton.vue";
+import { useColorMode } from '@vueuse/core';
+
+const colorMode = useColorMode();
 
 const { mobile } = useDisplay();
 const { t } = useI18n();
@@ -337,7 +338,7 @@ function sleep(ms) {
             .role-expansion-panel {
                 border-top: 2px solid rgb(var(--v-theme-gris-fonce));
 
-                h2 {
+                h3 {
                     padding: 0.5em 0 0.5em;
                     font-size: 26px;
                 }

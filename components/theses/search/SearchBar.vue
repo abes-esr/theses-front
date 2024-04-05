@@ -1,14 +1,13 @@
 <template>
   <div class="searchbar">
-    <v-combobox v-if="!isAdvanced" class="searchbar__input" label="Rechercher des thèses" single-line :items="items"
-      :menu="suggestionActive" :menu-props="menuProps" v-model="request" v-model:search="requestSearch"
-      variant="outlined" cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object
-      type="text" menu-icon="" @keydown.enter="search" enterkeyhint="send" ref="targetElement">
+    <v-combobox role="search" v-if="!isAdvanced" class="searchbar__input" label="Rechercher des thèses" single-line :items="items"
+      :menu="suggestionActive" :menu-props="menuProps" v-model="request" v-model:search="requestSearch" variant="outlined" base-color="primary"
+      cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object type="text"
+      menu-icon="" @keydown.enter="search" enterkeyhint="send" ref="targetElement">
       <!--      Bouton rechercher-->
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
-        <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")'
-          :ripple="false">
+        <v-btn class="appended-buttons" plain flat rounded="0" @click="clearSearch" :title='$t("clear")' :ripple="false">
           <template v-slot:append>
             <v-icon class="search-bar-icons" id="clean-button">
               mdi-close
@@ -29,8 +28,8 @@
         <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw == null"
           @click="selectSuggestion(item.raw)">
           <span v-if="item.raw != null">{{
-      item.raw
-    }}</span>
+            item.raw
+          }}</span>
           <span v-else></span>
         </v-list-item>
       </template>
@@ -43,8 +42,9 @@
       <span v-if="isAdvanced"></span>
       <v-checkbox v-else :label="$t('disableSuggestion')" v-model="disableCompletion"
         :title='$t("disableSuggestion")'></v-checkbox>
+      <h2 class="sr-only">{{ $t("avancee") }}</h2>
       <v-btn v-if="!isAdvanced" color="primary" density="compact" variant="outlined" @click="setAdvanced(true)">{{
-      $t("avancee")
+          $t("avancee")
         }}
       </v-btn>
     </div>
@@ -235,6 +235,10 @@ defineExpose({
   :deep(.v-combobox__selection) {
     overflow: hidden !important;
   }
+
+  :deep(.v-label) {
+     opacity: 1 !important;
+   }
 }
 
 .searchbar__action {
@@ -259,7 +263,6 @@ defineExpose({
 
   :deep(.v-label) {
     color: rgb(var(--v-theme-primary));
-    opacity: 1;
     font-size: 0.95rem;
   }
 
@@ -335,6 +338,10 @@ defineExpose({
 
 :deep(.v-field--appended) {
   padding-inline-end: 0 !important;
+}
+
+:deep(.v-field__outline) {
+  --v-field-border-opacity: 1 !important;
 }
 </style>
 
