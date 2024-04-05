@@ -28,12 +28,12 @@
       <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
           tabindex="-1" :title='$t("header.assistance")' size="large" icon>
           <div class="icons"><img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
-                                  :src="'/icone-assistance-' + colorMode + '.svg'" /></div>
+              :src="'/icone-assistance-' + colorMode + '.svg'" /></div>
         </v-btn></a>
       <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
           tabindex="-1" :title='$t("header.doc")' size="large" icon>
-        <div class="icons"><img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
-                                :src="'/icone-documentation-' + colorMode + '.svg'" /></div>
+          <div class="icons"><img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
+              :src="'/icone-documentation-' + colorMode + '.svg'" /></div>
         </v-btn></a>
     </div>
   </v-app-bar>
@@ -45,7 +45,7 @@
         <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
         <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
         <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
-        <v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>
+        <!--<v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>-->
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
