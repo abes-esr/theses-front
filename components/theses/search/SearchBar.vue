@@ -235,6 +235,10 @@ defineExpose({
   :deep(.v-combobox__selection) {
     overflow: hidden !important;
   }
+
+  :deep(.v-label) {
+     opacity: 1 !important;
+   }
 }
 
 .searchbar__action {
@@ -259,7 +263,6 @@ defineExpose({
 
   :deep(.v-label) {
     color: rgb(var(--v-theme-primary));
-    opacity: 1;
     font-size: 0.95rem;
   }
 
@@ -335,6 +338,10 @@ defineExpose({
 
 :deep(.v-field--appended) {
   padding-inline-end: 0 !important;
+}
+
+:deep(.v-field__outline) {
+  --v-field-border-opacity: 1 !important;
 }
 </style>
 

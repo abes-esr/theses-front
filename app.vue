@@ -509,4 +509,17 @@ h4 {
     order: 10;
   }
 }
+
+.skeleton, .skeleton-cards {
+  background-color: rgb(var(--v-theme-gris-skeleton)) !important;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+}
 </style>

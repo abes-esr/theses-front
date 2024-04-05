@@ -50,7 +50,7 @@
             </h1>
             <a v-if="item.has_idref" class="idref-logo" :href="`https://www.idref.fr/${item.id}`" target="_blank"
               title="Accéder à IdRef, le référentiel des personnes et des structures">
-              <img alt="logo IdRef" id="logoIdref" src="@/assets/idref-icone.png" />
+              <img alt="Accéder à la page IdRef correspondante" id="logoIdref" :src="'/idref-icone-' +  colorMode + '.svg'" />
               <span>IdRef</span>
             </a>
           </div>
@@ -107,8 +107,9 @@
 import { useI18n } from "vue-i18n";
 import { defineAsyncComponent, onUpdated, ref } from 'vue';
 import { useDisplay } from "vuetify";
+import { useColorMode } from '@vueuse/core';
 
-
+const colorMode = useColorMode();
 const { mobile } = useDisplay();
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const { getPersonne } = usePersonnesAPI();

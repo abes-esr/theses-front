@@ -1,12 +1,7 @@
 <template>
   <v-menu location="bottom">
     <template v-slot:activator="{ props }">
-      <v-btn flat append-icon="mdi-file-export-outline" variant="outlined" v-bind="props">
-        <template v-slot:append-icon>
-          <v-icon>
-            mdi-file-export-outline
-          </v-icon>
-        </template>
+      <v-btn flat append-icon="mdi-upload-box" variant="outlined" v-bind="props">
         <p>{{ $t("theseView.exporter") }}</p>
       </v-btn>
     </template>
