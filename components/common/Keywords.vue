@@ -24,9 +24,9 @@
               </v-card>
             </v-overlay>
           </div>
-          <div class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+          <div role="list" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in rameauKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
-              <nuxt-link
+              <nuxt-link role="listitem"
                 :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
                 <v-chip label class="rameau-chip chips" tabindex="-1">
                   <span class="key-word-label" tabindex="-1">{{ keyWord.keyword }}</span>
@@ -39,9 +39,9 @@
           <div class="subtitle">
             <h3>{{ $t("motCleLibres") }}</h3>
           </div>
-          <div class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+          <div role="list" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in freeKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
-              <nuxt-link
+              <nuxt-link role="listitem"
                 :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
                 <v-chip label class="free-chip chips" tabindex="-1">
                   <span class="key-word-label">{{ keyWord.keyword }}</span>
@@ -52,9 +52,9 @@
         </div>
       </div>
       <div v-else>
-        <div v-if="mixedKeywords.length > 0" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+        <div role="list" v-if="mixedKeywords.length > 0" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
           <template v-for="keyWord in mixedKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
-            <nuxt-link
+            <nuxt-link role="listitem"
               :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
               <v-chip label class="chips" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
                 tabindex="-1">
