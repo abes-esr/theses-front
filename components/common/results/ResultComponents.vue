@@ -31,7 +31,6 @@
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
 
-
     <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray"
       @reinitializePageNumber="reinitializePageNumber" />
     <div v-if="mobile || dataReady" class="colonnes-resultats">

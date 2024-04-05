@@ -1,6 +1,6 @@
 <template>
-  <div class="chips-list">
-    <v-chip v-for="facet in selectedFacetsArray" :key="`facet-chip-${facet.label}`" label closable variant="outlined" size="small"
+  <div class="chips-list" role="list">
+    <v-chip role="listitem" v-for="facet in selectedFacetsArray" :key="`facet-chip-${facet.label}`" label closable variant="outlined" size="small"
       @click:close="deleteFilter(facet)">
       <label v-if="facet.facetName === 'datedebut'" :title="$t('results.chips.from') + ' ' + facet.label"
         class="chip-label">
