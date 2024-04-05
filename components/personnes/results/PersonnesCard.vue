@@ -1,9 +1,28 @@
 <template>
+<!--  Contenu du label aria permettant de décrire la carte-->
+    <div :id="'person-aria-label-' + item.id" aria-hidden="true" style="visibility: hidden; height: 0;">
+      {{ item.prenom + ' ' + item.nom }}.
+        Rôles :
+      {{
+        $t('personnes.resultView.personnesCard.auteur') }}&nbsp;({{ item.roles["Auteur / Autrice"] ? item.roles["Auteur / Autrice"] : 0 }})
+      &nbsp;|&nbsp;
+        {{ $t('personnes.resultView.personnesCard.directeur') }}&nbsp;({{ item.roles["Directeur / Directrice"] ? item.roles["Directeur / Directrice"] : 0 }})
+      &nbsp;|&nbsp;
+        {{ $t('personnes.resultView.personnesCard.rapporteur') }}&nbsp;({{ item.roles["Rapporteur / Rapporteuse"] ? item.roles["Rapporteur / Rapporteuse"] : 0 }}
+      . Disciplines :
+      <template v-for="(name, index) in item.disciplines" :key="name">
+          {{ name }}
+        </template>
+      . Etablissements :
+        <template v-for="(name, index) in item.etablissements " :key="name">
+          {{ name }}
+        </template>
+    </div>
   <v-card flat class="card-container">
-    <NuxtLink class="icon" v-if="!mobile" :to="{ name: 'id', params: { id: linkId } }">
-      <IconsIconPersonne></IconsIconPersonne>
+    <NuxtLink aria-hidden="true" tabindex="-1" class="icon" v-if="!mobile" :to="{ name: 'id', params: { id: linkId } }">
+      <IconsIconPersonne aria-hidden="true"></IconsIconPersonne>
     </NuxtLink>
-    <NuxtLink :to="{ name: 'id', params: { id: linkId } }">
+    <NuxtLink :aria-labelledby="'person-aria-label-' + item.id" :to="{ name: 'id', params: { id: linkId } }">
       <div class="nom-card">
         <div class="nomprenom">
           <span class="prenom">{{ item.prenom + "\xa0" }}</span><span class="nom">{{ item.nom }}</span>
@@ -12,13 +31,13 @@
     </NuxtLink>
     <div class="idref-container">
       <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank"
-        title="Accéder à IdRef, le référentiel des personnes et des structures" class="idref-logo">
-        <img alt="Accéder à la page IdRef correspondante" id="logoIdref" :src="'/idref-icone-' + colorMode + '.svg'" />
-        <span>IdRef</span>
+        :title="'Accéder à la page IdRef de ' + item.prenom + ' ' + item.nom + 'le référentiel des personnes et des structures'" class="idref-logo">
+        <img alt="" id="logoIdref" :src="'/idref-icone-' + colorMode + '.svg'" />
+        <span aria-hidden="true">IdRef</span>
       </a>
     </div>
     <div class="role-personne">
-      <NuxtLink :to="{ name: 'id', params: { id: linkId } }">
+      <NuxtLink aria-hidden="true" tabindex="-1" :to="{ name: 'id', params: { id: linkId } }">
         {{
       $t('personnes.resultView.personnesCard.auteur') }}&nbsp;({{ item.roles["Auteur / Autrice"] ? item.roles["Auteur / Autrice"] : 0 }})
         &nbsp;|&nbsp; {{
@@ -30,7 +49,7 @@
       : 0 }})</NuxtLink>
     </div>
     <div class="disciplines">
-      <NuxtLink :to="{ name: 'id', params: { id: linkId } }">
+      <NuxtLink aria-hidden="true" tabindex="-1" :to="{ name: 'id', params: { id: linkId } }">
         <template v-for="(name, index) in item.disciplines" :key="name">
           {{ name }}<span v-if="index !== item.disciplines.length - 1">{{ "\xa0" }};{{ "\xa0" }}</span>
         </template>
