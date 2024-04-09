@@ -77,8 +77,8 @@
                       {{ $t("personnes.personneView.roles." + i18nValueFromKey(key), [item.theses[key].length]) }}
                     </h3>
                   </v-expansion-panel-title>
-                  <v-expansion-panel-text>
-                    <div v-for="(these, index) in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
+                  <v-expansion-panel-text role="list">
+                    <div role="listitem" v-for="(these, index) in item.theses[key]" :key="`${these.id}`" class="card-wrapper">
                       <v-lazy :options="{ threshold: 1.0 }">
                         <ThesesResultsResultCard :titre="these.titre"
                           :date="these.status === 'enCours' ? new Date(these.date_inscription).toLocaleDateString('en-GB') : new Date(these.date_soutenance).toLocaleDateString('en-GB')"
