@@ -45,7 +45,7 @@
         <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
         <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
         <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
-        <!--<v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>-->
+        <v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
