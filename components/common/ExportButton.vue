@@ -12,7 +12,7 @@
       >
         <v-list-item-title class="export-titles">{{ $t(index) }}</v-list-item-title>
         <v-list-item-subtitle v-for="file in exportType" class="export-buttons">
-            <v-btn color="secondary-darken-2" density="compact" :href="file.url">
+            <v-btn color="secondary-darken-3" density="compact" :href="file.url">
               {{ file.title }}
             </v-btn>
         </v-list-item-subtitle>
@@ -68,6 +68,9 @@ exportTypeList.value = {
   max-width: 90%;
   font-weight: 500;
 
+  :deep(.mdi-upload-box) {
+    color: rgb(var(--v-theme-secondary-darken-2));
+  }
   :deep(.mdi-file-export-outline) {
     color: rgb(var(--v-theme-dark-blue));
   }
