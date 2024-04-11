@@ -105,7 +105,7 @@ const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.q
 //Ajout du flux rss dans le head de la page, pour l'auto discovery des flux rss
 useHead({
   link: [
-    { rel: 'alternate', type: 'application/rss+xml', href: window.location.hostname + '/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest() }
+    { rel: 'alternate', type: 'application/rss+xml', href: '/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest() }
   ]
 });
 
