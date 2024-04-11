@@ -1,11 +1,11 @@
 <template>
   <div class="thesis-component-container">
-    <div class="toolbar-container">
+    <div v-if="!mobile" class="toolbar-container">
       <CommonToolbar these :source="these.source" :nnt="props.nnt"
         :etab-ppn="these.etabSoutenance ? these.etabSoutenance.ppn : ''" />
     </div>
     <div class="thesis-info-access-wrapper">
-      <ThesesThesisTitle :status="these.status" :titles="these.titres" />
+      <ThesesThesisTitle id="thesis-title" :status="these.status" :titles="these.titres" />
       <!-- Bare latérale Desktop -->
       <div v-if="!mobile && ((categoriesValide.length > 0 || boutonsAutres.length > 0) || (soutenue && these.status === 'enCours'))" class="access-buttons">
         <!-- Menu boutons-liens desktop-->
@@ -29,6 +29,10 @@
           <LazyCommonScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1 />
         </div>
       </ClientOnly>
+    </div>
+    <div v-if="mobile" class="toolbar-container">
+      <CommonToolbar these :source="these.source" :nnt="props.nnt"
+                     :etab-ppn="these.etabSoutenance ? these.etabSoutenance.ppn : ''" />
     </div>
   </div>
 </template>
