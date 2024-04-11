@@ -132,6 +132,7 @@ onMounted(async () => {
   });
 });
 
+  // Enlever le lien RSS du head en quittant la page
 onUnmounted(() => {
   pageHead.dispose();
 })
