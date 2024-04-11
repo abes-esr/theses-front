@@ -13,7 +13,7 @@
           {{ $t("accesDirect") }}
         </h1>
         <div class="list-1" role="list">
-          <div role="group" class="colonne1">
+          <div role="presentation" class="colonne1">
             <div role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/"
@@ -35,7 +35,7 @@
           $t("footer.doc") }}</a></span>
             </div>
           </div>
-          <div role="group" class="colonne2">
+          <div role="presentation" class="colonne2">
             <div role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="http://www.sudoc.abes.fr/cbs/" target="_blank"
