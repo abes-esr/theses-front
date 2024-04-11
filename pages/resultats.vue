@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent, onMounted, ref, watch, computed } from "vue";
+import { defineAsyncComponent, onMounted, onUnmounted, ref, watch, computed } from "vue";
 import { useDisplay } from 'vuetify';
 import { replaceAndEscape } from "../services/Common";
 const { mobile } = useDisplay();
@@ -94,13 +94,14 @@ const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
 const showMenu = ref(false);
 const showSearchBar = ref(false);
+let refresh = 0;
 
 //Titre statique
 definePageMeta({
   title: 'Résultats | Theses.fr'
 })
 
-
+let pageHead = null;
 onMounted(async () => {
   fetchCodeLangues();
 
@@ -121,13 +122,19 @@ onMounted(async () => {
       twitterCard: "summary"
     });
 
-    useHead({
+    pageHead = useHead({
       link: [
         { hid: 'rss', rel: 'alternate', type: 'application/rss+xml', href: rssReq }
       ]
     });
+
+
   });
 });
+
+onUnmounted(() => {
+  pageHead.dispose();
+})
 
 /**
  * Fonctions
@@ -171,10 +178,11 @@ function closeOverlay() {
 }
 
 function updateFacets() {
+  refresh++;
   getFacets().then(response => {
     facets.value = response;
     dataFacetsReady.value = true;
-  }).then(response => {
+  }).then(() => {
     selectedFacetsArray.value = getFacetsArrayFromURL();
   }).catch(error => {
     facets.value = {};
@@ -263,7 +271,8 @@ watch(() => currentRoute.query, (newParams, oldParams) => {
 });
 
 const rssReq = computed(() => {
-  return '/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(request.value)) + getFacetsRequest()
+  refresh;
+  return '/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(request.value)) + getFacetsRequest();
 })
 
 </script>
