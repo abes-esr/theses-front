@@ -123,7 +123,7 @@ onMounted(async () => {
 
     useHead({
       link: [
-        { rel: 'alternate', type: 'application/rss+xml', href: rssReq }
+        { hid: 'rss', rel: 'alternate', type: 'application/rss+xml', href: rssReq }
       ]
     });
   });
