@@ -62,16 +62,15 @@
       <CommonExportButton :nnt="nnt" />
       <!--        Export-->
 <!--      Signaler une erreur-->
-      <NuxtLink class="nuxt-link" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
-        <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
+      <v-btn :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank"
+      flat append-icon="mdi-alert-circle" class="nuxt-link"  variant="outlined">
           <template v-slot:append-icon>
             <v-icon>
               mdi-alert
             </v-icon>
           </template>
           <p>{{ $t("theseView.alert") }}</p>
-        </v-btn>
-      </NuxtLink>
+      </v-btn>
 <!--      Signaler une erreur-->
     </div>
 <!--    Fin Mobile-->

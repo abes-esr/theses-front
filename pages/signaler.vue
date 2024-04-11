@@ -5,7 +5,7 @@
                         :loading="loading" :show-menu="showMenu"></CommonHeaderMobile>
   </ClientOnly>
   <NuxtLink v-if="!mobile" class="logo logo_home" :to="{ name: 'index', query: { domaine: 'theses' } }">
-    <img alt="Accueil de theses.fr" id="logoIMG" src="/icone-theses-beta.svg" />
+    <img :alt="$t('homepage')" id="logoIMG" src="/icone-theses-beta.svg" />
   </NuxtLink>
   <div class="signaler-erreur-container">
     <h1 class="sr-only">Formulaire de signalement d'erreur</h1>

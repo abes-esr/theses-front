@@ -1,11 +1,11 @@
 <template>
     <div v-if="mobile" class="logo-menu-wrapper">
         <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site" class="logo logo_home">
-            <img alt="logo Theses" id="logoIMG" src="@/assets/icone-theses.svg" />
+            <img :alt="$t('homepage')" id="logoIMG" src="@/assets/icone-theses.svg" />
         </NuxtLink>
     </div>
     <NuxtLink v-else class="logo logo_home" :to="{ path: '/', query: { domaine: 'theses' } }">
-        <img alt="Logo du site theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
+        <img :alt="$t('homepage')" id="logoIMG" src="@/assets/icone-theses.svg" />
     </NuxtLink>
     <article>
         <a href="https://theses.fr/">Retour à l'accueil</a>

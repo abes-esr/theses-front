@@ -1,33 +1,34 @@
 <template>
-  <nav class="mobile-nav-bar" v-if="isReady">
-    <div class="left-side-buttons">
+  <nav class="mobile-nav-bar" v-if="isReady" role="list">
+    <div class="left-side-buttons" role="group">
       <!--    Bouton menu burger -->
-      <div class="buttons">
+      <div class="buttons" role="listitem" tabindex="0" :aria-label="$t('menu')">
         <v-icon :title="$t('menu')" @click="activateMenu" size="35px" :class="{ 'logo-active': showMenu }">mdi-menu
         </v-icon>
       </div>
       <v-btn variant="plain" @click="dialog = true" class="buttons language-accessibility-button"
-        :title="$t('access.btn')">
+        :title="$t('access.btn')" role="listitem">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
           :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
       </v-btn>
     </div>
-    <div class="right-side-buttons">
+    <div class="right-side-buttons" role="group">
       <!--    Bouton filtres-->
       <button v-if="type === 'resultats'" @click="activateFilterMenu" color="primary"
-        class="filter-mobile-nav-bar buttons">
+        class="filter-mobile-nav-bar buttons" role="listitem" :aria-label="$t('filtres')">
         <v-icon :title="$t('filtres')" v-bind="props" size="35px">mdi-filter-menu-outline
         </v-icon>
       </button>
       <!-- Bouton accès theses -->
-      <button
+      <button role="listitem" :title="$t('theseView.access')"
         v-if="type === 'these' && theseSoutenue && (categoriesValide.length > 0 || boutonsAutres.length > 0) || (theseSoutenue && status === 'enCours')"
         @click="activateThesisAccess" class="filter-mobile-nav-bar buttons">
+        <span class="sr-only">{{ $t('theseView.access') }}</span>
         <v-icon :title="$t('theseView.access')" v-bind="props" color="primary" size="35px">mdi-book-arrow-down-outline
         </v-icon>
       </button>
       <!--    Bouton menu recherche/selecteur these/personnes-->
-      <div v-if="type !== 'home'" class="buttons">
+      <div v-if="type !== 'home'" class="buttons" role="listitem" :title="$t('rechercher')" tabindex="0">
         <v-icon :title="$t('rechercher')" @click="activateSearchBar" size="35px"
           :class="{ 'logo-active': showSearchBar }">mdi-magnify
         </v-icon>
@@ -38,7 +39,7 @@
   <div class="logo-menu-wrapper">
     <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site"
       class="logo logo_home logo_resultview">
-      <img alt="logo Theses" id="logoIMG" src="/icone-theses-beta.svg" />
+      <img :alt="$t('homepage')" id="logoIMG" src="/icone-theses-beta.svg" />
     </NuxtLink>
     <!-- Menu burger mobile -->
     <v-fade-transition>
@@ -113,10 +114,12 @@
     <v-card>
       <v-card-title>{{ $t("access.params") }}</v-card-title>
       <v-card-text>
-        <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
-        <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
-        <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
-        <!-- <v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>-->
+        <ul class="switch-list">
+          <li><v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
+          <li><v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch></li>
+          <li><v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch></li>
+          <li><v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch></li>
+        </ul>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
@@ -299,6 +302,12 @@ watch(changeContrast, newValue => {
   align-items: center;
 }
 
+.buttons:focus-visible {
+  i, img {
+    border: 2px solid rgb(var(--v-theme-secondary-darken-2));
+  }
+}
+
 .languages-btn-container {
   padding-top: 10px;
   width: 100%;
@@ -336,5 +345,9 @@ watch(changeContrast, newValue => {
 
 :deep(.v-switch__track) {
   background-color: rgb(var(--v-theme-gris-switch));
+}
+
+.switch-list {
+  list-style-type: none;
 }
 </style>
