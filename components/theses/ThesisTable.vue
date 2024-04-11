@@ -4,12 +4,12 @@
       <!-- Auteur -->
       <tr v-if="these.auteurs && these.auteurs.length > 0" class="table-rows">
         <td><strong>{{ $t('theseView.auteur') }}&nbsp;:{{ '\xa0' }}</strong></td>
-        <td>
+        <td role="list">
           <template v-for="(auteur, index) in these.auteurs" :key="auteur.ppn">
-            <nuxt-link v-if="auteur.ppn" class="clickable orange" :to="'/' + auteur.ppn">
+            <nuxt-link v-if="auteur.ppn" class="clickable orange" :to="'/' + auteur.ppn" role="listitem">
               {{ auteur.prenom }} {{ auteur.nom }}
             </nuxt-link>
-            <span v-else>
+            <span v-else role="listitem">
               {{ auteur.prenom }} {{ auteur.nom }}
             </span>
             <span v-if="index < these.auteurs.length - 1">,{{ '\xa0' }}</span>
@@ -19,12 +19,12 @@
       <!-- Direction -->
       <tr v-if="these.directeurs && these.directeurs.length > 0" class="table-rows">
         <td><strong>{{ $t('theseView.direction') }}&nbsp;:{{ '\xa0' }}</strong></td>
-        <td>
+        <td role="list">
           <template v-for="(directeur, index) in these.directeurs" :key="directeur.ppn">
-            <nuxt-link v-if="directeur.ppn" class="clickable lightblue" :to="'/' + directeur.ppn">
+            <nuxt-link v-if="directeur.ppn" class="clickable lightblue" :to="'/' + directeur.ppn" role="listitem">
               {{ directeur.prenom }} {{ directeur.nom }}
             </nuxt-link>
-            <span v-else>
+            <span v-else role="listitem">
               {{ directeur.prenom }} {{ directeur.nom }}
             </span>
             <span v-if="index < these.directeurs.length - 1">,{{ '\xa0' }}</span>
@@ -74,13 +74,13 @@
           <strong><nuxt-link class="clickable lightblue" :to="'/' + these.etabSoutenance.ppn">
             {{ these.etabSoutenance.nom }}
             </nuxt-link></strong>
-          <span v-if="these.etabCotutelle.length > 0">
+          <span v-if="these.etabCotutelle.length > 0" role="list">
             {{ $t('theseView.cotutelle') }}
             <template v-for="(item, index) in these.etabCotutelle" :key="item.ppn"><strong>
-                <nuxt-link v-if="item.ppn" class="clickable lightblue" :to="'/' + item.ppn">
+                <nuxt-link v-if="item.ppn" class="clickable lightblue" :to="'/' + item.ppn" role="listitem">
                   {{ item.nom }}
                 </nuxt-link>
-              <span v-else>
+              <span v-else role="listitem">
                   {{ item.nom }}
               </span>
               </strong>
@@ -92,10 +92,10 @@
       <!-- Ecoles doctorales -->
       <tr v-if="these.ecolesDoctorales && these.ecolesDoctorales.length > 0" class="table-rows">
         <td><strong>{{ $t('theseView.ecoles') }}&nbsp;:{{ '\xa0' }}</strong></td>
-        <td>
+        <td role="list">
           <template v-for="(ecole, index) in these.ecolesDoctorales" :key="ecole.ppn">
             <strong>
-              <nuxt-link v-if="ecole.ppn" class="clickable lightblue" :to="'/' + ecole.ppn">
+              <nuxt-link v-if="ecole.ppn" class="clickable lightblue" :to="'/' + ecole.ppn" role="listitem">
               {{ ecole.nom }}
               </nuxt-link>
               <span v-else>
@@ -112,14 +112,14 @@
         <td>
           <strong>{{ $t('theseView.partenariat') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
-        <td>
+        <td role="list">
           <strong>{{ firstPartenaireKeyName + " : " }}</strong>
           <template v-for="(partenaire, index) in partenairesGroupedByType[firstPartenaireKeyName]">
           <nuxt-link v-if="partenaire.ppn" :key="partenaire.ppn"
-            class="clickable lightblue" :to="'/' + partenaire.ppn">
+            class="clickable lightblue" :to="'/' + partenaire.ppn" role="listitem">
             {{ partenaire.nom }} {{ (index < partenairesGroupedByType[firstPartenaireKeyName].length - 1) ? ' - ' : '' }}
               </nuxt-link>
-            <span v-else>
+            <span v-else role="listitem">
               {{ partenaire.nom }} {{ (index < partenairesGroupedByType[firstPartenaireKeyName].length - 1) ? ' - ' : '' }}
             </span>
           </template>
@@ -133,10 +133,10 @@
             <strong>{{ indexType + " : " }}</strong>
             <template v-for="(partenaire, index) in type">
               <nuxt-link v-if="partenaire.ppn"
-                class="clickable lightblue" :to="'/' + partenaire.ppn">
+                class="clickable lightblue" :to="'/' + partenaire.ppn" role="listitem">
                 {{ partenaire.nom }} {{ (index < partenairesGroupedByType[partenaire.type].length - 1) ? ' - ' : '' }}
                   </nuxt-link>
-              <span v-else>
+              <span v-else role="listitem">
                 {{ partenaire.nom }} {{ (index < partenairesGroupedByType[partenaire.type].length - 1) ? ' - ' : '' }}
               </span>
             </template>
@@ -149,14 +149,14 @@
         <td>
           <strong>{{ $t('theseView.jury') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
-        <td>
+        <td role="list">
           <strong>{{ firstJuryMemberKeyName + " : " }}</strong>
           <template v-for="(member, index) in juryMembersGroupedByType[firstJuryMemberKeyName]">
             <nuxt-link v-if="member.ppn"  :key="member.ppn"
-              class="clickable lightblue" :to="'/' + member.ppn">
+              class="clickable lightblue" :to="'/' + member.ppn" role="listitem">
               {{ member.prenom }} {{ member.nom }}{{ (index < juryMembersGroupedByType[firstJuryMemberKeyName].length - 1)
                 ? ', ' : '' }}</nuxt-link>
-            <span v-else>{{ member.prenom }} {{ member.nom }}{{ (index < juryMembersGroupedByType[firstJuryMemberKeyName].length - 1)
+            <span v-else role="listitem">{{ member.prenom }} {{ member.nom }}{{ (index < juryMembersGroupedByType[firstJuryMemberKeyName].length - 1)
               ? ', ' : '' }}</span>
           </template>
         </td>
@@ -169,10 +169,10 @@
             <strong>{{ indexType + " : " }}</strong>
             <template v-for="(member, index) in type">
               <nuxt-link v-if="member.ppn" class="clickable lightblue"
-                :to="'/' + member.ppn">
+                :to="'/' + member.ppn" role="listitem">
                 {{ member.prenom }} {{ member.nom }}{{ (index < juryMembersGroupedByType[indexType].length - 1) ? ', ' : '' }}
               </nuxt-link>
-              <span v-else>
+              <span v-else role="listitem">
                 {{ member.prenom }} {{ member.nom }}{{ (index < juryMembersGroupedByType[indexType].length - 1) ? ', ' : '' }}
               </span>
             </template>

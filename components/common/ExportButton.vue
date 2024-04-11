@@ -1,12 +1,12 @@
 <template>
   <v-menu location="bottom">
     <template v-slot:activator="{ props }">
-      <v-btn flat append-icon="mdi-upload-box" variant="outlined" v-bind="props">
+      <v-btn flat append-icon="mdi-upload-box" variant="outlined" v-bind="props" role="listitem">
         <p>{{ $t("theseView.exporter") }}</p>
       </v-btn>
     </template>
-    <v-list>
-      <v-list-item
+    <v-list role="list">
+      <v-list-item role="listitem"
         v-for="(exportType, index) in exportTypeList"
         :key="index"
       >

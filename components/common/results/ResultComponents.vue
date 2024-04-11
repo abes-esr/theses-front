@@ -31,7 +31,6 @@
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
 
-
     <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray"
       @reinitializePageNumber="reinitializePageNumber" />
     <div v-if="mobile || dataReady" class="colonnes-resultats">
@@ -60,7 +59,7 @@
 
 <script setup>
 import { useDisplay } from "vuetify";
-import { ref, watch, onMounted, computed } from "vue";
+import { ref, watch } from "vue";
 
 
 const currentRoute = useRoute();
@@ -101,14 +100,6 @@ const props = defineProps({
 
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
-
-
-//Ajout du flux rss dans le head de la page, pour l'auto discovery des flux rss
-onMounted(() => {
-
-})
-
-
 
 /**
  * Fonctions

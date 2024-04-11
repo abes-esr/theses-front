@@ -520,6 +520,6 @@ a:hover,
 a:active {
   color: inherit;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
 }
 </style>
