@@ -15,7 +15,7 @@
         <p>{{ $t("theseView.retour") }}</p>
       </v-btn>
       <span v-else></span>
-      <div class="no-wrap-text" role="group">
+      <div class="no-wrap-text" role="presentation">
 <!--        Export-->
         <CommonExportButton :nnt="nnt" v-if="these" />
 <!--        Fin export-->

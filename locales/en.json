@@ -41,6 +41,8 @@
 "resultatsView": {
 "plusDeResultats": "More results"
 },
+"filtres": "Search filters.",
+"parcourirFiltres": "Browse search filters.",
 "resultCard": {
 "par": "By",
 "dir": "under the supervision of",

@@ -1,6 +1,6 @@
 <template>
   <nav class="mobile-nav-bar" v-if="isReady" role="list">
-    <div class="left-side-buttons" role="group">
+    <div class="left-side-buttons" role="presentation">
       <!--    Bouton menu burger -->
       <div class="buttons" role="listitem" tabindex="0" :aria-label="$t('menu')">
         <v-icon :title="$t('menu')" @click="activateMenu" size="35px" :class="{ 'logo-active': showMenu }">mdi-menu
@@ -12,10 +12,11 @@
           :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
       </v-btn>
     </div>
-    <div class="right-side-buttons" role="group">
+    <div class="right-side-buttons" role="presentation">
       <!--    Bouton filtres-->
       <button v-if="type === 'resultats'" @click="activateFilterMenu" color="primary"
-        class="filter-mobile-nav-bar buttons" role="listitem" :aria-label="$t('filtres')">
+      class="filter-mobile-nav-bar buttons" role="listitem" :title="$t('filtres')">
+        <span class="sr-only">{{ $t('parcourirFiltres') }}</span>
         <v-icon :title="$t('filtres')" v-bind="props" size="35px">mdi-filter-menu-outline
         </v-icon>
       </button>
@@ -43,7 +44,7 @@
     </NuxtLink>
     <!-- Menu burger mobile -->
     <v-fade-transition>
-      <div v-show="showMenu" class="expanded-search-bar-container white-containers">
+      <div v-show="showMenu" class="expanded-search-bar-container white-containers" role="list">
 
         <div class="languages-btn-container">
           <!--
@@ -78,7 +79,7 @@
               </a>
             </div>
             -->
-            <div class="menu-text-element">
+            <div class="menu-text-element" role="listitem">
               <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'>
                 <v-btn :title='$t("header.assistance")' size="large" variant="text" icon>
                   <img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
@@ -87,7 +88,7 @@
                 <span>{{ $t('assistance') }}</span>
               </a>
             </div>
-            <div class="menu-text-element">
+            <div class="menu-text-element" role="listitem">
               <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")'
                 target="_blank"><v-btn :title='$t("header.doc")' size="large" variant="text" icon>
                   <img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
