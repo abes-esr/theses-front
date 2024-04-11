@@ -5,8 +5,8 @@
         <p>{{ $t("theseView.exporter") }}</p>
       </v-btn>
     </template>
-    <v-list>
-      <v-list-item
+    <v-list role="list">
+      <v-list-item role="listitem"
         v-for="(exportType, index) in exportTypeList"
         :key="index"
       >
