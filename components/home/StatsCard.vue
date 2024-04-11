@@ -108,6 +108,7 @@ defineProps({
 }
 
 .personne-icon {
+    top: -25px;
     padding-left: unset !important;
 }
 </style>

@@ -8,7 +8,8 @@
       </div>
       <v-btn variant="plain" @click="dialog = true" class="buttons language-accessibility-button"
         :title="$t('access.btn')">
-        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel" :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
+        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
+          :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
       </v-btn>
     </div>
     <div class="right-side-buttons">
@@ -27,7 +28,8 @@
       </button>
       <!--    Bouton menu recherche/selecteur these/personnes-->
       <div v-if="type !== 'home'" class="buttons">
-        <v-icon :title="$t('rechercher')" @click="activateSearchBar" size="35px" :class="{ 'logo-active': showSearchBar }">mdi-magnify
+        <v-icon :title="$t('rechercher')" @click="activateSearchBar" size="35px"
+          :class="{ 'logo-active': showSearchBar }">mdi-magnify
         </v-icon>
       </div>
     </div>
@@ -76,11 +78,10 @@
             </div>
             -->
             <div class="menu-text-element">
-              <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
-                :alt='$t("header.assistance")'>
+              <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'>
                 <v-btn :title='$t("header.assistance")' size="large" variant="text" icon>
                   <img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
-                       :src="'/icone-assistance-' + colorMode + '.svg'" />
+                    :src="'/icone-assistance-' + colorMode + '.svg'" />
                 </v-btn>
                 <span>{{ $t('assistance') }}</span>
               </a>
@@ -88,8 +89,8 @@
             <div class="menu-text-element">
               <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")'
                 target="_blank"><v-btn :title='$t("header.doc")' size="large" variant="text" icon>
-                <img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
-                     :src="'/icone-documentation-' + colorMode + '.svg'" />
+                  <img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
+                    :src="'/icone-documentation-' + colorMode + '.svg'" />
                 </v-btn>
                 <span>{{ $t('documentation') }}</span>
               </a>
@@ -115,7 +116,7 @@
         <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
         <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
         <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
-        <v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>
+        <!-- <v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>-->
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>

@@ -16,7 +16,8 @@
           <div role="group" class="colonne1">
             <div role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank"
+              <span><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/"
+                  target="_blank"
                   title="Accéder sur le site data.gouv.fr à l’extraction complète des données disponibles sur theses.fr et relatives aux thèses soutenues">
                   {{ $t("footer.opendata") }}</a></span>
             </div>
@@ -24,14 +25,14 @@
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://www.idref.fr/" target="_blank"
                   title="Accéder à IdRef, la base des identifiants et des référentiels utilisés pour l’enseignement supérieur et la recherche">{{
-                    $t("footer.idRref")
-                  }}</a></span>
+          $t("footer.idRref")
+        }}</a></span>
             </div>
             <div role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank"
                   title="Accéder à la documentation de theses.fr">{{
-                    $t("footer.doc") }}</a></span>
+          $t("footer.doc") }}</a></span>
             </div>
           </div>
           <div role="group" class="colonne2">
