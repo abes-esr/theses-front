@@ -62,7 +62,7 @@
       <div class="logos-container footer-content" role="list">
         <a role="listitem" href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
           <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' class="pr-4 "></a>
-        <a role="listitem" href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
+        <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
           <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")'></a>
       </div>
     </div>
@@ -72,25 +72,25 @@
           {{ new Date().getFullYear() }} —
           theses.fr, le moteur de recherche des thèses françaises
         </div>
-        <div role="list" class="text-center text-md-right pa-0">
+        <div class="text-center text-md-right pa-0">
           <v-divider vertical class="my-1"></v-divider>
-          <v-btn role="listitem" flat plain color="transparent" size="small" target="_blank"
+          <v-btn flat plain color="transparent" size="small" target="_blank"
             href="https://abes.fr/pages-donnees-personnelles/thesesfr.html"
             title="Accéder sur le site de l’Abes aux informations relatives au traitement, par theses.fr, des données personnelles">
             {{ $t("donnees") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-          <v-btn role="listitem" flat color="transparent" size="small" target="_blank"
+          <v-btn flat color="transparent" size="small" target="_blank"
             href="https://abes.fr/pages-cgu/conditions-generales-utilisation-sites-abes.html"
             title="Accéder sur le site de l’Abes aux Conditions Générales d’Utilisation du site theses.fr">{{ $t("CGU") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-          <v-btn role="listitem" flat color="transparent" size="small" href="https://abes.fr/pages-mentions-legales/theses.html"
+          <v-btn flat color="transparent" size="small" href="https://abes.fr/pages-mentions-legales/theses.html"
             target="_blank" title="Accéder sur le site de l’Abes aux mentions légales de theses.fr">
             {{ $t("mentions") }}
           </v-btn>
           <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-          <v-btn role="listitem" flat color="transparent" size="small" target="_blank" href="https://abes.fr/pages-accessibilite/theses.html"
+          <v-btn flat color="transparent" size="small" target="_blank" href="https://abes.fr/pages-accessibilite/theses.html"
             title="Accéder sur le site de l’Abes aux informations relatives à l’accessibilité numérique du site theses.fr">
             {{ $t("accessibilite") }}
           </v-btn>
