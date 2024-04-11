@@ -60,7 +60,7 @@
 
 <script setup>
 import { useDisplay } from "vuetify";
-import { ref, watch, onMounted } from "vue";
+import { ref, watch } from "vue";
 
 
 const currentRoute = useRoute();
@@ -103,7 +103,6 @@ const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.qu
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
 
 //Ajout du flux rss dans le head de la page, pour l'auto discovery des flux rss
-console.log(encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest())
 useHead({
   link: [
     { rel: 'alternate', type: 'application/rss+xml', href: window.location.hostname + '/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest() }
