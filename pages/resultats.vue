@@ -116,7 +116,7 @@ onMounted(async () => {
       ogTitle: () => `Résultats pour ${request.value} | Theses.fr`,
       description: () => `Résultats pour ${request.value} | Theses.fr`,
       ogDescription: () => `Résultats pour ${request.value} | Theses.fr`,
-      ogImage: "https://beta.theses.fr/logo-theses-beta.png",
+      ogImage: "https://theses.fr/logo-theses-beta.png",
       ogImageAlt: "Logo Theses.fr",
       twitterCard: "summary"
     });

@@ -7,19 +7,20 @@
     <div class="thesis-info-access-wrapper">
       <ThesesThesisTitle :status="these.status" :titles="these.titres" />
       <!-- Bare latérale Desktop -->
-      <div v-if="!mobile && ((categoriesValide.length > 0 || boutonsAutres.length > 0) || (soutenue && these.status === 'enCours'))" class="access-buttons">
+      <div
+        v-if="!mobile && ((categoriesValide.length > 0 || boutonsAutres.length > 0) || (soutenue && these.status === 'enCours'))"
+        class="access-buttons">
         <!-- Menu boutons-liens desktop-->
-        <ThesesButtonsList :categories-valide="categoriesValide" :status="these.status"
-          :source="these.source" :boutons-autres="boutonsAutres" :soutenue="soutenue"
-          :date-soutenance="these.dateSoutenance">
+        <ThesesButtonsList :categories-valide="categoriesValide" :status="these.status" :source="these.source"
+          :boutons-autres="boutonsAutres" :soutenue="soutenue" :date-soutenance="these.dateSoutenance">
         </ThesesButtonsList>
       </div>
 
       <div class="thesis-info-wrapper">
         <ThesesThesisTable class="thesis-component" :these="these" />
         <v-divider v-if="keywordsAreSet" :thickness="1" class="divider border-opacity-50" length="90%" />
-        <CommonKeywords v-if="keywordsAreSet" class="thesis-component" :keywords-are-set="keywordsAreSet" :these="these" type="theses"
-          :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
+        <CommonKeywords v-if="keywordsAreSet" class="thesis-component" :keywords-are-set="keywordsAreSet" :these="these"
+          type="theses" :selected-language="selectedLanguage" @changeLanguage="changeLanguage" />
         <v-divider v-if="resumeIsSet" :thickness="1" class="divider border-opacity-50" length="90%" />
         <ThesesThesisResume v-if="resumeIsSet" class="thesis-component" :resume-is-set="resumeIsSet" :these="these"
           :selected-language="selectedLanguage" />
@@ -93,7 +94,7 @@ watchEffect(() => {
     ogTitle: () => `${titleThese} | Theses.fr`,
     description: () => props.these.resumes.fr,
     ogDescription: () => props.these.resumes.fr,
-    ogImage: "https://beta.theses.fr/logo-theses-beta.png",
+    ogImage: "https://theses.fr/logo-theses-beta.png",
     ogImageAlt: 'Logo Theses.fr',
     twitterCard: 'summary',
     ogType: 'website',
