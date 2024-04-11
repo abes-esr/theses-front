@@ -126,7 +126,8 @@
     "searching": "Recherche...",
     "chips": {
       "from": "à partir de",
-      "to": "jusqu'à"
+      "to": "jusqu'à",
+      "suppress": "Supprimer le filtre : "
     },
     "drawer": {
       "from": "de",

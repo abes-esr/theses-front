@@ -102,7 +102,8 @@
 "searching": "Searching...",
 "chips": {
 "from": "from",
-"to": "to"
+  "to": "to",
+  "suppress": "Suppress search filter : "
 },
 "drawer": {
 "from": "from",

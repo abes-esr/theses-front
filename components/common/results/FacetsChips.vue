@@ -1,16 +1,19 @@
 <template>
   <div class="chips-list" role="list">
-    <v-chip role="listitem" v-for="facet in selectedFacetsArray" :key="`facet-chip-${facet.label}`" label closable variant="outlined" size="small"
-      @click:close="deleteFilter(facet)">
-      <label v-if="facet.facetName === 'datedebut'" :title="$t('results.chips.from') + ' ' + facet.label"
+    <v-chip role="listitem" tabindex="0" v-for="facet in selectedFacetsArray" :key="`facet-chip-${facet.label}`" label append-icon="mdi-close-circle" variant="outlined" size="small"
+      @click="deleteFilter(facet)">
+      <label :id="'facet-chip-' + facet.label" v-if="facet.facetName === 'datedebut'" :title="$t('results.chips.from') + ' ' + facet.label"
         class="chip-label">
+        <p class="sr-only">{{ $t('results.chips.suppress') }}</p>
         {{ $t("results.chips.from") }} {{ facet.label }}
       </label>
-      <label v-else-if="facet.facetName === 'datefin'" :title="$t('results.chips.to') + ' ' + facet.label"
+      <label :id="'facet-chip-' + facet.label" v-else-if="facet.facetName === 'datefin'" :title="$t('results.chips.suppress') + $t('results.chips.to') + ' ' + facet.label"
         class="chip-label">
+        <p class="sr-only">{{ $t('results.chips.suppress') }}</p>
         {{ $t("results.chips.to") }} {{ facet.label }}
       </label>
-      <label v-else :title="facet.label" class="chip-label">
+      <label v-else :id="'facet-chip-' + facet.label" class="chip-label" :title="$t('results.chips.suppress') + facet.label">
+        <p class="sr-only">{{ $t('results.chips.suppress') }}</p>
         {{ facet.label }}
       </label>
     </v-chip>
