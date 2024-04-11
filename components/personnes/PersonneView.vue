@@ -50,7 +50,8 @@
             </h1>
             <a v-if="item.has_idref" class="idref-logo" :href="`https://www.idref.fr/${item.id}`" target="_blank"
               title="Accéder à IdRef, le référentiel des personnes et des structures">
-              <img alt="Accéder à la page IdRef correspondante" id="logoIdref" :src="'/idref-icone-' +  colorMode + '.svg'" />
+              <img alt="Accéder à la page IdRef correspondante" id="logoIdref"
+                :src="'/idref-icone-' + colorMode + '.svg'" />
               <span>IdRef</span>
             </a>
           </div>
@@ -147,7 +148,7 @@ getPersonne(props.id).then(result => {
     ogTitle: () => `${item.value.prenom} ${item.value.nom} | Theses.fr`,
     description: () => t("meta.descPersonne") + item.value.prenom + " " + item.value.nom,
     ogDescription: () => t("meta.descPersonne") + item.value.prenom + " " + item.value.nom,
-    ogImage: "https://beta.theses.fr/logo-theses-beta.png",
+    ogImage: "https://theses.fr/logo-theses-beta.png",
     ogImageAlt: 'Logo Theses.fr',
     twitterCard: 'summary',
     ogType: 'website',

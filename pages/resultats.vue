@@ -9,11 +9,11 @@
   <!--    Menu filtres  -->
   <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
     :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
-    <CommonResultsFacetsHeader @close-overlay="closeOverlay" @reinitialize-all-facets="reinitializeAllFacets"
-    ></CommonResultsFacetsHeader>
+    <CommonResultsFacetsHeader @close-overlay="closeOverlay" @reinitialize-all-facets="reinitializeAllFacets">
+    </CommonResultsFacetsHeader>
     <CommonResultsFacetsList @reinitialize-page-number="reinitializePageNumber" :reset-text-fields="resetTextFields"
-      :loading="!dataFacetsReady" @close-overlay="closeOverlay" :facets="facets" :selected-facets-array="selectedFacetsArray" :domaine="domainNameChange"
-      class="left-side">
+      :loading="!dataFacetsReady" @close-overlay="closeOverlay" :facets="facets"
+      :selected-facets-array="selectedFacetsArray" :domaine="domainNameChange" class="left-side">
     </CommonResultsFacetsList>
   </v-dialog>
   <!--  Fin Mobile-->
@@ -28,29 +28,26 @@
       </div>
       <div class="sub_header__action">
         <CommonDomainSelector></CommonDomainSelector>
-        <GenericSearchBar :loading="loading"
-          @on-error="displayError" @reinitialize-page-number="reinitializePageNumber" />
+        <GenericSearchBar :loading="loading" @on-error="displayError"
+          @reinitialize-page-number="reinitializePageNumber" />
       </div>
     </div>
   </div>
 
   <div class="result-main-wrapper">
     <div v-if="!mobile" class="nav-bar">
-      <CommonResultsFacetsHeader @reinitialize-page-number="reinitializePageNumber" @reinitialize-all-facets="reinitializeAllFacets">
+      <CommonResultsFacetsHeader @reinitialize-page-number="reinitializePageNumber"
+        @reinitialize-all-facets="reinitializeAllFacets">
       </CommonResultsFacetsHeader>
-      <CommonResultsFacetsList @reinitialize-page-number="reinitializePageNumber"
-        :reset-text-fields="resetTextFields"
-        :facets="facets"  :selected-facets-array="selectedFacetsArray"
-        :domaine="domainNameChange"
-        :loading="!dataFacetsReady"
-        class="left-side"></CommonResultsFacetsList>
+      <CommonResultsFacetsList @reinitialize-page-number="reinitializePageNumber" :reset-text-fields="resetTextFields"
+        :facets="facets" :selected-facets-array="selectedFacetsArray" :domaine="domainNameChange"
+        :loading="!dataFacetsReady" class="left-side"></CommonResultsFacetsList>
     </div>
     <!--    Mobile & desktop-->
     <div class="result-components white-containers">
       <CommonResultsResultComponents :data-ready="dataReady" :result="result" :loading="loading" :nb-result="nbResult"
-        :persistentQuery="request" :reset-page="resetPage"
-        :domain-name-change="domainNameChange" :selected-facets-array="selectedFacetsArray"
-        @reinitialize-page-number="reinitializePageNumber">
+        :persistentQuery="request" :reset-page="resetPage" :domain-name-change="domainNameChange"
+        :selected-facets-array="selectedFacetsArray" @reinitialize-page-number="reinitializePageNumber">
       </CommonResultsResultComponents>
     </div>
     <CommonScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
@@ -58,8 +55,9 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent, onMounted, ref, watch } from "vue";
+import { defineAsyncComponent, onMounted, onUnmounted, ref, watch, computed } from "vue";
 import { useDisplay } from 'vuetify';
+import { replaceAndEscape } from "../services/Common";
 const { mobile } = useDisplay();
 
 const {
@@ -67,6 +65,7 @@ const {
   getQuery,
   queryAPI,
   getFacets,
+  getFacetsRequest,
   getFacetsArrayFromURL,
   setDomaine,
   setPageNumber,
@@ -95,13 +94,14 @@ const domainNameChange = ref(currentRoute.query.domaine);
 const dialogVisible = ref(false);
 const showMenu = ref(false);
 const showSearchBar = ref(false);
+let refresh = 0;
 
 //Titre statique
 definePageMeta({
   title: 'Résultats | Theses.fr'
 })
 
-
+let pageHead = null;
 onMounted(async () => {
   fetchCodeLangues();
 
@@ -117,12 +117,24 @@ onMounted(async () => {
       ogTitle: () => `Résultats pour ${request.value} | Theses.fr`,
       description: () => `Résultats pour ${request.value} | Theses.fr`,
       ogDescription: () => `Résultats pour ${request.value} | Theses.fr`,
-      ogImage: "https://beta.theses.fr/logo-theses-beta.png",
+      ogImage: "https://theses.fr/logo-theses-beta.png",
       ogImageAlt: "Logo Theses.fr",
       twitterCard: "summary"
     });
+
+    pageHead = useHead({
+      link: [
+        { hid: 'rss', rel: 'alternate', type: 'application/rss+xml', href: rssReq }
+      ]
+    });
+
+
   });
 });
+
+onUnmounted(() => {
+  pageHead.dispose();
+})
 
 /**
  * Fonctions
@@ -166,10 +178,11 @@ function closeOverlay() {
 }
 
 function updateFacets() {
+  refresh++;
   getFacets().then(response => {
     facets.value = response;
     dataFacetsReady.value = true;
-  }).then(response => {
+  }).then(() => {
     selectedFacetsArray.value = getFacetsArrayFromURL();
   }).catch(error => {
     facets.value = {};
@@ -244,18 +257,23 @@ watch(() => currentRoute.query.domaine, () => {
 });
 
 watch(() => currentRoute.query, (newParams, oldParams) => {
-    if (newParams.q !== oldParams.q || newParams.filtres !== oldParams.filtres) {
-      selectedFacetsArray.value = getFacetsArrayFromURL();
-      search(true);
-    } else if (newParams.page !== oldParams.page || newParams.nb !== oldParams.nb || newParams.tri !== oldParams.tri) {
-      search(false);
-    } else if(newParams.domaine !== oldParams.domaine) {
-      reinitializeEverything();
-      search(true);
-    } else {
-      search(true);
-    }
+  if (newParams.q !== oldParams.q || newParams.filtres !== oldParams.filtres) {
+    selectedFacetsArray.value = getFacetsArrayFromURL();
+    search(true);
+  } else if (newParams.page !== oldParams.page || newParams.nb !== oldParams.nb || newParams.tri !== oldParams.tri) {
+    search(false);
+  } else if (newParams.domaine !== oldParams.domaine) {
+    reinitializeEverything();
+    search(true);
+  } else {
+    search(true);
+  }
 });
+
+const rssReq = computed(() => {
+  refresh;
+  return '/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(request.value)) + getFacetsRequest();
+})
 
 </script>
 

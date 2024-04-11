@@ -29,9 +29,9 @@
 
     <div class="main-wrapper">
         <div class="result-components white-containers">
-          <div class="toolbar-container">
-            <CommonToolbar organisme />
-           </div>
+            <div class="toolbar-container">
+                <CommonToolbar organisme />
+            </div>
             <!--   Skeletton-->
             <div v-if="!dataReady" class="skeleton-wrapper">
                 <v-skeleton-loader type="list-item-avatar-two-line" class="skeleton"></v-skeleton-loader>
@@ -50,15 +50,16 @@
                         <a :href="`https://www.idref.fr/${props.id}`" class="idref-logo" target="_blank"
                             alt="Accéder à IdRef, le référentiel des personnes et des structures"
                             title="Accéder à IdRef, le référentiel des personnes et des structures">
-                            <img alt="Accéder à la page IdRef correspondante" id="logoIdref" :src="'/idref-icone-' + colorMode + '.svg'" />
-                          <span>IdRef</span>
+                            <img alt="Accéder à la page IdRef correspondante" id="logoIdref"
+                                :src="'/idref-icone-' + colorMode + '.svg'" />
+                            <span>IdRef</span>
                         </a>
                     </div>
                 </div>
                 <!--        Tiroirs thèses-->
                 <div class="theses">
                     <v-expansion-panels multiple class="role-expansion-panel-wrapper">
-                      <h2 class="sr-only">{{ $t('institutionList') }}</h2>
+                        <h2 class="sr-only">{{ $t('institutionList') }}</h2>
                         <template
                             v-for="key in ['etabSoutenance', 'etabSoutenanceEnCours', 'partenaireRecherche', 'partenaireRechercheEnCours', 'etabCotutelle', 'etabCotutelleEnCours', 'ecoleDoctorale', 'ecoleDoctoraleEnCours']"
                             :key="key">
@@ -66,7 +67,8 @@
                                 <v-expansion-panel>
                                     <v-expansion-panel-title>
                                         <template v-slot:actions="{ expanded }">
-                                            <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
+                                            <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                                                size="x-large">
                                             </v-icon>
                                         </template>
                                         <h3>
@@ -89,7 +91,7 @@
                                         </div>
                                         <div v-if="item['totalHits' + key] > 100" class="loadMoreButton"><v-btn
                                                 variant=outlined size="x-large" @click="voirPlus(key, props.id)">{{
-                                                    $t("organismeView.voirPlus") }}</v-btn></div>
+            $t("organismeView.voirPlus") }}</v-btn></div>
 
                                     </v-expansion-panel-text>
                                 </v-expansion-panel>
@@ -153,7 +155,7 @@ getName(props.id).then(result => {
         ogTitle: () => `${name.value} | Theses.fr`,
         description: () => t("meta.descPersonne") + name.value,
         ogDescription: () => t("meta.descPersonne") + name.value,
-        ogImage: "https://beta.theses.fr/logo-theses-beta.png",
+        ogImage: "https://theses.fr/logo-theses-beta.png",
         ogImageAlt: 'Logo Theses.fr',
         twitterCard: 'summary',
         ogType: 'website',
@@ -267,8 +269,8 @@ function sleep(ms) {
         grid-column-start: 2;
         padding: 0 2em;
 
-      display: flex;
-      flex-direction: column;
+        display: flex;
+        flex-direction: column;
 
         @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
             width: 100%;

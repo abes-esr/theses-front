@@ -14,9 +14,10 @@
                 <h1 class="text-center">{{ $t("slogan") }}</h1>
             </div>
             <CommonDomainSelector></CommonDomainSelector>
-            <GenericSearchBar @search="loading = true" :white-container="true" :loading="loading" @onError="displayError" />
+            <GenericSearchBar @search="loading = true" :white-container="true" :loading="loading"
+                @onError="displayError" />
             <div class="stats">
-              <h1 class="sr-only">{{ $t('exploreByType') }}</h1>
+                <h1 class="sr-only">{{ $t('exploreByType') }}</h1>
                 <HomeStatsCard :titre=nbTheses :description="$t('referencés')" icon="soutenue"
                     info="Afficher toutes les thèses soutenues"
                     url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">
@@ -58,7 +59,7 @@ useSeoMeta({
     ogTitle: () => `Theses.fr`,
     description: () => `Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation.`,
     ogDescription: () => `Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation.`,
-    ogImage: "https://beta.theses.fr/logo-theses-beta.png",
+    ogImage: "https://theses.fr/logo-theses-beta.png",
     ogImageAlt: "Logo Theses.fr"
 });
 
