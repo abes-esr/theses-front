@@ -50,7 +50,6 @@
         :selected-facets-array="selectedFacetsArray" @reinitialize-page-number="reinitializePageNumber">
       </CommonResultsResultComponents>
     </div>
-    <CommonScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
   </div>
 </template>
 

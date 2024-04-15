@@ -25,11 +25,6 @@
         <ThesesThesisResume v-if="resumeIsSet" class="thesis-component" :resume-is-set="resumeIsSet" :these="these"
           :selected-language="selectedLanguage" />
       </div>
-      <ClientOnly>
-        <div class="scroll-to-top-container">
-          <LazyCommonScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1 />
-        </div>
-      </ClientOnly>
     </div>
     <div v-if="mobile" class="toolbar-container">
       <CommonToolbar these :source="these.source" :nnt="props.nnt"
