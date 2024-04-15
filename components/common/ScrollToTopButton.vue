@@ -13,13 +13,6 @@
 import { scrollToTop } from "../../services/Common";
 import { onMounted } from "vue";
 
-defineProps({
-  nbResult: {
-    type: Number,
-    default: 0
-  }
-});
-
 onMounted(() => {
 
   document.addEventListener("scroll", handleScroll);
