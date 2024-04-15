@@ -362,7 +362,6 @@ function sleep(ms) {
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       width: 100%;
-      margin-top: -20px;
       padding: 0 0.5em;
     }
 

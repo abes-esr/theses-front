@@ -185,37 +185,4 @@ watchEffect(() => {
 .divider {
   margin: 10px auto 15px;
 }
-
-.scroll-to-top-container {
-  position: absolute;
-  left: 95.5%;
-  top: 30%;
-  width: 5%;
-  bottom: 300px;
-
-  @media #{ map-get(settings.$display-breakpoints, 'xl-and-up')} {
-    left: 96%;
-  }
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    left: 95%;
-    bottom: 730px;
-  }
-
-  @media #{ map-get(settings.$display-breakpoints, 'xs')} {
-    left: 90%;
-    bottom: 800px;
-  }
-}
-
-.scroll-to-top-wrapper {
-  margin-left: 25px;
-  margin-bottom: 0;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    margin: 0 0;
-    height: 60px;
-    top: 90vh !important;
-  }
-}
 </style>

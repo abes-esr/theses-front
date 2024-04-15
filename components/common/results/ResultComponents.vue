@@ -259,6 +259,6 @@ watch(() => props.resetPage, () => {
 
 .more-result-button {
   position: relative;
-  top: 80px;
+  bottom: -5em;
 }
 </style>

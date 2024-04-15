@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll-to-top-button-component" id="scrollToTopBtn" v-if="nbResult">
+  <div class="scroll-to-top-button-component" id="scrollToTopBtn">
     <button class="scroll-to-top-button" @click="scrollToTop" :title='$t("top")'>
       <div>
         <div class="circle"></div>

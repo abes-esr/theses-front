@@ -323,6 +323,7 @@ const rssReq = computed(() => {
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       grid-column-start: 1;
+      margin-bottom: 5em;
     }
   }
 }
