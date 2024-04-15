@@ -101,9 +101,6 @@
                 </div>
             </div>
         </div>
-        <ClientOnly>
-            <CommonScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1></CommonScrollToTopButton>
-        </ClientOnly>
     </div>
 </template>
 
