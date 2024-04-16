@@ -1,40 +1,43 @@
 <template>
   <v-app-bar flat id="appBar" v-if="!mobile && isReady">
-    <div class="text-center text-md-left language-accessibility-toolbar">
-      <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')">
-        <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
-          :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
-      </v-btn>
-      <div class="languages-btn">
-        <!-- selecteur de langues désactivé
-        <v-btn flat @click="setLanguage('fr')" title="Langue française"
-          :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
-        |
-        <v-btn flat @click="setLanguage('en')" title="English Language"
-          :class="locale === 'en' ? 'selected' : ''">EN</v-btn>
-        |
-        <v-btn flat @click="setLanguage('es')" title="English Language"
-          :class="locale === 'es' ? 'selected' : ''">ES</v-btn>
-          -->
+    <div class="toolbar-wrapper" role="list">
+      <div class="text-center text-md-left language-accessibility-toolbar" role="presentation">
+        <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')" role="listitem">
+          <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
+            :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
+        </v-btn>
+  <!--     Quand actif ajouter role="listitem" -->
+        <div class="languages-btn">
+          <!-- selecteur de langues désactivé
+          <v-btn flat @click="setLanguage('fr')" title="Langue française"
+            :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
+          |
+          <v-btn flat @click="setLanguage('en')" title="English Language"
+            :class="locale === 'en' ? 'selected' : ''">EN</v-btn>
+          |
+          <v-btn flat @click="setLanguage('es')" title="English Language"
+            :class="locale === 'es' ? 'selected' : ''">ES</v-btn>
+            -->
+        </div>
       </div>
-    </div>
-    <div class="text-center text-md-right">
-      <!--<v-btn tabindex="-1" title="Réseau" size="x-large" icon>
-        <div class="icons"><icons-icon-reseau></icons-icon-reseau></div>
-      </v-btn>
-      <v-btn tabindex="-1" title="Flux RSS" size="x-large" icon>
-        <div class="icons"><icons-icon-rss></icons-icon-rss></div>
-      </v-btn>-->
-      <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
-          tabindex="-1" :title='$t("header.assistance")' size="large" icon>
-          <div class="icons"><img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
-              :src="'/icone-assistance-' + colorMode + '.svg'" /></div>
-        </v-btn></a>
-      <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
-          tabindex="-1" :title='$t("header.doc")' size="large" icon>
-          <div class="icons"><img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
-              :src="'/icone-documentation-' + colorMode + '.svg'" /></div>
-        </v-btn></a>
+      <div class="text-center text-md-right" role="presentation">
+        <!--<v-btn tabindex="-1" title="Réseau" size="x-large" icon>
+          <div class="icons"><icons-icon-reseau></icons-icon-reseau></div>
+        </v-btn>
+        <v-btn tabindex="-1" title="Flux RSS" size="x-large" icon>
+          <div class="icons"><icons-icon-rss></icons-icon-rss></div>
+        </v-btn>-->
+        <a role="listitem" href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
+            tabindex="-1" :title='$t("header.assistance")' size="large" icon>
+            <div class="icons"><img aria-hidden="true" :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
+                :src="'/icone-assistance-' + colorMode + '.svg'" /></div>
+          </v-btn></a>
+        <a role="listitem" href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
+            tabindex="-1" :title='$t("header.doc")' size="large" icon>
+            <div class="icons"><img aria-hidden="true" :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
+                :src="'/icone-documentation-' + colorMode + '.svg'" /></div>
+          </v-btn></a>
+      </div>
     </div>
   </v-app-bar>
 
@@ -42,10 +45,12 @@
     <v-card>
       <v-card-title>{{ $t("access.params") }}</v-card-title>
       <v-card-text>
-        <v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch>
-        <v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch>
-        <v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch>
-        <v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch>
+        <ul class="switch-list">
+          <li><v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
+          <li><v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch></li>
+          <li><v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch></li>
+          <li><v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch></li>
+        </ul>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">{{ $t("access.fermer") }}</v-btn>
@@ -125,6 +130,8 @@ watch(changeContrast, newValue => {
 header {
   position: relative !important;
   height: 120px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
     height: 80px;
@@ -134,11 +141,11 @@ header {
     border-bottom: 2px solid rgb(var(--v-theme-gris-fonce));
   }
 
-  ::v-deep(.v-toolbar__content) {
+  .toolbar-wrapper {
+    width: 100%;
+
     display: grid;
     min-height: 80px;
-    margin-top: 10px;
-    margin-bottom: 10px;
 
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
       display: flex;
@@ -156,7 +163,7 @@ header {
 }
 
 .language-accessibility-toolbar {
-  //display: grid; // dé-commenter si si on active le bouton accessibilité
+  //display: grid; // dé-commenter si on active le bouton accessibilité
   //grid-template-columns: 1fr 20px 3fr;
   margin: 0 30px 0;
 
@@ -215,5 +222,9 @@ header {
 
 :deep(.v-switch__track) {
   background-color: rgb(var(--v-theme-gris-switch));
+}
+
+.switch-list {
+  list-style-type: none;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="domain-selector">
-    <v-btn flat @click="select('theses')" title="Rechercher des thèses">
+  <div class="domain-selector" role="list">
+    <v-btn flat @click="select('theses')" title="Rechercher des thèses" role="listitem">
       <v-icon size="50" color="secondary">mdi-school</v-icon>
       <span class="title">
         <h2 :class="selected === 'theses' ? 'selected' : ''">
@@ -8,8 +8,8 @@
         </h2>
       </span>
     </v-btn>
-    <v-divider vertical></v-divider>
-    <v-btn flat @click="select('personnes')" title="Rechercher des personnes liées aux thèses">
+    <v-divider aria-hidden="true" vertical></v-divider>
+    <v-btn flat @click="select('personnes')" title="Rechercher des personnes liées aux thèses" role="listitem">
       <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
       <span class="title">
         <h2>

@@ -4,8 +4,8 @@
   </ClientOnly>
 
   <ClientOnly>
-    <div v-if="!mobile" class="thesis-toolbar no-wrap-text">
-      <v-btn v-if="isBackAvailable" flat prepend-icon="mdi-arrow-left-circle-outline" variant="outlined"
+    <div v-if="!mobile" class="thesis-toolbar no-wrap-text" role="list">
+      <v-btn v-if="isBackAvailable" flat prepend-icon="mdi-arrow-left-circle-outline" variant="outlined" role="listitem"
         @click="previousPage">
         <template v-slot:prepend-icon>
           <v-icon>
@@ -15,14 +15,14 @@
         <p>{{ $t("theseView.retour") }}</p>
       </v-btn>
       <span v-else></span>
-      <div class="no-wrap-text">
+      <div class="no-wrap-text" role="presentation">
 <!--        Export-->
         <CommonExportButton :nnt="nnt" v-if="these" />
 <!--        Fin export-->
 <!--        Signaler-->
           <v-btn class="nuxt-link" v-if="!organisme && !personne" flat append-icon="mdi-alert-circle" variant="outlined"
                  :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }"
-                 target="_blank">
+                 target="_blank" role="listitem">
             <template v-slot:append-icon>
               <v-icon>
                 mdi-alert
@@ -32,27 +32,27 @@
           </v-btn>
 <!--        Fin signaler-->
         <v-btn v-if="personne" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
-          alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle">
+          alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
           {{ $t("theseView.alert") }}
         </v-btn>
         <v-btn v-if="organisme" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#PageOrganisme"
           alt="Document theses.fr sur les pages d'organisme" target="_blank" variant="outlined" flat
-          append-icon="mdi-alert-circle">
+          append-icon="mdi-alert-circle" role="listitem">
           {{ $t("theseView.alert") }}
         </v-btn>
       </div>
     </div>
 <!--    Mobile-->
-    <div v-else-if="personne" class="thesis-toolbar no-wrap-text">
+    <div v-else-if="personne" class="thesis-toolbar no-wrap-text" role="list">
       <v-btn href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
-             alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle">
+             alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
         {{ $t("theseView.alert") }}
       </v-btn>
     </div>
     <div v-else-if="organisme" class="thesis-toolbar no-wrap-text">
       <v-btn href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#PageOrganisme"
              alt="Document theses.fr sur les pages d'organisme" target="_blank" variant="outlined" flat
-             append-icon="mdi-alert-circle">
+             append-icon="mdi-alert-circle" role="listitem">
         {{ $t("theseView.alert") }}
       </v-btn>
     </div>
@@ -62,16 +62,15 @@
       <CommonExportButton :nnt="nnt" />
       <!--        Export-->
 <!--      Signaler une erreur-->
-      <NuxtLink class="nuxt-link" :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank">
-        <v-btn flat append-icon="mdi-alert-circle" variant="outlined">
+      <v-btn :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank"
+      flat append-icon="mdi-alert-circle" class="nuxt-link"  variant="outlined" role="listitem">
           <template v-slot:append-icon>
             <v-icon>
               mdi-alert
             </v-icon>
           </template>
           <p>{{ $t("theseView.alert") }}</p>
-        </v-btn>
-      </NuxtLink>
+      </v-btn>
 <!--      Signaler une erreur-->
     </div>
 <!--    Fin Mobile-->

@@ -2,6 +2,7 @@
   "errors": {
     "parameters": "Erreur dans le nom du paramètre"
   },
+  "homepage": "Accéder à la page d'accueil.",
   "slogan": "Le moteur de recherche des thèses françaises",
   "slogan2lines": "Le moteur de recherche <br /> des thèses françaises",
   "toutesTheses": "Les thèses",
@@ -38,6 +39,7 @@
   "reseau": "Réseau",
   "rss": "Flux RSS",
   "filtres": "Filtres",
+  "parcourirFiltres": "Parcourir les Filtres.",
   "assistanceAbes": "Guichet d'assistance de l'ABES",
   "motcle": "Mots clés",
   "motCleControle": "Mots clés contrôlés",
@@ -124,7 +126,8 @@
     "searching": "Recherche...",
     "chips": {
       "from": "à partir de",
-      "to": "jusqu'à"
+      "to": "jusqu'à",
+      "suppress": "Supprimer le filtre : "
     },
     "drawer": {
       "from": "de",

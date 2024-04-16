@@ -6,38 +6,46 @@
         <NuxtPage></NuxtPage>
       </v-main>
       <CommonFooterCustom></CommonFooterCustom>
+      <ClientOnly>
+        <CommonScrollToTopButton class="scroll-to-top-wrapper" nb-result="1"></CommonScrollToTopButton>
+      </ClientOnly>
     </v-app>
   </v-theme-provider>
 </template>
 
 <script setup>
-import { watch, onMounted } from 'vue';
-import { useTheme } from "vuetify";
-import { useColorMode } from '@vueuse/core';
+import { watch, onMounted } from "vue";
+import { useDisplay, useTheme } from "vuetify";
+import { useColorMode } from "@vueuse/core";
 
 useHead({
   title: "Theses.fr",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   charset: "utf-8",
-  meta: [{ name: "description", content: "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation." }],
+  meta: [{
+    name: "description",
+    content: "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation."
+  }],
   script: [
     {
       async: true,
       children: ` var _paq = window._paq = window._paq || []; _paq.push(['trackPageView']); _paq.push(['enableLinkTracking']); (function() { var u="https://piwik.abes.fr/"; _paq.push(['setTrackerUrl', u+'matomo.php']); _paq.push(['setSiteId', '5']); var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);})();`
     }
-  ],
+  ]
 });
 
 //Accessibilite
-const opendys = useState('opendys', () => false);
-const interlignes = useState('interlignes', () => false);
-const justification = useState('justification', () => false);
+const opendys = useState("opendys", () => false);
+const interlignes = useState("interlignes", () => false);
+const justification = useState("justification", () => false);
 const theme = useTheme();
 
 const themesNames = ref({
   "light": "abesLightTheme",
   "dark": "abesDarkTheme"
 });
+
+const { mobile } = useDisplay();
 
 const colorMode = useColorMode({
   onChanged(color) {
@@ -46,9 +54,9 @@ const colorMode = useColorMode({
 });
 
 onMounted(() => {
-  opendys.value = getFromLocalStorage('opendys', false);
-  interlignes.value = getFromLocalStorage('interlignes', false);
-  justification.value = getFromLocalStorage('justification', false);
+  opendys.value = getFromLocalStorage("opendys", false);
+  interlignes.value = getFromLocalStorage("interlignes", false);
+  justification.value = getFromLocalStorage("justification", false);
 
   const currentRoute = useRoute();
   const currentQueryParams = { ...currentRoute.query };
@@ -68,15 +76,15 @@ const getFromLocalStorage = (key, defaultValue) => {
  */
 
 watch(opendys, (newValue) => {
-  localStorage.setItem('opendys', JSON.stringify(newValue));
+  localStorage.setItem("opendys", JSON.stringify(newValue));
 });
 
 watch(interlignes, (newValue) => {
-  localStorage.setItem('interlignes', JSON.stringify(newValue));
+  localStorage.setItem("interlignes", JSON.stringify(newValue));
 });
 
 watch(justification, (newValue) => {
-  localStorage.setItem('justification', JSON.stringify(newValue));
+  localStorage.setItem("justification", JSON.stringify(newValue));
 });
 
 </script>
@@ -174,7 +182,7 @@ main {
     grid-template-rows: 33% 33% 33%;
   }
 
-  .logo-menu-wrapper>.expanded-search-bar-container {
+  .logo-menu-wrapper > .expanded-search-bar-container {
     margin-bottom: 40px;
   }
 
@@ -307,17 +315,15 @@ h4 {
 .scroll-to-top-wrapper {
   z-index: 1000;
   position: sticky;
-  top: 90vh;
-  margin-left: 10%;
   width: 30px;
-  height: 30px;
+  height: 60px;
+  top: unset;
+  bottom: 5vh;
+  left: 94vw;
+  margin: -60px;
 
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    margin: 0 0;
-    height: 60px;
-    left: 90vw;
-    top: unset;
-    bottom: 5vh;
+    left: 88vw;
   }
 }
 
@@ -520,6 +526,6 @@ a:hover,
 a:active {
   color: inherit;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
 }
 </style>

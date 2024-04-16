@@ -2,6 +2,7 @@
 "errors": {
 "parameters": "Error in parameter name"
 },
+"homepage": "Go to homepage.",
 "slogan": "The search engine for French thesis",
 "toutesTheses": "Thesis",
 "toutesPersonnes": "People",
@@ -40,6 +41,8 @@
 "resultatsView": {
 "plusDeResultats": "More results"
 },
+"filtres": "Search filters.",
+"parcourirFiltres": "Browse search filters.",
 "resultCard": {
 "par": "By",
 "dir": "under the supervision of",
@@ -99,7 +102,8 @@
 "searching": "Searching...",
 "chips": {
 "from": "from",
-"to": "to"
+  "to": "to",
+  "suppress": "Suppress search filter : "
 },
 "drawer": {
 "from": "from",

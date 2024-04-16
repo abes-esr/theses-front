@@ -20,7 +20,7 @@
             append-inner-icon="mdi-magnify" density="compact" single-line hide-details
             class="facet-search-bar"></v-text-field>
         </div>
-        <div class="panel-text" ref="`facet-${facet.name}`">
+        <div role="list" :aria-label="'Liste des ' + facet.name" class="panel-text" ref="`facet-${facet.name}`">
           <!--          Facette date-->
           <div v-if="date" class="date-container">
             <span class="date-item">
@@ -40,7 +40,7 @@
           </div>
           <!--          Fin Facette date-->
           <!--          Facettes texte-->
-          <div v-else v-for="(facetItem, index) in facetItems" :key="`facet-${facetItem.name}`">
+          <div role="listitem" v-else v-for="(facetItem, index) in facetItems" :key="`facet-${facetItem.name}`">
             <CommonResultsFacetCheckbox v-if="facetItem.selected" :key="`${facet.name}-value-${index}`"
               :selected-facets-array="selectedFacetsArray" :facet-name="facet.name" :facet-item="facetItem"
               @updateFilterData="updateFilterDataFromDrawer" :margin-offset="marginOffset" />

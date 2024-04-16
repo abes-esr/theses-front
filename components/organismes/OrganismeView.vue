@@ -75,8 +75,8 @@
                                             {{ $t("organismeView." + key, [item["totalHits" + key]]) }}
                                         </h3>
                                     </v-expansion-panel-title>
-                                    <v-expansion-panel-text>
-                                        <div v-for="(these, index) in item[key]" :key="these" class="card-wrapper">
+                                    <v-expansion-panel-text role="list">
+                                        <div role="listitem" v-for="(these, index) in item[key]" :key="these" class="card-wrapper">
                                             <v-lazy :options="{ threshold: 1.0 }">
 
                                                 <ThesesResultsResultCard :titre="these.titrePrincipal"
@@ -101,9 +101,6 @@
                 </div>
             </div>
         </div>
-        <ClientOnly>
-            <CommonScrollToTopButton class="scroll-to-top-wrapper" :nb-result=1></CommonScrollToTopButton>
-        </ClientOnly>
     </div>
 </template>
 

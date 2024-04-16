@@ -5,8 +5,8 @@
         title="Exporter les données" v-bind="props">
       </v-btn>
     </template>
-    <v-list>
-      <v-list-item v-for="(exportType, index) in exportTypeList" :key="index">
+    <v-list role="list">
+      <v-list-item v-for="(exportType, index) in exportTypeList" :key="index" role="listitem">
         <v-list-item-title class="export-titles">{{ $t(index) }}</v-list-item-title>
         <v-list-item-subtitle v-for="file in exportType" class="export-buttons">
           <v-btn color="secondary-darken-3" density="compact" :href="file.url" target="_blank">

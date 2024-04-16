@@ -285,21 +285,4 @@ function sleep(ms) {
 .v-list {
   background-color: transparent !important;
 }
-
-.scroll-to-top-wrapper {
-  position: sticky;
-  top: 90vh;
-  margin-bottom: 1rem;
-  margin-left: 97%;
-  width: 30px;
-  height: 30px;
-
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
-    margin: 0 0;
-    height: 60px;
-    left: 90vw;
-    top: unset;
-    bottom: 1vh;
-  }
-}
 </style>

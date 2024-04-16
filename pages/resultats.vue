@@ -50,7 +50,6 @@
         :selected-facets-array="selectedFacetsArray" @reinitialize-page-number="reinitializePageNumber">
       </CommonResultsResultComponents>
     </div>
-    <CommonScrollToTopButton v-if="moreThanXResults(5)" class="scroll-to-top-wrapper" :nb-result=nbResult />
   </div>
 </template>
 
@@ -324,6 +323,7 @@ const rssReq = computed(() => {
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       grid-column-start: 1;
+      margin-bottom: 5em;
     }
   }
 }
