@@ -131,7 +131,7 @@ onMounted(async () => {
   });
 });
 
-  // Enlever le lien RSS du head en quittant la page
+// Enlever le lien RSS du head en quittant la page
 onUnmounted(() => {
   pageHead.dispose();
 })
@@ -270,9 +270,10 @@ watch(() => currentRoute.query, (newParams, oldParams) => {
   }
 });
 
+const isAdvanced = useState("isAdvanced");
 const rssReq = computed(() => {
   refresh;
-  return '/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(request.value)) + getFacetsRequest();
+  return '/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(request.value, isAdvanced.value)) + getFacetsRequest();
 })
 
 </script>
