@@ -21,9 +21,9 @@
           <span>{{ $t("results.results") }}</span>
           <div class="export-buttons">
             <CommonExportQueryButton v-if="domainNameChange == 'theses'"
-              :csv-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q, isAdvanced)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
-              :rss-href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q, isAdvanced)) + getFacetsRequest()"
-              :json-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q, isAdvanced)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
+              :csv-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
+              :rss-href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + getFacetsRequest()"
+              :json-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
             </CommonExportQueryButton>
           </div>
         </h1>
