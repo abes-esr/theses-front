@@ -120,7 +120,7 @@ onMounted(() => {
 
 const types = ref([
     { titre: "Statut", value: "status" },
-    { titre: 'Titre', value: 'titrePrincipal' },
+    { titre: 'Titre', value: 'titres.\\*' },
     { titre: 'Mots clés', value: 'sujetsLibelle' },
     { titre: "Résumé", value: 'resumes.\\*' },
     { titre: "Discipline", value: "discipline" },
@@ -141,7 +141,7 @@ const types = ref([
 ]);
 
 const formFields = useState("formFields", () => [
-    { value: '', type: 'titrePrincipal' },
+    { value: '', type: 'titres.\\*' },
     { value: '', type: 'sujetsLibelle' },
     { value: '', type: 'discipline' },
 ]);
@@ -443,7 +443,7 @@ hr {
 }
 
 :deep(.v-switch__track) {
-  background-color: rgb(var(--v-theme-gris-switch));
+    background-color: rgb(var(--v-theme-gris-switch));
 }
 </style>
 
