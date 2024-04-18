@@ -120,7 +120,7 @@ onMounted(() => {
 
 const types = ref([
     { titre: "Statut", value: "status" },
-    { titre: 'Titre', value: 'titrePrincipal' },
+    { titre: 'Titre', value: 'titres.\\*' },
     { titre: 'Mots clés', value: 'sujetsLibelle' },
     { titre: "Résumé", value: 'resumes.\\*' },
     { titre: "Discipline", value: "discipline" },
@@ -141,7 +141,7 @@ const types = ref([
 ]);
 
 const formFields = useState("formFields", () => [
-    { value: '', type: 'titrePrincipal' },
+    { value: '', type: 'titres.\\*' },
     { value: '', type: 'sujetsLibelle' },
     { value: '', type: 'discipline' },
 ]);
@@ -181,7 +181,7 @@ function objectToQuery() {
         }
         // Champs spéciaux toutes les données biblio/rôles/structures
         else if (field.type === "biblio" || field.type === "roles" || field.type === "structures") {
-            if (field.type === "biblio") result += ` (titrePrincipal:(${field.value}) OU sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value})) OU resumes.\\*:(${field.value}) OU discipline:(${field.value}))`;
+            if (field.type === "biblio") result += ` (titres.\\*:(${field.value}) OU sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value})) OU resumes.\\*:(${field.value}) OU discipline:(${field.value}))`;
             else if (field.type === "roles") result += ` (auteursNP:(${field.value}) OU directeursNP:(${field.value}) OU presidentJuryNP:(${field.value}) OU rapporteursNP:(${field.value}) OU membresJuryNP:(${field.value}))`;
             else if (field.type === "structures") result += ` (etabSoutenanceN:(${field.value}) OU etabsCotutelleN:(${field.value}) OU ecolesDoctoralesN:(${field.value}) OU partenairesRechercheN:(${field.value}))`;
 
@@ -443,7 +443,7 @@ hr {
 }
 
 :deep(.v-switch__track) {
-  background-color: rgb(var(--v-theme-gris-switch));
+    background-color: rgb(var(--v-theme-gris-switch));
 }
 </style>
 

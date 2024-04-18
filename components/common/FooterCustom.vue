@@ -12,55 +12,55 @@
           <v-icon title="Lien externe">mdi-open-in-new</v-icon>
           {{ $t("accesDirect") }}
         </h1>
-        <div class="list-1">
-          <div class="colonne1">
-            <div>
+        <div class="list-1" role="list">
+          <div role="presentation" class="colonne1">
+            <div role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/"
                   target="_blank"
                   title="Accéder sur le site data.gouv.fr à l’extraction complète des données disponibles sur theses.fr et relatives aux thèses soutenues">
                   {{ $t("footer.opendata") }}</a></span>
             </div>
-            <div>
+            <div role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://www.idref.fr/" target="_blank"
                   title="Accéder à IdRef, la base des identifiants et des référentiels utilisés pour l’enseignement supérieur et la recherche">{{
           $t("footer.idRref")
         }}</a></span>
             </div>
-            <div>
+            <div role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank"
                   title="Accéder à la documentation de theses.fr">{{
           $t("footer.doc") }}</a></span>
             </div>
           </div>
-          <div class="colonne2">
-            <div>
+          <div role="presentation" class="colonne2">
+            <div role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="http://www.sudoc.abes.fr/cbs/" target="_blank"
                   title="Accéder au Sudoc, le catalogue collectif des bibliothèques universitaires françaises">{{
-          $t("footer.catalogue") }}</a></span>
+                    $t("footer.catalogue") }}</a></span>
             </div>
-            <div>
+            <div role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank"
                   title="Accéder à la recommandation AFNOR TEF, le format de description des thèses de doctorat électroniques françaises">{{
-          $t("footer.tef")
-        }}</a></span>
+                    $t("footer.tef")
+                  }}</a></span>
             </div>
 
-            <div>
+            <div role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
                   title="Accéder au guichet d’assistance de l’Abes">{{
-          $t("footer.assistance") }}</a></span>
+                    $t("footer.assistance") }}</a></span>
             </div>
           </div>
         </div>
       </div>
-      <div class="logos-container footer-content">
-        <a href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
+      <div class="logos-container footer-content" role="list">
+        <a role="listitem" href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
           <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' class="pr-4 "></a>
         <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
           <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")'></a>
@@ -68,34 +68,33 @@
     </div>
     <v-divider></v-divider>
     <v-card-text class="footerBottom">
-      <div class="text-center text-md-left pa-0 slogan">
-        {{ new Date().getFullYear() }} —
-        theses.fr, le moteur de recherche des thèses françaises
-      </div>
-      <div class="text-center text-md-right pa-0">
-        <v-divider vertical class="my-1"></v-divider>
-        <v-btn flat plain color="transparent" size="small" target="_blank"
-          href="https://abes.fr/pages-donnees-personnelles/thesesfr.html"
-          title="Accéder sur le site de l’Abes aux informations relatives au traitement, par theses.fr, des données personnelles">
-          {{ $t("donnees") }}
-        </v-btn>
-        <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-        <v-btn flat color="transparent" size="small" target="_blank"
-          href="https://abes.fr/pages-cgu/conditions-generales-utilisation-sites-abes.html"
-          title="Accéder sur le site de l’Abes aux Conditions Générales d’Utilisation du site theses.fr">{{ $t("CGU") }}
-        </v-btn>
-        <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-        <v-btn flat color="transparent" size="small" href="https://abes.fr/pages-mentions-legales/theses.html"
-          target="_blank" title="Accéder sur le site de l’Abes aux mentions légales de theses.fr">
-          {{ $t("mentions") }}
-        </v-btn>
-        <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-        <v-btn flat color="transparent" size="small" target="_blank"
-          href="https://abes.fr/pages-accessibilite/theses.html"
-          title="Accéder sur le site de l’Abes aux informations relatives à l’accessibilité numérique du site theses.fr">
-          {{ $t("accessibilite") }}
-        </v-btn>
-      </div>
+        <div class="text-center text-md-left pa-0 slogan">
+          {{ new Date().getFullYear() }} —
+          theses.fr, le moteur de recherche des thèses françaises
+        </div>
+        <div class="text-center text-md-right pa-0">
+          <v-divider vertical class="my-1"></v-divider>
+          <v-btn flat plain color="transparent" size="small" target="_blank"
+            href="https://abes.fr/pages-donnees-personnelles/thesesfr.html"
+            title="Accéder sur le site de l’Abes aux informations relatives au traitement, par theses.fr, des données personnelles">
+            {{ $t("donnees") }}
+          </v-btn>
+          <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
+          <v-btn flat color="transparent" size="small" target="_blank"
+            href="https://abes.fr/pages-cgu/conditions-generales-utilisation-sites-abes.html"
+            title="Accéder sur le site de l’Abes aux Conditions Générales d’Utilisation du site theses.fr">{{ $t("CGU") }}
+          </v-btn>
+          <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
+          <v-btn flat color="transparent" size="small" href="https://abes.fr/pages-mentions-legales/theses.html"
+            target="_blank" title="Accéder sur le site de l’Abes aux mentions légales de theses.fr">
+            {{ $t("mentions") }}
+          </v-btn>
+          <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
+          <v-btn flat color="transparent" size="small" target="_blank" href="https://abes.fr/pages-accessibilite/theses.html"
+            title="Accéder sur le site de l’Abes aux informations relatives à l’accessibilité numérique du site theses.fr">
+            {{ $t("accessibilite") }}
+          </v-btn>
+        </div>
     </v-card-text>
   </v-footer>
 </template>
@@ -169,9 +168,6 @@
 
     justify-content: center;
 
-    a {
-      font-weight: 400;
-    }
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       justify-content: flex-start;

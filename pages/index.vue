@@ -6,7 +6,7 @@
                 :loading="loading" :show-menu="showMenu"></CommonHeaderMobile>
         </ClientOnly>
         <NuxtLink v-if="!mobile" class="logo logo_home" :to="{ name: 'index', query: { domaine: 'theses' } }">
-            <img alt="Logo du site theses.fr" id="logoIMG" src="/icone-theses-beta.svg" />
+            <img :alt="$t('homepage')" id="logoIMG" src="/icone-theses-beta.svg" />
         </NuxtLink>
         <div class="main-wrapper">
             <ClientOnly><Message-box ref="messageBox"></Message-box></ClientOnly>

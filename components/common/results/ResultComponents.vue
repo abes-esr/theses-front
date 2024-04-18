@@ -21,16 +21,15 @@
           <span>{{ $t("results.results") }}</span>
           <div class="export-buttons">
             <CommonExportQueryButton v-if="domainNameChange == 'theses'"
-              :csv-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
-              :rss-href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + getFacetsRequest()"
-              :json-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(currentRoute.query.q)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
+              :csv-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
+              :rss-href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + getFacetsRequest()"
+              :json-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
             </CommonExportQueryButton>
           </div>
         </h1>
       </div>
       <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
-
 
     <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray"
       @reinitializePageNumber="reinitializePageNumber" />
@@ -101,6 +100,7 @@ const props = defineProps({
 
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
+const isAdvanced = useState("isAdvanced");
 
 /**
  * Fonctions
@@ -260,6 +260,6 @@ watch(() => props.resetPage, () => {
 
 .more-result-button {
   position: relative;
-  top: 80px;
+  bottom: -5em;
 }
 </style>
