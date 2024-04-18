@@ -190,9 +190,10 @@
     "envoyer": "Envoyer",
     "annuler": "Annuler",
     "requis": "Ce champ est obligatoire",
-    "mailInvalide": "Adresse mail invalide",
+    "mailInvalide": "Adresse mail invalide (exemple@abes.fr)",
     "info" : "Les données que vous voyez dans theses.fr sont placées sous la responsabilité des établissements habilités à délivrer le doctorat. Ce formulaire vous permet de contacter directement l'établissement qui gère la thèse : ",
-    "msg": "Votre message a bien été transmis."
+    "msg": "Votre message a bien été transmis.",
+    "mandatory": "Les champs marqués d'un astérisque (*) sont obligatoires."
   },
   "footer": {
     "texte": "Le moteur de recherche theses.fr recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française. La base de données est en constante évolution.",

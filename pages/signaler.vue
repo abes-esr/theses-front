@@ -10,15 +10,16 @@
   <div class="signaler-erreur-container">
     <h1 class="sr-only">Formulaire de signalement d'erreur</h1>
     <p>{{ $t("reportErrorView.info") }}<a target="_blank" :href="href">{{ href }}</a></p>
+    <p>{{ $t("reportErrorView.mandatory") }}</p>
       <v-form id="form" ref="form">
         <div class="form-row shortened">
-          <v-text-field :label="$t('reportErrorView.nom')" v-model="nom"
+          <v-text-field :label="$t('reportErrorView.nom')" v-model="nom" aria-autocomplete="given-name"
                         :rules=requiredRule variant="outlined" density="compact" class="item first-item"></v-text-field>
-          <v-text-field :label="$t('reportErrorView.prenom')" v-model="prenom" :rules=requiredRule variant="outlined"
+          <v-text-field :label="$t('reportErrorView.prenom')" v-model="prenom" aria-autocomplete="family-name" :rules=requiredRule variant="outlined"
                         density="compact" class="item"></v-text-field>
         </div>
         <div class="form-row shortened">
-          <v-text-field :label="$t('reportErrorView.mail')" v-model="mail" :rules="mailRule" variant="outlined"
+          <v-text-field :label="$t('reportErrorView.mail')" placeholder="exemple@abes.fr" v-model="mail" aria-autocomplete="email" :rules="mailRule" variant="outlined"
                         density="compact" required></v-text-field>
         </div>
         <div class="form-row shortened">
@@ -250,7 +251,7 @@ p {
 
 .privacy {
     font-size: 0.8rem;
-    color: rgb(var(--v-theme-gris-fonce));
+    color: rgb(var(--v-theme-text-dark-blue));
     padding-top: 0.8rem;
 }
 
@@ -286,6 +287,11 @@ p {
 .v-form {
     display: flex;
     flex-direction: column;
+}
+
+:deep(.v-label) {
+  color: rgb(var(--v-theme-text-dark-blue));
+  opacity: 1 !important;
 }
 
 .v-btn {
