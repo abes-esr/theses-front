@@ -1,9 +1,9 @@
 <template>
-  <table class="table" v-if="these.auteurs" title="meta-données de la thèse">
+  <table class="table" v-if="these.auteurs" aria-label="meta-données de la thèse" title="meta-données de la thèse">
     <tbody class="table-body">
       <!-- Auteur -->
       <tr v-if="these.auteurs && these.auteurs.length > 0" class="table-rows">
-        <td><strong>{{ $t('theseView.auteur') }}&nbsp;:{{ '\xa0' }}</strong></td>
+        <td role="rowheader"><strong>{{ $t('theseView.auteur') }}&nbsp;:{{ '\xa0' }}</strong></td>
         <td role="list">
           <template v-for="(auteur, index) in these.auteurs" :key="auteur.ppn">
             <nuxt-link v-if="auteur.ppn" class="clickable orange" :to="'/' + auteur.ppn" role="listitem">
@@ -18,7 +18,7 @@
       </tr>
       <!-- Direction -->
       <tr v-if="these.directeurs && these.directeurs.length > 0" class="table-rows">
-        <td><strong>{{ $t('theseView.direction') }}&nbsp;:{{ '\xa0' }}</strong></td>
+        <td role="rowheader"><strong>{{ $t('theseView.direction') }}&nbsp;:{{ '\xa0' }}</strong></td>
         <td role="list">
           <template v-for="(directeur, index) in these.directeurs" :key="directeur.ppn">
             <nuxt-link v-if="directeur.ppn" class="clickable lightblue" :to="'/' + directeur.ppn" role="listitem">
@@ -33,19 +33,19 @@
       </tr>
       <!-- Type -->
       <tr class="table-rows">
-        <td><strong>{{ $t('theseView.type') }}&nbsp;:{{ '\xa0' }}</strong></td>
+        <td role="rowheader"><strong>{{ $t('theseView.type') }}&nbsp;:{{ '\xa0' }}</strong></td>
         <td>
           <span>{{ these.status === "enCours" ? $t('theseView.projet') : $t('theseView.doctorat') }}</span>
         </td>
       </tr>
       <!-- Discipline -->
       <tr v-if="these.discipline" class="table-rows">
-        <td><strong>{{ $t('theseView.disciplines') }}&nbsp;:{{ '\xa0' }}</strong></td>
+        <td role="rowheader"><strong>{{ $t('theseView.disciplines') }}&nbsp;:{{ '\xa0' }}</strong></td>
         <td>{{ these.discipline }}</td>
       </tr>
       <!-- Date soutenance -->
       <tr v-if="these.dateSoutenance || these.datePremiereInscriptionDoctorat" class="table-rows">
-        <td><strong>{{ $t('theseView.dateSoutenance') }}&nbsp;:{{ '\xa0' }}</strong></td>
+        <td role="rowheader"><strong>{{ $t('theseView.dateSoutenance') }}&nbsp;:{{ '\xa0' }}</strong></td>
         <!-- Cas STAR : date de soutenance complete -->
         <td v-if="these.source === 'star'"> {{ $t('theseView.soutenue') }} {{
           these.dateSoutenance }}</td>
@@ -58,16 +58,16 @@
             {{ $t('theseView.inscription') }}
             {{ these.datePremiereInscriptionDoctorat }}
           </span>
-        <td v-if="these.isSoutenue">
+        <span v-if="these.isSoutenue">
           <br />
           <span> {{ $t('theseView.soutenue') }}</span>
           {{ these.dateSoutenance }}
-        </td>
+        </span>
         </td>
       </tr>
       <!-- Etablissement de soutenance et cotutelle-->
       <tr v-if="these.etabSoutenance && these.etabSoutenance.nom" class="table-rows">
-        <td>
+        <td role="rowheader">
           <strong>{{ $t('theseView.etablissements') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
         <td>
@@ -91,7 +91,7 @@
       </tr>
       <!-- Ecoles doctorales -->
       <tr v-if="these.ecolesDoctorales && these.ecolesDoctorales.length > 0" class="table-rows">
-        <td><strong>{{ $t('theseView.ecoles') }}&nbsp;:{{ '\xa0' }}</strong></td>
+        <td role="rowheader"><strong>{{ $t('theseView.ecoles') }}&nbsp;:{{ '\xa0' }}</strong></td>
         <td role="list">
           <template v-for="(ecole, index) in these.ecolesDoctorales" :key="ecole.ppn">
             <strong>
@@ -109,7 +109,7 @@
       <!-- Partenariat -->
       <!-- Première ligne -->
       <tr v-if="these.partenairesRecherche && these.partenairesRecherche.length > 0" class="table-rows">
-        <td>
+        <td role="rowheader">
           <strong>{{ $t('theseView.partenariat') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
         <td role="list">
@@ -146,7 +146,7 @@
       <!-- Jury -->
       <!-- Première ligne -->
       <tr v-if="(Object.keys(juryMembersGroupedByType).length > 0)" class="table-rows">
-        <td>
+        <td role="rowheader">
           <strong>{{ $t('theseView.jury') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
         <td role="list">
