@@ -165,9 +165,10 @@
 "envoyer": "Send",
 "annuler": "Cancel",
 "requis": "This field is required",
-"mailInvalide": "Invalid email address",
+"mailInvalide": "Invalid email address (example@abes.fr)",
 "info": "The data you see in theses.fr is the responsibility of the institutions authorized to award doctoral degrees. This form allows you to contact the relevant service within the institution responsible for the thesis:",
-"msg": "Your message has been successfully transmitted."
+"msg": "Your message has been successfully transmitted.",
+  "mandatory": "Asterisked (*) marked fields are mandatory."
 },
 "footer": {
 "texte": "Theses.fr is a search engine that lists all doctoral thesis defended in France since 1985, thesis topics prepared within French higher education institutions, and individuals involved in French doctoral research. The database is constantly evolving.",
