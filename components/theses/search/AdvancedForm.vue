@@ -175,6 +175,7 @@ function objectToQuery() {
     let result = "";
 
     formFields.value.forEach((field, index) => {
+      try {
         field.value = field.value.replace(":", "\\:")
         if (field.value === "") {
             result += " ";
@@ -199,6 +200,8 @@ function objectToQuery() {
                 result += ` ${operator.value}`;
             }
         }
+      } catch(error) {
+      }
     });
 
     return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').replaceAll('sujetsLibelle', '(sujetsLibelle').trim());
