@@ -14,7 +14,7 @@
     <Transition mode="out-in">
       <div id="returned-results-statement-container" aria-labelledby="returned-results-statement" tabindex="0" ref="returnStatementDiv">
         <div id="returned-results-statement" v-if="dataReady">
-          <h2>
+          <h1>
             <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
             <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
             <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
@@ -27,9 +27,9 @@
                 :json-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
               </CommonExportQueryButton>
             </div>
-          </h2>
+          </h1>
         </div>
-        <h2 id="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
+        <h1 id="returned-results-statement" v-else>{{ $t("results.searching") }}</h1>
       </div>
     </Transition>
 
@@ -213,7 +213,7 @@ watch(() => props.dataReady, () => {
 #returned-results-statement {
   display: inline-block;
 
-  h2 {
+  h1 {
     display: inline-block;
     margin: 0 1rem 0 1rem;
     font-family: Roboto-Medium, sans-serif;

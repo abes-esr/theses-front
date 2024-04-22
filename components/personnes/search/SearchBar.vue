@@ -6,7 +6,7 @@
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
       v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected
       no-filter density="compact" return-object type="text" menu-icon="" @keydown.enter="search"
-      :loading="isSuggestionLoading" enterkeyhint="send" ref="targetElement">
+      :loading="isSuggestionLoading" enterkeyhint="send" ref="targetElement" id="searchbar">
       <!--      Bouton rechercher-->
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
