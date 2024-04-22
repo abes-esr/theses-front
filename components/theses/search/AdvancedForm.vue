@@ -7,7 +7,7 @@
                         v-model="operatorModel"></v-switch><span class="switch-text pl-4">OU</span></span>
                 <div v-for="(field, index) in formFields" :key="index" class="form-row">
                     <div class="type">
-                        <v-select density="compact" v-model="field.type" :items="types" item-title="titre"
+                        <v-select class="v-field--container" density="compact" v-model="field.type" :items="types" item-title="titre"
                             item-value="value" label="Champ" variant="plain" single-line menu-icon="mdi-chevron-down"
                             @update:model-value="clearField(index)">
                             <template v-slot:item="{ props, index }">
@@ -25,7 +25,7 @@
                     <div class="text">
                         <div v-if="field.type === 'dateSoutenance' || field.type === 'datePremiereInscriptionDoctorat'">
                             <span class="calendars">
-                                <div class="calendar-row advanced-input-fields" tabindex="0">
+                                <div class="calendar-row advanced-input-fields">
                                     <span class="calendar-text pr-4">Du</span> <vue-date-picker v-model="dateFrom"
                                         :teleport="true" locale="fr" auto-apply :clearable="false"
                                         model-type="yyyy-MM-dd" format="yyyy-MM-dd" :enable-time-picker="false"
@@ -444,6 +444,16 @@ hr {
 
 :deep(.v-switch__track) {
     background-color: rgb(var(--v-theme-gris-switch));
+}
+
+:deep(.v-input__details) {
+  margin-top: -50px;
+}
+
+.v-field--container:focus-within  {
+  border-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.3s ease;
 }
 </style>
 

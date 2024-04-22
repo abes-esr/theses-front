@@ -102,7 +102,21 @@ const dernierElementClique = ref(null);
 
 // Ajouter un gestionnaire d'événements de clic
 const handleClick = (event) => {
-  dernierElementClique.value = event.target;
+  dernierElementClique.value = event.target.innerText;
+
+  if(dernierElementClique.value) {
+    if(dernierElementClique.value === t('avancee') && document.getElementsByClassName('advanced-input-fields').length > 0) {
+      const firstInputElementInAdvancedForm = document.getElementsByClassName('advanced-input-fields')[0].getElementsByTagName('input')[0];
+      if(firstInputElementInAdvancedForm !== null) {
+        firstInputElementInAdvancedForm.focus();
+      }
+    } else if (dernierElementClique.value === t('simple')) {
+      const searchbar = document.getElementById('searchbar');
+      if(searchbar !== null) {
+        searchbar.focus();
+      }
+    }
+  }
 };
 
 onMounted(() => {
@@ -113,13 +127,6 @@ onBeforeUnmount(() => {
   document.removeEventListener("click", handleClick);
 });
 
-// Gestion focus au clic sur recherche avancée
-onUpdated(() => {
-  if(dernierElementClique.value && dernierElementClique.value.innerText === t('avancee')) {
-    const firstInputElementInAdvancedForm = document.getElementsByClassName('advanced-input-fields')[0].getElementsByTagName('input')[0];
-    firstInputElementInAdvancedForm.focus();
-  }
-});
 /**
  * Fin gestionnaire clic
  */

@@ -68,6 +68,7 @@ const { mobile } = useDisplay();
 import { replaceAndEscape } from "../services/Common";
 const { setShowingNumber, getFacetsRequest } = useStrategyAPI();
 const emit = defineEmits(['reinitializePageNumber']);
+const { t } = useI18n();
 
 const props = defineProps({
   result: {
@@ -99,6 +100,29 @@ const props = defineProps({
   }
 });
 
+/**
+ * Début gestionnaire clic
+ */
+// Déclarer une référence réactive pour stocker le dernier élément cliqué
+const dernierElementClique = ref(null);
+
+// Ajouter un gestionnaire d'événements de clic
+const handleClick = (event) => {
+  dernierElementClique.value = event.target.innerText;
+};
+
+onMounted(() => {
+  document.addEventListener("click", handleClick);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClick);
+});
+
+/**
+ * Fin gestionnaire clic
+ */
+
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
 const isAdvanced = useState("isAdvanced");
@@ -106,7 +130,8 @@ const isAdvanced = useState("isAdvanced");
 const returnStatementDiv = ref(null);
 
 onMounted (() => {
-  returnStatementDiv.value.focus({ focusVisible: false});
+  if(dernierElementClique.value !==  t('avancee') && dernierElementClique.value !==  t('simple'))
+    returnStatementDiv.value.focus({ focusVisible: false});
 });
 
 /**
@@ -155,7 +180,8 @@ watch(() => props.resetPage, () => {
 });
 
 watch(() => props.dataReady, () => {
-  returnStatementDiv.value.focus({ focusVisible: false});
+  if(dernierElementClique.value !==  t('avancee') && dernierElementClique.value !==  t('simple'))
+    returnStatementDiv.value.focus({ focusVisible: false});
 });
 </script>
 
