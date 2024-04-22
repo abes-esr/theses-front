@@ -43,7 +43,7 @@
       <v-checkbox v-else :label="$t('disableSuggestion')" v-model="disableCompletion"
         :title='$t("disableSuggestion")'></v-checkbox>
       <h2 class="sr-only">{{ $t("avancee") }}</h2>
-      <v-btn v-if="!isAdvanced" color="primary" density="compact" variant="outlined" @click="setAdvanced(true)">{{
+      <v-btn v-if="!isAdvanced" color="primary" id="advanced-search-button" density="compact" variant="outlined" @click="setAdvanced(true)">{{
           $t("avancee")
         }}
       </v-btn>
@@ -58,7 +58,9 @@ export default {
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useMagicKeys } from '@vueuse/core'
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const currentRoute = useRoute();
 const router = useRouter();
 const { getSuggestion, setQuery, setDomaine, reinitializeFilters } = useStrategyAPI();
@@ -91,6 +93,36 @@ const { ctrl_k } = useMagicKeys({
       e.preventDefault()
   },
 });
+
+/**
+ * Début gestionnaire clic
+ */
+// Déclarer une référence réactive pour stocker le dernier élément cliqué
+const dernierElementClique = ref(null);
+
+// Ajouter un gestionnaire d'événements de clic
+const handleClick = (event) => {
+  dernierElementClique.value = event.target;
+};
+
+onMounted(() => {
+  document.addEventListener("click", handleClick);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClick);
+});
+
+// Gestion focus au clic sur recherche avancée
+onUpdated(() => {
+  if(dernierElementClique.value && dernierElementClique.value.innerText === t('avancee')) {
+    const firstInputElementInAdvancedForm = document.getElementsByClassName('advanced-input-fields')[0].getElementsByTagName('input')[0];
+    firstInputElementInAdvancedForm.focus();
+  }
+});
+/**
+ * Fin gestionnaire clic
+ */
 
 const targetElement = ref(null);
 

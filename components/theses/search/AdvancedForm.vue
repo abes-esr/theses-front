@@ -25,7 +25,7 @@
                     <div class="text">
                         <div v-if="field.type === 'dateSoutenance' || field.type === 'datePremiereInscriptionDoctorat'">
                             <span class="calendars">
-                                <div class="calendar-row">
+                                <div class="calendar-row advanced-input-fields" tabindex="0">
                                     <span class="calendar-text pr-4">Du</span> <vue-date-picker v-model="dateFrom"
                                         :teleport="true" locale="fr" auto-apply :clearable="false"
                                         model-type="yyyy-MM-dd" format="yyyy-MM-dd" :enable-time-picker="false"
@@ -44,13 +44,13 @@
                             </span>
                         </div>
                         <div v-else-if="field.type === 'status'">
-                            <v-select density="compact" v-model="field.value"
+                            <v-select density="compact" v-model="field.value" class="advanced-input-fields"
                                 :items="[{ titre: 'Toutes les thèses', value: '*' }, { titre: 'Uniquement les thèses soutenues', value: 'soutenue' }, { titre: 'Uniquement les thèses soutenues accessibles en ligne', value: 'accessible' }, { titre: 'Uniquement les thèses en préparation', value: 'enCours' }]"
                                 item-title="titre" item-value="value" label="Champ" variant="outlined"
                                 menu-icon="mdi-chevron-down" single-line></v-select>
                         </div>
                         <div v-else>
-                            <v-text-field density="compact" v-model="field.value" label="Texte à rechercher"
+                            <v-text-field density="compact" v-model="field.value" label="Texte à rechercher" class="advanced-input-fields"
                                 variant="outlined" single-line clearable clear-icon="mdi-close"
                                 @keydown.enter="search"></v-text-field>
                         </div>
