@@ -259,11 +259,19 @@ main {
       color: rgb(var(--v-theme-primary));
       font-size: 20px;
       font-family: "Roboto-Bold", sans-serif;
-      font-weight: 500;
+      font-weight: 500;;
 
       a {
         text-decoration: none;
         color: rgb(var(--v-theme-primary));
+
+        display: grid;
+        grid-template-columns: 2fr 1fr 7fr;
+        margin-bottom: 0.5em;
+
+        span {
+          align-self: center;
+        }
       }
     }
   }
