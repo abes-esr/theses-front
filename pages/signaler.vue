@@ -9,8 +9,8 @@
   </NuxtLink>
   <div class="signaler-erreur-container">
     <h1 class="sr-only">Formulaire de signalement d'erreur</h1>
-    <p>{{ $t("reportErrorView.info") }}<a target="_blank" :href="href">{{ href }}</a></p>
-    <p>{{ $t("reportErrorView.mandatory") }}</p>
+    <p class="info-msg">{{ $t("reportErrorView.info") }}<a target="_blank" :href="href">{{ href }}</a></p>
+    <p class="info-msg">{{ $t("reportErrorView.mandatory") }}</p>
       <v-form id="form" ref="form">
         <div class="form-row shortened">
           <v-text-field :label="$t('reportErrorView.nom')" v-model="nom" aria-autocomplete="given-name"
@@ -47,16 +47,18 @@
           {{ validationMsg }}
         </v-alert>
         <div class="captcha-info">
-          L'envoi du formulaire nécessite l'acceptation du cookie reCAPTCHA.
+          <span>
+            L'envoi du formulaire nécessite l'acceptation du cookie reCAPTCHA.
+          </span>
         </div>
-        <div class="form-row submit privacy">
+        <span class="form-row submit privacy">
           <br />
-          Ce formulaire est protégé par reCAPTCHA et les&nbsp;
+          <p>Ce formulaire est protégé par reCAPTCHA et les&nbsp;</p>
           <a href="https://policies.google.com/privacy" target="_blank">Politiques de
-            confidentialité</a>&nbsp;et&nbsp;<a href="https://policies.google.com/terms" target="_blank">Conditions
-          d'utilisations</a>&nbsp;de Google
-          s'appliquent.
-        </div>
+            confidentialité</a><p>&nbsp;et&nbsp;</p><a href="https://policies.google.com/terms" target="_blank">Conditions
+          d'utilisations</a><p>&nbsp;de Google
+          s'appliquent.</p>
+        </span>
       </v-form>
   </div>
 </template>
@@ -200,7 +202,7 @@ function sleep(ms) {
 <style lang="scss" scoped>
 @use '../node_modules/vuetify/settings';
 
-p {
+.info-msg {
     padding-bottom: 30px;
 }
 
@@ -247,6 +249,11 @@ p {
 .submit {
     justify-content: flex-end;
     margin-right: 10px;
+
+  a, p {
+    align-content: end !important;
+    text-align: end;
+  }
 }
 
 .privacy {
