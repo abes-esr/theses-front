@@ -9,7 +9,7 @@ URL publique : https://theses.fr
 
 ![logo theses.fr](https://theses.fr/icone-theses-beta.svg)
 
-L'application complètes peut être déployée via Docker à l'aide du dépôt https://github.com/abes-esr/theses-docker
+L'application complète peut être déployée via Docker à l'aide du dépôt https://github.com/abes-esr/theses-docker
 
 ## Architecture technique
 
