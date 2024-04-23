@@ -254,214 +254,221 @@ function clearField(index) {
 @use 'vuetify/settings';
 
 .form-row {
-    display: grid;
-    grid-template-columns: 250px auto 20px;
-    gap: 10px;
+  display: grid;
+  grid-template-columns: 250px auto 20px;
+  gap: 10px;
+  margin-bottom: 10px;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-        grid-template-columns: 4fr 1fr;
-        margin-bottom: 10px;
-    }
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    grid-template-columns: 4fr 1fr;
+  }
 }
 
 .type {
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-        grid-row-start: 1;
-        grid-row-end: 2;
-        grid-column-start: 1;
-        grid-column-end: 3;
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    width: fit-content;
+  }
 
-    }
+  @media #{ map-get(settings.$display-breakpoints, 'lg-and-up')} {
+    border-bottom: 1px solid rgb(var(--v-theme-secondary-darken-2));
+  }
 
-    color: rgb(var(--v-theme-primary));
-    font-weight: 600 !important;
-    max-width: 300px;
+  color: rgb(var(--v-theme-primary));
+  font-weight: 600 !important;
+  max-width: 300px;
 }
 
 .type :deep(.v-select) {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .text {
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-        grid-row-start: 2;
-        grid-row-end: 3;
-        grid-column-start: 1;
-        grid-column-end: 2;
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 2;
 
-    }
+  }
 }
 
 .removeButton {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-        grid-row-start: 2;
-        grid-row-end: 3;
-        grid-column-start: 2;
-        grid-column-end: 3;
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end: 3;
 
-        justify-content: flex-end;
-    }
+    justify-content: flex-end;
+  }
 }
 
 .v-btn {
-    opacity: 1;
+  opacity: 1;
 }
 
 hr {
-    display: none;
-    border-color: rgb(var(--v-theme-primary));
-    opacity: 0.4;
-    border-top: solid 1px;
-    margin: 0 6%;
+  display: none;
+  border-color: rgb(var(--v-theme-primary));
+  opacity: 0.4;
+  border-top: solid 1px;
+  margin: 0 6%;
 
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-        display: unset;
-        grid-row-start: 3;
-        grid-row-end: 1;
-        grid-column-start: 1;
-        grid-column-end: 3;
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    display: unset;
+    grid-row-start: 3;
+    grid-row-end: 1;
+    grid-column-start: 1;
+    grid-column-end: 3;
 
-        display: flex;
-        justify-content: center;
-    }
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .buttons {
-    display: flex;
-    align-items: center;
-    padding-top: 10px;
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
 }
 
 .space-between {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .right {
-    padding-top: 20px;
-    justify-content: flex-end;
+  padding-top: 20px;
+  justify-content: flex-end;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-        justify-content: center;
-    }
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    justify-content: center;
+  }
 }
 
 .calendars {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .calendar-row {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-        width: 100%;
-        padding-top: 5px;
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    width: 100%;
+    padding-top: 5px;
 
-        .calendar-text {
-            padding-left: unset !important;
-        }
+    .calendar-text {
+      padding-left: unset !important;
     }
+  }
 }
 
 .calendar-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: rgb(var(--v-theme-primary));
-    font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(var(--v-theme-primary));
+  font-weight: 600;
 }
 
 :deep(.dp__main) {
-    max-width: 150px;
+  max-width: 150px;
 }
 
 :deep(.dp__input) {
-    height: 44px;
-    border-color: rgb(var(--v-theme-primary), 0.4);
+  height: 44px;
+  border-color: rgb(var(--v-theme-primary), 0.4);
 }
 
 :deep(.dp__input:hover) {
-    border-color: rgb(var(--v-theme-primary));
+  border-color: rgb(var(--v-theme-primary));
 }
 
 .white-containers {
-    padding: 20px 20px 10px;
+  padding: 20px 20px 10px;
 }
 
 .switch {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-        margin-bottom: 20px;
-    }
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    margin-bottom: 20px;
+  }
 }
 
 .switch-text {
-    opacity: 0.8;
-    font-weight: 600;
-    color: rgb(var(--v-theme-primary));
+  opacity: 0.8;
+  font-weight: 600;
+  color: rgb(var(--v-theme-primary));
 }
 
 .v-switch {
-    max-width: 60px;
-    max-height: 60px;
+  max-width: 60px;
+  max-height: 60px;
 }
 
 :deep(.v-switch__thumb) {
-    color: rgb(var(--v-theme-surface)) !important;
+  color: rgb(var(--v-theme-surface)) !important;
 }
 
 :deep(.v-switch__track) {
-    color: rgb(11, 33, 52) !important;
+  color: rgb(11, 33, 52) !important;
 }
 
 .v-list {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 :deep(.v-list-item) {
-    padding-bottom: 0 !important;
-    padding-top: 0 !important;
-    min-height: 35px !important;
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  min-height: 35px !important;
 }
 
 
 :deep(.v-list-item-title) {
-    font-size: 0.9rem !important;
+  font-size: 0.9rem !important;
 }
 
 :deep(.v-list-subheader) {
-    padding-top: 5px;
-    font-size: 1rem;
-    color: rgb(var(--v-theme-secondary-darken-2));
-    font-weight: 500;
+  padding-top: 5px;
+  font-size: 1rem;
+  color: rgb(var(--v-theme-secondary-darken-2));
+  font-weight: 500;
 }
 
 :deep(.v-switch__track) {
-    background-color: rgb(var(--v-theme-gris-switch));
+  background-color: rgb(var(--v-theme-gris-switch));
 }
 
 :deep(.v-input__details) {
   margin-top: -50px;
 }
 
-.v-field--container:focus-within  {
-  border-color: rgba(0, 0, 0, 0.3);
+.v-field--container:focus-within {
+  //border-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgb(var(--v-theme-secondary-darken-2));
+  box-sizing: border-box;
   box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
+  padding: 3px;
   transition: border-color 0.3s ease;
 }
 </style>
 
 <style>
 .dp__input {
-    font-size: 14px;
+  font-size: 14px;
 }
 </style>

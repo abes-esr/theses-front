@@ -219,7 +219,6 @@ onUpdated(() => {
   if(overlayIsOpened.value) {
     document.getElementById('legend-tooltip').focus();
   } else {
-    console.log(backFromKeywordModal.value)
     backFromKeywordModal.value.focus();
   }
 });
