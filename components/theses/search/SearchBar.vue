@@ -3,7 +3,7 @@
     <v-combobox role="search" v-if="!isAdvanced" class="searchbar__input" label="Rechercher des thèses" single-line :items="items"
       :menu="suggestionActive" :menu-props="menuProps" v-model="request" v-model:search="requestSearch" variant="outlined" base-color="primary"
       cache-items hide-details hide-no-data hide-selected no-filter density="compact" return-object type="text"
-      menu-icon="" @keydown.enter="search" enterkeyhint="send" ref="targetElement">
+      menu-icon="" @keydown.enter="search" enterkeyhint="send" ref="targetElement" id="searchbar">
       <!--      Bouton rechercher-->
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
@@ -43,7 +43,7 @@
       <v-checkbox v-else :label="$t('disableSuggestion')" v-model="disableCompletion"
         :title='$t("disableSuggestion")'></v-checkbox>
       <h2 class="sr-only">{{ $t("avancee") }}</h2>
-      <v-btn v-if="!isAdvanced" color="primary" density="compact" variant="outlined" @click="setAdvanced(true)">{{
+      <v-btn v-if="!isAdvanced" color="primary" id="advanced-search-button" density="compact" variant="outlined" @click="setAdvanced(true)">{{
           $t("avancee")
         }}
       </v-btn>
@@ -58,7 +58,9 @@ export default {
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useMagicKeys } from '@vueuse/core'
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const currentRoute = useRoute();
 const router = useRouter();
 const { getSuggestion, setQuery, setDomaine, reinitializeFilters } = useStrategyAPI();
@@ -91,6 +93,43 @@ const { ctrl_k } = useMagicKeys({
       e.preventDefault()
   },
 });
+
+/**
+ * Début gestionnaire clic
+ */
+// Déclarer une référence réactive pour stocker le dernier élément cliqué
+const dernierElementClique = ref(null);
+
+// Ajouter un gestionnaire d'événements de clic
+const handleClick = (event) => {
+  dernierElementClique.value = event.target.innerText;
+
+  if(dernierElementClique.value) {
+    if(dernierElementClique.value === t('avancee') && document.getElementsByClassName('advanced-input-fields').length > 0) {
+      const firstInputElementInAdvancedForm = document.getElementsByClassName('advanced-input-fields')[0].getElementsByTagName('input')[0];
+      if(firstInputElementInAdvancedForm !== null) {
+        firstInputElementInAdvancedForm.focus();
+      }
+    } else if (dernierElementClique.value === t('simple')) {
+      const searchbar = document.getElementById('searchbar');
+      if(searchbar !== null) {
+        searchbar.focus();
+      }
+    }
+  }
+};
+
+onMounted(() => {
+  document.addEventListener("click", handleClick);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClick);
+});
+
+/**
+ * Fin gestionnaire clic
+ */
 
 const targetElement = ref(null);
 
