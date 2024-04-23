@@ -1,75 +1,51 @@
-# Nuxt 3 Minimal Starter
+# theses-front
+[![build-test-pubtodockerhub](https://github.com/abes-esr/theses-front/actions/workflows/build-test-pubtodockerhub.yml/badge.svg)](https://github.com/abes-esr/theses-front/actions/workflows/build-test-pubtodockerhub.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/abesesr/theses.svg)](https://hub.docker.com/r/abesesr/theses/)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Le moteur de recherche theses.fr recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française. 
 
-## Setup
+Ce dépôt héberge le code source de l'interface utilisateur du site theses.fr.
 
-Make sure to install the dependencies:
+URL publique : https://theses.fr
+
+![logo theses.fr](https://theses.fr/icone-theses-beta.svg)
+
+L'application complète peut être déployée via Docker à l'aide du dépôt https://github.com/abes-esr/theses-docker
+
+## Architecture technique
+
+L'interface est développée en Vue JS 3, à l'aide du framework NuxtJS 3, qui permet de tirer profit du Server Side Rendering pour certaines pages. Le projet utilise également la bibliothèque de composants Vuetify.
+Le projet est ensuite déployé dans un container docker, dans le SI de l'Abes (le docker compose est disponible [ici](https://github.com/abes-esr/theses-docker) )
+
+Les données affichées par cet interface sont obtenues en interrogeant les API theses.fr : 
+* https://github.com/abes-esr/theses-api-recherche pour la recherche et l'affichage de theses
+* https://github.com/abes-esr/theses-api-export pour les exports des theses en différents formats (CSV, XML, BIBTEX, etc)
+* https://github.com/abes-esr/theses-api-diffusion pour la mise à disposition des documents (PDFs et autres)
+
+## Utilisation du projet
+
+### Installation des dépendances 
 
 ```bash
 # npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+### Démarrage du serveur local
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
 # npm
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+### Production
 
-Build the application for production:
+Build et packaging de l'application pour la production :
 
 ```bash
 # npm
 npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Plus d'infos sur le déploiement dans la documentation de Nuxt 3 [deployment documentation](https://nuxt.com/docs/getting-started/deployment) .
