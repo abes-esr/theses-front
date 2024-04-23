@@ -198,6 +198,8 @@ export default function() {
    * Routes
    */
   function queryAPI() {
+    updateURL();
+
     const isAdvanced = useState("isAdvanced");
 
     query.value = (typeof query.value === "undefined") ? "*" : query.value;
