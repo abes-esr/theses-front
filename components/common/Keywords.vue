@@ -10,19 +10,25 @@
       </div>
       <div class="thesis-keywords" v-if="type === 'theses'">
         <div class="mots-cles-controlles" v-if="rameauKeywords.length > 0">
-          <div class="subtitle">
-            <h3>{{ $t("motCleControle") }}</h3>
-            <v-btn class="info-button" flat title="Informations sur les mots clés">
+          <div  tabindex="0" ref="backFromKeywordModal" aria-labelledby="mots-cles-controles-header" class="subtitle">
+            <h3 id="mots-cles-controles-header">{{ $t("motCleControle") }}</h3>
+            <v-btn class="info-button" @click="overlayIsOpened = !overlayIsOpened" flat title="Informations sur les mots clés">
               <v-icon size="22">mdi-information-outline</v-icon>
               <span class="sr-only">Informations sur les mots clés</span>
             </v-btn>
-            <v-overlay activator=".info-button" location-strategy="connected" scroll-strategy="close">
-              <v-card class="legend-tooltip">
-                <span>
-                  {{ $t("motCleControleDescription") }} <a class="" href='https://www.idref.fr/'>idRef.</a>
-                </span>
-              </v-card>
+            <v-overlay v-model="overlayIsOpened" location-strategy="connected" scroll-strategy="close">
+              <div tabindex="0" id="legend-tooltip">
+                <v-card class="legend-tooltip">
+                  <span>
+                    {{ $t("motCleControleDescription") }} <a class="" href="https://www.idref.fr/">idRef.</a>
+                  </span>
+                  <div class="close-overlay-button-container">
+                    <v-btn @click="overlayIsOpened = !overlayIsOpened" class="close-overlay-button" variant="outlined" density="compact" append-icon="mdi-close-box" flat>{{ $t('access.fermer') }}</v-btn>
+                  </div>
+                </v-card>
+              </div>
             </v-overlay>
+
           </div>
           <div role="list" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in rameauKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
@@ -106,6 +112,7 @@ const props = defineProps({
 });
 
 const { mobile } = useDisplay();
+const overlayIsOpened = ref(false);
 
 // Si c'est une these (donc si on a un titre dans l'objet) on affiche plus de keywords
 const numberOfKeywordsPerLine = mobile.value ? ref(6) : props.these.titrePrincipal ? ref(50) : ref(20);
@@ -119,13 +126,13 @@ const freeKeywords = ref({});
 const rameauKeywords = ref({});
 const mixedKeywords = ref({});
 
+const backFromKeywordModal = ref(null);
 
 setKeywords();
 
 onBeforeUpdate(() => {
   setKeywords();
 });
-
 
 /**
  * Computed Properties
@@ -207,6 +214,14 @@ function focusLastKeyword() {
     }
   }
 }
+
+onUpdated(() => {
+  if(overlayIsOpened.value) {
+    document.getElementById('legend-tooltip').focus();
+  } else {
+    backFromKeywordModal.value.focus();
+  }
+});
 
 /**
  * Watchers
@@ -388,6 +403,14 @@ h3 {
   justify-self: end;
 }
 
+:deep(.v-overlay__content) {
+  width: 98%;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .legend-tooltip {
   display: flex;
   flex-direction: column;
@@ -395,6 +418,18 @@ h3 {
 
   :deep(.v-chip) {
     width: fit-content;
+  }
+
+  .close-overlay-button-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .close-overlay-button {
+    margin-top: 1em;
+    width: fit-content;
+    color: rgb(var(--v-theme-text-dark-blue));
+    text-transform: capitalize;
   }
 }
 

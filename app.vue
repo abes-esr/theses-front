@@ -1,6 +1,9 @@
 <template>
   <v-theme-provider theme="colorMode">
     <v-app :class="{ 'opendys': opendys, 'interlignes': interlignes, 'justification': justification }">
+      <div tabindex="0"  ref="skipLink">
+        <a href="#searchbar" class="skiplink">{{ $t('skip') }}</a>
+      </div>
       <CommonHeaderCustom></CommonHeaderCustom>
       <v-main>
         <NuxtPage></NuxtPage>
@@ -46,6 +49,7 @@ const themesNames = ref({
 });
 
 const { mobile } = useDisplay();
+const skipLink =ref(null);
 
 const colorMode = useColorMode({
   onChanged(color) {
@@ -54,6 +58,7 @@ const colorMode = useColorMode({
 });
 
 onMounted(() => {
+  skipLink.value.focus({focusVisible: false});
   opendys.value = getFromLocalStorage("opendys", false);
   interlignes.value = getFromLocalStorage("interlignes", false);
   justification.value = getFromLocalStorage("justification", false);
@@ -254,11 +259,19 @@ main {
       color: rgb(var(--v-theme-primary));
       font-size: 20px;
       font-family: "Roboto-Bold", sans-serif;
-      font-weight: 500;
+      font-weight: 500;;
 
       a {
         text-decoration: none;
         color: rgb(var(--v-theme-primary));
+
+        display: grid;
+        grid-template-columns: 2fr 1fr 7fr;
+        margin-bottom: 0.5em;
+
+        span {
+          align-self: center;
+        }
       }
     }
   }
@@ -527,5 +540,17 @@ a:active {
   color: inherit;
   text-decoration: none;
   font-weight: 500;
+}
+
+.skiplink:not(:focus) {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 </style>
