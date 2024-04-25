@@ -136,8 +136,10 @@
     },
     "show": "Afficher",
     "resultsPerPage": "résultats par page",
+    "ariaResultsPerPage": "Choix du nombre de résultats par page.",
     "sort": "Trier",
     "sortBy": "Trier par",
+    "ariaSortBy": "Choix du tri sur la recherche.",
     "searched": "La recherche sur",
     "returned": "a retourné",
     "results": "résultat(s)"

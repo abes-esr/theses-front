@@ -1,7 +1,7 @@
 <template>
   <div class="result-pagination">
     <div class="first-bar-element">
-      <v-select :items="['10', '25', '50']" v-model="currentShowingNumber" density="compact" variant="solo"
+      <v-select :items="['10', '25', '50']" v-model="currentShowingNumber" density="compact" variant="solo" :aria-label="$t('results.ariaResultsPerPage')"
         class="left-select v-selects" menu-icon="mdi-chevron-down">
         <template v-slot:menu-icon>
           <v-icon>
@@ -28,8 +28,10 @@
 <script setup>
 import { ref, watch, computed, onMounted } from "vue";
 import { scrollToTop } from "../../services/Common";
+import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
 
+const { t } = useI18n();
 const { setPageNumber, setShowingNumber } = useStrategyAPI();
 const emit = defineEmits(['search', 'updatePage', 'updateShowingNumber']);
 const currentRoute = useRoute();
@@ -194,6 +196,14 @@ watch(() => props.currentShowingNumber, () => {
     align-content: flex-start;
     flex-wrap: wrap;
   }
+}
+
+.v-selects:focus-within {
+  border: 1px solid rgb(var(--v-theme-gris-fonce));
+  box-sizing: border-box;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
+  padding: 3px;
+  transition: border-color 0.3s ease;
 }
 
 

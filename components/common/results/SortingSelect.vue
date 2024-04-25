@@ -1,6 +1,6 @@
 <template>
   <v-select class="select-box" v-model="tri" return-object :items=items item-title="nom" item-value="cle"
-    density="compact" flat single-line variant="solo" menu-icon="mdi-chevron-down">
+    density="compact" flat single-line variant="solo" menu-icon="mdi-chevron-down" :aria-label="$t('results.ariaSortBy')">
     <template v-slot:menu-icon>
       <v-icon>
         mdi-chevron-down
@@ -11,9 +11,10 @@
 
 <script setup>
 import { onMounted, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 const currentRoute = useRoute();
-
+const { t } = useI18n();
 const emit = defineEmits(['updatePageNumberFromSortingSelect', 'search']);
 const { setSorting, getItemsTri, getCurrentSorting, getTriMap } = useStrategyAPI();
 

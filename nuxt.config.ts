@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     public: {
       API: process.env.NUXT_APP_API,
       API_REF: process.env.NUXT_APP_APIREF,
-      CAPTCHA: process.env.NUXT_APP_RECAPTCHA,
+      IS_MAINTENANCE: process.env.NUXT_IS_MAINTENANCE
     }
   },
   routeRules: {
