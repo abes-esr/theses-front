@@ -64,7 +64,9 @@ Une fois la maintenance terminée, effectuer la manipulation inverse, remettre `
 
 
 
-> [!NOTE]  
+> [!NOTE]
+> Le .env mentionné ici est le .env utilisé par le docker-compose.yml, pas le .env local du projet Nuxt
+> 
 > Aucune page n'est accessible lorsque le mode maintenance est activé (sauf la page de maintenance). Toutes les autres routes sont redirigées vers cette page.
 > 
 > Egalement, lorsque le mode maintenance est désactivée, il n'est pas possible d'aller sur /maintenance, cela vous redirigera vers la page d'accueil.
