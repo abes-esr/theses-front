@@ -12,23 +12,25 @@
       </CommonResultsSortingSelect>
     </div>
     <Transition mode="out-in">
-      <div class="returned-results-statement" v-if="dataReady">
-        <h1>
-          <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
-          <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
-          <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
-          <span class="darker-text">{{ nbResult.toLocaleString("fr-FR") }}{{ '\xa0' }}</span>
-          <span>{{ $t("results.results") }}</span>
-          <div class="export-buttons">
-            <CommonExportQueryButton v-if="domainNameChange == 'theses'"
-              :csv-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
-              :rss-href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + getFacetsRequest()"
-              :json-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
-            </CommonExportQueryButton>
-          </div>
-        </h1>
+      <div id="returned-results-statement-container" aria-labelledby="returned-results-statement" tabindex="0" ref="returnStatementDiv">
+        <div id="returned-results-statement" v-if="dataReady">
+          <h1>
+            <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
+            <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
+            <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
+            <span class="darker-text">{{ nbResult.toLocaleString("fr-FR") }}{{ '\xa0' }}</span>
+            <span>{{ $t("results.results") }}</span>
+            <div class="export-buttons">
+              <CommonExportQueryButton v-if="domainNameChange == 'theses'"
+                :csv-href="'/api/v1/theses/rechercheCSV' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + '&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()"
+                :rss-href="'/api/v1/theses/rss' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + getFacetsRequest()"
+                :json-href="'/api/v1/theses/recherche/' + '?q=' + encodeURIComponent(replaceAndEscape(persistentQuery, isAdvanced)) + '&nombre=10000&tri=' + encodeURIComponent(currentRoute.query.tri) + getFacetsRequest()">
+              </CommonExportQueryButton>
+            </div>
+          </h1>
+        </div>
+        <h1 id="returned-results-statement" v-else>{{ $t("results.searching") }}</h1>
       </div>
-      <h2 class="returned-results-statement" v-else>{{ $t("results.searching") }}</h2>
     </Transition>
 
     <CommonResultsFacetsChips :selected-facets-array="selectedFacetsArray"
@@ -59,14 +61,14 @@
 
 <script setup>
 import { useDisplay } from "vuetify";
-import { ref, watch } from "vue";
-
+import { onMounted, ref, watch } from "vue";
 
 const currentRoute = useRoute();
 const { mobile } = useDisplay();
 import { replaceAndEscape } from "../services/Common";
 const { setShowingNumber, getFacetsRequest } = useStrategyAPI();
 const emit = defineEmits(['reinitializePageNumber']);
+const { t } = useI18n();
 
 const props = defineProps({
   result: {
@@ -98,9 +100,39 @@ const props = defineProps({
   }
 });
 
+/**
+ * Début gestionnaire clic
+ */
+// Déclarer une référence réactive pour stocker le dernier élément cliqué
+const dernierElementClique = ref(null);
+
+// Ajouter un gestionnaire d'événements de clic
+const handleClick = (event) => {
+  dernierElementClique.value = event.target.innerText;
+};
+
+onMounted(() => {
+  document.addEventListener("click", handleClick);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClick);
+});
+
+/**
+ * Fin gestionnaire clic
+ */
+
 const currentPageNumber = currentRoute.query.page ? ref(parseInt(currentRoute.query.page)) : ref(1);
 const currentShowingNumber = currentRoute.query.nb ? ref(parseInt(currentRoute.query.nb)) : ref(10);
 const isAdvanced = useState("isAdvanced");
+
+const returnStatementDiv = ref(null);
+
+onMounted (() => {
+  if(dernierElementClique.value !==  t('avancee') && dernierElementClique.value !==  t('simple'))
+    returnStatementDiv.value.focus({ focusVisible: false});
+});
 
 /**
  * Fonctions
@@ -145,6 +177,11 @@ function reinitializePageNumber() {
  */
 watch(() => props.resetPage, () => {
   currentPageNumber.value = 1;
+});
+
+watch(() => props.dataReady, () => {
+  if(dernierElementClique.value !==  t('avancee') && dernierElementClique.value !==  t('simple'))
+    returnStatementDiv.value.focus({ focusVisible: false});
 });
 </script>
 
@@ -199,7 +236,7 @@ watch(() => props.resetPage, () => {
   opacity: 0;
 }
 
-.returned-results-statement {
+#returned-results-statement {
   display: inline-block;
 
   h1 {

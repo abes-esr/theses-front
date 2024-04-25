@@ -2,10 +2,11 @@
   <nav class="mobile-nav-bar" v-if="isReady" role="list">
     <div class="left-side-buttons" role="presentation">
       <!--    Bouton menu burger -->
-      <div class="buttons" role="listitem" tabindex="0" :aria-label="$t('menu')">
-        <v-icon :title="$t('menu')" @click="activateMenu" size="35px" :class="{ 'logo-active': showMenu }">mdi-menu
+      <button class="buttons"  @click="activateMenu" role="listitem" :aria-label="$t('menu')" :title="$t('menu')">
+        <span class="sr-only">{{ $t('menu') }}</span>
+        <v-icon :title="$t('menu')" size="35px" :class="{ 'logo-active': showMenu }">mdi-menu
         </v-icon>
-      </div>
+      </button>
       <v-btn variant="plain" @click="dialog = true" class="buttons language-accessibility-button"
         :title="$t('access.btn')" role="listitem">
         <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
@@ -29,11 +30,12 @@
         </v-icon>
       </button>
       <!--    Bouton menu recherche/selecteur these/personnes-->
-      <div v-if="type !== 'home'" class="buttons" role="listitem" :title="$t('rechercher')" tabindex="0">
-        <v-icon :title="$t('rechercher')" @click="activateSearchBar" size="35px"
+      <button v-if="type !== 'home'" @click="activateSearchBar" class="buttons" role="listitem" :title="$t('rechercher')">
+        <span class="sr-only">{{ $t('rechercher') }}</span>
+        <v-icon :title="$t('rechercher')" size="35px"
           :class="{ 'logo-active': showSearchBar }">mdi-magnify
         </v-icon>
-      </div>
+      </button>
     </div>
   </nav>
   <!--    Logo -->
@@ -44,8 +46,7 @@
     </NuxtLink>
     <!-- Menu burger mobile -->
     <v-fade-transition>
-      <div v-show="showMenu" class="expanded-search-bar-container white-containers" role="list">
-
+      <div v-show="showMenu" ref="expandedMenu" tabindex="0" class="expanded-search-bar-container white-containers" role="list">
         <div class="languages-btn-container">
           <!--
           <div class="languages-btn">
@@ -80,20 +81,19 @@
             </div>
             -->
             <div class="menu-text-element" role="listitem">
-              <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'>
-                <v-btn :title='$t("header.assistance")' size="large" variant="text" icon>
+              <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")' :title='$t("header.assistance")'>
                   <img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
                     :src="'/icone-assistance-' + colorMode + '.svg'" />
-                </v-btn>
+                <span></span>
                 <span>{{ $t('assistance') }}</span>
               </a>
             </div>
             <div class="menu-text-element" role="listitem">
               <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")'
-                target="_blank"><v-btn :title='$t("header.doc")' size="large" variant="text" icon>
+                target="_blank" :title='$t("header.doc")'>
                   <img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
                     :src="'/icone-documentation-' + colorMode + '.svg'" />
-                </v-btn>
+                <span></span>
                 <span>{{ $t('documentation') }}</span>
               </a>
             </div>
@@ -104,7 +104,7 @@
     <!--    Menu recherche/selecteur these/personnes-->
     <v-fade-transition>
       <div v-if="type !== 'home'" v-show="showSearchBar" class="expanded-search-bar-container white-containers">
-        <div class="expanded-search-bar">
+        <div class="expanded-search-bar" ref="expandedSearchBar">
           <LazyCommonDomainSelector></LazyCommonDomainSelector>
           <LazyGenericSearchBar :loading="loading" @onError="displayError" />
         </div>
@@ -139,6 +139,10 @@ const theme = useTheme();
 const { locale } = useI18n();
 const isReady = ref(false);
 const changeContrast = ref(false);
+
+// Elements du DOM
+const expandedMenu = ref(null);
+const expandedSearchBar = ref(null);
 
 const themesNames = ref({
   "light": "abesLightTheme",
@@ -245,6 +249,41 @@ const justification = useState('justification');
  */
 watch(changeContrast, newValue => {
   colorMode.value = newValue ? 'dark' : 'light';
+});
+
+onMounted(() => {
+  // Observer les éléments v-fade-transition avec Intersection Observer
+  // Menu
+  const observer1 = new IntersectionObserver((entries) => {
+    if(entries[0].isIntersecting) {
+      expandedMenu.value.focus();
+    }
+  });
+
+  // Searchbar
+  const observer2 = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      if (document.getElementsByClassName("advanced-input-fields").length > 0) {
+        const firstInputElementInAdvancedForm = document.getElementsByClassName("advanced-input-fields")[0].getElementsByTagName("input")[0];
+        if (firstInputElementInAdvancedForm !== null) {
+          firstInputElementInAdvancedForm.focus();
+        }
+      } else {
+        const searchbar = document.getElementById('searchbar');
+        if(searchbar !== null) {
+          searchbar.focus();
+        }
+      }
+    }
+  });
+
+  // Commencer à observer les éléments
+  if (expandedMenu.value !== null) {
+    observer1.observe(expandedMenu.value);
+  }
+  if (expandedSearchBar.value !== null) {
+    observer2.observe(expandedSearchBar.value);
+  }
 });
 </script>
 

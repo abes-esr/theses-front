@@ -2,6 +2,7 @@
 "errors": {
 "parameters": "Error in parameter name"
 },
+  "skip": "Go directly to searchbar.",
 "homepage": "Go to homepage.",
 "slogan": "The search engine for French thesis",
 "toutesTheses": "Thesis",
