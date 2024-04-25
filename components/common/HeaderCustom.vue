@@ -130,7 +130,7 @@ watch(changeContrast, newValue => {
 header {
   position: relative !important;
   height: 120px;
-  margin-top: 10px;
+  padding-top: 10px;
   margin-bottom: 10px;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
