@@ -55,6 +55,8 @@ Plus d'infos sur le déploiement dans la documentation de Nuxt 3 [deployment doc
 
 L'application est dotée d'un mode maintenance, qui a pour effet de rediriger tous les visiteurs vers la page /maintenance à l'aide d'un middleware Nuxt (le template de la page de maintenance est dans /pages/maintenance.vue)
 
+Le message affiché sur la page de maintenance est modifiable dans le .env ```THESES_FRONT_VITE_APP_MAINTENANCE_MESSAGE```. Un redémarrage du container est nécessaire lors de la mise à jour du message de maintenance.
+
 
 Pour passer l'application en mode maintenance, il suffit de passer la valeur de ```THESES_FRONT_VITE_APP_IS_MAINTENANCE``` dans le .env à ```true```, puis de relancer le container : ```sudo docker compose up -d```
 
