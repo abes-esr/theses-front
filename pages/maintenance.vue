@@ -1,14 +1,15 @@
 <template>
     <div class="container">
         <h1><v-icon>mdi-account-hard-hat-outline</v-icon>Theses.fr est en maintenance.</h1>
-        <span>
-            <p>Nous nous excusons pour tout inconvénient que cela pourrait causer. </p><br />
-            <p>Vous pouvez suivre le compte Twitter de l'ABES pour le suivi des travaux : <a
-                    href="https://twitter.com/com_abes" target="_blank">https://twitter.com/com_abes</a></p><br />
-            <p>Nous vous remercions pour votre patience et nous revenons bientôt !</p>
+        <span v-html="maintenanceMsg" class="maintenance-text">
         </span>
     </div>
 </template>
+
+<script setup>
+const config = useRuntimeConfig();
+const maintenanceMsg = config.public.MAINTENANCE_MESSAGE;
+</script>
 
 <style scoped lang="scss">
 @use 'vuetify/settings';
@@ -32,7 +33,7 @@ h1 {
     align-items: flex-start;
 }
 
-p {
+.maintenance-text {
     @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
         font-size: 1.3rem;
     }

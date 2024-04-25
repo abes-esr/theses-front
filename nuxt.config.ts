@@ -21,7 +21,8 @@ export default defineNuxtConfig({
     public: {
       API: process.env.NUXT_APP_API,
       API_REF: process.env.NUXT_APP_APIREF,
-      IS_MAINTENANCE: process.env.NUXT_IS_MAINTENANCE
+      IS_MAINTENANCE: process.env.NUXT_IS_MAINTENANCE,
+      MAINTENANCE_MESSAGE: process.env.NUXT_MAINTENANCE_MESSAGE
     }
   },
   routeRules: {
