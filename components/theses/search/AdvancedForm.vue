@@ -458,7 +458,6 @@ hr {
 }
 
 .v-field--container:focus-within {
-  //border-color: rgba(0, 0, 0, 0.3);
   border: 1px solid rgb(var(--v-theme-secondary-darken-2));
   box-sizing: border-box;
   box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);

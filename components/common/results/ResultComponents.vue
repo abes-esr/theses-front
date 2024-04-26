@@ -299,4 +299,8 @@ watch(() => props.dataReady, () => {
   position: relative;
   bottom: -5em;
 }
+
+#returned-results-statement-container:focus-visible {
+  outline: none;
+}
 </style>
