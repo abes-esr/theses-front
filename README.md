@@ -49,3 +49,24 @@ npm run build
 ```
 
 Plus d'infos sur le déploiement dans la documentation de Nuxt 3 [deployment documentation](https://nuxt.com/docs/getting-started/deployment) .
+
+
+### Mode maintenance
+
+L'application est dotée d'un mode maintenance, qui a pour effet de rediriger tous les visiteurs vers la page /maintenance à l'aide d'un middleware Nuxt (le template de la page de maintenance est dans /pages/maintenance.vue)
+
+Le message affiché sur la page de maintenance est modifiable dans le .env ```THESES_FRONT_VITE_APP_MAINTENANCE_MESSAGE```. Cela peut être un simple texte, ou bien du HTML pour ajouter du formattage ou des liens par exemple. Un redémarrage du container est nécessaire lors de la mise à jour du message de maintenance.
+
+
+Pour passer l'application en mode maintenance, il suffit de passer la valeur de ```THESES_FRONT_VITE_APP_IS_MAINTENANCE``` dans le .env à ```true```, puis de relancer le container : ```sudo docker compose up -d```
+
+Une fois la maintenance terminée, effectuer la manipulation inverse, remettre ```THESES_FRONT_VITE_APP_IS_MAINTENANCE``` dans le .env à ```false```, puis de relancer le container : ```sudo docker compose up -d```
+
+
+
+> [!NOTE]
+> Le .env mentionné ici est le .env utilisé par le docker-compose.yml, pas le .env local du projet Nuxt
+> 
+> Aucune page n'est accessible lorsque le mode maintenance est activé (sauf la page de maintenance). Toutes les autres routes sont redirigées vers cette page.
+> 
+> Egalement, lorsque le mode maintenance est désactivée, il n'est pas possible d'aller sur /maintenance, cela vous redirigera vers la page d'accueil.

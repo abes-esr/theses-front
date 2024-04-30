@@ -1,7 +1,7 @@
 <template>
   <v-lazy  :min-height="10" :options="{ threshold: 0 }">
     <v-checkbox :aria-label="`${replaceFacetsText(facetItem.label)} (${facetItem.value.toLocaleString('fr-FR')})` + ' résultats'" v-model="checkboxState" @click="updateCheckbox" :class="`checkboxes ms-${props.marginOffset}`"
-      :label="`${replaceFacetsText(facetItem.label)} (${facetItem.value.toLocaleString('fr-FR')})`" density="compact" inline hide-details>
+      :label="`${replaceFacetsText(facetItem.label)} (${facetItem.value.toLocaleString('fr-FR')})`" density="compact" inline hide-details @keyup.enter="updateCheckbox">
     </v-checkbox>
   </v-lazy>
 

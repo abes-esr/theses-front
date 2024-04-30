@@ -14,7 +14,7 @@
     <Transition mode="out-in">
       <div id="returned-results-statement-container" aria-labelledby="returned-results-statement" tabindex="0" ref="returnStatementDiv">
         <div id="returned-results-statement" v-if="dataReady">
-          <h1>
+          <h1 aria-live="assertive" aria-atomic="true">
             <span>{{ $t("results.searched") }}{{ '\xa0' }}</span>
             <span class="darker-text">"{{ persistentQuery }}"{{ '\xa0' }}</span>
             <span>{{ $t("results.returned") }}{{ '\xa0' }}</span>
@@ -105,11 +105,13 @@ const props = defineProps({
  */
 // Déclarer une référence réactive pour stocker le dernier élément cliqué
 const dernierElementClique = ref(null);
+const dernierElementCliqueTag = ref(null);
 
 // Ajouter un gestionnaire d'événements de clic
 const handleClick = (event) => {
   dernierElementClique.value = event.target.innerText;
-};
+  dernierElementCliqueTag.value = event.target.type;
+}
 
 onMounted(() => {
   document.addEventListener("click", handleClick);
@@ -130,7 +132,7 @@ const isAdvanced = useState("isAdvanced");
 const returnStatementDiv = ref(null);
 
 onMounted (() => {
-  if(dernierElementClique.value !==  t('avancee') && dernierElementClique.value !==  t('simple'))
+  if(dernierElementClique.value !==  t('avancee') && dernierElementClique.value !==  t('simple') && dernierElementCliqueTag.value !== 'checkbox')
     returnStatementDiv.value.focus({ focusVisible: false});
 });
 
@@ -180,8 +182,9 @@ watch(() => props.resetPage, () => {
 });
 
 watch(() => props.dataReady, () => {
-  if(dernierElementClique.value !==  t('avancee') && dernierElementClique.value !==  t('simple'))
+  if(dernierElementClique.value !==  t('avancee') && dernierElementClique.value !==  t('simple') && dernierElementCliqueTag.value !== 'checkbox') {
     returnStatementDiv.value.focus({ focusVisible: false});
+  }
 });
 </script>
 
@@ -298,5 +301,9 @@ watch(() => props.dataReady, () => {
 .more-result-button {
   position: relative;
   bottom: -5em;
+}
+
+#returned-results-statement-container:focus-visible {
+  outline: none;
 }
 </style>
