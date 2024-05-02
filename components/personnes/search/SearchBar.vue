@@ -6,7 +6,7 @@
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
       v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected
       no-filter density="compact" return-object type="text" menu-icon="" @keydown.enter="search"
-      :loading="isSuggestionLoading" enterkeyhint="send" ref="targetElement" id="searchbar">
+      :loading="isSuggestionLoading" enterkeyhint="send" ref="comboboxElement" id="searchbar">
       <!--      Bouton rechercher-->
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
@@ -89,7 +89,8 @@ const emit = defineEmits(['onError', 'reinitializePageNumber']);
 const menuProps = {
   'open-on-focus': false,
   'content-class': 'autocompl',
-  'max-height': '360px'
+  'max-height': '360px',
+  'scroll-strategy': 'close'
 };
 
 // Focus sur la barre de recherche lors du Ctrl + K
@@ -101,11 +102,11 @@ const { ctrl_k } = useMagicKeys({
   },
 });
 
-const targetElement = ref(null);
+const comboboxElement = ref(null);
 
 watch(ctrl_k, (v) => {
   if (v)
-    targetElement.value.focus();
+    comboboxElement.value.focus();
 });
 
 onMounted(
@@ -122,8 +123,6 @@ onMounted(
         requestSearch.value = "";
         setQuery(request.value);
       }
-
-      isSuggestionActive.value = !isSuggestionDisabledCheckbox.value;
     } else {
       isSuggestionActive.value = true;
     }
@@ -133,8 +132,7 @@ onMounted(
     } else {
       setDomaine("theses");
     }
-  }
-);
+});
 
 /**
  * Fonction pour vider le champs de recherche
@@ -167,6 +165,8 @@ async function search() {
   }
 }
 
+
+
 /* ---------------- */
 /* Auto-complétion  */
 /* ---------------- */
@@ -180,7 +180,7 @@ const suggestions = ref([]);
  * Watcher pour compléter la saisie dans la barre de recherche
  */
 watch(requestSearch, async (candidate) => {
-  if (candidate != null && candidate.value != query.value && candidate != "[object Object]" && candidate.length > 2 && isSuggestionActive.value) {
+  if (candidate != null && candidate.value != query.value && candidate != "[object Object]" && candidate.length > 2 &&  !isSuggestionDisabledCheckbox.value) {
     await getSuggestionPersonne(candidate);
   } else {
     suggestions.value = [];
