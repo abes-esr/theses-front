@@ -2,7 +2,7 @@
   <div class="searchbar">
     <v-combobox role="search" class="searchbar__input" label="Rechercher des personnes, par nom ou par domaine d’expertise"
       :items="suggestions" :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps"
-      :hide-no-data="!isSuggestionActive || suggestions.length == 0"
+      :hide-no-data="!isSuggestionActive || suggestions.length === 0"
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
       v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected
       no-filter density="compact" return-object type="text" menu-icon="" @keydown.enter="search"
@@ -122,9 +122,12 @@ onMounted(
         requestSearch.value = "";
         setQuery(request.value);
       }
+
+      isSuggestionActive.value = !isSuggestionDisabledCheckbox.value;
     } else {
       isSuggestionActive.value = true;
     }
+
     if (currentRoute.query && currentRoute.query.domaine) {
       setDomaine(decodeURI(currentRoute.query.domaine));
     } else {
@@ -145,7 +148,6 @@ function clearSearch() {
  * Fonction pour rechercher
  */
 async function search() {
-
   if (request.value === null || request.value === undefined) request.value = "";
 
   isSuggestionActive.value = false;
@@ -178,7 +180,6 @@ const suggestions = ref([]);
  * Watcher pour compléter la saisie dans la barre de recherche
  */
 watch(requestSearch, async (candidate) => {
-
   if (candidate != null && candidate.value != query.value && candidate != "[object Object]" && candidate.length > 2 && isSuggestionActive.value) {
     await getSuggestionPersonne(candidate);
   } else {
