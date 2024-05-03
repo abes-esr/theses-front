@@ -218,7 +218,7 @@ function focusLastKeyword() {
 onUpdated(() => {
   if(overlayIsOpened.value) {
     document.getElementById('legend-tooltip').focus();
-  } else {
+  } else if (backFromKeywordModal.value !== null) {
     backFromKeywordModal.value.focus();
   }
 });

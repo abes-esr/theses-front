@@ -162,7 +162,8 @@ const suggestionActive = ref(false);
 const menuProps = {
   'open-on-focus': false,
   'content-class': 'autocomplete',
-  'max-height': '340px'
+  'max-height': '340px',
+  'scroll-strategy': 'close'
 };
 
 watch(requestSearch, (newRequestSearch) => {

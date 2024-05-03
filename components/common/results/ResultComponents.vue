@@ -29,7 +29,7 @@
             </div>
           </h1>
         </div>
-        <h1 id="returned-results-statement" v-else>{{ $t("results.searching") }}</h1>
+        <h1 id="returned-results-statement" role="status" v-else>{{ $t("results.searching") }}</h1>
       </div>
     </Transition>
 
