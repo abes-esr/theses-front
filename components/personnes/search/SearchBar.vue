@@ -1,8 +1,7 @@
 <template>
   <div class="searchbar">
     <v-combobox role="search" class="searchbar__input" label="Rechercher des personnes, par nom ou par domaine d’expertise"
-      :items="suggestions" :menu="isSuggestionActive && suggestions.length != 0" :menu-props="menuProps"
-      :hide-no-data="!isSuggestionActive || suggestions.length === 0"
+      :items="suggestions" :menu-props="menuProps"
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
       v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected
       no-filter density="compact" return-object type="text" menu-icon="" @keydown.enter="search"
@@ -28,14 +27,11 @@
         </v-btn>
       </template>
       <!-- Liste auto-complétion -->
-      <template v-slot:prepend-item v-if="suggestions.length > 0">
+      <template v-slot:prepend-item v-if="suggestions.length > 1">
         <h3>{{ $t('personnes.searchBar.title-personnes') }}</h3>
         <h3>{{ $t('personnes.searchBar.title-thematiques') }}</h3>
       </template>
-      <v-list-item>
-        <span></span>
-      </v-list-item>
-      <template v-slot:item="{ item, props, index }">
+      <template v-slot:item="{ item, props, index }" v-if="suggestions.length > 1">
         <v-list-item v-if="index === 0" id="spacer-v-list-item"></v-list-item>
         <v-list-item v-bind="props" :key="index" :title="false" :disabled="item.raw.personne == null"
           @click="selectSuggestion(item.raw.personne)">
@@ -57,7 +53,6 @@
     <div class="searchbar__action">
       <v-checkbox :label="$t('disableSuggestion')" v-model="isSuggestionDisabledCheckbox"
         :title='$t("disableSuggestion")'></v-checkbox>
-
     </div>
   </div>
 </template>
@@ -86,12 +81,19 @@ const request = ref("");
 const requestSearch = ref("");
 const emit = defineEmits(['onError', 'reinitializePageNumber']);
 
-const menuProps = {
-  'open-on-focus': false,
-  'content-class': 'autocompl',
-  'max-height': '360px',
-  'scroll-strategy': 'close'
-};
+const shouldShowMenu = computed(() => {
+  return isSuggestionActive.value && suggestions.value.length > 1 ? 0 : -1;
+});
+
+const menuProps = computed(() => {
+  return {
+    'open-on-focus': false,
+    'content-class': 'autocompl',
+    'max-height': '360px',
+    'scroll-strategy': 'close',
+    'z-index': shouldShowMenu
+  }
+});
 
 // Focus sur la barre de recherche lors du Ctrl + K
 const { ctrl_k } = useMagicKeys({
@@ -160,9 +162,7 @@ async function search() {
     query: { "q": encodeURI(request.value), "domaine": encodeURI(currentRoute.query.domaine) }
   });
 
-  if (!isSuggestionDisabledCheckbox.value) {
-    isSuggestionActive.value = true;
-  }
+  isSuggestionActive.value = !isSuggestionDisabledCheckbox.value;
 }
 
 /* ---------------- */
@@ -170,7 +170,7 @@ async function search() {
 /* ---------------- */
 
 const isSuggestionDisabledCheckbox = ref(false);
-const isSuggestionActive = ref(false);
+const isSuggestionActive = ref(true);
 const isSuggestionLoading = ref(false);
 const suggestions = ref([]);
 
