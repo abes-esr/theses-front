@@ -1,11 +1,11 @@
 <template>
   <div class="searchbar">
     <v-combobox role="search" class="searchbar__input" label="Rechercher des personnes, par nom ou par domaine d’expertise"
-      :items="suggestions" :menu-props="menuProps"
+      :items="suggestions" :menu-props="menuProps" hide-no-data
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
       v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected
       no-filter density="compact" return-object type="text" menu-icon="" @keydown.enter="search"
-      :loading="isSuggestionLoading" enterkeyhint="send" ref="comboboxElement" id="searchbar">
+      :loading="isSuggestionLoading" enterkeyhint="send" ref="comboboxElement" id="searchbar" autocomplete="off">
       <!--      Bouton rechercher-->
       <!--      Bouton effacer texte-->
       <template v-slot:append-inner>
