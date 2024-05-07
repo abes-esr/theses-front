@@ -208,7 +208,8 @@
     "assistance": "Guichet d'assistance ABESstp",
     "logoAbesAlt": "Accéder au site de l’Agence Bibliographique de l’Enseignement Supérieur",
     "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche",
-    "plus": "En savoir plus"
+    "plus": "En savoir plus",
+    "globalETD": "Global ETD Search - Les thèses électroniques dans le monde"
   },
   "header": {
     "doc": "Accéder à la documentation de theses.fr ",

@@ -34,6 +34,12 @@
                   title="Accéder à la documentation de theses.fr">{{
           $t("footer.doc") }}</a></span>
             </div>
+            <div role="listitem">
+              <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+              <span><a href="http://search.ndltd.org/" target="_blank"
+                  title="Global ETD Search - Les thèses électroniques dans le monde">{{
+                    $t("footer.globalETD") }}</a></span>
+            </div>
           </div>
           <div role="presentation" class="colonne2">
             <div role="listitem">
@@ -49,7 +55,6 @@
                     $t("footer.tef")
                   }}</a></span>
             </div>
-
             <div role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
