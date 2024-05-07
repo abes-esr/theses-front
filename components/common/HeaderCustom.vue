@@ -7,18 +7,17 @@
             :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
         </v-btn>
   <!--     Quand actif ajouter role="listitem" -->
-        <div class="languages-btn">
-          <!-- selecteur de langues désactivé
-          <v-btn flat @click="setLanguage('fr')" title="Langue française"
-            :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
-          |
-          <v-btn flat @click="setLanguage('en')" title="English Language"
-            :class="locale === 'en' ? 'selected' : ''">EN</v-btn>
-          |
-          <v-btn flat @click="setLanguage('es')" title="English Language"
-            :class="locale === 'es' ? 'selected' : ''">ES</v-btn>
-            -->
-        </div>
+<!--        <div class="languages-btn">-->
+<!--          &lt;!&ndash; selecteur de langues désactivé &ndash;&gt;-->
+<!--          <v-btn flat @click="setLanguage('fr')" title="Langue française"-->
+<!--            :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>-->
+<!--          |-->
+<!--          <v-btn flat @click="setLanguage('en')" title="English Language"-->
+<!--            :class="locale === 'en' ? 'selected' : ''">EN</v-btn>-->
+<!--          |-->
+<!--          <v-btn flat @click="setLanguage('es')" title="Idioma espanol"-->
+<!--            :class="locale === 'es' ? 'selected' : ''">ES</v-btn>-->
+<!--        </div>-->
       </div>
       <div class="text-center text-md-right" role="presentation">
         <!--<v-btn tabindex="-1" title="Réseau" size="x-large" icon>
@@ -163,8 +162,8 @@ header {
 }
 
 .language-accessibility-toolbar {
-  //display: grid; // dé-commenter si on active le bouton accessibilité
-  //grid-template-columns: 1fr 20px 3fr;
+  display: grid; // dé-commenter si on active le bouton accessibilité
+  grid-template-columns: 1fr 20px 3fr;
   margin: 0 30px 0;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
@@ -173,8 +172,9 @@ header {
 }
 
 .languages-btn {
-  grid-column-start: 1; // 3 si on active le bouton accessibilité
+  grid-column-start: 3; // 3 si on active le bouton accessibilité
   max-height: 36px;
+  align-self: center;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: 2;

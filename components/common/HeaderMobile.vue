@@ -48,17 +48,16 @@
     <v-fade-transition>
       <div v-show="showMenu" ref="expandedMenu" tabindex="0" class="expanded-search-bar-container white-containers" role="list">
         <div class="languages-btn-container">
-          <!--
-          <div class="languages-btn">
-            <button flat @click="setLanguage('fr')" title="Langue française"
-              :class="locale === 'fr' ? 'selected' : ''">FR</button>
-            <p>|</p>
-            <button flat @click="setLanguage('en')" title="English Language"
-              :class="locale === 'en' ? 'selected' : ''">EN</button>
-            <p>|</p>
-            <button flat @click="setLanguage('es')" title="English Language"
-              :class="locale === 'es' ? 'selected' : ''">ES</button>
-          </div>-->
+<!--          <div class="languages-btn">-->
+<!--            <button flat @click="setLanguage('fr')" title="Langue française"-->
+<!--              :class="locale === 'fr' ? 'selected' : ''">FR</button>-->
+<!--            <p>|</p>-->
+<!--            <button flat @click="setLanguage('en')" title="English Language"-->
+<!--              :class="locale === 'en' ? 'selected' : ''">EN</button>-->
+<!--            <p>|</p>-->
+<!--            <button flat @click="setLanguage('es')" title="Idioma Espanol"-->
+<!--              :class="locale === 'es' ? 'selected' : ''">ES</button>-->
+<!--          </div>-->
         </div>
         <div class="expanded-burger-menu">
           <div class="nav-bar-list-burger">
