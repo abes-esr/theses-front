@@ -86,7 +86,7 @@
                 sont &eacute;galement disponibles sous forme d&rsquo;un <em>dump</em> d&eacute;pos&eacute; et mis
                 &agrave; jour annuellement sur le site data.gouv.fr&nbsp;: <a
                     href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank"
-                    title="Accéder sur le site data.gouv.fr  à l’extraction complète des données disponibles sur theses.fr  et relatives aux thèses soutenues">Th&egrave;ses
+                    title="'Accéder sur le site data.gouv.fr  à l’extraction complète des données disponibles sur theses.fr  et relatives aux thèses soutenues' + $t('externalLink')">Th&egrave;ses
                     soutenues en France depuis 1985 <v-icon title="Lien externe"
                         size="x-small">mdi-open-in-new</v-icon></a>. Un guide de
                 r&eacute;utilisation accompagne
