@@ -497,7 +497,9 @@ h4 {
 }
 
 .interlignes * :not(.v-btn__content, .v-btn, .v-input, .v-field, .v-input__control, .v-label, .v-field__field, .v-select, .v-field__overlay, .v-field__input, .v-select__selection, .v-select__selection-text) {
-  line-height: 2rem !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.16em !important;
 }
 
 .justification p {
