@@ -60,7 +60,8 @@
     "dir": "sous la direction de",
     "defended": "Thèse soutenue",
     "ongoing": "Thèse en cours",
-    "since": "Depuis"
+    "since": "Depuis",
+    "et": "et "
   },
   "theseView": {
     "par": "par",
