@@ -153,7 +153,7 @@ getPersonne(props.id).then(result => {
 
   useHead({
     meta: [
-      { name: 'DC.title', content: `${item.value.prenom} ${item.value.nom} | Theses.fr` },
+      { name: 'DC.title', content: `${item.value.prenom} ${item.value.nom}` },
       { name: 'DC.description.abstract', content: `${item.value.prenom} ${item.value.nom} | Theses.fr` },
       { name: 'DC.source', content: `theses.fr` }
     ]

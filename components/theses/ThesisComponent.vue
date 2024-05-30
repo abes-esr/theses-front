@@ -112,8 +112,8 @@ watchEffect(() => {
     meta: [
       { name: 'DC.type', content: 'thesis' },
       { name: 'citation_dissertation_name', content: 'thesis' },
-      { name: 'DC.title', content: `${titleThese} | Theses.fr` },
-      { name: 'citation_title', content: `${titleThese} | Theses.fr` },
+      { name: 'DC.title', content: `${titleThese}` },
+      { name: 'citation_title', content: `${titleThese}` },
       { name: 'DC.description.abstract', content: props.these.resumes.fr },
       { name: 'citation_abstract', content: props.these.resumes.fr },
       { name: 'DC.subject', content: listeSujetsFR },
