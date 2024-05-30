@@ -51,6 +51,7 @@
   "showAllKeywords": "Afficher tous les mots-clés ",
   "exportData": "Exporter les données",
   "exportBiblio": "Exporter une référence bibliographique ",
+  "externalLink": ". Lien Externe.",
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
   },
@@ -59,7 +60,8 @@
     "dir": "sous la direction de",
     "defended": "Thèse soutenue",
     "ongoing": "Thèse en cours",
-    "since": "Depuis"
+    "since": "Depuis",
+    "et": "et "
   },
   "theseView": {
     "par": "par",
@@ -208,7 +210,8 @@
     "assistance": "Guichet d'assistance ABESstp",
     "logoAbesAlt": "Accéder au site de l’Agence Bibliographique de l’Enseignement Supérieur",
     "logoMesriAlt": "Accéder au site du Ministère de l’Enseignement Supérieur et de la Recherche",
-    "plus": "En savoir plus"
+    "plus": "En savoir plus",
+    "globalETD": "Global ETD Search - Les thèses électroniques dans le monde"
   },
   "header": {
     "doc": "Accéder à la documentation de theses.fr ",

@@ -160,7 +160,7 @@ getName(props.id).then(result => {
 
     useHead({
         meta: [
-            { name: 'DC.title', content: `${name.value} | Theses.fr` },
+            { name: 'DC.title', content: `${name.value}` },
             { name: 'DC.description.abstract', content: `${name.value} | Theses.fr` },
             { name: 'DC.source', content: `theses.fr` }
         ]

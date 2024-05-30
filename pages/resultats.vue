@@ -7,7 +7,7 @@
       :loading="loading" :show-menu="showMenu" :show-search-bar="showSearchBar"></CommonHeaderMobile>
   </ClientOnly>
   <!--    Menu filtres  -->
-  <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen
+  <v-dialog v-model="dialogVisible" eager location-strategy="static" persistent no-click-animation fullscreen scroll-strategy="none"
     :close-on-content-click="false" transition="dialog-top-transition" content-class="full-screen">
     <CommonResultsFacetsHeader @close-overlay="closeOverlay" @reinitialize-all-facets="reinitializeAllFacets">
     </CommonResultsFacetsHeader>

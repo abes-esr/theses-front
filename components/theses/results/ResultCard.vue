@@ -43,7 +43,7 @@
             ,{{ '\xa0' }}
           </span>
           <span v-else-if="index === auteur.length - 2" class="card-text">
-            {{ $t('theseView.et') }}
+            {{ $t('resultCard.et') }}
           </span>
         </span>
 
@@ -237,4 +237,5 @@ const route = useRoute();
 
 .lightblue {
   color: rgb(var(--v-theme-secondary-darken-2)) !important;
-}</style>
+}
+</style>

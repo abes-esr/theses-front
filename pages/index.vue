@@ -150,7 +150,6 @@ function sleep(ms) {
 
         .v-card {
             width: 100%;
-            height: 160px !important;
             margin-top: 55px;
         }
 
