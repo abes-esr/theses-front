@@ -351,8 +351,10 @@ h3 {
 
   text-align: center;
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
+
+  white-space: break-spaces;
+  word-break: break-word;
 }
 
 
@@ -435,5 +437,10 @@ h3 {
 
 :deep(.v-chip__underlay) {
   opacity: 0 !important;
+}
+
+:deep(.v-chip.v-chip--density-default) {
+  height: unset !important;
+  min-height: 32px !important;
 }
 </style>
