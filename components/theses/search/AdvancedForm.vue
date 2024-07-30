@@ -147,7 +147,7 @@ const formFields = useState("formFields", () => [
 ]);
 
 function addField() {
-    formFields.value.push({ value: '', type: 'titrePrincipal' });
+    formFields.value.push({ value: '', type: 'titres.\\*' });
 };
 
 function removeField(index) {
