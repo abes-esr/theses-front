@@ -335,7 +335,7 @@ footer {
 }
 
 .list-item {
-  display: inline-flex;
+  display: flex;
 }
 
 .footer-content {
