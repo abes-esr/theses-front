@@ -182,7 +182,8 @@
 "assistance": "Assistance Desk",
 "logoAbesAlt": "Access the website of the Bibliographic Agency for Higher Education",
 "logoMesriAlt": "Access the website of the Ministry of Higher Education and Research",
-"plus": "Learn more"
+"plus": "Learn more",
+  "apiThesesfr": "theses.fr API"
 },
 "header": {
 "doc": "Access the documentation for theses.fr",
