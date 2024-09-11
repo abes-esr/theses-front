@@ -206,7 +206,7 @@
       max-width: 90%;
     }
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
       .colonne1 {
         min-width: 250px;
         max-width: 250px;
