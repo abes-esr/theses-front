@@ -52,6 +52,7 @@
   "exportData": "Exporter les données",
   "exportBiblio": "Exporter une référence bibliographique ",
   "externalLink": ". Lien Externe.",
+  "et":  "et",
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
   },
@@ -198,7 +199,15 @@
     "mailInvalide": "Adresse mail invalide (exemple@abes.fr)",
     "info" : "Les données que vous voyez dans theses.fr sont placées sous la responsabilité des établissements habilités à délivrer le doctorat. Ce formulaire vous permet de contacter directement l'établissement qui gère la thèse : ",
     "msg": "Votre message a bien été transmis.",
-    "mandatory": "Les champs marqués d'un astérisque (*) sont obligatoires."
+    "mandatory": "Les champs marqués d'un astérisque (*) sont obligatoires.",
+    "informationLegale1": "L'envoi du formulaire nécessite l'acceptation du cookie reCAPTCHA. Si vous ne souhaitez pas accepter le cookie reCAPTCHA, nous vous invitons à utiliser le",
+    "informationLegale2": "guichet d’assistance ABESstp",
+    "informationLegale3": "pour signaler une erreur. Pour modifier vos préférences en matière de cookies, cliquez sur l’icône",
+    "informationLegale4": "en bas à droite de l'écran.",
+    "informationLegale5": "Ce formulaire est protégé par reCAPTCHA et les",
+    "informationLegale6": "Politiques de confidentialité",
+    "informationLegale7": "Conditions d'utilisations",
+    "informationLegale8": "de Google s'appliquent."
   },
   "footer": {
     "texte": "Le moteur de recherche theses.fr recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française. La base de données est en constante évolution.",
