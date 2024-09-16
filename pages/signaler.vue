@@ -48,16 +48,19 @@
         </v-alert>
         <div class="captcha-info">
           <span>
-            L'envoi du formulaire nécessite l'acceptation du cookie reCAPTCHA.
+            {{ $t("reportErrorView.informationLegale1") + '\xa0' }}
+            <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{ $t("reportErrorView.informationLegale2") }}</a>
+            {{ '\xa0' + $t("reportErrorView.informationLegale3") }}
+            <IconsIconTarteaucitron></IconsIconTarteaucitron>
+            {{ $t("reportErrorView.informationLegale4") }}
           </span>
         </div>
         <span class="form-row submit privacy">
           <br />
-          <p>Ce formulaire est protégé par reCAPTCHA et les&nbsp;</p>
-          <a href="https://policies.google.com/privacy" target="_blank">Politiques de
-            confidentialité</a><p>&nbsp;et&nbsp;</p><a href="https://policies.google.com/terms" target="_blank">Conditions
-          d'utilisations</a><p>&nbsp;de Google
-          s'appliquent.</p>
+          <p>{{ $t("reportErrorView.informationLegale5") + '\xa0' }}</p>
+          <a href="https://policies.google.com/privacy" target="_blank">{{ $t("reportErrorView.informationLegale6") }}</a><p>&nbsp;{{ $t("et") }}&nbsp;</p>
+          <a href="https://policies.google.com/terms" target="_blank">{{ $t("reportErrorView.informationLegale7") }}</a>
+          <p>&nbsp;{{ $t("reportErrorView.informationLegale8") }}</p>
         </span>
       </v-form>
   </div>
@@ -307,6 +310,10 @@ function sleep(ms) {
 
 .error-message-text {
   margin: 0 5px;
+}
+
+a {
+  text-decoration: underline;
 }
 </style>
 

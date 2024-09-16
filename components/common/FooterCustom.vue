@@ -14,52 +14,59 @@
         </h1>
         <div class="list-1" role="list">
           <div role="presentation" class="colonne1">
-            <div role="listitem">
+            <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/"
                   target="_blank"
-                  title="Accéder sur le site data.gouv.fr à l’extraction complète des données disponibles sur theses.fr et relatives aux thèses soutenues">
+                  title="Accéder sur le site data.gouv.fr à l’extraction complète des données disponibles sur thèses.fr et relatives aux thèses soutenues">
                   {{ $t("footer.opendata") }}</a></span>
             </div>
-            <div role="listitem">
+            <div class="list-item" role="listitem">
+              <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+              <span><a href="https://api.gouv.fr/producteurs/abes/"
+                       target="_blank"
+                       title="Accéder sur le site api.gouv.fr aux API de thèses.fr">
+                    {{ $t("footer.apiThesesfr") }}</a></span>
+            </div>
+            <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://www.idref.fr/" target="_blank"
                   title="Accéder à IdRef, la base des identifiants et des référentiels utilisés pour l’enseignement supérieur et la recherche">{{
           $t("footer.idRref")
         }}</a></span>
             </div>
-            <div role="listitem">
+            <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank"
-                  title="Accéder à la documentation de theses.fr">{{
+                  title="Accéder à la documentation de thèses.fr">{{
           $t("footer.doc") }}</a></span>
-            </div>
-            <div role="listitem">
-              <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="http://search.ndltd.org/" target="_blank"
-                  title="Global ETD Search - Les thèses électroniques dans le monde">{{
-                    $t("footer.globalETD") }}</a></span>
             </div>
           </div>
           <div role="presentation" class="colonne2">
-            <div role="listitem">
+            <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="http://www.sudoc.abes.fr/cbs/" target="_blank"
                   title="Accéder au Sudoc, le catalogue collectif des bibliothèques universitaires françaises">{{
                     $t("footer.catalogue") }}</a></span>
             </div>
-            <div role="listitem">
+            <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank"
                   title="Accéder à la recommandation AFNOR TEF, le format de description des thèses de doctorat électroniques françaises">{{
                     $t("footer.tef")
                   }}</a></span>
             </div>
-            <div role="listitem">
+            <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
                   title="Accéder au guichet d’assistance de l’Abes">{{
                     $t("footer.assistance") }}</a></span>
+            </div>
+            <div class="list-item" role="listitem">
+              <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+              <span><a href="http://search.ndltd.org/" target="_blank"
+                       title="Global ETD Search - Les thèses électroniques dans le monde">{{
+                  $t("footer.globalETD") }}</a></span>
             </div>
           </div>
         </div>
@@ -132,9 +139,6 @@
     }
 
     div {
-
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {}
-
       ul {
         list-style: none;
         text-align: left;
@@ -202,7 +206,7 @@
       max-width: 90%;
     }
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
       .colonne1 {
         min-width: 250px;
         max-width: 250px;
@@ -328,6 +332,10 @@ footer {
   padding-top: 0;
   background-color: rgb(var(--v-theme-surface));
   border-top: 2px solid rgb(var(--v-theme-gris-fonce));
+}
+
+.list-item {
+  display: flex;
 }
 
 .footer-content {
