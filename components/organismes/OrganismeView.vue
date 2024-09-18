@@ -43,8 +43,8 @@
             <div class="info-wrapper" v-else>
                 <div class="info">
                     <IconsIconOrganisme></IconsIconOrganisme>
-                    <div class="nom-card">
-                        <h1 class="nomprenom">
+                    <div class="nom-card" tabindex="-1" ref="firstFocusElement" aria-labelledby="nomprenom-organisme">
+                        <h1 class="nomprenom" id="nomprenom-organisme">
                             {{ name }}
                         </h1>
                         <a :href="`https://www.idref.fr/${props.id}`" class="idref-logo" target="_blank"
@@ -106,7 +106,7 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-import { ref, defineAsyncComponent } from "vue";
+import { ref, defineAsyncComponent, onMounted, nextTick } from "vue";
 import { useDisplay } from "vuetify";
 import { useColorMode } from '@vueuse/core';
 
@@ -172,6 +172,21 @@ getName(props.id).then(result => {
         displayError(error.message);
     }
 });
+
+
+const firstFocusElement = ref(null);
+
+// Focus sur le contenu de la page au chargement
+onMounted(() => {
+  nextTick(() => {
+    setTimeout(() => {
+      if (firstFocusElement.value) {
+        firstFocusElement.value.focus({ focusVisible: false });
+      }
+    }, 100);
+  });
+});
+
 
 async function voirPlus(contexte, ppn) {
     switch (contexte) {
