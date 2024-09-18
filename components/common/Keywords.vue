@@ -10,7 +10,7 @@
       </div>
       <div class="thesis-keywords" v-if="type === 'theses'">
         <div class="mots-cles-controlles" v-if="rameauKeywords.length > 0">
-          <div  tabindex="0" ref="backFromKeywordModal" aria-labelledby="mots-cles-controles-header" class="subtitle">
+          <div  ref="backFromKeywordModal" aria-labelledby="mots-cles-controles-header" class="subtitle">
             <h3 id="mots-cles-controles-header">{{ $t("motCleControle") }}</h3>
             <v-btn class="info-button" @click="overlayIsOpened = !overlayIsOpened" flat title="Informations sur les mots clés">
               <v-icon size="22">mdi-information-outline</v-icon>
@@ -20,7 +20,7 @@
               <div tabindex="0" id="legend-tooltip">
                 <v-card class="legend-tooltip">
                   <span>
-                    {{ $t("motCleControleDescription") }} <a class="" href="https://www.idref.fr/">idRef.</a>
+                    {{ $t("motCleControleDescription") }} <a title="Se rendre sur le site de id Ref" href="https://www.idref.fr/">idRef.</a>
                   </span>
                   <div class="close-overlay-button-container">
                     <v-btn @click="overlayIsOpened = !overlayIsOpened" class="close-overlay-button" variant="outlined" density="compact" append-icon="mdi-close-box" flat>{{ $t('access.fermer') }}</v-btn>
@@ -28,9 +28,8 @@
                 </v-card>
               </div>
             </v-overlay>
-
           </div>
-          <div role="list" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+          <div role="list" aria-labelledby="mots-cles-controles-header" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in rameauKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
               <nuxt-link role="listitem"
                 :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
@@ -41,11 +40,11 @@
             </template>
           </div>
         </div>
-        <div class="mots-cles-libres" v-if="freeKeywords.length > 0">
+        <div id="mots-cles-libres" v-if="freeKeywords.length > 0">
           <div class="subtitle">
             <h3>{{ $t("motCleLibres") }}</h3>
           </div>
-          <div role="list" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+          <div role="list" aria-labelledby="mots-cles-libres" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in freeKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
               <nuxt-link role="listitem"
                 :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
