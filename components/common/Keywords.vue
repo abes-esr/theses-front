@@ -4,7 +4,7 @@
       <div class="key-words-title-wrapper">
         <div class="title">
           <v-icon color="primary">mdi-list-box</v-icon>
-          <h2>{{ $t('motcle') }}</h2>
+          <h2 id="keywords-title">{{ $t('motcle') }}</h2>
           <CommonLanguageSelector :languages="langList" @update-langue="onUpdateLangue"></CommonLanguageSelector>
         </div>
       </div>
@@ -57,7 +57,7 @@
         </div>
       </div>
       <div v-else>
-        <div role="list" v-if="mixedKeywords.length > 0" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+        <div role="list" aria-labelledby="keywords-title" v-if="mixedKeywords.length > 0" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
           <template v-for="keyWord in mixedKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
             <nuxt-link role="listitem"
               :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
