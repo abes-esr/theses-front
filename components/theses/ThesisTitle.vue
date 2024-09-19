@@ -3,8 +3,8 @@
     <div class="thesis-icon">
       <ThesesResultsThesisIcon :status="status"></ThesesResultsThesisIcon>
     </div>
-    <div class="title-flexbox">
-      <h1 :class="isRtl ? 'rtl-text' : ''">
+    <div class="title-flexbox" ref="firstFocusElement" aria-labelledby="thesis-title" tabindex="-1">
+      <h1 :class="isRtl ? 'rtl-text' : ''" id="thesis-title">
         {{ currentTitle }}
       </h1>
       <CommonLanguageSelector class="language-selector" :languages="langList" @update-langue="onUpdateLangue">
@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, nextTick } from "vue";
 import { LanguesRTL } from "../../services/Common";
 
 const props = defineProps({
@@ -34,6 +34,19 @@ const selectedLanguage = ref("fr");
 const isRtl = ref(false);
 
 currentTitle.value = props.titles[selectedLanguage.value];
+
+const firstFocusElement = ref(null);
+
+// Focus sur le contenu de la page au chargement
+onMounted(() => {
+  nextTick(() => {
+    setTimeout(() => {
+      if (firstFocusElement.value) {
+        firstFocusElement.value.focus({ focusVisible: false });
+      }
+    }, 100);
+  });
+});
 
 /**
  * Computed Properties
