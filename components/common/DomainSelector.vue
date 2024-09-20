@@ -1,23 +1,27 @@
 <template>
   <div class="domain-selector" role="list">
-    <v-btn flat @click="select('theses')" title="Rechercher des thèses" role="listitem">
-      <v-icon size="50" color="secondary">mdi-school</v-icon>
-      <span class="title">
-        <h2 :class="selected === 'theses' ? 'selected' : ''">
-          {{ $t("toutesTheses") }}
-        </h2>
-      </span>
-    </v-btn>
+    <div role="listitem">
+      <v-btn flat @click="select('theses')" title="Rechercher des thèses" role="button">
+        <v-icon size="50" color="secondary">mdi-school</v-icon>
+        <span class="title">
+          <h2 :class="selected === 'theses' ? 'selected' : ''">
+            {{ $t("toutesTheses") }}
+          </h2>
+        </span>
+      </v-btn>
+    </div>
     <v-divider aria-hidden="true" vertical></v-divider>
-    <v-btn flat @click="select('personnes')" title="Rechercher des personnes liées aux thèses" role="listitem">
-      <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
-      <span class="title">
-        <h2>
-          {{ $t("toutesPersonnes") }}
-          <br />
-        <span :class="selected === 'personnes' ? 'selected' : ''" id="personnes-subtitle">{{ $t("toutesPersonnesSubtitle") }}</span></h2>
-      </span>
-    </v-btn>
+    <div role="listitem">
+      <v-btn flat @click="select('personnes')" title="Rechercher des personnes liées aux thèses" role="button">
+        <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
+        <span class="title">
+          <h2>
+            {{ $t("toutesPersonnes") }}
+            <br />
+          <span :class="selected === 'personnes' ? 'selected' : ''" id="personnes-subtitle">{{ $t("toutesPersonnesSubtitle") }}</span></h2>
+        </span>
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -68,26 +72,30 @@ watch(() => currentRoute.path, () => {
   background-color: transparent;
   margin: 1.5rem 0 1rem 0;
 
-  .v-btn {
+  div {
+    justify-content: space-evenly;
     flex: 0 1 48%;
     display: flex;
-    height: 100%;
-    background-color: transparent;
     padding: 0;
 
-    ::v-deep(.v-btn__content) {
-      display: flex;
-      flex-direction: column;
-      letter-spacing: 0.07em;
+    .v-btn {
+      background-color: transparent;
+      height: 100%;
 
-      h2 {
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 48px;
+      ::v-deep(.v-btn__content) {
+        display: flex;
+        flex-direction: column;
+        letter-spacing: 0.07em;
 
-        @media #{ map-get(settings.$display-breakpoints, 'lg-and-up')} {
-          font-size: 18px;
-          line-height: 64px;
+        h2 {
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 48px;
+
+          @media #{ map-get(settings.$display-breakpoints, 'lg-and-up')} {
+            font-size: 18px;
+            line-height: 64px;
+          }
         }
       }
     }

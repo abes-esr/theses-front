@@ -1,8 +1,9 @@
 <template>
   <v-app-bar flat id="appBar" v-if="!mobile && isReady">
     <div class="toolbar-wrapper" role="list">
-      <div class="text-center text-md-left language-accessibility-toolbar" role="presentation">
-        <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')" role="listitem">
+      <div class="text-center text-md-left language-accessibility-toolbar" role="listitem">
+
+        <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')" role="button">
           <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
             :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
         </v-btn>
@@ -40,7 +41,7 @@
     </div>
   </v-app-bar>
 
-  <v-dialog v-model="dialog" width="auto">
+  <v-dialog v-model="dialog" width="auto" attach="true">
     <v-card>
       <v-card-title>{{ $t("access.params") }}</v-card-title>
       <v-card-text>
