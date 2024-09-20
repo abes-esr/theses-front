@@ -5,24 +5,27 @@
 
   <ClientOnly>
     <div v-if="!mobile" class="thesis-toolbar no-wrap-text" role="list">
-      <v-btn v-if="isBackAvailable" flat prepend-icon="mdi-arrow-left-circle-outline" variant="outlined" role="listitem"
-        @click="previousPage">
-        <template v-slot:prepend-icon>
-          <v-icon>
-            mdi-arrow-left-circle
-          </v-icon>
-        </template>
-        <p>{{ $t("theseView.retour") }}</p>
-      </v-btn>
+      <div v-if="isBackAvailable" role="listitem" class="v-btn-container">
+        <v-btn flat prepend-icon="mdi-arrow-left-circle-outline" variant="outlined" role="button"
+          @click="previousPage">
+          <template v-slot:prepend-icon>
+            <v-icon>
+              mdi-arrow-left-circle
+            </v-icon>
+          </template>
+          <p>{{ $t("theseView.retour") }}</p>
+        </v-btn>
+      </div>
       <span v-else></span>
       <div class="no-wrap-text" role="presentation">
 <!--        Export-->
         <CommonExportButton :nnt="nnt" v-if="these" />
 <!--        Fin export-->
 <!--        Signaler-->
+        <div role="listitem" class="v-btn-container">
           <v-btn class="nuxt-link" v-if="!organisme && !personne" flat append-icon="mdi-alert-circle" variant="outlined"
                  :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }"
-                 target="_blank" role="listitem">
+                 target="_blank" role="button">
             <template v-slot:append-icon>
               <v-icon>
                 mdi-alert
@@ -30,6 +33,7 @@
             </template>
             <p>{{ $t("theseView.alert") }}</p>
           </v-btn>
+        </div>
 <!--        Fin signaler-->
         <v-btn v-if="personne" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
           alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
@@ -164,14 +168,17 @@ function previousPage() {
     color: rgb(var(--v-text-dark-blue));
   }
 
-  .v-btn {
-    margin: 1em;
-    text-transform: none;
+  .v-btn-container {
     display: inline-flex;
-    padding: 0 1em;
-    letter-spacing: 0.5px;
-    max-width: 90%;
-    font-weight: 500;
+
+    .v-btn {
+      margin: 1em;
+      padding: 0 1em;
+      max-width: 90%;
+      text-transform: none;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
 
     :deep(.v-btn__content) {
       width: 100%;

@@ -8,11 +8,11 @@
         }}</strong></a>
       </div>
       <div class="links-container footer-content">
-        <h1 aria-hidden="true">
+        <h1 aria-hidden="true" id="footer-link-title">
           <v-icon title="Lien externe">mdi-open-in-new</v-icon>
           {{ $t("accesDirect") }}
         </h1>
-        <div class="list-1" role="list">
+        <div class="list-1" role="list" aria-labelledby="footer-link-title">
           <div role="presentation" class="colonne1">
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>

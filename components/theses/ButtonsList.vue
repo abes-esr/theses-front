@@ -12,7 +12,7 @@
       </button>
     </div>
 
-    <!--  Catégorie validé par le jury -->
+    <!--  Catégorie validée par le jury -->
     <div v-if="categoriesValide.length > 0 && soutenue">
       <div class="header-container no-wrap-text">
         <v-icon color="primary" class="menu-icon">mdi-certificate</v-icon>
@@ -23,23 +23,23 @@
           <v-expansion-panel v-if="sousCategorie.boutons.length > 0">
             <!--            Intitulé de la catégorie-->
             <v-expansion-panel-title class="sous-categorie-header" >
-              <h4>
+              <h4 id="categories-valide-title">
                 {{ sousCategorie.libelle }}
               </h4>
             </v-expansion-panel-title>
-            <v-expansion-panel-text>
+            <v-expansion-panel-text role="list" aria-labelledby="categories-valide-title">
               <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
-                <v-btn v-if="b.typeAcces == 'ACCES_ESR'" class="thesis-access-buttons" append-icon="mdi-open-in-new"
+                <v-btn v-if="b.typeAcces == 'ACCES_ESR'" role="listitem" class="thesis-access-buttons" append-icon="mdi-open-in-new"
                   @click="checkboxModal = false; dialog = true; dialogUrl = b.url.startsWith('http') ? b.url : baseURL + b.url"
                   :aria-label="b.libelle + $t('externalLink')" :flat="true">{{
         b.libelle }}
                 </v-btn>
-                <v-btn v-else-if="b.url" class="thesis-access-buttons" append-icon="mdi-open-in-new"
+                <v-btn v-else-if="b.url" role="listitem" class="thesis-access-buttons" append-icon="mdi-open-in-new"
                   :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle + $t('externalLink')"
                   :aria-label="b.libelle" :flat="true">{{
         b.libelle }}
                 </v-btn>
-                <v-card class="texte-embargo" variant="outlined" v-else>
+                <v-card class="texte-embargo" role="listitem" variant="outlined" tabindex="0" v-else>
                   <img :alt="$t('theseView.alertSign')" class="icon-alert"
                     src="@/assets/triangle-exclamation-solid.svg" />
                   <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin.replaceAll("-", "/")
@@ -60,16 +60,16 @@
         <v-expansion-panel class="buttons-sub-header buttons-sub-header-other">
           <v-expansion-panel-title>
             <v-icon color="primary" class="menu-icon">mdi-list-box</v-icon>
-            <h3 class="buttons-title-header buttons-title-header-other">{{ $t("theseView.others") }}</h3>
+            <h3 class="buttons-title-header buttons-title-header-other" id="other-title">{{ $t("theseView.others") }}</h3>
           </v-expansion-panel-title>
-          <v-expansion-panel-text>
+          <v-expansion-panel-text role="list" aria-labelledby="other-title">
             <div class="buttons-list" v-for="b in boutonsAutres" :key="b">
-              <v-btn v-if="b.url" class="thesis-access-buttons" append-icon="mdi-open-in-new"
+              <v-btn v-if="b.url" role="listitem" class="thesis-access-buttons" append-icon="mdi-open-in-new"
                 :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle + $t('externalLink')"
                 :aria-label="b.libelle" :flat="true">{{
         b.libelle }}
               </v-btn>
-              <v-card class="texte-embargo" variant="outlined"
+              <v-card class="texte-embargo" role="listitem" variant="outlined" tabindex="0"
                 v-if="b.libelle === 'Embargo' || b.libelle === 'Confidentialite'">
                 <img :alt="$t('theseView.alertSign')" class="icon-alert"
                   src="@/assets/triangle-exclamation-solid.svg" />
@@ -86,7 +86,7 @@
     </div>
     <!--  Encart thèse en cours de traitement-->
     <div v-if="soutenue && status === 'enCours'" class="buttons-list-wrapper processing-status">
-      <v-card class="texte-embargo" variant="outlined">
+      <v-card class="texte-embargo" variant="outlined" tabindex="0">
         <img :alt="$t('theseView.alertSign')" class="icon-alert" src="@/assets/triangle-exclamation-solid.svg" />
         <span v-if="source === 'sudoc'">{{ $t("theseView.enTraitementStartYear") }}{{ dateVerifiee }}{{
         $t("theseView.enTraitementEnd") }}</span>
@@ -98,7 +98,7 @@
 
   <!-- Modal Accès ESR -->
   <v-dialog v-model="dialog" :fullscreen="mobile" :width="mobile ? '100%' : '70%'">
-    <v-card style="padding: 2rem 2rem; display: flex;">
+    <v-card style="padding: 2rem 2rem; display: flex;" tabindex="0">
       <span v-html='$t("theseView.modalContent")'></span>
       <br />
       <v-checkbox v-model="checkboxModal" :label='$t("theseView.modalAgree")' />
