@@ -71,7 +71,7 @@ function getLabelFromCode(code) {
 // Trier par ordre alphabétique
 function sortByLanguageName(data) {
   data.checkboxes.sort((a, b) => {
-    return a.label > b.label;
+    return a.label.localeCompare(b.label, "fr");
   });
 
   return data;
