@@ -25,6 +25,7 @@ const abesLightTheme = {
     'text-dark-blue': "#0B2134",
     'fond-chip-blue': "#ABB9D5",
     'white-text': "#FFFFFF",
+    'white-text-footer': "#FFFFFF",
     'gris-skeleton' : '#e6e6e6',
     'gris-switch': '#595759',
     'thesaurus-text': "#FFFFFF",
@@ -54,9 +55,40 @@ const abesDarkTheme = {
     'text-dark-blue': "#FFFFFF",
     'fond-chip-blue': "#ABB9D5",
     'white-text': "#FFFFFF",
+    'white-text-footer': "#FFFFFF",
     'thesaurus-text': "#005A8F",
     'gris-skeleton' : '#55586d',
     'gris-switch': '#b3b2b4'
+  }
+}
+
+const abesInvertedTheme = {
+  dark: false,
+  colors: {
+    background: '#000080',
+    surface: '#000080',
+    primary: '#ffff00',
+    'primary-darken-1': '#ffff00',
+    secondary: '#ffff00',
+    'secondary-darken-1': '#ffff00',
+    'secondary-darken-2': '#ffff00',
+    'secondary-darken-3': '#ffff00',
+    'orange-abes': '#ffff00',
+    'orange-abes-thesaurus': '#ffff00',
+    'gris-clair' : '#ffff00',
+    'gris-fonce': '#ffff00',
+    error: '#ffff00',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#ffff00',
+    'fond-noir': "#000080",
+    'text-dark-blue': "#ffff00",
+    'fond-chip-blue': "#ffff00",
+    'white-text': "#000080",
+    'white-text-footer': "#ffff00",
+    'thesaurus-text': "#000080",
+    'gris-skeleton' : '#ffff00',
+    'gris-switch': '#ffff00'
   }
 }
 
@@ -75,6 +107,7 @@ export default defineNuxtPlugin((app) => {
         themes: {
             abesLightTheme,
             abesDarkTheme,
+            abesInvertedTheme
         }
     },
     ssr: ssr,
