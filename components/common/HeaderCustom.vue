@@ -97,9 +97,7 @@ const colorMode = useColorMode({
 });
 
 onBeforeMount(() => {
-  console.log("colorMode.value : " + colorMode.value)
-  console.log("theme.global.name.value : " + theme.global.name.value)
-  console.log("themesNames.value[colorMode.value] : " + themesNames.value[colorMode.value])
+  //Etat initial du switch
   theme.global.name.value = themesNames.value[colorMode.value];
   selectedThemeSwitch.value = colorMode.value;
   isReady.value = true;
