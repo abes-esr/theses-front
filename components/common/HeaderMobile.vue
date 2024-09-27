@@ -115,10 +115,10 @@
       <v-card-title>{{ $t("access.params") }}</v-card-title>
       <v-card-text>
         <ul class="switch-list">
-          <li><v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.police-aria")' :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
           <li><v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch></li>
           <li><v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch></li>
-          <li><v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.contrast-aria")' :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch></li>
         </ul>
       </v-card-text>
       <v-card-actions>
@@ -156,7 +156,7 @@ const colorMode = useColorMode({
 
 onBeforeMount(() => {
   // Etat par défaut du switch
-  changeContrast.value = useColorMode().value === 'dark';
+  // changeContrast.value = useColorMode().value === 'dark';
   isReady.value = true;
 });
 
@@ -247,7 +247,7 @@ const justification = useState('justification');
  * Watchers
  */
 watch(changeContrast, newValue => {
-  colorMode.value = newValue ? 'dark' : 'light';
+  // colorMode.value = newValue ? 'dark' : 'light';
 });
 
 onMounted(() => {

@@ -46,10 +46,11 @@
       <v-card-title>{{ $t("access.params") }}</v-card-title>
       <v-card-text>
         <ul class="switch-list">
-          <li><v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.police-aria")' :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
           <li><v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch></li>
           <li><v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch></li>
-          <li><v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.contrast-aria")' :label='$t("access.contrast")' v-model="selectedThemeSwitch" value="dark" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.inverted-aria")' :label='$t("access.inverted")' v-model="selectedThemeSwitch" value="inverted" inset></v-switch></li>
         </ul>
       </v-card-text>
       <v-card-actions>
@@ -70,27 +71,37 @@ const { locale } = useI18n();
 const { mobile } = useDisplay();
 
 const isReady = ref(false);
+
 //Paramètres d'accessibilité
 const dialog = ref(false);
 const opendys = useState('opendys');
 const interlignes = useState('interlignes');
 const justification = useState('justification');
-const changeContrast = ref(false);
+const selectedThemeSwitch = ref('');
 
 const themesNames = ref({
   "light": "abesLightTheme",
-  "dark": "abesDarkTheme"
+  "dark": "abesDarkTheme",
+  "inverted": "abesInvertedTheme"
 });
 
 const colorMode = useColorMode({
+  attribute: 'theme',
+  modes: {
+    // couleurs personnalisées
+    inverted: 'inverted'
+  },
   onChanged(color) {
     theme.global.name.value = themesNames.value[color];
   }
 });
 
 onBeforeMount(() => {
-  // Etat par défaut du switch
-  changeContrast.value = useColorMode().value === 'dark';
+  console.log("colorMode.value : " + colorMode.value)
+  console.log("theme.global.name.value : " + theme.global.name.value)
+  console.log("themesNames.value[colorMode.value] : " + themesNames.value[colorMode.value])
+  theme.global.name.value = themesNames.value[colorMode.value];
+  selectedThemeSwitch.value = colorMode.value;
   isReady.value = true;
 });
 
@@ -119,8 +130,11 @@ function setLanguage(lang) {
 /**
  * Watchers
  */
-watch(changeContrast, newValue => {
-  colorMode.value = newValue ? 'dark' : 'light';
+// Détecter les changements de switch pour changer le thème
+watch(() => selectedThemeSwitch.value, () => {
+  if(selectedThemeSwitch.value === false)
+      selectedThemeSwitch.value = "light";
+  colorMode.value = selectedThemeSwitch.value;
 });
 </script>
 

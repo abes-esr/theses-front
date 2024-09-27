@@ -2,8 +2,36 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 
+const abesInvertedTheme = {
+  colors: {
+    background: '#000080',
+    surface: '#000080',
+    primary: '#ffff00',
+    'primary-darken-1': '#ffff00',
+    secondary: '#ffff00',
+    'secondary-darken-1': '#ffff00',
+    'secondary-darken-2': '#ffff00',
+    'secondary-darken-3': '#ffff00',
+    'orange-abes': '#ffff00',
+    'orange-abes-thesaurus': '#ffff00',
+    'gris-clair' : '#ffff00',
+    'gris-fonce': '#ffff00',
+    error: '#ffff00',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#ffff00',
+    'fond-noir': "#000080",
+    'text-dark-blue': "#ffff00",
+    'fond-chip-blue': "#ffff00",
+    'white-text': "#000080",
+    'white-text-footer': "#ffff00",
+    'thesaurus-text': "#000080",
+    'gris-skeleton' : '#ffff00',
+    'gris-switch': '#ffff00'
+  }
+}
+
 const abesLightTheme = {
-  dark: false,
   colors: {
     background: '#F9F9FB',
     surface: '#FFFFFF',
@@ -33,7 +61,6 @@ const abesLightTheme = {
 }
 
 const abesDarkTheme = {
-  dark: false,
   colors: {
     background: '#343643',
     surface: '#343643',
@@ -59,36 +86,6 @@ const abesDarkTheme = {
     'thesaurus-text': "#005A8F",
     'gris-skeleton' : '#55586d',
     'gris-switch': '#b3b2b4'
-  }
-}
-
-const abesInvertedTheme = {
-  dark: false,
-  colors: {
-    background: '#000080',
-    surface: '#000080',
-    primary: '#ffff00',
-    'primary-darken-1': '#ffff00',
-    secondary: '#ffff00',
-    'secondary-darken-1': '#ffff00',
-    'secondary-darken-2': '#ffff00',
-    'secondary-darken-3': '#ffff00',
-    'orange-abes': '#ffff00',
-    'orange-abes-thesaurus': '#ffff00',
-    'gris-clair' : '#ffff00',
-    'gris-fonce': '#ffff00',
-    error: '#ffff00',
-    info: '#2196F3',
-    success: '#4CAF50',
-    warning: '#ffff00',
-    'fond-noir': "#000080",
-    'text-dark-blue': "#ffff00",
-    'fond-chip-blue': "#ffff00",
-    'white-text': "#000080",
-    'white-text-footer': "#ffff00",
-    'thesaurus-text': "#000080",
-    'gris-skeleton' : '#ffff00',
-    'gris-switch': '#ffff00'
   }
 }
 

@@ -243,9 +243,13 @@
     "params": "Paramètres d'accessibilité",
     "btn": "Personnaliser l’affichage de l’interface",
     "police": "Police adaptée à la dyslexie",
+    "police-aria": "Changer de police, police adaptée à la dyslexie",
     "interligne": "Augmenter l'interlignage",
     "justification": "Désactiver la justification du texte",
     "fermer": "Fermer",
-    "contrast": "Contraste renforcé"
+    "contrast": "Contraste renforcé",
+    "contrast-aria": "Changer de thème : contraste renforcé",
+    "inverted": "Contraste inversé",
+    "inverted-aria": "Changer de thème : contraste inversé"
   }
 }
