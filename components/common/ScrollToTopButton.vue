@@ -56,7 +56,7 @@ export default {
   position: absolute;
   top: 5px;
   left: 5px;
-  background: rgb(var(--v-theme-gris-clair));
+  background: rgb(var(--v-theme-surface));
 }
 
 

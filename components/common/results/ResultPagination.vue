@@ -189,6 +189,7 @@ watch(() => props.currentShowingNumber, () => {
     padding: 0 8px;
     align-content: flex-start;
     margin-top: -2px;
+    color: rgb(var(--v-theme-text-dark-blue)) !important;
   }
 
   :deep(.v-field__append-inner) {

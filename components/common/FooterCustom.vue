@@ -266,10 +266,12 @@
   .footerBottom {
     width: 100%;
     background-color: rgb(var(--v-theme-fond-noir));
-    color: rgb(var(--v-theme-white-text));
+    color: rgb(var(--v-theme-white-text-footer));
 
     display: grid;
     grid-template-columns: 1fr 1fr;
+
+    border-top: rgb(var(--v-theme-gris-clair)) solid 1px;
 
     @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
       display: flex;

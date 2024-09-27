@@ -84,4 +84,8 @@ function reinitializePageNumber() {
 :deep(.v-expansion-panel-title--active:hover > .v-expansion-panel-title__overlay) {
   opacity: 0.04;
 }
+
+:deep(.v-expansion-panel) {
+  color: rgb(var(--v-theme-text-dark-blue)) !important;
+}
 </style>
