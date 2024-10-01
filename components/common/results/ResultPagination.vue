@@ -100,15 +100,18 @@ function updatePageNumberFromSortingSelect(pageNumber) {
 /**
  * Watchers
  */
-watch(currentPageNumber, (newCurrentPageNumber, previousCurrentPageNumber) => {
-  if (typeof previousCurrentPageNumber !== "undefined") {
+watch(currentPageNumber, async (newCurrentPageNumber, previousCurrentPageNumber) => {
+  if (typeof previousCurrentPageNumber !== "undefined" && newCurrentPageNumber !== previousCurrentPageNumber) {
+    await nextTick();
+    console.log("watcher currentPageNumber")
     setPageNumber(newCurrentPageNumber);
     emit("updatePage", newCurrentPageNumber);
   }
 });
 
-watch(currentShowingNumber, (newShowingNumber, previousShowingNumber) => {
-  if (typeof previousShowingNumber !== 'undefined') {
+watch(currentShowingNumber, async (newShowingNumber, previousShowingNumber) => {
+  if (typeof previousShowingNumber !== 'undefined' && newShowingNumber !== previousShowingNumber) {
+    await nextTick();
     setShowingNumber(newShowingNumber);
     setPageNumber(1);
     emit("updateShowingNumber", newShowingNumber);
@@ -119,12 +122,19 @@ watch(currentShowingNumber, (newShowingNumber, previousShowingNumber) => {
 /**
  * Watcher des autres barres de pagination
  */
-watch(() => props.currentPageNumber, () => {
-  currentPageNumber.value = props.currentPageNumber;
+watch(() => props.currentPageNumber, async () => {
+  if (currentPageNumber.value !== props.currentPageNumber) {
+    await nextTick();
+    console.log("watcher props.currentPageNumber")
+    currentPageNumber.value = props.currentPageNumber;
+  }
 });
 
-watch(() => props.currentShowingNumber, () => {
-  currentShowingNumber.value = props.currentShowingNumber;
+watch(() => props.currentShowingNumber, async () => {
+  if (currentShowingNumber.value !== props.currentShowingNumber) {
+    await nextTick();
+    currentShowingNumber.value = props.currentShowingNumber;
+  }
 });
 </script>
 
