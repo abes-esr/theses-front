@@ -47,17 +47,15 @@
     <!-- Menu burger mobile -->
     <v-fade-transition>
       <div v-show="showMenu" ref="expandedMenu" tabindex="0" class="expanded-search-bar-container white-containers" role="list">
-        <div class="languages-btn-container">
-<!--          <div class="languages-btn">-->
-<!--            <button flat @click="setLanguage('fr')" title="Langue française"-->
-<!--              :class="locale === 'fr' ? 'selected' : ''">FR</button>-->
-<!--            <p>|</p>-->
-<!--            <button flat @click="setLanguage('en')" title="English Language"-->
-<!--              :class="locale === 'en' ? 'selected' : ''">EN</button>-->
-<!--            <p>|</p>-->
-<!--            <button flat @click="setLanguage('es')" title="Idioma Espanol"-->
-<!--              :class="locale === 'es' ? 'selected' : ''">ES</button>-->
-<!--          </div>-->
+        <div class="languages-btn-container" role="list" :aria-label="$t('header.localeSelection')">
+          <v-btn flat @click="setLanguage('fr')" aria-label="Changer la langue du site en français"
+                 :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
+          <v-divider vertical role="presentation"></v-divider>
+          <v-btn flat @click="setLanguage('en')" aria-label="Switch language to English"
+                 :class="locale === 'en' ? 'selected' : ''">EN</v-btn>
+          <v-divider vertical role="presentation"></v-divider>
+          <v-btn flat @click="setLanguage('es')" aria-label="Cambiar el idioma a español"
+                 :class="locale === 'es' ? 'selected' : ''">ES</v-btn>
         </div>
         <div class="expanded-burger-menu">
           <div class="nav-bar-list-burger">

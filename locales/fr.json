@@ -229,7 +229,8 @@
   "header": {
     "doc": "Accéder à la documentation de theses.fr ",
     "assistance": "Accéder au guichet d’assistance de l'Abes",
-    "accessibility": "Outils d'accessibilité"
+    "accessibility": "Outils d'accessibilité",
+    "localeSelection": "Sélection de la langue du site"
   },
   "meta": {
     "desc": "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation.",

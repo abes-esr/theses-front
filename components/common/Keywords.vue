@@ -60,7 +60,7 @@
         <div role="list" aria-labelledby="keywords-title" v-if="mixedKeywords.length > 0" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
           <template v-for="keyWord in mixedKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
             <nuxt-link role="listitem"
-              :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
+              :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query  : keyWord.keyword, domaine: 'theses', avancee: true } }">
               <v-chip label class="chips" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
                 tabindex="-1">
                 <span class="key-word-label">{{ keyWord.keyword }}</span>
