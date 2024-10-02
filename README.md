@@ -14,11 +14,11 @@ L'application complète peut être déployée via Docker à l'aide du dépôt ht
 ## Architecture technique
 
 L'interface est développée en Vue JS 3, à l'aide du framework NuxtJS 3, qui permet de tirer profit du Server Side Rendering pour certaines pages. Le projet utilise également la bibliothèque de composants Vuetify.
-Le projet est ensuite déployé dans un container docker, dans le SI de l'Abes (le docker compose est disponible [ici](https://github.com/abes-esr/theses-docker) )
+Le projet est ensuite déployé dans un container docker, dans le SI de l'Abes (le docker compose est disponible [ici](https://github.com/abes-esr/theses-docker))
 
-Les données affichées par cet interface sont obtenues en interrogeant les API theses.fr : 
-* https://github.com/abes-esr/theses-api-recherche pour la recherche et l'affichage de theses
-* https://github.com/abes-esr/theses-api-export pour les exports des theses en différents formats (CSV, XML, BIBTEX, etc)
+Les données affichées par cette interface sont obtenues en interrogeant les API theses.fr : 
+* https://github.com/abes-esr/theses-api-recherche pour la recherche et l'affichage de thèses
+* https://github.com/abes-esr/theses-api-export pour les exports des thèses en différents formats (CSV, XML, BIBTEX, etc)
 * https://github.com/abes-esr/theses-api-diffusion pour la mise à disposition des documents (PDFs et autres)
 
 ## Utilisation du projet
@@ -48,7 +48,7 @@ Build et packaging de l'application pour la production :
 npm run build
 ```
 
-Plus d'infos sur le déploiement dans la documentation de Nuxt 3 [deployment documentation](https://nuxt.com/docs/getting-started/deployment) .
+Plus d'infos sur le déploiement dans la documentation de Nuxt 3 [deployment documentation](https://nuxt.com/docs/getting-started/deployment).
 
 
 ### Mode maintenance
@@ -69,4 +69,4 @@ Une fois la maintenance terminée, effectuer la manipulation inverse, remettre `
 > 
 > Aucune page n'est accessible lorsque le mode maintenance est activé (sauf la page de maintenance). Toutes les autres routes sont redirigées vers cette page.
 > 
-> Egalement, lorsque le mode maintenance est désactivée, il n'est pas possible d'aller sur /maintenance, cela vous redirigera vers la page d'accueil.
+> Également, lorsque le mode maintenance est désactivée, il n'est pas possible d'aller sur /maintenance, cela vous redirigera vers la page d'accueil.
