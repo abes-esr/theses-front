@@ -61,9 +61,10 @@
 
 <script setup>
 import { useDisplay } from "vuetify";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 
 const currentRoute = useRoute();
+const router = useRouter();
 const { mobile } = useDisplay();
 import { replaceAndEscape } from "../services/Common";
 const { setShowingNumber, getFacetsRequest } = useStrategyAPI();
@@ -100,6 +101,8 @@ const props = defineProps({
   }
 });
 
+const scrollPosition = ref(0);
+
 /**
  * Début gestionnaire clic
  */
@@ -115,10 +118,17 @@ const handleClick = (event) => {
 
 onMounted(() => {
   document.addEventListener("click", handleClick);
+
+  // Gestion du rachargement de page au clic sur le bouton charger plus de resultats
+  router.afterEach(() => {
+      window.scrollTo(0, scrollPosition.value);
+  })
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener("click", handleClick);
+
+  router.afterEach(() => {});
 });
 
 /**
@@ -155,6 +165,7 @@ function updateShowingNumber(newValue) {
 }
 
 function addTenResultsToList() {
+  scrollPosition.value = window.scrollY;
   currentShowingNumber.value += 10;
   setShowingNumber(currentShowingNumber.value);
 }
