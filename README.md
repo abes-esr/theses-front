@@ -1,7 +1,7 @@
 # theses-front
 [![build-test-pubtodockerhub](https://github.com/abes-esr/theses-front/actions/workflows/build-test-pubtodockerhub.yml/badge.svg)](https://github.com/abes-esr/theses-front/actions/workflows/build-test-pubtodockerhub.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/abesesr/theses.svg)](https://hub.docker.com/r/abesesr/theses/)
 
-Le moteur de recherche theses.fr recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française. 
+Le moteur de recherche theses.fr recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française.
 
 Ce dépôt héberge le code source de l'interface utilisateur du site theses.fr.
 
@@ -16,14 +16,14 @@ L'application complète peut être déployée via Docker à l'aide du dépôt ht
 L'interface est développée en Vue JS 3, à l'aide du framework NuxtJS 3, qui permet de tirer profit du Server Side Rendering pour certaines pages. Le projet utilise également la bibliothèque de composants Vuetify.
 Le projet est ensuite déployé dans un container docker, dans le SI de l'Abes (le docker compose est disponible [ici](https://github.com/abes-esr/theses-docker))
 
-Les données affichées par cette interface sont obtenues en interrogeant les API theses.fr : 
+Les données affichées par cette interface sont obtenues en interrogeant les API theses.fr :
 * https://github.com/abes-esr/theses-api-recherche pour la recherche et l'affichage de thèses
 * https://github.com/abes-esr/theses-api-export pour les exports des thèses en différents formats (CSV, XML, BIBTEX, etc)
 * https://github.com/abes-esr/theses-api-diffusion pour la mise à disposition des documents (PDFs et autres)
 
 ## Utilisation du projet
 
-### Installation des dépendances 
+### Installation des dépendances
 
 ```bash
 # npm
@@ -66,7 +66,7 @@ Une fois la maintenance terminée, effectuer la manipulation inverse, remettre `
 
 > [!NOTE]
 > Le .env mentionné ici est le .env utilisé par le docker-compose.yml, pas le .env local du projet Nuxt
-> 
+>
 > Aucune page n'est accessible lorsque le mode maintenance est activé (sauf la page de maintenance). Toutes les autres routes sont redirigées vers cette page.
-> 
+>
 > Également, lorsque le mode maintenance est désactivée, il n'est pas possible d'aller sur /maintenance, cela vous redirigera vers la page d'accueil.
