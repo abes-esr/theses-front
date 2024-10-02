@@ -131,7 +131,6 @@ export default function() {
       const startingParameterShowingNumber = mobile.value ? 10 : parseInt(getURLParameter("nb"));
       const startingParameterAdvanced = getURLParameter("avancee");
 
-
       // Comparer les paramètres actuels avec ceux existants
       if (
         currentSorting.value === startingParameterTri &&
@@ -177,11 +176,7 @@ export default function() {
     if (currentShowingNumber.value) params["nb"] = currentShowingNumber.value;
     if (currentSorting.value) params["tri"] = currentSorting.value;
     if (domaine.value) params["domaine"] = domaine.value;
-    const isAdvanced = useState("isAdvanced");
-
-    if(isAdvanced.value) {
-      params["avancee"] = "true";
-    }
+    if (isAdvanced.value) params["avancee"] = isAdvanced.value;
 
     return params;
   }
@@ -233,7 +228,7 @@ export default function() {
   function queryAPI() {
     updateURLDebounced();
 
-    const isAdvanced = useState("isAdvanced");
+    // const isAdvanced = useState("isAdvanced");
 
     query.value = (typeof query.value === "undefined") ? "*" : query.value;
 
