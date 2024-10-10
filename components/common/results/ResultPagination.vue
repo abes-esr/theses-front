@@ -55,38 +55,32 @@ const props = defineProps({
   }
 });
 
-const currentPageNumber = ref();
-const currentShowingNumber = ref();
-
-onMounted(() => {
-  currentPageNumber.value = props.currentPageNumber;
-  currentShowingNumber.value = props.currentShowingNumber;
-});
+const currentPageNumber = ref(props.currentPageNumber);
+const currentShowingNumber = ref(props.currentShowingNumber);
 
 const nbPages = computed(() => {
-  if (currentShowingNumber.value && props.nbResults) return Math.ceil(props.nbResults / currentShowingNumber.value);
-  else return 0;
+  if (currentShowingNumber.value && props.nbResults) {
+    return Math.ceil(props.nbResults / currentShowingNumber.value);
+  } else {
+    return 0;
+  }
 });
-
 
 const { xlAndUp } = useDisplay();
 
 const totalVisible = computed(() => {
-  if (nbPages.value > 10000)
-    if (xlAndUp.value) return 5;
-    else return 2;
-  else if (nbPages.value > 100)
-    if (xlAndUp.value) return 8;
-    else return 2;
-  else
-    if (xlAndUp.value) return "10";
-    else return 2;
-})
+  if (nbPages.value > 10000) {
+    return xlAndUp.value ? 5 : 2;
+  } else if (nbPages.value > 100) {
+    return xlAndUp.value ? 8 : 2;
+  } else {
+    return xlAndUp.value ? "10" : 2;
+  }
+});
 
 /**
  * Fonctions
  */
-
 function bottomScrollsToTop() {
   if (props.type === "bottom") scrollToTop();
 }
@@ -101,14 +95,14 @@ function updatePageNumberFromSortingSelect(pageNumber) {
  * Watchers
  */
 watch(currentPageNumber, (newCurrentPageNumber, previousCurrentPageNumber) => {
-  if (typeof previousCurrentPageNumber !== "undefined") {
+  if (newCurrentPageNumber !== previousCurrentPageNumber) {
     setPageNumber(newCurrentPageNumber);
     emit("updatePage", newCurrentPageNumber);
   }
 });
 
 watch(currentShowingNumber, (newShowingNumber, previousShowingNumber) => {
-  if (typeof previousShowingNumber !== 'undefined') {
+  if (newShowingNumber !== previousShowingNumber) {
     setShowingNumber(newShowingNumber);
     setPageNumber(1);
     emit("updateShowingNumber", newShowingNumber);
@@ -117,14 +111,18 @@ watch(currentShowingNumber, (newShowingNumber, previousShowingNumber) => {
 });
 
 /**
- * Watcher des autres barres de pagination
+ * Watcher pour props (éviter les updates récursifs)
  */
-watch(() => props.currentPageNumber, () => {
-  currentPageNumber.value = props.currentPageNumber;
+watch(() => props.currentPageNumber, (newVal) => {
+  if (newVal !== currentPageNumber.value) {
+    currentPageNumber.value = newVal;
+  }
 });
 
-watch(() => props.currentShowingNumber, () => {
-  currentShowingNumber.value = props.currentShowingNumber;
+watch(() => props.currentShowingNumber, (newVal) => {
+  if (newVal !== currentShowingNumber.value) {
+    currentShowingNumber.value = newVal;
+  }
 });
 </script>
 
