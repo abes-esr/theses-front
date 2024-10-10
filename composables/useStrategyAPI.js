@@ -16,6 +16,8 @@ const checkedFilters = ref([]);
 const currentWorkingFacetName = ref("");
 const labelMap = ref(new Map());
 const facetsArray = ref([]);
+const isAdvanced = ref();
+let updateTimeout = null;
 
 export default function() {
 // import fonctions
@@ -43,22 +45,37 @@ export default function() {
    */
   function setPageNumber(value) {
     currentPageNumber.value = parseInt(value);
-    updateURL();
+    updateURLDebounced();
   }
 
   function setShowingNumber(value) {
     currentShowingNumber.value = parseInt(value);
-    updateURL();
+    updateURLDebounced();
   }
 
   function setSorting(value) {
     currentSorting.value = value;
-    updateURL();
+    updateURLDebounced();
   }
 
   function setDomaine(newDomain) {
     domaine.value = newDomain;
-    updateURL();
+    updateURLDebounced();
+  }
+
+  /**
+   * Permet de limiter le nombre d'appels à la méthode updateURL()
+   */
+  function updateURLDebounced() {
+    // Annule le précédent timeout si un appel est déjà en attente
+    if (updateTimeout) {
+      clearTimeout(updateTimeout);
+    }
+
+    // Planifie un nouvel appel après un délai court
+    updateTimeout = setTimeout(() => {
+      updateURL();
+    }, 300);
   }
 
   function getCurrentSorting() {
@@ -79,7 +96,7 @@ export default function() {
 
     return new Promise((resolve) => {
       currentFacets.value = parseFacetsValuesArray(objectsArray);
-      updateURL();
+      updateURLDebounced();
       checkedFilters.value = objectsArray;
       resolve();
     });
@@ -112,6 +129,20 @@ export default function() {
       const startingParameterDomaine = getURLParameter("domaine");
       const startingParameterPage = mobile.value ? 1 : parseInt(getURLParameter("page"));
       const startingParameterShowingNumber = mobile.value ? 10 : parseInt(getURLParameter("nb"));
+      const startingParameterAdvanced = getURLParameter("avancee");
+
+      // Comparer les paramètres actuels avec ceux existants
+      if (
+        currentSorting.value === startingParameterTri &&
+        currentFacets.value === startingParameterFiltres &&
+        query.value === startingParameterQ &&
+        domaine.value === startingParameterDomaine &&
+        currentPageNumber.value === startingParameterPage &&
+        currentShowingNumber.value === startingParameterShowingNumber &&
+        isAdvanced.value === startingParameterAdvanced
+      ) {
+        resolve(); // Ne pas mettre à jour si les paramètres sont les mêmes
+      }
 
       currentSorting.value = startingParameterTri ? startingParameterTri : "pertinence";
       currentFacets.value = startingParameterFiltres ? startingParameterFiltres : "";
@@ -119,7 +150,7 @@ export default function() {
       domaine.value = startingParameterDomaine ? startingParameterDomaine : "theses";
       currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
       currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
-
+      isAdvanced.value = startingParameterAdvanced ? startingParameterAdvanced : false;
 
       resolve();
     });
@@ -145,11 +176,7 @@ export default function() {
     if (currentShowingNumber.value) params["nb"] = currentShowingNumber.value;
     if (currentSorting.value) params["tri"] = currentSorting.value;
     if (domaine.value) params["domaine"] = domaine.value;
-
-    const isAdvanced = useState("isAdvanced");
-    if(isAdvanced.value) {
-      params["avancee"] = "true";
-    }
+    if (isAdvanced.value) params["avancee"] = isAdvanced.value;
 
     return params;
   }
@@ -157,6 +184,7 @@ export default function() {
   function updateURL() {
     if (router.currentRoute._value.name === "resultats") {
       const routerParams = setParameters();
+
       router.replace({
         name: "resultats",
         query: routerParams
@@ -198,9 +226,9 @@ export default function() {
    * Routes
    */
   function queryAPI() {
-    updateURL();
+    updateURLDebounced();
 
-    const isAdvanced = useState("isAdvanced");
+    // const isAdvanced = useState("isAdvanced");
 
     query.value = (typeof query.value === "undefined") ? "*" : query.value;
 
