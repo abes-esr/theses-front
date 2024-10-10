@@ -82,7 +82,7 @@
     <v-card-text class="footerBottom">
         <div class="text-center text-md-left pa-0 slogan">
           {{ new Date().getFullYear() }} —
-          theses.fr, le moteur de recherche des thèses françaises
+          theses.fr, {{ $t('slogan') }}
         </div>
         <div class="text-center text-md-right pa-0">
           <v-divider vertical class="my-1"></v-divider>

@@ -1,6 +1,6 @@
 <template>
   <div class="searchbar">
-    <v-combobox role="search" class="searchbar__input" label="Rechercher des personnes, par nom ou par domaine d’expertise"
+    <v-combobox role="search" class="searchbar__input" :label="$t('rechercherPersonnes')"
       :items="suggestions" :menu-props="menuProps" hide-no-data
       :no-data-text="isSuggestionLoading ? $t('personnes.searchBar.loading') : $t('personnes.searchBar.noData')"
       v-model="request" v-model:search="requestSearch" variant="outlined" cache-items hide-details hide-selected

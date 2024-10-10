@@ -1,7 +1,7 @@
 <template>
   <div class="domain-selector" role="list">
     <div role="listitem">
-      <v-btn flat @click="select('theses')" title="Rechercher des thèses" role="button">
+      <v-btn flat @click="select('theses')" :title="$t('rechercherTheses')" role="button">
         <v-icon size="50" color="secondary">mdi-school</v-icon>
         <span class="title">
           <h2 :class="selected === 'theses' ? 'selected' : ''">
@@ -12,7 +12,7 @@
     </div>
     <v-divider aria-hidden="true" vertical></v-divider>
     <div role="listitem">
-      <v-btn flat @click="select('personnes')" title="Rechercher des personnes liées aux thèses" role="button">
+      <v-btn flat @click="select('personnes')" :title="$t('rechercherTheses')" role="button">
         <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
         <span class="title">
           <h2>
@@ -27,7 +27,9 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const selected = ref('theses');
 const router = useRouter();
 const currentRoute = useRoute();

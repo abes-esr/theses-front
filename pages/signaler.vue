@@ -68,7 +68,7 @@
 
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
 
@@ -96,13 +96,7 @@ const { mobile } = useDisplay();
 
 const href = computed(() => { return "https://theses.fr/" + route.query.nnt; });
 
-const domainItems = [
-    "Signaler des erreurs dans la description de la thèse",
-    "Signaler un problème d'accès au document",
-    "Signaler l'aboutissement ou l'abandon du projet de thèse",
-    "Signaler des erreurs sur les données personnelles (droit de rectification)",
-    "Autre"
-]
+var domainItems = [];
 
 const form = ref();
 const nom = ref("");
@@ -113,6 +107,15 @@ const domaine = ref("");
 const question = ref("");
 const showMenu = ref(false);
 
+onMounted(() => {
+  domainItems =[
+    t('reportErrorView.description'),
+    t('reportErrorView.access'),
+    t('reportErrorView.cancelling'),
+    t('reportErrorView.personnalData'),
+    t('reportErrorView.others')
+  ]
+});
 
 /**
  * Règles de validation du formulaire

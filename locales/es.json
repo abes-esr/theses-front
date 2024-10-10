@@ -13,6 +13,8 @@
   "explorer": "Explorar",
   "exploreByType": "Explorar los datos por tipo",
   "rechercher": "Buscar",
+  "rechercherTheses" : "Buscar tesis",
+  "rechercherPersonnes": "Buscar personas, por nombre o área de especialización",
   "simple": "Búsqueda simple",
   "vider": "Restablecer los campos",
   "reinitializeAll": "Reiniciar todas las facetas",
@@ -54,6 +56,37 @@
   "exportData": "Exportar los datos",
   "exportBiblio": "Exportar una referencia bibliográfica",
   "externalLink": ". Enlace externo.",
+  "et": "y",
+  "advancedSearch": {
+    "operator": "Operador entre campos",
+    "or": "OR",
+    "and": "AND",
+    "switch": "Elegir entre los operadores 'AND' y 'OR'",
+    "searchText": "Texto a buscar",
+    "addField": "Añadir un campo",
+    "thesisInfo": "Descripción de la tesis",
+    "people": "Personas vinculadas a las tesis",
+    "institutions": "Instituciones vinculadas a las tesis",
+    "date": "Fechas",
+    "status": "Estado",
+    "title": "Título",
+    "keyword": "Palabras clave",
+    "abstract": "Resumen",
+    "discipline": "Disciplina",
+    "allMetaData": "Todos los metadatos bibliográficos",
+    "directeur": "Director/a de tesis",
+    "president": "Presidente/a del jurado",
+    "rapporteurs": "Revisor/a",
+    "jury": "Miembro del jurado",
+    "role": "Todos los roles",
+    "defenseInstitution": "Institución de defensa",
+    "coSupervisionInstitution": "Institución de co-dirección",
+    "doctoralSchool": "Escuela doctoral",
+    "partner": "Socio de investigación",
+    "allInstitutions": "Todas las instituciones",
+    "defenseDate": "Fecha de defensa",
+    "inscriptionDate": "Fecha de inscripción doctoral"
+  },
   "resultatsView": {
     "plusDeResultats": "Más resultados"
   },
@@ -62,8 +95,8 @@
     "dir": "bajo la dirección de",
     "defended": "Tesis defendida",
     "ongoing": "Tesis en curso",
-    "since": "Depuis",
-    "et": "et "
+    "since": "Desde",
+    "et": "y "
   },
   "theseView": {
     "par": "por",
@@ -213,7 +246,12 @@
     "informationLegale5" : "Este formulario está protegido por reCAPTCHA y se aplican las",
     "informationLegale6" : "Políticas de privacidad",
     "informationLegale7" : "Términos de servicio",
-    "informationLegale8" : "de Google."
+    "informationLegale8" : "de Google.",
+    "description" : "Reportar errores en la descripción de la tesis",
+    "access" : "Reportar un problema de acceso al documento",
+    "cancelling" : "Reportar la finalización o abandono del proyecto de tesis",
+    "personnalData" : "Reportar errores en los datos personales (derecho de rectificación)",
+    "others" : "Otro"
   },
   "footer": {
     "texte": "El motor de búsqueda de theses.fr recoge todas las tesis doctorales defendidas en Francia desde 1985, los temas de las tesis elaboradas en las instituciones de enseñanza superior francesas y las personas implicadas en el proyecto de investigación doctoral francesa. La base de datos está en constante evolución.",
