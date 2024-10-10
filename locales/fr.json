@@ -114,8 +114,13 @@
     "modalAgree": "J’ai pris connaissance de la réglementation nationale et des conditions d’utilisation de la thèse.",
     "modalOk": "Valider",
     "modalCancel": "Annuler",
-    "others": "Autres versions"
+    "others": "Autres versions",
+    "Laboratoire" : "Laboratoire"
   },
+  "référent" : "Référent",
+  "Examinateurs / Examinatrices": "Examinateurs / Examinatrices",
+  "Rapporteurs / Rapporteuses": "Rapporteur / Rapporteuse",
+  "Président / Présidente": "Président / Présidente",
   "organismeView": {
     "etabSoutenance": "{0} thèse(s) soutenue(s) dans cette structure",
     "etabSoutenanceEnCours": "{0} thèse(s) en cours de préparation dans cette structure",
