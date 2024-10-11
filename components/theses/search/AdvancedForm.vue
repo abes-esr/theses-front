@@ -120,27 +120,29 @@ onMounted(() => {
     })
 })
 
-const types = ref([
-    { titre: t('advancedSearch.status'), value: "status" },
-    { titre: t('advancedSearch.title'), value: 'titres.\\*' },
-    { titre: t('advancedSearch.keyword'), value: 'sujetsLibelle' },
-    { titre: t('advancedSearch.abstract'), value: 'resumes.\\*' },
-    { titre: t('advancedSearch.discipline'), value: "discipline" },
-    { titre: t('advancedSearch.allMetaData'), value: "biblio" },
-    { titre: t('theseView.auteur'), value: "auteursNP" },
-    { titre: t('advancedSearch.directeur'), value: "directeursNP" },
-    { titre: t('advancedSearch.president'), value: "presidentJuryNP" },
-    { titre: t('advancedSearch.rapporteurs'), value: "rapporteursNP" },
-    { titre: t('advancedSearch.jury'), value: "membresJuryNP" },
-    { titre: t('advancedSearch.role'), value: "roles" },
-    { titre: t('advancedSearch.defenseInstitution'), value: "etabSoutenanceN" },
-    { titre: t('advancedSearch.coSupervisionInstitution'), value: "etabsCotutelleN" },
-    { titre: t('advancedSearch.doctoralSchool'), value: "ecolesDoctoralesN" },
-    { titre: t('advancedSearch.partner'), value: "partenairesRechercheN" },
-    { titre: t('advancedSearch.allInstitutions'), value: "structures" },
-    { titre: t('advancedSearch.defenseDate'), value: "dateSoutenance" },
-    { titre: t('advancedSearch.inscriptionDate'), value: "datePremiereInscriptionDoctorat" }
-]);
+const types = computed(() => {
+  return [
+    { titre: t("advancedSearch.status"), value: "status" },
+    { titre: t("advancedSearch.title"), value: "titres.\\*" },
+    { titre: t("advancedSearch.keyword"), value: "sujetsLibelle" },
+    { titre: t("advancedSearch.abstract"), value: "resumes.\\*" },
+    { titre: t("advancedSearch.discipline"), value: "discipline" },
+    { titre: t("advancedSearch.allMetaData"), value: "biblio" },
+    { titre: t("theseView.auteur"), value: "auteursNP" },
+    { titre: t("advancedSearch.directeur"), value: "directeursNP" },
+    { titre: t("advancedSearch.president"), value: "presidentJuryNP" },
+    { titre: t("advancedSearch.rapporteurs"), value: "rapporteursNP" },
+    { titre: t("advancedSearch.jury"), value: "membresJuryNP" },
+    { titre: t("advancedSearch.role"), value: "roles" },
+    { titre: t("advancedSearch.defenseInstitution"), value: "etabSoutenanceN" },
+    { titre: t("advancedSearch.coSupervisionInstitution"), value: "etabsCotutelleN" },
+    { titre: t("advancedSearch.doctoralSchool"), value: "ecolesDoctoralesN" },
+    { titre: t("advancedSearch.partner"), value: "partenairesRechercheN" },
+    { titre: t("advancedSearch.allInstitutions"), value: "structures" },
+    { titre: t("advancedSearch.defenseDate"), value: "dateSoutenance" },
+    { titre: t("advancedSearch.inscriptionDate"), value: "datePremiereInscriptionDoctorat" }
+  ];
+});
 
 const formFields = useState("formFields", () => [
     { value: '', type: 'titres.\\*' },

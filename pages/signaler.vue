@@ -108,13 +108,15 @@ const question = ref("");
 const showMenu = ref(false);
 
 onMounted(() => {
-  domainItems =[
-    t('reportErrorView.description'),
-    t('reportErrorView.access'),
-    t('reportErrorView.cancelling'),
-    t('reportErrorView.personnalData'),
-    t('reportErrorView.others')
-  ]
+  domainItems = computed(() => {
+    return [
+      t('reportErrorView.description'),
+      t('reportErrorView.access'),
+      t('reportErrorView.cancelling'),
+      t('reportErrorView.personnalData'),
+      t('reportErrorView.others')
+    ]
+  });
 });
 
 /**
