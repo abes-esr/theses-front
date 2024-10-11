@@ -184,8 +184,22 @@
     "ariaSortBy": "Elección del orden en la búsqueda.",
     "searched": "La búsqueda sobre",
     "returned": "ha devuelto",
-    "results": "resultado(s)"
+    "results": "resultado(s)",
+    "facet": {
+      "reset": "Restablecer",
+      "Date": "Fecha",
+      "Statut": "Estado",
+      "Établissements": "Instituciones",
+      "Écoles doctorales": "Escuelas doctorales",
+      "Domaines thématiques": "Áreas temáticas",
+      "Disciplines": "Disciplinas",
+      "Langues": "Idiomas"
+    }
   },
+  "En préparation": "En preparación",
+  "Soutenues": "Defendidas",
+  "Accessibles en ligne": "Disponibles en línea",
+  "list": "Lista de ",
   "loading": "Buscando...",
   "personnes": {
     "searchBar": {

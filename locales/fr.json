@@ -184,8 +184,22 @@
     "ariaSortBy": "Choix du tri sur la recherche.",
     "searched": "La recherche sur",
     "returned": "a retourné",
-    "results": "résultat(s)"
+    "results": "résultat(s)",
+    "facet": {
+      "reset": "Réinitialiser",
+      "Date": "Date",
+      "Statut": "Statut",
+      "Établissements": "Établissements",
+      "Écoles doctorales": "Écoles doctorales",
+      "Domaines thématiques": "Domaines thématiques",
+      "Disciplines": "Disciplines",
+      "Langues": "Langues",
+      "En préparation": "En préparation"
+    }
   },
+  "Soutenues": "Soutenues",
+  "Accessibles en ligne": "Accessibles en ligne",
+  "list": "Liste des ",
   "loading": "Recherche en cours...",
   "personnes": {
     "searchBar": {

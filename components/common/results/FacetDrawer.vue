@@ -7,7 +7,7 @@
           </v-icon>
         </template>
         <h2 :id="'facet-title-' + index" class="facet-title">
-          {{ facet.name }}
+          {{ $t('results.facet.' + facet.name) }}
         </h2>
         <v-btn @click.stop="" @click="reinitializeCheckboxes(); reinitializeFilterSearchText();" class="reinitialize-button" size="small" depressed
           elevation="0" color="surface" :title="$t('reinitializeFacet') + facet.name">
@@ -20,7 +20,7 @@
             append-inner-icon="mdi-magnify" density="compact" single-line hide-details
             class="facet-search-bar"></v-text-field>
         </div>
-        <div role="list" :aria-label="'Liste des ' + facet.name" class="panel-text" ref="`facet-${facet.name}`">
+        <div role="list" :aria-label="$t('results.facet.list') + $t('results.facet.' + facet.name)" class="panel-text" ref="`facet-${facet.name}`">
           <!--          Facette date-->
           <div v-if="date" class="date-container">
             <span class="date-item">

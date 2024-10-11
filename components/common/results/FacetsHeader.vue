@@ -6,7 +6,7 @@
     </div>
     <v-btn v-if="!mobile" @click.stop="" @click="searchAndReinitializeAllFacets" size="small" depressed elevation="0"
       color="surface" class="desktop-reinitialize-button" :aria-label="$t('reinitializeAll')">
-      <v-icon>mdi-reload</v-icon> Réinitialiser
+      <v-icon>mdi-reload</v-icon> {{ $t('results.facet.reset') }}
     </v-btn>
     <button v-else @click="closeOverlay" class="close-overlay-button" elevation="0" color="transparent">
       <div class="close-overlay-icon-wrapper">

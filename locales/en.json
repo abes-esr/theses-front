@@ -13,7 +13,7 @@
   "explorer": "Explore",
   "exploreByType": "Explore data by type",
   "rechercher": "Search",
-  "rechercherTheses" : "Search thesis",
+  "rechercherTheses": "Search thesis",
   "rechercherPersonnes": "Search for people, by name or area of expertise",
   "simple": "Simple search",
   "vider": "Reset fields",
@@ -37,7 +37,7 @@
   "scroll": "Top of the page",
   "clear": "Delete",
   "searchButton": "Search",
-  "avancee":"Advanced search",
+  "avancee": "Advanced search",
   "disableSuggestion": "Deactivate input help",
   "top": "Top of the page",
   "menu": "Menu",
@@ -67,7 +67,7 @@
     "since": "Since",
     "et": "and "
   },
-  "advancedSearch" : {
+  "advancedSearch": {
     "operator": "Operator between fields",
     "or": "OR",
     "and": "AND",
@@ -116,8 +116,8 @@
     "type": "Type",
     "disciplines": "Discipline(s)",
     "dateSoutenance": "Date",
-    "ecoles" : "Doctoral school(s)",
-    "etablissements" : "Institution(s)",
+    "ecoles": "Doctoral school(s)",
+    "etablissements": "Institution(s)",
     "partenariat": "Research partner(s)",
     "jury": "PhD examining panel",
     "president": "Chair :",
@@ -146,9 +146,9 @@
     "modalOk": "Validate",
     "modalCancel": "Cancel",
     "others": "Other versions",
-    "Laboratoire" : "Laboratory"
+    "Laboratoire": "Laboratory"
   },
-  "référent" : "Referent",
+  "référent": "Referent",
   "Examinateurs / Examinatrices": "Examiners",
   "Rapporteurs / Rapporteuses": "Reviewers",
   "Président / Présidente": "Chair",
@@ -164,7 +164,7 @@
     "voirPlus": "See all theses"
   },
   "results": {
-    "facetsHeader": "See all theses",
+    "facetsHeader": "Filters",
     "searching": "Search...",
     "chips": {
       "from": "from",
@@ -183,8 +183,22 @@
     "ariaSortBy": "Choice of search sorting.",
     "searched": "Search for",
     "returned": "returned",
-    "results": "result(s)"
+    "results": "result(s)",
+    "facet": {
+      "reset": "Reset",
+      "Date": "Date",
+      "Statut": "Status",
+      "Établissements": "Institutions",
+      "Écoles doctorales": "Doctoral schools",
+      "Domaines thématiques": "Thematic areas",
+      "Disciplines": "Disciplines",
+      "Langues": "Languages"
+    }
   },
+  "En préparation": "In preparation",
+  "Soutenues": "Defended",
+  "Accessibles en ligne": "Available online",
+  "list": "List of ",
   "loading": "Search in progress...",
   "personnes": {
     "searchBar": {
@@ -235,22 +249,22 @@
     "annuler": "Cancel",
     "requis": "This field is mandatory",
     "mailInvalide": "Invalid e-mail address (exemple@abes.fr)",
-    "info" : "The data you see on theses.fr is the responsibility of the institutions authorised to award doctorates. This form enables you to contact the institution that manages the thesis directly: ",
+    "info": "The data you see on theses.fr is the responsibility of the institutions authorised to award doctorates. This form enables you to contact the institution that manages the thesis directly: ",
     "msg": "Your message has been successfully sent.",
     "mandatory": "Fields marked with an asterisk (*) are mandatory.",
-    "informationLegale1" : "Submitting the form requires acceptance of the reCAPTCHA cookie. If you do not wish to accept the reCAPTCHA cookie, we invite you to use the",
-    "informationLegale2" : "ABESstp support desk",
-    "informationLegale3" : "to report an error. To modify your cookie preferences, click on the icon",
-    "informationLegale4" : "at the bottom right of the screen.",
-    "informationLegale5" : "This form is protected by reCAPTCHA and the",
-    "informationLegale6" : "Privacy Policies",
-    "informationLegale7" : "Terms of Service",
-    "informationLegale8" : "of Google apply.",
-    "description" : "Report errors in the thesis description",
-    "access" : "Report an access issue with the document",
-    "cancelling" : "Report the completion or abandonment of the thesis project",
-    "personnalData" : "Report errors on personal data (right to rectification)",
-    "others" : "Other"
+    "informationLegale1": "Submitting the form requires acceptance of the reCAPTCHA cookie. If you do not wish to accept the reCAPTCHA cookie, we invite you to use the",
+    "informationLegale2": "ABESstp support desk",
+    "informationLegale3": "to report an error. To modify your cookie preferences, click on the icon",
+    "informationLegale4": "at the bottom right of the screen.",
+    "informationLegale5": "This form is protected by reCAPTCHA and the",
+    "informationLegale6": "Privacy Policies",
+    "informationLegale7": "Terms of Service",
+    "informationLegale8": "of Google apply.",
+    "description": "Report errors in the thesis description",
+    "access": "Report an access issue with the document",
+    "cancelling": "Report the completion or abandonment of the thesis project",
+    "personnalData": "Report errors on personal data (right to rectification)",
+    "others": "Other"
   },
   "footer": {
     "texte": "The theses.fr search engine lists all the doctoral theses defended in France since 1985, the thesis subjects prepared in French higher education establishments, and the people involved in French doctoral research. The database is constantly evolving.",
@@ -271,7 +285,7 @@
     "doc": "Go to theses.fr documentation ",
     "assistance": "Go to the Abes helpdesk",
     "accessibility": "Accessibility tools",
-    "localeSelection" : "Site language selection"
+    "localeSelection": "Site language selection"
   },
   "meta": {
     "desc": "Theses.fr is a search engine for French PhD theses, and provides access to doctoral theses that have been defended or are in progress.",
@@ -281,7 +295,7 @@
     "descThese": "Thesis details page ",
     "descPersonne": "Detailed page for "
   },
-  "access" : {
+  "access": {
     "params": "Accessibility settings",
     "btn": "Customise the interface display",
     "police": "Font suitable for dyslexic users",
@@ -289,8 +303,8 @@
     "justification": "Deactivate text justification",
     "fermer": "Close",
     "contrast": "Enhanced contrast",
-    "contrast-aria" : "Switch theme: high contrast",
-    "inverted" : "Inverted contrast",
-    "inverted-aria" : "Switch theme: inverted contrast"
+    "contrast-aria": "Switch theme: high contrast",
+    "inverted": "Inverted contrast",
+    "inverted-aria": "Switch theme: inverted contrast"
   }
 }
