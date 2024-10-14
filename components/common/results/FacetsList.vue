@@ -13,8 +13,7 @@
       :index="index"
     >
     </CommonResultsFacetDrawer>
-    <v-btn v-if="mobile" class="filters-btn" variant="outlined" color="primary" @click="closeOverlay">Appliquer les
-      filtres</v-btn>
+    <v-btn v-if="mobile" class="filters-btn" variant="outlined" color="primary" @click="closeOverlay">{{ $t('results.facet.applyFilters') }}</v-btn>
     <v-skeleton-loader v-if="loading" v-for="i in 6" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
   </div>
 </template>
