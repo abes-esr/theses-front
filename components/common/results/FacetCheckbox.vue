@@ -1,7 +1,7 @@
 <template>
   <v-lazy  :min-height="10" :options="{ threshold: 0 }">
-    <v-checkbox :aria-label="`${replaceFacetsText(facetItem.label)} (${facetItem.value.toLocaleString('fr-FR')})` + ' résultats'" v-model="checkboxState" @click="updateCheckbox" :class="`checkboxes ms-${props.marginOffset}`"
-      :label="`${replaceFacetsText(facetItem.label)} (${facetItem.value.toLocaleString('fr-FR')})`" density="compact" inline hide-details @keyup.enter="updateCheckbox">
+    <v-checkbox :aria-label="`${replaceFacetsTextAndTranslate(facetItem.label)} (${facetItem.value.toLocaleString('fr-FR')})` + ' résultats'" v-model="checkboxState" @click="updateCheckbox" :class="`checkboxes ms-${props.marginOffset}`"
+      :label="`${replaceFacetsTextAndTranslate(facetItem.label)} (${facetItem.value.toLocaleString('fr-FR')})`" density="compact" inline hide-details @keyup.enter="updateCheckbox">
     </v-checkbox>
   </v-lazy>
 
@@ -19,7 +19,9 @@
 <script setup>
 import { computed, onMounted, ref, watch } from "vue";
 import { replaceFacetsText } from "../../../services/Common";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const { addToFiltersLabelsMap } = useStrategyAPI();
 
 const emit = defineEmits(['updateParentCheckbox', 'updateFilterData', 'updateFilterDataRecursive']);
@@ -139,6 +141,10 @@ function arrayContainsFilter() {
     ).length > 0;
   }
   return false;
+}
+
+function replaceFacetsTextAndTranslate(label) {
+  return t(replaceFacetsText(label));
 }
 </script>
 
