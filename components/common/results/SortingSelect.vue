@@ -39,22 +39,30 @@ function updateDataTri() {
  * @returns {Array}
  */
 function getTranslatedItemsTri() {
-  return getItemsTri().map(item => ({
-    ...item,
-    nom: t(item.nom)
-  }));
+  const itemsTri = getItemsTri();
+
+  if (!!itemsTri) {
+    return itemsTri.map(item => ({
+      ...item,
+      nom: t(item.nom)
+    }));
+  }
 }
 
 /**
- * Retourne le tri appliqaué traduit
+ * Retourne le tri appliqué traduit
  * @returns {Array}
  */
 function getTranslatedCurrentSortName() {
-  let obj = getCurrentSortName();
-  return {
-    ...obj,
-    cle: obj.cle,
-    nom: t(obj.nom)
+  const currentSortName = getCurrentSortName();
+
+  if (!!currentSortName) {
+    let obj = getCurrentSortName();
+    return {
+      ...obj,
+      cle: obj.cle,
+      nom: t(obj.nom)
+    };
   }
 }
 
