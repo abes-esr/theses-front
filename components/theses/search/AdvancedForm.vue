@@ -2,9 +2,11 @@
     <div>
         <v-form id="form" ref="form">
             <div :class="whiteContainer ? 'white-containers' : ''">
-                <span class="switch"><span class="switch-text">Opérateur entre les champs</span> <span
-                        class="switch-text pl-4">ET</span><v-switch inset flat class="pl-4"
-                        v-model="operatorModel"></v-switch><span class="switch-text pl-4">OU</span></span>
+                <span class="switch"><span class="switch-text">{{ $t('advancedSearch.operator') }}</span>
+                  <span
+                        class="switch-text pl-4">{{ $t('advancedSearch.and') }}</span>
+                  <v-switch :aria-label="t('advancedSearch.switch')" inset flat class="pl-4" v-model="operatorModel"></v-switch>
+                  <span class="switch-text pl-4">{{ $t('advancedSearch.or') }}</span></span>
                 <div v-for="(field, index) in formFields" :key="index" class="form-row">
                     <div class="type">
                         <v-select class="v-field--container" density="compact" v-model="field.type" :items="types" item-title="titre"
@@ -12,10 +14,10 @@
                             @update:model-value="clearField(index)">
                             <template v-slot:item="{ props, index }">
                                 <v-list density="compact">
-                                    <VListSubheader v-if="index === 1">Description des thèses</VListSubheader>
-                                    <VListSubheader v-if="index === 6">Personnes liées aux thèses</VListSubheader>
-                                    <VListSubheader v-if="index === 12">Structures liées aux thèses</VListSubheader>
-                                    <VListSubheader v-if="index === 17">Dates</VListSubheader>
+                                    <VListSubheader v-if="index === 1">{{ $t('advancedSearch.thesisInfo') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 6">{{ $t('advancedSearch.people') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 12">{{ $t('advancedSearch.institutions') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 17">{{ $t('advancedSearch.date') }}</VListSubheader>
                                     <v-list-item v-bind="props"></v-list-item>
                                 </v-list>
                             </template>
@@ -50,7 +52,7 @@
                                 menu-icon="mdi-chevron-down" single-line></v-select>
                         </div>
                         <div v-else>
-                            <v-text-field density="compact" v-model="field.value" label="Texte à rechercher" class="advanced-input-fields"
+                            <v-text-field density="compact" v-model="field.value" :label="t('advancedSearch.searchText')" class="advanced-input-fields"
                                 variant="outlined" single-line clearable clear-icon="mdi-close"
                                 @keydown.enter="search"></v-text-field>
                         </div>
@@ -66,17 +68,15 @@
                         prepend-icon="mdi-reload">{{
                 $t("vider") }}</v-btn>
                     <span>
-                        <v-btn @click="addField" variant="plain" density="compact" title="Ajouter un champ"
+                        <v-btn @click="addField" variant="plain" density="compact" :title="t('advancedSearch.addField')"
                             icon="mdi-plus"></v-btn>
                     </span>
                 </div>
             </div>
             <div class="buttons right">
                 <v-btn variant="outlined" density="compact" color="primary" @click="emit('simple')" class="mr-4">{{
-                $t("simple")
-            }}</v-btn>
-                <v-btn @click="search" flat color="primary" density="compact" class="mr-4">{{ $t("rechercher")
-                    }}</v-btn>
+                $t("simple") }}</v-btn>
+                <v-btn @click="search" flat color="primary" density="compact" class="mr-4">{{ $t("rechercher") }}</v-btn>
             </div>
         </v-form>
     </div>
@@ -86,8 +86,10 @@
 import { ref, watch, computed, onMounted } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
+import { useI18n } from "vue-i18n";
 
 const emit = defineEmits(['search', 'simple']);
+const { t } = useI18n();
 
 const props = defineProps({
     whiteContainer: {
@@ -118,27 +120,29 @@ onMounted(() => {
     })
 })
 
-const types = ref([
-    { titre: "Statut", value: "status" },
-    { titre: 'Titre', value: 'titres.\\*' },
-    { titre: 'Mots clés', value: 'sujetsLibelle' },
-    { titre: "Résumé", value: 'resumes.\\*' },
-    { titre: "Discipline", value: "discipline" },
-    { titre: "Toutes les métadonnées bibliographiques", value: "biblio" },
-    { titre: "Auteur", value: "auteursNP" },
-    { titre: "Directeur de thèse", value: "directeursNP" },
-    { titre: "Président", value: "presidentJuryNP" },
-    { titre: "Rapporteur", value: "rapporteursNP" },
-    { titre: "Membre du jury", value: "membresJuryNP" },
-    { titre: "Tous les rôles", value: "roles" },
-    { titre: "Etablissement de soutenance", value: "etabSoutenanceN" },
-    { titre: "Etablissement de cotutelle", value: "etabsCotutelleN" },
-    { titre: "Ecole doctorale", value: "ecolesDoctoralesN" },
-    { titre: "Partenaire de recherche", value: "partenairesRechercheN" },
-    { titre: "Toutes les structures", value: "structures" },
-    { titre: "Date de soutenance", value: "dateSoutenance" },
-    { titre: "Date d'inscription en doctorat", value: "datePremiereInscriptionDoctorat" }
-]);
+const types = computed(() => {
+  return [
+    { titre: t("advancedSearch.status"), value: "status" },
+    { titre: t("advancedSearch.title"), value: "titres.\\*" },
+    { titre: t("advancedSearch.keyword"), value: "sujetsLibelle" },
+    { titre: t("advancedSearch.abstract"), value: "resumes.\\*" },
+    { titre: t("advancedSearch.discipline"), value: "discipline" },
+    { titre: t("advancedSearch.allMetaData"), value: "biblio" },
+    { titre: t("theseView.auteur"), value: "auteursNP" },
+    { titre: t("advancedSearch.directeur"), value: "directeursNP" },
+    { titre: t("advancedSearch.president"), value: "presidentJuryNP" },
+    { titre: t("advancedSearch.rapporteurs"), value: "rapporteursNP" },
+    { titre: t("advancedSearch.jury"), value: "membresJuryNP" },
+    { titre: t("advancedSearch.role"), value: "roles" },
+    { titre: t("advancedSearch.defenseInstitution"), value: "etabSoutenanceN" },
+    { titre: t("advancedSearch.coSupervisionInstitution"), value: "etabsCotutelleN" },
+    { titre: t("advancedSearch.doctoralSchool"), value: "ecolesDoctoralesN" },
+    { titre: t("advancedSearch.partner"), value: "partenairesRechercheN" },
+    { titre: t("advancedSearch.allInstitutions"), value: "structures" },
+    { titre: t("advancedSearch.defenseDate"), value: "dateSoutenance" },
+    { titre: t("advancedSearch.inscriptionDate"), value: "datePremiereInscriptionDoctorat" }
+  ];
+});
 
 const formFields = useState("formFields", () => [
     { value: '', type: 'titres.\\*' },

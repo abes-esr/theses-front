@@ -2,25 +2,22 @@
   <v-app-bar flat id="appBar" v-if="!mobile && isReady">
     <div class="toolbar-wrapper" role="list">
       <div class="text-center text-md-left language-accessibility-toolbar" role="listitem">
-
         <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')" role="button">
           <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
             :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
         </v-btn>
-  <!--     Quand actif ajouter role="listitem" -->
-<!--        <div class="languages-btn">-->
-<!--          &lt;!&ndash; selecteur de langues désactivé &ndash;&gt;-->
-<!--          <v-btn flat @click="setLanguage('fr')" title="Langue française"-->
-<!--            :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>-->
-<!--          |-->
-<!--          <v-btn flat @click="setLanguage('en')" title="English Language"-->
-<!--            :class="locale === 'en' ? 'selected' : ''">EN</v-btn>-->
-<!--          |-->
-<!--          <v-btn flat @click="setLanguage('es')" title="Idioma espanol"-->
-<!--            :class="locale === 'es' ? 'selected' : ''">ES</v-btn>-->
-<!--        </div>-->
+        <div class="languages-btn" role="list" :aria-label="$t('header.localeSelection')">
+          <v-btn flat @click="setLanguage('fr')" aria-label="Changer la langue du site en français"
+          :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
+          <v-divider vertical role="presentation"></v-divider>
+          <v-btn flat @click="setLanguage('en')" aria-label="Switch language to English"
+            :class="locale === 'en' ? 'selected' : ''">EN</v-btn>
+          <v-divider vertical role="presentation"></v-divider>
+          <v-btn flat @click="setLanguage('es')" aria-label="Cambiar el idioma a español"
+            :class="locale === 'es' ? 'selected' : ''">ES</v-btn>
+        </div>
       </div>
-      <div class="text-center text-md-right" role="presentation">
+      <div class="text-center text-md-right" role="list">
         <!--<v-btn tabindex="-1" title="Réseau" size="x-large" icon>
           <div class="icons"><icons-icon-reseau></icons-icon-reseau></div>
         </v-btn>
@@ -175,7 +172,7 @@ header {
 }
 
 .language-accessibility-toolbar {
-  display: grid; // dé-commenter si on active le bouton accessibilité
+  display: grid;
   grid-template-columns: 1fr 20px 3fr;
   margin: 0 30px 0;
 
@@ -185,9 +182,10 @@ header {
 }
 
 .languages-btn {
-  grid-column-start: 3; // 3 si on active le bouton accessibilité
+  grid-column-start: 3;
   max-height: 36px;
   align-self: center;
+  display: inline-flex;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: 2;
@@ -196,6 +194,11 @@ header {
       min-width: unset;
       padding: 0 5px;
     }
+  }
+
+  .v-divider {
+    height: 1.5em;
+    align-self: center;
   }
 }
 

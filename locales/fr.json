@@ -13,6 +13,8 @@
   "explorer": "Explorer",
   "exploreByType": "Explorer les données par type",
   "rechercher": "Rechercher",
+  "rechercherTheses": "Rechercher des thèses",
+  "rechercherPersonnes": "Rechercher des personnes, par nom ou par domaine d’expertise",
   "simple": "Recherche simple",
   "vider": "Réinitialiser les champs",
   "reinitializeAll": "Réinitialiser toutes les facettes",
@@ -35,7 +37,7 @@
   "scroll": "Haut de la page",
   "clear": "Effacer",
   "searchButton": "Rechercher",
-  "avancee":"Recherche Avancée",
+  "avancee": "Recherche Avancée",
   "disableSuggestion": "Désactiver l'aide à la saisie",
   "top": "Haut de la page",
   "menu": "Menu",
@@ -54,7 +56,37 @@
   "exportData": "Exporter les données",
   "exportBiblio": "Exporter une référence bibliographique ",
   "externalLink": ". Lien Externe.",
-  "et":  "et",
+  "et": "et",
+  "advancedSearch": {
+    "operator": "Opérateur entre les champs",
+    "or": "OU",
+    "and": "ET",
+    "switch": "Choisir entre l'opérateur 'et' et 'ou'",
+    "searchText": "Texte à rechercher",
+    "addField": "Ajouter un champ",
+    "thesisInfo": "Description des thèses",
+    "people": "Personnes liées aux thèses",
+    "institutions": "Structures liées aux thèses",
+    "date": "Dates",
+    "status": "Statut",
+    "title": "Titre",
+    "keyword": "Mots clés",
+    "abstract": "Résumé",
+    "discipline": "Discipline",
+    "allMetaData": "Toutes les métadonnées bibliographiques",
+    "directeur": "Directeur / Directrice de thèse",
+    "president": "Président / Présidente du jury",
+    "rapporteurs": "Rapporteur / Rapporteuse",
+    "jury": "Membre du jury",
+    "role": "Tous les rôles",
+    "defenseInstitution": "Etablissement de soutenance",
+    "coSupervisionInstitution": "Etablissement de cotutelle",
+    "doctoralSchool": "Ecole doctorale",
+    "partner": "Partenaire de recherche",
+    "allInstitutions": "Toutes les structures",
+    "defenseDate": "Date de soutenance",
+    "inscriptionDate": "Date d'inscription en doctorat"
+  },
   "resultatsView": {
     "plusDeResultats": "Plus de résultats"
   },
@@ -85,8 +117,8 @@
     "type": "Type",
     "disciplines": "Discipline(s)",
     "dateSoutenance": "Date",
-    "ecoles" : "Ecole(s) doctorale(s)",
-    "etablissements" : "Etablissement(s)",
+    "ecoles": "Ecole(s) doctorale(s)",
+    "etablissements": "Etablissement(s)",
     "partenariat": "Partenaire(s) de recherche",
     "jury": "Jury",
     "president": "Président / Présidente :",
@@ -116,6 +148,12 @@
     "modalCancel": "Annuler",
     "others": "Autres versions"
   },
+  "Laboratoire": "Laboratoire",
+  "autre partenaire": "Autre partenaire",
+  "référent": "Référent",
+  "Examinateurs / Examinatrices": "Examinateurs / Examinatrices",
+  "Rapporteurs / Rapporteuses": "Rapporteur / Rapporteuse",
+  "Président / Présidente": "Président / Présidente",
   "organismeView": {
     "etabSoutenance": "{0} thèse(s) soutenue(s) dans cette structure",
     "etabSoutenanceEnCours": "{0} thèse(s) en cours de préparation dans cette structure",
@@ -147,8 +185,32 @@
     "ariaSortBy": "Choix du tri sur la recherche.",
     "searched": "La recherche sur",
     "returned": "a retourné",
-    "results": "résultat(s)"
+    "results": "résultat(s)",
+    "facet": {
+      "reset": "Réinitialiser",
+      "Date": "Date",
+      "Statut": "Statut",
+      "Établissements": "Établissements",
+      "Écoles doctorales": "Écoles doctorales",
+      "Domaines thématiques": "Domaines thématiques",
+      "Disciplines": "Disciplines",
+      "Langues": "Langues",
+      "Rôles": "Rôles"
+    }
   },
+  "En préparation": "En préparation",
+  "Soutenues": "Soutenues",
+  "Accessibles en ligne": "Accessibles en ligne",
+  "list": "Liste des ",
+  "Pertinence": "Pertinence",
+  "Date croissante": "Date croissante",
+  "Date décroissante": "Date décroissante",
+  "Auteurs A-Z": "Auteurs A-Z",
+  "Auteurs Z-A": "Auteurs Z-A",
+  "Discipline A-Z": "Discipline A-Z",
+  "Discipline Z-A": "Discipline Z-A",
+  "Personnes A-Z": "Personnes A-Z",
+  "Personnes Z-A": "Personnes Z-A",
   "loading": "Recherche en cours...",
   "personnes": {
     "searchBar": {
@@ -199,7 +261,7 @@
     "annuler": "Annuler",
     "requis": "Ce champ est obligatoire",
     "mailInvalide": "Adresse mail invalide (exemple@abes.fr)",
-    "info" : "Les données que vous voyez dans theses.fr sont placées sous la responsabilité des établissements habilités à délivrer le doctorat. Ce formulaire vous permet de contacter directement l'établissement qui gère la thèse : ",
+    "info": "Les données que vous voyez dans theses.fr sont placées sous la responsabilité des établissements habilités à délivrer le doctorat. Ce formulaire vous permet de contacter directement l'établissement qui gère la thèse : ",
     "msg": "Votre message a bien été transmis.",
     "mandatory": "Les champs marqués d'un astérisque (*) sont obligatoires.",
     "informationLegale1": "L'envoi du formulaire nécessite l'acceptation du cookie reCAPTCHA. Si vous ne souhaitez pas accepter le cookie reCAPTCHA, nous vous invitons à utiliser le",
@@ -209,7 +271,12 @@
     "informationLegale5": "Ce formulaire est protégé par reCAPTCHA et les",
     "informationLegale6": "Politiques de confidentialité",
     "informationLegale7": "Conditions d'utilisations",
-    "informationLegale8": "de Google s'appliquent."
+    "informationLegale8": "de Google s'appliquent.",
+    "description": "Signaler des erreurs dans la description de la thèse",
+    "access": "Signaler un problème d'accès au document",
+    "cancelling": "Signaler l'aboutissement ou l'abandon du projet de thèse",
+    "personnalData": "Signaler des erreurs sur les données personnelles (droit de rectification)",
+    "others": "Autre"
   },
   "footer": {
     "texte": "Le moteur de recherche theses.fr recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française. La base de données est en constante évolution.",
@@ -229,7 +296,8 @@
   "header": {
     "doc": "Accéder à la documentation de theses.fr ",
     "assistance": "Accéder au guichet d’assistance de l'Abes",
-    "accessibility": "Outils d'accessibilité"
+    "accessibility": "Outils d'accessibilité",
+    "localeSelection": "Sélection de la langue du site"
   },
   "meta": {
     "desc": "Moteur de recherche des thèses françaises, theses.fr propose l’accès aux thèses de doctorat soutenues ou en préparation.",
@@ -239,7 +307,7 @@
     "descThese": "Page détaillée de la thèse ",
     "descPersonne": "Page détaillée de "
   },
-  "access" : {
+  "access": {
     "params": "Paramètres d'accessibilité",
     "btn": "Personnaliser l’affichage de l’interface",
     "police": "Police adaptée à la dyslexie",

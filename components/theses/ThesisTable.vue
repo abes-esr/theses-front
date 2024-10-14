@@ -113,7 +113,7 @@
           <strong>{{ $t('theseView.partenariat') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
         <td role="list">
-          <strong>{{ firstPartenaireKeyName + " : " }}</strong>
+          <strong>{{ $t(firstPartenaireKeyName) }}  : </strong>
           <template v-for="(partenaire, index) in partenairesGroupedByType[firstPartenaireKeyName]">
           <nuxt-link v-if="partenaire.ppn" :key="partenaire.ppn"
             class="clickable lightblue" :to="'/' + partenaire.ppn" role="listitem">
@@ -130,7 +130,7 @@
         <tr v-if="indexType !== firstPartenaireKeyName" class="table-rows">
           <td class="empty-first-cell-mandatory"></td>
           <td>
-            <strong>{{ indexType + " : " }}</strong>
+            <strong>{{ $t(indexType) + " : " }}</strong>
             <template v-for="(partenaire, index) in type">
               <nuxt-link v-if="partenaire.ppn"
                 class="clickable lightblue" :to="'/' + partenaire.ppn" role="listitem">
@@ -150,7 +150,7 @@
           <strong>{{ $t('theseView.jury') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
         <td role="list">
-          <strong>{{ firstJuryMemberKeyName + " : " }}</strong>
+          <strong>{{ $t(firstJuryMemberKeyName) + " : " }}</strong>
           <template v-for="(member, index) in juryMembersGroupedByType[firstJuryMemberKeyName]">
             <nuxt-link v-if="member.ppn"  :key="member.ppn"
               class="clickable lightblue" :to="'/' + member.ppn" role="listitem">
@@ -166,7 +166,7 @@
         <tr v-if="indexType !== firstJuryMemberKeyName" class="table-rows">
           <td class="empty-first-cell-mandatory"></td>
           <td>
-            <strong>{{ indexType + " : " }}</strong>
+            <strong>{{ $t(indexType) + " : " }}</strong>
             <template v-for="(member, index) in type">
               <nuxt-link v-if="member.ppn" class="clickable lightblue"
                 :to="'/' + member.ppn" role="listitem">
