@@ -148,6 +148,7 @@
     "others": "Other versions",
     "Laboratoire": "Laboratory"
   },
+  "autre partenaire": "Other partnership",
   "référent": "Referent",
   "Examinateurs / Examinatrices": "Examiners",
   "Rapporteurs / Rapporteuses": "Reviewers",
@@ -192,7 +193,8 @@
       "Écoles doctorales": "Doctoral schools",
       "Domaines thématiques": "Thematic areas",
       "Disciplines": "Disciplines",
-      "Langues": "Languages"
+      "Langues": "Languages",
+      "Rôles": "Role"
     }
   },
   "En préparation": "In preparation",

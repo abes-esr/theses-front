@@ -13,7 +13,7 @@
   "explorer": "Explorar",
   "exploreByType": "Explorar los datos por tipo",
   "rechercher": "Buscar",
-  "rechercherTheses" : "Buscar tesis",
+  "rechercherTheses": "Buscar tesis",
   "rechercherPersonnes": "Buscar personas, por nombre o área de especialización",
   "simple": "Búsqueda simple",
   "vider": "Restablecer los campos",
@@ -37,7 +37,7 @@
   "scroll": "Inicio de la página",
   "clear": "Borrar",
   "searchButton": "Buscar",
-  "avancee":"Búsqueda avanzada",
+  "avancee": "Búsqueda avanzada",
   "disableSuggestion": "Desactivar la ayuda a la entrada de datos",
   "top": "Inicio de la página",
   "menu": "Menú",
@@ -117,8 +117,8 @@
     "type": "Tipo",
     "disciplines": "Disciplina(s)",
     "dateSoutenance": "Fecha",
-    "ecoles" : "Escuela(s) doctoral(es)",
-    "etablissements" : "Institución(es)",
+    "ecoles": "Escuela(s) doctoral(es)",
+    "etablissements": "Institución(es)",
     "partenariat": "Colaborador(es) de investigación",
     "jury": "Jurado",
     "president": "Presidente / Presidenta :",
@@ -146,10 +146,11 @@
     "modalAgree": "He tomado conocimiento de la normativa nacional y de las condiciones de uso de la tesis.",
     "modalOk": "Aceptar",
     "modalCancel": "Cancelar",
-    "others": "Otras versiones",
-    "Laboratoire" : "Laboratorio"
+    "others": "Otras versiones"
   },
-  "référent" : "Referente",
+  "autre partenaire": "Otro socio",
+  "Laboratoire": "Laboratorio",
+  "référent": "Referente",
   "Examinateurs / Examinatrices": "Examinadores / Examinadoras",
   "Rapporteurs / Rapporteuses": "Ponente",
   "Président / Présidente": "Presidente / Presidenta",
@@ -193,7 +194,8 @@
       "Écoles doctorales": "Escuelas doctorales",
       "Domaines thématiques": "Áreas temáticas",
       "Disciplines": "Disciplinas",
-      "Langues": "Idiomas"
+      "Langues": "Idiomas",
+      "Rôles": "Función"
     }
   },
   "En préparation": "En preparación",
@@ -259,22 +261,22 @@
     "annuler": "Cancelar",
     "requis": "Este campo es obligatorio",
     "mailInvalide": "Dirección de correo electrónico no válida (ejemplo@abes.fr)",
-    "info" : "Los datos que figuran en theses.fr se publican bajo la responsabilidad de las instituciones autorizadas a conceder el doctorado. A través de este formulario puede ponerse en contacto directamente con la institución que gestione la tesis: ",
+    "info": "Los datos que figuran en theses.fr se publican bajo la responsabilidad de las instituciones autorizadas a conceder el doctorado. A través de este formulario puede ponerse en contacto directamente con la institución que gestione la tesis: ",
     "msg": "Su mensaje se ha enviado correctamente.",
     "mandatory": "Los campos marcados con un asterisco (*) son obligatorios.",
-    "informationLegale1" : "Enviar el formulario requiere la aceptación de la cookie de reCAPTCHA. Si no desea aceptar la cookie de reCAPTCHA, le invitamos a utilizar el",
-    "informationLegale2" : "servicio de asistencia ABESstp",
-    "informationLegale3" : "para informar de un error. Para modificar sus preferencias de cookies, haga clic en el ícono",
-    "informationLegale4" : "en la parte inferior derecha de la pantalla.",
-    "informationLegale5" : "Este formulario está protegido por reCAPTCHA y se aplican las",
-    "informationLegale6" : "Políticas de privacidad",
-    "informationLegale7" : "Términos de servicio",
-    "informationLegale8" : "de Google.",
-    "description" : "Reportar errores en la descripción de la tesis",
-    "access" : "Reportar un problema de acceso al documento",
-    "cancelling" : "Reportar la finalización o abandono del proyecto de tesis",
-    "personnalData" : "Reportar errores en los datos personales (derecho de rectificación)",
-    "others" : "Otro"
+    "informationLegale1": "Enviar el formulario requiere la aceptación de la cookie de reCAPTCHA. Si no desea aceptar la cookie de reCAPTCHA, le invitamos a utilizar el",
+    "informationLegale2": "servicio de asistencia ABESstp",
+    "informationLegale3": "para informar de un error. Para modificar sus preferencias de cookies, haga clic en el ícono",
+    "informationLegale4": "en la parte inferior derecha de la pantalla.",
+    "informationLegale5": "Este formulario está protegido por reCAPTCHA y se aplican las",
+    "informationLegale6": "Políticas de privacidad",
+    "informationLegale7": "Términos de servicio",
+    "informationLegale8": "de Google.",
+    "description": "Reportar errores en la descripción de la tesis",
+    "access": "Reportar un problema de acceso al documento",
+    "cancelling": "Reportar la finalización o abandono del proyecto de tesis",
+    "personnalData": "Reportar errores en los datos personales (derecho de rectificación)",
+    "others": "Otro"
   },
   "footer": {
     "texte": "El motor de búsqueda de theses.fr recoge todas las tesis doctorales defendidas en Francia desde 1985, los temas de las tesis elaboradas en las instituciones de enseñanza superior francesas y las personas implicadas en el proyecto de investigación doctoral francesa. La base de datos está en constante evolución.",
@@ -295,7 +297,7 @@
     "doc": "Acceder a la documentación de theses.fr ",
     "assistance": "Ir al servicio de ayuda de la Abes",
     "accessibility": "Herramientas de accesibilidad",
-    "localeSelection" : "Selección del idioma del sitio"
+    "localeSelection": "Selección del idioma del sitio"
   },
   "meta": {
     "desc": "Motor de búsqueda de las tesis francesas, theses.fr permite acceder a las tesis doctorales defendidas o en preparación.",
@@ -305,7 +307,7 @@
     "descThese": "Página detallada de la tesis ",
     "descPersonne": "Página detallada de "
   },
-  "access" : {
+  "access": {
     "params": "Ajustes de accesibilidad",
     "btn": "Personalizar la visualización de la interfaz",
     "police": "Fuente adaptada a la dislexia",
@@ -313,8 +315,8 @@
     "justification": "Desactivar la justificación del texto",
     "fermer": "Cerrar",
     "contrast": "Contraste mejorado",
-    "contrast-aria" : "Cambiar tema: alto contraste",
-    "inverted" : "Contraste invertido",
-    "inverted-aria" : "Cambiar tema: contraste invertido"
+    "contrast-aria": "Cambiar tema: alto contraste",
+    "inverted": "Contraste invertido",
+    "inverted-aria": "Cambiar tema: contraste invertido"
   }
 }

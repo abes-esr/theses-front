@@ -113,7 +113,7 @@
           <strong>{{ $t('theseView.partenariat') }}&nbsp;:{{ '\xa0' }}</strong>
         </td>
         <td role="list">
-          <strong>{{ $t('theseView.' + firstPartenaireKeyName) }}  : </strong>
+          <strong>{{ $t(firstPartenaireKeyName) }}  : </strong>
           <template v-for="(partenaire, index) in partenairesGroupedByType[firstPartenaireKeyName]">
           <nuxt-link v-if="partenaire.ppn" :key="partenaire.ppn"
             class="clickable lightblue" :to="'/' + partenaire.ppn" role="listitem">

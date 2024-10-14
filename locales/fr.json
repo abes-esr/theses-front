@@ -37,7 +37,7 @@
   "scroll": "Haut de la page",
   "clear": "Effacer",
   "searchButton": "Rechercher",
-  "avancee":"Recherche Avancée",
+  "avancee": "Recherche Avancée",
   "disableSuggestion": "Désactiver l'aide à la saisie",
   "top": "Haut de la page",
   "menu": "Menu",
@@ -56,7 +56,7 @@
   "exportData": "Exporter les données",
   "exportBiblio": "Exporter une référence bibliographique ",
   "externalLink": ". Lien Externe.",
-  "et":  "et",
+  "et": "et",
   "advancedSearch": {
     "operator": "Opérateur entre les champs",
     "or": "OU",
@@ -117,8 +117,8 @@
     "type": "Type",
     "disciplines": "Discipline(s)",
     "dateSoutenance": "Date",
-    "ecoles" : "Ecole(s) doctorale(s)",
-    "etablissements" : "Etablissement(s)",
+    "ecoles": "Ecole(s) doctorale(s)",
+    "etablissements": "Etablissement(s)",
     "partenariat": "Partenaire(s) de recherche",
     "jury": "Jury",
     "president": "Président / Présidente :",
@@ -146,10 +146,11 @@
     "modalAgree": "J’ai pris connaissance de la réglementation nationale et des conditions d’utilisation de la thèse.",
     "modalOk": "Valider",
     "modalCancel": "Annuler",
-    "others": "Autres versions",
-    "Laboratoire" : "Laboratoire"
+    "others": "Autres versions"
   },
-  "référent" : "Référent",
+  "Laboratoire": "Laboratoire",
+  "autre partenaire": "Autre partenaire",
+  "référent": "Référent",
   "Examinateurs / Examinatrices": "Examinateurs / Examinatrices",
   "Rapporteurs / Rapporteuses": "Rapporteur / Rapporteuse",
   "Président / Présidente": "Président / Présidente",
@@ -193,7 +194,8 @@
       "Écoles doctorales": "Écoles doctorales",
       "Domaines thématiques": "Domaines thématiques",
       "Disciplines": "Disciplines",
-      "Langues": "Langues"
+      "Langues": "Langues",
+      "Rôles": "Rôles"
     }
   },
   "En préparation": "En préparation",
@@ -259,7 +261,7 @@
     "annuler": "Annuler",
     "requis": "Ce champ est obligatoire",
     "mailInvalide": "Adresse mail invalide (exemple@abes.fr)",
-    "info" : "Les données que vous voyez dans theses.fr sont placées sous la responsabilité des établissements habilités à délivrer le doctorat. Ce formulaire vous permet de contacter directement l'établissement qui gère la thèse : ",
+    "info": "Les données que vous voyez dans theses.fr sont placées sous la responsabilité des établissements habilités à délivrer le doctorat. Ce formulaire vous permet de contacter directement l'établissement qui gère la thèse : ",
     "msg": "Votre message a bien été transmis.",
     "mandatory": "Les champs marqués d'un astérisque (*) sont obligatoires.",
     "informationLegale1": "L'envoi du formulaire nécessite l'acceptation du cookie reCAPTCHA. Si vous ne souhaitez pas accepter le cookie reCAPTCHA, nous vous invitons à utiliser le",
@@ -275,7 +277,6 @@
     "cancelling": "Signaler l'aboutissement ou l'abandon du projet de thèse",
     "personnalData": "Signaler des erreurs sur les données personnelles (droit de rectification)",
     "others": "Autre"
-
   },
   "footer": {
     "texte": "Le moteur de recherche theses.fr recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française. La base de données est en constante évolution.",
@@ -306,7 +307,7 @@
     "descThese": "Page détaillée de la thèse ",
     "descPersonne": "Page détaillée de "
   },
-  "access" : {
+  "access": {
     "params": "Paramètres d'accessibilité",
     "btn": "Personnaliser l’affichage de l’interface",
     "police": "Police adaptée à la dyslexie",
