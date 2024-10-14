@@ -199,6 +199,13 @@
   "Soutenues": "Defended",
   "Accessibles en ligne": "Available online",
   "list": "List of ",
+  "Pertinence": "Relevance",
+  "Date croissante": "Ascending date",
+  "Date décroissante": "Descending date",
+  "Auteurs A-Z": "Authors A-Z",
+  "Auteurs Z-A": "Authors Z-A",
+  "Discipline A-Z": "Discipline A-Z",
+  "Discipline Z-A": "Discipline Z-A",
   "loading": "Search in progress...",
   "personnes": {
     "searchBar": {

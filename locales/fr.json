@@ -193,13 +193,20 @@
       "Écoles doctorales": "Écoles doctorales",
       "Domaines thématiques": "Domaines thématiques",
       "Disciplines": "Disciplines",
-      "Langues": "Langues",
-      "En préparation": "En préparation"
+      "Langues": "Langues"
     }
   },
+  "En préparation": "En préparation",
   "Soutenues": "Soutenues",
   "Accessibles en ligne": "Accessibles en ligne",
   "list": "Liste des ",
+  "Pertinence": "Pertinence",
+  "Date croissante": "Date croissante",
+  "Date décroissante": "Date décroissante",
+  "Auteurs A-Z": "Auteurs A-Z",
+  "Auteurs Z-A": "Auteurs Z-A",
+  "Discipline A-Z": "Discipline A-Z",
+  "Discipline Z-A": "Discipline Z-A",
   "loading": "Recherche en cours...",
   "personnes": {
     "searchBar": {
