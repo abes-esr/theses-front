@@ -153,6 +153,11 @@
   "Examinateurs / Examinatrices": "Examiners",
   "Rapporteurs / Rapporteuses": "Reviewers",
   "Président / Présidente": "Chair",
+  "Examinateur / Examinatrice": "Examiner",
+  "Rapporteur / Rapporteuse": "Reviewer",
+  "Président / Présidente du jury": "Chair of the examining committee",
+  "Auteur / Autrice": "Author",
+  "Directeur / Directrice": "Supervisor",
   "organismeView": {
     "etabSoutenance": "{0} defended thesis(es) in this organisation",
     "etabSoutenanceEnCours": "{0} ongoing thesis(es) in this organisation",
@@ -194,7 +199,8 @@
       "Domaines thématiques": "Thematic areas",
       "Disciplines": "Disciplines",
       "Langues": "Languages",
-      "Rôles": "Role"
+      "Rôles": "Role",
+      "applyFilters": "Apply filters"
     }
   },
   "En préparation": "In preparation",

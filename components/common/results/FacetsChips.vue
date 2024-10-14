@@ -14,13 +14,16 @@
       </label>
       <label v-else :id="'facet-chip-' + facet.label" class="chip-label" :title="$t('results.chips.suppress') + facet.label">
         <p class="sr-only">{{ $t('results.chips.suppress') }}</p>
-        {{ facet.label }}
+        {{ $t(facet.label) }}
       </label>
     </v-chip>
   </div>
 </template>
 
 <script setup>
+import { useI18n} from "vue-i18n";
+const { t } = useI18n();
+
 const { setWorkingFacetName, updateFilterData } = useStrategyAPI();
 
 defineProps({
