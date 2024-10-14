@@ -154,6 +154,11 @@
   "Examinateurs / Examinatrices": "Examinateurs / Examinatrices",
   "Rapporteurs / Rapporteuses": "Rapporteur / Rapporteuse",
   "Président / Présidente": "Président / Présidente",
+  "Examinateur / Examinatrice": "Examinateur / Examinatrice",
+  "Rapporteur / Rapporteuse": "Rapporteur / Rapporteuse",
+  "Président / Présidente du jury": "Président / Présidente",
+  "Auteur / Autrice": "Auteur / Autrice",
+  "Directeur / Directrice": "Directeur / Directrice",
   "organismeView": {
     "etabSoutenance": "{0} thèse(s) soutenue(s) dans cette structure",
     "etabSoutenanceEnCours": "{0} thèse(s) en cours de préparation dans cette structure",
