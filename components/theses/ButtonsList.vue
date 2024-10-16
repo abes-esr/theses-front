@@ -24,20 +24,20 @@
             <!--            Intitulé de la catégorie-->
             <v-expansion-panel-title class="sous-categorie-header" >
               <h4 id="categories-valide-title">
-                {{ sousCategorie.libelle }}
+                {{ $t(sousCategorie.libelle) }}
               </h4>
             </v-expansion-panel-title>
             <v-expansion-panel-text role="list" aria-labelledby="categories-valide-title">
               <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
                 <v-btn v-if="b.typeAcces == 'ACCES_ESR'" role="listitem" class="thesis-access-buttons" append-icon="mdi-open-in-new"
                   @click="checkboxModal = false; dialog = true; dialogUrl = b.url.startsWith('http') ? b.url : baseURL + b.url"
-                  :aria-label="b.libelle + $t('externalLink')" :flat="true">{{
-        b.libelle }}
+                  :aria-label="$t(b.libelle) + $t('externalLink')" :flat="true">{{
+        $t(b.libelle) }}
                 </v-btn>
                 <v-btn v-else-if="b.url" role="listitem" class="thesis-access-buttons" append-icon="mdi-open-in-new"
                   :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle + $t('externalLink')"
-                  :aria-label="b.libelle" :flat="true">{{
-        b.libelle }}
+                  :aria-label="$t(b.libelle)" :flat="true">{{
+       $t(b.libelle) }}
                 </v-btn>
                 <v-card class="texte-embargo" role="listitem" variant="outlined" tabindex="0" v-else>
                   <img :alt="$t('theseView.alertSign')" class="icon-alert"
@@ -66,8 +66,8 @@
             <div class="buttons-list" v-for="b in boutonsAutres" :key="b">
               <v-btn v-if="b.url" role="listitem" class="thesis-access-buttons" append-icon="mdi-open-in-new"
                 :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle + $t('externalLink')"
-                :aria-label="b.libelle" :flat="true">{{
-        b.libelle }}
+                :aria-label="$t(b.libelle)" :flat="true">{{
+        $t(b.libelle) }}
               </v-btn>
               <v-card class="texte-embargo" role="listitem" variant="outlined" tabindex="0"
                 v-if="b.libelle === 'Embargo' || b.libelle === 'Confidentialite'">

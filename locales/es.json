@@ -125,7 +125,7 @@
     "composition": "Examinadores / Examinadoras :",
     "rapporteurs": "Ponentes :",
     "cadre": " en el marco de ",
-    "valide": "Versión(es) validada(s) por el jurado",
+    "valide": "Versiónes validadas por el jurado",
     "retour": "Volver a los resultados",
     "thesePrecedente": "Tesis anterior",
     "theseSuivante": "Tesis siguiente",
@@ -324,5 +324,21 @@
     "contrast-aria": "Cambiar tema: alto contraste",
     "inverted": "Contraste invertido",
     "inverted-aria": "Cambiar tema: contraste invertido"
-  }
+  },
+  "Dépôt national": "Depósito nacional",
+  "Accès en ligne": "Acceso en línea",
+  "Accès réservé aux membres de l’enseignement supérieur français": "Acceso restringido a miembros de la educación  superior francesa",
+  "Accès en bibliothèque": "Disponible en biblioteca",
+  "Accès Intranet Etablissement": "Acceso en la intranet de la institución",
+  "Reproduction(s) conforme(s)": "Copia exacta",
+  "Accès en bibliothèque à une copie sur microfiches de la thèse": "Copia en microficha disponible en biblioteca",
+  "Accès en bibliothèque à une copie imprimée": "Copia impresa disponible en biblioteca",
+  "Autres versions": "Otras versiones",
+  "Accès en ligne à la version incomplète": "Acceso en línea a la versión incompleta",
+  "Achat en ligne": "Compra en línea",
+  "Achat d'une impression à l'ANRT": "Compra de una impresión realizada por la ANRT",
+  "Accès en ligne à une version remaniée par l'auteur": "Acceso en línea a una versión revisada por el autor",
+  "Accès en bibliothèque à la version publiée chez un éditeur": "Versión publicada disponible en biblioteca",
+  "Cette thèse est confidentielle jusqu'au JJ-MM-AAAA": "Esta tesis es confidencial hasta el JJ-MM-AAAA",
+  "Cette thèse est sous embargo jusqu'au JJ-MM-AAAA": "Esta tesis está bajo embargo hasta el JJ-MM-AAAA"
 }
