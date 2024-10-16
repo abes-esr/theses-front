@@ -119,12 +119,12 @@
     "ecoles": "Doctoral school(s)",
     "etablissements": "Institution(s)",
     "partenariat": "Research partner(s)",
-    "jury": "PhD examining panel",
+    "jury": "PhD examining committee",
     "president": "Chair :",
     "composition": "Examiners :",
     "rapporteurs": "Reviewers :",
     "cadre": " as part of the ",
-    "valide": "Versions validated by the PhD examining panel",
+    "valide": "Versions validated by the PhD examining committee",
     "retour": "Back to results",
     "thesePrecedente": "Previous thesis",
     "theseSuivante": "Next thesis",
@@ -145,9 +145,9 @@
     "modalAgree": "I have read the national regulations and the conditions for use of the thesis.",
     "modalOk": "Validate",
     "modalCancel": "Cancel",
-    "others": "Other versions",
-    "Laboratoire": "Laboratory"
+    "others": "Other versions"
   },
+  "Laboratoire": "Laboratory",
   "autre partenaire": "Other partnership",
   "référent": "Referent",
   "Examinateurs / Examinatrices": "Examiners",
@@ -236,7 +236,7 @@
       "statistiques": {
         "auteur": "Author",
         "directeur de thèse": "Supervisor",
-        "président du jury": "Chair of the examination panel",
+        "président du jury": "Chair of the examining committee",
         "rapporteur": "Reviewer",
         "membre du jury": "Examiner",
         "theses": "thesis(es)",
@@ -250,7 +250,7 @@
         "auteur": "Author of {0} thesis(es)",
         "directeur": "Supervisor of {0} thesis(es)",
         "rapporteur": "Reviewer for {0} thesis(es)",
-        "president": "Chair of the examination panel for {0} thesis(es)",
+        "president": "Chair of the examining committee for {0} thesis(es)",
         "membre": "Examiner for {0} thesis(es)"
       }
     }
