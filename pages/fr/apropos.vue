@@ -39,7 +39,7 @@
             <p>La base de donn&eacute;es theses.fr tend &agrave; r&eacute;f&eacute;rencer l&rsquo;ensemble des
                 th&egrave;ses de doctorat soutenues en France depuis 1985. Les lacunes peuvent &ecirc;tre
                 signal&eacute;es via <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
-                    :title="$t('abesSTP')">ABESstp, le
+                    :title="$t('apropos.abesSTP')">ABESstp, le
                     guichet
                     d&rsquo;assistance en ligne de l&rsquo;Abes <v-icon :title="$t('externalLink')"
                         size="x-small">mdi-open-in-new</v-icon></a>.
@@ -61,7 +61,7 @@
                 recherche
                 et une
                 navigation &agrave; facettes. Un <a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
-                    target="_blank" :title="$t('thesisDocumentation')">guide d&rsquo;utilisation du
+                    target="_blank" :title="$t('apropos.thesisDocumentation')">guide d&rsquo;utilisation du
                     moteur de recherche <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a> est mis
                 &agrave; la
                 disposition des utilisateurs. Conform&eacute;ment
@@ -72,18 +72,18 @@
             </p>
             <p>Les donn&eacute;es brutes rel&egrave;vent du domaine public et sont plac&eacute;es <a
                     href="https://abes.fr/reseau-theses/reutiliser-les-donnees/" target="_blank"
-                    :title="$t('etaLab')">sous licence
+                    :title="$t('apropos.etaLab')">sous licence
                     Etalab <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.
                 Elles sont
                 disponibles via une <a
                     href="https://documentation.abes.fr/aidetheses/thesesfr/co/RecupererDonneesAPI.html" target="_blank"
-                    :title="$t('thesisAPIDocumentation')">API
+                    :title="$t('apropos.thesisAPIDocumentation')">API
                     XML <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.</p>
             <p>Pour favoriser leur r&eacute;utilisation, les donn&eacute;es relatives aux th&egrave;ses soutenues
                 sont &eacute;galement disponibles sous forme d&rsquo;un <em>dump</em> d&eacute;pos&eacute; et mis
                 &agrave; jour annuellement sur le site data.gouv.fr&nbsp;: <a
                     href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank"
-                    :title="$t('dataGouv')">Th&egrave;ses
+                    :title="$t('apropos.dataGouv')">Th&egrave;ses
                     soutenues en France depuis 1985 <v-icon :title="$t('externalLink')"
                         size="x-small">mdi-open-in-new</v-icon></a>. Un guide de
                 r&eacute;utilisation accompagne
@@ -126,12 +126,12 @@
                     professionnelle (DGESIP), Direction g&eacute;n&eacute;rale pour la recherche et l'innovation
                     (DGRI)</li>
                 <li>un repr&eacute;sentant de la <a href="https://franceuniversites.fr/ " target="_blank"
-                        :title="$t('franceUniversite')">Conf&eacute;rence
+                        :title="$t('apropos.franceUniversite')">Conf&eacute;rence
                         des
                         Pr&eacute;sidents d&rsquo;Universit&eacute; <v-icon :title="$t('externalLink')"
                             size="x-small">mdi-open-in-new</v-icon></a></li>
                 <li>un repr&eacute;sentant de la <a href="http://www.cge.asso.fr/" target="_blank"
-                        :title="$t('grandesEcoles')">Conf&eacute;rence des
+                        :title="$t('apropos.grandesEcoles')">Conf&eacute;rence des
                         Grandes
                         Ecoles <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a></li>
                 <li>un repr&eacute;sentant des formations doctorales dans les &eacute;tablissements habilit&eacute;s
@@ -139,20 +139,20 @@
                 <li>deux repr&eacute;sentants de la recherche priv&eacute;e ou du monde &eacute;conomique</li>
                 <li>trois repr&eacute;sentants des op&eacute;rateurs documentaires nationaux des th&egrave;ses en
                     France : <a href="http://www.inist.fr/"
-                        :title="$t('iist')">CNRS-INIST
+                        :title="$t('apropos.iist')">CNRS-INIST
                         <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a> ,<a
                         href="http://www.diffusiontheses.fr/content/4-anrt-lille-reproduction-theses" target="_blank"
-                        :title="$t('reproductionTheses')">Atelier
+                        :title="$t('apropos.reproductionTheses')">Atelier
                         national de reproduction des th&egrave;ses de Lille <v-icon :title="$t('externalLink')"
                             size="x-small">mdi-open-in-new</v-icon></a>, <a href="http://www.cines.fr/" target="_blank"
-                        :title="$t('cines')">CINES
+                        :title="$t('apropos.cines')">CINES
                         <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
                 </li>
                 <li>trois repr&eacute;sentants d&rsquo;associations : <a href="https://www.abg.asso.fr" target="_blank"
-                        :title="$t('bernardGregory')">l&rsquo;Intelli&rsquo;Agence
+                        :title="$t('apropos.bernardGregory')">l&rsquo;Intelli&rsquo;Agence
                         <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>(Association Bernard
                     Gregory),<a href="http://www.adbu.fr" target="_blank"
-                        :title="$t('bud')">
+                        :title="$t('apropos.bud')">
                         l&rsquo;ADBU <v-icon :title="$t('externalLink')"
                             size="x-small">mdi-open-in-new</v-icon></a>(association
                     des directeurs de
@@ -160,7 +160,7 @@
                     utilisateurs des produits de l&rsquo;Abes)</li>
             </ul>
             <p>Les comptes-rendus de d&eacute;cisions du CDO ont fait l&rsquo;objet de billets sur le <a
-                    href="https://fil.abes.fr/category/theses" target="_blank" :title="$t('filAbes')">blog de
+                    href="https://fil.abes.fr/category/theses" target="_blank" :title="$t('apropos.filAbes')">blog de
                     l&rsquo;Abes <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.</p>
             <br />
             <h4>Versement progressif des donn&eacute;es</h4>

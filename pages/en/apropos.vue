@@ -31,7 +31,7 @@
             </ul>
             <p>The theses.fr database aims to reference all doctoral theses defended in France since 1985.
               Any shortcomings can be reported via <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
-                    :title="$t('abesSTP')">ABESstp, the Abes online helpdesk
+                    :title="$t('apropos.abesSTP')">ABESstp, the Abes online helpdesk
                 <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
               </a>.
             </p>
@@ -47,20 +47,20 @@
             <p>The data on <a href="https://theses.fr/" target="_blank">theses.fr</a> can be accessed via the
                 <a href="https://theses.fr/" target="_blank">www.theses.fr</a> website using a search engine
                   and faceted navigation. A <a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
-                    target="_blank" :title="$t('thesisDocumentation')"> guide to using the search engine<v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
+                    target="_blank" :title="$t('apropos.thesisDocumentation')"> guide to using the search engine<v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
               is available to users. In line with the Abes policy of opening up data, <a href="https://theses.fr/"
                     target="_blank">theses.fr</a> is part of the web of data and linked data movement.
             </p>
             <p>Raw data is in the public domain and has been placed <a
                     href="https://abes.fr/reseau-theses/reutiliser-les-donnees/" target="_blank"
-                    :title="$t('etaLab')">under an Etalab licence <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.
+                    :title="$t('apropos.etaLab')">under an Etalab licence <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.
                 They are available via an
                 <a href="https://documentation.abes.fr/aidetheses/thesesfr/co/RecupererDonneesAPI.html" target="_blank"
-                    :title="$t('thesisAPIDocumentation')">XML API <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.
+                    :title="$t('apropos.thesisAPIDocumentation')">XML API <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.
             </p>
             <p>To encourage their re-use, data relating to defended theses is also available in the form of a <em>dump</em> filed and updated annually on the data.gouv.fr website:
               <a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank"
-                    :title="$t('dataGouv') + $t('externalLink')"> Theses defended in France since 1985<v-icon :title="$t('externalLink')"
+                    :title="$t('apropos.dataGouv') + $t('externalLink')"> Theses defended in France since 1985<v-icon :title="$t('externalLink')"
                         size="x-small">mdi-open-in-new</v-icon></a>. A re-use guide is provided alongside the data extraction.</p>
 
             <h2>History of the "Theses Portal" project</h2>
@@ -93,14 +93,14 @@
                   (DGRI)
                 </li>
                 <li>a representative of the 
-                  <a href="https://franceuniversites.fr/ " target="_blank" :title="$t('franceUniversite')">
+                  <a href="https://franceuniversites.fr/ " target="_blank" :title="$t('apropos.franceUniversite')">
                     Conference of University Chairs
                     <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
                   </a>
                 </li>
                 <li>a representative of the
                   <a href="http://www.cge.asso.fr/" target="_blank"
-                        :title="$t('grandesEcoles')">Conference of Grandes Ecoles <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
+                        :title="$t('apropos.grandesEcoles')">Conference of Grandes Ecoles <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
                   </a>
                 </li>
                 <li>
@@ -111,33 +111,33 @@
                 </li>
                 <li>
                   three representatives of the national documentation operators for theses in France:
-                  <a href="http://www.inist.fr/" :title="$t('iist')">
+                  <a href="http://www.inist.fr/" :title="$t('apropos.iist')">
                     CNRS-INIST
                     <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
                   ,<a href="http://www.diffusiontheses.fr/content/4-anrt-lille-reproduction-theses" target="_blank"
-                        :title="$t('reproductionTheses')">
+                        :title="$t('apropos.reproductionTheses')">
                       Atelier national de reproduction des thèses de Lille
                     <v-icon :title="$t('externalLink')"
                             size="x-small">mdi-open-in-new</v-icon></a>
                   , <a href="http://www.cines.fr/" target="_blank"
-                        :title="$t('cines')">CINES
+                        :title="$t('apropos.cines')">CINES
                         <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
                 </li>
                 <li>
                   three representatives of associations:
                   <a href="https://www.abg.asso.fr" target="_blank"
-                        :title="$t('bernardGregory')">Intelli&rsquo;Agence
+                        :title="$t('apropos.bernardGregory')">Intelli&rsquo;Agence
                         <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
                   </a> (Association Bernard Gregory)
                   , <a href="http://www.adbu.fr" target="_blank"
-                        :title="$t('bud')">
+                        :title="$t('apropos.bud')">
                         ADBU <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
                     </a> (association of the network of users of Abes products), the AURA (association of the network of users of Abes products)
                 </li>
             </ul>
             <p>The minutes of the DOC's decisions have been posted on the
               <a
-                    href="https://fil.abes.fr/category/theses" target="_blank" :title="$t('filAbes')">
+                    href="https://fil.abes.fr/category/theses" target="_blank" :title="$t('apropos.filAbes')">
               Abes blog <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
               </a>.
             </p>

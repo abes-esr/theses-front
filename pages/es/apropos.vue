@@ -32,7 +32,7 @@
             </ul>
             <p>La base de datos theses.fr pretende catalogar todas las tesis doctorales defendidas en
               Francia desde 1985. Cualquier laguna puede comunicarse a través de <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
-                                                      :title="$t('abesSTP')">ABESstp, el servicio de ayuda en línea de la Abes.
+                                                      :title="$t('apropos.abesSTP')">ABESstp, el servicio de ayuda en línea de la Abes.
                 <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
               </a>
             </p>
@@ -48,25 +48,25 @@
             <p>Se pueden consultar los datos de <a href="https://theses.fr/" target="_blank">theses.fr</a> en el sitio web
                 <a href="https://theses.fr/" target="_blank">www.theses.fr</a>
                 mediante un motor de búsqueda y una navigación por aspectos.
-                Una <a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank" :title="$t('thesisDocumentation')">
+                Una <a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank" :title="$t('apropos.thesisDocumentation')">
                  guía de utilización del motor de búsqueda
                 <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
               está a disposición de los usuarios. De conformidad con la política de apertura de datos de la Abes,
               <a href="https://theses.fr/" target="_blank">theses.fr</a> forma parte del método de datos web y de datos vinculados.
             </p>
             <p>Los datos brutos son de dominio público y están sujetos
-              <a href="https://abes.fr/reseau-theses/reutiliser-les-donnees/" target="_blank" :title="$t('etaLab')">
+              <a href="https://abes.fr/reseau-theses/reutiliser-les-donnees/" target="_blank" :title="$t('apropos.etaLab')">
                 a la licencia Etalab <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
               </a>
               . Están disponibles a través de una
-              <a href="https://documentation.abes.fr/aidetheses/thesesfr/co/RecupererDonneesAPI.html" target="_blank" :title="$t('thesisAPIDocumentation')">
+              <a href="https://documentation.abes.fr/aidetheses/thesesfr/co/RecupererDonneesAPI.html" target="_blank" :title="$t('apropos.thesisAPIDocumentation')">
                 API XML <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
               </a>.
             </p>
             <p>Para favorecer su reutilización, los datos relativos a las tesis defendidas también están
                 disponibles en forma de un <em>dump</em> depositado y actualizado anualmente en el sitio web data.gouv.fr:
               <a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/" target="_blank"
-                 :title="$t('dataGouv') + $t('externalLink')">
+                 :title="$t('apropos.dataGouv') + $t('externalLink')">
                  Tesis defendidas en Francia desde 1985 <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
               </a>
               . La extracción va acompañada de una guía de reutilización.</p>
@@ -108,14 +108,14 @@
                   general para la investigación y la innovación (DGRI)
                 </li>
                 <li>un representante de la
-                  <a href="https://franceuniversites.fr/ " target="_blank" :title="$t('franceUniversite')">
+                  <a href="https://franceuniversites.fr/ " target="_blank" :title="$t('apropos.franceUniversite')">
                     Conferencia de Presidentes de Universidades
                     <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
                   </a>
                 </li>
                 <li>un representante de la
                   <a href="http://www.cge.asso.fr/" target="_blank"
-                     :title="$t('grandesEcoles')">Conferencia de Grandes Escuelas <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
+                     :title="$t('apropos.grandesEcoles')">Conferencia de Grandes Escuelas <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
                   </a>
                 </li>
                 <li>
@@ -126,32 +126,32 @@
                 </li>
                 <li>
                   tres representantes de los operadores documentales nacionales de las tesis en Francia:
-                  <a href="http://www.inist.fr/" :title="$t('iist')">
+                  <a href="http://www.inist.fr/" :title="$t('apropos.iist')">
                     CNRS-INIST
                     <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
                   ,<a href="http://www.diffusiontheses.fr/content/4-anrt-lille-reproduction-theses" target="_blank"
-                      :title="$t('reproductionTheses')">
+                      :title="$t('apropos.reproductionTheses')">
                       Atelier national de reproduction des thèses de Lille
                     <v-icon :title="$t('externalLink')"
                             size="x-small">mdi-open-in-new</v-icon></a>
                   , <a href="http://www.cines.fr/" target="_blank"
-                       :title="$t('cines')">CINES
+                       :title="$t('apropos.cines')">CINES
                         <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
                 </li>
                 <li>
                   tres representantes de asociaciones:
                   <a href="https://www.abg.asso.fr" target="_blank"
-                     :title="$t('bernardGregory')">l'Intelli&rsquo;Agence
+                     :title="$t('apropos.bernardGregory')">l'Intelli&rsquo;Agence
                         <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
                   </a> (Association Bernard Gregory)
                   , <a href="http://www.adbu.fr" target="_blank"
-                       :title="$t('bud')">
+                       :title="$t('apropos.bud')">
                         ADBU <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
                     </a> (asociaciòn de los directores de bibliotecas universitarias), la AURA (asociaciòn de la red de usuarios de los productos de la Abes)
                 </li>
             </ul>
             <p>Las actas de las decisiones del CDO han sido objecto de entradas en el
-              <a href="https://fil.abes.fr/category/theses" target="_blank" :title="$t('filAbes')">
+              <a href="https://fil.abes.fr/category/theses" target="_blank" :title="$t('apropos.filAbes')">
               blog de la Abes <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
               </a>.
             </p>
