@@ -442,5 +442,19 @@
   "Histoire générale de l'Afrique": "Historia de África",
   "Histoire générale de l'Amérique du Nord": "Histroia de América del norte",
   "Histoire générale de l'Amérique du Sud": "Historia de América del sur",
-  "Histoire générale des autres parties du monde, des\n                                                mondes extraterrestres. Iles du Pacifique": "Historia de otras regiones"
+  "Histoire générale des autres parties du monde, des\n                                                mondes extraterrestres. Iles du Pacifique": "Historia de otras regiones",
+  "aboutLink": "Más información sobre Theses.fr",
+  "thesisDocumentation": "Acceder a la documentación de theses.fr",
+  "thesisAPIDocumentation": "Acceder a la documentación de theses.fr relativa al uso de la API",
+  "dataGouv": "Acceder al conjunto de datos completo de tesis en Theses.fr disponible en data.gouv.fr",
+  "franceUniversite": "Acceder al sitio web de France Universités",
+  "grandesEcoles": "Acceder al sitio web de la Conferencia de Grandes Escuelas",
+  "etaLab": "Acceder a la información sobre la licencia Etalab",
+  "iist": "Acceder al sitio web del Instituto de la Información Científica y Técnica",
+  "cines": "Acceder al sitio del Centre Informatique National de l’Enseignement Supérieur",
+  "reproductionTheses": "Acceder al sitio web del Taller Nacional de Reproducción de Tesis",
+  "bernardGregory": "Acceder al sitio web de la Asociación Bernard Grégory",
+  "bud": "Acceder al sitio web de la Asociación francesa de directores y personal de dirección de bibliotecas universitarias y de la documentación",
+  "filAbes": "Acceder al blog Fil’Abes",
+  "abesSTP": "Acceder al servicio de asistencia de la Abes"
 }

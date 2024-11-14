@@ -138,6 +138,8 @@ import { useColorMode } from '@vueuse/core'
 const theme = useTheme();
 const { locale } = useI18n();
 const isReady = ref(false);
+const route = useRoute();
+const router = useRouter();
 const selectedThemeSwitch = ref('');
 
 // Elements du DOM
@@ -243,6 +245,11 @@ onMounted(() => {
 function setLanguage(lang) {
   localStorage.setItem("language", lang);
   locale.value = lang;
+
+  if (/\/(fr|en|es)\//.test(route.path)) {
+    const newPath = route.path.replace(/\/(fr|en|es)\//, `/${lang}/`);
+    router.push(newPath);
+  }
 }
 
 //Paramètres d'accessibilité

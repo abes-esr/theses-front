@@ -437,5 +437,20 @@
   "Histoire générale de l'Afrique": "Histoire générale de l'Afrique",
   "Histoire générale de l'Amérique du Nord": "Histoire générale de l'Amérique du Nord",
   "Histoire générale de l'Amérique du Sud": "Histoire générale de l'Amérique du Sud",
-  "Histoire générale des autres parties du monde, des mondes extraterrestres. Iles du Pacifique": "Histoire générale des autres parties du monde, des mondes extraterrestres. Iles du Pacifique"
+  "Histoire générale des autres parties du monde, des mondes extraterrestres. Iles du Pacifique": "Histoire générale des autres parties du monde, des mondes extraterrestres. Iles du Pacifique",
+  "aboutLink": "En savoir plus sur Theses.fr",
+  "thesisDocumentation": "Accéder à la documentation de theses.fr",
+  "thesisAPIDocumentation": "Accéder à la documentation de theses.fr relative à l’utilisation de l’API",
+  "dataGouv": "Accéder sur le site data.gouv.fr à l’extraction complète des données disponibles sur theses.fr et relatives aux thèses soutenues",
+  "franceUniversite": "Accéder au site de France Universités",
+  "grandesEcoles": "Accéder au site de la Conférence des Grandes Ecoles",
+  "etaLab": "Accéder aux informations relatives à la licence Etalab",
+  "iist": "Accéder au site de l’Institut de l’Information Scientifique et technique",
+  "cines": "Accéder au site du Centre Informatique National de l’Enseignement Supérieur",
+  "reproductionTheses": "Accéder au site de l’Atelier National de Reproduction des Thèses",
+  "bernardGregory": "Accéder au site de l’Association Bernard Grégory",
+  "bud": "Accéder au site de l’Association française des directeurs et personnels de direction des bibliothèques universitaires et de la documentation",
+  "filAbes": "Accéder au blog Fil’Abes",
+  "abesSTP": "Accéder au guichet d’assistance de l’Abes"
+
 }
