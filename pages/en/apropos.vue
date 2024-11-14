@@ -1,9 +1,14 @@
 <template>
   <!--  Mobile-->
-  <CommonHeaderMobile v-if="mobile" type="home" @displayError="displayError" @activate-menu="activateMenu"
-                      :loading="loading" :show-menu="showMenu">
-  </CommonHeaderMobile>
+  <ClientOnly>
+    <CommonHeaderMobile v-if="mobile" type="home" @displayError="displayError" @activate-menu="activateMenu"
+                        :loading="loading" :show-menu="showMenu">
+    </CommonHeaderMobile>
+  </ClientOnly>
   <!--  Fin Mobile-->
+  <NuxtLink v-if="!mobile" class="logo logo_home" :to="{ name: 'index', query: { domaine: 'theses' } }">
+    <img :alt="$t('homepage')" id="logoIMG" src="/icone-theses-beta.svg" />
+  </NuxtLink>
   <article>
         <a href="https://theses.fr/">Back to home page</a>
         <h1>About</h1>
