@@ -22,8 +22,8 @@
   "accesDirect": "Recursos",
   "apropos": "Acerca de",
   "donnees": "Datos personales",
-  "CGU": "CGU",
-  "mentions": "Aviso legal",
+  "CGU": "Términos y condiciones de uso",
+  "mentions": "Información legal",
   "accessibilite": "Accesibilidad",
   "referencés": "tesis defendidas",
   "preparation": "tesis en preparación",
@@ -193,8 +193,8 @@
     "sort": "Ordenar",
     "sortBy": "Ordenar por",
     "ariaSortBy": "Elección del orden en la búsqueda.",
-    "searched": "La búsqueda sobre",
-    "returned": "ha devuelto",
+    "searched": "La búsqueda",
+    "returned": "ha generado",
     "results": "resultado(s)",
     "facet": {
       "reset": "Restablecer",
@@ -290,7 +290,7 @@
     "others": "Otro"
   },
   "footer": {
-    "texte": "El motor de búsqueda de theses.fr recoge todas las tesis doctorales defendidas en Francia desde 1985, los temas de las tesis elaboradas en las instituciones de enseñanza superior francesas y las personas implicadas en el proyecto de investigación doctoral francesa. La base de datos está en constante evolución.",
+    "texte": "El motor de búsqueda theses.fr recoge todas las tesis doctorales defendidas en Francia desde 1985, los temas de las tesis elaboradas en las instituciones de enseñanza superior francesas y las personas implicadas en proyectos de investigación decotral franceses. La base de datos está en constante evolución.",
     "opendata": "theses.fr en Open Data",
     "catalogue": "Catálogo del Sudoc (Sistema Universitario de Documentación)",
     "idRref": "IdRef Identificadores y referenciales",
