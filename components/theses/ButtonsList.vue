@@ -31,21 +31,18 @@
               <div class="buttons-list" v-for="b in sousCategorie.boutons" :key="b">
                 <v-btn v-if="b.typeAcces == 'ACCES_ESR'" role="listitem" class="thesis-access-buttons" append-icon="mdi-open-in-new"
                   @click="checkboxModal = false; dialog = true; dialogUrl = b.url.startsWith('http') ? b.url : baseURL + b.url"
-                  :aria-label="$t(b.libelle) + $t('externalLink')" :flat="true">{{
-        $t(b.libelle) }}
+                  :aria-label="$t(b.libelle) + $t('externalLink')" :flat="true">{{ $t(b.libelle) }}
                 </v-btn>
                 <v-btn v-else-if="b.url" role="listitem" class="thesis-access-buttons" append-icon="mdi-open-in-new"
-                  :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle + $t('externalLink')"
-                  :aria-label="$t(b.libelle)" :flat="true">{{
-       $t(b.libelle) }}
+                  :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="$t(b.libelle)  + $t('externalLink')"
+                  :aria-label="$t(b.libelle)" :flat="true">{{ $t(b.libelle) }}
                 </v-btn>
                 <v-card class="texte-embargo" role="listitem" variant="outlined" tabindex="0" v-else>
                   <img :alt="$t('theseView.alertSign')" class="icon-alert"
                     src="@/assets/triangle-exclamation-solid.svg" />
                   <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin.replaceAll("-", "/")
                     }}.</span>
-                  <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{
-        b.dateFin.replaceAll("-", "/")
+                  <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{ b.dateFin.replaceAll("-", "/")
       }}</span>
                 </v-card>
               </div>
@@ -65,19 +62,15 @@
           <v-expansion-panel-text role="list" aria-labelledby="other-title">
             <div class="buttons-list" v-for="b in boutonsAutres" :key="b">
               <v-btn v-if="b.url" role="listitem" class="thesis-access-buttons" append-icon="mdi-open-in-new"
-                :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="b.libelle + $t('externalLink')"
-                :aria-label="$t(b.libelle)" :flat="true">{{
-        $t(b.libelle) }}
+                :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="$t(b.libelle)  + $t('externalLink')"
+                :aria-label="$t(b.libelle)" :flat="true">{{ $t(b.libelle) }}
               </v-btn>
               <v-card class="texte-embargo" role="listitem" variant="outlined" tabindex="0"
                 v-if="b.libelle === 'Embargo' || b.libelle === 'Confidentialite'">
                 <img :alt="$t('theseView.alertSign')" class="icon-alert"
                   src="@/assets/triangle-exclamation-solid.svg" />
-                <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargoStart") }}{{ b.dateFin.replaceAll("-", "/")
-                  }}{{
-        $t("theseView.embargoEnd") }}</span>
-                <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{
-        b.dateFin.replaceAll("-", "/") }}</span>
+                <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargoStart") }}{{ b.dateFin.replaceAll("-", "/") }}{{ $t("theseView.embargoEnd") }}</span>
+                <span v-if="b.libelle === 'Confidentialite'">{{ $t("theseView.confidentialite") }} {{ b.dateFin.replaceAll("-", "/") }}</span>
               </v-card>
             </div>
           </v-expansion-panel-text>
@@ -302,25 +295,10 @@ h4 {
   }
 }
 
-.header-container {
-  height: 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr 100fr;
-  grid-template-rows: 20% 60% 20%;
-  padding: 0 10px;
-
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
-    width: 100%;
-    grid-template-columns: 1fr 10fr 3fr;
-    font-size: 16px;
-    padding: 0 10px;
-  }
-}
-
 .menu-icon {
   height: 100%;
   grid-column-start: 1;
-  grid-row-start: 2;
+  align-items: start;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: unset;
@@ -331,13 +309,32 @@ h4 {
   font-size: 28px;
 }
 
+.header-container {
+  display: inline-grid;
+  grid-template-columns: 40px 100fr;
+  padding: 0 10px;
+  color: rgb(var(--v-theme-text-dark-blue));
+
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    width: 100%;
+    font-size: 16px;
+    padding: 0 10px;
+  }
+}
+
 .buttons-title-header {
   height: 100%;
-  grid-column-start: 3;
-  grid-row-start: 2;
+  grid-column-start: 2;
+  //grid-row-start: 2;
   background-color: transparent;
-  margin-top: -5px;
+  //margin-top: -5px;
   overflow: visible !important;
+//#TODO
+//  width: auto;
+  display: flex;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
 
   font-size: 20px;
   font-weight: 500;

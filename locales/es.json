@@ -50,6 +50,7 @@
   "motCleControle": "Palabras clave controladas",
   "motCleControleDescription": "Las palabras clave controladas son palabras clave que tienen un identificador. Proceden de tesauros, disponibles en el sitio web",
   "motCleLibres": "Palabras clave libres",
+  "infoKeywords": "Información sobre las palavras clave",
   "showMoreKeywords": "Mostrar más palabras clave",
   "showLessKeywords": "Reducir la lista de palabras clave",
   "showAllKeywords": "Mostrar todas las palabras clave ",

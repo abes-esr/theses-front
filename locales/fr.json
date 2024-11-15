@@ -50,6 +50,7 @@
   "motCleControle": "Mots clés contrôlés",
   "motCleControleDescription": "Les mots clés contrôlés sont les mots clés qui possèdent un identifiant. Ils proviennent de thésaurus, accessibles sur le site ",
   "motCleLibres": "Mots clés libres",
+  "infoKeywords": "Informations sur les mots clés",
   "showMoreKeywords": "Afficher plus de mots-clés",
   "showLessKeywords": "Réduire la liste des mots-clés",
   "showAllKeywords": "Afficher tous les mots-clés ",

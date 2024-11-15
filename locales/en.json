@@ -50,6 +50,7 @@
   "motCleControle": "Controlled keywords",
   "motCleControleDescription": "Controlled keywords are keywords that have an identifier. They come from thesauri accessible on the website ",
   "motCleLibres": "Free keywords",
+  "infoKeywords": "Information on keywords",
   "showMoreKeywords": "Show more keywords",
   "showLessKeywords": "Reduce the list of keywords",
   "showAllKeywords": "Show all keywords ",

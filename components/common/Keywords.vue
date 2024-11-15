@@ -12,9 +12,9 @@
         <div class="mots-cles-controlles" v-if="rameauKeywords.length > 0">
           <div  ref="backFromKeywordModal" aria-labelledby="mots-cles-controles-header" class="subtitle">
             <h3 id="mots-cles-controles-header">{{ $t("motCleControle") }}</h3>
-            <v-btn class="info-button" @click="overlayIsOpened = !overlayIsOpened" flat title="Informations sur les mots clés">
+            <v-btn class="info-button" @click="overlayIsOpened = !overlayIsOpened" flat :title="$t('infoKeywords')">
               <v-icon size="22">mdi-information-outline</v-icon>
-              <span class="sr-only">Informations sur les mots clés</span>
+              <span class="sr-only">{{ $t("infoKeywords") }}</span>
             </v-btn>
             <v-overlay v-model="overlayIsOpened" location-strategy="connected" scroll-strategy="close">
               <div tabindex="0" id="legend-tooltip">
