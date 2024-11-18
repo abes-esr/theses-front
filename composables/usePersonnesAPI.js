@@ -25,7 +25,6 @@ async function queryPersonnesAPI(query, facetsRequest, currentPageNumber, curren
 }
 
 /**
- * #TODO
  * @param facets
  * @returns {*}
  */
