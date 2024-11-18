@@ -14,6 +14,7 @@
     <div role="listitem">
       <v-btn flat @click="select('personnes')" :title="$t('rechercherPersonnes')" role="button">
         <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
+<!--        Pas de sous-titre en anglais => souligner tout le titre-->
         <span class="title" :class="(locale === 'en' && selected === 'personnes') ? 'selected' : ''">
           <h2>
             {{ $t("toutesPersonnes") }}
