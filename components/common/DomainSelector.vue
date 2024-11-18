@@ -12,7 +12,7 @@
     </div>
     <v-divider aria-hidden="true" vertical></v-divider>
     <div role="listitem">
-      <v-btn flat @click="select('personnes')" :title="$t('rechercherTheses')" role="button">
+      <v-btn flat @click="select('personnes')" :title="$t('rechercherPersonnes')" role="button">
         <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
         <span class="title">
           <h2>

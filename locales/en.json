@@ -196,6 +196,7 @@
     "searched": "Search for",
     "returned": "returned",
     "results": "result(s)",
+    "resultList": "Search results list",
     "facet": {
       "reset": "Reset",
       "Date": "Date",
@@ -283,6 +284,10 @@
     "informationLegale6": "Privacy Policies",
     "informationLegale7": "Terms of Service",
     "informationLegale8": "of Google apply.",
+    "erreurCookie": "Error: the form requires you to accept the reCAPTCHA cookie. To change your cookie preferences, click on the icon",
+    "erreurCookie2": "in the bottom right corner of the screen.",
+    "shortcut": "Go to the cookie management icon",
+    "modale": "Cookies (modal window)",
     "description": "Report errors in the thesis description",
     "access": "Report an access issue with the document",
     "cancelling": "Report the completion or abandonment of the thesis project",

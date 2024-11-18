@@ -1,13 +1,13 @@
 <template>
   <!--  Personnes-->
-  <div role="list" aria-label="Liste des résultats de la recherche" v-if="domainNameChange === 'personnes'">
+  <div role="list" :aria-label="$t('results.resultList')" v-if="domainNameChange === 'personnes'">
     <div role="listitem" v-for="(item, index) in result" :key="item.id" class="card-wrapper">
       <PersonnesResultsPersonnesCard :item="item" />
       <hr class="result-dividers" v-if="index < result.length - 1" />
     </div>
   </div>
   <!--  Thèses-->
-  <div role="list" aria-label="Liste des résultats de la recherche" v-else-if="domainNameChange === 'theses'">
+  <div role="list" :aria-label="$t('results.resultList')" v-else-if="domainNameChange === 'theses'">
     <div role="listitem" v-for="(item, index) in result" :key="item" class="card-wrapper">
       <ThesesResultsResultCard :titre="item.titrePrincipal"
         :date="item.status === 'enCours' ? item.datePremiereInscriptionDoctorat : item.dateSoutenance"

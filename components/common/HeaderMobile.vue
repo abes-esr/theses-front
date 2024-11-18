@@ -40,7 +40,7 @@
   </nav>
   <!--    Logo -->
   <div class="logo-menu-wrapper">
-    <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site"
+    <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" :title="$t('homepage')"
       class="logo logo_home logo_resultview">
       <img :alt="$t('homepage')" id="logoIMG" src="/icone-theses-beta.svg" />
     </NuxtLink>

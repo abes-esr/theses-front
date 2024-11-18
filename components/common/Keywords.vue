@@ -20,7 +20,7 @@
               <div tabindex="0" id="legend-tooltip">
                 <v-card class="legend-tooltip">
                   <span>
-                    {{ $t("motCleControleDescription") }} <a title="Se rendre sur le site de id Ref" href="https://www.idref.fr/">idRef.</a>
+                    {{ $t("motCleControleDescription") }} <a :title="$t('footer.idRef')" href="https://www.idref.fr/">idRef.</a>
                   </span>
                   <div class="close-overlay-button-container">
                     <v-btn @click="overlayIsOpened = !overlayIsOpened" class="close-overlay-button" variant="outlined" density="compact" append-icon="mdi-close-box" flat>{{ $t('access.fermer') }}</v-btn>

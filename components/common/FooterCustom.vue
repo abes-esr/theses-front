@@ -4,7 +4,7 @@
       <div class="theses-description footer-content">
         <h1 aria-hidden="true">theses.fr</h1>
         <span>{{ $t("footer.texte") }}</span>&nbsp;
-        <a href="/apropos" alt="En savoir plus sur Theses.fr"><strong>{{
+        <a href="/apropos" :alt="$t('apropos.aboutLink')"><strong>{{
           $t("footer.plus")
         }}</strong></a>
       </div>
@@ -111,10 +111,6 @@
     </v-card-text>
   </v-footer>
 </template>
-
-<script setup>
-const localePath = useLocalePath();
-</script>
 
 <style scoped lang="scss">
 @use 'vuetify/settings';

@@ -31,8 +31,8 @@
     </NuxtLink>
     <div class="idref-container">
       <a v-if="item.has_idref" :href="`https://www.idref.fr/${item.id}`" target="_blank"
-        :title="'Accéder à la page IdRef de ' + item.prenom + ' ' + item.nom + 'le référentiel des personnes et des structures'" class="idref-logo">
-        <img alt="" id="logoIdref" :src="'/idref-icone-' + colorMode + '.svg'" />
+        :title="item.prenom  + ' ' + item.nom + ' ' + $t('footer.idRef')" class="idref-logo">
+        <img :alt="$t('footer.idRef')" id="logoIdref" :src="'/idref-icone-' + colorMode + '.svg'" />
         <span aria-hidden="true">IdRef</span>
       </a>
     </div>

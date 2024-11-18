@@ -197,6 +197,7 @@
     "searched": "La búsqueda",
     "returned": "ha generado",
     "results": "resultado(s)",
+    "resultList": "Lista de resultados de la búsqueda",
     "facet": {
       "reset": "Restablecer",
       "Date": "Fecha",
@@ -284,6 +285,10 @@
     "informationLegale6": "Políticas de privacidad",
     "informationLegale7": "Términos de servicio",
     "informationLegale8": "de Google.",
+    "erreurCookie": "Error: el formulario requiere aceptar la cookie reCAPTCHA. Para modificar tus preferencias de cookies, haz clic en el icono",
+    "erreurCookie2": "en la esquina inferior derecha de la pantalla.",
+    "shortcut": "Ir al icono de gestión de cookies",
+    "modale": "Cookies (ventana modal)",
     "description": "Reportar errores en la descripción de la tesis",
     "access": "Reportar un problema de acceso al documento",
     "cancelling": "Reportar la finalización o abandono del proyecto de tesis",

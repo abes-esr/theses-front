@@ -148,7 +148,8 @@
     "modalOk": "Valider",
     "modalCancel": "Annuler",
     "others": "Autres versions",
-    "metadonnees": "Métadonnées descriptives de la thèse"
+    "metadonnees": "Métadonnées descriptives de la thèse",
+    "docOrganismes": "Document theses.fr sur les pages d'organismes"
   },
   "Laboratoire": "Laboratoire",
   "autre partenaire": "Autre partenaire",
@@ -193,6 +194,7 @@
     "searched": "La recherche sur",
     "returned": "a retourné",
     "results": "résultat(s)",
+    "resultList": "Liste des résultats de la recherche",
     "facet": {
       "reset": "Réinitialiser",
       "Date": "Date",
@@ -280,6 +282,10 @@
     "informationLegale6": "Politiques de confidentialité",
     "informationLegale7": "Conditions d'utilisations",
     "informationLegale8": "de Google s'appliquent.",
+    "erreurCookie": "Erreur : le formulaire nécessite l'acceptation du cookie reCAPTCHA. Pour modifier vos préférences en matière de cookies, cliquez sur l’icône",
+    "erreurCookie2": "en bas à droite de l'écran.",
+    "modale": "Cookies (fenêtre modale)",
+    "shortcut": "Aller à l'icone de gestion des cookies",
     "description": "Signaler des erreurs dans la description de la thèse",
     "access": "Signaler un problème d'accès au document",
     "cancelling": "Signaler l'aboutissement ou l'abandon du projet de thèse",

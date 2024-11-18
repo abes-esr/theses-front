@@ -2,7 +2,7 @@
   <v-menu location="bottom">
     <template v-slot:activator="{ props }">
       <v-btn class="main-btn" icon="mdi-upload-box" color="secondary-darken-2" variant="text"
-        title="Exporter les données" v-bind="props">
+        :title="$t('exportData')" v-bind="props">
       </v-btn>
     </template>
     <v-list role="list">

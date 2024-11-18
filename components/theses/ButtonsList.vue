@@ -325,12 +325,9 @@ h4 {
 .buttons-title-header {
   height: 100%;
   grid-column-start: 2;
-  //grid-row-start: 2;
   background-color: transparent;
-  //margin-top: -5px;
   overflow: visible !important;
-//#TODO
-//  width: auto;
+
   display: flex;
   white-space: normal;
   word-break: break-word;

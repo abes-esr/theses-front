@@ -11,8 +11,8 @@
   <div v-if="!mobile" class="sub-header">
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
-        <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Aller à l'accueil du site">
-          <img class="logo IdRef" alt="Accueil Theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
+        <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" :title="$t('homepage')">
+          <img class="logo IdRef" :alt="$t('homepage')" id="logoIMG" src="@/assets/icone-theses.svg" />
         </NuxtLink>
         <h1 v-html='$t("slogan2lines")'></h1>
       </div>
@@ -49,8 +49,8 @@
               <span class="nom">{{ item.nom }}</span>
             </h1>
             <a v-if="item.has_idref" class="idref-logo" :href="`https://www.idref.fr/${item.id}`" target="_blank"
-              title="Accéder à IdRef, le référentiel des personnes et des structures">
-              <img alt="Accéder à la page IdRef correspondante" id="logoIdref"
+              :title="$t('footer.idRef')">
+              <img :alt="$t('footer.idRef')" id="logoIdref"
                 :src="'/idref-icone-' + colorMode + '.svg'" />
               <span>IdRef</span>
             </a>
