@@ -37,7 +37,7 @@
                   :href="b.url.startsWith('http') ? b.url : baseURL + b.url" target="_blank" :title="$t(b.libelle)  + $t('externalLink')"
                   :aria-label="$t(b.libelle)" :flat="true">{{ $t(b.libelle) }}
                 </v-btn>
-                <v-card class="texte-embargo" role="listitem" variant="outlined" tabindex="0" v-else>
+                <v-card v-else-if="b.libelle === 'Embargo' || b.libelle === 'Confidentialite'" class="texte-embargo" role="listitem" variant="outlined" tabindex="0">
                   <img :alt="$t('theseView.alertSign')" class="icon-alert"
                     src="@/assets/triangle-exclamation-solid.svg" />
                   <span v-if="b.libelle === 'Embargo'">{{ $t("theseView.embargo") }} {{ b.dateFin.replaceAll("-", "/")
