@@ -36,11 +36,11 @@
         </div>
 <!--        Fin signaler-->
         <v-btn v-if="personne" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
-          alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
+          :alt="$t('footer.accessDoc')" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
           {{ $t("theseView.alert") }}
         </v-btn>
         <v-btn v-if="organisme" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#PageOrganisme"
-          alt="Document theses.fr sur les pages d'organisme" target="_blank" variant="outlined" flat
+          :alt="$t('theseView.docOrganismes')" target="_blank" variant="outlined" flat
           append-icon="mdi-alert-circle" role="listitem">
           {{ $t("theseView.alert") }}
         </v-btn>
@@ -49,13 +49,13 @@
 <!--    Mobile-->
     <div v-else-if="personne" class="thesis-toolbar no-wrap-text" role="list">
       <v-btn href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
-             alt="Documentation de theses.fr" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
+             :alt="$t('footer.accessDoc')" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
         {{ $t("theseView.alert") }}
       </v-btn>
     </div>
     <div v-else-if="organisme" class="thesis-toolbar no-wrap-text">
       <v-btn href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#PageOrganisme"
-             alt="Document theses.fr sur les pages d'organisme" target="_blank" variant="outlined" flat
+             :alt="$t('theseView.docOrganismes')" target="_blank" variant="outlined" flat
              append-icon="mdi-alert-circle" role="listitem">
         {{ $t("theseView.alert") }}
       </v-btn>

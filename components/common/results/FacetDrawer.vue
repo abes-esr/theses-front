@@ -10,7 +10,7 @@
           {{ $t('results.facet.' + facet.name) }}
         </h2>
         <v-btn @click.stop="" @click="reinitializeCheckboxes(); reinitializeFilterSearchText();" class="reinitialize-button" size="small" depressed
-          elevation="0" color="surface" :title="$t('reinitializeFacet') + facet.name">
+          elevation="0" color="surface" :title="$t('reinitializeFacet') + $t('results.facet.' + facet.name)">
           <v-icon>mdi-reload</v-icon>
         </v-btn>
       </v-expansion-panel-title>

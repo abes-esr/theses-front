@@ -12,9 +12,10 @@
     </div>
     <v-divider aria-hidden="true" vertical></v-divider>
     <div role="listitem">
-      <v-btn flat @click="select('personnes')" :title="$t('rechercherTheses')" role="button">
+      <v-btn flat @click="select('personnes')" :title="$t('rechercherPersonnes')" role="button">
         <v-icon size="50" color="secondary">mdi-account-multiple</v-icon>
-        <span class="title">
+<!--        Pas de sous-titre en anglais => souligner tout le titre-->
+        <span class="title" :class="(locale === 'en' && selected === 'personnes') ? 'selected' : ''">
           <h2>
             {{ $t("toutesPersonnes") }}
             <br />
@@ -29,7 +30,7 @@
 import { ref, watch } from 'vue';
 import { useI18n } from "vue-i18n";
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const selected = ref('theses');
 const router = useRouter();
 const currentRoute = useRoute();

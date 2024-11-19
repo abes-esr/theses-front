@@ -66,6 +66,8 @@ import { useColorMode } from '@vueuse/core';
 const theme = useTheme();
 const { locale } = useI18n();
 const { mobile } = useDisplay();
+const route = useRoute();
+const router = useRouter();
 
 const isReady = ref(false);
 
@@ -115,6 +117,11 @@ onMounted(() => {
 function setLanguage(lang) {
   localStorage.setItem("language", lang);
   locale.value = lang;
+
+  if (/\/(fr|en|es)\//.test(route.path)) {
+    const newPath = route.path.replace(/\/(fr|en|es)\//, `/${lang}/`);
+    router.push(newPath);
+  }
   useHead({
     htmlAttrs: {
       lang: lang,

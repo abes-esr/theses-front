@@ -19,15 +19,15 @@
             <div class="stats">
                 <h1 class="sr-only">{{ $t('exploreByType') }}</h1>
                 <HomeStatsCard :titre=nbTheses :description="$t('referencés')" icon="soutenue"
-                    info="Afficher toutes les thèses soutenues"
+                    :info="$t('cardSoutenues')"
                     url="/resultats?filtres=%255BStatut%253D%2522soutenue%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">
                 </HomeStatsCard>
                 <HomeStatsCard :titre=nbSujets :description="$t('preparation')" icon="enCours"
-                    info="Afficher toutes les thèses en préparation"
+                    :info="$t('cardPreparation')"
                     url="/resultats?filtres=%255BStatut%253D%2522enCours%2522%255D&q=*&page=1&nb=10&tri=dateDesc&domaine=theses">
                 </HomeStatsCard>
                 <HomeStatsCard :titre=nbPersonnes :description="$t('personnesRef')" icon="personne"
-                    info="Afficher toutes les personnes liées aux thèses"
+                    :info="$t('cardPersonnes')"
                     url="/resultats?q=*&page=1&nb=10&tri=PersonnesAsc&domaine=personnes"></HomeStatsCard>
             </div>
             <br />

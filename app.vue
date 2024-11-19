@@ -547,7 +547,7 @@ a:hover,
 a:active {
   color: inherit;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .skiplink:not(:focus) {

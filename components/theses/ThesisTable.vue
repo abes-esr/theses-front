@@ -1,5 +1,5 @@
 <template>
-  <table class="table" v-if="these.auteurs" aria-label="meta-données de la thèse" title="meta-données de la thèse">
+  <table class="table" v-if="these.auteurs" :aria-label="$t('theseView.metadonnees')" :title="$t('theseView.metadonnees')">
     <tbody class="table-body">
       <!-- Auteur -->
       <tr v-if="these.auteurs && these.auteurs.length > 0" class="table-rows">
