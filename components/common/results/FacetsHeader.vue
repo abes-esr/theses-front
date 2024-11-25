@@ -5,8 +5,8 @@
       <h1 tabindex="0" class="facet-title-header">{{ $t('results.facetsHeader') }}</h1>
     </div>
     <v-btn v-if="!mobile" @click.stop="" @click="searchAndReinitializeAllFacets" size="small" depressed elevation="0"
-      color="surface" class="desktop-reinitialize-button">
-      <v-icon>mdi-reload</v-icon> Réinitialiser
+      color="surface" class="desktop-reinitialize-button" :aria-label="$t('reinitializeAll')">
+      <v-icon>mdi-reload</v-icon> {{ $t('results.facet.reset') }}
     </v-btn>
     <button v-else @click="closeOverlay" class="close-overlay-button" elevation="0" color="transparent">
       <div class="close-overlay-icon-wrapper">

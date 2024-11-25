@@ -1,16 +1,19 @@
 <template>
-  <div class="facets">
+  <div class="facets" role="list">
     <CommonResultsFacetDrawer v-if="domaine === 'theses' && Object.keys(facets).length > 0" date key="facet-date"
       :facet="{ 'name': 'Date' }" :selected-facets-array="selectedFacetsArray"
-      @reinitializePageNumber="reinitializePageNumber">
+      @reinitializePageNumber="reinitializePageNumber"
+    index="-1"
+    >
     </CommonResultsFacetDrawer>
-    <CommonResultsFacetDrawer v-for="facet in facets" :key="`facet-${facet.name}`" :facet="facet"
+    <CommonResultsFacetDrawer v-for="(facet, index) in facets" :key="`facet-${facet.name}`" :facet="facet"
       :selected-facets-array="selectedFacetsArray"
       :reset-text-fields="resetTextFields"
-      @reinitializePageNumber="reinitializePageNumber">
+      @reinitializePageNumber="reinitializePageNumber"
+      :index="index"
+    >
     </CommonResultsFacetDrawer>
-    <v-btn v-if="mobile" class="filters-btn" variant="outlined" color="primary" @click="closeOverlay">Appliquer les
-      filtres</v-btn>
+    <v-btn v-if="mobile" class="filters-btn" variant="outlined" color="primary" @click="closeOverlay">{{ $t('results.facet.applyFilters') }}</v-btn>
     <v-skeleton-loader v-if="loading" v-for="i in 6" :key="i" type="list-item" class="skeleton"></v-skeleton-loader>
   </div>
 </template>
@@ -79,5 +82,9 @@ function reinitializePageNumber() {
 
 :deep(.v-expansion-panel-title--active:hover > .v-expansion-panel-title__overlay) {
   opacity: 0.04;
+}
+
+:deep(.v-expansion-panel) {
+  color: rgb(var(--v-theme-text-dark-blue)) !important;
 }
 </style>

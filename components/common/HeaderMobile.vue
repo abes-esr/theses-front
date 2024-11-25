@@ -40,24 +40,24 @@
   </nav>
   <!--    Logo -->
   <div class="logo-menu-wrapper">
-    <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site"
+    <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" :title="$t('homepage')"
       class="logo logo_home logo_resultview">
       <img :alt="$t('homepage')" id="logoIMG" src="/icone-theses-beta.svg" />
     </NuxtLink>
     <!-- Menu burger mobile -->
     <v-fade-transition>
       <div v-show="showMenu" ref="expandedMenu" tabindex="0" class="expanded-search-bar-container white-containers" role="list">
-        <div class="languages-btn-container">
-<!--          <div class="languages-btn">-->
-<!--            <button flat @click="setLanguage('fr')" title="Langue française"-->
-<!--              :class="locale === 'fr' ? 'selected' : ''">FR</button>-->
-<!--            <p>|</p>-->
-<!--            <button flat @click="setLanguage('en')" title="English Language"-->
-<!--              :class="locale === 'en' ? 'selected' : ''">EN</button>-->
-<!--            <p>|</p>-->
-<!--            <button flat @click="setLanguage('es')" title="Idioma Espanol"-->
-<!--              :class="locale === 'es' ? 'selected' : ''">ES</button>-->
-<!--          </div>-->
+        <div class="languages-btn-layout-wrapper">
+          <div class="languages-btn-container" role="list" :aria-label="$t('header.localeSelection')">
+            <v-btn flat @click="setLanguage('fr')" aria-label="Changer la langue du site en français" density="compact" size="small"
+                   :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
+            <v-divider vertical role="presentation"></v-divider>
+            <v-btn flat @click="setLanguage('en')" aria-label="Switch language to English" density="compact" size="small"
+                   :class="locale === 'en' ? 'selected' : ''">EN</v-btn>
+            <v-divider vertical role="presentation"></v-divider>
+            <v-btn flat @click="setLanguage('es')" aria-label="Cambiar el idioma a español" density="compact" size="small"
+                   :class="locale === 'es' ? 'selected' : ''">ES</v-btn>
+          </div>
         </div>
         <div class="expanded-burger-menu">
           <div class="nav-bar-list-burger">
@@ -115,10 +115,11 @@
       <v-card-title>{{ $t("access.params") }}</v-card-title>
       <v-card-text>
         <ul class="switch-list">
-          <li><v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.police-aria")' :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
           <li><v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch></li>
           <li><v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch></li>
-          <li><v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.contrast-aria")' :label='$t("access.contrast")' v-model="selectedThemeSwitch" value="dark" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.inverted-aria")' :label='$t("access.inverted")' v-model="selectedThemeSwitch" value="inverted" inset></v-switch></li>
         </ul>
       </v-card-text>
       <v-card-actions>
@@ -137,7 +138,9 @@ import { useColorMode } from '@vueuse/core'
 const theme = useTheme();
 const { locale } = useI18n();
 const isReady = ref(false);
-const changeContrast = ref(false);
+const route = useRoute();
+const router = useRouter();
+const selectedThemeSwitch = ref('');
 
 // Elements du DOM
 const expandedMenu = ref(null);
@@ -145,18 +148,25 @@ const expandedSearchBar = ref(null);
 
 const themesNames = ref({
   "light": "abesLightTheme",
-  "dark": "abesDarkTheme"
+  "dark": "abesDarkTheme",
+  "inverted": "abesInvertedTheme"
 });
 
 const colorMode = useColorMode({
+  attribute: 'theme',
+  modes: {
+    // couleurs personnalisées
+    inverted: 'inverted'
+  },
   onChanged(color) {
     theme.global.name.value = themesNames.value[color];
   }
 });
 
 onBeforeMount(() => {
-  // Etat par défaut du switch
-  changeContrast.value = useColorMode().value === 'dark';
+  // Etat initial du switch
+  theme.global.name.value = themesNames.value[colorMode.value];
+  selectedThemeSwitch.value = colorMode.value;
   isReady.value = true;
 });
 
@@ -235,6 +245,11 @@ onMounted(() => {
 function setLanguage(lang) {
   localStorage.setItem("language", lang);
   locale.value = lang;
+
+  if (/\/(fr|en|es)\//.test(route.path)) {
+    const newPath = route.path.replace(/\/(fr|en|es)\//, `/${lang}/`);
+    router.push(newPath);
+  }
 }
 
 //Paramètres d'accessibilité
@@ -246,8 +261,11 @@ const justification = useState('justification');
 /**
  * Watchers
  */
-watch(changeContrast, newValue => {
-  colorMode.value = newValue ? 'dark' : 'light';
+// Détecter les changements de switch pour changer le thème
+watch(() => selectedThemeSwitch.value, () => {
+  if(selectedThemeSwitch.value === false)
+    selectedThemeSwitch.value = "light";
+  colorMode.value = selectedThemeSwitch.value;
 });
 
 onMounted(() => {
@@ -349,10 +367,22 @@ onMounted(() => {
 
 .languages-btn-container {
   padding-top: 10px;
+  display: inline-flex;
+  margin-bottom: 10px;
+  width: fit-content;
+  justify-self: center;
+
+  :deep(.v-btn--size-small) {
+    font-size: unset;
+    min-width: unset;
+    width: 2.3em;
+  }
+}
+
+.languages-btn-layout-wrapper {
   width: 100%;
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-  height: 35px;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .languages-btn {

@@ -15,8 +15,8 @@
     <div v-if="!mobile" class="sub-header">
         <div class="search-bar-container white-containers">
             <div class="sub_header__logo">
-                <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
-                    <img class="logo" alt="Accueil theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
+                <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" :title="$t('homepage')">
+                    <img class="logo" :alt="$t('homepage')" id="logoIMG" src="@/assets/icone-theses.svg" />
                 </NuxtLink>
                 <h1 v-html='$t("slogan2lines")'></h1>
             </div>
@@ -43,14 +43,14 @@
             <div class="info-wrapper" v-else>
                 <div class="info">
                     <IconsIconOrganisme></IconsIconOrganisme>
-                    <div class="nom-card">
-                        <h1 class="nomprenom">
+                    <div class="nom-card" tabindex="-1" ref="firstFocusElement" aria-labelledby="nomprenom-organisme">
+                        <h1 class="nomprenom" id="nomprenom-organisme">
                             {{ name }}
                         </h1>
                         <a :href="`https://www.idref.fr/${props.id}`" class="idref-logo" target="_blank"
-                            alt="Accéder à IdRef, le référentiel des personnes et des structures"
-                            title="Accéder à IdRef, le référentiel des personnes et des structures">
-                            <img alt="Accéder à la page IdRef correspondante" id="logoIdref"
+                            :alt="$t('footer.idRef')"
+                            :title="$t('footer.idRef')">
+                            <img :alt="$t('footer.idRef')" id="logoIdref"
                                 :src="'/idref-icone-' + colorMode + '.svg'" />
                             <span>IdRef</span>
                         </a>
@@ -106,7 +106,7 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-import { ref, defineAsyncComponent } from "vue";
+import { ref, defineAsyncComponent, onMounted, nextTick } from "vue";
 import { useDisplay } from "vuetify";
 import { useColorMode } from '@vueuse/core';
 
@@ -172,6 +172,21 @@ getName(props.id).then(result => {
         displayError(error.message);
     }
 });
+
+
+const firstFocusElement = ref(null);
+
+// Focus sur le contenu de la page au chargement
+onMounted(() => {
+  nextTick(() => {
+    setTimeout(() => {
+      if (firstFocusElement.value) {
+        firstFocusElement.value.focus({ focusVisible: false });
+      }
+    }, 100);
+  });
+});
+
 
 async function voirPlus(contexte, ppn) {
     switch (contexte) {

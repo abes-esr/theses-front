@@ -4,23 +4,23 @@
       <div class="key-words-title-wrapper">
         <div class="title">
           <v-icon color="primary">mdi-list-box</v-icon>
-          <h2>{{ $t('motcle') }}</h2>
+          <h2 id="keywords-title">{{ $t('motcle') }}</h2>
           <CommonLanguageSelector :languages="langList" @update-langue="onUpdateLangue"></CommonLanguageSelector>
         </div>
       </div>
       <div class="thesis-keywords" v-if="type === 'theses'">
         <div class="mots-cles-controlles" v-if="rameauKeywords.length > 0">
-          <div  tabindex="0" ref="backFromKeywordModal" aria-labelledby="mots-cles-controles-header" class="subtitle">
+          <div  ref="backFromKeywordModal" aria-labelledby="mots-cles-controles-header" class="subtitle">
             <h3 id="mots-cles-controles-header">{{ $t("motCleControle") }}</h3>
-            <v-btn class="info-button" @click="overlayIsOpened = !overlayIsOpened" flat title="Informations sur les mots clés">
+            <v-btn class="info-button" @click="overlayIsOpened = !overlayIsOpened" flat :title="$t('infoKeywords')">
               <v-icon size="22">mdi-information-outline</v-icon>
-              <span class="sr-only">Informations sur les mots clés</span>
+              <span class="sr-only">{{ $t("infoKeywords") }}</span>
             </v-btn>
             <v-overlay v-model="overlayIsOpened" location-strategy="connected" scroll-strategy="close">
               <div tabindex="0" id="legend-tooltip">
                 <v-card class="legend-tooltip">
                   <span>
-                    {{ $t("motCleControleDescription") }} <a class="" href="https://www.idref.fr/">idRef.</a>
+                    {{ $t("motCleControleDescription") }} <a :title="$t('footer.idRef')" href="https://www.idref.fr/">idRef.</a>
                   </span>
                   <div class="close-overlay-button-container">
                     <v-btn @click="overlayIsOpened = !overlayIsOpened" class="close-overlay-button" variant="outlined" density="compact" append-icon="mdi-close-box" flat>{{ $t('access.fermer') }}</v-btn>
@@ -28,9 +28,8 @@
                 </v-card>
               </div>
             </v-overlay>
-
           </div>
-          <div role="list" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+          <div role="list" aria-labelledby="mots-cles-controles-header" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in rameauKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
               <nuxt-link role="listitem"
                 :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
@@ -41,14 +40,14 @@
             </template>
           </div>
         </div>
-        <div class="mots-cles-libres" v-if="freeKeywords.length > 0">
+        <div id="mots-cles-libres" v-if="freeKeywords.length > 0">
           <div class="subtitle">
             <h3>{{ $t("motCleLibres") }}</h3>
           </div>
-          <div role="list" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+          <div role="list" aria-labelledby="mots-cles-libres" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in freeKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
               <nuxt-link role="listitem"
-                :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
+                :to="{ name: 'resultats', query: { q: keyWord.query ? createKeywordQuery(keyWord.query) : createKeywordQuery(keyWord.keyword), domaine: 'theses', avancee: 'true' } }">
                 <v-chip label class="free-chip chips" tabindex="-1">
                   <span class="key-word-label">{{ keyWord.keyword }}</span>
                 </v-chip>
@@ -58,10 +57,10 @@
         </div>
       </div>
       <div v-else>
-        <div role="list" v-if="mixedKeywords.length > 0" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
+        <div role="list" aria-labelledby="keywords-title" v-if="mixedKeywords.length > 0" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
           <template v-for="keyWord in mixedKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
             <nuxt-link role="listitem"
-              :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
+              :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses', avancee: 'true' } }">
               <v-chip label class="chips" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
                 tabindex="-1">
                 <span class="key-word-label">{{ keyWord.keyword }}</span>
@@ -202,6 +201,9 @@ function showAllKeywords() {
   focusLastKeyword();
 }
 
+function createKeywordQuery(keyword) {
+  return "(sujetsLibelle:(" + keyword + ") OU sujetsRameauLibelle:(" + keyword + "))";
+}
 
 function focusLastKeyword() {
   var chipGroup = document.querySelector('.v-chip-group');

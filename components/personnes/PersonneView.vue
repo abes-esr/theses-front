@@ -11,8 +11,8 @@
   <div v-if="!mobile" class="sub-header">
     <div class="search-bar-container white-containers">
       <div class="sub_header__logo">
-        <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" title="Accueil du site">
-          <img class="logo IdRef" alt="Accueil Theses.fr" id="logoIMG" src="@/assets/icone-theses.svg" />
+        <NuxtLink :to="{ path: '/', query: { domaine: 'theses' } }" :title="$t('homepage')">
+          <img class="logo IdRef" :alt="$t('homepage')" id="logoIMG" src="@/assets/icone-theses.svg" />
         </NuxtLink>
         <h1 v-html='$t("slogan2lines")'></h1>
       </div>
@@ -43,14 +43,14 @@
       <div class="info-wrapper" v-if="dataReady">
         <div class="info">
           <IconsIconPersonne v-if="!mobile"></IconsIconPersonne>
-          <div class="nom-card">
-            <h1 class="nomprenom">
+          <div class="nom-card" tabindex="-1" ref="firstFocusElement" aria-labelledby="nomprenom">
+            <h1 class="nomprenom" id="nomprenom">
               <span class="prenom">{{ item.prenom + "\xa0" }}</span>
               <span class="nom">{{ item.nom }}</span>
             </h1>
             <a v-if="item.has_idref" class="idref-logo" :href="`https://www.idref.fr/${item.id}`" target="_blank"
-              title="Accéder à IdRef, le référentiel des personnes et des structures">
-              <img alt="Accéder à la page IdRef correspondante" id="logoIdref"
+              :title="$t('footer.idRef')">
+              <img :alt="$t('footer.idRef')" id="logoIdref"
                 :src="'/idref-icone-' + colorMode + '.svg'" />
               <span>IdRef</span>
             </a>
@@ -103,7 +103,7 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-import { defineAsyncComponent, onUpdated, ref } from 'vue';
+import { defineAsyncComponent, onUpdated, onMounted, ref, nextTick } from 'vue';
 import { useDisplay } from "vuetify";
 import { useColorMode } from '@vueuse/core';
 
@@ -165,6 +165,19 @@ getPersonne(props.id).then(result => {
   } else {
     displayError(error.message);
   }
+});
+
+const firstFocusElement = ref(null);
+
+// Focus sur le contenu de la page au chargement
+onMounted(() => {
+  nextTick(() => {
+    setTimeout(() => {
+      if (firstFocusElement.value) {
+        firstFocusElement.value.focus({ focusVisible: false });
+      }
+    }, 100);
+  });
 });
 
 onUpdated(() => {
@@ -243,7 +256,7 @@ function conversionMotClesFormatTheses(motsCles) {
       {
         keyword: elem,
         type: "sujet",
-        query: "sujetsLibelle:\"" + elem + "\" OU sujetsRameauLibelle:\"" + elem + "\""
+        query: "(sujetsLibelle:(" + elem + ") OU sujetsRameauLibelle:(" + elem + "))"
       }))
   }
   return { mapSujets: keyword };

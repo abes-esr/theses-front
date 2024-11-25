@@ -1,16 +1,16 @@
 <template>
-  <v-expansion-panels v-if="date || Object.keys(facet.checkboxes).length > 0" v-model="panel">
+  <v-expansion-panels v-if="date || Object.keys(facet.checkboxes).length > 0" v-model="panel" role="listitem">
     <v-expansion-panel :value="facet.name">
-      <v-expansion-panel-title class="facet-title-panel">
+      <v-expansion-panel-title class="facet-title-panel" :aria-labelledby="'facet-title-' + index">
         <template v-slot:actions="{ expanded }">
           <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="x-large">
           </v-icon>
         </template>
-        <h2 class="facet-title">
-          {{ facet.name }}
+        <h2 :id="'facet-title-' + index" class="facet-title">
+          {{ $t('results.facet.' + facet.name) }}
         </h2>
         <v-btn @click.stop="" @click="reinitializeCheckboxes(); reinitializeFilterSearchText();" class="reinitialize-button" size="small" depressed
-          elevation="0" color="surface" title="Réinitialiser">
+          elevation="0" color="surface" :title="$t('reinitializeFacet') + $t('results.facet.' + facet.name)">
           <v-icon>mdi-reload</v-icon>
         </v-btn>
       </v-expansion-panel-title>
@@ -20,7 +20,7 @@
             append-inner-icon="mdi-magnify" density="compact" single-line hide-details
             class="facet-search-bar"></v-text-field>
         </div>
-        <div role="list" :aria-label="'Liste des ' + facet.name" class="panel-text" ref="`facet-${facet.name}`">
+        <div role="list" :aria-label="$t('results.facet.list') + $t('results.facet.' + facet.name)" class="panel-text" ref="`facet-${facet.name}`">
           <!--          Facette date-->
           <div v-if="date" class="date-container">
             <span class="date-item">
@@ -75,6 +75,10 @@ const props = defineProps({
     default: false
   },
   resetTextFields: {
+    type: Number,
+    default: 0
+  },
+  index: {
     type: Number,
     default: 0
   }

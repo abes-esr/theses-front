@@ -1,25 +1,23 @@
 <template>
   <v-app-bar flat id="appBar" v-if="!mobile && isReady">
     <div class="toolbar-wrapper" role="list">
-      <div class="text-center text-md-left language-accessibility-toolbar" role="presentation">
-        <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')" role="listitem">
+      <div class="text-center text-md-left language-accessibility-toolbar" role="listitem">
+        <v-btn plain size="x-large" @click="dialog = true" :title="$t('access.btn')" role="button">
           <img :alt="$t('header.accessibility')" id="logo-handicap-visuel"
             :src="'/icone-handicap-visuel-' + colorMode + '.svg'" />
         </v-btn>
-  <!--     Quand actif ajouter role="listitem" -->
-<!--        <div class="languages-btn">-->
-<!--          &lt;!&ndash; selecteur de langues désactivé &ndash;&gt;-->
-<!--          <v-btn flat @click="setLanguage('fr')" title="Langue française"-->
-<!--            :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>-->
-<!--          |-->
-<!--          <v-btn flat @click="setLanguage('en')" title="English Language"-->
-<!--            :class="locale === 'en' ? 'selected' : ''">EN</v-btn>-->
-<!--          |-->
-<!--          <v-btn flat @click="setLanguage('es')" title="Idioma espanol"-->
-<!--            :class="locale === 'es' ? 'selected' : ''">ES</v-btn>-->
-<!--        </div>-->
+        <div class="languages-btn" role="list" :aria-label="$t('header.localeSelection')">
+          <v-btn flat @click="setLanguage('fr')" aria-label="Changer la langue du site en français"
+          :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
+          <v-divider vertical role="presentation"></v-divider>
+          <v-btn flat @click="setLanguage('en')" aria-label="Switch language to English"
+            :class="locale === 'en' ? 'selected' : ''">EN</v-btn>
+          <v-divider vertical role="presentation"></v-divider>
+          <v-btn flat @click="setLanguage('es')" aria-label="Cambiar el idioma a español"
+            :class="locale === 'es' ? 'selected' : ''">ES</v-btn>
+        </div>
       </div>
-      <div class="text-center text-md-right" role="presentation">
+      <div class="text-center text-md-right" role="list">
         <!--<v-btn tabindex="-1" title="Réseau" size="x-large" icon>
           <div class="icons"><icons-icon-reseau></icons-icon-reseau></div>
         </v-btn>
@@ -40,15 +38,16 @@
     </div>
   </v-app-bar>
 
-  <v-dialog v-model="dialog" width="auto">
+  <v-dialog v-model="dialog" width="auto" attach="true">
     <v-card>
       <v-card-title>{{ $t("access.params") }}</v-card-title>
       <v-card-text>
         <ul class="switch-list">
-          <li><v-switch :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.police-aria")' :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
           <li><v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch></li>
           <li><v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch></li>
-          <li><v-switch :label='$t("access.contrast")' v-model="changeContrast" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.contrast-aria")' :label='$t("access.contrast")' v-model="selectedThemeSwitch" value="dark" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.inverted-aria")' :label='$t("access.inverted")' v-model="selectedThemeSwitch" value="inverted" inset></v-switch></li>
         </ul>
       </v-card-text>
       <v-card-actions>
@@ -67,29 +66,39 @@ import { useColorMode } from '@vueuse/core';
 const theme = useTheme();
 const { locale } = useI18n();
 const { mobile } = useDisplay();
+const route = useRoute();
+const router = useRouter();
 
 const isReady = ref(false);
+
 //Paramètres d'accessibilité
 const dialog = ref(false);
 const opendys = useState('opendys');
 const interlignes = useState('interlignes');
 const justification = useState('justification');
-const changeContrast = ref(false);
+const selectedThemeSwitch = ref('');
 
 const themesNames = ref({
   "light": "abesLightTheme",
-  "dark": "abesDarkTheme"
+  "dark": "abesDarkTheme",
+  "inverted": "abesInvertedTheme"
 });
 
 const colorMode = useColorMode({
+  attribute: 'theme',
+  modes: {
+    // couleurs personnalisées
+    inverted: 'inverted'
+  },
   onChanged(color) {
     theme.global.name.value = themesNames.value[color];
   }
 });
 
 onBeforeMount(() => {
-  // Etat par défaut du switch
-  changeContrast.value = useColorMode().value === 'dark';
+  //Etat initial du switch
+  theme.global.name.value = themesNames.value[colorMode.value];
+  selectedThemeSwitch.value = colorMode.value;
   isReady.value = true;
 });
 
@@ -108,6 +117,11 @@ onMounted(() => {
 function setLanguage(lang) {
   localStorage.setItem("language", lang);
   locale.value = lang;
+
+  if (/\/(fr|en|es)\//.test(route.path)) {
+    const newPath = route.path.replace(/\/(fr|en|es)\//, `/${lang}/`);
+    router.push(newPath);
+  }
   useHead({
     htmlAttrs: {
       lang: lang,
@@ -118,8 +132,11 @@ function setLanguage(lang) {
 /**
  * Watchers
  */
-watch(changeContrast, newValue => {
-  colorMode.value = newValue ? 'dark' : 'light';
+// Détecter les changements de switch pour changer le thème
+watch(() => selectedThemeSwitch.value, () => {
+  if(selectedThemeSwitch.value === false)
+      selectedThemeSwitch.value = "light";
+  colorMode.value = selectedThemeSwitch.value;
 });
 </script>
 
@@ -162,7 +179,7 @@ header {
 }
 
 .language-accessibility-toolbar {
-  display: grid; // dé-commenter si on active le bouton accessibilité
+  display: grid;
   grid-template-columns: 1fr 20px 3fr;
   margin: 0 30px 0;
 
@@ -172,9 +189,10 @@ header {
 }
 
 .languages-btn {
-  grid-column-start: 3; // 3 si on active le bouton accessibilité
+  grid-column-start: 3;
   max-height: 36px;
   align-self: center;
+  display: inline-flex;
 
   @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: 2;
@@ -183,6 +201,11 @@ header {
       min-width: unset;
       padding: 0 5px;
     }
+  }
+
+  .v-divider {
+    height: 1.5em;
+    align-self: center;
   }
 }
 

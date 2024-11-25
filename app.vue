@@ -45,13 +45,19 @@ const theme = useTheme();
 
 const themesNames = ref({
   "light": "abesLightTheme",
-  "dark": "abesDarkTheme"
+  "dark": "abesDarkTheme",
+  "inverted": "abesInvertedTheme"
 });
 
 const { mobile } = useDisplay();
 const skipLink =ref(null);
 
 const colorMode = useColorMode({
+  attribute: 'theme',
+  modes: {
+    // couleurs personnalisées
+    inverted: 'inverted'
+  },
   onChanged(color) {
     theme.global.name.value = themesNames.value[color];
   }
@@ -541,7 +547,7 @@ a:hover,
 a:active {
   color: inherit;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .skiplink:not(:focus) {
