@@ -40,7 +40,7 @@
         </div>
       </ClientOnly>
       <!--      End skeletton-->
-      <div class="info-wrapper" v-if="dataReady">
+      <div class="info-wrapper" v-if="dataReady && item !== null">
         <div class="info">
           <IconsIconPersonne v-if="!mobile"></IconsIconPersonne>
           <div class="nom-card" tabindex="-1" ref="firstFocusElement" aria-labelledby="nomprenom">
@@ -131,6 +131,14 @@ const props = defineProps({
 
 dataReady.value = false;
 getPersonne(props.id).then(result => {
+  if(!result) {
+    showError({
+      fatal: true,
+      statusCode: 404,
+      statusMessage: `Page introuvable`,
+    });
+  }
+
   item.value = result;
   dataReady.value = true;
 
