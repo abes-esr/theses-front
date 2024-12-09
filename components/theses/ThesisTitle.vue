@@ -29,11 +29,16 @@ const props = defineProps({
   }
 });
 
-const currentTitle = ref("");
 const selectedLanguage = ref("fr");
 const isRtl = ref(false);
 
-currentTitle.value = props.titles[selectedLanguage.value];
+const currentTitle = computed(() => {
+  // Si pas de fr, utiliser la première langue disponible
+  if (!props.titles[selectedLanguage.value]) {
+    selectedLanguage.value = Object.keys(props.titles)[0];
+  }
+  return props.titles[selectedLanguage.value];
+});
 
 const firstFocusElement = ref(null);
 
@@ -51,12 +56,9 @@ onMounted(() => {
 /**
  * Computed Properties
  */
-
 const langList = computed(() => {
   return Object.keys(props.titles);
 });
-
-
 
 /**
  * Functions
