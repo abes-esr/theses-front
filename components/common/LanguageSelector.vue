@@ -18,14 +18,22 @@ const props = defineProps({
     }
 });
 
-const current = ref("fr");
+const current = ref(
+  props.languages.includes("fr")
+    ? "fr" // Si "fr" est présent dans props.languages
+    : props.languages[0] // Sinon, prendre le premier langage disponible
+);
 
 //Tri des langues dans l'ordre alpha + FR au début
 const langList = computed(() => {
-    const list = props.languages;
-    list.sort().splice(list.indexOf("fr"), 1);
+  const list = [...props.languages];
+  list.sort();
+
+  if (list.includes("fr")) {
+    list.splice(list.indexOf("fr"), 1);
     list.unshift("fr");
-    return list;
+  }
+  return list;
 });
 
 const emit = defineEmits(['updateLangue']);
