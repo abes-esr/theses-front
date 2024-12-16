@@ -170,6 +170,21 @@ onBeforeMount(() => {
   isReady.value = true;
 });
 
+onMounted(() => {
+  if (localStorage.getItem("language")) {
+    locale.value = localStorage.getItem("language");
+
+    useHead({
+      htmlAttrs: {
+        lang: locale.value,
+      },
+    })
+  } else {
+    locale.value = "fr";
+    localStorage.setItem("language", locale.value);
+  }
+});
+
 const props = defineProps({
   type: {
     type: String,
