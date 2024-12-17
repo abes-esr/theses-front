@@ -111,6 +111,9 @@ onMounted(() => {
         lang: locale.value,
       },
     })
+  } else {
+    locale.value = "fr";
+    localStorage.setItem("language", locale.value);
   }
 });
 
