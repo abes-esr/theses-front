@@ -24,7 +24,7 @@
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="https://api.gouv.fr/producteurs/abes/"
+              <span><a href="https://www.data.gouv.fr/fr/organizations/agence-bibliographique-de-lenseignement-superieur/#/dataservices"
                        target="_blank"
                        :title="$t('footer.apiGouv')">
                     {{ $t("footer.apiThesesfr") }}</a></span>
