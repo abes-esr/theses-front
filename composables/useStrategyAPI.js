@@ -235,7 +235,7 @@ export default function() {
     if (domaine.value === "personnes")
       return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
     else
-    //La recherche avancée ne doit pas échapper les caractères spécieaux, on passe isAdvanced pour déterminer quels caractères échapper
+    //La recherche avancée ne doit pas échapper les caractères spéciaux, on passe isAdvanced pour déterminer quels caractères échapper
       return queryThesesAPI(replaceAndEscape(query.value, isAdvanced.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
   }
 

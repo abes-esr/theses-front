@@ -19,6 +19,7 @@ const { setSorting, getItemsTri, getCurrentSorting, getTriMap } = useStrategyAPI
 
 const items = ref([]);
 const tri = ref("");
+let triIsInitialized = false;
 let noDoubleUpdates = false;
 
 onMounted(() => {
@@ -83,10 +84,12 @@ function getCurrentSortName() {
 
 // Surveiller les changements de tri
 watch(tri, async (newSortingArray, previousSortingArray) => {
-  if (typeof previousSortingArray !== 'undefined' && !noDoubleUpdates) {
+  if (typeof previousSortingArray !== 'undefined' && !noDoubleUpdates && triIsInitialized) {
     setSorting(newSortingArray.cle);
     emit("updatePageNumberFromSortingSelect", 1);
     emit("search");
+  } else {
+    triIsInitialized = true;
   }
   noDoubleUpdates = false;
 });
