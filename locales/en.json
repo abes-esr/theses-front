@@ -311,7 +311,7 @@
     "globalETD": "Global ETD Search - Electronic theses worldwide",
     "apiThesesfr": "theses.fr API",
     "apiThesesfrLecteurEcran": "theses.fr API",
-    "apiGouv": "Access the theses.fr APIs on the api.gouv.fr website",
+    "apiGouv": "Access the theses.fr APIs on the data.gouv.fr website",
     "idRef": "Access IdRef, the database of identifiers and repositories used for French higher education and research",
     "accesDoc": "Access the theses.fr documentation",
     "accesSudoc": "Access Sudoc, the collective catalog of French university and research libraries",
