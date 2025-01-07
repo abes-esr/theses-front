@@ -312,7 +312,7 @@
     "globalETD": "Global ETD Search - Las tesis electrónicas en el mundo",
     "apiThesesfr": "API de theses.fr",
     "apiThesesfrLecteurEcran": "API de theses.fr",
-    "apiGouv": "Acceder al sitio api.gouv.fr para las API de theses.fr",
+    "apiGouv": "Acceder al sitio data.gouv.fr para las API de theses.fr",
     "idRef": "Acceder a IdRef, la base de datos de identificadores y sistemas de referencia utilizados en la educación superior y la investigación",
     "accesDoc": "Acceder a la documentación de theses.fr",
     "accesSudoc": "Acceder a Sudoc, el catálogo colectivo de las bibliotecas universitarias francesas",

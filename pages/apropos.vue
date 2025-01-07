@@ -8,7 +8,10 @@ import { useRouter } from "nuxt/app";
 const router = useRouter();
 
 onMounted(() => {
-  router.push(localStorage.getItem("language") + '/apropos');
+  router.push(
+    localStorage.getItem("language")
+      ? localStorage.getItem("language") + '/apropos'
+      : '/fr/apropos');
   }
 );
 </script>
