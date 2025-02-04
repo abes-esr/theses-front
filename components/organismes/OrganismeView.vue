@@ -132,6 +132,7 @@ dataReady.value = false;
 const loading = ref(false);
 const showSearchBar = ref(false);
 const showMenu = ref(false);
+const isAdvanved = useState('isAdvanced');
 
 getOrganisme(props.id).then(result => {
     item.value = result.data.value;
@@ -189,30 +190,31 @@ onMounted(() => {
 
 
 async function voirPlus(contexte, ppn) {
+    isAdvanved.value = true;
     switch (contexte) {
         case 'etabSoutenance':
-            await navigateTo('/resultats?q=etabSoutenancePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D');
+            await navigateTo('/resultats?q=etabSoutenancePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D&avancee=true');
             break;
         case 'etabSoutenanceEnCours':
-            await navigateTo('/resultats?q=etabSoutenancePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D');
+            await navigateTo('/resultats?q=etabSoutenancePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D&avancee=true');
             break;
         case 'partenaireRecherche':
-            await navigateTo('/resultats?q=partenairesRecherchePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D');
+            await navigateTo('/resultats?q=partenairesRecherchePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D&avancee=true');
             break;
         case 'partenaireRechercheEnCours':
-            await navigateTo('/resultats?q=partenairesRecherchePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D');
+            await navigateTo('/resultats?q=partenairesRecherchePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D&avancee=true');
             break;
         case 'etabCotutelle':
-            await navigateTo('/resultats?q=etabsCotutellePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D');
+            await navigateTo('/resultats?q=etabsCotutellePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D&avancee=true');
             break;
         case 'etabCotutelleEnCours':
-            await navigateTo('/resultats?q=etabsCotutellePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D');
+            await navigateTo('/resultats?q=etabsCotutellePpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D&avancee=true');
             break;
         case 'ecoleDoctorale':
-            await navigateTo('/resultats?q=ecolesDoctoralesPpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D');
+            await navigateTo('/resultats?q=ecolesDoctoralesPpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522soutenue%2522%255D&avancee=true');
             break;
         case 'ecoleDoctoraleEnCours':
-            await navigateTo('/resultats?q=ecolesDoctoralesPpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D');
+            await navigateTo('/resultats?q=ecolesDoctoralesPpn:' + ppn + '&domaine=theses&filtres=%255BStatut%253D%2522enCours%2522%255D&avancee=true');
             break;
     }
 }

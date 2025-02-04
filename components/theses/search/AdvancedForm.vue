@@ -83,13 +83,14 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted } from 'vue';
+import { ref, watch, computed, onMounted, onUpdated } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { useI18n } from "vue-i18n";
 
 const emit = defineEmits(['search', 'simple']);
 const { t } = useI18n();
+const { getQuery } = useStrategyAPI();
 
 const props = defineProps({
     whiteContainer: {
@@ -107,18 +108,8 @@ const operator = computed(() => {
 })
 
 onMounted(() => {
-    formFields.value.forEach((field) => {
-        if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
-            //On découpe le champ date qui contient dateFrom et dateTo concaténées, pour peupler dateTo et dateFrom
-            let dates = field.value.match(/\[(.*?) TO (.*?)\]/);
-
-            if (dates && dates.length >= 3) {
-                dateFrom.value = dates[1];
-                dateTo.value = dates[2];
-            }
-        }
-    })
-})
+  createForm();
+});
 
 const types = computed(() => {
   return [
@@ -149,6 +140,29 @@ const formFields = useState("formFields", () => [
     { value: '', type: 'sujetsLibelle' },
     { value: '', type: 'discipline' },
 ]);
+
+
+function createForm() {
+  const query = useRoute().query.q;
+
+  // if(typeof query === "string" && query !== "*") {
+    let fieldsFromQuery = queryToObject(query);
+    formFields.value = fieldsFromQuery.result;
+    operatorModel.value = fieldsFromQuery.operator === "OU";
+  // }
+
+    formFields.value.forEach((field) => {
+      if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
+        //On découpe le champ date qui contient dateFrom et dateTo concaténées, pour peupler dateTo et dateFrom
+        let dates = field.value.match(/\[(.*?) TO (.*?)\]/);
+
+        if (dates && dates.length >= 3) {
+          dateFrom.value = dates[1];
+          dateTo.value = dates[2];
+        }
+      }
+    });
+}
 
 function addField() {
     formFields.value.push({ value: '', type: 'titres.\\*' });
@@ -219,22 +233,6 @@ function deleteEndOperator(texte) {
     }
 }
 
-watch(dateFrom, () => {
-    formFields.value.forEach((field) => {
-        if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
-            field.value = '[' + dateFrom.value + ' TO ' + dateTo.value + ']';
-        }
-    });
-})
-
-watch(dateTo, () => {
-    formFields.value.forEach((field) => {
-        if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
-            field.value = '[' + dateFrom.value + ' TO ' + dateTo.value + ']';
-        }
-    });
-})
-
 function clear() {
     for (const element of formFields.value) {
         element.value = '';
@@ -250,8 +248,53 @@ function clearField(index) {
     }
 
     formFields.value[index].value = "";
-
 }
+
+function queryToObject(query) {
+  const operatorMatch = query.match(/\b(ET|OU)\b/g);
+  const operator = operatorMatch ? operatorMatch[0] : null;
+
+  const pattern = /([a-zA-Z0-9.\\*]+):\(([^()]+)\)/g;
+  const singlePattern = /([a-zA-Z0-9.\\*]+):([^()\s]+)/g;
+  let matches;
+  const result = [];
+
+  while ((matches = pattern.exec(query)) !== null) {
+    let type = matches[1].replace(/\.\\\*/g, ''); // Supprime correctement ".*" ou "\.\*"
+    let values = matches[2].replace(/\+/g, ' ').split(' ');
+    let value = values.join(' '); // Rejoint les morceaux séparés par + en un seul texte
+
+    result.push({ type, value });
+  }
+
+  while ((matches = singlePattern.exec(query)) !== null) {
+    let type = matches[1].replace(/\.\\\*/g, '');
+    let value = matches[2].replace(/\+/g, ' ');
+    result.push({ type, value });
+  }
+
+  return { result, operator };
+}
+
+/**
+ * Watchers
+ */
+
+watch(dateFrom, () => {
+  formFields.value.forEach((field) => {
+    if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
+      field.value = '[' + dateFrom.value + ' TO ' + dateTo.value + ']';
+    }
+  });
+});
+
+watch(dateTo, () => {
+  formFields.value.forEach((field) => {
+    if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
+      field.value = '[' + dateFrom.value + ' TO ' + dateTo.value + ']';
+    }
+  });
+});
 </script>
 
 <style scoped lang="scss">
