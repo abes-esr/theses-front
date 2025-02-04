@@ -144,11 +144,11 @@ const formFields = useState("formFields", () => [
 function createForm() {
   const query = useRoute().query.q;
 
-  // if(typeof query === "string" && query !== "*") {
+  if(typeof query === "string" && query !== "*") {
     let fieldsFromQuery = queryToObject(query);
     formFields.value = fieldsFromQuery.result;
     operatorModel.value = fieldsFromQuery.operator === "OU";
-  // }
+  }
 
     formFields.value.forEach((field) => {
       if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
