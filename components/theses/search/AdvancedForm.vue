@@ -83,14 +83,13 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted, onUpdated } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { useI18n } from "vue-i18n";
 
 const emit = defineEmits(['search', 'simple']);
 const { t } = useI18n();
-const { getQuery } = useStrategyAPI();
 
 const props = defineProps({
     whiteContainer: {
