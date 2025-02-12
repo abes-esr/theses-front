@@ -75,6 +75,7 @@
     "status": "Statut",
     "title": "Titre",
     "keyword": "Mots clés",
+    "rameauKeyword": "Mots clés contrôlés",
     "abstract": "Résumé",
     "discipline": "Discipline",
     "allMetaData": "Toutes les métadonnées bibliographiques",

@@ -115,6 +115,7 @@ const types = computed(() => {
     { titre: t("advancedSearch.status"), value: "status" },
     { titre: t("advancedSearch.title"), value: "titres.\\*" },
     { titre: t("advancedSearch.keyword"), value: "sujetsLibelle" },
+    { titre: t("advancedSearch.rameauKeyword"), value: "sujetsRameauLibelle OU sujetsRameauPpn" },
     { titre: t("advancedSearch.abstract"), value: "resumes.\\*" },
     { titre: t("advancedSearch.discipline"), value: "discipline" },
     { titre: t("advancedSearch.allMetaData"), value: "biblio" },
@@ -134,6 +135,13 @@ const types = computed(() => {
   ];
 });
 
+// Ici requêtes à transformer lorsqu'elles sont extraites de l'URL pour la correspondance avec le tableau ci-dessus
+const typeReplacements = [
+  { match: "sujetsRameauLibelle", replaceWith: "sujetsRameauLibelle OU sujetsRameauPpn" },
+  // Ajoute ici d'autres remplacements si nécessaire
+];
+
+
 const formFields = useState("formFields", () => [
     { value: '', type: 'titres.\\*' },
     { value: '', type: 'sujetsLibelle' },
@@ -144,7 +152,7 @@ const formFields = useState("formFields", () => [
 function createForm() {
   const query = useRoute().query.q;
 
-  if(typeof query === "string" && query !== "*") {
+  if(typeof query === "string" && query !== "*" && query !== "") {
     let fieldsFromQuery = queryToObject(query);
     formFields.value = fieldsFromQuery.result;
     operatorModel.value = fieldsFromQuery.operator === "OU";
@@ -252,24 +260,33 @@ function clearField(index) {
 function queryToObject(query) {
   const operatorMatch = query.match(/\b(ET|OU)\b/g);
   const operator = operatorMatch ? operatorMatch[0] : null;
-
   const pattern = /([a-zA-Z0-9.\\*]+):\(([^()]+)\)/g;
   const singlePattern = /([a-zA-Z0-9.\\*]+):([^()\s]+)/g;
   let matches;
   const result = [];
 
+  const replaceTypeIfNeeded = (type) => {
+    const replacement = typeReplacements.find(r => r.match === type);
+    return replacement ? replacement.replaceWith : type;
+  };
+
   while ((matches = pattern.exec(query)) !== null) {
-    let type = matches[1].replace(/\.\\\*/g, ''); // Supprime correctement ".*" ou "\.\*"
+    let type = replaceTypeIfNeeded(matches[1].replace(/\.\\\*/g, ''));
     let values = matches[2].replace(/\+/g, ' ').split(' ');
-    let value = values.join(' '); // Rejoint les morceaux séparés par + en un seul texte
+    let value = values.join(' ');
 
     result.push({ type, value });
   }
 
   while ((matches = singlePattern.exec(query)) !== null) {
-    let type = matches[1].replace(/\.\\\*/g, '');
+    let type = replaceTypeIfNeeded(matches[1].replace(/\.\\\*/g, ''));
     let value = matches[2].replace(/\+/g, ' ');
+
     result.push({ type, value });
+  }
+
+  if (!query.includes(':')) {
+    result.push({ type: "titres.\\*", value: query });
   }
 
   return { result, operator };
