@@ -16,9 +16,9 @@
 <!--                              régler les index des v-if sur la liste des champs de recherche avancée selon leur sous-catégorie -->
                                 <v-list density="compact">
                                     <VListSubheader v-if="index === 0">{{ $t('advancedSearch.thesisInfo') }}</VListSubheader>
-                                    <VListSubheader v-if="index === 8">{{ $t('advancedSearch.people') }}</VListSubheader>
-                                    <VListSubheader v-if="index === 15">{{ $t('advancedSearch.institutions') }}</VListSubheader>
-                                    <VListSubheader v-if="index === 21">{{ $t('advancedSearch.date') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 7">{{ $t('advancedSearch.people') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 14">{{ $t('advancedSearch.institutions') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 20">{{ $t('advancedSearch.date') }}</VListSubheader>
                                     <v-list-item v-bind="props"></v-list-item>
                                 </v-list>
                             </template>
@@ -115,7 +115,6 @@ const types = computed(() => {
   return [
     { titre: t("advancedSearch.status"), value: "status" },
     { titre: t("advancedSearch.title"), value: "titres.\\*" },
-    { titre: t("advancedSearch.keyword"), value: "sujetsLibelle" },
     { titre: t("advancedSearch.everyKeyword"), value: "sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn" },
     { titre: t("advancedSearch.rameauKeyword"), value: "sujetsRameauLibelle OU sujetsRameauPpn" },
     { titre: t("advancedSearch.abstract"), value: "resumes.\\*" },
@@ -141,14 +140,19 @@ const types = computed(() => {
 
 // Ici requêtes à transformer lorsqu'elles sont extraites de l'URL pour la correspondance avec le tableau ci-dessus
 const typeReplacements = [
+  { match: "sujetsLibelle", replaceWith: "sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn" },
+  { match: "sujetsLibelle OU sujetsRameauLibelle", replaceWith: "sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn" },
   { match: "sujetsRameauLibelle", replaceWith: "sujetsRameauLibelle OU sujetsRameauPpn" },
-  // Ajoute ici d'autres remplacements si nécessaire
+  { match: "etabSoutenancePpn", replaceWith: "etabSoutenanceN OU etabSoutenancePpn" },
+  { match: "etabsCotutellePpn", replaceWith: "etabsCotutelleN OU etabsCotutellePpn" },
+  { match: "ecolesDoctoralesPpn", replaceWith: "ecolesDoctoralesN OU ecolesDoctoralesPpn" },
+  { match: "partenairesRecherchePpn", replaceWith: "partenairesRechercheN OU partenairesRecherchePpn" },
 ];
 
 
 const formFields = useState("formFields", () => [
     { value: '', type: 'titres.\\*' },
-    { value: '', type: 'sujetsLibelle' },
+    { value: '', type: 'sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn' },
     { value: '', type: 'discipline' },
 ]);
 
@@ -267,13 +271,14 @@ function queryToObject(query) {
   const pattern = /([a-zA-Z0-9.\\*]+):\(([^()]+)\)/g;
   const singlePattern = /([a-zA-Z0-9.\\*]+):([^()\s]+)/g;
   let matches;
-  const result = [];
+  let result = [];
 
   const replaceTypeIfNeeded = (type) => {
     const replacement = typeReplacements.find(r => r.match === type);
     return replacement ? replacement.replaceWith : type;
   };
 
+  // Extraire les termes et les ajouter au tableau result
   while ((matches = pattern.exec(query)) !== null) {
     let type = replaceTypeIfNeeded(matches[1].replace(/\.\\\*/g, ''));
     let values = matches[2].replace(/\+/g, ' ').split(' ');
@@ -293,7 +298,34 @@ function queryToObject(query) {
     result.push({ type: "titres.\\*", value: query });
   }
 
-  return { result, operator };
+  const typesToMerge = [
+    "sujetsLibelle",
+    "sujetsRameauLibelle",
+    "sujetsRameauPpn",
+    "sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn",
+    "sujetsRameauLibelle OU sujetsRameauPpn"
+  ];
+
+  let mergedResults = [];
+  let groupedByValue = {};
+  result.forEach(item => {
+    if (typesToMerge.includes(item.type)) {
+      // Si la value existe déjà dans groupedByValue, on ajoute au groupe existant
+      if (!groupedByValue[item.value]) {
+        groupedByValue[item.value] = {
+          type: "sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn",
+          value: item.value
+        };
+      }
+    } else {
+      mergedResults.push(item);
+    }
+  });
+
+  // Ajouter les groupes fusionnés au résultat final
+  mergedResults = mergedResults.concat(Object.values(groupedByValue));
+
+  return { result: mergedResults, operator };
 }
 
 /**
