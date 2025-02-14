@@ -13,11 +13,12 @@
                             item-value="value" label="Champ" variant="plain" single-line menu-icon="mdi-chevron-down"
                             @update:model-value="clearField(index)">
                             <template v-slot:item="{ props, index }">
+<!--                              régler les index des v-if sur la liste des champs de recherche avancée selon leur sous-catégorie -->
                                 <v-list density="compact">
-                                    <VListSubheader v-if="index === 1">{{ $t('advancedSearch.thesisInfo') }}</VListSubheader>
-                                    <VListSubheader v-if="index === 6">{{ $t('advancedSearch.people') }}</VListSubheader>
-                                    <VListSubheader v-if="index === 12">{{ $t('advancedSearch.institutions') }}</VListSubheader>
-                                    <VListSubheader v-if="index === 17">{{ $t('advancedSearch.date') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 0">{{ $t('advancedSearch.thesisInfo') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 8">{{ $t('advancedSearch.people') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 15">{{ $t('advancedSearch.institutions') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 21">{{ $t('advancedSearch.date') }}</VListSubheader>
                                     <v-list-item v-bind="props"></v-list-item>
                                 </v-list>
                             </template>
