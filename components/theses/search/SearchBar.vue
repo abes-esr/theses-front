@@ -59,6 +59,7 @@ export default {
 import { ref, watch, onMounted } from 'vue';
 import { useMagicKeys } from '@vueuse/core'
 import { useI18n } from "vue-i18n";
+import qs from "qs";
 
 const { t } = useI18n();
 const currentRoute = useRoute();
@@ -67,6 +68,7 @@ const { getSuggestion, setQuery, setDomaine, reinitializeFilters } = useStrategy
 
 const request = ref();
 const requestSearch = ref();
+const formFields = ref();
 const emit = defineEmits(['onError', 'reinitializePageNumber']);
 let watcherActive = true;
 const disableCompletion = ref(false);
@@ -217,13 +219,14 @@ async function search() {
 
   router.push({
     name: "resultats",
-    query: { "q": encodeURI(request.value), "domaine": encodeURI(currentRoute.query.domaine), "avancee": isAdvanced.value }
+    query: { "q": encodeURI(request.value), "domaine": encodeURI(currentRoute.query.domaine), "avancee": isAdvanced.value, ...qs.parse(formFields.value, {depth: 0}) }
   });
 }
 
 function advancedSearch(payload) {
-  lastAdvancedRequest.value = payload;
-  request.value = payload;
+  lastAdvancedRequest.value = payload.query;
+  request.value = payload.query;
+  formFields.value = payload.formFields;
   search();
 }
 

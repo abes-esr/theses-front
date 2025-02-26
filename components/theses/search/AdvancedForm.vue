@@ -88,6 +88,7 @@ import { ref, watch, computed, onMounted } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { useI18n } from "vue-i18n";
+import qs from 'qs';
 
 const emit = defineEmits(['search', 'simple']);
 const { t } = useI18n();
@@ -114,73 +115,54 @@ onMounted(() => {
 const types = computed(() => {
   return [
     { titre: t("advancedSearch.status"), value: "status" },
-    { titre: t("advancedSearch.title"), value: "titres.\\*" },
-    { titre: t("advancedSearch.everyKeyword"), value: "sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn" },
-    { titre: t("advancedSearch.rameauKeyword"), value: "sujetsRameauLibelle OU sujetsRameauPpn" },
-    { titre: t("advancedSearch.abstract"), value: "resumes.\\*" },
+    { titre: t("advancedSearch.title"), value: "titres" },
+    { titre: t("advancedSearch.everyKeyword"), value: "everyKeyword" },
+    { titre: t("advancedSearch.rameauKeyword"), value: "rameauKeyword" },
+    { titre: t("advancedSearch.abstract"), value: "resumes" },
     { titre: t("advancedSearch.discipline"), value: "discipline" },
     { titre: t("advancedSearch.allMetaData"), value: "biblio" },
-    { titre: t("theseView.auteur"), value: "auteursNP OU auteursPpn" },
-    { titre: t("advancedSearch.directeur"), value: "directeursNP OU directeursPpn" },
-    { titre: t("advancedSearch.president"), value: "presidentJuryNP OU presidentJuryPpn" },
-    { titre: t("advancedSearch.rapporteurs"), value: "rapporteursNP OU rapporteursPpn" },
-    { titre: t("advancedSearch.jury"), value: "membresJuryNP OU membresJuryPpn" },
-    { titre: t("advancedSearch.ppnPerson"), value: "auteursPpn OU directeursPpn OU presidentJuryPpn OU rapporteursPpn OU membresJuryPpn" },
+    { titre: t("theseView.auteur"), value: "auteurs" },
+    { titre: t("advancedSearch.directeur"), value: "directeurs" },
+    { titre: t("advancedSearch.president"), value: "president" },
+    { titre: t("advancedSearch.rapporteurs"), value: "rapporteurs" },
+    { titre: t("advancedSearch.jury"), value: "membresJury" },
+    { titre: t("advancedSearch.ppnPerson"), value: "ppnPerson" },
     { titre: t("advancedSearch.role"), value: "roles" },
-    { titre: t("advancedSearch.defenseInstitution"), value: "etabSoutenanceN OU etabSoutenancePpn" },
-    { titre: t("advancedSearch.coSupervisionInstitution"), value: "etabsCotutelleN OU etabsCotutellePpn" },
-    { titre: t("advancedSearch.doctoralSchool"), value: "ecolesDoctoralesN OU ecolesDoctoralesPpn" },
-    { titre: t("advancedSearch.partner"), value: "partenairesRechercheN OU partenairesRecherchePpn" },
-    { titre: t("advancedSearch.ppnPartner"), value: "etabSoutenancePpn OU etabsCotutellePpn OU ecolesDoctoralesPpn OU partenairesRecherchePpn" },
+    { titre: t("advancedSearch.defenseInstitution"), value: "defenseInstitution" },
+    { titre: t("advancedSearch.coSupervisionInstitution"), value: "coSupervisionInstitution" },
+    { titre: t("advancedSearch.doctoralSchool"), value: "doctoralSchool" },
+    { titre: t("advancedSearch.partner"), value: "partner" },
+    { titre: t("advancedSearch.ppnPartner"), value: "ppnPartner" },
     { titre: t("advancedSearch.allInstitutions"), value: "structures" },
     { titre: t("advancedSearch.defenseDate"), value: "dateSoutenance" },
     { titre: t("advancedSearch.inscriptionDate"), value: "datePremiereInscriptionDoctorat" }
   ];
 });
 
-// Ici requêtes à transformer lorsqu'elles sont extraites de l'URL pour la correspondance avec le tableau ci-dessus
-const typeReplacements = [
-  { match: "sujetsLibelle", replaceWith: "sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn" },
-  { match: "sujetsLibelle OU sujetsRameauLibelle", replaceWith: "sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn" },
-  { match: "sujetsRameauLibelle", replaceWith: "sujetsRameauLibelle OU sujetsRameauPpn" },
-  { match: "etabSoutenancePpn", replaceWith: "etabSoutenanceN OU etabSoutenancePpn" },
-  { match: "etabsCotutellePpn", replaceWith: "etabsCotutelleN OU etabsCotutellePpn" },
-  { match: "ecolesDoctoralesPpn", replaceWith: "ecolesDoctoralesN OU ecolesDoctoralesPpn" },
-  { match: "partenairesRecherchePpn", replaceWith: "partenairesRechercheN OU partenairesRecherchePpn" },
-];
-
-
-const formFields = useState("formFields", () => [
-    { value: '', type: 'titres.\\*' },
-    { value: '', type: 'sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn' },
-    { value: '', type: 'discipline' },
-]);
-
+const formFields = ref();
 
 function createForm() {
   const query = useRoute().query.q;
 
-  if(typeof query === "string" && query !== "*" && query !== "") {
-    let fieldsFromQuery = queryToObject(query);
-    formFields.value = fieldsFromQuery.result;
-    operatorModel.value = fieldsFromQuery.operator === "OU";
-  }
+  let fieldsFromQuery = queryToObject(query);
+  formFields.value = fieldsFromQuery.result;
+  operatorModel.value = fieldsFromQuery.operator === "OU";
 
-    formFields.value.forEach((field) => {
-      if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
-        //On découpe le champ date qui contient dateFrom et dateTo concaténées, pour peupler dateTo et dateFrom
-        let dates = field.value.match(/\[(.*?) TO (.*?)\]/);
+  formFields.value.forEach((field) => {
+    if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
+      //On découpe le champ date qui contient dateFrom et dateTo concaténées, pour peupler dateTo et dateFrom
+      let dates = field.value.match(/\[(.*?) TO (.*?)\]/);
 
-        if (dates && dates.length >= 3) {
-          dateFrom.value = dates[1];
-          dateTo.value = dates[2];
-        }
+      if (dates && dates.length >= 3) {
+        dateFrom.value = dates[1];
+        dateTo.value = dates[2];
       }
-    });
+    }
+  });
 }
 
 function addField() {
-    formFields.value.push({ value: '', type: 'titres.\\*' });
+    formFields.value.push({ value: '', type: 'titres' });
 };
 
 function removeField(index) {
@@ -190,7 +172,6 @@ function removeField(index) {
 };
 
 function search() {
-
     //Si on a des dates vides, on remplit les champs date avec des dates max
     let date = new Date();
     if (dateTo.value == undefined || dateTo.value == '') dateTo.value = date.getFullYear().toString() + "-12-31";
@@ -201,7 +182,11 @@ function search() {
         }
     });
 
-    emit('search', objectToQuery())
+    emit('search', { "query": objectToQuery(), 'formFields': stringifiedFormFields() })
+}
+
+function stringifiedFormFields() {
+  return qs.stringify({ fields: formFields.value }, { encode: true })
 }
 
 function objectToQuery() {
@@ -213,31 +198,40 @@ function objectToQuery() {
         if (field.value === "") {
             result += " ";
         }
-        // Champs spéciaux toutes les données biblio/rôles/structures
-        else if (field.type === "biblio" || field.type === "roles" || field.type === "structures") {
-            if (field.type === "biblio") result += ` (titres.\\*:(${field.value}) OU sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value})) OU resumes.\\*:(${field.value}) OU discipline:(${field.value}))`;
-            else if (field.type === "roles") result += ` (auteursNP:(${field.value}) OU directeursNP:(${field.value}) OU presidentJuryNP:(${field.value}) OU rapporteursNP:(${field.value}) OU membresJuryNP:(${field.value}))`;
-            else if (field.type === "structures") result += ` (etabSoutenanceN:(${field.value}) OU etabsCotutelleN:(${field.value}) OU ecolesDoctoralesN:(${field.value}) OU partenairesRechercheN:(${field.value}))`;
-
-            if (index !== formFields.value.length - 1) {
-                result += ` ${operator.value}`;
-            }
-        }
+        // Champs spéciaux toutes les données biblio/rôles/structures ; mapping avec les requetes ES équivalentes
+        else if (field.type === "biblio") result += `(titres.\\*:(${field.value}) OU sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value})) OU resumes.\\*:(${field.value}) OU discipline:(${field.value}))`;
+        else if (field.type === "roles") result += `(auteursNP:(${field.value}) OU directeursNP:(${field.value}) OU presidentJuryNP:(${field.value}) OU rapporteursNP:(${field.value}) OU membresJuryNP:(${field.value}))`;
+        else if (field.type === "structures") result += `(etabSoutenanceN:(${field.value}) OU etabsCotutelleN:(${field.value}) OU ecolesDoctoralesN:(${field.value}) OU partenairesRechercheN:(${field.value}))`;
+        else if (field.type === "ppnPerson") result += `(auteursPpn:(${field.value}) OU directeursPpn:(${field.value}) OU presidentJuryPpn:(${field.value}) OU rapporteursPpn:(${field.value}) OU membresJuryPpn:(${field.value}))`;
+        else if (field.type === "auteurs") result += `(auteursNP:(${field.value}) OU auteursPpn:(${field.value}))`;
+        else if (field.type === "president") result += `(presidentJuryNP:(${field.value}) OU presidentJuryPpn:(${field.value}))`;
+        else if (field.type === "membresJury") result += `(rapporteursNP:(${field.value}) OU rapporteursPpn:(${field.value}))`;
+        else if (field.type === "rapporteurs") result += `(membresJuryNP:(${field.value}) OU membresJuryPpn:(${field.value}))`;
+        else if (field.type === "everyKeyword") result += `(sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value}) OU sujetsRameauPpn:(${field.value}))`;
+        else if (field.type === "rameauKeyword") result += `(sujetsRameauLibelle:(${field.value}) OU sujetsRameauPpn:(${field.value}))`;
+        else if (field.type === "defenseInstitution") result += `(etabSoutenanceN:(${field.value}) OU etabSoutenancePpn:(${field.value}))`;
+        else if (field.type === "coSupervisionInstitution") result += `(etabsCotutelleN:(${field.value}) OU etabsCotutellePpn:(${field.value}))`;
+        else if (field.type === "doctoralSchool") result += `(ecolesDoctoralesN:(${field.value}) OU ecolesDoctoralesPpn:(${field.value}))`;
+        else if (field.type === "partner") result += `(partenairesRechercheN:(${field.value}) OU partenairesRecherchePpn:(${field.value}))`;
+        else if (field.type === "ppnPartner") result += `(etabSoutenancePpn:(${field.value}) OU etabsCotutellePpn:(${field.value}) OU ecolesDoctoralesPpn:(${field.value}))`;
+        else if (field.type === "titres") result += `titres.\\*:(${field.value})`;
+        else if (field.type === "resumes") result += `resumes.\\*:(${field.value})`;
         else {
-            result += ` ${field.type}:(${field.value})`;
+          result += ` ${field.type}:(${field.value})`;
 
-            //Cas particulier : pour les mots clés on ajoute également les rameaux
-            if (field.type === "sujetsLibelle") result += ` OU sujetsRameauLibelle:(${field.value}))`;
+          //Cas particulier : pour les mots clés on ajoute également les rameaux
+          if (field.type === "sujetsLibelle") result += ` OU sujetsRameauLibelle:(${field.value}))`;
 
-            if (index !== formFields.value.length - 1) {
-                result += ` ${operator.value}`;
-            }
         }
-      } catch(error) {
+        if (index !== formFields.value.length - 1) {
+          result += ` ${operator.value}`;
+        }
+      } catch (error) {
       }
     });
 
-    return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').replaceAll('sujetsLibelle', '(sujetsLibelle').trim());
+    // return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').replaceAll('sujetsLibelle', '(sujetsLibelle').trim());
+    return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui'));
 }
 
 function deleteEndOperator(texte) {
@@ -265,67 +259,26 @@ function clearField(index) {
     formFields.value[index].value = "";
 }
 
+// reconstituer le formulaire depuis les paramètres de l'url
 function queryToObject(query) {
-  const operatorMatch = query.match(/\b(ET|OU)\b/g);
-  const operator = operatorMatch ? operatorMatch[0] : null;
-  const pattern = /([a-zA-Z0-9.\\*]+):\(([^()]+)\)/g;
-  const singlePattern = /([a-zA-Z0-9.\\*]+):([^()\s]+)/g;
-  let matches;
-  let result = [];
+  if (typeof query !== "undefined") {
+    const operatorMatch = query.match(/\b(ET|OU)\b/g);
+    const operator = operatorMatch ? operatorMatch[0] : null;
+    const results = qs.parse(useRoute().query, { ignoreQueryPrefix: true }).fields || [];
 
-  const replaceTypeIfNeeded = (type) => {
-    const replacement = typeReplacements.find(r => r.match === type);
-    return replacement ? replacement.replaceWith : type;
+    if (results.length > 0)
+      return { result: results, operator };
+  }
+
+  // Formulaire par défaut
+  return {
+    result: [
+      { value: "", type: "titres" },
+      { value: "", type: "everyKeyword" },
+      { value: "", type: "discipline" }
+    ],
+    operator: "ET"
   };
-
-  // Extraire les termes et les ajouter au tableau result
-  while ((matches = pattern.exec(query)) !== null) {
-    let type = replaceTypeIfNeeded(matches[1].replace(/\.\\\*/g, ''));
-    let values = matches[2].replace(/\+/g, ' ').split(' ');
-    let value = values.join(' ');
-
-    result.push({ type, value });
-  }
-
-  while ((matches = singlePattern.exec(query)) !== null) {
-    let type = replaceTypeIfNeeded(matches[1].replace(/\.\\\*/g, ''));
-    let value = matches[2].replace(/\+/g, ' ');
-
-    result.push({ type, value });
-  }
-
-  if (!query.includes(':')) {
-    result.push({ type: "titres.\\*", value: query });
-  }
-
-  const typesToMerge = [
-    "sujetsLibelle",
-    "sujetsRameauLibelle",
-    "sujetsRameauPpn",
-    "sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn",
-    "sujetsRameauLibelle OU sujetsRameauPpn"
-  ];
-
-  let mergedResults = [];
-  let groupedByValue = {};
-  result.forEach(item => {
-    if (typesToMerge.includes(item.type)) {
-      // Si la value existe déjà dans groupedByValue, on ajoute au groupe existant
-      if (!groupedByValue[item.value]) {
-        groupedByValue[item.value] = {
-          type: "sujetsLibelle OU sujetsRameauLibelle OU sujetsRameauPpn",
-          value: item.value
-        };
-      }
-    } else {
-      mergedResults.push(item);
-    }
-  });
-
-  // Ajouter les groupes fusionnés au résultat final
-  mergedResults = mergedResults.concat(Object.values(groupedByValue));
-
-  return { result: mergedResults, operator };
 }
 
 /**

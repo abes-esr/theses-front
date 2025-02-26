@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { useDisplay } from "vuetify";
 import { replaceAndEscape } from "../services/Common";
+import qs from "qs";
 
 /**
  * Initialisation
@@ -11,6 +12,7 @@ const currentShowingNumber = ref();
 const currentSorting = ref();
 const currentFacets = ref([]);
 const query = ref("");
+const formFields = ref();
 const rawFacets = ref([]);
 const checkedFilters = ref([]);
 const currentWorkingFacetName = ref("");
@@ -30,6 +32,7 @@ export default function() {
     disableOrFiltersTheses,
     getItemsTriMapTheses
   } = useThesesAPI();
+
   const {
     suggestionPersonne,
     getFacetsPersonnes,
@@ -131,6 +134,8 @@ export default function() {
       const startingParameterShowingNumber = mobile.value ? 10 : parseInt(getURLParameter("nb"));
       const startingParameterAdvanced = getURLParameter("avancee");
 
+      // Paramètres de recherche avancée
+      const startingFormFields = getFormFields();
       // Comparer les paramètres actuels avec ceux existants
       if (
         currentSorting.value === startingParameterTri &&
@@ -151,6 +156,7 @@ export default function() {
       currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
       currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
       isAdvanced.value = startingParameterAdvanced ? startingParameterAdvanced : false;
+      formFields.value = startingFormFields;
 
       resolve();
     });
@@ -178,7 +184,15 @@ export default function() {
     if (domaine.value) params["domaine"] = domaine.value;
     if (isAdvanced.value) params["avancee"] = isAdvanced.value;
 
+    // Ajouter les champs du formulaire de recherche avancée
+    formFields.value = getFormFields();
+    params = { ...params, ...qs.parse(qs.stringify({ fields: formFields.value }, { encode: true }), { depth: 0 }) }
+
     return params;
+  }
+
+  function getFormFields() {
+    return qs.parse(router.currentRoute._value.query, { ignoreQueryPrefix: true }).fields || [];
   }
 
   function updateURL() {
