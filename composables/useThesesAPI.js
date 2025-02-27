@@ -20,7 +20,10 @@ function queryThesesAPI(query, facetsRequest, currentPageNumber, currentShowingN
   return new Promise((resolve, reject) => {
     useAPIFetch(url)
       .then((response) => {
-      resolve(response.data.value);
+        if (response.data?.value) {
+          resolve(response.data.value);
+        }
+        resolve({});
     }).catch((err) => {
       reject(err);
     });
