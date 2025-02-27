@@ -501,9 +501,14 @@ export default function() {
   async function getFacets() {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
-      const currentWorkingFacet = rawFacets.value.filter((facet) => {
-        return facet.name === currentWorkingFacetName.value;
-      });
+      let currentWorkingFacet;
+      if (rawFacets?.value && rawFacets.value.length > 0) {
+        currentWorkingFacet = rawFacets.value.filter((facet) => {
+          return facet.name === currentWorkingFacetName.value;
+        });
+      } else {
+        currentWorkingFacet = "";
+      }
 
       if (domaine.value === "theses") {
         await getFacetsTheses(query.value, getFacetsRequest())
@@ -523,7 +528,7 @@ export default function() {
           });
       }
 
-      if (Object.keys(rawFacets.value).length > 0) {
+      if (rawFacets?.value && Object.keys(rawFacets.value).length > 0) {
         addCheckedFilters();
         createLabels(rawFacets.value);
         resolve(rawFacets.value);

@@ -201,21 +201,22 @@ function objectToQuery() {
         result += " ";
       }
       // Champs spéciaux toutes les données biblio/rôles/structures ; mapping avec les requetes ES équivalentes
-      else if (field.type === "biblio") result += ` (titres.\\*:(${field.value}) OU sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value})) OU resumes.\\*:(${field.value}) OU discipline:(${field.value}))`;
+      else if (field.type === "biblio") result += ` (titres.\\*:(${field.value}) OU sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value}) OU resumes.\\*:(${field.value}) OU discipline:(${field.value}))`;
       else if (field.type === "roles") result += ` (auteursNP:(${field.value}) OU directeursNP:(${field.value}) OU presidentJuryNP:(${field.value}) OU rapporteursNP:(${field.value}) OU membresJuryNP:(${field.value}))`;
       else if (field.type === "structures") result += ` (etabSoutenanceN:(${field.value}) OU etabsCotutelleN:(${field.value}) OU ecolesDoctoralesN:(${field.value}) OU partenairesRechercheN:(${field.value}))`;
       else if (field.type === "ppnPerson") result += ` (auteursPpn:(${field.value}) OU directeursPpn:(${field.value}) OU presidentJuryPpn:(${field.value}) OU rapporteursPpn:(${field.value}) OU membresJuryPpn:(${field.value}))`;
       else if (field.type === "auteurs") result += ` (auteursNP:(${field.value}) OU auteursPpn:(${field.value}))`;
+      else if (field.type === "directeurs") result += ` (directeursNP:(${field.value}) OU directeursPpn:(${field.value}))`;
       else if (field.type === "president") result += ` (presidentJuryNP:(${field.value}) OU presidentJuryPpn:(${field.value}))`;
-      else if (field.type === "membresJury") result += ` (rapporteursNP:(${field.value}) OU rapporteursPpn:(${field.value}))`;
-      else if (field.type === "rapporteurs") result += ` (membresJuryNP:(${field.value}) OU membresJuryPpn:(${field.value}))`;
+      else if (field.type === "rapporteurs") result += ` (rapporteursNP:(${field.value}) OU rapporteursPpn:(${field.value}))`;
+      else if (field.type === "membresJury") result += ` (membresJuryNP:(${field.value}) OU membresJuryPpn:(${field.value}))`;
       else if (field.type === "everyKeyword") result += ` (sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value}) OU sujetsRameauPpn:(${field.value}))`;
       else if (field.type === "rameauKeyword") result += ` (sujetsRameauLibelle:(${field.value}) OU sujetsRameauPpn:(${field.value}))`;
       else if (field.type === "defenseInstitution") result += ` (etabSoutenanceN:(${field.value}) OU etabSoutenancePpn:(${field.value}))`;
       else if (field.type === "coSupervisionInstitution") result += ` (etabsCotutelleN:(${field.value}) OU etabsCotutellePpn:(${field.value}))`;
       else if (field.type === "doctoralSchool") result += ` (ecolesDoctoralesN:(${field.value}) OU ecolesDoctoralesPpn:(${field.value}))`;
       else if (field.type === "partner") result += ` (partenairesRechercheN:(${field.value}) OU partenairesRecherchePpn:(${field.value}))`;
-      else if (field.type === "ppnPartner") result += ` (etabSoutenancePpn:(${field.value}) OU etabsCotutellePpn:(${field.value}) OU ecolesDoctoralesPpn:(${field.value}))`;
+      else if (field.type === "ppnPartner") result += ` (etabSoutenancePpn:(${field.value}) OU etabsCotutellePpn:(${field.value}) OU ecolesDoctoralesPpn:(${field.value}) OU partenairesRecherchePpn:(${field.value}))`;
       else if (field.type === "titres") result += ` titres.\\*:(${field.value})`;
       else if (field.type === "resumes") result += ` resumes.\\*:(${field.value})`;
       else {
