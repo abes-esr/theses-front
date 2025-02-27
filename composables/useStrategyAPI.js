@@ -192,7 +192,18 @@ export default function() {
   }
 
   function getFormFields() {
-    return qs.parse(router.currentRoute._value.query, { ignoreQueryPrefix: true }).fields || [];
+    // champs de recherche avancée présents dans l'url
+    const parsedQuery = qs.parse(router.currentRoute._value.query, { ignoreQueryPrefix: true });
+    if (parsedQuery.fields && Object.keys(parsedQuery.fields).length > 0) {
+      return parsedQuery.fields;
+    }
+
+    // champs de recherche avancée présents dans le composable
+    if (formFields?.value && Array.isArray(formFields.value) && formFields.value.length > 0) {
+      return formFields.value;
+    }
+
+    return [];
   }
 
   function updateURL() {
@@ -672,6 +683,7 @@ export default function() {
     addOrOverwriteDate,
     reinitializeFilters,
     reinitializeFacetFilters,
-    setCheckedFilters
+    setCheckedFilters,
+    getFormFields
   };
 }
