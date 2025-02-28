@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { inject, ref, computed, watchEffect } from "vue";
 import { useDisplay } from "vuetify";
 import { replaceAndEscape } from "../services/Common";
 import qs from "qs";
@@ -18,7 +18,7 @@ const checkedFilters = ref([]);
 const currentWorkingFacetName = ref("");
 const labelMap = ref(new Map());
 const facetsArray = ref([]);
-const isAdvanced = ref();
+const isAdvanced = ref(false);
 let updateTimeout = null;
 
 export default function() {
@@ -117,6 +117,20 @@ export default function() {
     return currentFacets.value.length > 0
       ? "&filtres=" + encodeURIComponent("[") + disableOrFilters().toString() + encodeURIComponent("]")
       : "";
+  }
+
+  /**
+   * Prend l'état du composant AdvancedForm comme base
+   * @returns {{isAdvanced: ComputedRef<boolean extends (Builtin | Ref | RefUnwrapBailTypes[keyof RefUnwrapBailTypes] | {"[RawSymbol]"?: true}) ? boolean : (boolean extends Map<infer K, infer V> ? (Map<K, UnwrapRefSimple<V>> & UnwrapRef<Omit<boolean, keyof Map<any, any>>>) : (boolean extends WeakMap<infer K, infer V> ? (WeakMap<K, UnwrapRefSimple<V>> & UnwrapRef<Omit<boolean, keyof WeakMap<any, any>>>) : (boolean extends Set<infer V> ? (Set<UnwrapRefSimple<V>> & UnwrapRef<Omit<boolean, keyof Set<any>>>) : (boolean extends WeakSet<infer V> ? (WeakSet<UnwrapRefSimple<V>> & UnwrapRef<Omit<boolean, keyof WeakSet<any>>>) : (boolean extends ReadonlyArray<any> ? {[K in keyof boolean]: UnwrapRefSimple<boolean[K]>} : (boolean extends (object & {"[ShallowReactiveMarker]"?: never}) ? {[P in keyof boolean]: P extends symbol ? boolean[P] : UnwrapRef<boolean[P]>} : boolean))))))>}}
+   */
+  function useAdvancedState() {
+    // Injecte `isAdvanced` si disponible (sinon, garde `false` par défaut)
+    const injectedValue = inject("isAdvanced", null);
+    if (injectedValue) isAdvanced.value = injectedValue.value;
+
+    return {
+      isAdvanced: computed(() => isAdvanced.value),
+    };
   }
 
   /**
@@ -253,7 +267,7 @@ export default function() {
   function queryAPI() {
     updateURLDebounced();
 
-    // const isAdvanced = useState("isAdvanced");
+    const isAdvancedMounted = useAdvancedState().isAdvanced.value;
 
     query.value = (typeof query.value === "undefined") ? "*" : query.value;
 
@@ -261,7 +275,7 @@ export default function() {
       return queryPersonnesAPI(replaceAndEscape(query.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
     else
     //La recherche avancée ne doit pas échapper les caractères spéciaux, on passe isAdvanced pour déterminer quels caractères échapper
-      return queryThesesAPI(replaceAndEscape(query.value, isAdvanced.value), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
+      return queryThesesAPI(replaceAndEscape(query.value, isAdvancedMounted), getFacetsRequest(), currentPageNumber.value, currentShowingNumber.value, currentSorting.value);
   }
 
   /**
