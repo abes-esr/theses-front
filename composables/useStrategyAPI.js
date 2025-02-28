@@ -45,25 +45,60 @@ export default function() {
 
   /**
    * Fonctions communes
-   */
-  function setPageNumber(value) {
-    currentPageNumber.value = parseInt(value);
-    updateURLDebounced();
+   */function setPageNumber(value) {
+    const parsedValue = parseInt(value);
+    if (currentPageNumber.value !== parsedValue) {
+      currentPageNumber.value = parsedValue;
+      updateURLDebounced();
+    }
   }
 
   function setShowingNumber(value) {
-    currentShowingNumber.value = parseInt(value);
-    updateURLDebounced();
+    const parsedValue = parseInt(value);
+    if (currentShowingNumber.value !== parsedValue) {
+      currentShowingNumber.value = parsedValue;
+      updateURLDebounced();
+    }
   }
 
   function setSorting(value) {
-    currentSorting.value = value;
-    updateURLDebounced();
+    if (currentSorting.value !== value) {
+      currentSorting.value = value;
+      updateURLDebounced();
+    }
   }
 
   function setDomaine(newDomain) {
-    domaine.value = newDomain;
-    updateURLDebounced();
+    if (domaine.value !== newDomain) {
+      domaine.value = newDomain;
+      updateURLDebounced();
+    }
+  }
+
+  function setQuery(newQuery) {
+    const sanitizedQuery = newQuery && newQuery.trim() !== "" ? newQuery : "*";
+    if (query.value !== sanitizedQuery) {
+      query.value = sanitizedQuery;
+    }
+  }
+
+  function setCheckedFilters(objectsArray) {
+    if (JSON.stringify(checkedFilters.value) !== JSON.stringify(objectsArray)) {
+      currentPageNumber.value = 1;
+
+      return new Promise((resolve) => {
+        currentFacets.value = parseFacetsValuesArray(objectsArray);
+        checkedFilters.value = objectsArray;
+        updateURLDebounced();
+        resolve();
+      });
+    }
+  }
+
+  function setWorkingFacetName(facetName) {
+    if (currentWorkingFacetName.value !== facetName) {
+      currentWorkingFacetName.value = facetName;
+    }
   }
 
   /**
@@ -77,7 +112,7 @@ export default function() {
 
     // Planifie un nouvel appel après un délai court
     updateTimeout = setTimeout(() => {
-      updateURL();
+        updateURL();
     }, 300);
   }
 
@@ -88,25 +123,6 @@ export default function() {
       const startingParameterTriFirstLoad = getURLParameter("tri");
       return startingParameterTriFirstLoad ? startingParameterTriFirstLoad : "pertinence";
     }
-  }
-
-  function setQuery(newQuery) {
-    query.value = (typeof newQuery !== "undefined" && newQuery !== "" && newQuery !== null) ? newQuery : "*";
-  }
-
-  function setCheckedFilters(objectsArray) {
-    currentPageNumber.value = 1;
-
-    return new Promise((resolve) => {
-      currentFacets.value = parseFacetsValuesArray(objectsArray);
-      updateURLDebounced();
-      checkedFilters.value = objectsArray;
-      resolve();
-    });
-  }
-
-  function setWorkingFacetName(facetName) {
-    currentWorkingFacetName.value = facetName;
   }
 
   function getQuery() {
@@ -267,7 +283,8 @@ export default function() {
   function queryAPI() {
     updateURLDebounced();
 
-    const isAdvancedMounted = useAdvancedState().isAdvanced.value;
+    const { isAdvanced } = useAdvancedState();
+    const isAdvancedMounted = isAdvanced.value;
 
     query.value = (typeof query.value === "undefined") ? "*" : query.value;
 
