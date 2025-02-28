@@ -84,7 +84,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { useI18n } from "vue-i18n";
@@ -109,16 +109,8 @@ const operator = computed(() => {
     return operatorModel.value ? 'OU' : 'ET'
 })
 
-const isMounted = ref(false);
-
 onMounted(() => {
   createForm();
-  isMounted.value = true;
-  provide("isAdvanced", isMounted); // Fournit l'état au reste de l'application
-});
-
-onUnmounted(() => {
-  isMounted.value = false;
 });
 
 const types = computed(() => {
@@ -238,6 +230,7 @@ function objectToQuery() {
     resumes: "resumes.\\*:({val})"
   };
 
+  // Construction de la requete
   formFields.value.forEach((field, index) => {
     try {
       let value = field.value.replace(":", "\\:");
