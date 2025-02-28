@@ -190,50 +190,68 @@ function stringifiedFormFields() {
   return qs.stringify({ fields: formFields.value }, { encode: true })
 }
 
+// Transformer formFields en une requête pour l'api
 function objectToQuery() {
   let result = "";
-  formFields.value = formFields.value.filter(field => field.value !== "");
+
+  // Gestion des champs vides
+  if (formFields?.value) {
+    // Vérifie si tous les éléments sont vides
+    const allEmpty = formFields.value.every(field => field.value === "");
+
+    if (allEmpty) {
+      // Garde uniquement le premier et lui assigne "*"
+      formFields.value = [{ ...formFields.value[0], value: "*" }];
+    } else {
+      // Supprime uniquement les champs vides
+      formFields.value = formFields.value.filter(field => field.value !== "");
+    }
+  }
+
+
+  // Mapping des types vers leurs requêtes
+  const mapping = {
+    biblio: "(titres.\\*:({val}) OU sujetsLibelle:({val}) OU sujetsRameauLibelle:({val}) OU resumes.\\*:({val}) OU discipline:({val}))",
+    roles: "(auteursNP:({val}) OU directeursNP:({val}) OU presidentJuryNP:({val}) OU rapporteursNP:({val}) OU membresJuryNP:({val}))",
+    structures: "(etabSoutenanceN:({val}) OU etabsCotutelleN:({val}) OU ecolesDoctoralesN:({val}) OU partenairesRechercheN:({val}))",
+    ppnPerson: "(auteursPpn:({val}) OU directeursPpn:({val}) OU presidentJuryPpn:({val}) OU rapporteursPpn:({val}) OU membresJuryPpn:({val}))",
+    auteurs: "(auteursNP:({val}) OU auteursPpn:({val}))",
+    directeurs: "(directeursNP:({val}) OU directeursPpn:({val}))",
+    president: "(presidentJuryNP:({val}) OU presidentJuryPpn:({val}))",
+    rapporteurs: "(rapporteursNP:({val}) OU rapporteursPpn:({val}))",
+    membresJury: "(membresJuryNP:({val}) OU membresJuryPpn:({val}))",
+    everyKeyword: "(sujetsLibelle:({val}) OU sujetsRameauLibelle:({val}) OU sujetsRameauPpn:({val}))",
+    rameauKeyword: "(sujetsRameauLibelle:({val}) OU sujetsRameauPpn:({val}))",
+    defenseInstitution: "(etabSoutenanceN:({val}) OU etabSoutenancePpn:({val}))",
+    coSupervisionInstitution: "(etabsCotutelleN:({val}) OU etabsCotutellePpn:({val}))",
+    doctoralSchool: "(ecolesDoctoralesN:({val}) OU ecolesDoctoralesPpn:({val}))",
+    partner: "(partenairesRechercheN:({val}) OU partenairesRecherchePpn:({val}))",
+    ppnPartner: "(etabSoutenancePpn:({val}) OU etabsCotutellePpn:({val}) OU ecolesDoctoralesPpn:({val}) OU partenairesRecherchePpn:({val}))",
+    titres: "titres.\\*:({val})",
+    resumes: "resumes.\\*:({val})"
+  };
 
   formFields.value.forEach((field, index) => {
     try {
-      field.value = field.value.replace(":", "\\:");
-      if (field.value === "") {
-        result += " ";
-      }
-      // Champs spéciaux toutes les données biblio/rôles/structures ; mapping avec les requetes ES équivalentes
-      else if (field.type === "biblio") result += ` (titres.\\*:(${field.value}) OU sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value}) OU resumes.\\*:(${field.value}) OU discipline:(${field.value}))`;
-      else if (field.type === "roles") result += ` (auteursNP:(${field.value}) OU directeursNP:(${field.value}) OU presidentJuryNP:(${field.value}) OU rapporteursNP:(${field.value}) OU membresJuryNP:(${field.value}))`;
-      else if (field.type === "structures") result += ` (etabSoutenanceN:(${field.value}) OU etabsCotutelleN:(${field.value}) OU ecolesDoctoralesN:(${field.value}) OU partenairesRechercheN:(${field.value}))`;
-      else if (field.type === "ppnPerson") result += ` (auteursPpn:(${field.value}) OU directeursPpn:(${field.value}) OU presidentJuryPpn:(${field.value}) OU rapporteursPpn:(${field.value}) OU membresJuryPpn:(${field.value}))`;
-      else if (field.type === "auteurs") result += ` (auteursNP:(${field.value}) OU auteursPpn:(${field.value}))`;
-      else if (field.type === "directeurs") result += ` (directeursNP:(${field.value}) OU directeursPpn:(${field.value}))`;
-      else if (field.type === "president") result += ` (presidentJuryNP:(${field.value}) OU presidentJuryPpn:(${field.value}))`;
-      else if (field.type === "rapporteurs") result += ` (rapporteursNP:(${field.value}) OU rapporteursPpn:(${field.value}))`;
-      else if (field.type === "membresJury") result += ` (membresJuryNP:(${field.value}) OU membresJuryPpn:(${field.value}))`;
-      else if (field.type === "everyKeyword") result += ` (sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value}) OU sujetsRameauPpn:(${field.value}))`;
-      else if (field.type === "rameauKeyword") result += ` (sujetsRameauLibelle:(${field.value}) OU sujetsRameauPpn:(${field.value}))`;
-      else if (field.type === "defenseInstitution") result += ` (etabSoutenanceN:(${field.value}) OU etabSoutenancePpn:(${field.value}))`;
-      else if (field.type === "coSupervisionInstitution") result += ` (etabsCotutelleN:(${field.value}) OU etabsCotutellePpn:(${field.value}))`;
-      else if (field.type === "doctoralSchool") result += ` (ecolesDoctoralesN:(${field.value}) OU ecolesDoctoralesPpn:(${field.value}))`;
-      else if (field.type === "partner") result += ` (partenairesRechercheN:(${field.value}) OU partenairesRecherchePpn:(${field.value}))`;
-      else if (field.type === "ppnPartner") result += ` (etabSoutenancePpn:(${field.value}) OU etabsCotutellePpn:(${field.value}) OU ecolesDoctoralesPpn:(${field.value}) OU partenairesRecherchePpn:(${field.value}))`;
-      else if (field.type === "titres") result += ` titres.\\*:(${field.value})`;
-      else if (field.type === "resumes") result += ` resumes.\\*:(${field.value})`;
-      else {
-        result += ` ${field.type}:(${field.value})`;
+      let value = field.value.replace(":", "\\:");
 
-        //Cas particulier : pour les mots clés on ajoute également les rameaux
-        if (field.type === "sujetsLibelle") result += ` OU sujetsRameauLibelle:(${field.value}))`;
+      // Récupération de la requête associée au type
+      let queryPart = mapping[field.type]
+        ? mapping[field.type].replaceAll("{val}", value)
+        : `${field.type}:(${value})`;
 
-      }
+      result += ` ${queryPart}`;
+
+      // Ajout de l'opérateur si ce n'est pas le dernier élément
       if (index !== formFields.value.length - 1) {
         result += ` ${operator.value}`;
       }
     } catch (error) {
+      throw error;
     }
   });
 
-  // return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').replaceAll('sujetsLibelle', '(sujetsLibelle').trim());
+//   // return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').replaceAll('sujetsLibelle', '(sujetsLibelle').trim());
   return deleteEndOperatorAndFirstSpace(result.replaceAll("status:(accessible)", "accessible:oui"));
 }
 
