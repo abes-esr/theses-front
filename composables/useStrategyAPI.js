@@ -17,7 +17,7 @@ const rawFacets = ref([]);
 const checkedFilters = ref([]);
 const currentWorkingFacetName = ref("");
 const labelMap = ref(new Map());
-const facetsArray = ref([]);//ref(false);
+const facetsArray = ref([]);
 let updateTimeout = null;
 
 export default function() {
@@ -171,7 +171,7 @@ export default function() {
       domaine.value = startingParameterDomaine ? startingParameterDomaine : "theses";
       currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
       currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
-      isAdvanced.value = startingParameterAdvanced ? startingParameterAdvanced : false;
+      isAdvanced.value = startingParameterAdvanced === "true";
       formFields.value = startingFormFields;
 
       resolve();
