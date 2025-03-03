@@ -13,11 +13,12 @@
                             item-value="value" label="Champ" variant="plain" single-line menu-icon="mdi-chevron-down"
                             @update:model-value="clearField(index)">
                             <template v-slot:item="{ props, index }">
+<!--                              régler les index des v-if sur la liste des champs de recherche avancée selon leur sous-catégorie -->
                                 <v-list density="compact">
-                                    <VListSubheader v-if="index === 1">{{ $t('advancedSearch.thesisInfo') }}</VListSubheader>
-                                    <VListSubheader v-if="index === 6">{{ $t('advancedSearch.people') }}</VListSubheader>
-                                    <VListSubheader v-if="index === 12">{{ $t('advancedSearch.institutions') }}</VListSubheader>
-                                    <VListSubheader v-if="index === 17">{{ $t('advancedSearch.date') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 0">{{ $t('advancedSearch.thesisInfo') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 7">{{ $t('advancedSearch.people') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 14">{{ $t('advancedSearch.institutions') }}</VListSubheader>
+                                    <VListSubheader v-if="index === 20">{{ $t('advancedSearch.date') }}</VListSubheader>
                                     <v-list-item v-bind="props"></v-list-item>
                                 </v-list>
                             </template>
@@ -87,9 +88,11 @@ import { ref, watch, computed, onMounted } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { useI18n } from "vue-i18n";
+import qs from 'qs';
 
 const emit = defineEmits(['search', 'simple']);
 const { t } = useI18n();
+const { getFormFields } = useStrategyAPI();
 
 const props = defineProps({
     whiteContainer: {
@@ -107,51 +110,60 @@ const operator = computed(() => {
 })
 
 onMounted(() => {
-    formFields.value.forEach((field) => {
-        if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
-            //On découpe le champ date qui contient dateFrom et dateTo concaténées, pour peupler dateTo et dateFrom
-            let dates = field.value.match(/\[(.*?) TO (.*?)\]/);
-
-            if (dates && dates.length >= 3) {
-                dateFrom.value = dates[1];
-                dateTo.value = dates[2];
-            }
-        }
-    })
-})
+  createForm();
+});
 
 const types = computed(() => {
   return [
     { titre: t("advancedSearch.status"), value: "status" },
-    { titre: t("advancedSearch.title"), value: "titres.\\*" },
-    { titre: t("advancedSearch.keyword"), value: "sujetsLibelle" },
-    { titre: t("advancedSearch.abstract"), value: "resumes.\\*" },
+    { titre: t("advancedSearch.title"), value: "titres" },
+    { titre: t("advancedSearch.everyKeyword"), value: "everyKeyword" },
+    { titre: t("advancedSearch.rameauKeyword"), value: "rameauKeyword" },
+    { titre: t("advancedSearch.abstract"), value: "resumes" },
     { titre: t("advancedSearch.discipline"), value: "discipline" },
     { titre: t("advancedSearch.allMetaData"), value: "biblio" },
-    { titre: t("theseView.auteur"), value: "auteursNP" },
-    { titre: t("advancedSearch.directeur"), value: "directeursNP" },
-    { titre: t("advancedSearch.president"), value: "presidentJuryNP" },
-    { titre: t("advancedSearch.rapporteurs"), value: "rapporteursNP" },
-    { titre: t("advancedSearch.jury"), value: "membresJuryNP" },
+    { titre: t("theseView.auteur"), value: "auteurs" },
+    { titre: t("advancedSearch.directeur"), value: "directeurs" },
+    { titre: t("advancedSearch.president"), value: "president" },
+    { titre: t("advancedSearch.rapporteurs"), value: "rapporteurs" },
+    { titre: t("advancedSearch.jury"), value: "membresJury" },
+    { titre: t("advancedSearch.ppnPerson"), value: "ppnPerson" },
     { titre: t("advancedSearch.role"), value: "roles" },
-    { titre: t("advancedSearch.defenseInstitution"), value: "etabSoutenanceN" },
-    { titre: t("advancedSearch.coSupervisionInstitution"), value: "etabsCotutelleN" },
-    { titre: t("advancedSearch.doctoralSchool"), value: "ecolesDoctoralesN" },
-    { titre: t("advancedSearch.partner"), value: "partenairesRechercheN" },
+    { titre: t("advancedSearch.defenseInstitution"), value: "defenseInstitution" },
+    { titre: t("advancedSearch.coSupervisionInstitution"), value: "coSupervisionInstitution" },
+    { titre: t("advancedSearch.doctoralSchool"), value: "doctoralSchool" },
+    { titre: t("advancedSearch.partner"), value: "partner" },
+    { titre: t("advancedSearch.ppnPartner"), value: "ppnPartner" },
     { titre: t("advancedSearch.allInstitutions"), value: "structures" },
     { titre: t("advancedSearch.defenseDate"), value: "dateSoutenance" },
     { titre: t("advancedSearch.inscriptionDate"), value: "datePremiereInscriptionDoctorat" }
   ];
 });
 
-const formFields = useState("formFields", () => [
-    { value: '', type: 'titres.\\*' },
-    { value: '', type: 'sujetsLibelle' },
-    { value: '', type: 'discipline' },
-]);
+const formFields = ref();
+
+function createForm() {
+  const query = useRoute().query.q;
+
+  let fieldsFromQuery = queryToObject(query);
+  formFields.value = fieldsFromQuery.result;
+  operatorModel.value = fieldsFromQuery.operator === "OU";
+
+  formFields.value.forEach((field) => {
+    if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
+      //On découpe le champ date qui contient dateFrom et dateTo concaténées, pour peupler dateTo et dateFrom
+      let dates = field.value.match(/\[(.*?) TO (.*?)\]/);
+
+      if (dates && dates.length >= 3) {
+        dateFrom.value = dates[1];
+        dateTo.value = dates[2];
+      }
+    }
+  });
+}
 
 function addField() {
-    formFields.value.push({ value: '', type: 'titres.\\*' });
+    formFields.value.push({ value: '', type: 'titres' });
 };
 
 function removeField(index) {
@@ -161,7 +173,6 @@ function removeField(index) {
 };
 
 function search() {
-
     //Si on a des dates vides, on remplit les champs date avec des dates max
     let date = new Date();
     if (dateTo.value == undefined || dateTo.value == '') dateTo.value = date.getFullYear().toString() + "-12-31";
@@ -172,68 +183,88 @@ function search() {
         }
     });
 
-    emit('search', objectToQuery())
+    emit('search', { "query": objectToQuery(), 'formFields': stringifiedFormFields() })
 }
 
+function stringifiedFormFields() {
+  return qs.stringify({ fields: formFields.value }, { encode: true })
+}
+
+// Transformer formFields en une requête pour l'api
 function objectToQuery() {
-    let result = "";
+  let result = "";
 
-    formFields.value.forEach((field, index) => {
-      try {
-        field.value = field.value.replace(":", "\\:")
-        if (field.value === "") {
-            result += " ";
-        }
-        // Champs spéciaux toutes les données biblio/rôles/structures
-        else if (field.type === "biblio" || field.type === "roles" || field.type === "structures") {
-            if (field.type === "biblio") result += ` (titres.\\*:(${field.value}) OU sujetsLibelle:(${field.value}) OU sujetsRameauLibelle:(${field.value})) OU resumes.\\*:(${field.value}) OU discipline:(${field.value}))`;
-            else if (field.type === "roles") result += ` (auteursNP:(${field.value}) OU directeursNP:(${field.value}) OU presidentJuryNP:(${field.value}) OU rapporteursNP:(${field.value}) OU membresJuryNP:(${field.value}))`;
-            else if (field.type === "structures") result += ` (etabSoutenanceN:(${field.value}) OU etabsCotutelleN:(${field.value}) OU ecolesDoctoralesN:(${field.value}) OU partenairesRechercheN:(${field.value}))`;
+  // Gestion des champs vides
+  if (formFields?.value) {
+    // Vérifie si tous les éléments sont vides
+    const allEmpty = formFields.value.every(field => field.value === "");
 
-            if (index !== formFields.value.length - 1) {
-                result += ` ${operator.value}`;
-            }
-        }
-        else {
-            result += ` ${field.type}:(${field.value})`;
-
-            //Cas particulier : pour les mots clés on ajoute également les rameaux
-            if (field.type === "sujetsLibelle") result += ` OU sujetsRameauLibelle:(${field.value}))`;
-
-            if (index !== formFields.value.length - 1) {
-                result += ` ${operator.value}`;
-            }
-        }
-      } catch(error) {
-      }
-    });
-
-    return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').replaceAll('sujetsLibelle', '(sujetsLibelle').trim());
-}
-
-function deleteEndOperator(texte) {
-    if (texte.endsWith(" ET") || texte.endsWith(" OU")) {
-        return texte.slice(0, - 3);
+    if (allEmpty) {
+      // Garde uniquement le premier et lui assigne "*"
+      formFields.value = [{ ...formFields.value[0], value: "*" }];
     } else {
-        return texte;
+      // Supprime uniquement les champs vides
+      formFields.value = formFields.value.filter(field => field.value !== "");
     }
+  }
+
+  // Mapping des types vers leurs requêtes
+  const mapping = {
+    biblio: "(titres.\\*:({val}) OU sujetsLibelle:({val}) OU sujetsRameauLibelle:({val}) OU resumes.\\*:({val}) OU discipline:({val}))",
+    roles: "(auteursNP:({val}) OU directeursNP:({val}) OU presidentJuryNP:({val}) OU rapporteursNP:({val}) OU membresJuryNP:({val}))",
+    structures: "(etabSoutenanceN:({val}) OU etabsCotutelleN:({val}) OU ecolesDoctoralesN:({val}) OU partenairesRechercheN:({val}))",
+    ppnPerson: "(auteursPpn:({val}) OU directeursPpn:({val}) OU presidentJuryPpn:({val}) OU rapporteursPpn:({val}) OU membresJuryPpn:({val}))",
+    auteurs: "(auteursNP:({val}) OU auteursPpn:({val}))",
+    directeurs: "(directeursNP:({val}) OU directeursPpn:({val}))",
+    president: "(presidentJuryNP:({val}) OU presidentJuryPpn:({val}))",
+    rapporteurs: "(rapporteursNP:({val}) OU rapporteursPpn:({val}))",
+    membresJury: "(membresJuryNP:({val}) OU membresJuryPpn:({val}))",
+    everyKeyword: "(sujetsLibelle:({val}) OU sujetsRameauLibelle:({val}) OU sujetsRameauPpn:({val}))",
+    rameauKeyword: "(sujetsRameauLibelle:({val}) OU sujetsRameauPpn:({val}))",
+    defenseInstitution: "(etabSoutenanceN:({val}) OU etabSoutenancePpn:({val}))",
+    coSupervisionInstitution: "(etabsCotutelleN:({val}) OU etabsCotutellePpn:({val}))",
+    doctoralSchool: "(ecolesDoctoralesN:({val}) OU ecolesDoctoralesPpn:({val}))",
+    partner: "(partenairesRechercheN:({val}) OU partenairesRecherchePpn:({val}))",
+    ppnPartner: "(etabSoutenancePpn:({val}) OU etabsCotutellePpn:({val}) OU ecolesDoctoralesPpn:({val}) OU partenairesRecherchePpn:({val}))",
+    titres: "titres.\\*:({val})",
+    resumes: "resumes.\\*:({val})"
+  };
+
+  // Construction de la requete
+  formFields.value.forEach((field, index) => {
+    try {
+      let value = field.value.replace(":", "\\:");
+
+      // Récupération de la requête associée au type
+      let queryPart = mapping[field.type]
+        ? mapping[field.type].replaceAll("{val}", value)
+        : `${field.type}:(${value})`;
+
+      result += ` ${queryPart}`;
+
+      // Ajout de l'opérateur si ce n'est pas le dernier élément
+      if (index !== formFields.value.length - 1) {
+        result += ` ${operator.value}`;
+      }
+    } catch (error) {
+      throw error;
+    }
+  });
+
+//   // return deleteEndOperator(result.replaceAll('status:(accessible)', 'accessible:oui').replaceAll('sujetsLibelle', '(sujetsLibelle').trim());
+  return deleteEndOperatorAndFirstSpace(result.replaceAll("status:(accessible)", "accessible:oui"));
 }
 
-watch(dateFrom, () => {
-    formFields.value.forEach((field) => {
-        if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
-            field.value = '[' + dateFrom.value + ' TO ' + dateTo.value + ']';
-        }
-    });
-})
+function deleteEndOperatorAndFirstSpace(texte) {
+  if (texte.startsWith(" "))
+    texte = texte.substring(1);
 
-watch(dateTo, () => {
-    formFields.value.forEach((field) => {
-        if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
-            field.value = '[' + dateFrom.value + ' TO ' + dateTo.value + ']';
-        }
-    });
-})
+  if (texte.endsWith(" ET") || texte.endsWith(" OU")) {
+    return texte.slice(0, -3);
+  } else {
+    return texte;
+  }
+}
 
 function clear() {
     for (const element of formFields.value) {
@@ -250,8 +281,56 @@ function clearField(index) {
     }
 
     formFields.value[index].value = "";
-
 }
+
+// reconstituer le formulaire depuis les paramètres de l'url
+function queryToObject(query) {
+  if (typeof query !== "undefined") {
+    const operatorMatch = query.match(/\b(ET|OU)\b/g);
+    const operator = operatorMatch ? operatorMatch[0] : null;
+    const results = qs.parse(useRoute().query, { ignoreQueryPrefix: true }).fields || [];
+
+    if (results.length > 0) {
+      return { result: results, operator };
+    }
+  }
+
+  // Cas chargement depuis le composable
+  const fields = getFormFields();
+  if (Array.isArray(fields) && fields.length > 0) {
+    return { result: fields, operator };
+  }
+
+  // Formulaire par défaut
+  return {
+    result: [
+      { value: "", type: "titres" },
+      { value: "", type: "everyKeyword" },
+      { value: "", type: "discipline" }
+    ],
+    operator: "ET"
+  };
+}
+
+/**
+ * Watchers
+ */
+
+watch(dateFrom, () => {
+  formFields.value.forEach((field) => {
+    if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
+      field.value = '[' + dateFrom.value + ' TO ' + dateTo.value + ']';
+    }
+  });
+});
+
+watch(dateTo, () => {
+  formFields.value.forEach((field) => {
+    if (field.type === "dateSoutenance" || field.type === "datePremiereInscriptionDoctorat") {
+      field.value = '[' + dateFrom.value + ' TO ' + dateTo.value + ']';
+    }
+  });
+});
 </script>
 
 <style scoped lang="scss">
