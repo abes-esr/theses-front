@@ -17,38 +17,40 @@
           <div role="presentation" class="colonne1">
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
+              <span><a href="https://bibliomap.theses.fr/" target="_blank" :title="$t('footer.bibliomapInfo')">
+                  {{ $t("footer.bibliomap") }}</a></span>
+            </div>
+            <div class="list-item" role="listitem">
+              <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://www.data.gouv.fr/fr/datasets/theses-soutenues-en-france-depuis-1985/"
-                  target="_blank"
-                  :title="$t('apropos.dataGouv')">
+                  target="_blank" :title="$t('apropos.dataGouv')">
                   {{ $t("footer.opendata") }}</a></span>
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="https://www.data.gouv.fr/fr/organizations/agence-bibliographique-de-lenseignement-superieur/#/dataservices"
-                       target="_blank"
-                       :title="$t('footer.apiGouv')">
-                    {{ $t("footer.apiThesesfr") }}</a></span>
+              <span><a
+                  href="https://www.data.gouv.fr/fr/organizations/agence-bibliographique-de-lenseignement-superieur/#/dataservices"
+                  target="_blank" :title="$t('footer.apiGouv')">
+                  {{ $t("footer.apiThesesfr") }}</a></span>
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="https://www.idref.fr/" target="_blank"
-                  :title="$t('footer.idRef')">{{
-          $t("footer.idRref")
-        }}</a></span>
+              <span><a href="https://www.idref.fr/" target="_blank" :title="$t('footer.idRef')">{{
+                $t("footer.idRref")
+              }}</a></span>
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank"
                   :title="$t('footer.accesDoc')">{{
-          $t("footer.doc") }}</a></span>
+                    $t("footer.doc") }}</a></span>
             </div>
           </div>
           <div role="presentation" class="colonne2">
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="http://www.sudoc.abes.fr/cbs/" target="_blank"
-                  :title="$t('footer.accesSudoc')">{{
-                    $t("footer.catalogue") }}</a></span>
+              <span><a href="http://www.sudoc.abes.fr/cbs/" target="_blank" :title="$t('footer.accesSudoc')">{{
+                $t("footer.catalogue") }}</a></span>
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
@@ -65,15 +67,15 @@
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="http://search.ndltd.org/" target="_blank"
-                       :title="$t('footer.accesGlobalETD')">{{
-                  $t("footer.globalETD") }}</a></span>
+              <span><a href="http://search.ndltd.org/" target="_blank" :title="$t('footer.accesGlobalETD')">{{
+                $t("footer.globalETD") }}</a></span>
             </div>
           </div>
         </div>
       </div>
       <div class="logos-container footer-content" role="list">
-        <a role="listitem" href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank" :title='$t("footer.logoMesriAlt")'>
+        <a role="listitem" href="https://www.enseignementsup-recherche.gouv.fr/fr" target="_blank"
+          :title='$t("footer.logoMesriAlt")'>
           <img src="../../assets/logo-mesr.svg" :alt='$t("footer.logoMesriAlt")' class="pr-4 "></a>
         <a href="https://abes.fr/" target="_blank" :title='$t("footer.logoAbesAlt")'>
           <img src="../../assets/abes-logo-cercle.svg" :alt='$t("footer.logoAbesAlt")'></a>
@@ -81,33 +83,32 @@
     </div>
     <v-divider></v-divider>
     <v-card-text class="footerBottom">
-        <div class="text-center text-md-left pa-0 slogan">
-          {{ new Date().getFullYear() }} —
-          theses.fr, {{ $t('slogan') }}
-        </div>
-        <div class="text-center text-md-right pa-0">
-          <v-divider vertical class="my-1"></v-divider>
-          <v-btn flat plain color="transparent" size="small" target="_blank"
-            href="https://abes.fr/pages-donnees-personnelles/thesesfr.html"
-            :title="$t('footer.accesDonnees')">
-            {{ $t("donnees") }}
-          </v-btn>
-          <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-          <v-btn flat color="transparent" size="small" target="_blank"
-            href="https://abes.fr/pages-cgu/conditions-generales-utilisation-sites-abes.html"
-            :title="$t('footer.accesCGU')">{{ $t("CGU") }}
-          </v-btn>
-          <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-          <v-btn flat color="transparent" size="small" href="https://abes.fr/pages-mentions-legales/theses.html"
-            target="_blank" :title="$t('footer.accesMention')">
-            {{ $t("mentions") }}
-          </v-btn>
-          <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
-          <v-btn flat color="transparent" size="small" target="_blank" href="https://abes.fr/pages-accessibilite/theses.html"
-            :title="$t('footer.accesAccessibilite')">
-            {{ $t("accessibilite") }}
-          </v-btn>
-        </div>
+      <div class="text-center text-md-left pa-0 slogan">
+        {{ new Date().getFullYear() }} —
+        theses.fr, {{ $t('slogan') }}
+      </div>
+      <div class="text-center text-md-right pa-0">
+        <v-divider vertical class="my-1"></v-divider>
+        <v-btn flat plain color="transparent" size="small" target="_blank"
+          href="https://abes.fr/pages-donnees-personnelles/thesesfr.html" :title="$t('footer.accesDonnees')">
+          {{ $t("donnees") }}
+        </v-btn>
+        <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
+        <v-btn flat color="transparent" size="small" target="_blank"
+          href="https://abes.fr/pages-cgu/conditions-generales-utilisation-sites-abes.html"
+          :title="$t('footer.accesCGU')">{{ $t("CGU") }}
+        </v-btn>
+        <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
+        <v-btn flat color="transparent" size="small" href="https://abes.fr/pages-mentions-legales/theses.html"
+          target="_blank" :title="$t('footer.accesMention')">
+          {{ $t("mentions") }}
+        </v-btn>
+        <v-divider vertical class="my-1"></v-divider><span class="mobileHide">|</span>
+        <v-btn flat color="transparent" size="small" target="_blank"
+          href="https://abes.fr/pages-accessibilite/theses.html" :title="$t('footer.accesAccessibilite')">
+          {{ $t("accessibilite") }}
+        </v-btn>
+      </div>
     </v-card-text>
   </v-footer>
 </template>

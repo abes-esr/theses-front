@@ -326,7 +326,9 @@
     "accesDonnees": "Acceder al sitio web de la Abes para obtener información sobre cómo theses.fr procesa los datos personales",
     "accesCGU": "Acceder al sitio web de la Abes para consultar las Condiciones Generales de Uso del sitio theses.fr",
     "accesMention": "Acceder al sitio web de la Abes para consultar el aviso legal de theses.fr",
-    "accesAccessibilite": "Acceder al sitio web de la Abes para obtener información sobre la accesibilidad digital del sitio theses.fr"
+    "accesAccessibilite": "Acceder al sitio web de la Abes para obtener información sobre la accesibilidad digital del sitio theses.fr",
+    "bibliomap": "Bibliomap - Mapa de consultas de theses.fr en tiempo real",
+    "bibliomapInfo": "Visualizar en tiempo real las consultas y descargas realizadas en el sitio web theses.fr"
   },
   "header": {
     "doc": "Acceder a la documentación de theses.fr ",
