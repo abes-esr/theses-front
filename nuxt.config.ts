@@ -13,10 +13,13 @@ export default defineNuxtConfig({
       })
     }
   ],
+
   devtools: { enabled: false },
+
   i18n: {
     vueI18n: './i18n.config.ts' // if you are using custom path, default 
   },
+
   runtimeConfig: {
     public: {
       API: process.env.NUXT_APP_API,
@@ -25,14 +28,17 @@ export default defineNuxtConfig({
       MAINTENANCE_MESSAGE: process.env.NUXT_MAINTENANCE_MESSAGE
     }
   },
+
   routeRules: {
      '/resultats/**': { ssr: false },
      '/resultats': { ssr: false },
      '/apropos' : { prerender: true}
   },
+
   nitro: {
     compressPublicAssets: true,
   },
+
   app: {
     head: {
       link: [{ rel: 'stylesheet', media: 'print', onload:"this.onload=null;this.removeAttribute('media')", href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap' }, {rel:"stylesheet preload prefetch", href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900', as:"style", crossorigin: '', type: 'text/css' }, {rel:'preconnect', href:'https://fonts.gstatic.com'},
@@ -43,9 +49,11 @@ export default defineNuxtConfig({
       },
     }
   },
+
   build: {
     transpile: ['vuetify', '@vuepic/vue-datepicker'],
   },
+
   vite: {
     vue: {
       template: {
@@ -53,4 +61,6 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  compatibilityDate: '2025-03-05',
 });
