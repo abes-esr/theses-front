@@ -1,6 +1,7 @@
-import { ref } from "vue";
+import { inject, ref, computed, watchEffect } from "vue";
 import { useDisplay } from "vuetify";
 import { replaceAndEscape } from "../services/Common";
+import qs from "qs";
 
 /**
  * Initialisation
@@ -11,17 +12,18 @@ const currentShowingNumber = ref();
 const currentSorting = ref();
 const currentFacets = ref([]);
 const query = ref("");
+const formFields = ref();
 const rawFacets = ref([]);
 const checkedFilters = ref([]);
 const currentWorkingFacetName = ref("");
 const labelMap = ref(new Map());
 const facetsArray = ref([]);
-const isAdvanced = ref();
 let updateTimeout = null;
 
 export default function() {
 // import fonctions
   const { fetchCodeLangues, createLabels, getLabelFromCode } = useReferentielsAPI();
+  const isAdvanced = useState("isAdvanced");
   const {
     suggestionTheses,
     getFacetsTheses,
@@ -30,6 +32,7 @@ export default function() {
     disableOrFiltersTheses,
     getItemsTriMapTheses
   } = useThesesAPI();
+
   const {
     suggestionPersonne,
     getFacetsPersonnes,
@@ -42,25 +45,60 @@ export default function() {
 
   /**
    * Fonctions communes
-   */
-  function setPageNumber(value) {
-    currentPageNumber.value = parseInt(value);
-    updateURLDebounced();
+   */function setPageNumber(value) {
+    const parsedValue = parseInt(value);
+    if (currentPageNumber.value !== parsedValue) {
+      currentPageNumber.value = parsedValue;
+      updateURLDebounced();
+    }
   }
 
   function setShowingNumber(value) {
-    currentShowingNumber.value = parseInt(value);
-    updateURLDebounced();
+    const parsedValue = parseInt(value);
+    if (currentShowingNumber.value !== parsedValue) {
+      currentShowingNumber.value = parsedValue;
+      updateURLDebounced();
+    }
   }
 
   function setSorting(value) {
-    currentSorting.value = value;
-    updateURLDebounced();
+    if (currentSorting.value !== value) {
+      currentSorting.value = value;
+      updateURLDebounced();
+    }
   }
 
   function setDomaine(newDomain) {
-    domaine.value = newDomain;
-    updateURLDebounced();
+    if (domaine.value !== newDomain) {
+      domaine.value = newDomain;
+      updateURLDebounced();
+    }
+  }
+
+  function setQuery(newQuery) {
+    const sanitizedQuery = newQuery && newQuery.trim() !== "" ? newQuery : "*";
+    if (query.value !== sanitizedQuery) {
+      query.value = sanitizedQuery;
+    }
+  }
+
+  function setCheckedFilters(objectsArray) {
+    if (JSON.stringify(checkedFilters.value) !== JSON.stringify(objectsArray)) {
+      currentPageNumber.value = 1;
+
+      return new Promise((resolve) => {
+        currentFacets.value = parseFacetsValuesArray(objectsArray);
+        checkedFilters.value = objectsArray;
+        updateURLDebounced();
+        resolve();
+      });
+    }
+  }
+
+  function setWorkingFacetName(facetName) {
+    if (currentWorkingFacetName.value !== facetName) {
+      currentWorkingFacetName.value = facetName;
+    }
   }
 
   /**
@@ -74,7 +112,7 @@ export default function() {
 
     // Planifie un nouvel appel après un délai court
     updateTimeout = setTimeout(() => {
-      updateURL();
+        updateURL();
     }, 300);
   }
 
@@ -85,25 +123,6 @@ export default function() {
       const startingParameterTriFirstLoad = getURLParameter("tri");
       return startingParameterTriFirstLoad ? startingParameterTriFirstLoad : "pertinence";
     }
-  }
-
-  function setQuery(newQuery) {
-    query.value = (typeof newQuery !== "undefined" && newQuery !== "" && newQuery !== null) ? newQuery : "*";
-  }
-
-  function setCheckedFilters(objectsArray) {
-    currentPageNumber.value = 1;
-
-    return new Promise((resolve) => {
-      currentFacets.value = parseFacetsValuesArray(objectsArray);
-      updateURLDebounced();
-      checkedFilters.value = objectsArray;
-      resolve();
-    });
-  }
-
-  function setWorkingFacetName(facetName) {
-    currentWorkingFacetName.value = facetName;
   }
 
   function getQuery() {
@@ -131,6 +150,8 @@ export default function() {
       const startingParameterShowingNumber = mobile.value ? 10 : parseInt(getURLParameter("nb"));
       const startingParameterAdvanced = getURLParameter("avancee");
 
+      // Paramètres de recherche avancée
+      const startingFormFields = getFormFields();
       // Comparer les paramètres actuels avec ceux existants
       if (
         currentSorting.value === startingParameterTri &&
@@ -150,7 +171,8 @@ export default function() {
       domaine.value = startingParameterDomaine ? startingParameterDomaine : "theses";
       currentPageNumber.value = startingParameterPage ? startingParameterPage : 1;
       currentShowingNumber.value = startingParameterShowingNumber ? startingParameterShowingNumber : 10;
-      isAdvanced.value = startingParameterAdvanced ? startingParameterAdvanced : false;
+      isAdvanced.value = startingParameterAdvanced === "true";
+      formFields.value = startingFormFields;
 
       resolve();
     });
@@ -178,7 +200,26 @@ export default function() {
     if (domaine.value) params["domaine"] = domaine.value;
     if (isAdvanced.value) params["avancee"] = isAdvanced.value;
 
+    // Ajouter les champs du formulaire de recherche avancée
+    formFields.value = getFormFields();
+    params = { ...params, ...qs.parse(qs.stringify({ fields: formFields.value }, { encode: true }), { depth: 0 }) }
+
     return params;
+  }
+
+  function getFormFields() {
+    // champs de recherche avancée présents dans l'url
+    const parsedQuery = qs.parse(router.currentRoute._value.query, { ignoreQueryPrefix: true });
+    if (parsedQuery.fields && Object.keys(parsedQuery.fields).length > 0) {
+      return parsedQuery.fields;
+    }
+
+    // champs de recherche avancée présents dans le composable
+    if (formFields?.value && Array.isArray(formFields.value) && formFields.value.length > 0) {
+      return formFields.value;
+    }
+
+    return [];
   }
 
   function updateURL() {
@@ -227,8 +268,6 @@ export default function() {
    */
   function queryAPI() {
     updateURLDebounced();
-
-    // const isAdvanced = useState("isAdvanced");
 
     query.value = (typeof query.value === "undefined") ? "*" : query.value;
 
@@ -476,9 +515,14 @@ export default function() {
   async function getFacets() {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
-      const currentWorkingFacet = rawFacets.value.filter((facet) => {
-        return facet.name === currentWorkingFacetName.value;
-      });
+      let currentWorkingFacet;
+      if (rawFacets?.value && rawFacets.value.length > 0) {
+        currentWorkingFacet = rawFacets.value.filter((facet) => {
+          return facet.name === currentWorkingFacetName.value;
+        });
+      } else {
+        currentWorkingFacet = "";
+      }
 
       if (domaine.value === "theses") {
         await getFacetsTheses(query.value, getFacetsRequest())
@@ -498,7 +542,7 @@ export default function() {
           });
       }
 
-      if (Object.keys(rawFacets.value).length > 0) {
+      if (rawFacets?.value && Object.keys(rawFacets.value).length > 0) {
         addCheckedFilters();
         createLabels(rawFacets.value);
         resolve(rawFacets.value);
@@ -658,6 +702,7 @@ export default function() {
     addOrOverwriteDate,
     reinitializeFilters,
     reinitializeFacetFilters,
-    setCheckedFilters
+    setCheckedFilters,
+    getFormFields
   };
 }

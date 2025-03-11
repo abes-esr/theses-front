@@ -151,12 +151,17 @@ async function search(loadFacets = false) {
    * Chargement des donnees
    */
   return queryAPI(mobile).then((response) => {
-    if (!["theses", "personnes"].includes(currentRoute.query.domaine)) {
-      throw new Error("Erreur");
+    if (response?.totalHits) {
+      if (!["theses", "personnes"].includes(currentRoute.query.domaine)) {
+        throw new Error("Erreur");
+      }
+      result.value = response[currentRoute.query.domaine];
+      nbResult.value = response.totalHits;
+      domainNameChange.value = currentRoute.query.domaine;
+    } else {
+      result.value = [];
+      nbResult.value = 0;
     }
-    result.value = response[currentRoute.query.domaine];
-    nbResult.value = response.totalHits;
-    domainNameChange.value = currentRoute.query.domaine;
   }).catch(error => {
     displayError(error.message);
     result.value = [];
@@ -189,6 +194,7 @@ function updateFacets() {
     if (typeof error !== "undefined" && typeof error.message !== "undefined") {
       displayError(error.message);
     }
+    dataFacetsReady.value = true;
   });
 }
 
@@ -287,6 +293,10 @@ const rssReq = computed(() => {
 
 .dark-grey-bar {
   background-color: rgb(var(--v-theme-gris-fonce)) !important;
+}
+
+.nav-bar {
+  min-height: 100px;
 }
 
 .left-side {

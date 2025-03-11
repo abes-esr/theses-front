@@ -24,7 +24,7 @@ const handleError = () => clearError({ redirect: '/' })
                 <br /><br />
                 Vous pouvez joindre les informations suivantes à votre demande d'assistance :
                 <br /><br />
-            <pre>{{ error.message }}</pre>
+            <span>{{ error.message }}</span>
             <br />
             <span v-html="error.stack" />
             </p>

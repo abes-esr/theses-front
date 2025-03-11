@@ -31,7 +31,7 @@
           </div>
           <div role="list" aria-labelledby="mots-cles-controles-header" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in rameauKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
-              <nuxt-link role="listitem"
+              <nuxt-link role="listitem" @click="setIsAdvanced(false)"
                 :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses' } }">
                 <v-chip label class="rameau-chip chips" tabindex="-1">
                   <span class="key-word-label" tabindex="-1">{{ keyWord.keyword }}</span>
@@ -46,8 +46,8 @@
           </div>
           <div role="list" aria-labelledby="mots-cles-libres" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
             <template v-for="keyWord in freeKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
-              <nuxt-link role="listitem"
-                :to="{ name: 'resultats', query: { q: keyWord.query ? createKeywordQuery(keyWord.query) : createKeywordQuery(keyWord.keyword), domaine: 'theses', avancee: 'true' } }">
+              <nuxt-link role="listitem" @click="setIsAdvanced(true)"
+                :to="{ name: 'resultats', query: { q: keyWord.query ? createKeywordQuery(keyWord.query) : createKeywordQuery(keyWord.keyword), domaine: 'theses', avancee: 'true', 'fields[0][type]': 'everyKeyword', 'fields[0][value]': keyWord.keyword } }">
                 <v-chip label class="free-chip chips" tabindex="-1">
                   <span class="key-word-label">{{ keyWord.keyword }}</span>
                 </v-chip>
@@ -59,8 +59,8 @@
       <div v-else>
         <div role="list" aria-labelledby="keywords-title" v-if="mixedKeywords.length > 0" class="chip-lines v-chip-group" :class="isRtl ? 'rtl-text' : ''">
           <template v-for="keyWord in mixedKeywords" :key="keyWord.keyword + forceRenderKey" :title="keyWord.keyword">
-            <nuxt-link role="listitem"
-              :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses', avancee: 'true' } }">
+            <nuxt-link role="listitem" @click="setIsAdvanced(true)"
+              :to="{ name: 'resultats', query: { q: keyWord.query ? keyWord.query : keyWord.keyword, domaine: 'theses', avancee: 'true', 'fields[0][type]': 'everyKeyword', 'fields[0][value]': keyWord.keyword } }">
               <v-chip label class="chips" :class="keyWord.type === 'sujetsRameau' ? 'rameau-chip' : 'free-chip'"
                 tabindex="-1">
                 <span class="key-word-label">{{ keyWord.keyword }}</span>
@@ -124,6 +124,7 @@ const selectedLanguage = ref("fr");
 const freeKeywords = ref({});
 const rameauKeywords = ref({});
 const mixedKeywords = ref({});
+const isAdvanced = useState('isAdvanced');
 
 const backFromKeywordModal = ref(null);
 
@@ -215,6 +216,10 @@ function focusLastKeyword() {
       lastAElement.focus();
     }
   }
+}
+
+function setIsAdvanced(value) {
+  isAdvanced.value = value;
 }
 
 onUpdated(() => {

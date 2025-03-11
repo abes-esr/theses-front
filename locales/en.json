@@ -85,6 +85,10 @@
     "status": "Status",
     "title": "Title",
     "keyword": "Keywords",
+    "everyKeyword": "All keywords",
+    "rameauKeyword": "Controlled keywords",
+    "ppnPerson": "Person identifier (PPN)",
+    "ppnPartner": "Structure identifier (PPN)",
     "abstract": "Abstract",
     "discipline": "Discipline",
     "allMetaData": "All bibliographic metadata",
@@ -150,7 +154,7 @@
     "modalOk": "Validate",
     "modalCancel": "Cancel",
     "others": "Other versions",
-    "metadonnees":  "Descriptive metadata of the thesis"
+    "metadonnees": "Descriptive metadata of the thesis"
   },
   "Laboratoire": "Laboratory",
   "Equipe de recherche": "Research team",
@@ -321,7 +325,9 @@
     "accesDonnees": "Access the Abes website for information on how theses.fr processes privacy policy",
     "accesCGU": "Access the Abes website for the Terms of Use of the theses.fr website",
     "accesMention": "Access the Abes website for the legal notices of theses.fr",
-    "accesAccessibilite": "Access the Abes website for information on the digital accessibility of the theses.fr website"
+    "accesAccessibilite": "Access the Abes website for information on the digital accessibility of the theses.fr website",
+    "bibliomap": "Bibliomap - Live map of consultations from theses.fr",
+    "bibliomapInfo": "Visualize in real-time the consultations and downloads made on the theses.fr website"
   },
   "header": {
     "doc": "Go to theses.fr documentation ",

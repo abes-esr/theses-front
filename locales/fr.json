@@ -75,6 +75,8 @@
     "status": "Statut",
     "title": "Titre",
     "keyword": "Mots clés",
+    "everyKeyword": "Tous les mots clés",
+    "rameauKeyword": "Mots clés contrôlés",
     "abstract": "Résumé",
     "discipline": "Discipline",
     "allMetaData": "Toutes les métadonnées bibliographiques",
@@ -82,12 +84,14 @@
     "president": "Président / Présidente du jury",
     "rapporteurs": "Rapporteur / Rapporteuse",
     "jury": "Membre du jury",
+    "ppnPerson": "Identifiant d’une personne (PPN)",
     "role": "Tous les rôles",
     "defenseInstitution": "Etablissement de soutenance",
     "coSupervisionInstitution": "Etablissement de cotutelle",
     "doctoralSchool": "Ecole doctorale",
     "partner": "Partenaire de recherche",
     "allInstitutions": "Toutes les structures",
+    "ppnPartner": "Identifiant d’une structure (PPN)",
     "defenseDate": "Date de soutenance",
     "inscriptionDate": "Date d'inscription en doctorat"
   },
@@ -319,7 +323,9 @@
     "accesDonnees": "Accéder au site de l’Abes aux informations relatives au traitement, par theses.fr, des données personnelles",
     "accesCGU": "Accéder au site de l’Abes aux Conditions Générales d’Utilisation du site theses.fr",
     "accesMention": "Accéder au site de l’Abes aux mentions légales de theses.fr",
-    "accesAccessibilite": "Accéder au site de l’Abes aux informations relatives à l’accessibilité numérique du site theses.fr"
+    "accesAccessibilite": "Accéder au site de l’Abes aux informations relatives à l’accessibilité numérique du site theses.fr",
+    "bibliomap": "Bibliomap - Carte des consultations de theses.fr en temps réel",
+    "bibliomapInfo": "Visualiser en temps réel les consultations et les téléchargements effectués sur le site theses.fr"
   },
   "header": {
     "doc": "Accéder à la documentation de theses.fr ",
