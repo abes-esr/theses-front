@@ -28,7 +28,7 @@
                     <div class="text">
                         <div v-if="field.type === 'dateSoutenance' || field.type === 'datePremiereInscriptionDoctorat'">
                             <span class="calendars">
-                                <div class="calendar-row advanced-input-fields">
+                                <div class="calendar-row">
                                     <span class="calendar-text pr-4">Du</span> <vue-date-picker v-model="dateFrom"
                                         :teleport="true" locale="fr" auto-apply :clearable="false"
                                         model-type="yyyy-MM-dd" format="yyyy-MM-dd" :enable-time-picker="false"
@@ -363,6 +363,7 @@ watch(dateTo, () => {
   color: rgb(var(--v-theme-primary));
   font-weight: 600 !important;
   max-width: 300px;
+  margin-top: 0.35em;
 }
 
 .type :deep(.v-select) {
@@ -536,16 +537,19 @@ hr {
   background-color: rgb(var(--v-theme-gris-switch));
 }
 
-:deep(.v-input__details) {
-  margin-top: -50px;
-}
-
 .v-field--container:focus-within {
   border: 1px solid rgb(var(--v-theme-secondary-darken-2));
   box-sizing: border-box;
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
   padding: 3px;
   transition: border-color 0.3s ease;
+}
+
+.v-field--container {
+  height: 39.6px;
+}
+
+.advanced-input-fields {
+  height: 39.6px;
 }
 </style>
 
