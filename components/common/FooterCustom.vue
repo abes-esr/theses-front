@@ -41,7 +41,7 @@
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank"
+              <span><a href="https://documentation.abes.fr/aidethesesfr/index.html" target="_blank"
                   :title="$t('footer.accesDoc')">{{
                     $t("footer.doc") }}</a></span>
             </div>
@@ -54,7 +54,7 @@
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank"
+              <span><a href="https://documentation.abes.fr/aidethesesfr/index.html#TEF" target="_blank"
                   :title="$t('footer.accesTEF')">{{
                     $t("footer.tef")
                   }}</a></span>
