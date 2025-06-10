@@ -8,7 +8,7 @@
         </v-btn>
         <div class="languages-btn" role="list" :aria-label="$t('header.localeSelection')">
           <v-btn flat @click="setLanguage('fr')" aria-label="Changer la langue du site en français"
-          :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
+            :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
           <v-divider vertical role="presentation"></v-divider>
           <v-btn flat @click="setLanguage('en')" aria-label="Switch language to English"
             :class="locale === 'en' ? 'selected' : ''">EN</v-btn>
@@ -24,15 +24,15 @@
         <v-btn tabindex="-1" title="Flux RSS" size="x-large" icon>
           <div class="icons"><icons-icon-rss></icons-icon-rss></div>
         </v-btn>-->
-        <a role="listitem" href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'><v-btn
-            tabindex="-1" :title='$t("header.assistance")' size="large" icon>
-            <div class="icons"><img aria-hidden="true" :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
-                :src="'/icone-assistance-' + colorMode + '.svg'" /></div>
+        <a role="listitem" href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
+          :alt='$t("header.assistance")'><v-btn tabindex="-1" :title='$t("header.assistance")' size="large" icon>
+            <div class="icons"><img aria-hidden="true" :alt="$t('header.assistance')" id="logo-assistance"
+                class="logos-droite" :src="'/icone-assistance-' + colorMode + '.svg'" /></div>
           </v-btn></a>
-        <a role="listitem" href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")' target="_blank"><v-btn
-            tabindex="-1" :title='$t("header.doc")' size="large" icon>
-            <div class="icons"><img aria-hidden="true" :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
-                :src="'/icone-documentation-' + colorMode + '.svg'" /></div>
+        <a role="listitem" :href='$t("docUrl.index")' :alt='$t("header.doc")' target="_blank"><v-btn tabindex="-1"
+            :title='$t("header.doc")' size="large" icon>
+            <div class="icons"><img aria-hidden="true" :alt="$t('header.doc')" id="logo-documentation"
+                class="logos-droite" :src="'/icone-documentation-' + colorMode + '.svg'" /></div>
           </v-btn></a>
       </div>
     </div>
@@ -43,11 +43,14 @@
       <v-card-title>{{ $t("access.params") }}</v-card-title>
       <v-card-text>
         <ul class="switch-list">
-          <li><v-switch :aria-label='$t("access.police-aria")' :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.police-aria")' :label='$t("access.police")' v-model="opendys"
+              inset></v-switch></li>
           <li><v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch></li>
           <li><v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch></li>
-          <li><v-switch :aria-label='$t("access.contrast-aria")' :label='$t("access.contrast")' v-model="selectedThemeSwitch" value="dark" inset></v-switch></li>
-          <li><v-switch :aria-label='$t("access.inverted-aria")' :label='$t("access.inverted")' v-model="selectedThemeSwitch" value="inverted" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.contrast-aria")' :label='$t("access.contrast")'
+              v-model="selectedThemeSwitch" value="dark" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.inverted-aria")' :label='$t("access.inverted")'
+              v-model="selectedThemeSwitch" value="inverted" inset></v-switch></li>
         </ul>
       </v-card-text>
       <v-card-actions>
@@ -58,10 +61,10 @@
 </template>
 
 <script setup>
+import { useColorMode } from '@vueuse/core';
 import { onBeforeMount, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useDisplay, useTheme } from "vuetify";
-import { useColorMode } from '@vueuse/core';
 
 const theme = useTheme();
 const { locale } = useI18n();
@@ -137,8 +140,8 @@ function setLanguage(lang) {
  */
 // Détecter les changements de switch pour changer le thème
 watch(() => selectedThemeSwitch.value, () => {
-  if(selectedThemeSwitch.value === false)
-      selectedThemeSwitch.value = "light";
+  if (selectedThemeSwitch.value === false)
+    selectedThemeSwitch.value = "light";
   colorMode.value = selectedThemeSwitch.value;
 });
 </script>

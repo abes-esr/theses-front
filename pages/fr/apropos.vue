@@ -65,8 +65,8 @@
                 <a href="https://theses.fr/" target="_blank">www.theses.fr</a> gr&acirc;ce &agrave; un moteur de
                 recherche
                 et une
-                navigation &agrave; facettes. Un <a href="https://documentation.abes.fr/aidethesesfr/index.html"
-                    target="_blank" :title="$t('apropos.thesisDocumentation')">guide d&rsquo;utilisation du
+                navigation &agrave; facettes. Un <a :href="$t('docUrl.search')" target="_blank"
+                    :title="$t('apropos.thesisDocumentation')">guide d&rsquo;utilisation du
                     moteur de recherche <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
                 est mis
                 &agrave; la
@@ -81,9 +81,8 @@
                     :title="$t('apropos.etaLab')">sous licence
                     Etalab <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.
                 Elles sont
-                disponibles via une <a
-                    href="https://documentation.abes.fr/aidethesesfr/index.html#RecupererDonneesThesesFR"
-                    target="_blank" :title="$t('apropos.thesisAPIDocumentation')">API
+                disponibles via une <a :href="$t('docUrl.apiXML')" target="_blank"
+                    :title="$t('apropos.thesisAPIDocumentation')">API
                     XML <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.</p>
             <p>Pour favoriser leur r&eacute;utilisation, les donn&eacute;es relatives aux th&egrave;ses soutenues
                 sont &eacute;galement disponibles sous forme d&rsquo;un <em>dump</em> d&eacute;pos&eacute; et mis

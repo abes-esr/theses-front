@@ -2,7 +2,7 @@
   <nav class="mobile-nav-bar" v-if="isReady" role="list">
     <div class="left-side-buttons" role="presentation">
       <!--    Bouton menu burger -->
-      <button class="buttons"  @click="activateMenu" role="listitem" :aria-label="$t('menu')" :title="$t('menu')">
+      <button class="buttons" @click="activateMenu" role="listitem" :aria-label="$t('menu')" :title="$t('menu')">
         <span class="sr-only">{{ $t('menu') }}</span>
         <v-icon :title="$t('menu')" size="35px" :class="{ 'logo-active': showMenu }">mdi-menu
         </v-icon>
@@ -16,7 +16,7 @@
     <div class="right-side-buttons" role="presentation">
       <!--    Bouton filtres-->
       <button v-if="type === 'resultats'" @click="activateFilterMenu" color="primary"
-      class="filter-mobile-nav-bar buttons" role="listitem" :title="$t('filtres')">
+        class="filter-mobile-nav-bar buttons" role="listitem" :title="$t('filtres')">
         <span class="sr-only">{{ $t('parcourirFiltres') }}</span>
         <v-icon :title="$t('filtres')" v-bind="props" size="35px">mdi-filter-menu-outline
         </v-icon>
@@ -30,10 +30,10 @@
         </v-icon>
       </button>
       <!--    Bouton menu recherche/selecteur these/personnes-->
-      <button v-if="type !== 'home'" @click="activateSearchBar" class="buttons" role="listitem" :title="$t('rechercher')">
+      <button v-if="type !== 'home'" @click="activateSearchBar" class="buttons" role="listitem"
+        :title="$t('rechercher')">
         <span class="sr-only">{{ $t('rechercher') }}</span>
-        <v-icon :title="$t('rechercher')" size="35px"
-          :class="{ 'logo-active': showSearchBar }">mdi-magnify
+        <v-icon :title="$t('rechercher')" size="35px" :class="{ 'logo-active': showSearchBar }">mdi-magnify
         </v-icon>
       </button>
     </div>
@@ -46,17 +46,18 @@
     </NuxtLink>
     <!-- Menu burger mobile -->
     <v-fade-transition>
-      <div v-show="showMenu" ref="expandedMenu" tabindex="0" class="expanded-search-bar-container white-containers" role="list">
+      <div v-show="showMenu" ref="expandedMenu" tabindex="0" class="expanded-search-bar-container white-containers"
+        role="list">
         <div class="languages-btn-layout-wrapper">
           <div class="languages-btn-container" role="list" :aria-label="$t('header.localeSelection')">
-            <v-btn flat @click="setLanguage('fr')" aria-label="Changer la langue du site en français" density="compact" size="small"
-                   :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
+            <v-btn flat @click="setLanguage('fr')" aria-label="Changer la langue du site en français" density="compact"
+              size="small" :class="locale === 'fr' ? 'selected' : ''">FR</v-btn>
             <v-divider vertical role="presentation"></v-divider>
-            <v-btn flat @click="setLanguage('en')" aria-label="Switch language to English" density="compact" size="small"
-                   :class="locale === 'en' ? 'selected' : ''">EN</v-btn>
+            <v-btn flat @click="setLanguage('en')" aria-label="Switch language to English" density="compact"
+              size="small" :class="locale === 'en' ? 'selected' : ''">EN</v-btn>
             <v-divider vertical role="presentation"></v-divider>
-            <v-btn flat @click="setLanguage('es')" aria-label="Cambiar el idioma a español" density="compact" size="small"
-                   :class="locale === 'es' ? 'selected' : ''">ES</v-btn>
+            <v-btn flat @click="setLanguage('es')" aria-label="Cambiar el idioma a español" density="compact"
+              size="small" :class="locale === 'es' ? 'selected' : ''">ES</v-btn>
           </div>
         </div>
         <div class="expanded-burger-menu">
@@ -80,18 +81,18 @@
             </div>
             -->
             <div class="menu-text-element" role="listitem">
-              <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")' :title='$t("header.assistance")'>
-                  <img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
-                    :src="'/icone-assistance-' + colorMode + '.svg'" />
+              <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'
+                :title='$t("header.assistance")'>
+                <img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
+                  :src="'/icone-assistance-' + colorMode + '.svg'" />
                 <span></span>
                 <span>{{ $t('assistance') }}</span>
               </a>
             </div>
             <div class="menu-text-element" role="listitem">
-              <a href="http://documentation.abes.fr/aidethesesfr/index.html" :alt='$t("header.doc")'
-                target="_blank" :title='$t("header.doc")'>
-                  <img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
-                    :src="'/icone-documentation-' + colorMode + '.svg'" />
+              <a :href='$t("docUrl.index")' :alt='$t("header.doc")' target="_blank" :title='$t("header.doc")'>
+                <img :alt="$t('header.doc')" id="logo-documentation" class="logos-droite"
+                  :src="'/icone-documentation-' + colorMode + '.svg'" />
                 <span></span>
                 <span>{{ $t('documentation') }}</span>
               </a>
@@ -115,11 +116,14 @@
       <v-card-title>{{ $t("access.params") }}</v-card-title>
       <v-card-text>
         <ul class="switch-list">
-          <li><v-switch :aria-label='$t("access.police-aria")' :label='$t("access.police")' v-model="opendys" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.police-aria")' :label='$t("access.police")' v-model="opendys"
+              inset></v-switch></li>
           <li><v-switch :label='$t("access.justification")' v-model="justification" inset></v-switch></li>
           <li><v-switch :label='$t("access.interligne")' v-model="interlignes" inset></v-switch></li>
-          <li><v-switch :aria-label='$t("access.contrast-aria")' :label='$t("access.contrast")' v-model="selectedThemeSwitch" value="dark" inset></v-switch></li>
-          <li><v-switch :aria-label='$t("access.inverted-aria")' :label='$t("access.inverted")' v-model="selectedThemeSwitch" value="inverted" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.contrast-aria")' :label='$t("access.contrast")'
+              v-model="selectedThemeSwitch" value="dark" inset></v-switch></li>
+          <li><v-switch :aria-label='$t("access.inverted-aria")' :label='$t("access.inverted")'
+              v-model="selectedThemeSwitch" value="inverted" inset></v-switch></li>
         </ul>
       </v-card-text>
       <v-card-actions>
@@ -130,10 +134,10 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeMount, watch } from "vue";
+import { useColorMode } from '@vueuse/core';
+import { onBeforeMount, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useTheme } from "vuetify";
-import { useColorMode } from '@vueuse/core'
 
 const theme = useTheme();
 const { locale } = useI18n();
@@ -278,7 +282,7 @@ const justification = useState('justification');
  */
 // Détecter les changements de switch pour changer le thème
 watch(() => selectedThemeSwitch.value, () => {
-  if(selectedThemeSwitch.value === false)
+  if (selectedThemeSwitch.value === false)
     selectedThemeSwitch.value = "light";
   colorMode.value = selectedThemeSwitch.value;
 });
@@ -287,7 +291,7 @@ onMounted(() => {
   // Observer les éléments v-fade-transition avec Intersection Observer
   // Menu
   const observer1 = new IntersectionObserver((entries) => {
-    if(entries[0].isIntersecting) {
+    if (entries[0].isIntersecting) {
       expandedMenu.value.focus();
     }
   });
@@ -302,7 +306,7 @@ onMounted(() => {
         }
       } else {
         const searchbar = document.getElementById('searchbar');
-        if(searchbar !== null) {
+        if (searchbar !== null) {
           searchbar.focus();
         }
       }
@@ -375,7 +379,9 @@ onMounted(() => {
 }
 
 .buttons:focus-visible {
-  i, img {
+
+  i,
+  img {
     border: 2px solid rgb(var(--v-theme-secondary-darken-2));
   }
 }

@@ -34,29 +34,26 @@
           </v-btn>
         </div>
         <!--        Fin signaler-->
-        <v-btn v-if="personne" href="https://documentation.abes.fr/aidethesesfr/index.html#jai-une-question"
-          :alt="$t('footer.accessDoc')" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle"
-          role="listitem">
+        <v-btn v-if="personne" :href="$t('docUrl.personnes')" :alt="$t('footer.accessDoc')" target="_blank"
+          variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
           {{ $t("theseView.alert") }}
         </v-btn>
-        <v-btn v-if="organisme" href="https://documentation.abes.fr/aidethesesfr/index.html#PageOrganisme"
-          :alt="$t('theseView.docOrganismes')" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle"
-          role="listitem">
+        <v-btn v-if="organisme" :href="$t('docUrl.organismes')" :alt="$t('theseView.docOrganismes')" target="_blank"
+          variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
           {{ $t("theseView.alert") }}
         </v-btn>
       </div>
     </div>
     <!--    Mobile-->
     <div v-else-if="personne" class="thesis-toolbar no-wrap-text" role="list">
-      <v-btn href="https://documentation.abes.fr/aidethesesfr/index.html#jai-une-question" :alt="$t('footer.accessDoc')"
-        target="_blank" variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
+      <v-btn :href="$t('docUrl.personnes')" :alt="$t('footer.accessDoc')" target="_blank" variant="outlined" flat
+        append-icon="mdi-alert-circle" role="listitem">
         {{ $t("theseView.alert") }}
       </v-btn>
     </div>
     <div v-else-if="organisme" class="thesis-toolbar no-wrap-text">
-      <v-btn href="https://documentation.abes.fr/aidethesesfr/index.html#PageOrganisme"
-        :alt="$t('theseView.docOrganismes')" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle"
-        role="listitem">
+      <v-btn :href="$t('docUrl.organismes')" :alt="$t('theseView.docOrganismes')" target="_blank" variant="outlined"
+        flat append-icon="mdi-alert-circle" role="listitem">
         {{ $t("theseView.alert") }}
       </v-btn>
     </div>

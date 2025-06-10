@@ -54,7 +54,7 @@
       <h2>An interface and APIs</h2>
       <p>The data on <a href="https://theses.fr/" target="_blank">theses.fr</a> can be accessed via the
         <a href="https://theses.fr/" target="_blank">www.theses.fr</a> website using a search engine
-        and faceted navigation. A <a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank"
+        and faceted navigation. A <a :href="$t('docUrl.search')" target="_blank"
           :title="$t('apropos.thesisDocumentation')"> guide to using the search engine<v-icon
             :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
         is available to users. In line with the Abes policy of opening up data, <a href="https://theses.fr/"
@@ -65,9 +65,8 @@
           :title="$t('apropos.etaLab')">under an Etalab licence <v-icon :title="$t('externalLink')"
             size="x-small">mdi-open-in-new</v-icon></a>.
         They are available via an
-        <a href="https://documentation.abes.fr/aidethesesfr/index.html#RecupererDonneesThesesFR" target="_blank"
-          :title="$t('apropos.thesisAPIDocumentation')">XML API <v-icon :title="$t('externalLink')"
-            size="x-small">mdi-open-in-new</v-icon></a>.
+        <a :href="$t('docUrl.apiXML')" target="_blank" :title="$t('apropos.thesisAPIDocumentation')">XML API <v-icon
+            :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.
       </p>
       <p>To encourage their re-use, data relating to defended theses is also available in the form of a <em>dump</em>
         filed and updated annually on the data.gouv.fr website:

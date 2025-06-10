@@ -301,6 +301,15 @@
     "personnalData": "Report errors on privacy policy (right to rectification)",
     "others": "Other"
   },
+  "docUrl": {
+    "index": "https://documentation.abes.fr/aidethesesfr/EN/",
+    "api": "https://documentation.abes.fr/aidethesesfr/EN/#RecupererDonneesThesesFR",
+    "apiXML": "https://documentation.abes.fr/aidethesesfr/EN/#PrincipeAPI",
+    "search": "https://documentation.abes.fr/aidethesesfr/EN/#Rechercher",
+    "organismes": "https://documentation.abes.fr/aidethesesfr/EN/#PageOrganisme",
+    "personnes": "https://documentation.abes.fr/aidethesesfr/EN/#jai-une-question",
+    "formatTEF": "https://documentation.abes.fr/aidethesesfr/index.html#TEF"
+  },
   "footer": {
     "texte": "Lists all the French doctoral theses defended in France since 1985 as well as topics prepared in French Higher Education institutions along with people involved in French doctoral research. The database is constantly updated and upgraded.",
     "opendata": "theses.fr in Open Data",
