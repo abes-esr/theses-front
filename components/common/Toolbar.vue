@@ -6,8 +6,7 @@
   <ClientOnly>
     <div v-if="!mobile" class="thesis-toolbar no-wrap-text" role="list">
       <div v-if="isBackAvailable" role="listitem" class="v-btn-container">
-        <v-btn flat prepend-icon="mdi-arrow-left-circle-outline" variant="outlined" role="button"
-          @click="previousPage">
+        <v-btn flat prepend-icon="mdi-arrow-left-circle-outline" variant="outlined" role="button" @click="previousPage">
           <template v-slot:prepend-icon>
             <v-icon>
               mdi-arrow-left-circle
@@ -18,14 +17,14 @@
       </div>
       <span v-else></span>
       <div class="no-wrap-text" role="presentation">
-<!--        Export-->
+        <!--        Export-->
         <CommonExportButton :nnt="nnt" v-if="these" />
-<!--        Fin export-->
-<!--        Signaler-->
+        <!--        Fin export-->
+        <!--        Signaler-->
         <div role="listitem" class="v-btn-container">
           <v-btn class="nuxt-link" v-if="!organisme && !personne" flat append-icon="mdi-alert-circle" variant="outlined"
-                 :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }"
-                 target="_blank" role="button">
+            :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank"
+            role="button">
             <template v-slot:append-icon>
               <v-icon>
                 mdi-alert
@@ -34,29 +33,27 @@
             <p>{{ $t("theseView.alert") }}</p>
           </v-btn>
         </div>
-<!--        Fin signaler-->
-        <v-btn v-if="personne" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
-          :alt="$t('footer.accessDoc')" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
+        <!--        Fin signaler-->
+        <v-btn v-if="personne" :href="$t('docUrl.personnes')" :alt="$t('footer.accessDoc')" target="_blank"
+          variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
           {{ $t("theseView.alert") }}
         </v-btn>
-        <v-btn v-if="organisme" href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#PageOrganisme"
-          :alt="$t('theseView.docOrganismes')" target="_blank" variant="outlined" flat
-          append-icon="mdi-alert-circle" role="listitem">
+        <v-btn v-if="organisme" :href="$t('docUrl.organismes')" :alt="$t('theseView.docOrganismes')" target="_blank"
+          variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
           {{ $t("theseView.alert") }}
         </v-btn>
       </div>
     </div>
-<!--    Mobile-->
+    <!--    Mobile-->
     <div v-else-if="personne" class="thesis-toolbar no-wrap-text" role="list">
-      <v-btn href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#jai-une-question"
-             :alt="$t('footer.accessDoc')" target="_blank" variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
+      <v-btn :href="$t('docUrl.personnes')" :alt="$t('footer.accessDoc')" target="_blank" variant="outlined" flat
+        append-icon="mdi-alert-circle" role="listitem">
         {{ $t("theseView.alert") }}
       </v-btn>
     </div>
     <div v-else-if="organisme" class="thesis-toolbar no-wrap-text">
-      <v-btn href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#PageOrganisme"
-             :alt="$t('theseView.docOrganismes')" target="_blank" variant="outlined" flat
-             append-icon="mdi-alert-circle" role="listitem">
+      <v-btn :href="$t('docUrl.organismes')" :alt="$t('theseView.docOrganismes')" target="_blank" variant="outlined"
+        flat append-icon="mdi-alert-circle" role="listitem">
         {{ $t("theseView.alert") }}
       </v-btn>
     </div>
@@ -65,26 +62,26 @@
       <!--        Export-->
       <CommonExportButton :nnt="nnt" />
       <!--        Export-->
-<!--      Signaler une erreur-->
+      <!--      Signaler une erreur-->
       <v-btn :to="{ name: 'signaler', query: { 'nnt': nnt, 'source': source, 'etabPpn': etabPpn } }" target="_blank"
-      flat append-icon="mdi-alert-circle" class="nuxt-link"  variant="outlined" role="listitem">
-          <template v-slot:append-icon>
-            <v-icon>
-              mdi-alert
-            </v-icon>
-          </template>
-          <p>{{ $t("theseView.alert") }}</p>
+        flat append-icon="mdi-alert-circle" class="nuxt-link" variant="outlined" role="listitem">
+        <template v-slot:append-icon>
+          <v-icon>
+            mdi-alert
+          </v-icon>
+        </template>
+        <p>{{ $t("theseView.alert") }}</p>
       </v-btn>
-<!--      Signaler une erreur-->
+      <!--      Signaler une erreur-->
     </div>
-<!--    Fin Mobile-->
+    <!--    Fin Mobile-->
   </ClientOnly>
 </template>
 
 <script setup>
 import { computed, ref } from "vue";
-import { useDisplay } from "vuetify";
 import { useI18n } from "vue-i18n";
+import { useDisplay } from "vuetify";
 
 const { t } = useI18n();
 
@@ -150,6 +147,7 @@ function previousPage() {
   align-items: center;
 
   justify-content: space-between;
+
   @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
     justify-content: end;
   }

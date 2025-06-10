@@ -6,7 +6,7 @@
         <span>{{ $t("footer.texte") }}</span>&nbsp;
         <a href="/apropos" :alt="$t('apropos.aboutLink')"><strong>{{
           $t("footer.plus")
-        }}</strong></a>
+            }}</strong></a>
       </div>
       <div class="links-container footer-content">
         <h1 aria-hidden="true" id="footer-link-title">
@@ -37,13 +37,12 @@
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
               <span><a href="https://www.idref.fr/" target="_blank" :title="$t('footer.idRef')">{{
                 $t("footer.idRref")
-              }}</a></span>
+                  }}</a></span>
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html" target="_blank"
-                  :title="$t('footer.accesDoc')">{{
-                    $t("footer.doc") }}</a></span>
+              <span><a :href="$t('docUrl.index')" target="_blank" :title="$t('footer.accesDoc')">{{
+                $t("footer.doc") }}</a></span>
             </div>
           </div>
           <div role="presentation" class="colonne2">
@@ -54,10 +53,9 @@
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html#TEF" target="_blank"
-                  :title="$t('footer.accesTEF')">{{
-                    $t("footer.tef")
-                  }}</a></span>
+              <span><a :href="$t('docUrl.formatTEF')" target="_blank" :title="$t('footer.accesTEF')">{{
+                $t("footer.tef")
+              }}</a></span>
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>

@@ -1,14 +1,14 @@
 <template>
     <!--  Mobile-->
-  <ClientOnly>
-    <CommonHeaderMobile v-if="mobile" type="home" @displayError="displayError" @activate-menu="activateMenu"
-                        :loading="loading" :show-menu="showMenu">
-    </CommonHeaderMobile>
-  </ClientOnly>
+    <ClientOnly>
+        <CommonHeaderMobile v-if="mobile" type="home" @displayError="displayError" @activate-menu="activateMenu"
+            :loading="loading" :show-menu="showMenu">
+        </CommonHeaderMobile>
+    </ClientOnly>
     <!--  Fin Mobile-->
-  <NuxtLink v-if="!mobile" class="logo logo_home" :to="{ name: 'index', query: { domaine: 'theses' } }">
-    <img :alt="$t('homepage')" id="logoIMG" src="/icone-theses-beta.svg" />
-  </NuxtLink>
+    <NuxtLink v-if="!mobile" class="logo logo_home" :to="{ name: 'index', query: { domaine: 'theses' } }">
+        <img :alt="$t('homepage')" id="logoIMG" src="/icone-theses-beta.svg" />
+    </NuxtLink>
     <article>
         <a href="https://theses.fr/">Retour à l'accueil</a>
         <h1>A propos</h1>
@@ -65,9 +65,10 @@
                 <a href="https://theses.fr/" target="_blank">www.theses.fr</a> gr&acirc;ce &agrave; un moteur de
                 recherche
                 et une
-                navigation &agrave; facettes. Un <a href="https://documentation.abes.fr/aidetheses/thesesfr/index.html"
-                    target="_blank" :title="$t('apropos.thesisDocumentation')">guide d&rsquo;utilisation du
-                    moteur de recherche <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a> est mis
+                navigation &agrave; facettes. Un <a :href="$t('docUrl.search')" target="_blank"
+                    :title="$t('apropos.thesisDocumentation')">guide d&rsquo;utilisation du
+                    moteur de recherche <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
+                est mis
                 &agrave; la
                 disposition des utilisateurs. Conform&eacute;ment
                 &agrave; la politique d&rsquo;ouverture des donn&eacute;es de l&rsquo;Abes, <a href="https://theses.fr/"
@@ -80,8 +81,7 @@
                     :title="$t('apropos.etaLab')">sous licence
                     Etalab <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.
                 Elles sont
-                disponibles via une <a
-                    href="https://documentation.abes.fr/aidetheses/thesesfr/co/RecupererDonneesAPI.html" target="_blank"
+                disponibles via une <a :href="$t('docUrl.apiXML')" target="_blank"
                     :title="$t('apropos.thesisAPIDocumentation')">API
                     XML <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>.</p>
             <p>Pour favoriser leur r&eacute;utilisation, les donn&eacute;es relatives aux th&egrave;ses soutenues
@@ -143,8 +143,7 @@
                 </li>
                 <li>deux repr&eacute;sentants de la recherche priv&eacute;e ou du monde &eacute;conomique</li>
                 <li>trois repr&eacute;sentants des op&eacute;rateurs documentaires nationaux des th&egrave;ses en
-                    France : <a href="http://www.inist.fr/"
-                        :title="$t('apropos.iist')">CNRS-INIST
+                    France : <a href="http://www.inist.fr/" :title="$t('apropos.iist')">CNRS-INIST
                         <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a> ,<a
                         href="http://www.diffusiontheses.fr/content/4-anrt-lille-reproduction-theses" target="_blank"
                         :title="$t('apropos.reproductionTheses')">Atelier
@@ -155,9 +154,9 @@
                 </li>
                 <li>trois repr&eacute;sentants d&rsquo;associations : <a href="https://www.abg.asso.fr" target="_blank"
                         :title="$t('apropos.bernardGregory')">l&rsquo;Intelli&rsquo;Agence
-                        <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>(Association Bernard
-                    Gregory),<a href="http://www.adbu.fr" target="_blank"
-                        :title="$t('apropos.bud')">
+                        <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>(Association
+                    Bernard
+                    Gregory),<a href="http://www.adbu.fr" target="_blank" :title="$t('apropos.bud')">
                         l&rsquo;ADBU <v-icon :title="$t('externalLink')"
                             size="x-small">mdi-open-in-new</v-icon></a>(association
                     des directeurs de
@@ -231,8 +230,8 @@
 </template>
 
 <script setup>
-import { useDisplay } from "vuetify";
 import { ref } from "vue";
+import { useDisplay } from "vuetify";
 
 const { mobile } = useDisplay();
 const showMenu = ref(false);
@@ -248,13 +247,13 @@ useSeoMeta({
  * Fonctionnement du header mobile
  */
 function activateMenu() {
-  sleep(250).then(() => {
-    showMenu.value = !showMenu.value;
-  });
+    sleep(250).then(() => {
+        showMenu.value = !showMenu.value;
+    });
 }
 
 function sleep(ms) {
-  return new Promise((r) => setTimeout(r, ms));
+    return new Promise((r) => setTimeout(r, ms));
 }
 </script>
 
