@@ -299,6 +299,15 @@
     "personnalData": "Signaler des erreurs sur les données personnelles (droit de rectification)",
     "others": "Autre"
   },
+  "docUrl": {
+    "index": "https://documentation.abes.fr/aidethesesfr/index.html",
+    "api": "https://documentation.abes.fr/aidethesesfr/index.html#RecupererDonneesThesesFR",
+    "apiXML": "https://documentation.abes.fr/aidethesesfr/index.html#PrincipeAPI",
+    "search": "https://documentation.abes.fr/aidethesesfr/index.html#Rechercher",
+    "organismes": "https://documentation.abes.fr/aidethesesfr/index.html#PageOrganisme",
+    "personnes": "https://documentation.abes.fr/aidethesesfr/index.html#jai-une-question",
+    "formatTEF": "https://documentation.abes.fr/aidethesesfr/index.html#TEF"
+  },
   "footer": {
     "texte": "Le moteur de recherche theses.fr recense l’ensemble des thèses de doctorat soutenues en France depuis 1985, les sujets de thèse préparés au sein des établissements de l’enseignement supérieur français, et les personnes impliquées dans la recherche doctorale française. La base de données est en constante évolution.",
     "opendata": "theses.fr en Open Data",

@@ -57,8 +57,7 @@
       <p>Se pueden consultar los datos de <a href="https://theses.fr/" target="_blank">theses.fr</a> en el sitio web
         <a href="https://theses.fr/" target="_blank">www.theses.fr</a>
         mediante un motor de búsqueda y una navigación por aspectos.
-        Una <a href="https://documentation.abes.fr/aidethesesfr/index.html" target="_blank"
-          :title="$t('apropos.thesisDocumentation')">
+        Una <a :href="$t('docUrl.search')" target="_blank" :title="$t('apropos.thesisDocumentation')">
           guía de utilización del motor de búsqueda
           <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon></a>
         está a disposición de los usuarios. De conformidad con la política de apertura de datos de la Abes,
@@ -70,8 +69,7 @@
           a la licencia Etalab <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
         </a>
         . Están disponibles a través de una
-        <a href="https://documentation.abes.fr/aidethesesfr/index.html#RecupererDonneesThesesFR" target="_blank"
-          :title="$t('apropos.thesisAPIDocumentation')">
+        <a :href="$t('docUrl.apiXML')" target="_blank" :title="$t('apropos.thesisAPIDocumentation')">
           API XML <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
         </a>.
       </p>
