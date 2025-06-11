@@ -302,6 +302,15 @@
     "personnalData": "Reportar errores en los datos personales (derecho de rectificación)",
     "others": "Otro"
   },
+  "docUrl": {
+    "index": "https://documentation.abes.fr/aidethesesfr/ES/",
+    "api": "https://documentation.abes.fr/aidethesesfr/ES/#RecupererDonneesThesesFR",
+    "apiXML": "https://documentation.abes.fr/aidethesesfr/ES/#PrincipeAPI",
+    "search": "https://documentation.abes.fr/aidethesesfr/ES/#Rechercher",
+    "organismes": "https://documentation.abes.fr/aidethesesfr/ES/#PageOrganisme",
+    "personnes": "https://documentation.abes.fr/aidethesesfr/ES/#jai-une-question",
+    "formatTEF": "https://documentation.abes.fr/aidethesesfr/index.html#TEF"
+  },
   "footer": {
     "texte": "El motor de búsqueda theses.fr recoge todas las tesis doctorales defendidas en Francia desde 1985, los temas de las tesis elaboradas en las instituciones de enseñanza superior francesas y las personas implicadas en proyectos de investigación decotral franceses. La base de datos está en constante evolución.",
     "opendata": "theses.fr en Open Data",
