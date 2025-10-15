@@ -156,7 +156,8 @@
     "modalCancel": "Annuler",
     "others": "Autres versions",
     "metadonnees": "Métadonnées descriptives de la thèse",
-    "docOrganismes": "Document theses.fr sur les pages d'organismes"
+    "docOrganismes": "Document theses.fr sur les pages d'organismes",
+    "doi": "DOI"
   },
   "Laboratoire": "Laboratoire",
   "autre partenaire": "Autre partenaire",
