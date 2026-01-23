@@ -154,7 +154,8 @@
     "modalOk": "Validate",
     "modalCancel": "Cancel",
     "others": "Other versions",
-    "metadonnees": "Descriptive metadata of the thesis"
+    "metadonnees": "Descriptive metadata of the thesis",
+    "doi": "DOI"
   },
   "Laboratoire": "Laboratory",
   "Equipe de recherche": "Research team",
