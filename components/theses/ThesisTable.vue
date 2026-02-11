@@ -182,7 +182,7 @@
       <tr class="table-rows" v-if="these.doi">
         <td role="rowheader"><strong>{{ $t('theseView.doi') }}&nbsp;:{{ '\xa0' }}</strong></td>
         <td role="list" class="truncate">
-          <nuxt-link target="_blank" class="clickable lightblue" :to="these.doi" role="listitem">
+          <nuxt-link target="_blank" class="clickable lightblue" :to="doiUrl" role="listitem">
             {{ these.doi }}
           </nuxt-link>
         </td>
@@ -197,6 +197,14 @@ const props = defineProps({
     type: Object,
     required: true
   }
+});
+
+// Génère l'URL absolue pour le DOI
+const doiUrl = computed(() => {
+  if (!props.these.doi) return '#';
+  return props.these.doi.startsWith('http')
+    ? props.these.doi
+    : `https://doi.org/${props.these.doi}`;
 });
 
 const router = useRouter();
