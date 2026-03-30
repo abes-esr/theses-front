@@ -81,7 +81,7 @@
             </div>
             -->
             <div class="menu-text-element" role="listitem">
-              <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :alt='$t("header.assistance")'
+              <a href="https://assistance.stp.abes.fr/servicedesk/customer/portal/34/article/147357697" target="_blank" :alt='$t("header.assistance")'
                 :title='$t("header.assistance")'>
                 <img :alt="$t('header.assistance')" id="logo-assistance" class="logos-droite"
                   :src="'/icone-assistance-' + colorMode + '.svg'" />
