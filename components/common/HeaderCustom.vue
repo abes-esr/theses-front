@@ -24,7 +24,7 @@
         <v-btn tabindex="-1" title="Flux RSS" size="x-large" icon>
           <div class="icons"><icons-icon-rss></icons-icon-rss></div>
         </v-btn>-->
-        <a role="listitem" href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
+        <a role="listitem" href="https://assistance.stp.abes.fr/servicedesk/customer/portal/34/article/147357697" target="_blank"
           :alt='$t("header.assistance")'><v-btn tabindex="-1" :title='$t("header.assistance")' size="large" icon>
             <div class="icons"><img aria-hidden="true" :alt="$t('header.assistance')" id="logo-assistance"
                 class="logos-droite" :src="'/icone-assistance-' + colorMode + '.svg'" /></div>
