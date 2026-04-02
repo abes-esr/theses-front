@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-test-pubtodockerhub:
+  build-pubtodockerhub:
     runs-on: ubuntu-latest
     steps:
 
