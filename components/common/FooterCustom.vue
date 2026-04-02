@@ -59,7 +59,7 @@
             </div>
             <div class="list-item" role="listitem">
               <span class="first-column-bullet"><span class="orange-link">{{ ">\xa0" }}</span></span>
-              <span><a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
+              <span><a href="https://assistance.stp.abes.fr/servicedesk/customer/portal/34/article/147357697" target="_blank"
                   :title="$t('footer.accesAssistance')">{{
                     $t("footer.assistance") }}</a></span>
             </div>
