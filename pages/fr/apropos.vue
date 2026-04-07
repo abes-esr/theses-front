@@ -44,7 +44,7 @@
             <p>La base de donn&eacute;es theses.fr tend &agrave; r&eacute;f&eacute;rencer l&rsquo;ensemble des
                 th&egrave;ses de doctorat soutenues en France depuis 1985. Les lacunes peuvent &ecirc;tre
                 signal&eacute;es via <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
-                    :title="$t('apropos.abesSTP')">ABESstp, le
+                    :title="$t('apropos.abesSTP')"> le
                     guichet
                     d&rsquo;assistance en ligne de l&rsquo;Abes <v-icon :title="$t('externalLink')"
                         size="x-small">mdi-open-in-new</v-icon></a>.
