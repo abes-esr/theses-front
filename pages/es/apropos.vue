@@ -40,7 +40,7 @@
       </ul>
       <p>La base de datos theses.fr pretende catalogar todas las tesis doctorales defendidas en
         Francia desde 1985. Cualquier laguna puede comunicarse a través de <a
-          href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :title="$t('apropos.abesSTP')">ABESstp, el
+          href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank" :title="$t('apropos.abesSTP')"> el
           servicio de ayuda en línea de la Abes.
           <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
         </a>
