@@ -39,7 +39,7 @@
       </ul>
       <p>The theses.fr database aims to reference all doctoral theses defended in France since 1985.
         Any shortcomings can be reported via <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank"
-          :title="$t('apropos.abesSTP')">ABESstp, the Abes online helpdesk
+          :title="$t('apropos.abesSTP')"> the Abes online helpdesk
           <v-icon :title="$t('externalLink')" size="x-small">mdi-open-in-new</v-icon>
         </a>.
       </p>
