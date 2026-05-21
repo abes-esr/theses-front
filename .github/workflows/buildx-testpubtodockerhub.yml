@@ -1,10 +1,5 @@
 name: "buildx-testpubtodockerhub"
 
-# IMPORTANT : personnalisez cette variable pour que les images
-# de votre application soient pousées sur dockerhub
-# dans le repository ayant ce nom
-# exemple, si vous indiquez : abesesr/theses
-#   alors l'image sera poussée sur https://hub.docker.com/r/abesesr/theses
 env:
   DOCKERHUB_IMAGE_PREFIX: abesesr/theses
 
@@ -41,4 +36,5 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           push: ${{ github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/test' || github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/tags/')) }}
+          target: theses-front-image-run
           tags: ${{ steps.docker_tag_meta.outputs.tags }}-front
