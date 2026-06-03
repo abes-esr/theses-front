@@ -42,17 +42,8 @@ RUN chown node:node /app
 # Bascule sur l'utilisateur sécurisé (bonne pratique Docker)
 USER node
 
-# Installation propre des dépendances OTel (--no-save évite la création de fichiers annexes)
-RUN npm install --no-save \
-    @opentelemetry/sdk-node \
-    @opentelemetry/auto-instrumentations-node \
-    @opentelemetry/exporter-trace-otlp-http \
-    @opentelemetry/exporter-metrics-otlp-http \
-    @opentelemetry/exporter-logs-otlp-http
-
 # Récupération de l'output Nitro et de l'agent avec les bons droits
 COPY --chown=node:node --from=theses-front-image-build /app/.output ./.output
-COPY --chown=node:node --from=theses-front-image-build /app/instrumentation.mjs ./instrumentation.mjs
 
 EXPOSE $PORT
 
