@@ -167,12 +167,16 @@ sujets["langue"] = [
   }
 ]
 */
+/**
+ * Initialise et sépare les mots-clés selon leur type (Rameau ou libres)
+ */
 function setKeywords() {
   keywords.value = props.these.mapSujets;
 
   if (props.type === 'theses') {
     freeKeywords.value = selectKeyWords('sujet');
-    rameauKeywords.value = selectKeyWords('sujetsRameau');
+    // On inverse l'ordre des mots-clés Rameau pour l'affichage
+    rameauKeywords.value = selectKeyWords('sujetsRameau').reverse();
   } else {
     mixedKeywords.value = selectKeyWords();
   }
