@@ -48,4 +48,4 @@ COPY --chown=node:node --from=theses-front-image-build /app/.output ./.output
 EXPOSE $PORT
 
 # Démarrage
-CMD [ "node", "--import", "./instrumentation.mjs", "./.output/server/index.mjs" ]
+CMD [ "node", "./.output/server/index.mjs" ]
