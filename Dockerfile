@@ -1,26 +1,60 @@
 ARG NODE_VERSION=25.2.1
 ARG PORT=3000
 
-# Build
-FROM node:${NODE_VERSION}-slim as theses-front-image-build
-ENV NODE_ENV=production
-WORKDIR /src/
+# ==========================================
+# 1. Build Stage
+# ==========================================
+FROM node:${NODE_VERSION}-slim AS theses-front-image-build
+
+WORKDIR /app
+
+# Mise en cache optimale des dépendances
+COPY --link package.json package-lock.json ./
+# npm ci garantit une installation exacte et reproductible basée sur le package-lock
+RUN npm ci
+
+# Copie du reste des sources
+COPY --link . .
+
+# Fichier d'environnement par défaut pour permettre le build
 COPY ./docker/nuxt_env_placeholder .env
-# mise en cache docker des dépendances
-COPY --link package.json package-lock.json /src/
-RUN npm install --production=false
-# copie des sources et compilation
-COPY --link . /src/
+
+# Build de Nuxt (Nitro générera le dossier .output autonome)
 RUN npm run build
 
 
+# ==========================================
+# 2. Run Stage (Production)
+# ==========================================
+FROM node:${NODE_VERSION}-slim AS theses-front-image-run
 
-# Run
-FROM node:${NODE_VERSION}-slim as theses-front-image-run
+ARG PORT
 ENV PORT=$PORT
-ENV NODE_OPTIONS=--max-old-space-size=8192
-WORKDIR /src/
-COPY --from=theses-front-image-build /src/.output/ /src/.output/
-COPY --from=theses-front-image-build /src/instrumentation.mjs ./instrumentation.mjs
-CMD [ "node", "--import", "./instrumentation.mjs", "./.output/server/index.mjs" ]
+ENV HOST=0.0.0.0
+ENV NODE_ENV=production
+ENV NODE_OPTIONS="--max-old-space-size=8192"
+
+WORKDIR /app
+
+# Sécurité : On s'assure que l'utilisateur non-root "node" a les droits sur le dossier
+RUN chown node:node /app
+
+# Bascule sur l'utilisateur sécurisé (bonne pratique Docker)
+USER node
+
+# Installation propre des dépendances OTel (--no-save évite la création de fichiers annexes)
+RUN npm install --no-save \
+    @opentelemetry/sdk-node \
+    @opentelemetry/auto-instrumentations-node \
+    @opentelemetry/exporter-trace-otlp-http \
+    @opentelemetry/exporter-metrics-otlp-http \
+    @opentelemetry/exporter-logs-otlp-http
+
+# Récupération de l'output Nitro et de l'agent avec les bons droits
+COPY --chown=node:node --from=theses-front-image-build /app/.output ./.output
+COPY --chown=node:node --from=theses-front-image-build /app/instrumentation.mjs ./instrumentation.mjs
+
 EXPOSE $PORT
+
+# Démarrage
+CMD [ "node", "--import", "./instrumentation.mjs", "./.output/server/index.mjs" ]
