@@ -21,5 +21,6 @@ ENV PORT=$PORT
 ENV NODE_OPTIONS=--max-old-space-size=8192
 WORKDIR /src/
 COPY --from=theses-front-image-build /src/.output/ /src/.output/
-CMD [ "node", "/src/.output/server/index.mjs" ]
+COPY --from=theses-front-image-build /src/instrumentation.mjs ./instrumentation.mjs
+CMD [ "node", "--import", "./instrumentation.mjs", "./.output/server/index.mjs" ]
 EXPOSE $PORT
