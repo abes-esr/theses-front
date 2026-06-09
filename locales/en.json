@@ -149,6 +149,7 @@
     "confidentialite": "This thesis is confidential until ",
     "alertSign": "Triangle exclamation plein",
     "access": "Access to the thesis",
+    "accesMemoTooltip": "Learn more about access to theses",
     "modalContent": "<h1>Warning</h1><br />The author of the thesis has not authorised its free distribution on the Internet.<br /><br /> In accordance with the national regulations in force, defined, <ul><li> between 1st September 2006 and 1st September 2016, by the decrees of 7th August 2006<a href='https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000267752' target='_blank'> relating to doctoral training</a> and <a href='https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000635069' target='_blank'>relating to the procedures for filing, reporting, reproducing, distributing and conserving theses or works presented for defense with a view to a doctorate</a>, </li><li>from 1st September 2016, by <a href='https://www.legifrance.gouv.fr/loda/id/LEGIARTI000032588123' target='_blank'>the decree of 25th May 2016 establishing the national framework for training and the procedures leading to the award of the national doctoral diploma</a>, updated on 26th August 2022,</li></ul><br /><u><strong> The thesis may only be distributed within the French university community.</strong></u> If you are a member of the aforementioned university community (students, teachers, researchers, staff), you can access the document by lo ging in with the login and password you normally use at your home institution.<br /><br /> As this thesis is a work of the mind, and as such it is protected by the French Intellectual Property Code. The file(s) you are about to download as a member of the French university community <strong>may not be used outside the framework set by the right to private copying</strong><a href='https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000037388886/' target='_blank'>(article L122-5, 2°, du CPI)</a>. Any plagiarism or counterfeiting, as well as any unlawful reproduction or distribution outside a private context without prior authorisation from the author, is strictly prohibited and may result in criminal penalties of up to 3 years' imprisonment and a fine of €300,000.",
     "modalAgree": "I have read the national regulations and the conditions for use of the thesis.",
     "modalOk": "Validate",
@@ -303,6 +304,7 @@
     "others": "Other"
   },
   "docUrl": {
+    "memoAcces": "https://documentation.abes.fr/aidethesesfr/res/memo-acceder-aux-theses.pdf",
     "index": "https://documentation.abes.fr/aidethesesfr/EN/",
     "api": "https://documentation.abes.fr/aidethesesfr/EN/#RecupererDonneesThesesFR",
     "apiXML": "https://documentation.abes.fr/aidethesesfr/EN/#PrincipeAPI",
