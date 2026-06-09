@@ -2,15 +2,7 @@
   <MessageBox ref="messageBox"></MessageBox>
   <div class="buttons">
     <div class="buttons-header">
-      <div class="buttons-header-title-container">
-        <h2 class="buttons-header-title">{{ $t("theseView.access") }}</h2>
-        <!-- Bouton d'aide contextuelle (i) ouvrant le mémo court d'aide à l'accès dans un nouvel onglet -->
-        <v-btn class="info-button" :href="$t('docUrl.memoAcces')" target="_blank" flat
-               :title="$t('theseView.accesMemoTooltip')" :aria-label="$t('theseView.accesMemoTooltip')">
-          <v-icon size="22">mdi-information-outline</v-icon>
-          <span class="sr-only">{{ $t("theseView.accesMemoTooltip") }}</span>
-        </v-btn>
-      </div>
+      <h2 class="buttons-header-title">{{ $t("theseView.access") }}</h2>
       <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
         <div class="close-overlay-icon-wrapper">
           <div>
@@ -117,8 +109,20 @@
 <script setup>
 import { ref, defineAsyncComponent, toRaw } from "vue";
 import { useDisplay } from "vuetify";
+import { useColorMode } from '@vueuse/core';
 
 const { mobile } = useDisplay();
+
+/**
+ * Récupération dynamique du mode de couleur (thème) actuel (light, dark, inverted)
+ * pour charger l'icône d'aide contextuelle correspondante.
+ */
+const colorMode = useColorMode({
+  attribute: 'theme',
+  modes: {
+    inverted: 'inverted'
+  }
+});
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const messageBox = ref(null);
 
@@ -197,17 +201,6 @@ h4 {
   justify-content: space-between;
 }
 
-.buttons-header-title-container {
-  display: flex;
-  align-items: center;
-
-}
-
-.info-button {
-  min-width: unset;
-  padding: 0 8px;
-}
-
 .buttons-header-title {
   color: rgb(var(--v-theme-text-dark-blue));
   font-size: 22px;
@@ -226,7 +219,7 @@ h4 {
   display: inline-flex;
   align-items: center;
 
-  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     padding: unset;
     font-size: 16px;
   }
@@ -320,7 +313,7 @@ h4 {
   grid-column-start: 1;
   align-items: start;
 
-  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: unset;
   }
 }
@@ -335,7 +328,7 @@ h4 {
   padding: 0 10px;
   color: rgb(var(--v-theme-text-dark-blue));
 
-  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     width: 100%;
     font-size: 16px;
     padding: 0 10px;
@@ -358,7 +351,7 @@ h4 {
   font-family: Roboto-Regular, sans-serif;
   color: rgb(var(--v-text-dark-blue));
 
-  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: unset;
   }
 }
