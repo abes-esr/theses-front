@@ -4,11 +4,12 @@
     <div class="buttons-header">
       <div class="buttons-header-title-container">
         <h2 class="buttons-header-title">{{ $t("theseView.access") }}</h2>
-        <!-- Aide contextuelle (i) ouvrant le mémo court d'aide à l'accès dans un nouvel onglet -->
-        <a :href="$t('docUrl.memoAcces')" target="_blank" class="info-link"
-           :title="$t('theseView.accesMemoTooltip')" :aria-label="$t('theseView.accesMemoTooltip')">
-          <img class="info-icon" :src="'/icone-information-' + colorMode + '.svg'" :alt="$t('theseView.accesMemoTooltip')" />
-        </a>
+        <!-- Bouton d'aide contextuelle (i) ouvrant le mémo court d'aide à l'accès dans un nouvel onglet -->
+        <v-btn class="info-button" :href="$t('docUrl.memoAcces')" target="_blank" flat
+               :title="$t('theseView.accesMemoTooltip')" :aria-label="$t('theseView.accesMemoTooltip')">
+          <v-icon size="22">mdi-information-outline</v-icon>
+          <span class="sr-only">{{ $t("theseView.accesMemoTooltip") }}</span>
+        </v-btn>
       </div>
       <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
         <div class="close-overlay-icon-wrapper">
@@ -116,20 +117,8 @@
 <script setup>
 import { ref, defineAsyncComponent, toRaw } from "vue";
 import { useDisplay } from "vuetify";
-import { useColorMode } from '@vueuse/core';
 
 const { mobile } = useDisplay();
-
-/**
- * Récupération dynamique du mode de couleur (thème) actuel (light, dark, inverted)
- * pour charger l'icône d'aide contextuelle correspondante.
- */
-const colorMode = useColorMode({
-  attribute: 'theme',
-  modes: {
-    inverted: 'inverted'
-  }
-});
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const messageBox = ref(null);
 
@@ -210,26 +199,12 @@ h4 {
 .buttons-header-title-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%
+
 }
 
-.info-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-
-  &:hover {
-    transform: scale(1.1);
-    opacity: 0.85;
-  }
-}
-
-.info-icon {
-  height: 24px;
-  width: 24px;
-  display: block;
+.info-button {
+  min-width: unset;
+  padding: 0 8px;
 }
 
 .buttons-header-title {
