@@ -1,0 +1,26 @@
+<svg
+        width="74"
+        height="74"
+        viewBox="0 0 19.579165 19.579165"
+        version="1.1"
+        id="svg8181"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg">
+    <defs
+            id="defs8178"/>
+    <g
+            id="layer1"
+            transform="translate(-2.3359632,-2.1190252)">
+        <circle
+                style="fill:#ffffff;fill-opacity:1;stroke:none;"
+                id="path5842-5-2-4-5-6"
+                cx="12.125546"
+                cy="11.908608"
+                r="9.5249996"/>
+        <path
+                d="M256 118c23.2 0 42 18.8 42 42s-18.8 42-42 42-42-18.8-42-42 18.8-42 42-42zm56 254c0 6.6-5.4 12-12 12h-88c-6.6 0-12-5.4-12-12v-24c0-6.6 5.4-12 12-12h12v-64h-12c-6.6 0-12-5.4-12-12v-24c0-6.6 5.4-12 12-12h64c6.6 0 12 5.4 12 12v100h12c6.6 0 12 5.4 12 12v24z"
+                id="path2-2-7"
+                transform="translate(12.1255, 11.9086) scale(0.038407258) translate(-256, -256)"
+                style="fill:#252c61;fill-opacity:1;stroke:none"/>
+    </g>
+</svg>
