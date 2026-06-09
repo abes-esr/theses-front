@@ -2,7 +2,14 @@
   <MessageBox ref="messageBox"></MessageBox>
   <div class="buttons">
     <div class="buttons-header">
-      <h2 class="buttons-header-title">{{ $t("theseView.access") }}</h2>
+      <div class="buttons-header-title-container">
+        <h2 class="buttons-header-title">{{ $t("theseView.access") }}</h2>
+        <!-- Aide contextuelle (i) ouvrant le mémo court d'aide à l'accès dans un nouvel onglet -->
+        <a :href="$t('docUrl.memoAcces')" target="_blank" class="info-link"
+           :title="$t('theseView.accesMemoTooltip')" :aria-label="$t('theseView.accesMemoTooltip')">
+          <img class="info-icon" :src="'/icone-information-' + colorMode + '.svg'" :alt="$t('theseView.accesMemoTooltip')" />
+        </a>
+      </div>
       <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
         <div class="close-overlay-icon-wrapper">
           <div>
@@ -109,8 +116,20 @@
 <script setup>
 import { ref, defineAsyncComponent, toRaw } from "vue";
 import { useDisplay } from "vuetify";
+import { useColorMode } from '@vueuse/core';
 
 const { mobile } = useDisplay();
+
+/**
+ * Récupération dynamique du mode de couleur (thème) actuel (light, dark, inverted)
+ * pour charger l'icône d'aide contextuelle correspondante.
+ */
+const colorMode = useColorMode({
+  attribute: 'theme',
+  modes: {
+    inverted: 'inverted'
+  }
+});
 const MessageBox = defineAsyncComponent(() => import('@/components/common/MessageBox.vue'));
 const messageBox = ref(null);
 
@@ -186,6 +205,31 @@ h4 {
   margin: 0.5em 0.5em 0.5em;
   display: flex;
   justify-content: space-between;
+}
+
+.buttons-header-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%
+}
+
+.info-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    opacity: 0.85;
+  }
+}
+
+.info-icon {
+  height: 24px;
+  width: 24px;
+  display: block;
 }
 
 .buttons-header-title {
