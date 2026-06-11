@@ -1,18 +1,20 @@
 import { ref } from "vue";
 import { useReferentielFetch } from "./useReferentielFetch";
 
-const codesLangue = ref({});
+const codesLangue = ref([]);
 
 /**
  * Peuplement liste langues - un seul appel par instance
  * @returns {Promise<>}
  */
 function fetchCodeLangues() {
-  if(!codesLangue.value || Object.keys(codesLangue.value).length === 0) {
+  if(!codesLangue.value || Object.keys(codesLangue.value ?? {}).length === 0) {
     return useReferentielFetch("iso639-2B.json").then((res) => {
-        codesLangue.value = res.data.value;
-    });
-  }
+        codesLangue.value = res.data.value ?? [];
+      }).catch(() => {
+        codesLangue.value = [];
+      });
+    }
 }
 
 /**
@@ -60,17 +62,24 @@ function createLabels(facetsData) {
 }
 
 function getLabelFromCode(code) {
-  if (Object.keys(codesLangue.value).length > 0) {
+  if (Array.isArray(codesLangue.value) && codesLangue.value.length > 0) {
     let langueObj = codesLangue.value.find(o => o.codecourt === code);
     return langueObj ? capitalize(langueObj.label) : code;
-  } else {
-    return code;
   }
 }
 
 // Trier par ordre alphabétique
 function sortByLanguageName(data) {
+  // Gérer le cas où data est vide ou checkboxes n'existe pas
+  if (!data || !data.checkboxes || data.checkboxes.length === 0) {
+    return data;
+  }
+
   data.checkboxes.sort((a, b) => {
+    // Ne rien faire si a.label ou b.label n'existent pas
+    if (!a.label || !b.label) {
+      return 0;
+    }
     return a.label.localeCompare(b.label, "fr");
   });
 
