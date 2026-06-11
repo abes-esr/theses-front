@@ -16,9 +16,6 @@ RUN npm ci
 # Copie du reste des sources
 COPY --link . .
 
-# Fichier d'environnement par défaut pour permettre le build
-COPY ./docker/nuxt_env_placeholder .env
-
 ARG NUXT_APP_API
 ARG NUXT_APP_APIREF
 ARG NUXT_IS_MAINTENANCE
