@@ -19,6 +19,11 @@ COPY --link . .
 # Fichier d'environnement par défaut pour permettre le build
 COPY ./docker/nuxt_env_placeholder .env
 
+ARG NUXT_APP_API
+ARG NUXT_APP_APIREF
+ARG NUXT_IS_MAINTENANCE
+ARG NUXT_MAINTENANCE_MESSAGE
+
 # Build de Nuxt (Nitro générera le dossier .output autonome)
 RUN npm run build
 
@@ -33,6 +38,11 @@ ENV PORT=$PORT
 ENV HOST=0.0.0.0
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=8192"
+
+ENV NUXT_APP_API=$NUXT_APP_API
+ENV NUXT_APP_APIREF=$NUXT_APP_APIREF
+ENV NUXT_IS_MAINTENANCE=$NUXT_IS_MAINTENANCE
+ENV NUXT_MAINTENANCE_MESSAGE=$NUXT_MAINTENANCE_MESSAGE
 
 WORKDIR /app
 
