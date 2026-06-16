@@ -16,8 +16,6 @@ RUN npm ci
 # Copie du reste des sources
 COPY --link . .
 
-# Fichier d'environnement par défaut pour permettre le build
-COPY ./docker/nuxt_env_placeholder .env
 
 # Build de Nuxt (Nitro générera le dossier .output autonome)
 RUN npm run build
@@ -33,6 +31,7 @@ ENV PORT=$PORT
 ENV HOST=0.0.0.0
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=8192"
+
 
 WORKDIR /app
 

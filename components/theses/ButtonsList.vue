@@ -2,7 +2,15 @@
   <MessageBox ref="messageBox"></MessageBox>
   <div class="buttons">
     <div class="buttons-header">
-      <h2 class="buttons-header-title">{{ $t("theseView.access") }}</h2>
+      <div class="buttons-header-title-container">
+        <h2 class="buttons-header-title">{{ $t("theseView.access") }}</h2>
+        <!-- Bouton d'aide contextuelle (i) ouvrant le mémo court d'aide à l'accès dans un nouvel onglet -->
+        <v-btn class="info-button" :href="$t('docUrl.memoAcces')" target="_blank" flat
+               :title="$t('theseView.accesMemoTooltip')" :aria-label="$t('theseView.accesMemoTooltip')">
+          <v-icon size="22">mdi-information-outline</v-icon>
+          <span class="sr-only">{{ $t("theseView.accesMemoTooltip") }}</span>
+        </v-btn>
+      </div>
       <button v-if="mobile" @click="closeOverlay" class="close-icon" elevation="0" color="transparent">
         <div class="close-overlay-icon-wrapper">
           <div>
@@ -186,6 +194,17 @@ h4 {
   margin: 0.5em 0.5em 0.5em;
   display: flex;
   justify-content: space-between;
+}
+
+.buttons-header-title-container {
+  display: flex;
+  align-items: center;
+
+}
+
+.info-button {
+  min-width: unset;
+  padding: 0 8px;
 }
 
 .buttons-header-title {
