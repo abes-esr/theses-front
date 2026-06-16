@@ -20,12 +20,16 @@ export default defineNuxtConfig({
     vueI18n: './i18n.config.ts' // if you are using custom path, default 
   },
 
+  // Configuration accessible côté serveur et client (Runtime Config).
+  // Les valeurs par défaut ci-dessous sont surchargées dynamiquement au démarrage
+  // du conteneur par les variables d'environnement préfixées par NUXT_PUBLIC_
+  // (ex: NUXT_PUBLIC_API, NUXT_PUBLIC_API_REF, etc.).
   runtimeConfig: {
     public: {
-      API: process.env.NUXT_APP_API,
-      API_REF: process.env.NUXT_APP_APIREF,
-      IS_MAINTENANCE: process.env.NUXT_IS_MAINTENANCE,
-      MAINTENANCE_MESSAGE: process.env.NUXT_MAINTENANCE_MESSAGE
+      API: '',
+      API_REF: '',
+      IS_MAINTENANCE: 'false',
+      MAINTENANCE_MESSAGE: ''
     }
   },
 
