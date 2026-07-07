@@ -32,7 +32,6 @@ ENV HOST=0.0.0.0
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 
-
 WORKDIR /app
 
 # Sécurité : On s'assure que l'utilisateur non-root "node" a les droits sur le dossier
@@ -43,8 +42,9 @@ USER node
 
 # Récupération de l'output Nitro et de l'agent avec les bons droits
 COPY --chown=node:node --from=theses-front-image-build /app/.output ./.output
+COPY --chown=node:node --from=theses-front-image-build /app/instrumentation.mjs ./instrumentation.mjs
 
 EXPOSE $PORT
 
 # Démarrage
-CMD [ "node", "./.output/server/index.mjs" ]
+CMD [ "node", "--import", "./instrumentation.mjs", "./.output/server/index.mjs" ]
