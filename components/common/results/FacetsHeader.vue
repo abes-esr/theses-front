@@ -41,6 +41,7 @@ function closeOverlay() {
 </script>
 
 <style lang="scss" scoped>
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .search-filter {
@@ -54,7 +55,7 @@ function closeOverlay() {
   min-height: 4rem;
   font-size: 22px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     padding-left: 7%;
     padding-right: 2%;
     font-size: 16px;
@@ -107,7 +108,7 @@ function closeOverlay() {
   font-weight: 400;
   background-color: transparent !important;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     font-size: 10px;
     padding: 0 4px;
   }

@@ -12,6 +12,7 @@ const maintenanceMsg = config.public.MAINTENANCE_MESSAGE;
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 header {
@@ -23,7 +24,7 @@ h1 {
     padding-bottom: 20px;
     width: 80%;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
         font-size: 3rem;
     }
 }
@@ -34,7 +35,7 @@ h1 {
 }
 
 .maintenance-text {
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
         font-size: 1.3rem;
     }
 }

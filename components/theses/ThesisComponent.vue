@@ -131,6 +131,7 @@ watchEffect(() => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .thesis-component-container {
@@ -143,7 +144,7 @@ watchEffect(() => {
   grid-template-rows: 1fr auto;
   grid-template-columns: 25fr 2fr 75fr;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     display: flex;
     flex-direction: column;
   }

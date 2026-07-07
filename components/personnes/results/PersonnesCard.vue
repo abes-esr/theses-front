@@ -103,6 +103,7 @@ const linkId = computed(() => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 a {
@@ -119,7 +120,7 @@ a {
   padding-right: 20px;
   padding-bottom: 10px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-rows: auto auto auto;
     padding-left: 10px;
     padding-right: 10px;
@@ -136,7 +137,7 @@ a {
   margin-top: -5px;
   line-height: 1.3;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-column-start: 1;
     grid-column-end: 3;
   }
@@ -159,7 +160,7 @@ a {
   img {
     max-height: 45px;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       max-height: 30px !important;
       max-width: 30px !important;
     }
@@ -173,7 +174,7 @@ a {
   grid-row-start: 3;
   grid-row-end: 4;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     font-size: 0.9em;
   }
 }
@@ -185,7 +186,7 @@ a {
   font-weight: 500;
   color: rgb(var(--v-theme-secondary-darken-2));
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     font-size: 0.8em;
     grid-column-start: 1;
     grid-column-end: 4;
