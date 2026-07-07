@@ -16,9 +16,11 @@ RUN npm ci
 # Copie du reste des sources
 COPY --link . .
 
-
 # Build de Nuxt (Nitro générera le dossier .output autonome)
 RUN npm run build
+
+# Supprime les devDependencies pour n'avoir que les dépendances de production dans node_modules
+RUN npm prune --omit=dev
 
 
 # ==========================================
@@ -40,8 +42,9 @@ RUN chown node:node /app
 # Bascule sur l'utilisateur sécurisé (bonne pratique Docker)
 USER node
 
-# Récupération de l'output Nitro et de l'agent avec les bons droits
+# Récupération de l'output Nitro, des dépendances de production et de l'agent avec les bons droits
 COPY --chown=node:node --from=theses-front-image-build /app/.output ./.output
+COPY --chown=node:node --from=theses-front-image-build /app/node_modules ./node_modules
 COPY --chown=node:node --from=theses-front-image-build /app/instrumentation.mjs ./instrumentation.mjs
 
 EXPOSE $PORT

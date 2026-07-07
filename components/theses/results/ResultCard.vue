@@ -125,6 +125,7 @@ const route = useRoute();
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .card-container {
@@ -157,7 +158,7 @@ const route = useRoute();
   font-weight: 500;
   line-height: 1.4rem;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 1;
@@ -180,7 +181,7 @@ const route = useRoute();
   flex-wrap: nowrap;
   font-size: 18px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     flex-wrap: wrap;
     flex-direction: column;
     font-size: 15px;
@@ -189,7 +190,7 @@ const route = useRoute();
 }
 
 .date-spacer {
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     flex-grow: 4;
   }
 }
