@@ -29,5 +29,15 @@
     "@vueuse/core": "^10.11.1",
     "qs": "^6.15.3",
     "tarteaucitronjs": "^1.34.0"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.1": true,
+    "@parcel/watcher@2.5.6": true,
+    "vue-demi@0.14.10": true,
+    "protobufjs@7.6.5": true
+  },
+  "overrides": {
+    "brace-expansion": "^5.0.8"
   }
 }
