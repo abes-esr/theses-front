@@ -11,9 +11,9 @@
         v-if="!mobile && ((categoriesValide.length > 0 || boutonsAutres.length > 0) || (soutenue && these.status === 'enCours'))"
         class="access-buttons">
         <!-- Menu boutons-liens desktop-->
-        <ThesesButtonsList :categories-valide="categoriesValide" :status="these.status" :source="these.source"
+        <LazyThesesButtonsList :categories-valide="categoriesValide" :status="these.status" :source="these.source"
           :boutons-autres="boutonsAutres" :soutenue="soutenue" :date-soutenance="these.dateSoutenance">
-        </ThesesButtonsList>
+        </LazyThesesButtonsList>
       </div>
 
       <div class="thesis-info-wrapper">
@@ -131,6 +131,7 @@ watchEffect(() => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .thesis-component-container {
@@ -143,7 +144,7 @@ watchEffect(() => {
   grid-template-rows: 1fr auto;
   grid-template-columns: 25fr 2fr 75fr;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     display: flex;
     flex-direction: column;
   }

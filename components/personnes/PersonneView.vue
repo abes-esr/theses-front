@@ -300,6 +300,7 @@ function sleep(ms) {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .mobile-nav-bar {
@@ -331,7 +332,7 @@ function sleep(ms) {
   display: flex;
   justify-content: space-between;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
     border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
   }
 }
@@ -340,7 +341,7 @@ function sleep(ms) {
   align-items: flex-start;
   justify-content: flex-start;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
     border-right: 3px solid rgb(var(--v-theme-text-dark-blue));
   }
 
@@ -367,7 +368,7 @@ function sleep(ms) {
   margin-top: 0 !important;
   width: 100%;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     display: flex;
     padding: unset;
     margin-top: 0 !important;
@@ -381,7 +382,7 @@ function sleep(ms) {
     display: flex;
     flex-direction: column;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       width: 100%;
       padding: 0 0.5em;
     }
@@ -450,7 +451,7 @@ function sleep(ms) {
       }
 
       :deep(.v-expansion-panel-text__wrapper) {
-        @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+        @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
           padding-left: 5px;
           padding-right: 5px;
         }

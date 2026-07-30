@@ -249,6 +249,7 @@ watch(() => props.resetTextFields,
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .v-expansion-panel {
@@ -337,7 +338,7 @@ watch(() => props.resetTextFields,
 .date-container {
   display: flex;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     flex-direction: column;
   }
 }
@@ -346,7 +347,7 @@ watch(() => props.resetTextFields,
   flex: 1;
   padding-right: 5px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     padding: 0 0;
     display: grid;
     grid-template-columns: 1fr 5fr;
@@ -355,7 +356,7 @@ watch(() => props.resetTextFields,
   }
 
   p {
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
       text-align: center;
     }
   }

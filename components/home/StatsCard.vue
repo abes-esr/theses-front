@@ -1,6 +1,6 @@
 <template>
     <v-card flat>
-      <h2 :id="icon + '-heading'" class="sr-only">{{ $t('explorer') + ' ' + titre.toLocaleString() + ' ' + description }}</h2>
+      <h2 :id="icon + '-heading'" class="sr-only">{{ $t('explorer') + ' ' + (titre != null ? titre.toLocaleString() : '') + ' ' + description }}</h2>
       <div :aria-labelledby="icon + '-heading'" tabindex="-1">
         <a :href="url" style="text-decoration: none;" :title="info">
             <ClientOnly>
@@ -12,7 +12,7 @@
                 </div>
             </ClientOnly>
             <v-card-title class="d-flex justify-center pb-1">
-                <span class="thesis-number" v-if="titre !== 0"> {{ titre.toLocaleString() }} </span>
+                <span class="thesis-number" v-if="titre != null && titre !== 0"> {{ titre.toLocaleString() }} </span>
                 <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
             </v-card-title>
             <v-card-subtitle class="d-flex justify-center">{{ description }}</v-card-subtitle>

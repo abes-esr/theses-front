@@ -334,6 +334,7 @@ watch(dateTo, () => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .form-row {
@@ -342,13 +343,18 @@ watch(dateTo, () => {
   gap: 10px;
   margin-bottom: 10px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     grid-template-columns: 4fr 1fr;
   }
 }
 
 .type {
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  color: rgb(var(--v-theme-primary));
+  font-weight: 600 !important;
+  max-width: 300px;
+  margin-top: 0.35em;
+
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     grid-row-start: 1;
     grid-row-end: 2;
     grid-column-start: 1;
@@ -356,14 +362,9 @@ watch(dateTo, () => {
     width: fit-content;
   }
 
-  @media #{ map-get(settings.$display-breakpoints, 'lg-and-up')} {
+  @media #{ map.get(settings.$display-breakpoints, 'lg-and-up')} {
     border-bottom: 1px solid rgb(var(--v-theme-secondary-darken-2));
   }
-
-  color: rgb(var(--v-theme-primary));
-  font-weight: 600 !important;
-  max-width: 300px;
-  margin-top: 0.35em;
 }
 
 .type :deep(.v-select) {
@@ -371,7 +372,7 @@ watch(dateTo, () => {
 }
 
 .text {
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     grid-row-start: 2;
     grid-row-end: 3;
     grid-column-start: 1;
@@ -384,7 +385,7 @@ watch(dateTo, () => {
   display: flex;
   justify-content: center;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     grid-row-start: 2;
     grid-row-end: 3;
     grid-column-start: 2;
@@ -406,7 +407,7 @@ hr {
   margin: 0 6%;
 
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     display: unset;
     grid-row-start: 3;
     grid-row-end: 1;
@@ -432,7 +433,7 @@ hr {
   padding-top: 20px;
   justify-content: flex-end;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     justify-content: center;
   }
 }
@@ -446,7 +447,7 @@ hr {
   display: flex;
   flex-direction: row;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     width: 100%;
     padding-top: 5px;
 
@@ -487,7 +488,7 @@ hr {
   align-items: center;
   justify-content: flex-end;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     margin-bottom: 20px;
   }
 }
