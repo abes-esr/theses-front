@@ -13,7 +13,7 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/i18n": "^8.0.0",
-    "nuxt": "^3.9.1",
+    "nuxt": "^3.21.11",
     "sass": "^1.68.0",
     "vite-plugin-vuetify": "^1.0.2",
     "vuetify": "3.7.14"
