@@ -26,7 +26,7 @@
   <div class="main-wrapper">
     <div class="result-components white-containers">
       <div class="toolbar-container">
-        <CommonToolbar personne />
+        <CommonToolbar :personne="item" />
       </div>
       <!--   Skeletton-->
       <ClientOnly>

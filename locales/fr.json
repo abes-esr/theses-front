@@ -308,7 +308,7 @@
     "apiXML": "https://documentation.abes.fr/aidethesesfr/index.html#PrincipeAPI",
     "search": "https://documentation.abes.fr/aidethesesfr/index.html#Rechercher",
     "organismes": "https://documentation.abes.fr/aidethesesfr/index.html#PageOrganisme",
-    "personnes": "https://documentation.abes.fr/aidethesesfr/index.html#jai-une-question",
+    "personnes": "https://www.idref.fr/assistance.jsp?ppn={ppn}&titre={titre}",
     "formatTEF": "https://documentation.abes.fr/aidethesesfr/index.html#TEF"
   },
   "footer": {
