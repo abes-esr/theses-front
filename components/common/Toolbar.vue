@@ -34,7 +34,7 @@
           </v-btn>
         </div>
         <!--        Fin signaler-->
-        <v-btn v-if="personne" :href="$t('docUrl.personnes')" :alt="$t('footer.accessDoc')" target="_blank"
+        <v-btn v-if="personne"  :href="$t('docUrl.personnes', { ppn: personne.id, titre: personne.nom + ' ' + personne.prenom })" :alt="$t('footer.accessDoc')" target="_blank"
           variant="outlined" flat append-icon="mdi-alert-circle" role="listitem">
           {{ $t("theseView.alert") }}
         </v-btn>
@@ -111,8 +111,8 @@ const props = defineProps({
     default: false
   },
   personne: {
-    type: Boolean,
-    default: false
+    type: Object,
+    default: null
   }
 });
 
