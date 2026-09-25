@@ -244,6 +244,7 @@ function sleep(ms) {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 article {
@@ -281,7 +282,7 @@ h4 {
 #logoIMG {
   margin-top: 10px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     margin-top: 20px;
   }
 }

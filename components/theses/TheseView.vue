@@ -186,6 +186,7 @@ function sleep(ms) {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .filter-mobile-nav-bar {
@@ -231,7 +232,7 @@ function sleep(ms) {
   width: 100%;
   margin-top: 0 !important;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: 100%;
     padding: 8px 0;
     margin-top: 0 !important;
@@ -246,7 +247,7 @@ function sleep(ms) {
     padding-bottom: 5px;
 
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       grid-column-start: 1;
       grid-column-end: 3;
     }

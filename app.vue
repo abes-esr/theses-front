@@ -101,6 +101,7 @@ watch(justification, (newValue) => {
 </script>
 
 <style lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .v-application__wrap {
@@ -141,7 +142,7 @@ main {
     margin: 0 0 30px;
     border-bottom: solid 1px rgb(var(--v-theme-gris-clair));
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       margin: 0 0 30px;
     }
   }
@@ -167,7 +168,7 @@ main {
     img {
       height: 70px;
 
-      @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+      @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
         height: 130px;
       }
     }
@@ -176,7 +177,7 @@ main {
   .logo_home {
     margin-top: -45px;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
       margin-top: -75px;
       align-self: center;
     }
@@ -240,7 +241,7 @@ main {
   min-height: 4rem;
   font-size: 22px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     padding-left: 7%;
     padding-right: 2%;
     font-size: 20px;
@@ -341,7 +342,7 @@ h4 {
   left: 94vw;
   margin: -60px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     left: 88vw;
   }
 }
@@ -410,7 +411,7 @@ h4 {
   display: flex;
   align-items: center;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
     flex: 1 0 60%;
   }
 
@@ -484,7 +485,7 @@ h4 {
 }
 
 .domain-selector {
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
     .v-btn__content {
       flex-direction: row !important;
     }
@@ -532,7 +533,7 @@ h4 {
 }
 
 .toolbar-container {
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     order: 10;
   }
 }

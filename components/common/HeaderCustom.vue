@@ -147,6 +147,7 @@ watch(() => selectedThemeSwitch.value, () => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 header {
@@ -155,11 +156,11 @@ header {
   padding-top: 10px;
   margin-bottom: 10px;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
     height: 80px;
   }
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
     border-bottom: 2px solid rgb(var(--v-theme-gris-fonce));
   }
 
@@ -169,7 +170,7 @@ header {
     display: grid;
     min-height: 80px;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
@@ -189,7 +190,7 @@ header {
   grid-template-columns: 1fr 20px 3fr;
   margin: 0 30px 0;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     grid-template-columns: 2fr 3fr 2fr;
   }
 }
@@ -200,7 +201,7 @@ header {
   align-self: center;
   display: inline-flex;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: 2;
 
     .v-btn {
@@ -226,7 +227,7 @@ header {
   align-self: center;
   //filter: invert(42%) sepia(93%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%);
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: 1;
     justify-self: left;
   }
