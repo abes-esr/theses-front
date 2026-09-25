@@ -17,7 +17,10 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
 
   i18n: {
-    vueI18n: './i18n.config.ts' // if you are using custom path, default 
+    restructureDir: false, // Désactive la restructuration forcée pour chercher les fichiers de configuration à la racine
+    bundle: {
+      optimizeTranslationDirective: false // Désactive l'optimisation de la directive pour supprimer le warning (sera supprimé en v10)
+    }
   },
 
   // Configuration accessible côté serveur et client (Runtime Config).
