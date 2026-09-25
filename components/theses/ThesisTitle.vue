@@ -74,6 +74,7 @@ function onUpdateLangue(langue) {
 </script>
 
 <style lang="scss" scoped>
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .title-wrapper {
@@ -94,7 +95,7 @@ function onUpdateLangue(langue) {
   display: flex;
   grid-column-start: 2;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     flex-direction: column;
   }
 
@@ -107,7 +108,7 @@ function onUpdateLangue(langue) {
     line-height: 1.2;
     align-self: end;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       font-size: 21px;
       margin-top: 0.3em;
     }

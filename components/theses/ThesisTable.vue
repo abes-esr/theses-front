@@ -246,6 +246,7 @@ function groupBy(xs, key) {
 </script>
 
 <style lang="scss" scoped>
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .orange {
@@ -277,14 +278,14 @@ function groupBy(xs, key) {
   border-bottom: 1px solid rgb(var(--v-theme-gris-fonce));
   color: rgb(var(--v-theme-text-dark-blue));
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     display: block;
     hyphens: auto;
   }
 }
 
 #president {
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     display: block;
   }
 }

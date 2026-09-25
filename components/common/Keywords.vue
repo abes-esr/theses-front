@@ -245,6 +245,7 @@ watch(mobile, (newValue) => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use '../../node_modules/vuetify/settings';
 
 .chip-lines :deep(.v-chip--disabled) {
@@ -340,7 +341,7 @@ h3 {
     text-overflow: ellipsis;
   }
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     max-width: 90vw;
   }
 }
@@ -373,7 +374,7 @@ h3 {
   display: flex;
   justify-content: flex-end;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     flex-direction: column;
     align-items: end;
     max-width: 90vw;

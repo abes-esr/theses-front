@@ -237,6 +237,7 @@ defineExpose({
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .v-virtual-scroll__spacer,
@@ -250,7 +251,7 @@ defineExpose({
   flex: 0 0 auto;
 
   :deep(.searchbar__input) {
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       padding-bottom: 10px;
     }
   }
@@ -271,14 +272,14 @@ defineExpose({
   flex: 1 0 100%;
   margin-bottom: 1rem;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
     justify-content: space-between;
   }
 
   .v-input {
     display: none;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
       display: flex;
       flex: 0 0 auto;
     }
@@ -371,6 +372,7 @@ defineExpose({
 </style>
 
 <style lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .autocompl {

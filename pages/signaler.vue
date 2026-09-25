@@ -212,6 +212,7 @@ function sleep(ms) {
 </script>
 
 <style lang="scss" scoped>
+@use 'sass:map';
 @use '../node_modules/vuetify/settings';
 
 .info-msg {
@@ -229,7 +230,7 @@ function sleep(ms) {
 }
 
 .first-item {
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
         padding-right: 2rem !important;
     }
 }
@@ -237,7 +238,7 @@ function sleep(ms) {
 .item {
     flex: 1 1 50%;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
         flex-basis: 100%;
     }
 }
@@ -245,7 +246,7 @@ function sleep(ms) {
 .shortened {
     width: 66%;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
         width: 100%;
     }
 }
@@ -253,7 +254,7 @@ function sleep(ms) {
 .half {
     width: 50%;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
         width: 100%;
     }
 }
@@ -290,7 +291,7 @@ function sleep(ms) {
   height: 100%;
   width: 80%;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     margin-top: 1em;
     margin-bottom: 1em;
     padding-bottom: 0;
