@@ -1,4 +1,4 @@
-ARG NODE_VERSION=25.2.1
+ARG NODE_VERSION=26
 ARG PORT=3000
 
 # ==========================================
@@ -10,6 +10,10 @@ WORKDIR /app
 
 # Mise en cache optimale des dépendances
 COPY --link package.json package-lock.json ./
+
+# Upgrade de npm
+RUN npm install -g npm@latest
+
 # npm ci garantit une installation exacte et reproductible basée sur le package-lock
 RUN npm ci
 
