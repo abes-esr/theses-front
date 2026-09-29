@@ -24,6 +24,7 @@ defineProps({
 
 </script>
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 ul {
@@ -40,7 +41,7 @@ ul {
     margin: 0.2rem 0 0.2rem 0;
     font-size: 18px;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
       font-size: 22px;
     }
 

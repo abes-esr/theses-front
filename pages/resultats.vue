@@ -285,6 +285,7 @@ const rssReq = computed(() => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .grey-bar {
@@ -306,7 +307,7 @@ const rssReq = computed(() => {
   flex-direction: column;
   flex: 1 0 100%;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     max-width: 100%;
     flex: 0 1 auto;
     padding: 0;
@@ -321,7 +322,7 @@ const rssReq = computed(() => {
   margin-top: 0;
   width: 100%;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     grid-template-columns: 100%;
   }
 
@@ -332,7 +333,7 @@ const rssReq = computed(() => {
     flex-direction: column;
     padding-bottom: 5px;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       grid-column-start: 1;
       margin-bottom: 5em;
     }

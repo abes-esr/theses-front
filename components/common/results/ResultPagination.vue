@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref, watch, computed, onMounted } from "vue";
-import { scrollToTop } from "../../services/Common";
+import { scrollToTop } from "@/services/Common";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
 

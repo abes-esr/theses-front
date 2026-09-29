@@ -60,13 +60,14 @@
 
 
 <script setup>
+import { replaceAndEscape } from "@/services/Common";
 import { useDisplay } from "vuetify";
 import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 
 const currentRoute = useRoute();
 const router = useRouter();
 const { mobile } = useDisplay();
-import { replaceAndEscape } from "../services/Common";
+
 const { setShowingNumber, getFacetsRequest } = useStrategyAPI();
 const emit = defineEmits(['reinitializePageNumber']);
 const { t } = useI18n();

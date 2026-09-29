@@ -65,6 +65,7 @@ watch(() => currentRoute.path, () => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .domain-selector {
@@ -95,7 +96,7 @@ watch(() => currentRoute.path, () => {
           font-size: 14px;
           line-height: 48px;
 
-          @media #{ map-get(settings.$display-breakpoints, 'lg-and-up')} {
+          @media #{ map.get(settings.$display-breakpoints, 'lg-and-up')} {
             font-size: 18px;
             line-height: 64px;
           }
@@ -110,7 +111,7 @@ watch(() => currentRoute.path, () => {
     border-width: 0 2px 0 0;
     margin: 0 2rem 0 2rem;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
       margin-top: 1em;
     }
   }

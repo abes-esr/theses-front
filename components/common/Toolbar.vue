@@ -129,6 +129,7 @@ function previousPage() {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .no-wrap-text {
@@ -148,7 +149,7 @@ function previousPage() {
 
   justify-content: space-between;
 
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     justify-content: end;
   }
 
