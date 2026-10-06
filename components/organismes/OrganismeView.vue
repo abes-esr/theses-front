@@ -251,6 +251,7 @@ function sleep(ms) {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .v-menu ::v-deep(.v-overlay__content) {
@@ -272,7 +273,7 @@ function sleep(ms) {
     align-items: start;
     width: 100%;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
         display: flex;
         padding: unset;
         padding-top: 0;
@@ -286,7 +287,7 @@ function sleep(ms) {
         display: flex;
         flex-direction: column;
 
-        @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+        @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
             width: 100%;
             padding: 0 0.5em;
         }
@@ -295,7 +296,7 @@ function sleep(ms) {
             display: flex;
             align-content: center;
 
-            @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+            @media #{ map.get(settings.$display-breakpoints, 'sm-and-up')} {
                 justify-content: flex-start;
             }
 
@@ -361,7 +362,7 @@ function sleep(ms) {
             }
 
             :deep(.v-expansion-panel-text__wrapper) {
-                @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+                @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
                     padding-left: 5px;
                     padding-right: 5px;
                 }

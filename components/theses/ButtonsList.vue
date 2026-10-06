@@ -177,6 +177,7 @@ function closeOverlay() {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use "vuetify/settings";
 
 h4 {
@@ -225,7 +226,7 @@ h4 {
   display: inline-flex;
   align-items: center;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     padding: unset;
     font-size: 16px;
   }
@@ -319,7 +320,7 @@ h4 {
   grid-column-start: 1;
   align-items: start;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: unset;
   }
 }
@@ -334,7 +335,7 @@ h4 {
   padding: 0 10px;
   color: rgb(var(--v-theme-text-dark-blue));
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     width: 100%;
     font-size: 16px;
     padding: 0 10px;
@@ -357,7 +358,7 @@ h4 {
   font-family: Roboto-Regular, sans-serif;
   color: rgb(var(--v-text-dark-blue));
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     grid-column-start: unset;
   }
 }

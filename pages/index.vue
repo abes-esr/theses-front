@@ -89,6 +89,7 @@ function sleep(ms) {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 //Container pour afficher l'image de fond
@@ -105,7 +106,7 @@ function sleep(ms) {
 #logoIMG {
     margin-top: 10px;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
         margin-top: 20px;
     }
 }
@@ -113,7 +114,7 @@ function sleep(ms) {
 .main-wrapper {
     width: 90vw;
 
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
         width: 50vw;
     }
 
@@ -124,7 +125,7 @@ function sleep(ms) {
         line-height: 28px;
         margin-top: -20px;
 
-        @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+        @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
             font-size: 38px;
             line-height: 40px;
             margin-top: -10px;
@@ -143,7 +144,7 @@ function sleep(ms) {
         width: 100%;
         padding: 40px 0 10px;
 
-        @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+        @media #{ map.get(settings.$display-breakpoints, 'sm-and-up')} {
             max-height: 500px;
             flex-direction: row;
         }
@@ -153,7 +154,7 @@ function sleep(ms) {
             margin-top: 55px;
         }
 
-        @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+        @media #{ map.get(settings.$display-breakpoints, 'sm-and-up')} {
             .v-card {
                 flex: 1 0 30%;
                 max-width: 30%;

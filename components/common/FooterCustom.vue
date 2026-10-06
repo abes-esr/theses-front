@@ -112,6 +112,7 @@
 </template>
 
 <style scoped lang="scss">
+@use 'sass:map';
 @use 'vuetify/settings';
 
 .v-footer {
@@ -124,15 +125,14 @@
   .footer-top {
     display: grid;
     grid-template-columns: 45fr 0.5fr 45fr 0.5fr 15fr;
+    width: 90%;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       display: flex;
       flex-direction: column;
     }
 
-    width: 90%;
-
-    @media #{ map-get(settings.$display-breakpoints, 'md-and-up')} {
+    @media #{ map.get(settings.$display-breakpoints, 'md-and-up')} {
       flex: 0 0 70%;
       flex-direction: row;
       width: 97%;
@@ -151,7 +151,7 @@
           a {
             color: rgb(var(--v-theme-primary));
 
-            @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+            @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
               line-height: 1.8rem;
             }
           }
@@ -178,7 +178,7 @@
     justify-content: center;
 
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       justify-content: flex-start;
     }
 
@@ -206,7 +206,7 @@
       max-width: 90%;
     }
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-up')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-up')} {
       .colonne1 {
         min-width: 250px;
         max-width: 250px;
@@ -245,19 +245,19 @@
     flex-direction: row;
     justify-content: flex-end;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       justify-content: space-around;
     }
 
 
     a {
+      padding-left: 40px;
+
       img {
         height: 6em;
       }
 
-      padding-left: 40px;
-
-      @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+      @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
         padding-left: unset;
       }
     }
@@ -273,7 +273,7 @@
 
     border-top: rgb(var(--v-theme-gris-clair)) solid 1px;
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       display: flex;
       flex-direction: column;
     }
@@ -285,7 +285,7 @@
       letter-spacing: unset;
     }
 
-    @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+    @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
       max-height: unset;
 
       .v-btn {
@@ -348,13 +348,13 @@ footer {
   display: flex;
   align-items: center;
 
-  @media #{ map-get(settings.$display-breakpoints, 'md-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'md-and-down')} {
     justify-content: center;
   }
 }
 
 .mobileHide {
-  @media #{ map-get(settings.$display-breakpoints, 'sm-and-down')} {
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     display: none !important;
   }
 }
