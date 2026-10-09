@@ -12,6 +12,30 @@
 <script setup>
 import { ref, watch } from "vue";
 
+/**
+ * Middleware de redirection pour les sujets de thèse (ex: s123456) :
+ * Si le sujet a été soutenu et dispose désormais d'un NNT, on effectue
+ * une redirection HTTP 301 côté serveur directement vers l'URL de la thèse.
+ */
+definePageMeta({
+    middleware: [
+        async (to) => {
+            const id = to.params.id;
+            if (id) {
+                const config = useRuntimeConfig();
+                try {
+                    const nnt = await $fetch(`theses/checkNNT/${id}`, { baseURL: config.public.API });
+                    if (nnt && nnt !== id) {
+                        return navigateTo(`/${nnt}`, { redirectCode: 301, replace: true });
+                    }
+                } catch (e) {
+                    throw createError({ statusCode: 500, statusMessage: 'Internal Server Error' })
+                }
+            }
+        }
+    ]
+});
+
 const route = useRoute();
 const { getName } = useOrganismeAPI();
 const id = ref("");

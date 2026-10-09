@@ -59,7 +59,7 @@ import { useDisplay } from "vuetify";
 const MessageBox = defineAsyncComponent(() => import('../common/MessageBox.vue'));
 
 const { mobile } = useDisplay();
-const { getThese, getButtons, getNNTifExists } = useThesesAPI();
+const { getThese, getButtons } = useThesesAPI();
 const dialogVisible = ref(false);
 const showMenu = ref(false);
 const showSearchBar = ref(false);
@@ -83,11 +83,6 @@ if (!isServer) {
   window.addEventListener('scroll', () => { hasScrolled.value = true; });
 }
 
-getNNTifExists(props.id).then(result => {
-  if (result.data.value) {
-    return navigateTo("/" + result.data.value, { replace: true });
-  }
-})
 
 getThese(props.id).then(result => {
 
