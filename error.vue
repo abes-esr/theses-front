@@ -19,8 +19,8 @@ const handleError = () => clearError({ redirect: '/' })
                     instants.
                     Si le problème persiste, vous
                     pouvez contacter le guichet
-                    d'assistance de l'Abes : <a href="https://stp.abes.fr/node/3?origine=thesesFr"
-                        target="_blank">https://stp.abes.fr/node/3?origine=thesesFr</a>.</strong>
+                    d'assistance de l'Abes : <a href="https://assistance.stp.abes.fr/servicedesk/customer/portal/34"
+                        target="_blank">https://assistance.stp.abes.fr/servicedesk/customer/portal/34</a>.</strong>
                 <br /><br />
                 Vous pouvez joindre les informations suivantes à votre demande d'assistance :
                 <br /><br />

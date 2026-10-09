@@ -49,7 +49,7 @@
         <div class="captcha-info">
           <span>
             {{ $t("reportErrorView.informationLegale1") + '\xa0' }}
-            <a href="https://stp.abes.fr/node/3?origine=thesesFr" target="_blank">{{ $t("reportErrorView.informationLegale2") }}</a>
+            <a href="https://assistance.stp.abes.fr/servicedesk/customer/portal/34/article/147357697" target="_blank">{{ $t("reportErrorView.informationLegale2") }}</a>
             {{ '\xa0' + $t("reportErrorView.informationLegale3") }}
             <IconsIconTarteaucitron></IconsIconTarteaucitron>
             {{ $t("reportErrorView.informationLegale4") }}

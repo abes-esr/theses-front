@@ -21,15 +21,15 @@ definePageMeta({
     middleware: [
         async (to) => {
             const id = to.params.id;
-            if (/^s\d+$/.test(id)) {
+            if (id) {
                 const config = useRuntimeConfig();
                 try {
                     const nnt = await $fetch(`theses/checkNNT/${id}`, { baseURL: config.public.API });
-                    if (nnt) {
+                    if (nnt && nnt !== id) {
                         return navigateTo(`/${nnt}`, { redirectCode: 301, replace: true });
                     }
-                } catch {
-                    // En cas d'erreur de l'API ou absence de NNT, on poursuit l'affichage normal
+                } catch (e) {
+                    throw createError({ statusCode: 500, statusMessage: 'Internal Server Error' })
                 }
             }
         }
