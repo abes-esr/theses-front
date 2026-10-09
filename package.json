@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
-    "@opentelemetry/auto-instrumentations-node": "^0.78.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.81.0",
     "@opentelemetry/exporter-logs-otlp-http": "^0.220.0",
     "@opentelemetry/exporter-metrics-otlp-http": "^0.220.0",
     "@opentelemetry/exporter-trace-otlp-http": "^0.220.0",
