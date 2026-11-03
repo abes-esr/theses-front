@@ -1,6 +1,20 @@
 {
   "errors": {
-    "parameters": "Error in setting name"
+    "parameters": "Error in setting name",
+    "notFound": "Page not found",
+    "serverError": "Server error",
+    "theseNotFound": "Thesis not found",
+    "personNotFound": "Person not found"
+  },
+  "errorPage": {
+    "title": "Error",
+    "notFoundTitle": "Page not found",
+    "serverUnavailableTitle": "Server unavailable",
+    "retryMessage": "Please try again in a few moments. If the problem persists, you can contact the Abes support desk:",
+    "supportLink": "https://assistance.stp.abes.fr/servicedesk/customer/portal/34",
+    "attachInfo": "You can attach the following information to your support request:",
+    "pageNotAvailable": "The page you are trying to access does not exist or is no longer available.",
+    "backToHome": "Back to home"
   },
   "skip": "Go directly to the search bar",
   "homepage": "Go to homepage.",

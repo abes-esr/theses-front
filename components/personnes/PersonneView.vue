@@ -135,7 +135,7 @@ getPersonne(props.id).then(result => {
     showError({
       fatal: true,
       statusCode: 404,
-      statusMessage: `Page introuvable`,
+      statusMessage: t('errors.personNotFound'),
     });
   }
 
@@ -169,9 +169,9 @@ getPersonne(props.id).then(result => {
 
 }).catch(error => {
   if (error.response) {
-    displayError(error.response.data.message, { isSticky: true });
+    displayError(error.response.data.message || t('errors.serverError'), { isSticky: true });
   } else {
-    displayError(error.message);
+    displayError(error.message || t('errors.serverError'));
   }
 });
 

@@ -55,11 +55,13 @@
 <script setup>
 import { ref, defineAsyncComponent, toRaw } from "vue";
 import { useDisplay } from "vuetify";
+import { useI18n } from "vue-i18n";
 
 const MessageBox = defineAsyncComponent(() => import('../common/MessageBox.vue'));
 
 const { mobile } = useDisplay();
 const { getThese, getButtons } = useThesesAPI();
+const { t } = useI18n();
 const dialogVisible = ref(false);
 const showMenu = ref(false);
 const showSearchBar = ref(false);
@@ -89,7 +91,7 @@ getThese(props.id).then(result => {
     showError({
       fatal: true,
       statusCode: 404,
-      statusMessage: `Page introuvable`,
+      statusMessage: t('errors.theseNotFound'),
     });
     return;
   }
@@ -133,7 +135,7 @@ function loadButtons(these) {
       }
     })
       .catch((err) => {
-        displayError("Accès en ligne : " + err.message);
+        displayError(t('errors.serverError') + " : " + err.message);
       })
   }
 }
