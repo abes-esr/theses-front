@@ -1,6 +1,20 @@
 {
   "errors": {
-    "parameters": "Error en el nombre del parámetro"
+    "parameters": "Error en el nombre del parámetro",
+    "notFound": "Página no encontrada",
+    "serverError": "Error del servidor",
+    "theseNotFound": "Tesis no encontrada",
+    "personNotFound": "Persona no encontrada"
+  },
+  "errorPage": {
+    "title": "Error",
+    "notFoundTitle": "Página no encontrada",
+    "serverUnavailableTitle": "Servidor no disponible",
+    "retryMessage": "Por favor, inténtelo de nuevo en unos momentos. Si el problema persiste, puede contactar con el servicio de asistencia de Abes:",
+    "supportLink": "https://assistance.stp.abes.fr/servicedesk/customer/portal/34",
+    "attachInfo": "Puede adjuntar la siguiente información a su solicitud de asistencia:",
+    "pageNotAvailable": "La página a la que está intentando acceder no existe o ya no está disponible.",
+    "backToHome": "Volver al inicio"
   },
   "skip": "Error en el nombre del parámetro",
   "homepage": "Ir a la página de inicio.",
