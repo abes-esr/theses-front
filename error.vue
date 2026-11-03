@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
+
 const props = defineProps({
     error: Object
 })
+
+const { t } = useI18n();
 
 const handleError = () => clearError({ redirect: '/' })
 </script>
@@ -10,30 +14,26 @@ const handleError = () => clearError({ redirect: '/' })
     <v-app>
         <CommonHeaderCustom></CommonHeaderCustom>
         <v-main>
-            <h1>Erreur {{ error.statusCode }} : <div v-if="error.statusCode.toString().startsWith('4')">Page
-                    Introuvable</div>
-                <div v-if="error.statusCode.toString().startsWith('5')">Serveur
-                    Indisponible</div>
+            <h1>{{ $t('errorPage.title') }} {{ error.statusCode }} : 
+                <div v-if="error.statusCode.toString().startsWith('4')">{{ $t('errorPage.notFoundTitle') }}</div>
+                <div v-if="error.statusCode.toString().startsWith('5')">{{ $t('errorPage.serverUnavailableTitle') }}</div>
             </h1>
-            <p v-if="error.statusCode.toString().startsWith('5')"><strong>Merci d'essayer à nouveau dans quelques
-                    instants.
-                    Si le problème persiste, vous
-                    pouvez contacter le guichet
-                    d'assistance de l'Abes : <a href="https://assistance.stp.abes.fr/servicedesk/customer/portal/34"
-                        target="_blank">https://assistance.stp.abes.fr/servicedesk/customer/portal/34</a>.</strong>
+            <p v-if="error.statusCode.toString().startsWith('5')">
+                <strong>{{ $t('errorPage.retryMessage') }} 
+                    <a :href="$t('errorPage.supportLink')" target="_blank">{{ $t('errorPage.supportLink') }}</a>.
+                </strong>
                 <br /><br />
-                Vous pouvez joindre les informations suivantes à votre demande d'assistance :
+                {{ $t('errorPage.attachInfo') }}
                 <br /><br />
-            <span>{{ error.message }}</span>
-            <br />
-            <span v-html="error.stack" />
+                <span>{{ error.message }}</span>
+                <br />
+                <span v-html="error.stack" />
             </p>
-            <p v-if="error.statusCode.toString().startsWith('4')"><strong>La page à laquelle vous tentez d'accéder
-                    n'existe
-                    pas, ou
-                    n'est plus disponible.</strong></p>
+            <p v-if="error.statusCode.toString().startsWith('4')">
+                <strong>{{ $t('errorPage.pageNotAvailable') }}</strong>
+            </p>
             <br /><br />
-            <button @click="handleError">Retour à l'accueil</button>
+            <button @click="handleError">{{ $t('errorPage.backToHome') }}</button>
         </v-main>
         <CommonFooterCustom></CommonFooterCustom>
     </v-app>
