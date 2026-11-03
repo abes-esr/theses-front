@@ -64,7 +64,7 @@ const dialogVisible = ref(false);
 const showMenu = ref(false);
 const showSearchBar = ref(false);
 const dataReady = ref(false);
-const these = ref({});
+const these = ref({ source: null, resumes: { fr: "" }, status: null, nnt: null, isSoutenue: false, dateSoutenance: null });
 const resume = ref("");
 const categories = ref([]);
 const hasScrolled = ref(false);
@@ -85,16 +85,16 @@ if (!isServer) {
 
 
 getThese(props.id).then(result => {
-
-  if (result.data.value === "") {
+  if (!result.data.value || result.data.value === "") {
     showError({
       fatal: true,
       statusCode: 404,
       statusMessage: `Page introuvable`,
     });
+    return;
   }
   these.value = result.data.value;
-  resume.value = these.value.resumes.fr;
+  resume.value = these.value.resumes?.fr || "";
   loadButtons(toRaw(these.value));
 
   dataReady.value = !result.pending.value;
@@ -118,13 +118,16 @@ function closeOverlay() {
 }
 
 function loadButtons(these) {
-  if (these.status === 'soutenue') {
+  if (these?.status === 'soutenue') {
     getButtons(these.nnt).then((res) => {
       if (res.data.value !== null && typeof res.data.value.categories !== 'undefined') {
         categories.value = res.data.value.categories;
 
-        categoriesValide.value = categories.value.filter((category) => category.libelle === "Validé par le jury")[0]['sousCategories'];
-        boutonsAutres.value = categories.value.filter((category) => category.libelle === "Autres versions")[0]['boutons'];
+        const categoriesValidated = categories.value.filter((category) => category.libelle === "Validé par le jury")[0];
+        categoriesValide.value = categoriesValidated?.sousCategories || [];
+
+        const autresVersions = categories.value.filter((category) => category.libelle === "Autres versions")[0];
+        boutonsAutres.value = autresVersions?.boutons || [];
 
         putEmbargoTextAndESRButtonBeforeEveryhting();
       }
@@ -137,7 +140,7 @@ function loadButtons(these) {
 
 function putEmbargoTextAndESRButtonBeforeEveryhting() {
   categoriesValide.value.forEach(sousCategorie => {
-    if (sousCategorie.libelle === "Dépôt national") {
+    if (sousCategorie?.libelle === "Dépôt national" && sousCategorie.boutons) {
       let indexEmbargo = sousCategorie.boutons.findIndex((bouton) => bouton.typeAcces === "EMBARGO");
 
       if (indexEmbargo > -1) {
