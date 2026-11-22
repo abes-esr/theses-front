@@ -151,6 +151,10 @@ function previousPage() {
 
   @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
     justify-content: end;
+    // Les boutons ne doivent pas élargir la page sur petit écran
+    flex-wrap: wrap;
+    height: auto;
+    white-space: normal;
   }
 
   p {
