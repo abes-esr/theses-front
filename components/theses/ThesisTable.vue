@@ -301,5 +301,11 @@ function groupBy(xs, key) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  // Sur mobile, une cellule en nowrap (ex. DOI) élargit la page : on autorise la coupure
+  @media #{ map.get(settings.$display-breakpoints, 'sm-and-down')} {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
 }
 </style>
