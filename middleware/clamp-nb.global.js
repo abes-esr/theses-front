@@ -6,8 +6,7 @@ export default defineNuxtRouteMiddleware((to) => {
   const values = Array.isArray(to.query.nb) ? to.query.nb : [to.query.nb]
   const raw = values[0]
   const n = Number.parseInt(String(raw), 10)
-  const safe = Number.isNaN(n) || n < 1 ? undefined : clamp(n)
-  clamp(n);
+  const safe = Number.isNaN(n) || n < 1 ? undefined : clamp(n);
 
   const isClean = values.length === 1 && safe !== undefined && String(safe) === raw
   if (isClean) return
